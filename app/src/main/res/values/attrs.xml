@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoundRelativeLayout">
+        <attr name="rlRadius" format="dimension" />
+        <attr name="rlClipBackground" format="boolean" />
+    </declare-styleable>
+</resources>
