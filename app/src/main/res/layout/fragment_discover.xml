@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="@color/white"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/toolbar">
+
+            <com.youth.banner.Banner
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:background="#F2F2F2">
+
+                <ImageView
+                    android:id="@+id/bannerNoDataIv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="60dp"
+                    android:src="@mipmap/ic_no_photo" />
+
+            </com.youth.banner.Banner>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:contentScrim="@android:color/transparent"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/Theme.BlogSystem.PopupOverlay" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/photoListRv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdge="none"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:spanCount="2"
+        tools:itemCount="20"
+        tools:listitem="@layout/item_photo" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

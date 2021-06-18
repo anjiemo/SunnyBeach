@@ -1,0 +1,846 @@
+-- Merging decision tree log ---
+action#com.example.blogsystem.intent.action.COMMAND
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:158:17-81
+	android:name
+		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:158:25-78
+provider#com.umeng.message.provider.MessageProvider
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:205:9-210:20
+	android:authorities
+		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:207:13-65
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:208:13-37
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:206:13-70
+manifest
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-222:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-222:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-222:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-222:12
+MERGED from [androidx.databinding:viewbinding:4.2.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2c73243d61f3022d2c36d7a6880f2a83\transformed\jetified-viewbinding-4.2.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-dynamic-features-fragment:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\53bdb2fddc81a0841473ebe4423df86b\transformed\jetified-navigation-dynamic-features-fragment-2.3.5\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2936ca98e1b4b4e7f5b6c0a50a8c6ceb\transformed\navigation-fragment-ktx-2.3.5\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.fragment:fragment-ktx:1.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7893100309f85de1e30662760af3d4b6\transformed\jetified-fragment-ktx-1.3.5\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-ui-ktx:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ec8f2790c9256d8fb52045c401d1e994\transformed\navigation-ui-ktx-2.3.5\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-dynamic-features-runtime:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6042ca40f4449800605d1b07c9f1d85b\transformed\jetified-navigation-dynamic-features-runtime-2.3.5\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\08eb34f83d8818ed9d3b922269b22144\transformed\navigation-runtime-ktx-2.3.5\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity-ktx:1.2.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\3ea4131847dd8964698005eece7ac610\transformed\jetified-activity-ktx-1.2.3\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-common-ktx:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\4c1be07e15ce501b72e96fc1bf4bd615\transformed\navigation-common-ktx-2.3.5\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core-ktx:1.5.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6ec1acad1540bad6ab5fac0d8138268f\transformed\jetified-core-ktx-1.5.0\AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-ktx:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\4719743117edaca068180e7a5f606cd5\transformed\jetified-lifecycle-livedata-ktx-2.3.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.room:room-ktx:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\609bcd283663a7580961a79d88789352\transformed\jetified-room-ktx-2.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\0cfd5241d92c469e6aea4d6d5b95bda6\transformed\jetified-lifecycle-runtime-ktx-2.3.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\9472dce508bcb38a1d2c839813bcf677\transformed\jetified-lifecycle-viewmodel-ktx-2.3.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.savedstate:savedstate-ktx:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\da36fdb9403dcbc3fb8199b563310c0d\transformed\jetified-savedstate-ktx-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\e94628f5e003408bc0af99d9c4d0d7e2\transformed\jetified-lifecycle-livedata-core-ktx-2.3.1\AndroidManifest.xml:17:1-24:12
+MERGED from [com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\89308bfc4cb0959710450af9f5ee0589\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:2:1-16:12
+MERGED from [com.hjq:http:9.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7f5c9b4d4d8d68359ec2e548dd99a975\transformed\jetified-http-9.0\AndroidManifest.xml:2:1-9:12
+MERGED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:2:1-41:12
+MERGED from [com.airbnb.android:lottie:3.4.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10c6f13dd7f0234f8d21f63079e625ff\transformed\jetified-lottie-3.4.0\AndroidManifest.xml:2:1-11:12
+MERGED from [com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\bf23e535a5d222dd5f05e201e6ef121d\transformed\jetified-BaseRecyclerViewAdapterHelper-3.0.4\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.navigation:navigation-ui:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5869b74cda61f67a0b27575f99117298\transformed\navigation-ui-2.3.5\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.material:material:1.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6b35760f09da8fa21e34978ae11c4b87\transformed\material-1.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b1d7ca86c405509fe67618be0fe923f6\transformed\constraintlayout-2.0.4\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.appcompat:appcompat:1.4.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\37faccb46b3bf9b8568350932d03b467\transformed\appcompat-1.4.0-alpha02\AndroidManifest.xml:17:1-24:12
+MERGED from [com.youth.banner:banner:2.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7aa52da0f96f6e2f54dbe691fa4bfe3e\transformed\jetified-banner-2.1.0\AndroidManifest.xml:2:1-11:12
+MERGED from [com.github.bumptech.glide:glide:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6d77e2240ce201ae2629cdb20726fcd8\transformed\jetified-glide-4.11.0\AndroidManifest.xml:2:1-12:12
+MERGED from [com.hjq:xxpermissions:6.2] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\72f86b7fe815f2e5047c6d00392bbd64\transformed\jetified-xxpermissions-6.2\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\026df84b9fe4389a97295c6a91ad9646\transformed\room-runtime-2.3.0\AndroidManifest.xml:17:1-31:12
+MERGED from [com.umeng.umsdk:asms:1.2.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\53e252752c74fce858e1f589cf7ddb9c\transformed\jetified-asms-1.2.3\AndroidManifest.xml:2:1-11:12
+MERGED from [com.umeng.umsdk:apm:1.2.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fd0601c49a37c712732f40f53389d96d\transformed\jetified-apm-1.2.0\AndroidManifest.xml:2:1-11:12
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:2:1-29:12
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\99e404ab356af7c580f1cc4e92c6c0ee\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-fragment:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d7bd3221389b8d64102ab46110dcd9af\transformed\navigation-fragment-2.3.5\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.fragment:fragment:1.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f7d90cc1dc62392a666f90b73608564d\transformed\fragment-1.3.5\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-runtime:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2434fa9abcb05077b1fbb6d816bd7a81\transformed\navigation-runtime-2.3.5\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity:1.2.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\dd8e81e781e2dcd8ac6a6a7b311d8129\transformed\jetified-activity-1.2.3\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat-resources:1.4.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\259aa7415652a774d05e7b64458158fe\transformed\jetified-appcompat-resources-1.4.0-alpha02\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.emoji2:emoji2-views-helper:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\34035b3300a7610ba0c64cc439a10a8e\transformed\jetified-emoji2-views-helper-1.0.0-alpha02\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\964c26a35f7d9f71ea0c263eb00fa1fd\transformed\jetified-emoji2-1.0.0-alpha02\AndroidManifest.xml:17:1-37:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7fe76a4aacf5a339ba2ce099e5782452\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\12290083d72b1325ef013cd83a9f6bbb\transformed\dynamicanimation-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\e0739a2404fa300211c8a6aab16757df\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\9cb653c3ecba1bd75c2417cf10775036\transformed\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d2f21538c117191ba73ea8b8b90a1d96\transformed\recyclerview-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7d5865d41298427ed0af709a4476beb5\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\1768d4fad3c76310a101d0aaaef6f17a\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\1da3d8a1523dddd853d71f2e655cb133\transformed\loader-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7e12ae9483eb2bbaf09de56b5422f0ae\transformed\drawerlayout-1.1.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.customview:customview:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\262d9aeda30fc677c5502437c25c40e1\transformed\customview-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.transition:transition:1.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\59831521467fd1bd7ee48055e37d3eae\transformed\transition-1.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-common:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\c464ab13de5d04b98b879e854cefb047\transformed\navigation-common-2.3.5\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core:1.6.0-beta02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f91404c166df5b735bc3bbb9f5f42ca4\transformed\core-1.6.0-beta02\AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\9c84bf828ab326b6d0b29208dba6d8ec\transformed\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\4b38e91ed751ccadec9b854059f9e7d2\transformed\jetified-lifecycle-viewmodel-savedstate-2.3.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.savedstate:savedstate:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2e0592aacbc72439091ca458a955cc54\transformed\jetified-savedstate-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f4ddd1f5f3c41281ab1b13de863ce5b1\transformed\lifecycle-runtime-2.3.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2f05b8c4e3e472216b4b6bf64543c146\transformed\lifecycle-viewmodel-2.3.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.cardview:cardview:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\73a275e99cb47971aa1c8cb35305fa1d\transformed\cardview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.github.bumptech.glide:gifdecoder:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ab07725e49450428c00b9c6e2c399856\transformed\jetified-gifdecoder-4.11.0\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\937f673c4f5142a3db3663856da72211\transformed\exifinterface-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.sqlite:sqlite-framework:2.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\57c967a2a2e2d296cb2d7d8acf491d72\transformed\sqlite-framework-2.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.sqlite:sqlite:2.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d301b144fbf401e25e4aeb5e9d07d7f4\transformed\sqlite-2.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ef7f4a37591353073ba1e9c0bcdc3429\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.startup:startup-runtime:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d7604f6dbcd6a7a90495857c288ac222\transformed\jetified-startup-runtime-1.0.0\AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.tracing:tracing:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\dc9c6fd10f334ce3c4233a23d06a91a4\transformed\jetified-tracing-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ae3a2b0a8170902121bfb977a26d4eb5\transformed\lifecycle-livedata-2.3.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f905a32b06ad5316d1900991c5241a2d\transformed\lifecycle-livedata-core-2.3.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.arch.core:core-runtime:2.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ef19e44e2aee7746959ade6b2c5d1763\transformed\core-runtime-2.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\46fd97c7aa68dc1a6e414553291eed6e\transformed\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\e63fda2078b9a42a67373a35d83ab9f5\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b7451a8669fd1128d340e3d73d881c37\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31061bb024b8362bef77e660a856a763\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.annotation:annotation-experimental:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\750d0db0fd6b321fd31d764984bc3821\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:2:1-23:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-222:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-222:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-222:12
+	package
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:4:5-37
+		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-222:12
+		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+	xmlns:tools
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:3:5-51
+	android:versionCode
+		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-222:12
+		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:6:5-67
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:13:5-67
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:13:5-67
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:6:22-64
+uses-permission#android.permission.REQUEST_INSTALL_PACKAGES
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:7:5-83
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:7:22-80
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:8:5-79
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:12:5-79
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:12:5-79
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:8:22-76
+uses-permission#android.permission.SET_WALLPAPER
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9:5-72
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9:22-69
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:10:5-80
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:10:22-77
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:11:5-13:40
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:11:5-81
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:11:5-81
+	tools:ignore
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:13:9-37
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:12:9-65
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:14:5-76
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:14:5-76
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:14:5-76
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:14:22-73
+uses-permission#android.permission.WAKE_LOCK
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:15:5-68
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:15:22-65
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:16:5-75
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:15:5-75
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:15:5-75
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:16:22-72
+uses-permission#android.permission.BROADCAST_PACKAGE_ADDED
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:17:5-82
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:17:22-79
+uses-permission#android.permission.BROADCAST_PACKAGE_CHANGED
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:18:5-84
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:18:22-81
+uses-permission#android.permission.BROADCAST_PACKAGE_INSTALL
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:19:5-84
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:19:22-81
+uses-permission#android.permission.BROADCAST_PACKAGE_REPLACED
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:20:5-85
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:20:22-82
+uses-permission#android.permission.GET_TASKS
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:21:5-68
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:21:22-65
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:22:5-81
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:22:22-78
+uses-permission#com.xiaomi.market.sdk.UPDATE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:23:5-68
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:16:5-68
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:16:5-68
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:23:22-65
+application
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:25:5-220:19
+MERGED from [com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\89308bfc4cb0959710450af9f5ee0589\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:10:5-14:19
+MERGED from [com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\89308bfc4cb0959710450af9f5ee0589\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:10:5-14:19
+MERGED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:9:5-39:19
+MERGED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:9:5-39:19
+MERGED from [com.airbnb.android:lottie:3.4.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10c6f13dd7f0234f8d21f63079e625ff\transformed\jetified-lottie-3.4.0\AndroidManifest.xml:9:5-20
+MERGED from [com.airbnb.android:lottie:3.4.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10c6f13dd7f0234f8d21f63079e625ff\transformed\jetified-lottie-3.4.0\AndroidManifest.xml:9:5-20
+MERGED from [com.google.android.material:material:1.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6b35760f09da8fa21e34978ae11c4b87\transformed\material-1.3.0\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6b35760f09da8fa21e34978ae11c4b87\transformed\material-1.3.0\AndroidManifest.xml:22:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b1d7ca86c405509fe67618be0fe923f6\transformed\constraintlayout-2.0.4\AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b1d7ca86c405509fe67618be0fe923f6\transformed\constraintlayout-2.0.4\AndroidManifest.xml:9:5-20
+MERGED from [com.github.bumptech.glide:glide:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6d77e2240ce201ae2629cdb20726fcd8\transformed\jetified-glide-4.11.0\AndroidManifest.xml:10:5-20
+MERGED from [com.github.bumptech.glide:glide:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6d77e2240ce201ae2629cdb20726fcd8\transformed\jetified-glide-4.11.0\AndroidManifest.xml:10:5-20
+MERGED from [androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\026df84b9fe4389a97295c6a91ad9646\transformed\room-runtime-2.3.0\AndroidManifest.xml:24:5-29:19
+MERGED from [androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\026df84b9fe4389a97295c6a91ad9646\transformed\room-runtime-2.3.0\AndroidManifest.xml:24:5-29:19
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:18:5-27:19
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:18:5-27:19
+MERGED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\964c26a35f7d9f71ea0c263eb00fa1fd\transformed\jetified-emoji2-1.0.0-alpha02\AndroidManifest.xml:25:5-35:19
+MERGED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\964c26a35f7d9f71ea0c263eb00fa1fd\transformed\jetified-emoji2-1.0.0-alpha02\AndroidManifest.xml:25:5-35:19
+MERGED from [androidx.core:core:1.6.0-beta02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f91404c166df5b735bc3bbb9f5f42ca4\transformed\core-1.6.0-beta02\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.6.0-beta02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f91404c166df5b735bc3bbb9f5f42ca4\transformed\core-1.6.0-beta02\AndroidManifest.xml:24:5-89
+MERGED from [com.github.bumptech.glide:gifdecoder:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ab07725e49450428c00b9c6e2c399856\transformed\jetified-gifdecoder-4.11.0\AndroidManifest.xml:9:5-20
+MERGED from [com.github.bumptech.glide:gifdecoder:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ab07725e49450428c00b9c6e2c399856\transformed\jetified-gifdecoder-4.11.0\AndroidManifest.xml:9:5-20
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ef7f4a37591353073ba1e9c0bcdc3429\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ef7f4a37591353073ba1e9c0bcdc3429\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.startup:startup-runtime:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d7604f6dbcd6a7a90495857c288ac222\transformed\jetified-startup-runtime-1.0.0\AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d7604f6dbcd6a7a90495857c288ac222\transformed\jetified-startup-runtime-1.0.0\AndroidManifest.xml:25:5-31:19
+MERGED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:10:3-21:17
+MERGED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:10:3-21:17
+	android:requestLegacyExternalStorage
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:31:9-52
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.6.0-beta02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f91404c166df5b735bc3bbb9f5f42ca4\transformed\core-1.6.0-beta02\AndroidManifest.xml:24:18-86
+	android:supportsRtl
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:33:9-35
+	android:label
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:29:9-41
+	android:roundIcon
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:32:9-44
+	tools:targetApi
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:35:9-28
+	android:icon
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:28:9-39
+	android:allowBackup
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:27:9-35
+	android:theme
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:34:9-48
+	android:networkSecurityConfig
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:30:9-69
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:26:9-33
+activity#com.example.blogsystem.ui.activity.BrowserActivity
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:36:9-38:39
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:38:13-36
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:37:13-56
+activity#com.example.blogsystem.ui.activity.LoginActivity
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:39:9-45:67
+	android:screenOrientation
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:43:13-49
+	android:label
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:42:13-57
+	android:windowSoftInputMode
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:45:13-64
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:41:13-36
+	android:theme
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:44:13-64
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:40:13-54
+activity#com.example.blogsystem.ui.activity.ScrollingActivity
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:46:9-51:67
+	android:screenOrientation
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:50:13-49
+	android:label
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:49:13-61
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:48:13-36
+	android:theme
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:51:13-64
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:47:13-58
+activity#com.example.blogsystem.ui.activity.GalleryActivity
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:52:9-55:52
+	android:screenOrientation
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:55:13-49
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:54:13-36
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:53:13-56
+activity#com.example.blogsystem.ui.activity.SplashActivity
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:56:9-67:20
+	android:screenOrientation
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:60:13-49
+	android:launchMode
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:59:13-43
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:58:13-36
+	android:theme
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:61:13-47
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:57:13-55
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:62:13-66:29
+action#android.intent.action.MAIN
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:63:17-69
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:63:25-66
+category#android.intent.category.LAUNCHER
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:65:17-77
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:65:27-74
+activity#com.example.blogsystem.ui.activity.HomeActivity
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:68:9-72:52
+	android:screenOrientation
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:72:13-49
+	android:launchMode
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:71:13-43
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:70:13-36
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:69:13-53
+service#com.taobao.accs.ChannelService
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:74:9-84:19
+	android:process
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:77:13-39
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:76:13-36
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:75:13-58
+intent-filter#action:name:com.taobao.accs.intent.action.SERVICE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:78:13-80:29
+action#com.taobao.accs.intent.action.SERVICE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:79:17-80
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:79:25-77
+intent-filter#action:name:com.taobao.accs.intent.action.ELECTION
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:81:13-83:29
+action#com.taobao.accs.intent.action.ELECTION
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:82:17-81
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:82:25-78
+service#com.taobao.accs.data.MsgDistributeService
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:85:9-91:19
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:87:13-36
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:86:13-69
+intent-filter#action:name:com.taobao.accs.intent.action.RECEIVE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:88:13-90:29
+action#com.taobao.accs.intent.action.RECEIVE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:89:17-80
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:89:25-77
+receiver#com.taobao.accs.EventReceiver
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:93:9-110:20
+	android:process
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:95:13-39
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:94:13-57
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:96:13-98:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:97:17-79
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:97:25-76
+intent-filter#action:name:android.net.conn.CONNECTIVITY_CHANGE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:99:13-101:29
+action#android.net.conn.CONNECTIVITY_CHANGE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:100:17-79
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:100:25-76
+intent-filter#action:name:android.intent.action.PACKAGE_REMOVED+data:scheme:package
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:102:13-106:29
+action#android.intent.action.PACKAGE_REMOVED
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:103:17-80
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:103:25-77
+data
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:105:17-50
+	android:scheme
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:105:23-47
+intent-filter#action:name:android.intent.action.USER_PRESENT
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:107:13-109:29
+action#android.intent.action.USER_PRESENT
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:108:17-77
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:108:25-74
+receiver#com.taobao.accs.ServiceReceiver
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:111:9-120:20
+	android:process
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:113:13-39
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:112:13-59
+intent-filter#action:name:com.taobao.accs.intent.action.COMMAND
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:114:13-116:29
+action#com.taobao.accs.intent.action.COMMAND
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:115:17-80
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:115:25-77
+intent-filter#action:name:com.taobao.accs.intent.action.START_FROM_AGOO
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:117:13-119:29
+action#com.taobao.accs.intent.action.START_FROM_AGOO
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:118:17-88
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:118:25-85
+service#com.taobao.accs.internal.AccsJobService
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:122:9-125:42
+	android:process
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:125:13-39
+	android:permission
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:124:13-69
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:123:13-67
+service#com.taobao.accs.ChannelService$KernelService
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:126:9-128:42
+	android:process
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:128:13-39
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:127:13-72
+service#org.android.agoo.accs.AgooService
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:129:9-135:19
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:131:13-36
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:130:13-61
+service#com.umeng.message.UmengIntentService
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:136:9-143:19
+	android:process
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:139:13-39
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:138:13-36
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:137:13-64
+intent-filter#action:name:org.agoo.android.intent.action.RECEIVE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:140:13-142:29
+action#org.agoo.android.intent.action.RECEIVE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:141:17-81
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:141:25-78
+service#com.umeng.message.XiaomiIntentService
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:144:9-151:19
+	android:process
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:147:13-39
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:146:13-36
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:145:13-65
+receiver#com.taobao.agoo.AgooCommondReceiver
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:153:9-165:20
+	android:process
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:156:13-39
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:155:13-36
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:154:13-63
+intent-filter#action:name:com.example.blogsystem.intent.action.COMMAND
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:157:13-159:29
+service#com.umeng.message.UmengMessageIntentReceiverService
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:167:9-174:19
+	android:process
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:170:13-39
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:169:13-36
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:168:13-79
+intent-filter#action:name:org.android.agoo.client.MessageReceiverService
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:171:13-173:29
+action#org.android.agoo.client.MessageReceiverService
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:172:17-89
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:172:25-86
+receiver#com.umeng.message.NotificationProxyBroadcastReceiver
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:176:9-178:40
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:178:13-37
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:177:13-80
+service#com.umeng.message.UmengMessageCallbackHandlerService
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:180:9-199:19
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:182:13-37
+	android:permission
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:183:13-69
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:181:13-80
+intent-filter#action:name:com.umeng.messge.registercallback.action
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:184:13-186:29
+action#com.umeng.messge.registercallback.action
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:185:17-83
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:185:25-80
+intent-filter#action:name:com.umeng.message.enablecallback.action
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:187:13-189:29
+action#com.umeng.message.enablecallback.action
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:188:17-82
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:188:25-79
+intent-filter#action:name:com.umeng.message.disablecallback.action
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:190:13-192:29
+action#com.umeng.message.disablecallback.action
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:191:17-83
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:191:25-80
+intent-filter#action:name:com.umeng.message.message.handler.action
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:193:13-195:29
+action#com.umeng.message.message.handler.action
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:194:17-83
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:194:25-80
+intent-filter#action:name:com.umeng.message.message.sendmessage.action
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:196:13-198:29
+action#com.umeng.message.message.sendmessage.action
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:197:17-87
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:197:25-84
+service#com.umeng.message.UmengDownloadResourceService
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:200:9-203:72
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:202:13-37
+	android:permission
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:203:13-69
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:201:13-74
+provider#androidx.core.content.FileProvider
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:211:9-219:20
+	android:grantUriPermissions
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:215:13-47
+	android:authorities
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:213:13-81
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:214:13-37
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:212:13-62
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:216:13-218:72
+	android:resource
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:218:17-69
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:217:17-67
+uses-sdk
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+MERGED from [androidx.databinding:viewbinding:4.2.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2c73243d61f3022d2c36d7a6880f2a83\transformed\jetified-viewbinding-4.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.databinding:viewbinding:4.2.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2c73243d61f3022d2c36d7a6880f2a83\transformed\jetified-viewbinding-4.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-dynamic-features-fragment:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\53bdb2fddc81a0841473ebe4423df86b\transformed\jetified-navigation-dynamic-features-fragment-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-dynamic-features-fragment:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\53bdb2fddc81a0841473ebe4423df86b\transformed\jetified-navigation-dynamic-features-fragment-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2936ca98e1b4b4e7f5b6c0a50a8c6ceb\transformed\navigation-fragment-ktx-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2936ca98e1b4b4e7f5b6c0a50a8c6ceb\transformed\navigation-fragment-ktx-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment-ktx:1.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7893100309f85de1e30662760af3d4b6\transformed\jetified-fragment-ktx-1.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment-ktx:1.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7893100309f85de1e30662760af3d4b6\transformed\jetified-fragment-ktx-1.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-ui-ktx:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ec8f2790c9256d8fb52045c401d1e994\transformed\navigation-ui-ktx-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-ui-ktx:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ec8f2790c9256d8fb52045c401d1e994\transformed\navigation-ui-ktx-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-dynamic-features-runtime:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6042ca40f4449800605d1b07c9f1d85b\transformed\jetified-navigation-dynamic-features-runtime-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-dynamic-features-runtime:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6042ca40f4449800605d1b07c9f1d85b\transformed\jetified-navigation-dynamic-features-runtime-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\08eb34f83d8818ed9d3b922269b22144\transformed\navigation-runtime-ktx-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\08eb34f83d8818ed9d3b922269b22144\transformed\navigation-runtime-ktx-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity-ktx:1.2.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\3ea4131847dd8964698005eece7ac610\transformed\jetified-activity-ktx-1.2.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity-ktx:1.2.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\3ea4131847dd8964698005eece7ac610\transformed\jetified-activity-ktx-1.2.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common-ktx:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\4c1be07e15ce501b72e96fc1bf4bd615\transformed\navigation-common-ktx-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common-ktx:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\4c1be07e15ce501b72e96fc1bf4bd615\transformed\navigation-common-ktx-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core-ktx:1.5.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6ec1acad1540bad6ab5fac0d8138268f\transformed\jetified-core-ktx-1.5.0\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.core:core-ktx:1.5.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6ec1acad1540bad6ab5fac0d8138268f\transformed\jetified-core-ktx-1.5.0\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-ktx:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\4719743117edaca068180e7a5f606cd5\transformed\jetified-lifecycle-livedata-ktx-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-ktx:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\4719743117edaca068180e7a5f606cd5\transformed\jetified-lifecycle-livedata-ktx-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.room:room-ktx:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\609bcd283663a7580961a79d88789352\transformed\jetified-room-ktx-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.room:room-ktx:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\609bcd283663a7580961a79d88789352\transformed\jetified-room-ktx-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\0cfd5241d92c469e6aea4d6d5b95bda6\transformed\jetified-lifecycle-runtime-ktx-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\0cfd5241d92c469e6aea4d6d5b95bda6\transformed\jetified-lifecycle-runtime-ktx-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\9472dce508bcb38a1d2c839813bcf677\transformed\jetified-lifecycle-viewmodel-ktx-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\9472dce508bcb38a1d2c839813bcf677\transformed\jetified-lifecycle-viewmodel-ktx-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate-ktx:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\da36fdb9403dcbc3fb8199b563310c0d\transformed\jetified-savedstate-ktx-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate-ktx:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\da36fdb9403dcbc3fb8199b563310c0d\transformed\jetified-savedstate-ktx-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\e94628f5e003408bc0af99d9c4d0d7e2\transformed\jetified-lifecycle-livedata-core-ktx-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\e94628f5e003408bc0af99d9c4d0d7e2\transformed\jetified-lifecycle-livedata-core-ktx-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\89308bfc4cb0959710450af9f5ee0589\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:6:5-8:41
+MERGED from [com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\89308bfc4cb0959710450af9f5ee0589\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:6:5-8:41
+MERGED from [com.hjq:http:9.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7f5c9b4d4d8d68359ec2e548dd99a975\transformed\jetified-http-9.0\AndroidManifest.xml:7:5-44
+MERGED from [com.hjq:http:9.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7f5c9b4d4d8d68359ec2e548dd99a975\transformed\jetified-http-9.0\AndroidManifest.xml:7:5-44
+MERGED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:7:5-44
+MERGED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:7:5-44
+MERGED from [com.airbnb.android:lottie:3.4.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10c6f13dd7f0234f8d21f63079e625ff\transformed\jetified-lottie-3.4.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.airbnb.android:lottie:3.4.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10c6f13dd7f0234f8d21f63079e625ff\transformed\jetified-lottie-3.4.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\bf23e535a5d222dd5f05e201e6ef121d\transformed\jetified-BaseRecyclerViewAdapterHelper-3.0.4\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\bf23e535a5d222dd5f05e201e6ef121d\transformed\jetified-BaseRecyclerViewAdapterHelper-3.0.4\AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.navigation:navigation-ui:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5869b74cda61f67a0b27575f99117298\transformed\navigation-ui-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-ui:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5869b74cda61f67a0b27575f99117298\transformed\navigation-ui-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.material:material:1.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6b35760f09da8fa21e34978ae11c4b87\transformed\material-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6b35760f09da8fa21e34978ae11c4b87\transformed\material-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b1d7ca86c405509fe67618be0fe923f6\transformed\constraintlayout-2.0.4\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b1d7ca86c405509fe67618be0fe923f6\transformed\constraintlayout-2.0.4\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.appcompat:appcompat:1.4.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\37faccb46b3bf9b8568350932d03b467\transformed\appcompat-1.4.0-alpha02\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.4.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\37faccb46b3bf9b8568350932d03b467\transformed\appcompat-1.4.0-alpha02\AndroidManifest.xml:20:5-22:41
+MERGED from [com.youth.banner:banner:2.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7aa52da0f96f6e2f54dbe691fa4bfe3e\transformed\jetified-banner-2.1.0\AndroidManifest.xml:7:5-9:41
+MERGED from [com.youth.banner:banner:2.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7aa52da0f96f6e2f54dbe691fa4bfe3e\transformed\jetified-banner-2.1.0\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.bumptech.glide:glide:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6d77e2240ce201ae2629cdb20726fcd8\transformed\jetified-glide-4.11.0\AndroidManifest.xml:6:5-8:41
+MERGED from [com.github.bumptech.glide:glide:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6d77e2240ce201ae2629cdb20726fcd8\transformed\jetified-glide-4.11.0\AndroidManifest.xml:6:5-8:41
+MERGED from [com.hjq:xxpermissions:6.2] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\72f86b7fe815f2e5047c6d00392bbd64\transformed\jetified-xxpermissions-6.2\AndroidManifest.xml:7:5-9:41
+MERGED from [com.hjq:xxpermissions:6.2] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\72f86b7fe815f2e5047c6d00392bbd64\transformed\jetified-xxpermissions-6.2\AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\026df84b9fe4389a97295c6a91ad9646\transformed\room-runtime-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\026df84b9fe4389a97295c6a91ad9646\transformed\room-runtime-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.umeng.umsdk:asms:1.2.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\53e252752c74fce858e1f589cf7ddb9c\transformed\jetified-asms-1.2.3\AndroidManifest.xml:7:5-9:41
+MERGED from [com.umeng.umsdk:asms:1.2.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\53e252752c74fce858e1f589cf7ddb9c\transformed\jetified-asms-1.2.3\AndroidManifest.xml:7:5-9:41
+MERGED from [com.umeng.umsdk:apm:1.2.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fd0601c49a37c712732f40f53389d96d\transformed\jetified-apm-1.2.0\AndroidManifest.xml:7:5-9:41
+MERGED from [com.umeng.umsdk:apm:1.2.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fd0601c49a37c712732f40f53389d96d\transformed\jetified-apm-1.2.0\AndroidManifest.xml:7:5-9:41
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:7:5-9:41
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\99e404ab356af7c580f1cc4e92c6c0ee\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\99e404ab356af7c580f1cc4e92c6c0ee\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-fragment:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d7bd3221389b8d64102ab46110dcd9af\transformed\navigation-fragment-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-fragment:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d7bd3221389b8d64102ab46110dcd9af\transformed\navigation-fragment-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f7d90cc1dc62392a666f90b73608564d\transformed\fragment-1.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f7d90cc1dc62392a666f90b73608564d\transformed\fragment-1.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2434fa9abcb05077b1fbb6d816bd7a81\transformed\navigation-runtime-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2434fa9abcb05077b1fbb6d816bd7a81\transformed\navigation-runtime-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.2.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\dd8e81e781e2dcd8ac6a6a7b311d8129\transformed\jetified-activity-1.2.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.2.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\dd8e81e781e2dcd8ac6a6a7b311d8129\transformed\jetified-activity-1.2.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.4.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\259aa7415652a774d05e7b64458158fe\transformed\jetified-appcompat-resources-1.4.0-alpha02\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.4.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\259aa7415652a774d05e7b64458158fe\transformed\jetified-appcompat-resources-1.4.0-alpha02\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.emoji2:emoji2-views-helper:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\34035b3300a7610ba0c64cc439a10a8e\transformed\jetified-emoji2-views-helper-1.0.0-alpha02\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.emoji2:emoji2-views-helper:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\34035b3300a7610ba0c64cc439a10a8e\transformed\jetified-emoji2-views-helper-1.0.0-alpha02\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\964c26a35f7d9f71ea0c263eb00fa1fd\transformed\jetified-emoji2-1.0.0-alpha02\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\964c26a35f7d9f71ea0c263eb00fa1fd\transformed\jetified-emoji2-1.0.0-alpha02\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7fe76a4aacf5a339ba2ce099e5782452\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7fe76a4aacf5a339ba2ce099e5782452\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\12290083d72b1325ef013cd83a9f6bbb\transformed\dynamicanimation-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\12290083d72b1325ef013cd83a9f6bbb\transformed\dynamicanimation-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\e0739a2404fa300211c8a6aab16757df\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\e0739a2404fa300211c8a6aab16757df\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\9cb653c3ecba1bd75c2417cf10775036\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\9cb653c3ecba1bd75c2417cf10775036\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d2f21538c117191ba73ea8b8b90a1d96\transformed\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d2f21538c117191ba73ea8b8b90a1d96\transformed\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7d5865d41298427ed0af709a4476beb5\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7d5865d41298427ed0af709a4476beb5\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\1768d4fad3c76310a101d0aaaef6f17a\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\1768d4fad3c76310a101d0aaaef6f17a\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\1da3d8a1523dddd853d71f2e655cb133\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\1da3d8a1523dddd853d71f2e655cb133\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7e12ae9483eb2bbaf09de56b5422f0ae\transformed\drawerlayout-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7e12ae9483eb2bbaf09de56b5422f0ae\transformed\drawerlayout-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\262d9aeda30fc677c5502437c25c40e1\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\262d9aeda30fc677c5502437c25c40e1\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\59831521467fd1bd7ee48055e37d3eae\transformed\transition-1.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\59831521467fd1bd7ee48055e37d3eae\transformed\transition-1.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\c464ab13de5d04b98b879e854cefb047\transformed\navigation-common-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\c464ab13de5d04b98b879e854cefb047\transformed\navigation-common-2.3.5\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.6.0-beta02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f91404c166df5b735bc3bbb9f5f42ca4\transformed\core-1.6.0-beta02\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.6.0-beta02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f91404c166df5b735bc3bbb9f5f42ca4\transformed\core-1.6.0-beta02\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\9c84bf828ab326b6d0b29208dba6d8ec\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\9c84bf828ab326b6d0b29208dba6d8ec\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\4b38e91ed751ccadec9b854059f9e7d2\transformed\jetified-lifecycle-viewmodel-savedstate-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\4b38e91ed751ccadec9b854059f9e7d2\transformed\jetified-lifecycle-viewmodel-savedstate-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2e0592aacbc72439091ca458a955cc54\transformed\jetified-savedstate-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2e0592aacbc72439091ca458a955cc54\transformed\jetified-savedstate-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f4ddd1f5f3c41281ab1b13de863ce5b1\transformed\lifecycle-runtime-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f4ddd1f5f3c41281ab1b13de863ce5b1\transformed\lifecycle-runtime-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2f05b8c4e3e472216b4b6bf64543c146\transformed\lifecycle-viewmodel-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2f05b8c4e3e472216b4b6bf64543c146\transformed\lifecycle-viewmodel-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cardview:cardview:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\73a275e99cb47971aa1c8cb35305fa1d\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\73a275e99cb47971aa1c8cb35305fa1d\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.github.bumptech.glide:gifdecoder:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ab07725e49450428c00b9c6e2c399856\transformed\jetified-gifdecoder-4.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.bumptech.glide:gifdecoder:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ab07725e49450428c00b9c6e2c399856\transformed\jetified-gifdecoder-4.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\937f673c4f5142a3db3663856da72211\transformed\exifinterface-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\937f673c4f5142a3db3663856da72211\transformed\exifinterface-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-framework:2.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\57c967a2a2e2d296cb2d7d8acf491d72\transformed\sqlite-framework-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.sqlite:sqlite-framework:2.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\57c967a2a2e2d296cb2d7d8acf491d72\transformed\sqlite-framework-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.sqlite:sqlite:2.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d301b144fbf401e25e4aeb5e9d07d7f4\transformed\sqlite-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.sqlite:sqlite:2.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d301b144fbf401e25e4aeb5e9d07d7f4\transformed\sqlite-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ef7f4a37591353073ba1e9c0bcdc3429\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ef7f4a37591353073ba1e9c0bcdc3429\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.startup:startup-runtime:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d7604f6dbcd6a7a90495857c288ac222\transformed\jetified-startup-runtime-1.0.0\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d7604f6dbcd6a7a90495857c288ac222\transformed\jetified-startup-runtime-1.0.0\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.tracing:tracing:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\dc9c6fd10f334ce3c4233a23d06a91a4\transformed\jetified-tracing-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\dc9c6fd10f334ce3c4233a23d06a91a4\transformed\jetified-tracing-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ae3a2b0a8170902121bfb977a26d4eb5\transformed\lifecycle-livedata-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ae3a2b0a8170902121bfb977a26d4eb5\transformed\lifecycle-livedata-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f905a32b06ad5316d1900991c5241a2d\transformed\lifecycle-livedata-core-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f905a32b06ad5316d1900991c5241a2d\transformed\lifecycle-livedata-core-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ef19e44e2aee7746959ade6b2c5d1763\transformed\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ef19e44e2aee7746959ade6b2c5d1763\transformed\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.documentfile:documentfile:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\46fd97c7aa68dc1a6e414553291eed6e\transformed\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\46fd97c7aa68dc1a6e414553291eed6e\transformed\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\e63fda2078b9a42a67373a35d83ab9f5\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\e63fda2078b9a42a67373a35d83ab9f5\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b7451a8669fd1128d340e3d73d881c37\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b7451a8669fd1128d340e3d73d881c37\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31061bb024b8362bef77e660a856a763\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31061bb024b8362bef77e660a856a763\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\750d0db0fd6b321fd31d764984bc3821\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.annotation:annotation-experimental:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\750d0db0fd6b321fd31d764984bc3821\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:4:3-70
+MERGED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:4:3-70
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
+grant-uri-permission
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:209:13-62
+	android:pathPattern
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:209:35-59
+meta-data#com.bumptech.glide.integration.okhttp3.OkHttpGlideModule
+ADDED from [com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\89308bfc4cb0959710450af9f5ee0589\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:11:9-13:43
+	android:value
+		ADDED from [com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\89308bfc4cb0959710450af9f5ee0589\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:13:13-40
+	android:name
+		ADDED from [com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\89308bfc4cb0959710450af9f5ee0589\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:12:13-84
+activity#com.blankj.utilcode.util.UtilsTransActivity4MainProcess
+ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:10:9-14:75
+	android:windowSoftInputMode
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:14:13-72
+	android:configChanges
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:12:13-74
+	android:theme
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:13:13-55
+	android:name
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:11:13-83
+activity#com.blankj.utilcode.util.UtilsTransActivity
+ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:15:9-20:75
+	android:multiprocess
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:18:13-40
+	android:windowSoftInputMode
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:20:13-72
+	android:configChanges
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:17:13-74
+	android:theme
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:19:13-55
+	android:name
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:16:13-71
+provider#com.blankj.utilcode.util.UtilsFileProvider
+ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:22:9-30:20
+	android:grantUriPermissions
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:26:13-47
+	android:authorities
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:24:13-73
+	android:exported
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:25:13-37
+	android:name
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:23:13-70
+service#com.blankj.utilcode.util.MessengerUtils$ServerService
+ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:32:9-38:19
+	android:exported
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:34:13-37
+	android:name
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:33:13-81
+intent-filter#action:name:${applicationId}.messenger
+ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:35:13-37:29
+intent-filter#action:name:com.example.blogsystem.messenger
+ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:35:13-37:29
+action#${applicationId}.messenger
+ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:36:17-69
+	android:name
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:36:25-66
+action#com.example.blogsystem.messenger
+ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:36:17-69
+	android:name
+		ADDED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:36:25-66
+service#androidx.room.MultiInstanceInvalidationService
+ADDED from [androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\026df84b9fe4389a97295c6a91ad9646\transformed\room-runtime-2.3.0\AndroidManifest.xml:25:9-28:40
+	android:exported
+		ADDED from [androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\026df84b9fe4389a97295c6a91ad9646\transformed\room-runtime-2.3.0\AndroidManifest.xml:28:13-37
+	android:directBootAware
+		ADDED from [androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\026df84b9fe4389a97295c6a91ad9646\transformed\room-runtime-2.3.0\AndroidManifest.xml:27:13-43
+	android:name
+		ADDED from [androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\026df84b9fe4389a97295c6a91ad9646\transformed\room-runtime-2.3.0\AndroidManifest.xml:26:13-74
+receiver#com.xiaomi.market.sdk.DownloadCompleteReceiver
+ADDED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:22:9-26:20
+	android:name
+		ADDED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:22:19-80
+intent-filter#action:name:android.intent.action.DOWNLOAD_COMPLETE
+ADDED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:23:13-25:29
+action#android.intent.action.DOWNLOAD_COMPLETE
+ADDED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:24:17-82
+	android:name
+		ADDED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:24:25-79
+provider#androidx.startup.InitializationProvider
+ADDED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\964c26a35f7d9f71ea0c263eb00fa1fd\transformed\jetified-emoji2-1.0.0-alpha02\AndroidManifest.xml:26:9-34:20
+MERGED from [androidx.startup:startup-runtime:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d7604f6dbcd6a7a90495857c288ac222\transformed\jetified-startup-runtime-1.0.0\AndroidManifest.xml:26:9-30:34
+MERGED from [androidx.startup:startup-runtime:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d7604f6dbcd6a7a90495857c288ac222\transformed\jetified-startup-runtime-1.0.0\AndroidManifest.xml:26:9-30:34
+	tools:node
+		ADDED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\964c26a35f7d9f71ea0c263eb00fa1fd\transformed\jetified-emoji2-1.0.0-alpha02\AndroidManifest.xml:30:13-31
+	android:authorities
+		ADDED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\964c26a35f7d9f71ea0c263eb00fa1fd\transformed\jetified-emoji2-1.0.0-alpha02\AndroidManifest.xml:28:13-68
+	android:exported
+		ADDED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\964c26a35f7d9f71ea0c263eb00fa1fd\transformed\jetified-emoji2-1.0.0-alpha02\AndroidManifest.xml:29:13-37
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\964c26a35f7d9f71ea0c263eb00fa1fd\transformed\jetified-emoji2-1.0.0-alpha02\AndroidManifest.xml:27:13-67
+meta-data#androidx.emoji2.text.EmojiCompatInitializer
+ADDED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\964c26a35f7d9f71ea0c263eb00fa1fd\transformed\jetified-emoji2-1.0.0-alpha02\AndroidManifest.xml:31:13-33:52
+	android:value
+		ADDED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\964c26a35f7d9f71ea0c263eb00fa1fd\transformed\jetified-emoji2-1.0.0-alpha02\AndroidManifest.xml:33:17-49
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\964c26a35f7d9f71ea0c263eb00fa1fd\transformed\jetified-emoji2-1.0.0-alpha02\AndroidManifest.xml:32:17-75
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:8:3-74
+	android:name
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:8:20-72
+activity#com.google.android.play.core.missingsplits.PlayCoreMissingSplitsActivity
+ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:5-271
+	android:process
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:152-203
+	android:enabled
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:103-126
+	android:stateNotNeeded
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:240-269
+	android:launchMode
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:204-239
+	android:exported
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:127-151
+	android:name
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:15-102
+activity#com.google.android.play.core.common.PlayCoreDialogWrapperActivity
+ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:5-226
+	android:enabled
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:96-119
+	android:stateNotNeeded
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:145-174
+	android:exported
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:120-144
+	android:theme
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:175-224
+	android:name
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:15-95
+service#com.google.android.play.core.assetpacks.AssetPackExtractionService
+ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:16:5-18:15
+	android:enabled
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:16:96-119
+	android:exported
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:16:120-143
+	android:name
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:16:14-95
+meta-data#com.google.android.play.core.assetpacks.versionCode
+ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:17:7-108
+	android:value
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:17:85-106
+	android:name
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:17:18-84
+service#com.google.android.play.core.assetpacks.ExtractionForegroundService
+ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:19:5-147
+	android:enabled
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:19:97-120
+	android:exported
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:19:121-145
+	android:name
+		ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:19:14-96

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.GalleryActivity">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/galleryViewPager2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.example.blogsystem.view.RoundRelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|end"
+        android:layout_margin="14dp"
+        app:rlClipBackground="true"
+        app:rlRadius="40dp">
+
+        <TextView
+            android:id="@+id/downLoadPhotoTv"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/shape_circle_btn"
+            android:gravity="center"
+            android:text="下载"
+            android:textColor="@color/white" />
+
+    </com.example.blogsystem.view.RoundRelativeLayout>
+
+    <com.example.blogsystem.view.RoundRelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="40dp"
+        app:rlClipBackground="true"
+        app:rlRadius="4dp">
+
+        <TextView
+            android:id="@+id/settingWallpaperTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#66393939"
+            android:paddingStart="40dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="40dp"
+            android:paddingBottom="10dp"
+            android:text="设置壁纸"
+            android:textColor="@color/white" />
+
+    </com.example.blogsystem.view.RoundRelativeLayout>
+</FrameLayout>
