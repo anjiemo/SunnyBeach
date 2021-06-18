@@ -9,7 +9,7 @@ Kotlin、Glide、EasyHttp、Retrofit、OkHttp、BRVAH、XXPermissions、AndroidU
 
 # 项目截图
 
-<figure>
+<figure class="third">
     <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210618190521.png" alt="854804025600638976" style="zoom: 25%;" />
     <img src="ScreenShots/854804043761975296.png" alt="854804043761975296" style="zoom:25%;" />
     <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210618190731.png" style="zoom:25%;" />
