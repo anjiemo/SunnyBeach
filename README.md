@@ -9,13 +9,14 @@ Kotlin、Glide、EasyHttp、Retrofit、OkHttp、BRVAH、XXPermissions、AndroidU
 
 # 项目截图
 
-<figure class="third">
-    <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210618190521.png" alt="854804025600638976" style="zoom: 25%;" />
-    <img src="ScreenShots/854804043761975296.png" alt="854804043761975296" style="zoom:25%;" />
-    <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210618190731.png" style="zoom:25%;" />
-    <img src="ScreenShots/854804177199562752.png" alt="854804177199562752" style="zoom:25%;" />
-    <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210618190651.png" alt="854804065563967488" style="zoom:25%;" />
+<figure class="half">
+    <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210618190521.png" alt="854804025600638976" />
+    <img src="ScreenShots/854804043761975296.png" alt="854804043761975296" />
+    <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210618190731.png" />
+    <img src="ScreenShots/854804177199562752.png" alt="854804177199562752" />
+    <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210618190651.png" alt="854804065563967488" />
 </figure>
+
 
 <br>
 
