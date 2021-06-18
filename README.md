@@ -6,10 +6,25 @@
 当前版本：1.0
 # 技术栈
 Kotlin、Glide、EasyHttp、Retrofit、OkHttp、BRVAH、XXPermissions、AndroidUtilCode、Room、UmengSDK、MiPush。
+
+# 项目截图
+
+<figure>
+    <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210618190521.png" alt="854804025600638976" style="zoom: 25%;" />
+    <img src="ScreenShots/854804043761975296.png" alt="854804043761975296" style="zoom:25%;" />
+    <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210618190731.png" style="zoom:25%;" />
+    <img src="ScreenShots/854804177199562752.png" alt="854804177199562752" style="zoom:25%;" />
+    <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210618190651.png" alt="854804065563967488" style="zoom:25%;" />
+</figure>
+
+<br>
+
 # 关于作者
+
 作者昵称：A Lonely Cat、anjiemo
 github：https://github.com/anjiemo
 gitee：https://gitee.com/anjiemo
+
 # 体验地址
 [点击下载](https://wwa.lanzoui.com/ilD2yq91c8b)
 

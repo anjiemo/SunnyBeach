@@ -35,9 +35,8 @@ com/example/blogsystem/db/dao/CookieDao_Impl.java
  com.example.blogsystem.db.dao.CookieDao_Impl$2
 com/example/blogsystem/databinding/ActivityBrowserBinding.java
  com.example.blogsystem.databinding.ActivityBrowserBinding
-com/example/blogsystem/db/CookieRoomDatabase_Impl.java
- com.example.blogsystem.db.CookieRoomDatabase_Impl
- com.example.blogsystem.db.CookieRoomDatabase_Impl$1
+com/example/blogsystem/databinding/FragmentMusicBinding.java
+ com.example.blogsystem.databinding.FragmentMusicBinding
 com/example/blogsystem/ui/fragment/RegisterFragmentDirections.java
  com.example.blogsystem.ui.fragment.RegisterFragmentDirections
 com/example/blogsystem/databinding/ContentLoginBinding.java
@@ -50,5 +49,6 @@ com/example/blogsystem/databinding/FragmentMeBinding.java
  com.example.blogsystem.databinding.FragmentMeBinding
 com/example/blogsystem/databinding/FragmentDiscoverBinding.java
  com.example.blogsystem.databinding.FragmentDiscoverBinding
-com/example/blogsystem/databinding/FragmentMusicBinding.java
- com.example.blogsystem.databinding.FragmentMusicBinding
+com/example/blogsystem/db/CookieRoomDatabase_Impl.java
+ com.example.blogsystem.db.CookieRoomDatabase_Impl
+ com.example.blogsystem.db.CookieRoomDatabase_Impl$1
