@@ -29,9 +29,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     private var _binding: FragmentDiscoverBinding? = null
     private val mBinding get() = _binding!!
     private val mBannerList = arrayListOf<HomeBannerBean.Data>()
-    private val mPhotoAdapter by lazy {
-        PhotoAdapter()
-    }
+    private val mPhotoAdapter by lazy { PhotoAdapter() }
     private val mPhotoList = arrayListOf<HomePhotoBean.Res.Vertical>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -13,9 +13,7 @@ class MeFragment : BaseFragment(R.layout.fragment_me) {
 
     private var _binding: FragmentMeBinding? = null
     private val binding get() = _binding!!
-    private val userViewModel: UserViewModel by lazy {
-        SingletonManager.userViewModel
-    }
+    private val userViewModel: UserViewModel by lazy { SingletonManager.userViewModel }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

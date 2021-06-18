@@ -30,9 +30,7 @@ import kotlinx.coroutines.withContext
 class GalleryActivity : BaseActivity() {
 
     private lateinit var mBinding: ActivityGalleryBinding
-    private val mPhotoAdapter by lazy {
-        PhotoAdapter(fillBox = true)
-    }
+    private val mPhotoAdapter by lazy { PhotoAdapter(fillBox = true) }
     private val mPhotoList = arrayListOf<HomePhotoBean.Res.Vertical>()
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -29,9 +29,7 @@ class LoginFragment : BaseFragment() {
 
     // 此属性仅在 onCreateView 和 onDestroyView 之间有效
     private val binding get() = _binding!!
-    private val userViewModel: UserViewModel by lazy {
-        SingletonManager.userViewModel
-    }
+    private val userViewModel: UserViewModel by lazy { SingletonManager.userViewModel }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

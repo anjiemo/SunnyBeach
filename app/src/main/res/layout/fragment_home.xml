@@ -77,49 +77,12 @@
         </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/labelTL"
+            android:id="@+id/tabLayout_categories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             app:tabIndicatorFullWidth="false"
-            app:tabMode="scrollable">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="关注" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="推荐" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="热榜" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Android" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="前端" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="后端" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="阅读" />
-
-        </com.google.android.material.tabs.TabLayout>
+            app:tabMode="scrollable" />
 
     </LinearLayout>
 
@@ -159,7 +122,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical|right"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    tools:ignore="RtlHardcoded">
 
                     <ImageView
                         android:layout_width="30dp"
@@ -169,11 +133,14 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
                         android:src="@mipmap/ic_avatar" />
 
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:layout_marginEnd="4dp"
                         android:src="@mipmap/ic_avatar" />
 
                     <ImageView

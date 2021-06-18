@@ -1,4 +1,4 @@
-#Fri Jun 18 19:37:15 CST 2021
+#Fri Jun 18 23:42:27 CST 2021
 path.4=14/classes.dex
 path.3=12/classes.dex
 path.2=10/classes.dex
@@ -8,6 +8,7 @@ renamed.8=classes9.dex
 path.8=6/classes.dex
 path.7=3/classes.dex
 path.6=2/classes.dex
+renamed.12=classes13.dex
 path.5=1/classes.dex
 renamed.11=classes12.dex
 renamed.10=classes11.dex
@@ -18,6 +19,7 @@ base.2=D\:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\dex\\d
 base.1=D\:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
 base.0=D\:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 renamed.3=classes4.dex
+path.12=7/classes.dex
 renamed.2=classes3.dex
 renamed.1=classes2.dex
 path.10=9/classes.dex
@@ -33,5 +35,6 @@ renamed.5=classes6.dex
 base.6=D\:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
 renamed.4=classes5.dex
 base.5=D\:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\1\\classes.dex
+base.12=D\:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\7\\classes.dex
 base.11=D\:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
 base.10=D\:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\9\\classes.dex

@@ -35,9 +35,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val _userBasicInfo = MutableLiveData<UserBasicInfo>()
     val userBasicInfo: LiveData<UserBasicInfo> get() = _userBasicInfo
 
-    private val userApi by lazy {
-        ServiceCreator.create<UserApi>()
-    }
+    private val userApi by lazy { ServiceCreator.create<UserApi>() }
 
     fun login(userAccount: String, password: String, captcha: String) = viewModelScope.launch {
         val context = getApplication<Application>()

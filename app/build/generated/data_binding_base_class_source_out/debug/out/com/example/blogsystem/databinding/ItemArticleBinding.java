@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,25 +21,34 @@ public final class ItemArticleBinding implements ViewBinding {
   private final ConstraintLayout rootView;
 
   @NonNull
-  public final TextView articleContentTv;
+  public final LinearLayout articleTopContainer;
 
   @NonNull
-  public final TextView articleTitleTv;
+  public final ImageView ivAvatar;
 
   @NonNull
-  public final RelativeLayout articleTopContainer;
+  public final TextView tvArticleTitle;
 
   @NonNull
-  public final ImageView avatarIv;
+  public final TextView tvCreateTime;
 
-  private ItemArticleBinding(@NonNull ConstraintLayout rootView, @NonNull TextView articleContentTv,
-      @NonNull TextView articleTitleTv, @NonNull RelativeLayout articleTopContainer,
-      @NonNull ImageView avatarIv) {
+  @NonNull
+  public final TextView tvNickName;
+
+  @NonNull
+  public final TextView tvViewCount;
+
+  private ItemArticleBinding(@NonNull ConstraintLayout rootView,
+      @NonNull LinearLayout articleTopContainer, @NonNull ImageView ivAvatar,
+      @NonNull TextView tvArticleTitle, @NonNull TextView tvCreateTime,
+      @NonNull TextView tvNickName, @NonNull TextView tvViewCount) {
     this.rootView = rootView;
-    this.articleContentTv = articleContentTv;
-    this.articleTitleTv = articleTitleTv;
     this.articleTopContainer = articleTopContainer;
-    this.avatarIv = avatarIv;
+    this.ivAvatar = ivAvatar;
+    this.tvArticleTitle = tvArticleTitle;
+    this.tvCreateTime = tvCreateTime;
+    this.tvNickName = tvNickName;
+    this.tvViewCount = tvViewCount;
   }
 
   @Override
@@ -69,32 +78,44 @@ public final class ItemArticleBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.articleContentTv;
-      TextView articleContentTv = rootView.findViewById(id);
-      if (articleContentTv == null) {
-        break missingId;
-      }
-
-      id = R.id.articleTitleTv;
-      TextView articleTitleTv = rootView.findViewById(id);
-      if (articleTitleTv == null) {
-        break missingId;
-      }
-
-      id = R.id.articleTopContainer;
-      RelativeLayout articleTopContainer = rootView.findViewById(id);
+      id = R.id.article_top_container;
+      LinearLayout articleTopContainer = rootView.findViewById(id);
       if (articleTopContainer == null) {
         break missingId;
       }
 
-      id = R.id.avatarIv;
-      ImageView avatarIv = rootView.findViewById(id);
-      if (avatarIv == null) {
+      id = R.id.iv_avatar;
+      ImageView ivAvatar = rootView.findViewById(id);
+      if (ivAvatar == null) {
         break missingId;
       }
 
-      return new ItemArticleBinding((ConstraintLayout) rootView, articleContentTv, articleTitleTv,
-          articleTopContainer, avatarIv);
+      id = R.id.tv_article_title;
+      TextView tvArticleTitle = rootView.findViewById(id);
+      if (tvArticleTitle == null) {
+        break missingId;
+      }
+
+      id = R.id.tv_create_time;
+      TextView tvCreateTime = rootView.findViewById(id);
+      if (tvCreateTime == null) {
+        break missingId;
+      }
+
+      id = R.id.tv_nick_name;
+      TextView tvNickName = rootView.findViewById(id);
+      if (tvNickName == null) {
+        break missingId;
+      }
+
+      id = R.id.tv_view_count;
+      TextView tvViewCount = rootView.findViewById(id);
+      if (tvViewCount == null) {
+        break missingId;
+      }
+
+      return new ItemArticleBinding((ConstraintLayout) rootView, articleTopContainer, ivAvatar,
+          tvArticleTitle, tvCreateTime, tvNickName, tvViewCount);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
