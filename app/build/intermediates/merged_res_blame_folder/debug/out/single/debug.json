@@ -1,0 +1,382 @@
+[
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_browser.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\activity_browser.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_weather.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\activity_weather.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_bg_cloudy.jpg.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\bg_cloudy.jpg"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_moderate_haze.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_moderate_haze.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\navigation_nav_graph.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\navigation\\nav_graph.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_bg_fog.jpg.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\bg_fog.jpg"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_content_login.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\content_login.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_right.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_right.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_content_scrolling.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\content_scrolling.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_home.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\activity_home.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_light_rain.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_light_rain.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_gallery.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\activity_gallery.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_light_snow.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_light_snow.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_search_bg.9.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\search_bg.9.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_dressing.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_dressing.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_login.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\fragment_login.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_comment.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_comment.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_shape_circle_btn.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\shape_circle_btn.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_home.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_home.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_top_radius_20dp.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_top_radius_20dp.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_bg_place.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\bg_place.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_register.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\fragment_register.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_feedback.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_feedback.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_bells.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_bells.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_icon.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_icon.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_bg_wind.jpg.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\bg_wind.jpg"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_launcher_background.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_storm_rain.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_storm_rain.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_bg_partly_cloudy_night.jpg.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\bg_partly_cloudy_night.jpg"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_splash.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_splash.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_heavy_snow.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_heavy_snow.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\xml_network_security_config.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\xml\\network_security_config.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_heavy_haze.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_heavy_haze.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_item_photo.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\item_photo.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_discover.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\fragment_discover.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v24_ic_launcher_foreground.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v24\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_sleet.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_sleet.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_home.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_home.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_setting.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_setting.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_clear_night.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_clear_night.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_partly_cloud_night.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_partly_cloud_night.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_no_image.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_no_image.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_bg_clear_night.jpg.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\bg_clear_night.jpg"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_cloudy.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_cloudy.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_heavy_rain.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_heavy_rain.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_light_haze.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_light_haze.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_like.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_like.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_moderate_snow.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_moderate_snow.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_scrolling.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\activity_scrolling.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_bg_partly_cloudy_day.jpg.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\bg_partly_cloudy_day.jpg"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_default_avatar.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_default_avatar.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_moderate_rain.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_moderate_rain.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_content_me.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\content_me.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_bg_clear_day.jpg.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\bg_clear_day.jpg"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_hail.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_hail.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_great.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_great.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_music.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\fragment_music.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\raw_guide_video.mp4.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\raw\\guide_video.mp4"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_carwashing.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_carwashing.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_item_article.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\item_article.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_avatar.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_avatar.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_no_photo.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_no_photo.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_bg_snow.jpg.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\bg_snow.jpg"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_enter.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_enter.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_ultraviolet.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_ultraviolet.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\menu_home_menu.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\menu\\home_menu.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_bg.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_bg.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_coldrisk.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_coldrisk.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_login.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\menu_menu_scrolling.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\menu\\menu_scrolling.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_splash.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\activity_splash.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_bg_rain.jpg.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\bg_rain.jpg"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\raw_hamburger.json.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\raw\\hamburger.json"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_home.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\fragment_home.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_discover.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_discover.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_fog.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_fog.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_me.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_me.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_thunder_shower.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_thunder_shower.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_clear_day.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_clear_day.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_me.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\fragment_me.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\navigation_home_nav_graph.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\navigation\\home_nav_graph.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_partly_cloud_day.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\ic_partly_cloud_day.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_shape_button_bg.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\shape_button_bg.xml"
+    }
+]
