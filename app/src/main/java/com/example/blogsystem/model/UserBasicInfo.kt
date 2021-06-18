@@ -3,6 +3,9 @@ package com.example.blogsystem.model
 import com.example.blogsystem.utils.DEFAULT_AVATAR_URL
 import com.google.gson.annotations.SerializedName
 
+/**
+ * 用户基本信息
+ */
 data class UserBasicInfo(
     @SerializedName("avatar")
     val avatar: String? = DEFAULT_AVATAR_URL,

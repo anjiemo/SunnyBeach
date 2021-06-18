@@ -13,7 +13,7 @@ object ServiceCreator {
 
     private val interceptor by lazy {
         HttpLoggingInterceptor {
-            logByDebug(msg = "====>: result：${it.unicodeToString()}")
+            logByDebug(msg = "===> result：${it.unicodeToString()}")
         }.also {
             it.setLevel(HttpLoggingInterceptor.Level.BODY)
         }

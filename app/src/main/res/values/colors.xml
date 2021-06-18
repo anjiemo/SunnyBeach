@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="pink">#FA7299</color>
+    <color name="default_font_color">#8A000000</color>
 </resources>
