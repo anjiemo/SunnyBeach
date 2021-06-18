@@ -27,10 +27,10 @@ class HomeActivity : BaseActivity() {
     private val mFragmentMap = arrayMapOf<Int, BaseFragment>()
     private lateinit var mFragmentAdapter: FragmentAdapter
 
-    private val homeFragment = HomeFragment()
-    private val musicFragment = MusicFragment()
-    private val discoverFragment = DiscoverFragment()
-    private val meFragment = MeFragment()
+    private val homeFragment by lazy { HomeFragment() }
+    private val musicFragment by lazy { MusicFragment() }
+    private val discoverFragment by lazy { DiscoverFragment() }
+    private val meFragment by lazy { MeFragment() }
     private var isCancel: Boolean = false
     private lateinit var appUpdateDialogBuilder: AlertDialog.Builder
 
@@ -42,9 +42,7 @@ class HomeActivity : BaseActivity() {
     }
 
     override fun initData() {
-//        fragmentList.add(HomeFragment())
-//        mFragmentMap[0] = musicFragment
-        mFragmentMap[0] = musicFragment
+        mFragmentMap[0] = homeFragment
         mFragmentMap[1] = discoverFragment
         mFragmentMap[2] = meFragment
         mFragmentAdapter.setFragmentMap(mFragmentMap)
@@ -67,11 +65,6 @@ class HomeActivity : BaseActivity() {
             it.adapter = mFragmentAdapter
         }
         appUpdateDialogBuilder = AlertDialog.Builder(this)
-
-        // val dialog = BeautifulDialog(this)
-        // dialog.create().apply {
-        //     setContentView(R.layout.content_login)
-        // }.show()
     }
 
     override fun initEvent() {
