@@ -28,7 +28,6 @@ class HomeActivity : BaseActivity() {
     private lateinit var mFragmentAdapter: FragmentAdapter
 
     private val homeFragment by lazy { HomeFragment() }
-    private val musicFragment by lazy { MusicFragment() }
     private val discoverFragment by lazy { DiscoverFragment() }
     private val meFragment by lazy { MeFragment() }
     private var isCancel: Boolean = false
@@ -50,10 +49,6 @@ class HomeActivity : BaseActivity() {
 
     fun showHomeFragment() {
         mFragmentAdapter.replaceFragment(0, homeFragment)
-    }
-
-    fun showScanQrFragment() {
-        mFragmentAdapter.replaceFragment(0, musicFragment)
     }
 
     override fun initView() {
