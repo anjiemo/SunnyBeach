@@ -12,15 +12,17 @@ const val DEFAULT_URL =
 const val DEFAULT_BANNER_URL =
     "http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&start=55&count=5&from=360chrome"
 
-const val BLOG_BASE_URL = "https://api.sunofbeach.net/"
+const val SUNNY_BEACH_BASE_URL = "https://api.sunofbeach.net/"
 
 const val DEFAULT_AVATAR_URL = "https://cdn.sunofbeaches.com/images/default_avatar.png"
 
 val VERIFY_CODE_URL =
-    "${BLOG_BASE_URL}uc/ut/captcha?code=${System.currentTimeMillis()}${Random.nextInt(99999)}"
+    "${SUNNY_BEACH_BASE_URL}uc/ut/captcha?code=${System.currentTimeMillis()}${Random.nextInt(99999)}"
 
 const val DEFAULT_HTTP_OK_CODE = 200
 
-const val BLOG_HTTP_OK_CODE = 10000
+const val SUNNY_BEACH_HTTP_OK_CODE = 10000
 
 const val APP_INFO_URL = "http://hm03097.h37.hmie.cn/blog/app/appconfig.json"
+
+const val SUNNY_BEACH_USER_BASIC_INFO = "sunny_beach_user_basic_info"

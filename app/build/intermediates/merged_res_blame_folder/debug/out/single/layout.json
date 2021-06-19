@@ -16,6 +16,10 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\activity_browser.xml"
     },
     {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\content_home_discover_more_uthor.xml",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\content_home_discover_more_uthor.xml"
+    },
+    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\content_me.xml",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\content_me.xml"
     },
@@ -42,6 +46,10 @@
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_music.xml",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\fragment_music.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\content_home_discover_more_author.xml",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\content_home_discover_more_author.xml"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_login.xml",

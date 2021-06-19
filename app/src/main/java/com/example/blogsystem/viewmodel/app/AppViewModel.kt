@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.blankj.utilcode.util.NetworkUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
@@ -21,6 +22,7 @@ import com.hjq.http.config.RequestServer
 import com.hjq.http.lifecycle.ApplicationLifecycle
 import com.hjq.http.listener.OnDownloadListener
 import com.hjq.http.model.HttpMethod
+import com.tencent.mmkv.MMKV
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import kotlinx.coroutines.Dispatchers
@@ -29,20 +31,21 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.InputStream
 
-class AppViewModel(application: Application) : AndroidViewModel(application) {
+class AppViewModel(application: Application) : AndroidViewModel(application),
+    NetworkUtils.OnNetworkStatusChangedListener {
 
-    private val api by lazy {
-        ServiceCreator.create<AppApi>()
-    }
+    private val api by lazy { ServiceCreator.create<AppApi>() }
     private var _appUpdateState = MutableLiveData<AppUpdateState>()
     val appUpdateState: LiveData<AppUpdateState> get() = _appUpdateState
 
     fun checkAppVersionUpdate(url: String? = APP_INFO_URL) = viewModelScope.launch {
         url ?: return@launch
+        val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
+        if (available.not()) return@launch
         runCatching {
             api.checkAppUpdate(url)
         }.onSuccess {
-            if (it.code == DEFAULT_HTTP_OK_CODE) {
+            if (DEFAULT_HTTP_OK_CODE == it.code) {
                 val responseData = it.data
                 // App检查更新成功
                 val currentVersion = AppConfig.getVersionCode()
@@ -62,7 +65,8 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             }
         }.onFailure {
             // 网络错误，App检查更新失败
-            _appUpdateState.value = AppUpdateState(networkError = R.string.network_error)
+            _appUpdateState.value =
+                AppUpdateState(networkError = R.string.network_error)
         }
     }
 
@@ -135,6 +139,8 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     fun initSDK() = viewModelScope.launch {
         withContext(Dispatchers.IO) {
+            // MMKV初始化
+            MMKV.initialize(getApplication())
             // 在此初始化其它依赖库
             Glide.get(getApplication())
                 .registry
@@ -171,6 +177,20 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 .setRetryCount(3)
                 // 启用配置
                 .into()
+
+            // 网络变化监听
+            NetworkUtils.registerNetworkStatusChangedListener(this@AppViewModel)
         }
+    }
+
+    override fun onDisconnected() {
+        // 只有app处于前台的时候才提示用户网络已断开，优化用户体验
+        val appIsForeground = ActivityManager.appIsForeground()
+        if (appIsForeground.not()) return
+        simpleToast("网络已断开链接")
+    }
+
+    override fun onConnected(networkType: NetworkUtils.NetworkType?) {
+
     }
 }

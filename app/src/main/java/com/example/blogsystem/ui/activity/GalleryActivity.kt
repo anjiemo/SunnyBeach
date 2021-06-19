@@ -14,11 +14,12 @@ import com.bumptech.glide.Glide
 import com.example.blogsystem.adapter.PhotoAdapter
 import com.example.blogsystem.base.BaseActivity
 import com.example.blogsystem.databinding.ActivityGalleryBinding
-import com.example.blogsystem.network.Repository
 import com.example.blogsystem.network.model.HomePhotoBean
 import com.example.blogsystem.utils.fullWindow
 import com.example.blogsystem.utils.logByDebug
 import com.example.blogsystem.utils.simpleToast
+import com.example.blogsystem.utils.toJson
+import com.example.blogsystem.viewmodel.SingletonManager
 import com.google.gson.Gson
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.Permission
@@ -29,9 +30,10 @@ import kotlinx.coroutines.withContext
 
 class GalleryActivity : BaseActivity() {
 
+    private val discoverViewModel by lazy { SingletonManager.discoverViewModel }
     private lateinit var mBinding: ActivityGalleryBinding
     private val mPhotoAdapter by lazy { PhotoAdapter(fillBox = true) }
-    private val mPhotoList = arrayListOf<HomePhotoBean.Res.Vertical>()
+    private val mPhotoList by lazy { arrayListOf<HomePhotoBean.Res.Vertical>() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,19 +53,19 @@ class GalleryActivity : BaseActivity() {
             intent.setDataAndType(Uri.parse(verticalPhoto.img), "image/*")
             startActivity(intent)
         }
+        val loadMoreModule = mPhotoAdapter.loadMoreModule
+        discoverViewModel.verticalPhotoList.observe(this) { verticalPhotoList ->
+            logByDebug(msg = "initEvent：===> " + verticalPhotoList.toJson())
+            loadMoreModule.apply {
+                mPhotoAdapter.addData(verticalPhotoList)
+                isEnableLoadMore = true
+                loadMoreComplete()
+            }
+        }
         mPhotoAdapter.loadMoreModule.run {
             setOnLoadMoreListener {
                 isEnableLoadMore = false
-                lifecycleScope.launch {
-                    val photoBean = Repository.loadPhotoList()
-                    val verticalPhotoList = photoBean.res.vertical
-                    logByDebug(msg = "initData: ===>${mPhotoList.size}")
-                    mPhotoList.addAll(verticalPhotoList)
-                    Repository.addLocalPhotoList(verticalPhotoList)
-                    mPhotoAdapter.addData(verticalPhotoList)
-                    isEnableLoadMore = true
-                    loadMoreComplete()
-                }
+                discoverViewModel.loadMorePhotoList()
             }
         }
         mBinding.downLoadPhotoTv.setOnClickListener {
@@ -120,9 +122,10 @@ class GalleryActivity : BaseActivity() {
     override fun initData() {
         val intent = intent
         val id = intent.getStringExtra("id")
-        mPhotoList.run {
-            clear()
-            addAll(Repository.loadCachePhotoList())
+        mPhotoList.apply {
+            val cacheVerticalPhotoList =
+                discoverViewModel.cacheVerticalPhotoList.value ?: arrayListOf()
+            addAll(cacheVerticalPhotoList)
         }
         mPhotoList.forEachIndexed { index, vertical ->
             if (id.equals(vertical.id)) {

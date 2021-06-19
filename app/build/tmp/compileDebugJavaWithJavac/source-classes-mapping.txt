@@ -1,3 +1,7 @@
+com/chad/library/BR.java
+ com.chad.library.BR
+com/example/blogsystem/databinding/FragmentMusicBinding.java
+ com.example.blogsystem.databinding.FragmentMusicBinding
 com/example/blogsystem/databinding/FragmentLoginBinding.java
  com.example.blogsystem.databinding.FragmentLoginBinding
 com/example/blogsystem/BuildConfig.java
@@ -8,8 +12,12 @@ com/example/blogsystem/databinding/ActivitySplashBinding.java
  com.example.blogsystem.databinding.ActivitySplashBinding
 com/example/blogsystem/databinding/ContentMeBinding.java
  com.example.blogsystem.databinding.ContentMeBinding
+com/example/blogsystem/databinding/FragmentDiscoverBinding.java
+ com.example.blogsystem.databinding.FragmentDiscoverBinding
 com/example/blogsystem/databinding/FragmentHomeBinding.java
  com.example.blogsystem.databinding.FragmentHomeBinding
+androidx/databinding/library/baseAdapters/BR.java
+ androidx.databinding.library.baseAdapters.BR
 com/example/blogsystem/utils/CustomAnimation.java
  com.example.blogsystem.utils.CustomAnimation
  com.example.blogsystem.utils.CustomAnimation$MyInterpolator
@@ -17,16 +25,22 @@ com/example/blogsystem/databinding/ActivityGalleryBinding.java
  com.example.blogsystem.databinding.ActivityGalleryBinding
 com/example/blogsystem/databinding/ActivityHomeBinding.java
  com.example.blogsystem.databinding.ActivityHomeBinding
+com/example/blogsystem/DataBindingTriggerClass.java
+ com.example.blogsystem.DataBindingTriggerClass
+com/example/blogsystem/databinding/ContentHomeDiscoverMoreAuthorBinding.java
+ com.example.blogsystem.databinding.ContentHomeDiscoverMoreAuthorBinding
 com/example/blogsystem/ui/fragment/LoginFragmentDirections.java
  com.example.blogsystem.ui.fragment.LoginFragmentDirections
 com/example/blogsystem/databinding/ActivityLoginBinding.java
  com.example.blogsystem.databinding.ActivityLoginBinding
-com/example/blogsystem/databinding/ItemArticleBinding.java
- com.example.blogsystem.databinding.ItemArticleBinding
+androidx/databinding/DataBindingComponent.java
+ androidx.databinding.DataBindingComponent
 com/example/blogsystem/databinding/ItemPhotoBinding.java
  com.example.blogsystem.databinding.ItemPhotoBinding
 com/example/blogsystem/databinding/FragmentRegisterBinding.java
  com.example.blogsystem.databinding.FragmentRegisterBinding
+com/example/blogsystem/BR.java
+ com.example.blogsystem.BR
 com/example/blogsystem/databinding/ActivityWeatherBinding.java
  com.example.blogsystem.databinding.ActivityWeatherBinding
 com/example/blogsystem/db/dao/CookieDao_Impl.java
@@ -48,7 +62,11 @@ com/example/blogsystem/utils/AppConfig.java
  com.example.blogsystem.utils.AppConfig
 com/example/blogsystem/databinding/FragmentMeBinding.java
  com.example.blogsystem.databinding.FragmentMeBinding
-com/example/blogsystem/databinding/FragmentDiscoverBinding.java
- com.example.blogsystem.databinding.FragmentDiscoverBinding
-com/example/blogsystem/databinding/FragmentMusicBinding.java
- com.example.blogsystem.databinding.FragmentMusicBinding
+com/example/blogsystem/databinding/ItemArticleBinding.java
+ com.example.blogsystem.databinding.ItemArticleBinding
+com/example/blogsystem/DataBinderMapperImpl.java
+ com.example.blogsystem.DataBinderMapperImpl
+ com.example.blogsystem.DataBinderMapperImpl$InnerBrLookup
+ com.example.blogsystem.DataBinderMapperImpl$InnerLayoutIdLookup
+androidx/databinding/DataBinderMapperImpl.java
+ androidx.databinding.DataBinderMapperImpl
