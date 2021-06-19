@@ -13,6 +13,7 @@ Kotlin、Glide、EasyHttp、Retrofit、OkHttp、BRVAH、XXPermissions、AndroidU
     <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210618190521.png" alt="854804025600638976" style="zoom:25%" />
     <img src="ScreenShots/854804043761975296.png" alt="854804043761975296" style="zoom:25%" />
     <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210618190731.png" style="zoom:25%" />
+    <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210619182947.png" alt="20210619182947" style="zoom:25%" />
     <img src="ScreenShots/854804177199562752.png" alt="854804177199562752" style="zoom:25%" />
     <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210618190651.png" alt="854804065563967488" style="zoom:25%" />
 </figure>
