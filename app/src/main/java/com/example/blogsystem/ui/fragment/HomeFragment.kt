@@ -2,7 +2,13 @@ package com.example.blogsystem.ui.fragment
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.ProgressBar
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +19,7 @@ import com.example.blogsystem.databinding.FragmentHomeBinding
 import com.example.blogsystem.utils.dp
 import com.example.blogsystem.utils.equilibriumAssignmentOfLinear
 import com.example.blogsystem.utils.setRoundRectBg
+import com.example.blogsystem.utils.setTintColor
 import com.example.blogsystem.viewmodel.home.HomeViewModel
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
@@ -44,18 +51,39 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 }
             }
         }
+        val loadMoreModule = articleAdapter.loadMoreModule
+        articleAdapter.loadMoreModule.setOnLoadMoreListener {
+            loadMoreModule.isEnableLoadMore = false
+            homeViewModel.loadMoreRecommendContent(2)
+        }
         homeViewModel.recommendList.observe(this) { recommendList ->
             val data = recommendList?.list ?: listOf()
-            articleAdapter.setData(data)
+            articleAdapter.addData(data)
+            loadMoreModule.loadMoreComplete()
+            loadMoreModule.isEnableLoadMore = true
         }
     }
 
     override fun initData() {
         homeViewModel.getCategories()
-        homeViewModel.loadMoreRecommendContent()
+        homeViewModel.loadMoreRecommendContent(1)
     }
 
     override fun initView() {
+        val progressBar = ProgressBar(requireContext()).apply {
+            setTintColor(ContextCompat.getColor(requireContext(), R.color.pink))
+        }
+        progressBar.layoutParams = FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        ).apply {
+            gravity = Gravity.CENTER
+        }
+        articleAdapter.setEmptyView(progressBar)
+        articleAdapter.addHeaderView(
+            LayoutInflater.from(requireContext())
+                .inflate(R.layout.content_home_discover_more_author, null)
+        )
         mBinding.articleListRv.let {
             it.adapter = articleAdapter
             it.layoutManager = LinearLayoutManager(context)

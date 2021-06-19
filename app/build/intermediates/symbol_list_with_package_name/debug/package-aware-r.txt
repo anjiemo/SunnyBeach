@@ -1962,6 +1962,7 @@ id counterclockwise
 id custom
 id customPanel
 id cut
+id dataBinding
 id date_picker_actions
 id decelerate
 id decelerateAndComplete
@@ -2154,9 +2155,10 @@ id normal
 id notification_background
 id notification_main_column
 id notification_main_column_container
-id nsvContainer
 id off
 id on
+id onAttachStateChangeListener
+id onDateChanged
 id outline
 id outward
 id packed
@@ -2282,6 +2284,7 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textTop
+id textWatcher
 id text_input_end_icon
 id text_input_error_icon
 id text_input_start_icon
@@ -2407,6 +2410,7 @@ layout activity_scrolling
 layout activity_splash
 layout activity_weather
 layout brvah_quick_view_load_more
+layout content_home_discover_more_author
 layout content_login
 layout content_me
 layout content_scrolling

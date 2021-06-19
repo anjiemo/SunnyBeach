@@ -1,59 +1,44 @@
 package com.example.blogsystem.adapter
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.module.LoadMoreModule
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.example.blogsystem.R
-import com.example.blogsystem.databinding.ItemArticleBinding
 import com.example.blogsystem.model.ArticleInfo
 
-class ArticleAdapter : RecyclerView.Adapter<ArticleAdapter.Holder>() {
-
-    private val mData = arrayListOf<ArticleInfo.ArticleItem>()
-
-    fun setData(data: List<ArticleInfo.ArticleItem>) {
-        mData.run {
-            clear()
-            addAll(data)
-        }
-        notifyDataSetChanged()
-    }
-
-    inner class Holder(val binding: ItemArticleBinding) : RecyclerView.ViewHolder(binding.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = ItemArticleBinding.inflate(layoutInflater)
-        return Holder(binding)
-    }
-
-    override fun onBindViewHolder(holder: Holder, position: Int) {
-        val binding = holder.binding
-        val data = mData[position]
-        binding.root.run {
-            Glide.with(this).load(data.avatar)
+class ArticleAdapter :
+    BaseQuickAdapter<ArticleInfo.ArticleItem, BaseViewHolder>(R.layout.item_article),
+    LoadMoreModule {
+    override fun convert(holder: BaseViewHolder, item: ArticleInfo.ArticleItem) {
+        holder.run {
+            val ivAvatar = holder.getView<ImageView>(R.id.iv_avatar)
+            val tvNickName = holder.getView<TextView>(R.id.tv_nick_name)
+            val tvArticleTitle = holder.getView<TextView>(R.id.tv_article_title)
+            val tvCreateTime = holder.getView<TextView>(R.id.tv_create_time)
+            val tvViewCount = holder.getView<TextView>(R.id.tv_view_count)
+            Glide.with(itemView).load(item.avatar)
                 .placeholder(R.mipmap.ic_default_avatar)
                 .error(R.mipmap.ic_default_avatar)
                 .circleCrop()
-                .into(binding.ivAvatar)
-            binding.tvNickName.text = data.nickName
-            binding.tvNickName.setTextColor(
+                .into(ivAvatar)
+            tvNickName.text = item.nickName
+            tvNickName.setTextColor(
                 ContextCompat.getColor(
-                    context, if (data.vip) {
+                    context, if (item.vip) {
                         R.color.pink
                     } else {
                         R.color.default_font_color
                     }
                 )
             )
-            binding.tvArticleTitle.text = data.title
-            binding.tvCreateTime.text = data.createTime
-            binding.tvViewCount.text = data.viewCount.toString()
+            tvArticleTitle.text = item.title
+            tvCreateTime.text = item.createTime
+            tvViewCount.text = item.viewCount.toString()
         }
     }
-
-    override fun getItemCount(): Int = mData.size
 }
 

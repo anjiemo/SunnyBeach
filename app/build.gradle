@@ -40,6 +40,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
 
     compileOptions {
@@ -102,6 +103,8 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     // 对 Room 的 Kotlin 扩展和协程支持
     implementation "androidx.room:room-ktx:$room_version"
+    // MMKV，基于 mmap 的高性能通用 key-value 组件：https://github.com/Tencent/MMKV
+    implementation 'com.tencent:mmkv-static:1.2.9'
 
     // 友盟sdk：https://developer.umeng.com/docs
     implementation 'com.umeng.umsdk:common:9.4.0'// 必选
