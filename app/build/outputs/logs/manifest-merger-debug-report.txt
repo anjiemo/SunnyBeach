@@ -128,11 +128,11 @@ MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpac
 	android:name
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:7:22-76
 uses-permission#android.permission.CHANGE_NETWORK_STATE
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:8:5-78
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:8:5-79
 	android:name
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:8:22-76
 uses-permission#android.permission.CHANGE_WIFI_STATE
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9:5-75
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9:5-76
 	android:name
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9:22-73
 uses-permission#android.permission.REQUEST_INSTALL_PACKAGES
