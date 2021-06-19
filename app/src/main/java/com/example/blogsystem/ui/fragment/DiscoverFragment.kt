@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,12 +16,10 @@ import com.example.blogsystem.network.model.HomeBannerBean
 import com.example.blogsystem.network.model.HomePhotoBean
 import com.example.blogsystem.ui.activity.GalleryActivity
 import com.example.blogsystem.utils.*
+import com.example.blogsystem.viewmodel.SingletonManager
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
 import com.youth.banner.indicator.CircleIndicator
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
 
@@ -31,6 +28,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     private val mBannerList = arrayListOf<HomeBannerBean.Data>()
     private val mPhotoAdapter by lazy { PhotoAdapter() }
     private val mPhotoList = arrayListOf<HomePhotoBean.Res.Vertical>()
+    private val discoverViewModel by lazy { SingletonManager.discoverViewModel }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,42 +41,29 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
             Repository.setLocalPhotoList(mPhotoList)
             GalleryActivity.startActivity(requireContext(), verticalPhoto.id)
         }
+        discoverViewModel.bannerList.observe(this) { bannerList ->
+            mBinding.banner.setDatas(bannerList)
+        }
+        val loadMoreModule = mPhotoAdapter.loadMoreModule
+        discoverViewModel.verticalPhotoList.observe(this) { verticalPhotoList ->
+            logByDebug(msg = "initEvent：===> " + verticalPhotoList.toJson())
+            loadMoreModule.apply {
+                mPhotoAdapter.addData(verticalPhotoList)
+                isEnableLoadMore = true
+                loadMoreComplete()
+            }
+        }
         mPhotoAdapter.loadMoreModule.run {
             setOnLoadMoreListener {
                 isEnableLoadMore = false
-                lifecycleScope.launch {
-                    val photoBean = withContext(Dispatchers.IO) {
-                        Repository.loadPhotoList()
-                    }
-                    val verticalPhotoList = photoBean.res.vertical
-                    logByDebug(msg = "initData: ===>${mPhotoList.size}")
-                    mPhotoList.addAll(verticalPhotoList)
-                    Repository.addLocalPhotoList(verticalPhotoList)
-                    mPhotoAdapter.addData(verticalPhotoList)
-                    isEnableLoadMore = true
-                    loadMoreComplete()
-                }
+                discoverViewModel.loadMorePhotoList()
             }
         }
     }
 
     override fun initData() {
-        lifecycleScope.launch {
-            val bannerBean = withContext(Dispatchers.IO) {
-                Repository.loadHomeBannerList()
-            }
-            mBinding.banner.setDatas(bannerBean.data)
-            val photoBean = withContext(Dispatchers.IO) {
-                Repository.loadPhotoList()
-            }
-            val verticalPhotoList = photoBean.res.vertical
-            mPhotoList.let {
-                it.clear()
-                it.addAll(verticalPhotoList)
-            }
-            logByDebug(msg = "initData: ===>${mPhotoList.size}")
-            mPhotoAdapter.setList(mPhotoList)
-        }
+        discoverViewModel.loadBannerList()
+        discoverViewModel.loadMorePhotoList()
     }
 
     override fun initView() {
@@ -110,13 +95,12 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
             indicator = CircleIndicator(context)
             setIndicatorSelectedColor(Color.WHITE)
         }
-        mBinding.photoListRv.let {
-            val layoutManager = GridLayoutManager(context, 2)
-            it.layoutManager = layoutManager
+        mBinding.photoListRv.apply {
             mPhotoAdapter.adapterAnimation = CustomAnimation()
             mPhotoAdapter.isAnimationFirstOnly = false
-            it.adapter = mPhotoAdapter
-            setupSpacing(it)
+            layoutManager = GridLayoutManager(context, 2)
+            adapter = mPhotoAdapter
+            setupSpacing(this)
         }
     }
 

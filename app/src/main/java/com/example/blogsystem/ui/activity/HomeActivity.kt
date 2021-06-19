@@ -22,7 +22,7 @@ import java.io.File
 
 class HomeActivity : BaseActivity() {
 
-    private val appUpdateViewModel by lazy { SingletonManager.APP_VIEW_MODEL }
+    private val appUpdateViewModel by lazy { SingletonManager.appViewModel }
     private lateinit var mBinding: ActivityHomeBinding
     private val mFragmentMap = arrayMapOf<Int, BaseFragment>()
     private lateinit var mFragmentAdapter: FragmentAdapter

@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import com.example.blogsystem.R;
@@ -27,16 +26,7 @@ public final class FragmentHomeBinding implements ViewBinding {
   public final RecyclerView articleListRv;
 
   @NonNull
-  public final LinearLayout discoverLL;
-
-  @NonNull
   public final TextView homeSearchTv;
-
-  @NonNull
-  public final LinearLayout linearLayout;
-
-  @NonNull
-  public final NestedScrollView nsvContainer;
 
   @NonNull
   public final RoundRelativeLayout searchContainer;
@@ -54,17 +44,12 @@ public final class FragmentHomeBinding implements ViewBinding {
   public final LinearLayout topLayout;
 
   private FragmentHomeBinding(@NonNull LinearLayout rootView, @NonNull RecyclerView articleListRv,
-      @NonNull LinearLayout discoverLL, @NonNull TextView homeSearchTv,
-      @NonNull LinearLayout linearLayout, @NonNull NestedScrollView nsvContainer,
-      @NonNull RoundRelativeLayout searchContainer, @NonNull ImageView searchIv,
-      @NonNull LinearLayout settingContainer, @NonNull TabLayout tabLayoutCategories,
-      @NonNull LinearLayout topLayout) {
+      @NonNull TextView homeSearchTv, @NonNull RoundRelativeLayout searchContainer,
+      @NonNull ImageView searchIv, @NonNull LinearLayout settingContainer,
+      @NonNull TabLayout tabLayoutCategories, @NonNull LinearLayout topLayout) {
     this.rootView = rootView;
     this.articleListRv = articleListRv;
-    this.discoverLL = discoverLL;
     this.homeSearchTv = homeSearchTv;
-    this.linearLayout = linearLayout;
-    this.nsvContainer = nsvContainer;
     this.searchContainer = searchContainer;
     this.searchIv = searchIv;
     this.settingContainer = settingContainer;
@@ -105,27 +90,9 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.discoverLL;
-      LinearLayout discoverLL = rootView.findViewById(id);
-      if (discoverLL == null) {
-        break missingId;
-      }
-
       id = R.id.homeSearchTv;
       TextView homeSearchTv = rootView.findViewById(id);
       if (homeSearchTv == null) {
-        break missingId;
-      }
-
-      id = R.id.linearLayout;
-      LinearLayout linearLayout = rootView.findViewById(id);
-      if (linearLayout == null) {
-        break missingId;
-      }
-
-      id = R.id.nsvContainer;
-      NestedScrollView nsvContainer = rootView.findViewById(id);
-      if (nsvContainer == null) {
         break missingId;
       }
 
@@ -159,9 +126,8 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentHomeBinding((LinearLayout) rootView, articleListRv, discoverLL,
-          homeSearchTv, linearLayout, nsvContainer, searchContainer, searchIv, settingContainer,
-          tabLayoutCategories, topLayout);
+      return new FragmentHomeBinding((LinearLayout) rootView, articleListRv, homeSearchTv,
+          searchContainer, searchIv, settingContainer, tabLayoutCategories, topLayout);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

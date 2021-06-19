@@ -9,7 +9,7 @@ class App : Application() {
 
     // 懒加载使用，因此数据库和存储库仅在需要时创建，而不是在应用程序启动时创建
     val database by lazy { CookieRoomDatabase.getDatabase(this) }
-    private val appViewModel by lazy { SingletonManager.APP_VIEW_MODEL }
+    private val appViewModel by lazy { SingletonManager.appViewModel }
 
     override fun onCreate() {
         super.onCreate()
@@ -32,6 +32,11 @@ class App : Application() {
     override fun onLowMemory() {
         super.onLowMemory()
         Glide.get(this).onLowMemory()
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        Glide.get(this).onTrimMemory(level)
     }
 
     companion object {
