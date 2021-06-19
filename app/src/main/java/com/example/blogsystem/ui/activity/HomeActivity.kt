@@ -79,13 +79,13 @@ class HomeActivity : BaseActivity() {
         mBinding.homeBottomNav.setOnNavigationItemSelectedListener {
             val viewPager2 = mBinding.homeViewPager2
             if (it.itemId == R.id.home) {
-                viewPager2.currentItem = 0
+                viewPager2.setCurrentItem(0, false)
             }
             if (it.itemId == R.id.discover) {
                 viewPager2.currentItem = 1
             }
             if (it.itemId == R.id.me) {
-                viewPager2.currentItem = 2
+                viewPager2.setCurrentItem(2, false)
             }
             true
         }
