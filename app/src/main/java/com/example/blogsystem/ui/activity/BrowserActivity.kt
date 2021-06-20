@@ -11,6 +11,8 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.View
+import androidx.annotation.WorkerThread
+import androidx.lifecycle.lifecycleScope
 import cn.bingoogolapple.qrcode.zxing.QRCodeDecoder
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ObjectUtils
@@ -23,6 +25,9 @@ import com.tencent.smtt.sdk.ValueCallback
 import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class BrowserActivity : BaseActivity() {
 
@@ -62,29 +67,27 @@ class BrowserActivity : BaseActivity() {
         webView.setOnLongClickListener {
             val result: WebView.HitTestResult = webView.hitTestResult
             when (result.type) {
-                WebView.HitTestResult.IMAGE_TYPE, WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE -> Thread {
-                    try {
-                        val message = parseQrImage(result)
-                        simpleToast(message ?: "二维码识别失败")
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        simpleToast("二维码解析异常")
+                WebView.HitTestResult.IMAGE_TYPE, WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE -> lifecycleScope.launch {
+                    runCatching {
+                        withContext(Dispatchers.IO) { parseQrImage(result) }
+                    }.onSuccess { message ->
+                        simpleToast(message ?: "没有识别到任何内容")
                     }
-                }.start()
+                }
             }
             true
         }
     }
 
+    /**
+     * 只能在子线程中调用
+     */
+    @WorkerThread
     @Throws(Exception::class)
     private fun parseQrImage(result: WebView.HitTestResult): String? {
-        var message: String? = null
         val extra = result.extra
-        val drawable = Glide.with(this).load(extra).fallbackDrawable
-        if (drawable != null) {
-            message = QRCodeDecoder.syncDecodeQRCode(ConvertUtils.drawable2Bitmap(drawable))
-        }
-        return message
+        val drawable = Glide.with(this).asDrawable().load(extra).submit().get()
+        return QRCodeDecoder.syncDecodeQRCode(ConvertUtils.drawable2Bitmap(drawable))
     }
 
     override fun initView() {
