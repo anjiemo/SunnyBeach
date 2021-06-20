@@ -2335,6 +2335,7 @@ id view_tree_saved_state_registry_owner
 id view_tree_view_model_store_owner
 id visible
 id visible_removing_fragment_view_tag
+id vp2_home_article_container
 id webView
 id withText
 id withinBounds
@@ -2431,6 +2432,7 @@ layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
 layout dynamic_feature_install_fragment
+layout fragment_article_list
 layout fragment_discover
 layout fragment_home
 layout fragment_login

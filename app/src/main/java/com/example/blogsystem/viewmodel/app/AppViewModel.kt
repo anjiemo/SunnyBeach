@@ -44,9 +44,9 @@ class AppViewModel(application: Application) : AndroidViewModel(application),
         if (available.not()) return@launch
         runCatching {
             api.checkAppUpdate(url)
-        }.onSuccess {
-            if (DEFAULT_HTTP_OK_CODE == it.code) {
-                val responseData = it.data
+        }.onSuccess { response ->
+            val responseData = response.data
+            if (DEFAULT_HTTP_OK_CODE == response.code) {
                 // App检查更新成功
                 val currentVersion = AppConfig.getVersionCode()
                 logByDebug(msg = "===> currentVersion:$currentVersion")

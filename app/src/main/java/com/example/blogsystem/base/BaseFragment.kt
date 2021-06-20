@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 
 open class BaseFragment : Fragment, Init {
 
-    protected val TAG: String = javaClass.simpleName
     protected lateinit var mRootView: View
 
     constructor() : super()

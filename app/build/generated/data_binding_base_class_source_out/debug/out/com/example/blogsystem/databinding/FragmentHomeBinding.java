@@ -9,8 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
+import androidx.viewpager2.widget.ViewPager2;
 import com.example.blogsystem.R;
 import com.example.blogsystem.view.RoundRelativeLayout;
 import com.google.android.material.tabs.TabLayout;
@@ -21,9 +21,6 @@ import java.lang.String;
 public final class FragmentHomeBinding implements ViewBinding {
   @NonNull
   private final LinearLayout rootView;
-
-  @NonNull
-  public final RecyclerView articleListRv;
 
   @NonNull
   public final TextView homeSearchTv;
@@ -43,18 +40,21 @@ public final class FragmentHomeBinding implements ViewBinding {
   @NonNull
   public final LinearLayout topLayout;
 
-  private FragmentHomeBinding(@NonNull LinearLayout rootView, @NonNull RecyclerView articleListRv,
-      @NonNull TextView homeSearchTv, @NonNull RoundRelativeLayout searchContainer,
-      @NonNull ImageView searchIv, @NonNull LinearLayout settingContainer,
-      @NonNull TabLayout tabLayoutCategories, @NonNull LinearLayout topLayout) {
+  @NonNull
+  public final ViewPager2 vp2HomeArticleContainer;
+
+  private FragmentHomeBinding(@NonNull LinearLayout rootView, @NonNull TextView homeSearchTv,
+      @NonNull RoundRelativeLayout searchContainer, @NonNull ImageView searchIv,
+      @NonNull LinearLayout settingContainer, @NonNull TabLayout tabLayoutCategories,
+      @NonNull LinearLayout topLayout, @NonNull ViewPager2 vp2HomeArticleContainer) {
     this.rootView = rootView;
-    this.articleListRv = articleListRv;
     this.homeSearchTv = homeSearchTv;
     this.searchContainer = searchContainer;
     this.searchIv = searchIv;
     this.settingContainer = settingContainer;
     this.tabLayoutCategories = tabLayoutCategories;
     this.topLayout = topLayout;
+    this.vp2HomeArticleContainer = vp2HomeArticleContainer;
   }
 
   @Override
@@ -84,12 +84,6 @@ public final class FragmentHomeBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.articleListRv;
-      RecyclerView articleListRv = rootView.findViewById(id);
-      if (articleListRv == null) {
-        break missingId;
-      }
-
       id = R.id.homeSearchTv;
       TextView homeSearchTv = rootView.findViewById(id);
       if (homeSearchTv == null) {
@@ -126,8 +120,14 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentHomeBinding((LinearLayout) rootView, articleListRv, homeSearchTv,
-          searchContainer, searchIv, settingContainer, tabLayoutCategories, topLayout);
+      id = R.id.vp2_home_article_container;
+      ViewPager2 vp2HomeArticleContainer = rootView.findViewById(id);
+      if (vp2HomeArticleContainer == null) {
+        break missingId;
+      }
+
+      return new FragmentHomeBinding((LinearLayout) rootView, homeSearchTv, searchContainer,
+          searchIv, settingContainer, tabLayoutCategories, topLayout, vp2HomeArticleContainer);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
