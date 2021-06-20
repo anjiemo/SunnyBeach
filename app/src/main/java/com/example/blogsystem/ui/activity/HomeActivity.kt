@@ -54,10 +54,10 @@ class HomeActivity : BaseActivity() {
     override fun initView() {
         fullWindow()
         mBinding.homeBottomNav.clearLongClickTips()
-        mFragmentAdapter = FragmentAdapter(supportFragmentManager, lifecycle)
-        mBinding.homeViewPager2.let {
-            it.isUserInputEnabled = false
-            it.adapter = mFragmentAdapter
+        mFragmentAdapter = FragmentAdapter(this)
+        mBinding.homeViewPager2.apply {
+            isUserInputEnabled = false
+            adapter = mFragmentAdapter
         }
         appUpdateDialogBuilder = AlertDialog.Builder(this)
     }

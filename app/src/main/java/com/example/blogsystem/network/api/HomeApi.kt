@@ -13,7 +13,7 @@ interface HomeApi {
      * 根据分类id获取内容
      */
     @GET("${SUNNY_BEACH_BASE_URL}ct/content/home/recommend/{categoryId}/{page}")
-    suspend fun getCommendContentByCategoryId(
+    suspend fun getArticleListByCategoryId(
         @Path("categoryId") categoryId: String,
         @Path("page") page: Int
     ): BaseResponse<ArticleInfo>
