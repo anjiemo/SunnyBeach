@@ -54,6 +54,8 @@ MERGED from [com.tencent:mmkv-static:1.2.9] D:\ProgramFiles\GradleWorkSpace\cach
 MERGED from [com.umeng.umsdk:asms:1.2.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\53e252752c74fce858e1f589cf7ddb9c\transformed\jetified-asms-1.2.3\AndroidManifest.xml:2:1-11:12
 MERGED from [com.umeng.umsdk:apm:1.2.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fd0601c49a37c712732f40f53389d96d\transformed\jetified-apm-1.2.0\AndroidManifest.xml:2:1-11:12
 MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:2:1-29:12
+MERGED from [com.github.getActivity:TitleBar:8.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\a77f746fdb15fea3f8c197f324dbabf7\transformed\jetified-TitleBar-8.6\AndroidManifest.xml:2:1-9:12
+MERGED from [cn.bingoogolapple:bga-qrcode-zxing:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f354c62b8f2906b969d6731dea1fef7e\transformed\jetified-bga-qrcode-zxing-1.2.1\AndroidManifest.xml:2:1-10:12
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\99e404ab356af7c580f1cc4e92c6c0ee\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.navigation:navigation-fragment:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d7bd3221389b8d64102ab46110dcd9af\transformed\navigation-fragment-2.3.5\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.fragment:fragment:1.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f7d90cc1dc62392a666f90b73608564d\transformed\fragment-1.3.5\AndroidManifest.xml:17:1-24:12
@@ -96,6 +98,7 @@ MERGED from [androidx.documentfile:documentfile:1.0.0] D:\ProgramFiles\GradleWor
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\e63fda2078b9a42a67373a35d83ab9f5\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b7451a8669fd1128d340e3d73d881c37\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\750d0db0fd6b321fd31d764984bc3821\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [cn.bingoogolapple:bga-qrcode-core:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31f1393fad9ee0096cde6cb42a345ab5\transformed\jetified-bga-qrcode-core-1.2.1\AndroidManifest.xml:2:1-19:12
 MERGED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:2:1-23:12
 INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-224:12
 INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-224:12
@@ -620,6 +623,10 @@ MERGED from [com.umeng.umsdk:apm:1.2.0] D:\ProgramFiles\GradleWorkSpace\caches\t
 MERGED from [com.umeng.umsdk:apm:1.2.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fd0601c49a37c712732f40f53389d96d\transformed\jetified-apm-1.2.0\AndroidManifest.xml:7:5-9:41
 MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:7:5-9:41
 MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7cb9024887ddb0349c3684aaed78eee7\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.getActivity:TitleBar:8.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\a77f746fdb15fea3f8c197f324dbabf7\transformed\jetified-TitleBar-8.6\AndroidManifest.xml:7:5-44
+MERGED from [com.github.getActivity:TitleBar:8.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\a77f746fdb15fea3f8c197f324dbabf7\transformed\jetified-TitleBar-8.6\AndroidManifest.xml:7:5-44
+MERGED from [cn.bingoogolapple:bga-qrcode-zxing:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f354c62b8f2906b969d6731dea1fef7e\transformed\jetified-bga-qrcode-zxing-1.2.1\AndroidManifest.xml:6:5-8:41
+MERGED from [cn.bingoogolapple:bga-qrcode-zxing:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f354c62b8f2906b969d6731dea1fef7e\transformed\jetified-bga-qrcode-zxing-1.2.1\AndroidManifest.xml:6:5-8:41
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\99e404ab356af7c580f1cc4e92c6c0ee\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\99e404ab356af7c580f1cc4e92c6c0ee\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.navigation:navigation-fragment:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\d7bd3221389b8d64102ab46110dcd9af\transformed\navigation-fragment-2.3.5\AndroidManifest.xml:20:5-22:41
@@ -704,6 +711,8 @@ MERGED from [androidx.print:print:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\
 MERGED from [androidx.print:print:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b7451a8669fd1128d340e3d73d881c37\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\750d0db0fd6b321fd31d764984bc3821\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\750d0db0fd6b321fd31d764984bc3821\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [cn.bingoogolapple:bga-qrcode-core:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31f1393fad9ee0096cde6cb42a345ab5\transformed\jetified-bga-qrcode-core-1.2.1\AndroidManifest.xml:5:5-7:41
+MERGED from [cn.bingoogolapple:bga-qrcode-core:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31f1393fad9ee0096cde6cb42a345ab5\transformed\jetified-bga-qrcode-core-1.2.1\AndroidManifest.xml:5:5-7:41
 MERGED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:4:3-70
 MERGED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:4:3-70
 INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
@@ -812,6 +821,26 @@ ADDED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpac
 		ADDED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\964c26a35f7d9f71ea0c263eb00fa1fd\transformed\jetified-emoji2-1.0.0-alpha02\AndroidManifest.xml:33:17-49
 	android:name
 		ADDED from [androidx.emoji2:emoji2:1.0.0-alpha02] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\964c26a35f7d9f71ea0c263eb00fa1fd\transformed\jetified-emoji2-1.0.0-alpha02\AndroidManifest.xml:32:17-75
+uses-permission#android.permission.CAMERA
+ADDED from [cn.bingoogolapple:bga-qrcode-core:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31f1393fad9ee0096cde6cb42a345ab5\transformed\jetified-bga-qrcode-core-1.2.1\AndroidManifest.xml:9:5-65
+	android:name
+		ADDED from [cn.bingoogolapple:bga-qrcode-core:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31f1393fad9ee0096cde6cb42a345ab5\transformed\jetified-bga-qrcode-core-1.2.1\AndroidManifest.xml:9:22-62
+uses-permission#android.permission.FLASHLIGHT
+ADDED from [cn.bingoogolapple:bga-qrcode-core:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31f1393fad9ee0096cde6cb42a345ab5\transformed\jetified-bga-qrcode-core-1.2.1\AndroidManifest.xml:10:5-69
+	android:name
+		ADDED from [cn.bingoogolapple:bga-qrcode-core:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31f1393fad9ee0096cde6cb42a345ab5\transformed\jetified-bga-qrcode-core-1.2.1\AndroidManifest.xml:10:22-66
+uses-feature#android.hardware.camera.autofocus
+ADDED from [cn.bingoogolapple:bga-qrcode-core:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31f1393fad9ee0096cde6cb42a345ab5\transformed\jetified-bga-qrcode-core-1.2.1\AndroidManifest.xml:12:5-14:36
+	android:required
+		ADDED from [cn.bingoogolapple:bga-qrcode-core:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31f1393fad9ee0096cde6cb42a345ab5\transformed\jetified-bga-qrcode-core-1.2.1\AndroidManifest.xml:14:9-33
+	android:name
+		ADDED from [cn.bingoogolapple:bga-qrcode-core:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31f1393fad9ee0096cde6cb42a345ab5\transformed\jetified-bga-qrcode-core-1.2.1\AndroidManifest.xml:13:9-57
+uses-feature#android.hardware.camera.flash
+ADDED from [cn.bingoogolapple:bga-qrcode-core:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31f1393fad9ee0096cde6cb42a345ab5\transformed\jetified-bga-qrcode-core-1.2.1\AndroidManifest.xml:15:5-17:36
+	android:required
+		ADDED from [cn.bingoogolapple:bga-qrcode-core:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31f1393fad9ee0096cde6cb42a345ab5\transformed\jetified-bga-qrcode-core-1.2.1\AndroidManifest.xml:17:9-33
+	android:name
+		ADDED from [cn.bingoogolapple:bga-qrcode-core:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31f1393fad9ee0096cde6cb42a345ab5\transformed\jetified-bga-qrcode-core-1.2.1\AndroidManifest.xml:16:9-53
 uses-permission#android.permission.FOREGROUND_SERVICE
 ADDED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:8:3-74
 	android:name
