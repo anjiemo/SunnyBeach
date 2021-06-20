@@ -87,14 +87,9 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/articleListRv"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp2_home_article_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="6dp"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="20"
-        tools:listitem="@layout/item_article" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

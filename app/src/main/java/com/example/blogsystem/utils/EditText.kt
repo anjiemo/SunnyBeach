@@ -12,7 +12,7 @@ val TextView.textString
  * 用于简化将 afterTextChanged 操作设置为 EditText 组件的扩展功能
  */
 fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
-    this.addTextChangedListener(object : TextWatcher {
+    addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(editable: Editable?) {
             afterTextChanged.invoke(editable.toString())
         }
