@@ -127,6 +127,7 @@ attr autoSizePresetSizes
 attr autoSizeStepGranularity
 attr autoSizeTextType
 attr autoTransition
+attr backButton
 attr background
 attr backgroundColor
 attr backgroundInsetBottom
@@ -160,6 +161,7 @@ attr banner_loop_time
 attr banner_orientation
 attr banner_radius
 attr barLength
+attr barStyle
 attr barrierAllowsGoneWidgets
 attr barrierDirection
 attr barrierMargin
@@ -613,11 +615,20 @@ attr layout_keyline
 attr layout_optimizationLevel
 attr layout_scrollFlags
 attr layout_scrollInterpolator
+attr leftBackground
+attr leftColor
+attr leftIcon
+attr leftSize
+attr leftTint
+attr leftTitle
 attr liftOnScroll
 attr liftOnScrollTargetViewId
 attr limitBoundsTo
+attr lineColor
 attr lineHeight
+attr lineSize
 attr lineSpacing
+attr lineVisible
 attr linearProgressIndicatorStyle
 attr listChoiceBackgroundIndicator
 attr listChoiceIndicatorMultipleAnimated
@@ -777,6 +788,37 @@ attr pressedTranslationZ
 attr progressBarPadding
 attr progressBarStyle
 attr progressDestination
+attr qrcv_animTime
+attr qrcv_barCodeTipText
+attr qrcv_barcodeRectHeight
+attr qrcv_borderColor
+attr qrcv_borderSize
+attr qrcv_cornerColor
+attr qrcv_cornerLength
+attr qrcv_cornerSize
+attr qrcv_customGridScanLineDrawable
+attr qrcv_customScanLineDrawable
+attr qrcv_isBarcode
+attr qrcv_isCenterVertical
+attr qrcv_isOnlyDecodeScanBoxArea
+attr qrcv_isScanLineReverse
+attr qrcv_isShowDefaultGridScanLineDrawable
+attr qrcv_isShowDefaultScanLineDrawable
+attr qrcv_isShowTipBackground
+attr qrcv_isShowTipTextAsSingleLine
+attr qrcv_isTipTextBelowRect
+attr qrcv_maskColor
+attr qrcv_qrCodeTipText
+attr qrcv_rectWidth
+attr qrcv_scanLineColor
+attr qrcv_scanLineMargin
+attr qrcv_scanLineSize
+attr qrcv_tipBackgroundColor
+attr qrcv_tipTextColor
+attr qrcv_tipTextMargin
+attr qrcv_tipTextSize
+attr qrcv_toolbarHeight
+attr qrcv_topOffset
 attr queryBackground
 attr queryHint
 attr queryPatterns
@@ -791,6 +833,12 @@ attr region_heightMoreThan
 attr region_widthLessThan
 attr region_widthMoreThan
 attr reverseLayout
+attr rightBackground
+attr rightColor
+attr rightIcon
+attr rightSize
+attr rightTint
+attr rightTitle
 attr rippleColor
 attr rlClipBackground
 attr rlRadius
@@ -954,13 +1002,17 @@ attr tickVisible
 attr tint
 attr tintMode
 attr title
+attr titleColor
 attr titleEnabled
+attr titleGravity
 attr titleMargin
 attr titleMarginBottom
 attr titleMarginEnd
 attr titleMarginStart
 attr titleMarginTop
 attr titleMargins
+attr titleSize
+attr titleStyle
 attr titleTextAppearance
 attr titleTextColor
 attr titleTextStyle
@@ -1720,6 +1772,8 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable avd_hide_password
 drawable avd_show_password
+drawable bar_arrows_left_black
+drawable bar_arrows_left_white
 drawable bg_clear_day
 drawable bg_clear_night
 drawable bg_cloudy
@@ -1812,6 +1866,7 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable progress_horizontal
 drawable search_bg
 drawable shape_button_bg
 drawable shape_circle_btn
@@ -1918,7 +1973,9 @@ id barrier
 id baseline
 id beginOnFirstDraw
 id beginning
+id bgaqrcode_camera_preview
 id blocking
+id bold
 id bottom
 id bounce
 id button
@@ -2074,6 +2131,7 @@ id largeLabel
 id layout
 id left
 id leftToRight
+id light
 id likeContainer
 id line1
 id line3
@@ -2150,6 +2208,7 @@ id nav_host_fragment_container
 id nav_host_fragment_content_login
 id navigation_header_container
 id never
+id night
 id noScroll
 id none
 id normal
@@ -2178,6 +2237,7 @@ id photoListRv
 id pin
 id position
 id postLayout
+id progressBar
 id progress_action
 id progress_circular
 id progress_horizontal
@@ -2197,6 +2257,7 @@ id right
 id rightToLeft
 id right_icon
 id right_side
+id ripple
 id rounded
 id row_index_key
 id save_non_transition_alpha
@@ -2299,6 +2360,7 @@ id textinput_prefix_text
 id textinput_suffix_text
 id time
 id title
+id titleBar
 id titleDividerNoCustom
 id title_template
 id toggle
@@ -2315,6 +2377,7 @@ id transition_layout_save
 id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
+id transparent
 id triangle
 id tv_article_title
 id tv_create_time
@@ -2532,6 +2595,9 @@ mipmap ic_no_image
 mipmap ic_no_photo
 mipmap ic_right
 mipmap ic_setting
+mipmap img_refresh
+mipmap qrcode_default_grid_scan_line
+mipmap qrcode_default_scan_line
 navigation home_nav_graph
 navigation nav_graph
 plurals mtrl_badge_content_description
@@ -3543,6 +3609,7 @@ styleable OnSwipe dragDirection dragScale dragThreshold limitBoundsTo maxAcceler
 styleable PopupWindow android_popupBackground android_popupAnimationStyle overlapAnchor
 styleable PopupWindowBackgroundState state_above_anchor
 styleable PropertySet android_visibility android_alpha layout_constraintTag motionProgress visibilityMode
+styleable QRCodeView qrcv_animTime qrcv_barCodeTipText qrcv_barcodeRectHeight qrcv_borderColor qrcv_borderSize qrcv_cornerColor qrcv_cornerLength qrcv_cornerSize qrcv_customGridScanLineDrawable qrcv_customScanLineDrawable qrcv_isBarcode qrcv_isCenterVertical qrcv_isOnlyDecodeScanBoxArea qrcv_isScanLineReverse qrcv_isShowDefaultGridScanLineDrawable qrcv_isShowDefaultScanLineDrawable qrcv_isShowTipBackground qrcv_isShowTipTextAsSingleLine qrcv_isTipTextBelowRect qrcv_maskColor qrcv_qrCodeTipText qrcv_rectWidth qrcv_scanLineColor qrcv_scanLineMargin qrcv_scanLineSize qrcv_tipBackgroundColor qrcv_tipTextColor qrcv_tipTextMargin qrcv_tipTextSize qrcv_toolbarHeight qrcv_topOffset
 styleable RadialViewGroup materialCircleRadius
 styleable RangeSlider minSeparation values
 styleable RecycleListView paddingBottomNoButtons paddingTopNoTitle
@@ -3570,6 +3637,7 @@ styleable TextAppearance android_textSize android_typeface android_textStyle and
 styleable TextInputEditText textInputLayoutFocusedRectEnabled
 styleable TextInputLayout android_enabled android_textColorHint android_hint boxBackgroundColor boxBackgroundMode boxCollapsedPaddingTop boxCornerRadiusBottomEnd boxCornerRadiusBottomStart boxCornerRadiusTopEnd boxCornerRadiusTopStart boxStrokeColor boxStrokeErrorColor boxStrokeWidth boxStrokeWidthFocused counterEnabled counterMaxLength counterOverflowTextAppearance counterOverflowTextColor counterTextAppearance counterTextColor endIconCheckable endIconContentDescription endIconDrawable endIconMode endIconTint endIconTintMode errorContentDescription errorEnabled errorIconDrawable errorIconTint errorIconTintMode errorTextAppearance errorTextColor expandedHintEnabled helperText helperTextEnabled helperTextTextAppearance helperTextTextColor hintAnimationEnabled hintEnabled hintTextAppearance hintTextColor passwordToggleContentDescription passwordToggleDrawable passwordToggleEnabled passwordToggleTint passwordToggleTintMode placeholderText placeholderTextAppearance placeholderTextColor prefixText prefixTextAppearance prefixTextColor shapeAppearance shapeAppearanceOverlay startIconCheckable startIconContentDescription startIconDrawable startIconTint startIconTintMode suffixText suffixTextAppearance suffixTextColor
 styleable ThemeEnforcement android_textAppearance enforceMaterialTheme enforceTextAppearance
+styleable TitleBar android_drawablePadding android_paddingHorizontal android_paddingVertical drawableSize title backButton barStyle leftBackground leftColor leftIcon leftSize leftTint leftTitle lineColor lineSize lineVisible rightBackground rightColor rightIcon rightSize rightTint rightTitle titleColor titleGravity titleSize titleStyle
 styleable Toolbar android_gravity android_minHeight buttonGravity collapseContentDescription collapseIcon contentInsetEnd contentInsetEndWithActions contentInsetLeft contentInsetRight contentInsetStart contentInsetStartWithNavigation logo logoDescription maxButtonHeight menu navigationContentDescription navigationIcon popupTheme subtitle subtitleTextAppearance subtitleTextColor title titleMargin titleMarginBottom titleMarginEnd titleMarginStart titleMarginTop titleMargins titleTextAppearance titleTextColor
 styleable Tooltip android_textAppearance android_padding android_layout_margin android_minWidth android_minHeight android_text backgroundTint
 styleable Transform android_transformPivotX android_transformPivotY android_translationX android_translationY android_scaleX android_scaleY android_rotation android_rotationX android_rotationY android_translationZ android_elevation

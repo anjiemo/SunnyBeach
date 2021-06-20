@@ -32,7 +32,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            shrinkResources false // 是否去除无效的资源文件
+            shrinkResources true // 是否去除无效的资源文件
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -133,4 +133,8 @@ dependencies {
     // 动画解析库：https://github.com/airbnb/lottie-android
     // 动画资源：https://lottiefiles.com/
     implementation 'com.airbnb.android:lottie:3.4.0'
+    // 标题栏框架：https://github.com/getActivity/TitleBar
+    implementation 'com.github.getActivity:TitleBar:8.6'
+    // 二维码：https://github.com/bingoogolapple/BGAQRCode-Android
+    implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.2.1'
 }
