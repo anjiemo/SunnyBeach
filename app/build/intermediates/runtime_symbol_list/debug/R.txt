@@ -865,6 +865,7 @@ int attr suffixText 0x7f03031d
 int attr suffixTextAppearance 0x7f03031e
 int attr suffixTextColor 0x7f03031f
 int attr suggestionRowLayout 0x7f030320
+int attr swipeRefreshLayoutProgressSpinnerBackgroundColor 0x7f0303b9
 int attr switchMinWidth 0x7f030321
 int attr switchPadding 0x7f030322
 int attr switchStyle 0x7f030323
@@ -2186,6 +2187,7 @@ int id radio 0x7f08016d
 int id ratio 0x7f08016e
 int id reInput_layout_password 0x7f08016f
 int id rectangles 0x7f080170
+int id refreshLayout 0x7f08020c
 int id refreshStateBtn 0x7f080171
 int id restart 0x7f080172
 int id reverse 0x7f080173
@@ -4904,6 +4906,8 @@ int[] styleable StateListDrawableItem { 0x01010199 }
 int styleable StateListDrawableItem_android_drawable 0
 int[] styleable StateSet { 0x7f030121 }
 int styleable StateSet_defaultState 0
+int[] styleable SwipeRefreshLayout { 0x7f0303b9 }
+int styleable SwipeRefreshLayout_swipeRefreshLayoutProgressSpinnerBackgroundColor 0
 int[] styleable SwitchCompat { 0x01010124, 0x01010125, 0x01010142, 0x7f0302f3, 0x7f030302, 0x7f030321, 0x7f030322, 0x7f030324, 0x7f03036b, 0x7f03036c, 0x7f03036d, 0x7f03038c, 0x7f030393, 0x7f030394 }
 int styleable SwitchCompat_android_textOn 0
 int styleable SwitchCompat_android_textOff 1
