@@ -117,7 +117,7 @@
     <string name="send_verify_code">发送验证码</string>
 
     <string name="check_update_error">检查更新失败</string>
-    <string name="network_error">网络异常</string>
+    <string name="network_error">网络开小差啦~</string>
 
     <string name="http_loading">加载中&#8230;</string>
 
