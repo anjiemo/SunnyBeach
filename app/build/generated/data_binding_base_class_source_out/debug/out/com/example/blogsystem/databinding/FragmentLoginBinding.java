@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
@@ -19,7 +19,7 @@ import java.lang.String;
 
 public final class FragmentLoginBinding implements ViewBinding {
   @NonNull
-  private final RelativeLayout rootView;
+  private final LinearLayout rootView;
 
   @NonNull
   public final Button buttonForgotPassword;
@@ -51,12 +51,11 @@ public final class FragmentLoginBinding implements ViewBinding {
   @NonNull
   public final TextInputLayout inputLayoutVerifyCode;
 
-  private FragmentLoginBinding(@NonNull RelativeLayout rootView,
-      @NonNull Button buttonForgotPassword, @NonNull Button buttonLogin,
-      @NonNull Button buttonRegister, @NonNull TextInputEditText editAccount,
-      @NonNull TextInputEditText editPassword, @NonNull TextInputEditText editVerifyCode,
-      @NonNull ImageView imageVerifyCode, @NonNull TextInputLayout inputLayoutAccount,
-      @NonNull TextInputLayout inputLayoutPassword,
+  private FragmentLoginBinding(@NonNull LinearLayout rootView, @NonNull Button buttonForgotPassword,
+      @NonNull Button buttonLogin, @NonNull Button buttonRegister,
+      @NonNull TextInputEditText editAccount, @NonNull TextInputEditText editPassword,
+      @NonNull TextInputEditText editVerifyCode, @NonNull ImageView imageVerifyCode,
+      @NonNull TextInputLayout inputLayoutAccount, @NonNull TextInputLayout inputLayoutPassword,
       @NonNull TextInputLayout inputLayoutVerifyCode) {
     this.rootView = rootView;
     this.buttonForgotPassword = buttonForgotPassword;
@@ -73,7 +72,7 @@ public final class FragmentLoginBinding implements ViewBinding {
 
   @Override
   @NonNull
-  public RelativeLayout getRoot() {
+  public LinearLayout getRoot() {
     return rootView;
   }
 
@@ -158,7 +157,7 @@ public final class FragmentLoginBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentLoginBinding((RelativeLayout) rootView, buttonForgotPassword, buttonLogin,
+      return new FragmentLoginBinding((LinearLayout) rootView, buttonForgotPassword, buttonLogin,
           buttonRegister, editAccount, editPassword, editVerifyCode, imageVerifyCode,
           inputLayoutAccount, inputLayoutPassword, inputLayoutVerifyCode);
     }

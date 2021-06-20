@@ -5,10 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.Guideline;
 import androidx.viewbinding.ViewBinding;
 import com.example.blogsystem.R;
 import com.google.android.material.textfield.TextInputLayout;
@@ -18,7 +17,7 @@ import java.lang.String;
 
 public final class FragmentRegisterBinding implements ViewBinding {
   @NonNull
-  private final FrameLayout rootView;
+  private final LinearLayout rootView;
 
   @NonNull
   public final Button buttonBack;
@@ -28,15 +27,6 @@ public final class FragmentRegisterBinding implements ViewBinding {
 
   @NonNull
   public final Button buttonVerifyCode;
-
-  @NonNull
-  public final Guideline guideline1;
-
-  @NonNull
-  public final Guideline guideline4;
-
-  @NonNull
-  public final Guideline guideline5;
 
   @NonNull
   public final TextInputLayout inputLayoutAccount;
@@ -50,9 +40,8 @@ public final class FragmentRegisterBinding implements ViewBinding {
   @NonNull
   public final TextInputLayout reInputLayoutPassword;
 
-  private FragmentRegisterBinding(@NonNull FrameLayout rootView, @NonNull Button buttonBack,
-      @NonNull Button buttonSignUp, @NonNull Button buttonVerifyCode, @NonNull Guideline guideline1,
-      @NonNull Guideline guideline4, @NonNull Guideline guideline5,
+  private FragmentRegisterBinding(@NonNull LinearLayout rootView, @NonNull Button buttonBack,
+      @NonNull Button buttonSignUp, @NonNull Button buttonVerifyCode,
       @NonNull TextInputLayout inputLayoutAccount, @NonNull TextInputLayout inputLayoutPassword,
       @NonNull TextInputLayout inputLayoutVerifyCode,
       @NonNull TextInputLayout reInputLayoutPassword) {
@@ -60,9 +49,6 @@ public final class FragmentRegisterBinding implements ViewBinding {
     this.buttonBack = buttonBack;
     this.buttonSignUp = buttonSignUp;
     this.buttonVerifyCode = buttonVerifyCode;
-    this.guideline1 = guideline1;
-    this.guideline4 = guideline4;
-    this.guideline5 = guideline5;
     this.inputLayoutAccount = inputLayoutAccount;
     this.inputLayoutPassword = inputLayoutPassword;
     this.inputLayoutVerifyCode = inputLayoutVerifyCode;
@@ -71,7 +57,7 @@ public final class FragmentRegisterBinding implements ViewBinding {
 
   @Override
   @NonNull
-  public FrameLayout getRoot() {
+  public LinearLayout getRoot() {
     return rootView;
   }
 
@@ -114,24 +100,6 @@ public final class FragmentRegisterBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.guideline1;
-      Guideline guideline1 = rootView.findViewById(id);
-      if (guideline1 == null) {
-        break missingId;
-      }
-
-      id = R.id.guideline4;
-      Guideline guideline4 = rootView.findViewById(id);
-      if (guideline4 == null) {
-        break missingId;
-      }
-
-      id = R.id.guideline5;
-      Guideline guideline5 = rootView.findViewById(id);
-      if (guideline5 == null) {
-        break missingId;
-      }
-
       id = R.id.input_layout_account;
       TextInputLayout inputLayoutAccount = rootView.findViewById(id);
       if (inputLayoutAccount == null) {
@@ -156,9 +124,9 @@ public final class FragmentRegisterBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentRegisterBinding((FrameLayout) rootView, buttonBack, buttonSignUp,
-          buttonVerifyCode, guideline1, guideline4, guideline5, inputLayoutAccount,
-          inputLayoutPassword, inputLayoutVerifyCode, reInputLayoutPassword);
+      return new FragmentRegisterBinding((LinearLayout) rootView, buttonBack, buttonSignUp,
+          buttonVerifyCode, inputLayoutAccount, inputLayoutPassword, inputLayoutVerifyCode,
+          reInputLayoutPassword);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
