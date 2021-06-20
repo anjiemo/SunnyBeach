@@ -37,7 +37,8 @@
         tools:targetApi="n">
         <activity
             android:name=".ui.activity.BrowserActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop" />
         <activity
             android:name=".ui.activity.LoginActivity"
             android:exported="true"
