@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  */
 data class UserBasicInfo(
     @SerializedName("avatar")
-    val avatar: String? = DEFAULT_AVATAR_URL,
+    val avatar: String = DEFAULT_AVATAR_URL,
     @SerializedName("fansCount")
     val fansCount: Any,
     @SerializedName("followCount")
