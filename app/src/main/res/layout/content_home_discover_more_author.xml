@@ -11,55 +11,62 @@
     android:paddingStart="10dp"
     android:paddingTop="16dp"
     android:paddingEnd="10dp"
-    android:paddingBottom="16dp"
-    tools:showIn="@layout/fragment_home">
+    android:paddingBottom="16dp">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0px"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="发现更多优秀作者"
         android:textColor="@color/black"
         android:textSize="21sp" />
 
-    <LinearLayout
-        android:id="@+id/discoverLL"
-        android:layout_width="match_parent"
+    <HorizontalScrollView
+        android:layout_width="0px"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical|right"
-        android:orientation="horizontal"
-        tools:ignore="RtlHardcoded">
+        android:layout_weight="1">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@mipmap/ic_avatar" />
+        <LinearLayout
+            android:id="@+id/discoverLL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:gravity="center_vertical|right"
+            android:orientation="horizontal"
+            tools:ignore="RtlHardcoded">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:src="@mipmap/ic_avatar" />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/ic_avatar" />
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="4dp"
-            android:src="@mipmap/ic_avatar" />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:src="@mipmap/ic_avatar" />
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@mipmap/ic_avatar" />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="4dp"
+                android:src="@mipmap/ic_avatar" />
 
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center_vertical"
-            android:padding="10dp"
-            android:src="@mipmap/ic_right" />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/ic_avatar" />
 
-    </LinearLayout>
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:padding="10dp"
+                android:src="@mipmap/ic_right" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
 
 </LinearLayout>

@@ -1,23 +1,23 @@
 -- Merging decision tree log ---
 action#com.example.blogsystem.intent.action.COMMAND
-INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:160:17-81
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:161:17-81
 	android:name
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:160:25-78
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:161:25-78
 provider#com.umeng.message.provider.MessageProvider
-INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:207:9-212:20
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:208:9-213:20
 	android:authorities
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:209:13-65
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:210:13-65
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:210:13-37
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:211:13-37
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:208:13-70
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:209:13-70
 manifest
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-224:12
-INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-224:12
-INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-224:12
-INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-224:12
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-225:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-225:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-225:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-225:12
 MERGED from [androidx.databinding:databinding-adapters:4.2.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\179fe4863a8dd1c3e85ed4dc5f67e5be\transformed\databinding-adapters-4.2.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.databinding:databinding-runtime:4.2.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\daf059e0a0f51b033a4a1c68f7ecd91f\transformed\databinding-runtime-4.2.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.databinding:viewbinding:4.2.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2c73243d61f3022d2c36d7a6880f2a83\transformed\jetified-viewbinding-4.2.0\AndroidManifest.xml:17:1-22:12
@@ -100,22 +100,22 @@ MERGED from [androidx.print:print:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\750d0db0fd6b321fd31d764984bc3821\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [cn.bingoogolapple:bga-qrcode-core:1.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\31f1393fad9ee0096cde6cb42a345ab5\transformed\jetified-bga-qrcode-core-1.2.1\AndroidManifest.xml:2:1-19:12
 MERGED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\fe60d2efb61a8f058c324cebe2479f3b\transformed\jetified-core-1.9.1\AndroidManifest.xml:2:1-23:12
-INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-224:12
-INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-224:12
-INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-224:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-225:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-225:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-225:12
 	package
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:4:5-37
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-224:12
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-225:12
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
 	xmlns:tools
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-224:12
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-225:12
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:11-69
@@ -206,7 +206,7 @@ MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpac
 	android:name
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:25:22-65
 application
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:27:5-222:19
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:27:5-223:19
 MERGED from [com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\89308bfc4cb0959710450af9f5ee0589\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:10:5-14:19
 MERGED from [com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\89308bfc4cb0959710450af9f5ee0589\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:10:5-14:19
 MERGED from [com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b555f27b96184823636e160578b2b912\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:9:5-39:19
@@ -258,295 +258,297 @@ MERGED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace
 	android:name
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:28:9-33
 activity#com.example.blogsystem.ui.activity.BrowserActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:38:9-40:39
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:38:9-41:46
+	android:launchMode
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:41:13-43
 	android:exported
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:40:13-36
 	android:name
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:39:13-56
 activity#com.example.blogsystem.ui.activity.LoginActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:41:9-47:67
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:42:9-48:67
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:45:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:46:13-49
 	android:label
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:44:13-57
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:45:13-57
 	android:windowSoftInputMode
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:48:13-64
+	android:exported
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:44:13-36
+	android:theme
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:47:13-64
-	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:43:13-36
-	android:theme
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:46:13-64
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:42:13-54
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:43:13-54
 activity#com.example.blogsystem.ui.activity.ScrollingActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:48:9-53:67
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:49:9-54:67
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:52:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:53:13-49
 	android:label
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:51:13-61
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:52:13-61
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:50:13-36
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:51:13-36
 	android:theme
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:53:13-64
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:54:13-64
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:49:13-58
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:50:13-58
 activity#com.example.blogsystem.ui.activity.GalleryActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:54:9-57:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:55:9-58:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:57:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:58:13-49
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:56:13-36
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:57:13-36
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:55:13-56
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:56:13-56
 activity#com.example.blogsystem.ui.activity.SplashActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:58:9-69:20
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:59:9-70:20
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:62:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:63:13-49
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:61:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:62:13-43
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:60:13-36
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:61:13-36
 	android:theme
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:63:13-47
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:64:13-47
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:59:13-55
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:60:13-55
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:64:13-68:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:65:13-69:29
 action#android.intent.action.MAIN
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:65:17-69
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:66:17-69
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:65:25-66
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:66:25-66
 category#android.intent.category.LAUNCHER
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:67:17-77
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:68:17-77
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:67:27-74
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:68:27-74
 activity#com.example.blogsystem.ui.activity.HomeActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:70:9-74:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:71:9-75:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:74:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:75:13-49
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:73:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:74:13-43
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:72:13-36
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:73:13-36
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:71:13-53
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:72:13-53
 service#com.taobao.accs.ChannelService
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:76:9-86:19
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:77:9-87:19
 	android:process
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:79:13-39
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:80:13-39
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:78:13-36
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:79:13-36
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:77:13-58
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:78:13-58
 intent-filter#action:name:com.taobao.accs.intent.action.SERVICE
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:80:13-82:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:81:13-83:29
 action#com.taobao.accs.intent.action.SERVICE
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:81:17-80
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:82:17-80
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:81:25-77
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:82:25-77
 intent-filter#action:name:com.taobao.accs.intent.action.ELECTION
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:83:13-85:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:84:13-86:29
 action#com.taobao.accs.intent.action.ELECTION
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:84:17-81
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:85:17-81
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:84:25-78
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:85:25-78
 service#com.taobao.accs.data.MsgDistributeService
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:87:9-93:19
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:88:9-94:19
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:89:13-36
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:90:13-36
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:88:13-69
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:89:13-69
 intent-filter#action:name:com.taobao.accs.intent.action.RECEIVE
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:90:13-92:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:91:13-93:29
 action#com.taobao.accs.intent.action.RECEIVE
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:91:17-80
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:92:17-80
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:91:25-77
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:92:25-77
 receiver#com.taobao.accs.EventReceiver
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:95:9-112:20
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:96:9-113:20
 	android:process
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:97:13-39
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:98:13-39
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:96:13-57
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:97:13-57
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:98:13-100:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:99:13-101:29
 action#android.intent.action.BOOT_COMPLETED
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:99:17-79
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:100:17-79
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:99:25-76
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:100:25-76
 intent-filter#action:name:android.net.conn.CONNECTIVITY_CHANGE
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:101:13-103:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:102:13-104:29
 action#android.net.conn.CONNECTIVITY_CHANGE
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:102:17-79
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:103:17-79
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:102:25-76
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:103:25-76
 intent-filter#action:name:android.intent.action.PACKAGE_REMOVED+data:scheme:package
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:104:13-108:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:105:13-109:29
 action#android.intent.action.PACKAGE_REMOVED
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:105:17-80
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:106:17-80
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:105:25-77
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:106:25-77
 data
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:107:17-50
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:108:17-50
 	android:scheme
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:107:23-47
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:108:23-47
 intent-filter#action:name:android.intent.action.USER_PRESENT
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:109:13-111:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:110:13-112:29
 action#android.intent.action.USER_PRESENT
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:110:17-77
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:111:17-77
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:110:25-74
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:111:25-74
 receiver#com.taobao.accs.ServiceReceiver
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:113:9-122:20
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:114:9-123:20
 	android:process
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:115:13-39
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:116:13-39
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:114:13-59
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:115:13-59
 intent-filter#action:name:com.taobao.accs.intent.action.COMMAND
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:116:13-118:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:117:13-119:29
 action#com.taobao.accs.intent.action.COMMAND
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:117:17-80
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:118:17-80
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:117:25-77
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:118:25-77
 intent-filter#action:name:com.taobao.accs.intent.action.START_FROM_AGOO
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:119:13-121:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:120:13-122:29
 action#com.taobao.accs.intent.action.START_FROM_AGOO
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:120:17-88
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:121:17-88
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:120:25-85
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:121:25-85
 service#com.taobao.accs.internal.AccsJobService
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:124:9-127:42
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:125:9-128:42
 	android:process
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:127:13-39
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:128:13-39
 	android:permission
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:126:13-69
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:127:13-69
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:125:13-67
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:126:13-67
 service#com.taobao.accs.ChannelService$KernelService
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:128:9-130:42
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:129:9-131:42
 	android:process
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:130:13-39
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:131:13-39
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:129:13-72
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:130:13-72
 service#org.android.agoo.accs.AgooService
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:131:9-137:19
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:132:9-138:19
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:133:13-36
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:134:13-36
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:132:13-61
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:133:13-61
 service#com.umeng.message.UmengIntentService
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:138:9-145:19
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:139:9-146:19
 	android:process
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:141:13-39
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:142:13-39
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:140:13-36
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:141:13-36
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:139:13-64
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:140:13-64
 intent-filter#action:name:org.agoo.android.intent.action.RECEIVE
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:142:13-144:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:143:13-145:29
 action#org.agoo.android.intent.action.RECEIVE
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:143:17-81
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:144:17-81
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:143:25-78
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:144:25-78
 service#com.umeng.message.XiaomiIntentService
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:146:9-153:19
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:147:9-154:19
 	android:process
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:149:13-39
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:150:13-39
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:148:13-36
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:149:13-36
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:147:13-65
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:148:13-65
 receiver#com.taobao.agoo.AgooCommondReceiver
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:155:9-167:20
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:156:9-168:20
 	android:process
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:158:13-39
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:159:13-39
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:157:13-36
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:158:13-36
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:156:13-63
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:157:13-63
 intent-filter#action:name:com.example.blogsystem.intent.action.COMMAND
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:159:13-161:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:160:13-162:29
 service#com.umeng.message.UmengMessageIntentReceiverService
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:169:9-176:19
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:170:9-177:19
 	android:process
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:172:13-39
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:173:13-39
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:171:13-36
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:172:13-36
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:170:13-79
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:171:13-79
 intent-filter#action:name:org.android.agoo.client.MessageReceiverService
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:173:13-175:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:174:13-176:29
 action#org.android.agoo.client.MessageReceiverService
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:174:17-89
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:175:17-89
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:174:25-86
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:175:25-86
 receiver#com.umeng.message.NotificationProxyBroadcastReceiver
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:178:9-180:40
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:179:9-181:40
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:180:13-37
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:181:13-37
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:179:13-80
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:180:13-80
 service#com.umeng.message.UmengMessageCallbackHandlerService
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:182:9-201:19
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:183:9-202:19
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:184:13-37
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:185:13-37
 	android:permission
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:185:13-69
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:186:13-69
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:183:13-80
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:184:13-80
 intent-filter#action:name:com.umeng.messge.registercallback.action
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:186:13-188:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:187:13-189:29
 action#com.umeng.messge.registercallback.action
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:187:17-83
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:188:17-83
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:187:25-80
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:188:25-80
 intent-filter#action:name:com.umeng.message.enablecallback.action
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:189:13-191:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:190:13-192:29
 action#com.umeng.message.enablecallback.action
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:190:17-82
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:191:17-82
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:190:25-79
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:191:25-79
 intent-filter#action:name:com.umeng.message.disablecallback.action
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:192:13-194:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:193:13-195:29
 action#com.umeng.message.disablecallback.action
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:193:17-83
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:194:17-83
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:193:25-80
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:194:25-80
 intent-filter#action:name:com.umeng.message.message.handler.action
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:195:13-197:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:196:13-198:29
 action#com.umeng.message.message.handler.action
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:196:17-83
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:197:17-83
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:196:25-80
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:197:25-80
 intent-filter#action:name:com.umeng.message.message.sendmessage.action
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:198:13-200:29
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:199:13-201:29
 action#com.umeng.message.message.sendmessage.action
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:199:17-87
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:200:17-87
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:199:25-84
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:200:25-84
 service#com.umeng.message.UmengDownloadResourceService
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:202:9-205:72
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:203:9-206:72
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:204:13-37
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:205:13-37
 	android:permission
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:205:13-69
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:206:13-69
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:203:13-74
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:204:13-74
 provider#androidx.core.content.FileProvider
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:213:9-221:20
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:214:9-222:20
 	android:grantUriPermissions
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:217:13-47
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:218:13-47
 	android:authorities
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:215:13-81
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:216:13-81
 	android:exported
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:216:13-37
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:217:13-37
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:214:13-62
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:215:13-62
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:218:13-220:72
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:219:13-221:72
 	android:resource
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:220:17-69
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:221:17-69
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:219:17-67
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:220:17-67
 uses-sdk
 INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
@@ -726,9 +728,9 @@ INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xm
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
 grant-uri-permission
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:211:13-62
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:212:13-62
 	android:pathPattern
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:211:35-59
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:212:35-59
 meta-data#com.bumptech.glide.integration.okhttp3.OkHttpGlideModule
 ADDED from [com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\89308bfc4cb0959710450af9f5ee0589\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:11:9-13:43
 	android:value
