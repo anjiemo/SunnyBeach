@@ -35,15 +35,15 @@ public class BaseFragment extends androidx.fragment.app.Fragment implements com.
     public void callAllInit() {
     }
     
-    public void initData() {
-    }
-    
-    public void initEvent() {
-    }
-    
     public void initSDK() {
     }
     
     public void initView() {
+    }
+    
+    public void initData() {
+    }
+    
+    public void initEvent() {
     }
 }
