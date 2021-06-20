@@ -44,27 +44,34 @@
                 android:textStyle="bold"
                 tools:text="一文教你快速上手Kotlin协程的使用" />
 
-            <TextView
-                android:id="@+id/tv_nick_name"
-                android:layout_width="120dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_article_title"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:ellipsize="end"
-                android:singleLine="true"
-                tools:text="A Lonely Cat" />
-
-            <TextView
-                android:id="@+id/tv_create_time"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_article_title"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp"
-                android:ellipsize="end"
-                android:singleLine="true" />
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_nick_name"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="14dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    tools:text="A Lonely Cat" />
+
+                <TextView
+                    android:id="@+id/tv_create_time"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:singleLine="true" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -87,7 +94,7 @@
 
         <TextView
             android:id="@+id/tv_view_count"
-            android:layout_width="100dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             tools:text="12" />
