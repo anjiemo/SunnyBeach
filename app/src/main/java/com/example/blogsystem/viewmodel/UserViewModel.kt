@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.RegexUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.example.blogsystem.R
 import com.example.blogsystem.base.App
 import com.example.blogsystem.execption.LoginFailedException
@@ -16,10 +17,7 @@ import com.example.blogsystem.model.User
 import com.example.blogsystem.model.UserBasicInfo
 import com.example.blogsystem.network.ServiceCreator
 import com.example.blogsystem.network.api.UserApi
-import com.example.blogsystem.utils.SUNNY_BEACH_HTTP_OK_CODE
-import com.example.blogsystem.utils.SUNNY_BEACH_USER_BASIC_INFO
-import com.example.blogsystem.utils.md5
-import com.example.blogsystem.utils.toJson
+import com.example.blogsystem.utils.*
 import com.example.blogsystem.viewmodel.login.LoggedInUserView
 import com.example.blogsystem.viewmodel.login.LoginFormState
 import com.example.blogsystem.viewmodel.login.LoginResult
@@ -76,6 +74,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     )
                 )
         }.onFailure {
+            ToastUtils.showLong(it.toString())
             _loginResult.value =
                 LoginResult(error = context.getString(R.string.login_failed))
         }

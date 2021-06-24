@@ -123,9 +123,6 @@ dependencies {
     implementation 'com.umeng.umsdk:agoo_networksdk:3.5.8'
     implementation 'com.umeng.umsdk:agoo_tnet4android:3.1.14.10'
 
-    //集成U-APM（可选）
-    implementation 'com.umeng.umsdk:apm:1.2.0'
-
     // 小米更新SDK：https://dev.mi.com/console/doc/detail?pId=4
     implementation 'mi-appstore:xiaomi-update-sdk:4.0.3'
     // //完整版引入：https://github.com/CarGuo/GSYVideoPlayer

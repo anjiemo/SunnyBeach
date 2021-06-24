@@ -20,6 +20,7 @@ abstract class CookieRoomDatabase : RoomDatabase() {
         @Volatile
         private var sINSTANCE: CookieRoomDatabase? = null
 
+        @JvmStatic
         fun getDatabase(context: Context): CookieRoomDatabase {
             //如果 INSTANCE 不为空，则返回它，如果是，则创建数据库
             return sINSTANCE ?: synchronized(this) {
