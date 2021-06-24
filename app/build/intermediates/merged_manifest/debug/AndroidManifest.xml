@@ -1,242 +1,270 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.blogsystem"
+    package="cn.cqautotest.sunnybeach.debug"
     android:versionCode="3"
-    android:versionName="1.2" >
+    android:versionName="2.0" >
 
     <uses-sdk
-        android:minSdkVersion="23"
+        android:minSdkVersion="21"
         android:targetSdkVersion="30" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 网络相关 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <uses-permission android:name="android.permission.SET_WALLPAPER" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 以下为需要的基本权限，需要自行添加至您的AndroidManifest文件中 start -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_ADDED" />
-    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_CHANGED" />
-    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_INSTALL" />
-    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_REPLACED" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- 以下为需要的基本权限，需要自行添加至您的AndroidManifest文件中 end -->
-    <uses-permission android:name="com.xiaomi.market.sdk.UPDATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 设置壁纸权限 -->
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <!-- 外部存储 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <!-- 拍照权限 -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <!-- 安装权限 -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!-- 定位权限（用于 WebView 定位） -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- Android 11 软件包可见性适配：https://www.jianshu.com/p/d1ccd425c4ce -->
+    <queries>
 
-    <uses-feature
-        android:name="android.hardware.camera.autofocus"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.camera.flash"
-        android:required="false" /> <!-- Permission will be merged into the manifest of the hosting app. -->
-    <!-- Is required to launch foreground extraction service for targetSdkVersion 28+. -->
+        <!-- 拍照意图：MediaStore.ACTION_IMAGE_CAPTURE -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+
+        <!-- 拍摄意图：MediaStore.ACTION_VIDEO_CAPTURE -->
+        <intent>
+            <action android:name="android.media.action.VIDEO_CAPTURE" />
+        </intent>
+
+        <!-- 图片裁剪意图 -->
+        <intent>
+            <action android:name="com.android.camera.action.CROP" />
+        </intent>
+
+        <!-- 打电话意图：Intent.ACTION_DIAL -->
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+        </intent>
+
+        <!-- 分享意图：Intent.ACTION_SEND -->
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+        </intent>
+
+        <!-- 调起其他页面意图：Intent.ACTION_VIEW -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+        </intent>
+        <!-- 手 Q 的包名 -->
+        <package android:name="com.tencent.mobileqq" /> <!-- 微信的包名 -->
+        <package android:name="com.tencent.mm" />
+    </queries>
+
+    <!-- 友盟统计 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- To allow starting foreground services on Android P+ - https://developer.android.com/preview/behavior-changes#fg-svc -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="com.xiaomi.market.sdk.UPDATE" />
 
     <application
-        android:name="com.example.blogsystem.base.App"
-        android:allowBackup="true"
+        android:name="cn.cqautotest.sunnybeach.app.AppApplication"
+        android:allowBackup="false"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
-        android:extractNativeLibs="false"
-        android:icon="@mipmap/ic_icon"
-        android:label="@string/app_name"
+        android:icon="@mipmap/launcher_ic"
+        android:label="阳光沙滩 Debug 版"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/ic_icon"
-        android:supportsRtl="true"
-        android:testOnly="true"
-        android:theme="@style/Theme.BlogSystem" >
-        <activity
-            android:name="com.example.blogsystem.ui.activity.BrowserActivity"
-            android:exported="true"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.example.blogsystem.ui.activity.LoginActivity"
-            android:exported="true"
-            android:label="@string/title_activity_login"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.BlogSystem.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity
-            android:name="com.example.blogsystem.ui.activity.ScrollingActivity"
-            android:exported="true"
-            android:label="@string/title_activity_scrolling"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.BlogSystem.NoActionBar" />
-        <activity
-            android:name="com.example.blogsystem.ui.activity.GalleryActivity"
-            android:exported="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.example.blogsystem.ui.activity.SplashActivity"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        android:resizeableActivity="true"
+        android:roundIcon="@mipmap/launcher_ic"
+        android:supportsRtl="false"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true" >
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.example.blogsystem.ui.activity.HomeActivity"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <!-- 以下为基本配置信息，需要自行添加至您的AndroidManifest文件中 start -->
-        <service
-            android:name="com.taobao.accs.ChannelService"
-            android:exported="true"
-            android:process=":channel" >
-            <intent-filter>
-                <action android:name="com.taobao.accs.intent.action.SERVICE" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.taobao.accs.intent.action.ELECTION" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.taobao.accs.data.MsgDistributeService"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.taobao.accs.intent.action.RECEIVE" />
-            </intent-filter>
-        </service>
-
-        <receiver
-            android:name="com.taobao.accs.EventReceiver"
-            android:process=":channel" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
-                <data android:scheme="package" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="com.taobao.accs.ServiceReceiver"
-            android:process=":channel" >
-            <intent-filter>
-                <action android:name="com.taobao.accs.intent.action.COMMAND" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.taobao.accs.intent.action.START_FROM_AGOO" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name="com.taobao.accs.internal.AccsJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            android:process=":channel" />
-        <service
-            android:name="com.taobao.accs.ChannelService$KernelService"
-            android:process=":channel" />
-        <service
-            android:name="org.android.agoo.accs.AgooService"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.taobao.accs.intent.action.RECEIVE" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.umeng.message.UmengIntentService"
-            android:exported="true"
-            android:process=":channel" >
-            <intent-filter>
-                <action android:name="org.agoo.android.intent.action.RECEIVE" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.umeng.message.XiaomiIntentService"
-            android:exported="true"
-            android:process=":channel" >
-            <intent-filter>
-                <action android:name="org.agoo.android.intent.action.RECEIVE" />
-            </intent-filter>
-        </service>
-
-        <receiver
-            android:name="com.taobao.agoo.AgooCommondReceiver"
-            android:exported="true"
-            android:process=":channel" >
-            <intent-filter>
-                <action android:name="com.example.blogsystem.intent.action.COMMAND" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
-                <data android:scheme="package" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name="com.umeng.message.UmengMessageIntentReceiverService"
-            android:exported="true"
-            android:process=":channel" >
-            <intent-filter>
-                <action android:name="org.android.agoo.client.MessageReceiverService" />
-            </intent-filter>
-        </service>
-
-        <receiver
-            android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
-            android:exported="false" />
-
-        <service
-            android:name="com.umeng.message.UmengMessageCallbackHandlerService"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" >
-            <intent-filter>
-                <action android:name="com.umeng.messge.registercallback.action" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.umeng.message.enablecallback.action" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.umeng.message.disablecallback.action" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.umeng.message.message.handler.action" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.umeng.message.message.sendmessage.action" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.umeng.message.UmengDownloadResourceService"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
-        <provider
-            android:name="com.umeng.message.provider.MessageProvider"
-            android:authorities="com.example.blogsystem.umeng.message"
-            android:exported="false" >
-            <grant-uri-permission android:pathPattern=".*" />
-        </provider> <!-- 以下为基本配置信息，需要自行添加至您的AndroidManifest文件中 end -->
+        <!-- 适配 Android 7.0 文件意图 -->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.blogsystem.selfupdate.fileprovider"
+            android:authorities="cn.cqautotest.sunnybeach.debug.provider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/xiaomi_update_sdk_file_paths" />
+                android:resource="@xml/file_paths" />
         </provider>
+        <!-- 闪屏页 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.SplashActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme" >
+
+            <!-- 程序入口 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- 引导页 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.GuideActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 首页 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.HomeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 登录页 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.LoginActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 注册页 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.RegisterActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 崩溃展示（必须在独立进程） -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.CrashActivity"
+            android:launchMode="singleTop"
+            android:process=":crash"
+            android:screenOrientation="landscape" />
+        <!-- 重启应用（必须在独立进程） -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.RestartActivity"
+            android:launchMode="singleTop"
+            android:process=":restart" />
+        <!-- 设置页 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.SettingActivity"
+            android:label="@string/setting_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 忘记密码 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.PasswordForgetActivity"
+            android:label="@string/password_forget_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 重置密码 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.PasswordResetActivity"
+            android:label="@string/password_reset_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 更换手机 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.PhoneResetActivity"
+            android:label="@string/phone_reset_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 关于我们 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.AboutActivity"
+            android:label="@string/about_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 个人资料 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.PersonalDataActivity"
+            android:label="@string/personal_data_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 网页浏览 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.BrowserActivity"
+            android:label="@string/web_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 拍照选择 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.CameraActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 图片选择 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.ImageSelectActivity"
+            android:label="@string/image_select_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 查看大图 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 播放视频 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.VideoPlayActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/FullScreenTheme" />
+        <!-- 选择视频 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.VideoSelectActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 对话框案例 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.DialogActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 状态案例 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.StatusActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- 图片查看（仿抖音） -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.GalleryActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name="leakcanary.internal.HeapAnalyzerService"
+            android:exported="false" /> <!-- 友盟 Key（请在 Gradle 中配置，请不要在此处修改） -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5cb16d93570df399fd0014e2" /> <!-- QQ AppId（请在 Gradle 中配置，请不要在此处修改） -->
+        <meta-data
+            android:name="QQ_APPID"
+            android:value="101828096" /> <!-- QQ Key（请在 Gradle 中配置，请不要在此处修改） -->
+        <meta-data
+            android:name="QQ_APPKEY"
+            android:value="9dfd3300c3aa3c4596a07796c64914b2" /> <!-- 微信 AppId（请在 Gradle 中配置，请不要在此处修改） -->
+        <meta-data
+            android:name="WX_APPID"
+            android:value="wxd35706cc9f46114c" /> <!-- 微信 Key（请在 Gradle 中配置，请不要在此处修改） -->
+        <meta-data
+            android:name="WX_APPKEY"
+            android:value="0c8c7cf831dd135a32b3e395ea459b5a" /> <!-- 友盟社会化 -->
+        <!-- QQ 回调 -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent101828096" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- 微信回调（请注意这个 Activity 放置的包名要和当前项目的包名保持一致，否则将不能正常回调） -->
+        <!-- suppress AndroidDomInspection -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.debug.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <meta-data
             android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
@@ -256,7 +284,7 @@
 
         <provider
             android:name="com.blankj.utilcode.util.UtilsFileProvider"
-            android:authorities="com.example.blogsystem.utilcode.fileprovider"
+            android:authorities="cn.cqautotest.sunnybeach.debug.utilcode.provider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data
@@ -268,9 +296,66 @@
             android:name="com.blankj.utilcode.util.MessengerUtils$ServerService"
             android:exported="false" >
             <intent-filter>
-                <action android:name="com.example.blogsystem.messenger" />
+                <action android:name="cn.cqautotest.sunnybeach.debug.messenger" />
             </intent-filter>
         </service>
+
+        <provider
+            android:name="leakcanary.internal.LeakCanaryFileProvider"
+            android:authorities="com.squareup.leakcanary.fileprovider.cn.cqautotest.sunnybeach.debug"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/leak_canary_file_paths" />
+        </provider>
+
+        <activity
+            android:name="leakcanary.internal.activity.LeakActivity"
+            android:icon="@mipmap/leak_canary_icon"
+            android:label="@string/leak_canary_display_activity_label"
+            android:taskAffinity="com.squareup.leakcanary.cn.cqautotest.sunnybeach.debug"
+            android:theme="@style/leak_canary_LeakCanary.Base" />
+
+        <activity-alias
+            android:name="leakcanary.internal.activity.LeakLauncherActivity"
+            android:banner="@drawable/leak_canary_tv_icon"
+            android:enabled="@bool/leak_canary_add_launcher_icon"
+            android:icon="@mipmap/leak_canary_icon"
+            android:label="@string/leak_canary_display_activity_label"
+            android:targetActivity="leakcanary.internal.activity.LeakActivity"
+            android:taskAffinity="com.squareup.leakcanary.cn.cqautotest.sunnybeach.debug"
+            android:theme="@style/leak_canary_LeakCanary.Base" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <!-- Android TV launcher intent -->
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity
+            android:name="leakcanary.internal.RequestStoragePermissionActivity"
+            android:excludeFromRecents="true"
+            android:icon="@mipmap/leak_canary_icon"
+            android:label="@string/leak_canary_storage_permission_activity_label"
+            android:taskAffinity="com.squareup.leakcanary.cn.cqautotest.sunnybeach.debug"
+            android:theme="@style/leak_canary_Theme.Transparent" />
+
+        <receiver android:name="leakcanary.internal.NotificationReceiver" />
+
+        <provider
+            android:name="leakcanary.internal.AppWatcherInstaller$MainProcess"
+            android:authorities="cn.cqautotest.sunnybeach.debug.leakcanary-installer"
+            android:enabled="@bool/leak_canary_watcher_auto_install"
+            android:exported="false" />
+        <provider
+            android:name="leakcanary.internal.PlumberInstaller"
+            android:authorities="cn.cqautotest.sunnybeach.debug.plumber-installer"
+            android:enabled="@bool/leak_canary_plumber_auto_install"
+            android:exported="false" />
+
         <service
             android:name="androidx.room.MultiInstanceInvalidationService"
             android:directBootAware="true"
@@ -280,16 +365,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
-        </receiver>
-
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="com.example.blogsystem.androidx-startup"
-            android:exported="false" >
-            <meta-data
-                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-                android:value="androidx.startup" />
-        </provider> <!-- The activities will be merged into the manifest of the hosting app. -->
+        </receiver> <!-- The activities will be merged into the manifest of the hosting app. -->
         <activity
             android:name="com.google.android.play.core.missingsplits.PlayCoreMissingSplitsActivity"
             android:enabled="false"

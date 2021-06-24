@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en\\values-en.xml",
+            "outputFile": "D:\\ProgramFiles\\Android\\AndroidProjectNew\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en\\values-en.xml",
             "map": [
                 {
-                    "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\bf23e535a5d222dd5f05e201e6ef121d\\transformed\\jetified-BaseRecyclerViewAdapterHelper-3.0.4\\res\\values-en\\values-en.xml",
+                    "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\70091873c47d699d7c0e3a28c308c0de\\transformed\\jetified-BaseRecyclerViewAdapterHelper-3.0.4\\res\\values-en\\values-en.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

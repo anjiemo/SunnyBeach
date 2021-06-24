@@ -1,49 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DesignSurface">
-    <option name="filePathToZoomLevelMap">
-      <map>
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.14895833333333333" />
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14895833333333333" />
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/drawable/shape_circle_btn.xml" value="0.26614583333333336" />
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/layout/activity_gallery.xml" value="0.176" />
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/layout/activity_home.xml" value="0.11639492753623189" />
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/layout/activity_main.xml" value="0.176" />
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/layout/activity_scrolling.xml" value="0.17447916666666666" />
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/layout/activity_splash.xml" value="0.176" />
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/layout/content_scrolling.xml" value="0.17447916666666666" />
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/layout/fragment_discover.xml" value="0.17707150964812712" />
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/layout/fragment_home.xml" value="0.176" />
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/layout/fragment_me.xml" value="0.176" />
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/layout/fragment_music.xml" value="0.22509057971014493" />
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/layout/item_article.xml" value="0.2" />
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/layout/item_photo.xml" value="0.18229166666666666" />
-        <entry key="..\:/Android/BlogSystem/app/src/main/res/menu/home_menu.xml" value="0.19322916666666667" />
-        <entry key="..\:/Android/BlogSystem/hook/src/main/res/layout/activity_main.xml" value="0.13697916666666668" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.145" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/drawable/ic_launcher_background.xml" value="0.145" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/drawable/ic_splash.xml" value="0.145" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/drawable/ic_top_radius_10dp.xml" value="0.1455" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/drawable/ic_top_radius_20dp.xml" value="0.145" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/drawable/shape_button_bg.xml" value="0.1455" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/drawable/shape_circle_btn.xml" value="0.145" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/layout/activity_browser.xml" value="0.24003623188405798" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/layout/activity_home.xml" value="0.1734375" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/layout/activity_login.xml" value="0.16927083333333334" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/layout/activity_splash.xml" value="0.18645833333333334" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/layout/content_login.xml" value="0.16927083333333334" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/layout/fragment_first.xml" value="0.16041666666666668" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/layout/fragment_login.xml" value="0.2" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/layout/fragment_me.xml" value="0.16927083333333334" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/layout/fragment_register.xml" value="0.25364583333333335" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/layout/fragment_second.xml" value="0.16041666666666668" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/layout/test.xml" value="0.1734375" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/menu/home_menu.xml" value="0.15555555555555556" />
-        <entry key="..\:/ProgramFiles/Android/BlogSystem/app/src/main/res/xml/network_security_config.xml" value="0.15989583333333332" />
-      </map>
-    </option>
-  </component>
-  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

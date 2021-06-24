@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.blogsystem.view.RoundRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="340dp"
     android:orientation="vertical"
-    app:rlClipBackground="true"
-    app:rlRadius="8dp">
+    android:background="@drawable/home_search_bar_gray_bg">
 
     <ImageView
         android:id="@+id/photoIv"
@@ -13,4 +11,4 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
-</com.example.blogsystem.view.RoundRelativeLayout>
+</FrameLayout>
