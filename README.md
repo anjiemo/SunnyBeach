@@ -5,7 +5,7 @@
 # 版本信息
 当前版本：1.0
 # 技术栈
-Kotlin、Glide、EasyHttp、Retrofit、OkHttp、BRVAH、XXPermissions、AndroidUtilCode、Room、UmengSDK、MiPush。
+Jetpack、Kotlin、Glide、EasyHttp、Retrofit、OkHttp、BRVAH、XXPermissions、AndroidUtilCode、UmengSDK、MiPush。
 
 # 项目截图
 
@@ -24,7 +24,9 @@ Kotlin、Glide、EasyHttp、Retrofit、OkHttp、BRVAH、XXPermissions、AndroidU
 # 关于作者
 
 作者昵称：A Lonely Cat、anjiemo
+
 github：https://github.com/anjiemo
+
 gitee：https://gitee.com/anjiemo
 
 # 体验地址

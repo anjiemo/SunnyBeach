@@ -4,12 +4,12 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\activity_browser.xml"
     },
     {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_bg_cloudy.jpg.flat",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\bg_cloudy.jpg"
-    },
-    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\navigation_nav_graph.xml.flat",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\navigation\\nav_graph.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_bg_cloudy.jpg.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\bg_cloudy.jpg"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_bg_fog.jpg.flat",
@@ -122,10 +122,6 @@
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_great.png.flat",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_great.png"
-    },
-    {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\raw_guide_video.mp4.flat",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\raw\\guide_video.mp4"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher.webp.flat",
