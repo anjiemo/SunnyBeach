@@ -1,22 +1,61 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+// AndroidProject 版本：v12.1
+// 发布日期：2021 年 02 月 27 日
 buildscript {
+
+    ext {
+        kotlin_version = '1.4.0'
+    }
     repositories {
-        maven{ url'https://maven.aliyun.com/repository/google' }
-        google()
-        maven{ url'https://maven.aliyun.com/nexus/content/groups/public/' }
-        maven{ url'https://maven.aliyun.com/nexus/content/repositories/jcenter'}
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        // 阿里云云效仓库，提升编译速度：https://maven.aliyun.com/mvn/guide
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://jitpack.io' }
+        // maven { url 'https://repo1.maven.org/maven2/' }
+        // 友盟仓库：https://bintray.com/umsdk/release
+        maven { url 'https://dl.bintray.com/umsdk/release' }
+        // jcenter()
+        google()
         mavenCentral()
     }
-    dependencies {
-        def nav_version = "2.3.5"
-        classpath 'com.android.tools.build:gradle:4.2.0'
-        // Please do not upgrade version, Unless you can solve the problem
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32'
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+    // Studio 插件推荐：https://github.com/getActivity/StudioPlugins
+    dependencies {
+        // noinspection GradleDependency
+        classpath 'com.android.tools.build:gradle:4.2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        // AOP 配置插件：https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.10'
+    }
+}
+
+allprojects {
+    repositories {
+        // 阿里云云效仓库，提升编译速度：https://maven.aliyun.com/mvn/guide
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://jitpack.io' }
+        // maven { url 'https://repo1.maven.org/maven2/' }
+        // 友盟仓库：https://bintray.com/umsdk/release
+        maven { url 'https://dl.bintray.com/umsdk/release' }
+        // jcenter()
+        google()
+        mavenCentral()
+    }
+
+    tasks.withType(JavaCompile) {
+        // 设置全局编码
+        options.encoding = 'UTF-8'
+    }
+    tasks.withType(Javadoc) {
+        // 设置文档编码
+        options {
+            encoding 'UTF-8'
+            charSet 'UTF-8'
+            links 'http://docs.oracle.com/javase/7/docs/api'
+        }
     }
 }
 

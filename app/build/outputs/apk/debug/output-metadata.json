@@ -4,15 +4,15 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.example.blogsystem",
+  "applicationId": "cn.cqautotest.sunnybeach.debug",
   "variantName": "debug",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "versionCode": 3,
-      "versionName": "1.2",
-      "outputFile": "app-debug.apk"
+      "versionName": "2.0",
+      "outputFile": "AndroidProjectNew_v2.0_debug.apk"
     }
   ]
 }

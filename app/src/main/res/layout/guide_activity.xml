@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.activity.GuideActivity">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_guide_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="30dp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="30dp">
+
+        <me.relex.circleindicator.CircleIndicator3
+            android:id="@+id/cv_guide_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:ci_drawable="@drawable/guide_indicator_selected"
+            app:ci_drawable_unselected="@drawable/guide_indicator_unselected" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_guide_complete"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:minWidth="160dp"
+            android:text="了解详情"
+            android:visibility="invisible" />
+
+    </FrameLayout>
+
+</FrameLayout>

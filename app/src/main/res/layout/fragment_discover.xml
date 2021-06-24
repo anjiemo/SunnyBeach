@@ -38,7 +38,7 @@
                 android:layout_height="?attr/actionBarSize"
                 app:contentScrim="@android:color/transparent"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/Theme.BlogSystem.PopupOverlay" />
+                app:popupTheme="@style/Theme.SunnyBeach.PopupOverlay" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

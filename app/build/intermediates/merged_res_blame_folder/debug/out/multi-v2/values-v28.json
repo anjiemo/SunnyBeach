@@ -1,10 +1,20 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v28\\values-v28.xml",
+            "outputFile": "D:\\ProgramFiles\\Android\\AndroidProjectNew\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v28\\values-v28.xml",
             "map": [
                 {
-                    "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\37faccb46b3bf9b8568350932d03b467\\transformed\\appcompat-1.4.0-alpha02\\res\\values-v28\\values-v28.xml",
+                    "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\91b46c4ddd3d528dbd51ac8a671a8cc0\\transformed\\material-1.3.0\\res\\values-v28\\values-v28.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,143,231,319,407,494,581,668",
+                        "endColumns": "87,87,87,87,86,86,86,86",
+                        "endOffsets": "138,226,314,402,489,576,663,750"
+                    }
+                },
+                {
+                    "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\76acc9c6c4ac47b65db08e453d048328\\transformed\\appcompat-1.3.0\\res\\values-v28\\values-v28.xml",
                     "from": {
                         "startLines": "2,3,4,8",
                         "startColumns": "4,4,4,4",
@@ -20,16 +30,6 @@
                         "endLines": "10,11,15,19",
                         "endColumns": "74,86,12,12",
                         "endOffsets": "825,912,1142,1384"
-                    }
-                },
-                {
-                    "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\6b35760f09da8fa21e34978ae11c4b87\\transformed\\material-1.3.0\\res\\values-v28\\values-v28.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,143,231,319,407,494,581,668",
-                        "endColumns": "87,87,87,87,86,86,86,86",
-                        "endOffsets": "138,226,314,402,489,576,663,750"
                     }
                 }
             ]
