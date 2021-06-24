@@ -2598,7 +2598,6 @@ mipmap qrcode_default_scan_line
 navigation home_nav_graph
 navigation nav_graph
 plurals mtrl_badge_content_description
-raw guide_video
 raw hamburger
 string abc_action_bar_home_description
 string abc_action_bar_up_description

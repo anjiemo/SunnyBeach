@@ -2597,7 +2597,6 @@ int mipmap qrcode_default_scan_line 0x7f0d0015
 int navigation home_nav_graph 0x7f0e0000
 int navigation nav_graph 0x7f0e0001
 int plurals mtrl_badge_content_description 0x7f0f0000
-int raw guide_video 0x7f100000
 int raw hamburger 0x7f100001
 int string abc_action_bar_home_description 0x7f110000
 int string abc_action_bar_up_description 0x7f110001

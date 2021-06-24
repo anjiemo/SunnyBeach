@@ -59,7 +59,8 @@ public final class CookieDao_Impl implements CookieDao {
   }
 
   @Override
-  public Object save(final List<CookieStore> cookieStoreSet, final Continuation<? super Unit> p1) {
+  public Object save(final List<CookieStore> cookieStoreSet,
+      final Continuation<? super Unit> arg1) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
@@ -72,7 +73,7 @@ public final class CookieDao_Impl implements CookieDao {
           __db.endTransaction();
         }
       }
-    }, p1);
+    }, arg1);
   }
 
   @Override
