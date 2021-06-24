@@ -4,15 +4,15 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.example.blogsystem",
+  "applicationId": "cn.cqautotest.sunnybeach",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "versionCode": 3,
-      "versionName": "1.2",
-      "outputFile": "app-release.apk"
+      "versionName": "2.0",
+      "outputFile": "AndroidProjectNew_v2.0_release_0623.apk"
     }
   ]
 }
