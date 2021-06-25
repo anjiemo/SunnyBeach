@@ -117,6 +117,12 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <!-- 文章详情 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.ArticleDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <!-- 登录页 -->
         <activity
             android:name="cn.cqautotest.sunnybeach.ui.activity.LoginActivity"

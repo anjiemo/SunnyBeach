@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\ProgramFiles\\Android\\AndroidProjectNew\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en-rGB\\values-en-rGB.xml",
+            "outputFile": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en-rGB\\values-en-rGB.xml",
             "map": [
                 {
                     "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\eb11b05800ade22c41173b910f11490f\\transformed\\navigation-ui-2.3.5\\res\\values-en-rGB\\values-en-rGB.xml",

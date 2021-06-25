@@ -5,90 +5,93 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="cn.cqautotest.sunnybeach.ui.fragment.MyHomeFragment">
+    tools:context=".ui.fragment.MyHomeFragment">
 
     <LinearLayout
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingTop="?attr/actionBarSize">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="?attr/actionBarSize"
+        android:paddingBottom="6dp"
+        tools:ignore="RtlSymmetry">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            tools:ignore="RtlSymmetry">
+        <RelativeLayout
+            android:id="@+id/searchContainer"
+            android:layout_width="0px"
+            android:layout_height="40dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/home_search_bar_gray_bg"
+            android:padding="10dp">
 
-            <RelativeLayout
-                android:id="@+id/searchContainer"
-                android:layout_width="0px"
-                android:layout_height="40dp"
-                android:layout_marginStart="14dp"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/home_search_bar_gray_bg"
-                android:padding="10dp">
-
-                <ImageView
-                    android:id="@+id/searchIv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="4dp"
-                    android:src="@drawable/ic_discover" />
-
-                <TextView
-                    android:id="@+id/homeSearchTv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="10dp"
-                    android:layout_toEndOf="@id/searchIv"
-                    android:gravity="center_vertical"
-                    android:hint="搜索文章" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/settingContainer"
+            <ImageView
+                android:id="@+id/searchIv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="14dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/discover_ic" />
+
+            <TextView
+                android:id="@+id/homeSearchTv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/searchIv"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:hint="搜索文章" />
 
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_setting" />
+        </RelativeLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="标签" />
+        <LinearLayout
+            android:id="@+id/settingContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="14dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            </LinearLayout>
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:padding="4dp"
+                android:src="@drawable/setting_ic" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="标签"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout_categories"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            app:tabIndicatorColor="@color/pink"
-            app:tabIndicatorFullWidth="false"
-            app:tabMode="scrollable" />
-
     </LinearLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vp2_home_article_container"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout_categories"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:visibility="visible"
+        app:tabIndicatorColor="@color/pink"
+        app:tabIndicatorFullWidth="false"
+        app:tabMode="scrollable" />
+
+    <cn.cqautotest.sunnybeach.widget.StatusLayout
+        android:id="@+id/hl_my_home_fragment_hint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp2_home_article_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </cn.cqautotest.sunnybeach.widget.StatusLayout>
 
 </LinearLayout>

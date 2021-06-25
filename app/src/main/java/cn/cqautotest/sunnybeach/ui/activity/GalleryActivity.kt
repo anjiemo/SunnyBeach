@@ -1,26 +1,27 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
+import android.Manifest
 import android.app.DownloadManager
 import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import androidx.core.content.getSystemService
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
-import com.bumptech.glide.Glide
-import com.google.gson.Gson
+import cn.cqautotest.sunnybeach.BuildConfig
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
-import cn.cqautotest.sunnybeach.databinding.ActivityGalleryBinding
+import cn.cqautotest.sunnybeach.databinding.GalleryActivityBinding
 import cn.cqautotest.sunnybeach.http.response.model.HomePhotoBean
 import cn.cqautotest.sunnybeach.ui.adapter.PhotoAdapter
-import cn.cqautotest.sunnybeach.utils.fullWindow
-import cn.cqautotest.sunnybeach.utils.logByDebug
-import cn.cqautotest.sunnybeach.utils.simpleToast
-import cn.cqautotest.sunnybeach.utils.toJson
+import cn.cqautotest.sunnybeach.utils.*
 import cn.cqautotest.sunnybeach.viewmodel.SingletonManager
+import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -28,18 +29,35 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/6/18
+ * desc   : 发现图片列表查看界面
+ */
 class GalleryActivity : AppActivity() {
 
     private val discoverViewModel by lazy { SingletonManager.discoverViewModel }
-    private lateinit var mBinding: ActivityGalleryBinding
+    private lateinit var mBinding: GalleryActivityBinding
     private val mPhotoAdapter by lazy { PhotoAdapter(fillBox = true) }
     private val mPhotoList by lazy { arrayListOf<HomePhotoBean.Res.Vertical>() }
 
-    override fun getLayoutId(): Int = R.layout.activity_gallery
+    override fun getLayoutId(): Int = R.layout.gallery_activity
 
-    override fun onContentChanged() {
-        super.onContentChanged()
-        mBinding = ActivityGalleryBinding.bind(contentView)
+    override fun onBindingView() {
+        mBinding = GalleryActivityBinding.bind(contentView)
+    }
+
+    override fun initObserver() {
+        val loadMoreModule = mPhotoAdapter.loadMoreModule
+        discoverViewModel.verticalPhotoList.observe(this) { verticalPhotoList ->
+            logByDebug(msg = "initEvent：===> " + verticalPhotoList.toJson())
+            loadMoreModule.apply {
+                mPhotoAdapter.addData(verticalPhotoList)
+                isEnableLoadMore = true
+                loadMoreComplete()
+            }
+        }
     }
 
     override fun initEvent() {
@@ -53,15 +71,6 @@ class GalleryActivity : AppActivity() {
             intent.setDataAndType(Uri.parse(verticalPhoto.img), "image/*")
             startActivity(intent)
         }
-        val loadMoreModule = mPhotoAdapter.loadMoreModule
-        discoverViewModel.verticalPhotoList.observe(this) { verticalPhotoList ->
-            logByDebug(msg = "initEvent：===> " + verticalPhotoList.toJson())
-            loadMoreModule.apply {
-                mPhotoAdapter.addData(verticalPhotoList)
-                isEnableLoadMore = true
-                loadMoreComplete()
-            }
-        }
         mPhotoAdapter.loadMoreModule.run {
             setOnLoadMoreListener {
                 isEnableLoadMore = false
@@ -71,9 +80,12 @@ class GalleryActivity : AppActivity() {
         mBinding.downLoadPhotoTv.setOnClickListener {
             XXPermissions.with(this)
                 .permission(
-                    arrayOf(
-                        Permission.WRITE_EXTERNAL_STORAGE,
-                        Permission.READ_EXTERNAL_STORAGE
+                    // 适配权限
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+                        arrayOf(Manifest.permission.MANAGE_EXTERNAL_STORAGE)
+                    else arrayOf(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
                     )
                 )
                 .request(object : OnPermissionCallback {
@@ -147,6 +159,10 @@ class GalleryActivity : AppActivity() {
             it.orientation = ViewPager2.ORIENTATION_VERTICAL
             it.adapter = mPhotoAdapter
         }
+        mBinding.settingWallpaperTv.setRoundRectBg(
+            color = Color.parseColor("#66393939"),
+            cornerRadius = 10.dp
+        )
     }
 
     companion object {

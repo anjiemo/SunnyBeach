@@ -33,6 +33,42 @@ class DiscoverViewModel : ViewModel() {
     private val _verticalPhotoList = MutableLiveData<List<HomePhotoBean.Res.Vertical>>()
     val verticalPhotoList: LiveData<List<HomePhotoBean.Res.Vertical>> get() = _verticalPhotoList
 
+    /**
+     * 刷新图片列表数据
+     */
+    fun refreshPhotoList() = viewModelScope.launch {
+        val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
+        if (available.not()) return@launch
+        // 重置当前页为 0
+        _currentPhotoPage.value = 0
+        // 默认当前为第 0 页
+        val currentPage = _currentPhotoPage.value ?: 0
+        // 查询 10 条数据
+        val limit = 10
+        // 设置本次请求需要跳过几张图片
+        val skip = currentPage * 10
+        logByDebug(msg = "===> loadMorePhotoList： currentPage：$currentPage skip：$skip")
+        runCatching {
+            // 查询多少条数据，跳过多少条数据
+            mPhotoApi.loadPhotoList(limit = limit, skip = skip)
+        }.onSuccess { response ->
+            val responseData = response.res.vertical
+            if (0 == response.code) {
+                val cachePhotoList = (_cacheVerticalPhotoList.value ?: listOf()).toMutableList()
+                cachePhotoList.addAll(responseData)
+                // 设置缓存的全部图片集合
+                _cacheVerticalPhotoList.value = cachePhotoList
+                // 本次加载更多的图片集合
+                _verticalPhotoList.value = responseData
+                // 本次查询成功，当前页码 +1
+                _currentPhotoPage.value = currentPage + 1
+            }
+        }
+    }
+
+    /**
+     * 加载更多图片列表数据
+     */
     fun loadMorePhotoList(limit: Int = 10) = viewModelScope.launch {
         val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
         if (available.not()) return@launch

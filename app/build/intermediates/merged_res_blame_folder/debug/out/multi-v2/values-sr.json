@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\ProgramFiles\\Android\\AndroidProjectNew\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sr\\values-sr.xml",
+            "outputFile": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sr\\values-sr.xml",
             "map": [
                 {
                     "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\eb11b05800ade22c41173b910f11490f\\transformed\\navigation-ui-2.3.5\\res\\values-sr\\values-sr.xml",
