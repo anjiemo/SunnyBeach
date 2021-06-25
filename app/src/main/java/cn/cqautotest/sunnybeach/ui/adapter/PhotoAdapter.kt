@@ -2,12 +2,14 @@ package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.view.ViewGroup
 import android.widget.ImageView
+import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.http.response.model.HomePhotoBean
+import com.blankj.utilcode.util.ScreenUtils
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.http.response.model.HomePhotoBean
+import com.hjq.widget.layout.RatioFrameLayout
 
 class PhotoAdapter(val fillBox: Boolean = false) :
     BaseQuickAdapter<HomePhotoBean.Res.Vertical, BaseViewHolder>(R.layout.item_photo),
@@ -32,11 +34,19 @@ class PhotoAdapter(val fillBox: Boolean = false) :
             }
             val photoIv = getView<ImageView>(R.id.photoIv)
             if (fillBox.not()) {
+                // 加载非全屏的图片列表
                 Glide.with(itemView)
                     .load(item.thumb)
                     .placeholder(R.mipmap.ic_bg)
                     .into(photoIv)
             } else {
+                // 设置比例布局全屏
+                val ratioFrameLayout = getView<RatioFrameLayout>(R.id.ratio_frame_layout)
+                ratioFrameLayout.setSizeRatio(
+                    ScreenUtils.getScreenWidth().toFloat(),
+                    ScreenUtils.getScreenHeight().toFloat()
+                )
+                // 加载全屏的图片
                 Glide.with(itemView)
                     .load(item.preview)
                     .placeholder(R.mipmap.ic_bg)
