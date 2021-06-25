@@ -6,113 +6,113 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="21"
-8-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml
+8-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="30" />
-9-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml
+9-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
 10
 11    <!-- 网络相关 -->
 12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-12-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:7:5-79
-12-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:7:22-76
+12-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:7:5-79
+12-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:7:22-76
 13    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-13-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:8:5-76
-13-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:8:22-73
+13-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:8:5-76
+13-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:8:22-73
 14    <uses-permission android:name="android.permission.INTERNET" />
-14-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:9:5-67
-14-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:9:22-64
+14-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9:5-67
+14-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9:22-64
 15    <!-- 设置壁纸权限 -->
 16    <uses-permission android:name="android.permission.SET_WALLPAPER" />
-16-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:11:5-72
-16-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:11:22-69
+16-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:11:5-72
+16-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:11:22-69
 17    <!-- 外部存储 -->
 18    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-18-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:13:5-80
-18-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:13:22-77
+18-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:13:5-80
+18-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:13:22-77
 19    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-19-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:14:5-81
-19-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:14:22-78
+19-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:14:5-81
+19-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:14:22-78
 20    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-20-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:15:5-17:40
-20-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:16:9-66
+20-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:15:5-17:40
+20-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:16:9-66
 21    <!-- 拍照权限 -->
 22    <uses-permission android:name="android.permission.CAMERA" />
-22-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:19:5-65
-22-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:19:22-62
+22-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:19:5-65
+22-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:19:22-62
 23    <!-- 安装权限 -->
 24    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-24-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:21:5-83
-24-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:21:22-80
+24-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:21:5-83
+24-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:21:22-80
 25    <!-- 定位权限（用于 WebView 定位） -->
 26    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-26-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:23:5-79
-26-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:23:22-76
+26-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:23:5-79
+26-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:23:22-76
 27    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-27-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:24:5-81
-27-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:24:22-78
+27-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:24:5-81
+27-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:24:22-78
 28    <!-- Android 11 软件包可见性适配：https://www.jianshu.com/p/d1ccd425c4ce -->
 29    <queries>
-29-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:26:5-57:15
+29-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:26:5-57:15
 30
 31        <!-- 拍照意图：MediaStore.ACTION_IMAGE_CAPTURE -->
 32        <intent>
-32-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:29:9-31:18
+32-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:29:9-31:18
 33            <action android:name="android.media.action.IMAGE_CAPTURE" />
-33-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:30:13-73
-33-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:30:21-70
+33-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:30:13-73
+33-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:30:21-70
 34        </intent>
 35
 36        <!-- 拍摄意图：MediaStore.ACTION_VIDEO_CAPTURE -->
 37        <intent>
-37-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:34:9-36:18
+37-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:34:9-36:18
 38            <action android:name="android.media.action.VIDEO_CAPTURE" />
-38-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:35:13-73
-38-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:35:21-70
+38-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:35:13-73
+38-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:35:21-70
 39        </intent>
 40
 41        <!-- 图片裁剪意图 -->
 42        <intent>
-42-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:39:9-41:18
+42-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:39:9-41:18
 43            <action android:name="com.android.camera.action.CROP" />
-43-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:40:13-69
-43-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:40:21-66
+43-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:40:13-69
+43-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:40:21-66
 44        </intent>
 45
 46        <!-- 打电话意图：Intent.ACTION_DIAL -->
 47        <intent>
-47-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:44:9-46:18
+47-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:44:9-46:18
 48            <action android:name="android.intent.action.DIAL" />
-48-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:45:13-65
-48-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:45:21-62
+48-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:45:13-65
+48-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:45:21-62
 49        </intent>
 50
 51        <!-- 分享意图：Intent.ACTION_SEND -->
 52        <intent>
-52-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:49:9-51:18
+52-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:49:9-51:18
 53            <action android:name="android.intent.action.SEND" />
-53-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:50:13-65
-53-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:50:21-62
+53-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:50:13-65
+53-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:50:21-62
 54        </intent>
 55
 56        <!-- 调起其他页面意图：Intent.ACTION_VIEW -->
 57        <intent>
-57-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:54:9-56:18
+57-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:54:9-56:18
 58            <action android:name="android.intent.action.VIEW" />
-58-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:55:13-65
-58-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:55:21-62
+58-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:55:13-65
+58-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:55:21-62
 59        </intent>
 60        <!-- 手 Q 的包名 -->
 61        <package android:name="com.tencent.mobileqq" /> <!-- 微信的包名 -->
-61-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:26:9-56
-61-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:26:18-53
+61-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:26:9-56
+61-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:26:18-53
 62        <package android:name="com.tencent.mm" />
-62-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:28:9-50
-62-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:28:18-47
+62-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:28:9-50
+62-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:28:18-47
 63    </queries>
 64
 65    <!-- 友盟统计 -->
 66    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- To allow starting foreground services on Android P+ - https://developer.android.com/preview/behavior-changes#fg-svc -->
-66-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:5-75
-66-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:22-72
+66-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:5-75
+66-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:22-72
 67    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 67-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:26:5-77
 67-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:26:22-74
@@ -122,604 +122,615 @@
 69
 70    <application
 71        android:name="cn.cqautotest.sunnybeach.app.AppApplication"
-71-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:60:9-43
+71-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:60:9-43
 72        android:allowBackup="false"
-72-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:61:9-36
+72-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:61:9-36
 73        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 73-->[androidx.core:core:1.5.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\1a93794b155940f83a7a4fd349221cc8\transformed\core-1.5.0\AndroidManifest.xml:24:18-86
 74        android:debuggable="true"
 75        android:icon="@mipmap/launcher_ic"
-75-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:62:9-43
+75-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:62:9-43
 76        android:label="阳光沙滩 Debug 版"
-76-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:63:9-36
+76-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:63:9-36
 77        android:networkSecurityConfig="@xml/network_security_config"
-77-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:64:9-69
+77-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:64:9-69
 78        android:requestLegacyExternalStorage="true"
-78-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:65:9-52
+78-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:65:9-52
 79        android:resizeableActivity="true"
-79-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:66:9-42
+79-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:66:9-42
 80        android:roundIcon="@mipmap/launcher_ic"
-80-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:67:9-48
+80-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:67:9-48
 81        android:supportsRtl="false"
-81-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:68:9-36
+81-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:68:9-36
 82        android:theme="@style/AppTheme"
-82-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:69:9-40
+82-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:69:9-40
 83        android:usesCleartextTraffic="true" >
-83-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:70:9-44
+83-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:70:9-44
 84
 85        <!-- 适配 Android 7.0 文件意图 -->
 86        <provider
 87            android:name="androidx.core.content.FileProvider"
-87-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:76:13-62
+87-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:76:13-62
 88            android:authorities="cn.cqautotest.sunnybeach.debug.provider"
-88-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:77:13-60
+88-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:77:13-60
 89            android:exported="false"
-89-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:78:13-37
+89-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:78:13-37
 90            android:grantUriPermissions="true" >
-90-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:79:13-47
+90-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:79:13-47
 91            <meta-data
-91-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:80:13-82:54
+91-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:80:13-82:54
 92                android:name="android.support.FILE_PROVIDER_PATHS"
-92-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:81:17-67
+92-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:81:17-67
 93                android:resource="@xml/file_paths" />
-93-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:82:17-51
+93-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:82:17-51
 94        </provider>
 95        <!-- 闪屏页 -->
 96        <activity
-96-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:85:9-98:20
+96-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:85:9-98:20
 97            android:name="cn.cqautotest.sunnybeach.ui.activity.SplashActivity"
-97-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:86:13-55
+97-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:86:13-55
 98            android:launchMode="singleTop"
-98-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:87:13-43
+98-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:87:13-43
 99            android:screenOrientation="portrait"
-99-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:88:13-49
+99-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:88:13-49
 100            android:theme="@style/SplashTheme" >
-100-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:89:13-47
+100-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:89:13-47
 101
 102            <!-- 程序入口 -->
 103            <intent-filter>
-103-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:92:13-97:29
+103-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:92:13-97:29
 104                <action android:name="android.intent.action.MAIN" />
-104-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:93:17-69
-104-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:93:25-66
+104-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:93:17-69
+104-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:93:25-66
 105                <action android:name="android.intent.action.VIEW" />
-105-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:55:13-65
-105-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:55:21-62
+105-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:55:13-65
+105-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:55:21-62
 106
 107                <category android:name="android.intent.category.LAUNCHER" />
-107-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:96:17-77
-107-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:96:27-74
+107-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:96:17-77
+107-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:96:27-74
 108            </intent-filter>
 109        </activity> <!-- 引导页 -->
 110        <activity
-110-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:99:9-102:52
+110-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:99:9-102:52
 111            android:name="cn.cqautotest.sunnybeach.ui.activity.GuideActivity"
-111-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:100:13-54
+111-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:100:13-54
 112            android:launchMode="singleTop"
-112-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:101:13-43
+112-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:101:13-43
 113            android:screenOrientation="portrait" />
-113-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:102:13-49
+113-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:102:13-49
 114        <!-- 首页 -->
 115        <activity
-115-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:104:9-108:55
+115-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:104:9-108:55
 116            android:name="cn.cqautotest.sunnybeach.ui.activity.HomeActivity"
-116-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:105:13-53
+116-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:105:13-53
 117            android:launchMode="singleTask"
-117-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:106:13-44
+117-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:106:13-44
 118            android:screenOrientation="portrait"
-118-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:107:13-49
+118-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:107:13-49
 119            android:windowSoftInputMode="adjustPan" />
-119-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:108:13-52
-120        <!-- 登录页 -->
+119-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:108:13-52
+120        <!-- 文章详情 -->
 121        <activity
-121-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:110:9-113:52
-122            android:name="cn.cqautotest.sunnybeach.ui.activity.LoginActivity"
-122-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:111:13-54
-123            android:launchMode="singleTop"
-123-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:112:13-43
-124            android:screenOrientation="portrait" />
-124-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:113:13-49
-125        <!-- 注册页 -->
-126        <activity
-126-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:115:9-118:52
-127            android:name="cn.cqautotest.sunnybeach.ui.activity.RegisterActivity"
-127-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:116:13-57
-128            android:launchMode="singleTop"
-128-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:117:13-43
-129            android:screenOrientation="portrait" />
-129-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:118:13-49
-130        <!-- 崩溃展示（必须在独立进程） -->
-131        <activity
-131-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:120:9-124:53
-132            android:name="cn.cqautotest.sunnybeach.ui.activity.CrashActivity"
-132-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:121:13-54
-133            android:launchMode="singleTop"
-133-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:122:13-43
-134            android:process=":crash"
-134-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:123:13-37
-135            android:screenOrientation="landscape" />
-135-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:124:13-50
-136        <!-- 重启应用（必须在独立进程） -->
+121-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:110:9-114:55
+122            android:name="cn.cqautotest.sunnybeach.ui.activity.ArticleDetailActivity"
+122-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:111:13-62
+123            android:launchMode="singleTask"
+123-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:112:13-44
+124            android:screenOrientation="portrait"
+124-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:113:13-49
+125            android:windowSoftInputMode="adjustPan" />
+125-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:114:13-52
+126        <!-- 登录页 -->
+127        <activity
+127-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:116:9-119:52
+128            android:name="cn.cqautotest.sunnybeach.ui.activity.LoginActivity"
+128-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:117:13-54
+129            android:launchMode="singleTop"
+129-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:118:13-43
+130            android:screenOrientation="portrait" />
+130-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:119:13-49
+131        <!-- 注册页 -->
+132        <activity
+132-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:121:9-124:52
+133            android:name="cn.cqautotest.sunnybeach.ui.activity.RegisterActivity"
+133-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:122:13-57
+134            android:launchMode="singleTop"
+134-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:123:13-43
+135            android:screenOrientation="portrait" />
+135-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:124:13-49
+136        <!-- 崩溃展示（必须在独立进程） -->
 137        <activity
-137-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:126:9-129:42
-138            android:name="cn.cqautotest.sunnybeach.ui.activity.RestartActivity"
-138-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:127:13-56
+137-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:126:9-130:53
+138            android:name="cn.cqautotest.sunnybeach.ui.activity.CrashActivity"
+138-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:127:13-54
 139            android:launchMode="singleTop"
-139-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:128:13-43
-140            android:process=":restart" />
-140-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:129:13-39
-141        <!-- 设置页 -->
-142        <activity
-142-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:131:9-135:52
-143            android:name="cn.cqautotest.sunnybeach.ui.activity.SettingActivity"
-143-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:132:13-56
-144            android:label="@string/setting_title"
-144-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:133:13-50
+139-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:128:13-43
+140            android:process=":crash"
+140-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:129:13-37
+141            android:screenOrientation="landscape" />
+141-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:130:13-50
+142        <!-- 重启应用（必须在独立进程） -->
+143        <activity
+143-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:132:9-135:42
+144            android:name="cn.cqautotest.sunnybeach.ui.activity.RestartActivity"
+144-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:133:13-56
 145            android:launchMode="singleTop"
-145-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:134:13-43
-146            android:screenOrientation="portrait" />
-146-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:135:13-49
-147        <!-- 忘记密码 -->
+145-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:134:13-43
+146            android:process=":restart" />
+146-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:135:13-39
+147        <!-- 设置页 -->
 148        <activity
-148-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:137:9-141:52
-149            android:name="cn.cqautotest.sunnybeach.ui.activity.PasswordForgetActivity"
-149-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:138:13-63
-150            android:label="@string/password_forget_title"
-150-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:139:13-58
+148-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:137:9-141:52
+149            android:name="cn.cqautotest.sunnybeach.ui.activity.SettingActivity"
+149-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:138:13-56
+150            android:label="@string/setting_title"
+150-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:139:13-50
 151            android:launchMode="singleTop"
-151-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:140:13-43
+151-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:140:13-43
 152            android:screenOrientation="portrait" />
-152-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:141:13-49
-153        <!-- 重置密码 -->
+152-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:141:13-49
+153        <!-- 忘记密码 -->
 154        <activity
-154-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:143:9-147:52
-155            android:name="cn.cqautotest.sunnybeach.ui.activity.PasswordResetActivity"
-155-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:144:13-62
-156            android:label="@string/password_reset_title"
-156-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:145:13-57
+154-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:143:9-147:52
+155            android:name="cn.cqautotest.sunnybeach.ui.activity.PasswordForgetActivity"
+155-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:144:13-63
+156            android:label="@string/password_forget_title"
+156-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:145:13-58
 157            android:launchMode="singleTop"
-157-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:146:13-43
+157-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:146:13-43
 158            android:screenOrientation="portrait" />
-158-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:147:13-49
-159        <!-- 更换手机 -->
+158-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:147:13-49
+159        <!-- 重置密码 -->
 160        <activity
-160-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:149:9-153:52
-161            android:name="cn.cqautotest.sunnybeach.ui.activity.PhoneResetActivity"
-161-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:150:13-59
-162            android:label="@string/phone_reset_title"
-162-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:151:13-54
+160-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:149:9-153:52
+161            android:name="cn.cqautotest.sunnybeach.ui.activity.PasswordResetActivity"
+161-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:150:13-62
+162            android:label="@string/password_reset_title"
+162-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:151:13-57
 163            android:launchMode="singleTop"
-163-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:152:13-43
+163-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:152:13-43
 164            android:screenOrientation="portrait" />
-164-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:153:13-49
-165        <!-- 关于我们 -->
+164-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:153:13-49
+165        <!-- 更换手机 -->
 166        <activity
-166-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:155:9-159:52
-167            android:name="cn.cqautotest.sunnybeach.ui.activity.AboutActivity"
-167-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:156:13-54
-168            android:label="@string/about_title"
-168-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:157:13-48
+166-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:155:9-159:52
+167            android:name="cn.cqautotest.sunnybeach.ui.activity.PhoneResetActivity"
+167-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:156:13-59
+168            android:label="@string/phone_reset_title"
+168-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:157:13-54
 169            android:launchMode="singleTop"
-169-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:158:13-43
+169-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:158:13-43
 170            android:screenOrientation="portrait" />
-170-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:159:13-49
-171        <!-- 个人资料 -->
+170-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:159:13-49
+171        <!-- 关于我们 -->
 172        <activity
-172-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:161:9-165:52
-173            android:name="cn.cqautotest.sunnybeach.ui.activity.PersonalDataActivity"
-173-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:162:13-61
-174            android:label="@string/personal_data_title"
-174-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:163:13-56
+172-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:161:9-165:52
+173            android:name="cn.cqautotest.sunnybeach.ui.activity.AboutActivity"
+173-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:162:13-54
+174            android:label="@string/about_title"
+174-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:163:13-48
 175            android:launchMode="singleTop"
-175-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:164:13-43
+175-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:164:13-43
 176            android:screenOrientation="portrait" />
-176-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:165:13-49
-177        <!-- 网页浏览 -->
+176-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:165:13-49
+177        <!-- 个人资料 -->
 178        <activity
-178-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:167:9-171:52
-179            android:name="cn.cqautotest.sunnybeach.ui.activity.BrowserActivity"
-179-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:168:13-56
-180            android:label="@string/web_title"
-180-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:169:13-46
+178-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:167:9-171:52
+179            android:name="cn.cqautotest.sunnybeach.ui.activity.PersonalDataActivity"
+179-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:168:13-61
+180            android:label="@string/personal_data_title"
+180-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:169:13-56
 181            android:launchMode="singleTop"
-181-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:170:13-43
+181-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:170:13-43
 182            android:screenOrientation="portrait" />
-182-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:171:13-49
-183        <!-- 拍照选择 -->
+182-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:171:13-49
+183        <!-- 网页浏览 -->
 184        <activity
-184-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:173:9-176:52
-185            android:name="cn.cqautotest.sunnybeach.ui.activity.CameraActivity"
-185-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:174:13-55
-186            android:launchMode="singleTop"
-186-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:175:13-43
-187            android:screenOrientation="portrait" />
-187-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:176:13-49
-188        <!-- 图片选择 -->
-189        <activity
-189-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:178:9-182:52
-190            android:name="cn.cqautotest.sunnybeach.ui.activity.ImageSelectActivity"
-190-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:179:13-60
-191            android:label="@string/image_select_title"
-191-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:180:13-55
+184-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:173:9-177:52
+185            android:name="cn.cqautotest.sunnybeach.ui.activity.BrowserActivity"
+185-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:174:13-56
+186            android:label="@string/web_title"
+186-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:175:13-46
+187            android:launchMode="singleTop"
+187-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:176:13-43
+188            android:screenOrientation="portrait" />
+188-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:177:13-49
+189        <!-- 拍照选择 -->
+190        <activity
+190-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:179:9-182:52
+191            android:name="cn.cqautotest.sunnybeach.ui.activity.CameraActivity"
+191-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:180:13-55
 192            android:launchMode="singleTop"
-192-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:181:13-43
+192-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:181:13-43
 193            android:screenOrientation="portrait" />
-193-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:182:13-49
-194        <!-- 查看大图 -->
+193-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:182:13-49
+194        <!-- 图片选择 -->
 195        <activity
-195-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:184:9-187:52
-196            android:name="cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity"
-196-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:185:13-61
-197            android:launchMode="singleTop"
-197-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:186:13-43
-198            android:screenOrientation="portrait" />
-198-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:187:13-49
-199        <!-- 播放视频 -->
-200        <activity
-200-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:189:9-193:54
-201            android:name="cn.cqautotest.sunnybeach.ui.activity.VideoPlayActivity"
-201-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:190:13-58
-202            android:launchMode="singleTop"
-202-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:191:13-43
-203            android:screenOrientation="landscape"
-203-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:192:13-50
-204            android:theme="@style/FullScreenTheme" />
-204-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:193:13-51
-205        <!-- 选择视频 -->
+195-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:184:9-188:52
+196            android:name="cn.cqautotest.sunnybeach.ui.activity.ImageSelectActivity"
+196-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:185:13-60
+197            android:label="@string/image_select_title"
+197-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:186:13-55
+198            android:launchMode="singleTop"
+198-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:187:13-43
+199            android:screenOrientation="portrait" />
+199-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:188:13-49
+200        <!-- 查看大图 -->
+201        <activity
+201-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:190:9-193:52
+202            android:name="cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity"
+202-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:191:13-61
+203            android:launchMode="singleTop"
+203-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:192:13-43
+204            android:screenOrientation="portrait" />
+204-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:193:13-49
+205        <!-- 播放视频 -->
 206        <activity
-206-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:195:9-198:52
-207            android:name="cn.cqautotest.sunnybeach.ui.activity.VideoSelectActivity"
-207-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:196:13-60
+206-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:195:9-199:54
+207            android:name="cn.cqautotest.sunnybeach.ui.activity.VideoPlayActivity"
+207-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:196:13-58
 208            android:launchMode="singleTop"
-208-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:197:13-43
-209            android:screenOrientation="portrait" />
-209-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:198:13-49
-210        <!-- 对话框案例 -->
-211        <activity
-211-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:200:9-203:52
-212            android:name="cn.cqautotest.sunnybeach.ui.activity.DialogActivity"
-212-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:201:13-55
-213            android:launchMode="singleTop"
-213-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:202:13-43
-214            android:screenOrientation="portrait" />
-214-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:203:13-49
-215        <!-- 状态案例 -->
-216        <activity
-216-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:205:9-208:52
-217            android:name="cn.cqautotest.sunnybeach.ui.activity.StatusActivity"
-217-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:206:13-55
-218            android:launchMode="singleTop"
-218-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:207:13-43
-219            android:screenOrientation="portrait" />
-219-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:208:13-49
-220        <!-- 图片查看（仿抖音） -->
-221        <activity
-221-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:210:9-213:52
-222            android:name="cn.cqautotest.sunnybeach.ui.activity.GalleryActivity"
-222-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:211:13-56
-223            android:launchMode="singleTop"
-223-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:212:13-43
-224            android:screenOrientation="portrait" />
-224-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:213:13-49
-225
-226        <service
-226-->[com.squareup.leakcanary:leakcanary-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\a326b6017eced70e3d445c53773bc3db\transformed\jetified-leakcanary-android-2.5\AndroidManifest.xml:23:9-25:40
-227            android:name="leakcanary.internal.HeapAnalyzerService"
-227-->[com.squareup.leakcanary:leakcanary-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\a326b6017eced70e3d445c53773bc3db\transformed\jetified-leakcanary-android-2.5\AndroidManifest.xml:24:13-67
-228            android:exported="false" /> <!-- 友盟 Key（请在 Gradle 中配置，请不要在此处修改） -->
-228-->[com.squareup.leakcanary:leakcanary-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\a326b6017eced70e3d445c53773bc3db\transformed\jetified-leakcanary-android-2.5\AndroidManifest.xml:25:13-37
-229        <meta-data
-229-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:34:9-36:56
-230            android:name="UMENG_APPKEY"
-230-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:35:13-40
-231            android:value="5cb16d93570df399fd0014e2" /> <!-- QQ AppId（请在 Gradle 中配置，请不要在此处修改） -->
-231-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:36:13-53
-232        <meta-data
-232-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:39:9-41:41
-233            android:name="QQ_APPID"
-233-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:40:13-36
-234            android:value="101828096" /> <!-- QQ Key（请在 Gradle 中配置，请不要在此处修改） -->
-234-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:41:13-38
+208-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:197:13-43
+209            android:screenOrientation="landscape"
+209-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:198:13-50
+210            android:theme="@style/FullScreenTheme" />
+210-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:199:13-51
+211        <!-- 选择视频 -->
+212        <activity
+212-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:201:9-204:52
+213            android:name="cn.cqautotest.sunnybeach.ui.activity.VideoSelectActivity"
+213-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:202:13-60
+214            android:launchMode="singleTop"
+214-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:203:13-43
+215            android:screenOrientation="portrait" />
+215-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:204:13-49
+216        <!-- 对话框案例 -->
+217        <activity
+217-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:206:9-209:52
+218            android:name="cn.cqautotest.sunnybeach.ui.activity.DialogActivity"
+218-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:207:13-55
+219            android:launchMode="singleTop"
+219-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:208:13-43
+220            android:screenOrientation="portrait" />
+220-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:209:13-49
+221        <!-- 状态案例 -->
+222        <activity
+222-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:211:9-214:52
+223            android:name="cn.cqautotest.sunnybeach.ui.activity.StatusActivity"
+223-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:212:13-55
+224            android:launchMode="singleTop"
+224-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:213:13-43
+225            android:screenOrientation="portrait" />
+225-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:214:13-49
+226        <!-- 图片查看（仿抖音） -->
+227        <activity
+227-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:216:9-219:52
+228            android:name="cn.cqautotest.sunnybeach.ui.activity.GalleryActivity"
+228-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:217:13-56
+229            android:launchMode="singleTop"
+229-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:218:13-43
+230            android:screenOrientation="portrait" />
+230-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:219:13-49
+231
+232        <service
+232-->[com.squareup.leakcanary:leakcanary-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\a326b6017eced70e3d445c53773bc3db\transformed\jetified-leakcanary-android-2.5\AndroidManifest.xml:23:9-25:40
+233            android:name="leakcanary.internal.HeapAnalyzerService"
+233-->[com.squareup.leakcanary:leakcanary-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\a326b6017eced70e3d445c53773bc3db\transformed\jetified-leakcanary-android-2.5\AndroidManifest.xml:24:13-67
+234            android:exported="false" /> <!-- 友盟 Key（请在 Gradle 中配置，请不要在此处修改） -->
+234-->[com.squareup.leakcanary:leakcanary-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\a326b6017eced70e3d445c53773bc3db\transformed\jetified-leakcanary-android-2.5\AndroidManifest.xml:25:13-37
 235        <meta-data
-235-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:43:9-45:64
-236            android:name="QQ_APPKEY"
-236-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:44:13-37
-237            android:value="9dfd3300c3aa3c4596a07796c64914b2" /> <!-- 微信 AppId（请在 Gradle 中配置，请不要在此处修改） -->
-237-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:45:13-61
+235-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:34:9-36:56
+236            android:name="UMENG_APPKEY"
+236-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:35:13-40
+237            android:value="5cb16d93570df399fd0014e2" /> <!-- QQ AppId（请在 Gradle 中配置，请不要在此处修改） -->
+237-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:36:13-53
 238        <meta-data
-238-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:48:9-50:50
-239            android:name="WX_APPID"
-239-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:49:13-36
-240            android:value="wxd35706cc9f46114c" /> <!-- 微信 Key（请在 Gradle 中配置，请不要在此处修改） -->
-240-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:50:13-47
+238-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:39:9-41:41
+239            android:name="QQ_APPID"
+239-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:40:13-36
+240            android:value="101828096" /> <!-- QQ Key（请在 Gradle 中配置，请不要在此处修改） -->
+240-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:41:13-38
 241        <meta-data
-241-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:52:9-54:64
-242            android:name="WX_APPKEY"
-242-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:53:13-37
-243            android:value="0c8c7cf831dd135a32b3e395ea459b5a" /> <!-- 友盟社会化 -->
-243-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:54:13-61
-244        <!-- QQ 回调 -->
-245        <activity
-245-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:60:9-73:20
-246            android:name="com.tencent.tauth.AuthActivity"
-246-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:61:13-58
-247            android:launchMode="singleTask"
-247-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:62:13-44
-248            android:noHistory="true" >
-248-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:63:13-37
-249            <intent-filter>
-249-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:65:13-72:29
-250                <action android:name="android.intent.action.VIEW" />
-250-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:55:13-65
-250-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:55:21-62
-251
-252                <category android:name="android.intent.category.DEFAULT" />
-252-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:68:17-76
-252-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:68:27-73
-253                <category android:name="android.intent.category.BROWSABLE" />
-253-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:69:17-78
-253-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:69:27-75
-254
-255                <data android:scheme="tencent101828096" />
-255-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:71:17-59
-255-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:71:23-56
-256            </intent-filter>
-257        </activity>
-258        <activity
-258-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:74:9-78:36
-259            android:name="com.tencent.connect.common.AssistActivity"
-259-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:75:13-69
-260            android:configChanges="orientation|keyboardHidden"
-260-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:76:13-63
-261            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- 微信回调（请注意这个 Activity 放置的包名要和当前项目的包名保持一致，否则将不能正常回调） -->
-261-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:77:13-72
-262        <!-- suppress AndroidDomInspection -->
-263        <activity
-263-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:82:9-88:36
-264            android:name="cn.cqautotest.sunnybeach.debug.wxapi.WXEntryActivity"
-264-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:83:13-66
-265            android:configChanges="keyboardHidden|orientation|screenSize"
-265-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:84:13-74
-266            android:exported="true"
-266-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:85:13-36
-267            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-267-->[:umeng] D:\ProgramFiles\Android\AndroidProjectNew\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:86:13-72
-268
-269        <meta-data
-269-->[com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6eef819bc03189935e0c75d39b445102\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:11:9-13:43
-270            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
-270-->[com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6eef819bc03189935e0c75d39b445102\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:12:13-84
-271            android:value="GlideModule" />
-271-->[com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6eef819bc03189935e0c75d39b445102\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:13:13-40
-272
-273        <activity
-273-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:10:9-14:75
-274            android:name="com.blankj.utilcode.util.UtilsTransActivity4MainProcess"
-274-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:11:13-83
-275            android:configChanges="orientation|keyboardHidden|screenSize"
-275-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:12:13-74
-276            android:theme="@style/ActivityTranslucent"
-276-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:13:13-55
-277            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-277-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:14:13-72
-278        <activity
-278-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:15:9-20:75
-279            android:name="com.blankj.utilcode.util.UtilsTransActivity"
-279-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:16:13-71
-280            android:configChanges="orientation|keyboardHidden|screenSize"
-280-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:17:13-74
-281            android:multiprocess="true"
-281-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:18:13-40
+241-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:43:9-45:64
+242            android:name="QQ_APPKEY"
+242-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:44:13-37
+243            android:value="9dfd3300c3aa3c4596a07796c64914b2" /> <!-- 微信 AppId（请在 Gradle 中配置，请不要在此处修改） -->
+243-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:45:13-61
+244        <meta-data
+244-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:48:9-50:50
+245            android:name="WX_APPID"
+245-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:49:13-36
+246            android:value="wxd35706cc9f46114c" /> <!-- 微信 Key（请在 Gradle 中配置，请不要在此处修改） -->
+246-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:50:13-47
+247        <meta-data
+247-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:52:9-54:64
+248            android:name="WX_APPKEY"
+248-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:53:13-37
+249            android:value="0c8c7cf831dd135a32b3e395ea459b5a" /> <!-- 友盟社会化 -->
+249-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:54:13-61
+250        <!-- QQ 回调 -->
+251        <activity
+251-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:60:9-73:20
+252            android:name="com.tencent.tauth.AuthActivity"
+252-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:61:13-58
+253            android:launchMode="singleTask"
+253-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:62:13-44
+254            android:noHistory="true" >
+254-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:63:13-37
+255            <intent-filter>
+255-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:65:13-72:29
+256                <action android:name="android.intent.action.VIEW" />
+256-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:55:13-65
+256-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:55:21-62
+257
+258                <category android:name="android.intent.category.DEFAULT" />
+258-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:68:17-76
+258-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:68:27-73
+259                <category android:name="android.intent.category.BROWSABLE" />
+259-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:69:17-78
+259-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:69:27-75
+260
+261                <data android:scheme="tencent101828096" />
+261-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:71:17-59
+261-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:71:23-56
+262            </intent-filter>
+263        </activity>
+264        <activity
+264-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:74:9-78:36
+265            android:name="com.tencent.connect.common.AssistActivity"
+265-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:75:13-69
+266            android:configChanges="orientation|keyboardHidden"
+266-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:76:13-63
+267            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- 微信回调（请注意这个 Activity 放置的包名要和当前项目的包名保持一致，否则将不能正常回调） -->
+267-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:77:13-72
+268        <!-- suppress AndroidDomInspection -->
+269        <activity
+269-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:82:9-88:36
+270            android:name="cn.cqautotest.sunnybeach.debug.wxapi.WXEntryActivity"
+270-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:83:13-66
+271            android:configChanges="keyboardHidden|orientation|screenSize"
+271-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:84:13-74
+272            android:exported="true"
+272-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:85:13-36
+273            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+273-->[:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:86:13-72
+274
+275        <meta-data
+275-->[com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6eef819bc03189935e0c75d39b445102\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:11:9-13:43
+276            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
+276-->[com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6eef819bc03189935e0c75d39b445102\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:12:13-84
+277            android:value="GlideModule" />
+277-->[com.github.bumptech.glide:okhttp3-integration:4.11.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\6eef819bc03189935e0c75d39b445102\transformed\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:13:13-40
+278
+279        <activity
+279-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:10:9-14:75
+280            android:name="com.blankj.utilcode.util.UtilsTransActivity4MainProcess"
+280-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:11:13-83
+281            android:configChanges="orientation|keyboardHidden|screenSize"
+281-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:12:13-74
 282            android:theme="@style/ActivityTranslucent"
-282-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:19:13-55
+282-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:13:13-55
 283            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-283-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:20:13-72
-284
-285        <provider
-285-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:22:9-30:20
-286            android:name="com.blankj.utilcode.util.UtilsFileProvider"
-286-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:23:13-70
-287            android:authorities="cn.cqautotest.sunnybeach.debug.utilcode.provider"
-287-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:24:13-69
-288            android:exported="false"
-288-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:25:13-37
-289            android:grantUriPermissions="true" >
-289-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:26:13-47
-290            <meta-data
-290-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:80:13-82:54
-291                android:name="android.support.FILE_PROVIDER_PATHS"
-291-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:81:17-67
-292                android:resource="@xml/util_code_provider_paths" />
-292-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:82:17-51
-293        </provider>
-294
-295        <service
-295-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:32:9-38:19
-296            android:name="com.blankj.utilcode.util.MessengerUtils$ServerService"
-296-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:33:13-81
-297            android:exported="false" >
-297-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:34:13-37
-298            <intent-filter>
-298-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:35:13-37:29
-299                <action android:name="cn.cqautotest.sunnybeach.debug.messenger" />
-299-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:36:17-69
-299-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:36:25-66
-300            </intent-filter>
-301        </service>
-302
-303        <provider
-303-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:29:9-37:20
-304            android:name="leakcanary.internal.LeakCanaryFileProvider"
-304-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:30:13-70
-305            android:authorities="com.squareup.leakcanary.fileprovider.cn.cqautotest.sunnybeach.debug"
-305-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:31:13-88
-306            android:exported="false"
-306-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:32:13-37
-307            android:grantUriPermissions="true" >
-307-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:33:13-47
-308            <meta-data
-308-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:80:13-82:54
-309                android:name="android.support.FILE_PROVIDER_PATHS"
-309-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:81:17-67
-310                android:resource="@xml/leak_canary_file_paths" />
-310-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:82:17-51
-311        </provider>
-312
-313        <activity
-313-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:39:9-44:66
-314            android:name="leakcanary.internal.activity.LeakActivity"
-314-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:40:13-69
-315            android:icon="@mipmap/leak_canary_icon"
-315-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:41:13-52
-316            android:label="@string/leak_canary_display_activity_label"
-316-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:42:13-71
-317            android:taskAffinity="com.squareup.leakcanary.cn.cqautotest.sunnybeach.debug"
-317-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:43:13-76
-318            android:theme="@style/leak_canary_LeakCanary.Base" />
-318-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:44:13-63
-319
-320        <activity-alias
-320-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:46:9-62:26
-321            android:name="leakcanary.internal.activity.LeakLauncherActivity"
-321-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:47:13-77
-322            android:banner="@drawable/leak_canary_tv_icon"
-322-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:48:13-59
-323            android:enabled="@bool/leak_canary_add_launcher_icon"
-323-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:49:13-66
-324            android:icon="@mipmap/leak_canary_icon"
-324-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:50:13-52
-325            android:label="@string/leak_canary_display_activity_label"
-325-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:51:13-71
-326            android:targetActivity="leakcanary.internal.activity.LeakActivity"
-326-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:52:13-79
-327            android:taskAffinity="com.squareup.leakcanary.cn.cqautotest.sunnybeach.debug"
-327-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:53:13-76
-328            android:theme="@style/leak_canary_LeakCanary.Base" >
-328-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:54:13-63
-329            <intent-filter>
-329-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:55:13-61:29
-330                <action android:name="android.intent.action.MAIN" />
-330-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:93:17-69
-330-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:93:25-66
-331
-332                <category android:name="android.intent.category.LAUNCHER" />
-332-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:96:17-77
-332-->D:\ProgramFiles\Android\AndroidProjectNew\app\src\main\AndroidManifest.xml:96:27-74
-333                <!-- Android TV launcher intent -->
-334                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
-334-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:60:17-86
-334-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:60:27-83
-335            </intent-filter>
-336        </activity-alias>
+283-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:14:13-72
+284        <activity
+284-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:15:9-20:75
+285            android:name="com.blankj.utilcode.util.UtilsTransActivity"
+285-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:16:13-71
+286            android:configChanges="orientation|keyboardHidden|screenSize"
+286-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:17:13-74
+287            android:multiprocess="true"
+287-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:18:13-40
+288            android:theme="@style/ActivityTranslucent"
+288-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:19:13-55
+289            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+289-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:20:13-72
+290
+291        <provider
+291-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:22:9-30:20
+292            android:name="com.blankj.utilcode.util.UtilsFileProvider"
+292-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:23:13-70
+293            android:authorities="cn.cqautotest.sunnybeach.debug.utilcode.provider"
+293-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:24:13-69
+294            android:exported="false"
+294-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:25:13-37
+295            android:grantUriPermissions="true" >
+295-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:26:13-47
+296            <meta-data
+296-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:80:13-82:54
+297                android:name="android.support.FILE_PROVIDER_PATHS"
+297-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:81:17-67
+298                android:resource="@xml/util_code_provider_paths" />
+298-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:82:17-51
+299        </provider>
+300
+301        <service
+301-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:32:9-38:19
+302            android:name="com.blankj.utilcode.util.MessengerUtils$ServerService"
+302-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:33:13-81
+303            android:exported="false" >
+303-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:34:13-37
+304            <intent-filter>
+304-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:35:13-37:29
+305                <action android:name="cn.cqautotest.sunnybeach.debug.messenger" />
+305-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:36:17-69
+305-->[com.blankj:utilcodex:1.30.6] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\10b9b777e8327082a30bad154de52d45\transformed\jetified-utilcodex-1.30.6\AndroidManifest.xml:36:25-66
+306            </intent-filter>
+307        </service>
+308
+309        <provider
+309-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:29:9-37:20
+310            android:name="leakcanary.internal.LeakCanaryFileProvider"
+310-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:30:13-70
+311            android:authorities="com.squareup.leakcanary.fileprovider.cn.cqautotest.sunnybeach.debug"
+311-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:31:13-88
+312            android:exported="false"
+312-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:32:13-37
+313            android:grantUriPermissions="true" >
+313-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:33:13-47
+314            <meta-data
+314-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:80:13-82:54
+315                android:name="android.support.FILE_PROVIDER_PATHS"
+315-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:81:17-67
+316                android:resource="@xml/leak_canary_file_paths" />
+316-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:82:17-51
+317        </provider>
+318
+319        <activity
+319-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:39:9-44:66
+320            android:name="leakcanary.internal.activity.LeakActivity"
+320-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:40:13-69
+321            android:icon="@mipmap/leak_canary_icon"
+321-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:41:13-52
+322            android:label="@string/leak_canary_display_activity_label"
+322-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:42:13-71
+323            android:taskAffinity="com.squareup.leakcanary.cn.cqautotest.sunnybeach.debug"
+323-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:43:13-76
+324            android:theme="@style/leak_canary_LeakCanary.Base" />
+324-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:44:13-63
+325
+326        <activity-alias
+326-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:46:9-62:26
+327            android:name="leakcanary.internal.activity.LeakLauncherActivity"
+327-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:47:13-77
+328            android:banner="@drawable/leak_canary_tv_icon"
+328-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:48:13-59
+329            android:enabled="@bool/leak_canary_add_launcher_icon"
+329-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:49:13-66
+330            android:icon="@mipmap/leak_canary_icon"
+330-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:50:13-52
+331            android:label="@string/leak_canary_display_activity_label"
+331-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:51:13-71
+332            android:targetActivity="leakcanary.internal.activity.LeakActivity"
+332-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:52:13-79
+333            android:taskAffinity="com.squareup.leakcanary.cn.cqautotest.sunnybeach.debug"
+333-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:53:13-76
+334            android:theme="@style/leak_canary_LeakCanary.Base" >
+334-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:54:13-63
+335            <intent-filter>
+335-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:55:13-61:29
+336                <action android:name="android.intent.action.MAIN" />
+336-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:93:17-69
+336-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:93:25-66
 337
-338        <activity
-338-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:64:9-70:68
-339            android:name="leakcanary.internal.RequestStoragePermissionActivity"
-339-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:65:13-80
-340            android:excludeFromRecents="true"
-340-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:66:13-46
-341            android:icon="@mipmap/leak_canary_icon"
-341-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:67:13-52
-342            android:label="@string/leak_canary_storage_permission_activity_label"
-342-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:68:13-82
-343            android:taskAffinity="com.squareup.leakcanary.cn.cqautotest.sunnybeach.debug"
-343-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:69:13-76
-344            android:theme="@style/leak_canary_Theme.Transparent" />
-344-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:70:13-65
-345
-346        <receiver android:name="leakcanary.internal.NotificationReceiver" />
-346-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:72:9-77
-346-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:72:19-74
-347
-348        <provider
-348-->[com.squareup.leakcanary:leakcanary-object-watcher-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ec0fedc8e640972f560db48c9f403ab9\transformed\jetified-leakcanary-object-watcher-android-2.5\AndroidManifest.xml:8:9-12:40
-349            android:name="leakcanary.internal.AppWatcherInstaller$MainProcess"
-349-->[com.squareup.leakcanary:leakcanary-object-watcher-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ec0fedc8e640972f560db48c9f403ab9\transformed\jetified-leakcanary-object-watcher-android-2.5\AndroidManifest.xml:9:13-79
-350            android:authorities="cn.cqautotest.sunnybeach.debug.leakcanary-installer"
-350-->[com.squareup.leakcanary:leakcanary-object-watcher-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ec0fedc8e640972f560db48c9f403ab9\transformed\jetified-leakcanary-object-watcher-android-2.5\AndroidManifest.xml:10:13-72
-351            android:enabled="@bool/leak_canary_watcher_auto_install"
-351-->[com.squareup.leakcanary:leakcanary-object-watcher-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ec0fedc8e640972f560db48c9f403ab9\transformed\jetified-leakcanary-object-watcher-android-2.5\AndroidManifest.xml:11:13-69
-352            android:exported="false" />
-352-->[com.squareup.leakcanary:leakcanary-object-watcher-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ec0fedc8e640972f560db48c9f403ab9\transformed\jetified-leakcanary-object-watcher-android-2.5\AndroidManifest.xml:12:13-37
-353        <provider
-353-->[com.squareup.leakcanary:plumber-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\60bfc4f020fa737ab3eb2c4c730b8024\transformed\jetified-plumber-android-2.5\AndroidManifest.xml:8:9-12:40
-354            android:name="leakcanary.internal.PlumberInstaller"
-354-->[com.squareup.leakcanary:plumber-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\60bfc4f020fa737ab3eb2c4c730b8024\transformed\jetified-plumber-android-2.5\AndroidManifest.xml:9:13-64
-355            android:authorities="cn.cqautotest.sunnybeach.debug.plumber-installer"
-355-->[com.squareup.leakcanary:plumber-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\60bfc4f020fa737ab3eb2c4c730b8024\transformed\jetified-plumber-android-2.5\AndroidManifest.xml:10:13-69
-356            android:enabled="@bool/leak_canary_plumber_auto_install"
-356-->[com.squareup.leakcanary:plumber-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\60bfc4f020fa737ab3eb2c4c730b8024\transformed\jetified-plumber-android-2.5\AndroidManifest.xml:11:13-69
-357            android:exported="false" />
-357-->[com.squareup.leakcanary:plumber-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\60bfc4f020fa737ab3eb2c4c730b8024\transformed\jetified-plumber-android-2.5\AndroidManifest.xml:12:13-37
-358
-359        <service
-359-->[androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\58e108972cbcc95a241b4a753eb93796\transformed\room-runtime-2.3.0\AndroidManifest.xml:25:9-28:40
-360            android:name="androidx.room.MultiInstanceInvalidationService"
-360-->[androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\58e108972cbcc95a241b4a753eb93796\transformed\room-runtime-2.3.0\AndroidManifest.xml:26:13-74
-361            android:directBootAware="true"
-361-->[androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\58e108972cbcc95a241b4a753eb93796\transformed\room-runtime-2.3.0\AndroidManifest.xml:27:13-43
-362            android:exported="false" />
-362-->[androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\58e108972cbcc95a241b4a753eb93796\transformed\room-runtime-2.3.0\AndroidManifest.xml:28:13-37
-363
-364        <receiver android:name="com.xiaomi.market.sdk.DownloadCompleteReceiver" >
-364-->[mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:22:9-26:20
-364-->[mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:22:19-80
-365            <intent-filter>
-365-->[mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:23:13-25:29
-366                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
-366-->[mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:24:17-82
-366-->[mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:24:25-79
-367            </intent-filter>
-368        </receiver> <!-- The activities will be merged into the manifest of the hosting app. -->
-369        <activity
-369-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:5-271
-370            android:name="com.google.android.play.core.missingsplits.PlayCoreMissingSplitsActivity"
-370-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:15-102
-371            android:enabled="false"
-371-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:103-126
-372            android:exported="false"
-372-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:127-151
-373            android:launchMode="singleInstance"
-373-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:204-239
-374            android:process=":playcore_missing_splits_activity"
-374-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:152-203
-375            android:stateNotNeeded="true" />
-375-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:240-269
-376        <activity
-376-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:5-226
-377            android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity"
-377-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:15-95
-378            android:enabled="false"
-378-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:96-119
-379            android:exported="false"
-379-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:120-144
-380            android:stateNotNeeded="true"
-380-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:145-174
-381            android:theme="@style/Theme.PlayCore.Transparent" /> <!-- The services will be merged into the manifest of the hosting app. -->
-381-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:175-224
-382        <service
-382-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:16:5-18:15
-383            android:name="com.google.android.play.core.assetpacks.AssetPackExtractionService"
-383-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:16:14-95
+338                <category android:name="android.intent.category.LAUNCHER" />
+338-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:96:17-77
+338-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:96:27-74
+339                <!-- Android TV launcher intent -->
+340                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+340-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:60:17-86
+340-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:60:27-83
+341            </intent-filter>
+342        </activity-alias>
+343
+344        <activity
+344-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:64:9-70:68
+345            android:name="leakcanary.internal.RequestStoragePermissionActivity"
+345-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:65:13-80
+346            android:excludeFromRecents="true"
+346-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:66:13-46
+347            android:icon="@mipmap/leak_canary_icon"
+347-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:67:13-52
+348            android:label="@string/leak_canary_storage_permission_activity_label"
+348-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:68:13-82
+349            android:taskAffinity="com.squareup.leakcanary.cn.cqautotest.sunnybeach.debug"
+349-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:69:13-76
+350            android:theme="@style/leak_canary_Theme.Transparent" />
+350-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:70:13-65
+351
+352        <receiver android:name="leakcanary.internal.NotificationReceiver" />
+352-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:72:9-77
+352-->[com.squareup.leakcanary:leakcanary-android-core:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\5868f795358402b6af5dc1b2c74e47c8\transformed\jetified-leakcanary-android-core-2.5\AndroidManifest.xml:72:19-74
+353
+354        <provider
+354-->[com.squareup.leakcanary:leakcanary-object-watcher-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ec0fedc8e640972f560db48c9f403ab9\transformed\jetified-leakcanary-object-watcher-android-2.5\AndroidManifest.xml:8:9-12:40
+355            android:name="leakcanary.internal.AppWatcherInstaller$MainProcess"
+355-->[com.squareup.leakcanary:leakcanary-object-watcher-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ec0fedc8e640972f560db48c9f403ab9\transformed\jetified-leakcanary-object-watcher-android-2.5\AndroidManifest.xml:9:13-79
+356            android:authorities="cn.cqautotest.sunnybeach.debug.leakcanary-installer"
+356-->[com.squareup.leakcanary:leakcanary-object-watcher-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ec0fedc8e640972f560db48c9f403ab9\transformed\jetified-leakcanary-object-watcher-android-2.5\AndroidManifest.xml:10:13-72
+357            android:enabled="@bool/leak_canary_watcher_auto_install"
+357-->[com.squareup.leakcanary:leakcanary-object-watcher-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ec0fedc8e640972f560db48c9f403ab9\transformed\jetified-leakcanary-object-watcher-android-2.5\AndroidManifest.xml:11:13-69
+358            android:exported="false" />
+358-->[com.squareup.leakcanary:leakcanary-object-watcher-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\ec0fedc8e640972f560db48c9f403ab9\transformed\jetified-leakcanary-object-watcher-android-2.5\AndroidManifest.xml:12:13-37
+359        <provider
+359-->[com.squareup.leakcanary:plumber-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\60bfc4f020fa737ab3eb2c4c730b8024\transformed\jetified-plumber-android-2.5\AndroidManifest.xml:8:9-12:40
+360            android:name="leakcanary.internal.PlumberInstaller"
+360-->[com.squareup.leakcanary:plumber-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\60bfc4f020fa737ab3eb2c4c730b8024\transformed\jetified-plumber-android-2.5\AndroidManifest.xml:9:13-64
+361            android:authorities="cn.cqautotest.sunnybeach.debug.plumber-installer"
+361-->[com.squareup.leakcanary:plumber-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\60bfc4f020fa737ab3eb2c4c730b8024\transformed\jetified-plumber-android-2.5\AndroidManifest.xml:10:13-69
+362            android:enabled="@bool/leak_canary_plumber_auto_install"
+362-->[com.squareup.leakcanary:plumber-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\60bfc4f020fa737ab3eb2c4c730b8024\transformed\jetified-plumber-android-2.5\AndroidManifest.xml:11:13-69
+363            android:exported="false" />
+363-->[com.squareup.leakcanary:plumber-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\60bfc4f020fa737ab3eb2c4c730b8024\transformed\jetified-plumber-android-2.5\AndroidManifest.xml:12:13-37
+364
+365        <service
+365-->[androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\58e108972cbcc95a241b4a753eb93796\transformed\room-runtime-2.3.0\AndroidManifest.xml:25:9-28:40
+366            android:name="androidx.room.MultiInstanceInvalidationService"
+366-->[androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\58e108972cbcc95a241b4a753eb93796\transformed\room-runtime-2.3.0\AndroidManifest.xml:26:13-74
+367            android:directBootAware="true"
+367-->[androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\58e108972cbcc95a241b4a753eb93796\transformed\room-runtime-2.3.0\AndroidManifest.xml:27:13-43
+368            android:exported="false" />
+368-->[androidx.room:room-runtime:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\58e108972cbcc95a241b4a753eb93796\transformed\room-runtime-2.3.0\AndroidManifest.xml:28:13-37
+369
+370        <receiver android:name="com.xiaomi.market.sdk.DownloadCompleteReceiver" >
+370-->[mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:22:9-26:20
+370-->[mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:22:19-80
+371            <intent-filter>
+371-->[mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:23:13-25:29
+372                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+372-->[mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:24:17-82
+372-->[mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:24:25-79
+373            </intent-filter>
+374        </receiver> <!-- The activities will be merged into the manifest of the hosting app. -->
+375        <activity
+375-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:5-271
+376            android:name="com.google.android.play.core.missingsplits.PlayCoreMissingSplitsActivity"
+376-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:15-102
+377            android:enabled="false"
+377-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:103-126
+378            android:exported="false"
+378-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:127-151
+379            android:launchMode="singleInstance"
+379-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:204-239
+380            android:process=":playcore_missing_splits_activity"
+380-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:152-203
+381            android:stateNotNeeded="true" />
+381-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:12:240-269
+382        <activity
+382-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:5-226
+383            android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity"
+383-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:15-95
 384            android:enabled="false"
-384-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:16:96-119
-385            android:exported="true" >
-385-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:16:120-143
-386            <meta-data
-386-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:17:7-108
-387                android:name="com.google.android.play.core.assetpacks.versionCode"
-387-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:17:18-84
-388                android:value="10901" />
-388-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:17:85-106
-389        </service>
-390        <service
-390-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:19:5-147
-391            android:name="com.google.android.play.core.assetpacks.ExtractionForegroundService"
-391-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:19:14-96
-392            android:enabled="false"
-392-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:19:97-120
-393            android:exported="false" />
-393-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:19:121-145
-394    </application>
-395
-396</manifest>
+384-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:96-119
+385            android:exported="false"
+385-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:120-144
+386            android:stateNotNeeded="true"
+386-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:145-174
+387            android:theme="@style/Theme.PlayCore.Transparent" /> <!-- The services will be merged into the manifest of the hosting app. -->
+387-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:13:175-224
+388        <service
+388-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:16:5-18:15
+389            android:name="com.google.android.play.core.assetpacks.AssetPackExtractionService"
+389-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:16:14-95
+390            android:enabled="false"
+390-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:16:96-119
+391            android:exported="true" >
+391-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:16:120-143
+392            <meta-data
+392-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:17:7-108
+393                android:name="com.google.android.play.core.assetpacks.versionCode"
+393-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:17:18-84
+394                android:value="10901" />
+394-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:17:85-106
+395        </service>
+396        <service
+396-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:19:5-147
+397            android:name="com.google.android.play.core.assetpacks.ExtractionForegroundService"
+397-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:19:14-96
+398            android:enabled="false"
+398-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:19:97-120
+399            android:exported="false" />
+399-->[com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:19:121-145
+400    </application>
+401
+402</manifest>

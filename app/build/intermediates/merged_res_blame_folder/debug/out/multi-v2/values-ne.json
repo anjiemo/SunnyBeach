@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\ProgramFiles\\Android\\AndroidProjectNew\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ne\\values-ne.xml",
+            "outputFile": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ne\\values-ne.xml",
             "map": [
                 {
                     "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\828539357f5d47804d593dc71183cf6a\\transformed\\jetified-navigation-dynamic-features-fragment-2.3.5\\res\\values-ne\\values-ne.xml",
