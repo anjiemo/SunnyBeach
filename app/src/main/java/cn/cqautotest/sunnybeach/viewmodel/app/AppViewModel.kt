@@ -31,8 +31,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.InputStream
 
-class AppViewModel(application: Application) : AndroidViewModel(application),
-    NetworkUtils.OnNetworkStatusChangedListener {
+class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     private val api by lazy { ServiceCreator.create<AppApi>() }
     private var _appUpdateState = MutableLiveData<AppUpdateState>()
@@ -165,33 +164,6 @@ class AppViewModel(application: Application) : AndroidViewModel(application),
 
             // Push注册
             PushHelper.init()
-
-            // EasyHttp
-            EasyConfig.with(ServiceCreator.client)
-                // 是否打印日志
-                .setLogEnabled(AppConfig.isDebug())
-                // 设置服务器配置
-                .setServer(RequestServer(BASE_URL))
-                // 设置请求处理策略
-                .setHandler(RequestHandler(getApplication()))
-                // 设置请求重试次数
-                .setRetryCount(3)
-                // 启用配置
-                .into()
-
-            // 网络变化监听
-            NetworkUtils.registerNetworkStatusChangedListener(this@AppViewModel)
         }
-    }
-
-    override fun onDisconnected() {
-        // 只有app处于前台的时候才提示用户网络已断开，优化用户体验
-        val appIsForeground = ActivityManager.getInstance().isForeground
-        if (appIsForeground.not()) return
-        simpleToast("网络已断开链接")
-    }
-
-    override fun onConnected(networkType: NetworkUtils.NetworkType?) {
-
     }
 }

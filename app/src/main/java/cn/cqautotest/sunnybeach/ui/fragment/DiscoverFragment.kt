@@ -5,11 +5,11 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
-import cn.cqautotest.sunnybeach.databinding.FragmentDiscoverBinding
+import cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
 import cn.cqautotest.sunnybeach.http.response.model.HomeBannerBean
 import cn.cqautotest.sunnybeach.http.response.model.HomePhotoBean
 import cn.cqautotest.sunnybeach.ui.activity.GalleryActivity
@@ -17,23 +17,71 @@ import cn.cqautotest.sunnybeach.ui.adapter.PhotoAdapter
 import cn.cqautotest.sunnybeach.utils.*
 import cn.cqautotest.sunnybeach.viewmodel.SingletonManager
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
+import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.blankj.utilcode.util.NetworkUtils
+import com.bumptech.glide.Glide
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
 import com.youth.banner.indicator.CircleIndicator
 
-class DiscoverFragment : AppFragment<AppActivity>() {
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/6/18
+ * desc   : 发现界面
+ */
+class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
 
-    private var _binding: FragmentDiscoverBinding? = null
+    private var _binding: DiscoverFragmentBinding? = null
     private val mBinding get() = _binding!!
     private val mBannerList = arrayListOf<HomeBannerBean.Data>()
     private val mPhotoAdapter by lazy { PhotoAdapter() }
     private val mPhotoList = arrayListOf<HomePhotoBean.Res.Vertical>()
     private val discoverViewModel by lazy { SingletonManager.discoverViewModel }
 
-    override fun getLayoutId(): Int = R.layout.fragment_discover
+    override fun getLayoutId(): Int = R.layout.discover_fragment
 
     override fun onBindingView() {
-        _binding = FragmentDiscoverBinding.bind(view)
+        _binding = DiscoverFragmentBinding.bind(view)
+    }
+
+    override fun onFragmentResume(first: Boolean) {
+        super.onFragmentResume(first)
+        if (first) {
+            discoverViewModel.loadBannerList()
+            refreshPhotoList()
+        } else {
+            // 如果之前的轮播图没加载上，则重新加载
+            if (mBannerList.isNullOrEmpty()) {
+                discoverViewModel.loadBannerList()
+            }
+            // 如果没有图片列表数据，则重新加载图片列表数据
+            val data = mPhotoAdapter.data
+            if (data.isNullOrEmpty()) {
+                refreshPhotoList()
+            }
+        }
+    }
+
+    override fun initObserver() {
+        discoverViewModel.bannerList.observe(this) { bannerList ->
+            mBinding.banner.setDatas(bannerList)
+        }
+        val loadMoreModule = mPhotoAdapter.loadMoreModule
+        discoverViewModel.verticalPhotoList.observe(this) { verticalPhotoList ->
+            logByDebug(msg = "initEvent：===> " + verticalPhotoList.toJson())
+            mBinding.slDiscoverRefresh.finishRefresh()
+            if (verticalPhotoList.isNullOrEmpty()) {
+                showEmpty()
+                return@observe
+            }
+            loadMoreModule.apply {
+                mPhotoAdapter.addData(verticalPhotoList)
+                isEnableLoadMore = true
+                loadMoreComplete()
+            }
+            showComplete()
+        }
     }
 
     override fun initEvent() {
@@ -41,17 +89,8 @@ class DiscoverFragment : AppFragment<AppActivity>() {
             Repository.setLocalPhotoList(mPhotoList)
             GalleryActivity.startActivity(requireContext(), verticalPhoto.id)
         }
-        discoverViewModel.bannerList.observe(this) { bannerList ->
-            mBinding.banner.setDatas(bannerList)
-        }
-        val loadMoreModule = mPhotoAdapter.loadMoreModule
-        discoverViewModel.verticalPhotoList.observe(this) { verticalPhotoList ->
-            logByDebug(msg = "initEvent：===> " + verticalPhotoList.toJson())
-            loadMoreModule.apply {
-                mPhotoAdapter.addData(verticalPhotoList)
-                isEnableLoadMore = true
-                loadMoreComplete()
-            }
+        mBinding.slDiscoverRefresh.setOnRefreshListener {
+            refreshPhotoList()
         }
         mPhotoAdapter.loadMoreModule.run {
             setOnLoadMoreListener {
@@ -61,10 +100,24 @@ class DiscoverFragment : AppFragment<AppActivity>() {
         }
     }
 
-    override fun initData() {
-        discoverViewModel.loadBannerList()
-        discoverViewModel.loadMorePhotoList()
+    /**
+     * 刷新图片列表数据
+     */
+    private fun refreshPhotoList() {
+        NetworkUtils.isAvailableAsync { isAvailable ->
+            if (isAvailable.not()) {
+                mBinding.slDiscoverRefresh.finishRefresh()
+                showError {
+                    discoverViewModel.refreshPhotoList()
+                }
+            } else {
+                showLoading()
+                discoverViewModel.refreshPhotoList()
+            }
+        }
     }
+
+    override fun initData() {}
 
     override fun initView() {
         mBinding.banner.apply {
@@ -121,6 +174,8 @@ class DiscoverFragment : AppFragment<AppActivity>() {
             }
         })
     }
+
+    override fun getStatusLayout(): StatusLayout = mBinding.hlDiscoverHint
 
     companion object {
         @JvmStatic

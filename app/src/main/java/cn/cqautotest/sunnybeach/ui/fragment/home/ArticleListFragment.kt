@@ -1,29 +1,35 @@
 package cn.cqautotest.sunnybeach.ui.fragment.home
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.graphics.Rect
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ProgressBar
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.ArticleListFragmentBinding
+import cn.cqautotest.sunnybeach.ui.activity.ArticleDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
+import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 import cn.cqautotest.sunnybeach.ui.adapter.ArticleAdapter
 import cn.cqautotest.sunnybeach.utils.*
 import cn.cqautotest.sunnybeach.viewmodel.home.HomeViewModel
+import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.blankj.utilcode.util.NetworkUtils
+import com.chad.library.adapter.base.module.BaseLoadMoreModule
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
 
-class ArticleListFragment : AppFragment<AppActivity>() {
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/6/20
+ * desc   : 文章列表界面
+ */
+class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
 
     private var _binding: ArticleListFragmentBinding? = null
     private val mBinding get() = _binding!!
@@ -41,19 +47,27 @@ class ArticleListFragment : AppFragment<AppActivity>() {
 
     @SuppressLint("NewApi")
     override fun initEvent() {
-        val refreshLayout = mBinding.refreshLayout
+        val refreshLayout = mBinding.rlStatusRefresh
         val loadMoreModule = articleAdapter.loadMoreModule
         refreshLayout.setOnRefreshListener {
             NetworkUtils.isAvailableAsync { available ->
                 if (available.not()) {
-                    refreshLayout.isRefreshing = false
-                    simpleToast(getString(R.string.network_error))
+                    // 无网络时显示的状态
+                    showError { refreshArticleData() }
+                    refreshLayout.finishRefresh()
                     return@isAvailableAsync
                 }
-                refreshAllArticleData()
+                refreshArticleData()
             }
             // 下拉刷新的时候禁用上拉加载
             loadMoreModule.isEnableLoadMore = false
+        }
+        articleAdapter.setOnItemClickListener { _, _, position ->
+            val articleItem = articleAdapter.getItem(position)
+            ArticleDetailActivity.start(
+                requireContext(),
+                "https://www.sunofbeach.net/a/${articleItem.id}"
+            )
         }
         articleAdapter.addChildClickViewIds(R.id.iv_avatar)
         articleAdapter.setOnItemChildClickListener { _, view, position ->
@@ -64,37 +78,74 @@ class ArticleListFragment : AppFragment<AppActivity>() {
         }
         loadMoreModule.setOnLoadMoreListener {
             loadMoreModule.isEnableLoadMore = false
-            if (isRecommendType()) {
-                homeViewModel.loadMoreRecommendContent()
-            } else {
-                homeViewModel.loadMoreArticleListByCategoryId(categoryId = categoryId)
-            }
+            loadMoreArticleData()
         }
         if (isRecommendType()) {
             homeViewModel.recommendList.observe(this) { recommendList ->
                 val data = recommendList?.list ?: listOf()
                 articleAdapter.addData(data)
-                refreshLayout.isRefreshing = false
-                loadMoreModule.loadMoreComplete()
-                loadMoreModule.isEnableLoadMore = true
+                refreshComplete(refreshLayout, loadMoreModule)
             }
         } else {
             homeViewModel.categoriesMap.observe(this) { articleMap ->
                 val data = articleMap?.get(categoryId) ?: listOf()
                 articleAdapter.addData(data)
-                refreshLayout.isRefreshing = false
-                loadMoreModule.loadMoreComplete()
-                loadMoreModule.isEnableLoadMore = true
+                refreshComplete(refreshLayout, loadMoreModule)
             }
         }
     }
 
-    override fun initData() {
-        refreshAllArticleData()
-        logByDebug(msg = "initData：===> $title")
+    /**
+     * 刷新结束，统一处理
+     */
+    private fun refreshComplete(
+        refreshLayout: SmartRefreshLayout,
+        loadMoreModule: BaseLoadMoreModule
+    ) {
+        // 刷新结束
+        refreshLayout.finishRefresh()
+        // 显示加载完成状态
+        loadMoreModule.loadMoreComplete()
+        // 获取适配器里的数据，因为这里面的数据才是该分类下的全部列表数据
+        val data = articleAdapter.data
+        // 判断列表显示的数据是否为空
+        if (data.isNullOrEmpty()) {
+            // 显示空提示
+            showEmpty()
+        } else {
+            // 显示加载完成
+            showComplete()
+        }
+        // 启用下拉刷新
+        loadMoreModule.isEnableLoadMore = true
     }
 
-    private fun refreshAllArticleData() {
+    /**
+     * 加载更多文章列表数据
+     */
+    private fun loadMoreArticleData() {
+        if (isRecommendType()) {
+            homeViewModel.loadMoreRecommendContent()
+        } else {
+            homeViewModel.loadMoreArticleListByCategoryId(categoryId = categoryId)
+        }
+    }
+
+    /**
+     * 刷新文章列表数据
+     */
+    private fun refreshArticleData() {
+        // 清空原来的数据
+        articleAdapter.setList(arrayListOf())
+        NetworkUtils.isAvailableAsync { isAvailable ->
+            if (isAvailable.not()) {
+                showError {
+                    refreshArticleData()
+                }
+            } else {
+                showLoading()
+            }
+        }
         if (isRecommendType()) {
             homeViewModel.refreshRecommendContent()
         } else {
@@ -103,29 +154,10 @@ class ArticleListFragment : AppFragment<AppActivity>() {
     }
 
     override fun initView() {
-        val refreshLayout = mBinding.refreshLayout
-        refreshLayout.setColorSchemeColors(
-            ContextCompat.getColor(requireContext(), R.color.pink),
-            Color.parseColor("#92F0F6"),
-            Color.parseColor("#9D6BFA"),
-            Color.parseColor("#FA956B"),
-            Color.parseColor("#18F5AD"),
-            Color.parseColor("#FAFC83")
-        )
-        val progressBar = ProgressBar(requireContext()).apply {
-            setTintColor(ContextCompat.getColor(requireContext(), R.color.pink))
-        }
-        progressBar.layoutParams = FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        ).apply {
-            gravity = Gravity.CENTER
-        }
-        articleAdapter.setEmptyView(progressBar)
         if (isRecommendType()) {
             articleAdapter.addHeaderView(
                 LayoutInflater.from(requireContext())
-                    .inflate(R.layout.content_home_discover_more_author, null)
+                    .inflate(R.layout.home_discover_more_author_content, null)
             )
         }
         mBinding.articleListRv.apply {
@@ -150,6 +182,17 @@ class ArticleListFragment : AppFragment<AppActivity>() {
         }
     }
 
+    override fun initData() {}
+
+    override fun onFragmentResume(first: Boolean) {
+        super.onFragmentResume(first)
+        if (first) {
+            // 只有第一次可见的时候才加载数据，懒加载
+            refreshArticleData()
+            logByDebug(msg = "initData：===> $title")
+        }
+    }
+
     private fun isRecommendType() = "" == categoryId
 
     companion object {
@@ -158,4 +201,6 @@ class ArticleListFragment : AppFragment<AppActivity>() {
             return ArticleListFragment()
         }
     }
+
+    override fun getStatusLayout(): StatusLayout = mBinding.hlArticleListHint
 }

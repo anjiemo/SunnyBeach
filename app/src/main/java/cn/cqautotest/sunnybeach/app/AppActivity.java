@@ -3,6 +3,8 @@ package cn.cqautotest.sunnybeach.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,18 +14,18 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.TitleBar;
 import com.hjq.base.BaseActivity;
 import com.hjq.base.BaseDialog;
+import com.hjq.http.listener.OnHttpListener;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.action.Init;
 import cn.cqautotest.sunnybeach.action.TitleBarAction;
 import cn.cqautotest.sunnybeach.action.ToastAction;
 import cn.cqautotest.sunnybeach.http.model.HttpData;
 import cn.cqautotest.sunnybeach.ui.dialog.WaitDialog;
-import com.hjq.http.listener.OnHttpListener;
-
 import okhttp3.Call;
 
 /**
- * author : Android 轮子哥
+ * author : Android 轮子哥 & A Lonely Cat
  * github : https://github.com/getActivity/AndroidProject
  * time   : 2018/10/18
  * desc   : 业务 Activity 基类
@@ -48,6 +50,16 @@ public abstract class AppActivity extends BaseActivity
      * 对话框数量
      */
     private int mDialogTotal;
+
+    /**
+     * 初始化事件监听和观察者
+     */
+    @Override
+    protected void initActivity() {
+        super.initActivity();
+        initEvent();
+        initObserver();
+    }
 
     @Override
     public void initEvent() {
@@ -103,7 +115,6 @@ public abstract class AppActivity extends BaseActivity
     @Override
     protected void initLayout() {
         super.initLayout();
-
         if (getTitleBar() != null) {
             getTitleBar().setOnTitleBarListener(this);
         }
@@ -117,6 +128,28 @@ public abstract class AppActivity extends BaseActivity
                 ImmersionBar.setTitleBar(this, getTitleBar());
             }
         }
+        onBindingView();
+    }
+
+    /**
+     * 视图绑定
+     */
+    protected void onBindingView() {
+
+    }
+
+    /**
+     * 获取视图绑定的根View
+     * @return LinearLayout
+     */
+    protected LinearLayout getViewBindingRoot() {
+        ViewGroup contentView = getContentView();
+        if (contentView == null) return null;
+        int count = contentView.getChildCount();
+        if (count > 0) {
+            return ((LinearLayout) contentView.getChildAt(0));
+        }
+        return null;
     }
 
     /**

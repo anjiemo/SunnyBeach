@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 application
-INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:59:5-214:19
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:59:5-221:19
 MERGED from [com.squareup.leakcanary:leakcanary-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\a326b6017eced70e3d445c53773bc3db\transformed\jetified-leakcanary-android-2.5\AndroidManifest.xml:22:5-26:19
 MERGED from [com.squareup.leakcanary:leakcanary-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\a326b6017eced70e3d445c53773bc3db\transformed\jetified-leakcanary-android-2.5\AndroidManifest.xml:22:5-26:19
 MERGED from [:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:31:5-89:19
@@ -83,10 +83,10 @@ INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xm
 	android:name
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:76:13-62
 manifest
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-216:12
-INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-216:12
-INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-216:12
-INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-216:12
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-223:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-223:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-223:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-223:12
 MERGED from [androidx.databinding:viewbinding:4.2.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\29e780ccf49f8c53cdeec91d4341eba3\transformed\jetified-viewbinding-4.2.1\AndroidManifest.xml:17:1-22:12
 MERGED from [com.squareup.leakcanary:leakcanary-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\a326b6017eced70e3d445c53773bc3db\transformed\jetified-leakcanary-android-2.5\AndroidManifest.xml:17:1-28:12
 MERGED from [:widget] D:\ProgramFiles\Android\SunnyBeach\widget\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
@@ -99,7 +99,6 @@ MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] D:\ProgramFiles\G
 MERGED from [com.github.chrisbanes:PhotoView:2.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\142d0ba277ce7fc8ec9451c4e528a477\transformed\jetified-PhotoView-2.3.0\AndroidManifest.xml:2:1-11:12
 MERGED from [com.airbnb.android:lottie:3.6.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\dcb7db3b57fd26a9edd76bd1b3fbe725\transformed\jetified-lottie-3.6.1\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat:1.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\76acc9c6c4ac47b65db08e453d048328\transformed\appcompat-1.3.0\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\01e96a672d6bba798f38980513b4b080\transformed\swiperefreshlayout-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.navigation:navigation-dynamic-features-fragment:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\828539357f5d47804d593dc71183cf6a\transformed\jetified-navigation-dynamic-features-fragment-2.3.5\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.navigation:navigation-fragment-ktx:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7fb9648db2e5608fc85d68cdfa252845\transformed\navigation-fragment-ktx-2.3.5\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.fragment:fragment-ktx:1.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\e8593925fd1f648028de2bb2aad9dfa2\transformed\jetified-fragment-ktx-1.3.5\AndroidManifest.xml:17:1-24:12
@@ -164,7 +163,6 @@ MERGED from [androidx.savedstate:savedstate:1.1.0] D:\ProgramFiles\GradleWorkSpa
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\8cd70c6f77ba44dfe2b033f9896f7e3c\transformed\lifecycle-runtime-2.3.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b32a77af9f683c94ac90e990b4689ee6\transformed\lifecycle-viewmodel-2.3.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.cardview:cardview:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f40bc3ff592f03508567c3e4a4a2eb66\transformed\cardview-1.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.interpolator:interpolator:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\83dd445e4283ebd3ced279f2d4a7bab0\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.github.bumptech.glide:gifdecoder:4.12.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2bbdb8dfeaf37b781a7a9b8497a5fe92\transformed\jetified-gifdecoder-4.12.0\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.exifinterface:exifinterface:1.2.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\cc5a62a9050a659dee9b933a64e46a8f\transformed\exifinterface-1.2.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.sqlite:sqlite-framework:2.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7e6305ad1b4cec22f5ce0120de16d349\transformed\sqlite-framework-2.1.0\AndroidManifest.xml:17:1-24:12
@@ -177,26 +175,27 @@ MERGED from [androidx.arch.core:core-runtime:2.1.0] D:\ProgramFiles\GradleWorkSp
 MERGED from [androidx.documentfile:documentfile:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\4b906110842d1a56e68db91ba0538e42\transformed\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\9f01bd23bc7a08da386a8cc7f85e39bf\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7d679bd7b3a399f6bc2f874e34513f2b\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\83dd445e4283ebd3ced279f2d4a7bab0\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\9ddc7d52d35ff5912fdf830177dcdc48\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [com.umeng.umsdk:asms:1.2.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\974a785164be2a7c2297897976105f2f\transformed\jetified-asms-1.2.3\AndroidManifest.xml:2:1-11:12
 MERGED from [com.umeng.umsdk:apm:1.2.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\63e13f6f4c33ad05fa7caf95b20232d3\transformed\jetified-apm-1.2.0\AndroidManifest.xml:2:1-11:12
 MERGED from [com.google.android.play:core:1.9.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7208decd9137a137c7329319d5a18705\transformed\jetified-core-1.9.1\AndroidManifest.xml:2:1-23:12
-INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-216:12
-INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-216:12
-INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-216:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-223:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-223:12
+INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-223:12
 	package
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:4:5-39
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-216:12
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-223:12
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
 	xmlns:tools
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-216:12
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:1-223:12
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:11-69
@@ -336,8 +335,6 @@ MERGED from [com.airbnb.android:lottie:3.6.1] D:\ProgramFiles\GradleWorkSpace\ca
 MERGED from [com.airbnb.android:lottie:3.6.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\dcb7db3b57fd26a9edd76bd1b3fbe725\transformed\jetified-lottie-3.6.1\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.appcompat:appcompat:1.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\76acc9c6c4ac47b65db08e453d048328\transformed\appcompat-1.3.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.appcompat:appcompat:1.3.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\76acc9c6c4ac47b65db08e453d048328\transformed\appcompat-1.3.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\01e96a672d6bba798f38980513b4b080\transformed\swiperefreshlayout-1.1.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\01e96a672d6bba798f38980513b4b080\transformed\swiperefreshlayout-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.navigation:navigation-dynamic-features-fragment:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\828539357f5d47804d593dc71183cf6a\transformed\jetified-navigation-dynamic-features-fragment-2.3.5\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.navigation:navigation-dynamic-features-fragment:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\828539357f5d47804d593dc71183cf6a\transformed\jetified-navigation-dynamic-features-fragment-2.3.5\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.navigation:navigation-fragment-ktx:2.3.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7fb9648db2e5608fc85d68cdfa252845\transformed\navigation-fragment-ktx-2.3.5\AndroidManifest.xml:20:5-22:41
@@ -466,8 +463,6 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.3.1] D:\ProgramFiles\Gradl
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.3.1] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b32a77af9f683c94ac90e990b4689ee6\transformed\lifecycle-viewmodel-2.3.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.cardview:cardview:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f40bc3ff592f03508567c3e4a4a2eb66\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.cardview:cardview:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\f40bc3ff592f03508567c3e4a4a2eb66\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.interpolator:interpolator:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\83dd445e4283ebd3ced279f2d4a7bab0\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.interpolator:interpolator:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\83dd445e4283ebd3ced279f2d4a7bab0\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.github.bumptech.glide:gifdecoder:4.12.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2bbdb8dfeaf37b781a7a9b8497a5fe92\transformed\jetified-gifdecoder-4.12.0\AndroidManifest.xml:5:5-7:41
 MERGED from [com.github.bumptech.glide:gifdecoder:4.12.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\2bbdb8dfeaf37b781a7a9b8497a5fe92\transformed\jetified-gifdecoder-4.12.0\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.exifinterface:exifinterface:1.2.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\cc5a62a9050a659dee9b933a64e46a8f\transformed\exifinterface-1.2.0\AndroidManifest.xml:20:5-22:41
@@ -492,6 +487,8 @@ MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] D:\Prog
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\9f01bd23bc7a08da386a8cc7f85e39bf\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.print:print:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7d679bd7b3a399f6bc2f874e34513f2b\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.print:print:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\7d679bd7b3a399f6bc2f874e34513f2b\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\83dd445e4283ebd3ced279f2d4a7bab0\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\83dd445e4283ebd3ced279f2d4a7bab0\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\9ddc7d52d35ff5912fdf830177dcdc48\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\9ddc7d52d35ff5912fdf830177dcdc48\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [com.umeng.umsdk:asms:1.2.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\974a785164be2a7c2297897976105f2f\transformed\jetified-asms-1.2.3\AndroidManifest.xml:7:5-9:41
@@ -537,195 +534,205 @@ ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9
 	android:name
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:96:27-74
 activity#cn.cqautotest.sunnybeach.ui.activity.GuideActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:99:9-102:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:100:9-103:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:102:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:103:13-49
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:101:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:102:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:100:13-54
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:101:13-54
 activity#cn.cqautotest.sunnybeach.ui.activity.HomeActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:104:9-108:55
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:105:9-109:55
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:107:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:108:13-49
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:106:13-44
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:107:13-44
 	android:windowSoftInputMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:108:13-52
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:109:13-52
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:105:13-53
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:106:13-53
+activity#cn.cqautotest.sunnybeach.ui.activity.ArticleDetailActivity
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:111:9-115:55
+	android:screenOrientation
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:114:13-49
+	android:launchMode
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:113:13-44
+	android:windowSoftInputMode
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:115:13-52
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:112:13-62
 activity#cn.cqautotest.sunnybeach.ui.activity.LoginActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:110:9-113:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:117:9-120:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:113:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:120:13-49
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:112:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:119:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:111:13-54
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:118:13-54
 activity#cn.cqautotest.sunnybeach.ui.activity.RegisterActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:115:9-118:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:122:9-125:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:118:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:125:13-49
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:117:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:124:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:116:13-57
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:123:13-57
 activity#cn.cqautotest.sunnybeach.ui.activity.CrashActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:120:9-124:53
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:127:9-131:53
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:124:13-50
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:131:13-50
 	android:process
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:123:13-37
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:130:13-37
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:122:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:129:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:121:13-54
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:128:13-54
 activity#cn.cqautotest.sunnybeach.ui.activity.RestartActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:126:9-129:42
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:133:9-136:42
 	android:process
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:129:13-39
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:136:13-39
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:128:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:135:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:127:13-56
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:134:13-56
 activity#cn.cqautotest.sunnybeach.ui.activity.SettingActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:131:9-135:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:138:9-142:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:135:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:142:13-49
 	android:label
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:133:13-50
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:140:13-50
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:134:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:141:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:132:13-56
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:139:13-56
 activity#cn.cqautotest.sunnybeach.ui.activity.PasswordForgetActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:137:9-141:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:144:9-148:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:141:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:148:13-49
 	android:label
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:139:13-58
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:146:13-58
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:140:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:147:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:138:13-63
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:145:13-63
 activity#cn.cqautotest.sunnybeach.ui.activity.PasswordResetActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:143:9-147:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:150:9-154:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:147:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:154:13-49
 	android:label
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:145:13-57
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:152:13-57
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:146:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:153:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:144:13-62
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:151:13-62
 activity#cn.cqautotest.sunnybeach.ui.activity.PhoneResetActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:149:9-153:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:156:9-160:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:153:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:160:13-49
 	android:label
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:151:13-54
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:158:13-54
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:152:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:159:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:150:13-59
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:157:13-59
 activity#cn.cqautotest.sunnybeach.ui.activity.AboutActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:155:9-159:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:162:9-166:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:159:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:166:13-49
 	android:label
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:157:13-48
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:164:13-48
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:158:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:165:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:156:13-54
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:163:13-54
 activity#cn.cqautotest.sunnybeach.ui.activity.PersonalDataActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:161:9-165:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:168:9-172:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:165:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:172:13-49
 	android:label
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:163:13-56
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:170:13-56
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:164:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:171:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:162:13-61
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:169:13-61
 activity#cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:167:9-171:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:174:9-178:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:171:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:178:13-49
 	android:label
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:169:13-46
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:176:13-46
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:170:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:177:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:168:13-56
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:175:13-56
 activity#cn.cqautotest.sunnybeach.ui.activity.CameraActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:173:9-176:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:180:9-183:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:176:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:183:13-49
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:175:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:182:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:174:13-55
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:181:13-55
 activity#cn.cqautotest.sunnybeach.ui.activity.ImageSelectActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:178:9-182:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:185:9-189:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:182:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:189:13-49
 	android:label
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:180:13-55
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:187:13-55
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:181:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:188:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:179:13-60
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:186:13-60
 activity#cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:184:9-187:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:191:9-194:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:187:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:194:13-49
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:186:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:193:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:185:13-61
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:192:13-61
 activity#cn.cqautotest.sunnybeach.ui.activity.VideoPlayActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:189:9-193:54
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:196:9-200:54
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:192:13-50
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:199:13-50
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:191:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:198:13-43
 	android:theme
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:193:13-51
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:200:13-51
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:190:13-58
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:197:13-58
 activity#cn.cqautotest.sunnybeach.ui.activity.VideoSelectActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:195:9-198:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:202:9-205:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:198:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:205:13-49
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:197:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:204:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:196:13-60
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:203:13-60
 activity#cn.cqautotest.sunnybeach.ui.activity.DialogActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:200:9-203:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:207:9-210:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:203:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:210:13-49
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:202:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:209:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:201:13-55
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:208:13-55
 activity#cn.cqautotest.sunnybeach.ui.activity.StatusActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:205:9-208:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:212:9-215:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:208:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:215:13-49
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:207:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:214:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:206:13-55
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:213:13-55
 activity#cn.cqautotest.sunnybeach.ui.activity.GalleryActivity
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:210:9-213:52
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:217:9-220:52
 	android:screenOrientation
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:213:13-49
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:220:13-49
 	android:launchMode
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:212:13-43
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:219:13-43
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:211:13-56
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:218:13-56
 service#leakcanary.internal.HeapAnalyzerService
 ADDED from [com.squareup.leakcanary:leakcanary-android:2.5] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\a326b6017eced70e3d445c53773bc3db\transformed\jetified-leakcanary-android-2.5\AndroidManifest.xml:23:9-25:40
 	android:exported

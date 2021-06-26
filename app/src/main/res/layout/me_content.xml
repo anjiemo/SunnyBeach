@@ -36,9 +36,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
+                android:hint="账号未登录"
                 android:singleLine="true"
-                android:text="账号未登录"
                 android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:textSize="18sp" />
 
             <TextView
@@ -46,8 +47,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"
-                android:singleLine="true"
-                android:text="你还没有填写简介" />
+                android:hint="你还没有填写简介"
+                android:singleLine="true" />
 
         </LinearLayout>
 

@@ -1,4 +1,4 @@
-package com.example.blogsystem.viewmodel.login
+package cn.cqautotest.sunnybeach.viewmodel.login
 
 /**
  * 登录表单的数据验证状态

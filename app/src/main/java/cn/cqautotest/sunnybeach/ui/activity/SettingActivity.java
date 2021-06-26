@@ -27,6 +27,7 @@ import cn.cqautotest.sunnybeach.ui.dialog.SafeDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog;
 import cn.cqautotest.sunnybeach.utils.Constants;
 import cn.cqautotest.sunnybeach.viewmodel.SingletonManager;
+import cn.cqautotest.sunnybeach.viewmodel.UserViewModel;
 import cn.cqautotest.sunnybeach.viewmodel.app.AppUpdateState;
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel;
 import timber.log.Timber;
@@ -47,6 +48,7 @@ public final class SettingActivity extends AppActivity
     private SwitchButton mAutoSwitchView;
     private TextView mSettingUpdate;
     private final AppViewModel mAppViewModel = SingletonManager.INSTANCE.getAppViewModel();
+    private final UserViewModel mUserViewModel = SingletonManager.INSTANCE.getUserViewModel();
 
     @Override
     protected int getLayoutId() {
@@ -55,7 +57,9 @@ public final class SettingActivity extends AppActivity
 
     @Override
     public void initObserver() {
-        mAppViewModel.getAppUpdateState().observe(this, this::checkAppUpdate);
+        mAppViewModel.getAppUpdateState().observe(this, appUpdateState -> {
+            checkAppUpdate(appUpdateState, true);
+        });
     }
 
     @Override
@@ -109,7 +113,7 @@ public final class SettingActivity extends AppActivity
 
         } else if (viewId == R.id.sb_setting_update) {
             AppUpdateState appUpdateState = mAppViewModel.getAppUpdateState().getValue();
-            checkAppUpdate(appUpdateState);
+            checkAppUpdate(appUpdateState, false);
 
         } else if (viewId == R.id.sb_setting_phone) {
 
@@ -153,9 +157,11 @@ public final class SettingActivity extends AppActivity
         } else if (viewId == R.id.sb_setting_exit) {
 
             if (true) {
-                startActivity(LoginActivity.class);
+                LoginActivity.start(this, "", "");
                 // 进行内存优化，销毁除登录页之外的所有界面
                 ActivityManager.getInstance().finishAllActivities(LoginActivity.class);
+                // 清除用户基本信息数据
+                mUserViewModel.logoutUserAccount();
                 return;
             }
 
@@ -180,7 +186,7 @@ public final class SettingActivity extends AppActivity
      *
      * @param appUpdateState app的更新状态
      */
-    private void checkAppUpdate(AppUpdateState appUpdateState) {
+    private void checkAppUpdate(AppUpdateState appUpdateState, boolean isAutoCheck) {
         Timber.d("===>%s", GsonUtils.toJson(appUpdateState));
         if (appUpdateState != null) {
             if (!appUpdateState.isDataValid) {
@@ -201,7 +207,10 @@ public final class SettingActivity extends AppActivity
                 showAppUpdateDialog(appUpdateInfo);
             } else {
                 hideUpdateIcon();
-                toast(R.string.update_no_update);
+                // 自动检查时才提示
+                if (!isAutoCheck) {
+                    toast(R.string.update_no_update);
+                }
             }
         }
     }
