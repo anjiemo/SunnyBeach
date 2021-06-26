@@ -8,6 +8,10 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\guide_activity.xml"
     },
     {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_refresh_ic.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\refresh_ic.png"
+    },
+    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_home.png.flat",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_home.png"
     },
@@ -32,16 +36,12 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\message_dialog.xml"
     },
     {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_share_dialog.xml.flat",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\share_dialog.xml"
-    },
-    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_video_schedule_forward_ic.xml.flat",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\video_schedule_forward_ic.xml"
     },
     {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_img_refresh.png.flat",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\img_refresh.png"
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_share_dialog.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\share_dialog.xml"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_no_image.png.flat",
@@ -152,12 +152,12 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\home_home_off_ic.xml"
     },
     {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_pay_password_empty_item.xml.flat",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\pay_password_empty_item.xml"
-    },
-    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_discover_ic.png.flat",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\discover_ic.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_pay_password_empty_item.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\pay_password_empty_item.xml"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_video_progress_ball_bg.xml.flat",
@@ -204,12 +204,12 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\succeed_ic.xml"
     },
     {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_arrows_bottom_ic.xml.flat",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\arrows_bottom_ic.xml"
-    },
-    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_home_navigation_color_selector.xml.flat",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\home_navigation_color_selector.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_arrows_bottom_ic.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\arrows_bottom_ic.xml"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_custom_dialog.xml.flat",
@@ -496,12 +496,12 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\share_moment_ic.png"
     },
     {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_my_me_fragment.xml.flat",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\my_me_fragment.xml"
-    },
-    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_setting.png.flat",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_setting.png"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_my_me_fragment.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\my_me_fragment.xml"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_home_found_selector.xml.flat",
@@ -776,16 +776,12 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\generated\\res\\pngs\\debug\\drawable-mdpi\\share_moment_ic.png"
     },
     {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_browser_fragment.xml.flat",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\browser_fragment.xml"
-    },
-    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_discover_fragment.xml.flat",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\discover_fragment.xml"
     },
     {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_img_refresh.png.flat",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\img_refresh.png"
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_browser_fragment.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\browser_fragment.xml"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_no_photo.png.flat",

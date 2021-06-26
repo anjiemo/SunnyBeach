@@ -10,9 +10,7 @@ import okhttp3.HttpUrl
 
 class CookieManager : CookieJar {
 
-    private val cookiesViewModel: CookiesViewModel by lazy {
-        SingletonManager.cookiesViewModel
-    }
+    private val cookiesViewModel: CookiesViewModel by lazy { SingletonManager.cookiesViewModel }
 
     /**
      * 通过主机名获取保存的 cookie

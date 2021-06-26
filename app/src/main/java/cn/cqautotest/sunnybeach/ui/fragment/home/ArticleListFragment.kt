@@ -14,6 +14,7 @@ import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.ArticleListFragmentBinding
 import cn.cqautotest.sunnybeach.ui.activity.ArticleDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
+import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 import cn.cqautotest.sunnybeach.ui.adapter.ArticleAdapter
 import cn.cqautotest.sunnybeach.utils.*
 import cn.cqautotest.sunnybeach.viewmodel.home.HomeViewModel
@@ -63,9 +64,10 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
         }
         articleAdapter.setOnItemClickListener { _, _, position ->
             val articleItem = articleAdapter.getItem(position)
+            LoginActivity.start(requireContext(), "", "")
             ArticleDetailActivity.start(
                 requireContext(),
-                "https://www.sunofbeach.net/a/1403262826952323074"
+                "https://www.sunofbeach.net/a/${articleItem.id}"
             )
         }
         articleAdapter.addChildClickViewIds(R.id.iv_avatar)
