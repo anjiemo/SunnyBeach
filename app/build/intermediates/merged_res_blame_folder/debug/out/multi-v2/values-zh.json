@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\ProgramFiles\\Android\\AndroidProjectNew\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-zh\\values-zh.xml",
+            "outputFile": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-zh\\values-zh.xml",
             "map": [
                 {
                     "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\c15657d492c716e5f1ad491ff4683e71\\transformed\\jetified-refresh-layout-kernel-2.0.3\\res\\values-zh\\values-zh.xml",

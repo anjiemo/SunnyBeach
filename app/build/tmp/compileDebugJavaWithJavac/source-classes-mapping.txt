@@ -417,8 +417,9 @@ cn/cqautotest/sunnybeach/ui/adapter/ImagePreviewAdapter.java
  cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter
  cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter$1
  cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter$ViewHolder
-cn/cqautotest/sunnybeach/databinding/CopyActivityBinding.java
- cn.cqautotest.sunnybeach.databinding.CopyActivityBinding
+cn/cqautotest/sunnybeach/ui/activity/SettingActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.SettingActivity
+ cn.cqautotest.sunnybeach.ui.activity.SettingActivity$1
 cn/cqautotest/sunnybeach/ui/dialog/CommonDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.CommonDialog
  cn.cqautotest.sunnybeach.ui.dialog.CommonDialog$Builder
@@ -499,8 +500,10 @@ cn/cqautotest/sunnybeach/ui/dialog/InputDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.InputDialog
  cn.cqautotest.sunnybeach.ui.dialog.InputDialog$Builder
  cn.cqautotest.sunnybeach.ui.dialog.InputDialog$OnListener
-cn/cqautotest/sunnybeach/databinding/PasswordResetActivityBinding.java
- cn.cqautotest.sunnybeach.databinding.PasswordResetActivityBinding
+cn/cqautotest/sunnybeach/ui/fragment/MeFragment.java
+ cn.cqautotest.sunnybeach.ui.fragment.MeFragment
+ cn.cqautotest.sunnybeach.ui.fragment.MeFragment$1
+ cn.cqautotest.sunnybeach.ui.fragment.MeFragment$2
 cn/cqautotest/sunnybeach/http/request/CopyApi.java
  cn.cqautotest.sunnybeach.http.request.CopyApi
 cn/cqautotest/sunnybeach/ui/dialog/AlbumDialog.java
@@ -536,10 +539,7 @@ cn/cqautotest/sunnybeach/action/StatusAction.java
  cn.cqautotest.sunnybeach.action.StatusAction
 cn/cqautotest/sunnybeach/http/request/PhoneApi.java
  cn.cqautotest.sunnybeach.http.request.PhoneApi
-cn/cqautotest/sunnybeach/ui/activity/SettingActivity.java
- cn.cqautotest.sunnybeach.ui.activity.SettingActivity
- cn.cqautotest.sunnybeach.ui.activity.SettingActivity$1
-cn/cqautotest/sunnybeach/ui/fragment/MeFragment.java
- cn.cqautotest.sunnybeach.ui.fragment.MeFragment
- cn.cqautotest.sunnybeach.ui.fragment.MeFragment$1
- cn.cqautotest.sunnybeach.ui.fragment.MeFragment$2
+cn/cqautotest/sunnybeach/databinding/PasswordResetActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.PasswordResetActivityBinding
+cn/cqautotest/sunnybeach/databinding/CopyActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.CopyActivityBinding
