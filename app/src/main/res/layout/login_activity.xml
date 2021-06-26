@@ -57,9 +57,43 @@
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="20dp"
             android:hint="@string/common_password_input_error"
-            android:imeOptions="actionDone"
             android:maxLength="20"
             android:singleLine="true" />
+
+        <View
+            style="@style/HorizontalLineStyle"
+            android:layout_marginHorizontal="40dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.hjq.widget.view.ClearEditText
+                android:id="@+id/et_login_verify_code"
+                style="@style/EditTextStyle"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="@string/common_code_input_hint"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:singleLine="true"
+                app:regexType="nonnull" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/siv_login_verify_code"
+                android:layout_width="0px"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/refresh_ic" />
+
+        </LinearLayout>
 
         <View
             style="@style/HorizontalLineStyle"
@@ -72,7 +106,7 @@
             android:layout_gravity="end"
             android:layout_marginStart="40dp"
             android:layout_marginTop="15dp"
-            android:layout_marginEnd="60dp"
+            android:layout_marginEnd="40dp"
             android:text="@string/login_forget"
             android:textColor="@color/common_accent_color" />
 

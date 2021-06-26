@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.umeng.umsdk:agoo_aranger:1.0.6">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/agoo_aranger/1.0.6/8ee443376cf1b8c803381c2d45f4a12f40563132/agoo_aranger-1.0.6.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/agoo_aranger/1.0.6/da6fe493a326822f9ca59c1542f90ecfe16759eb/agoo_aranger-1.0.6-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/agoo_aranger/1.0.6/da6fe493a326822f9ca59c1542f90ecfe16759eb/agoo_aranger-1.0.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

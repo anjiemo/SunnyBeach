@@ -1,9 +1,12 @@
+@file:JvmName("ActivityUtils")
+
 package cn.cqautotest.sunnybeach.utils
 
 import android.app.Activity
 import android.graphics.Color
 import android.view.View
 
+@JvmOverloads
 fun Activity.fullWindow(isBlack: Boolean = true) {
     val decorView = window.decorView
     decorView.systemUiVisibility =

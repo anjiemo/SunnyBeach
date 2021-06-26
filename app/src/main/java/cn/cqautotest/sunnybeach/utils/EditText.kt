@@ -1,3 +1,4 @@
+@file:JvmName("EditTextUtils")
 package cn.cqautotest.sunnybeach.utils
 
 import android.text.Editable

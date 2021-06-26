@@ -19,8 +19,8 @@ const val SUNNY_BEACH_BASE_URL = "https://api.sunofbeach.net/"
 
 const val DEFAULT_AVATAR_URL = "https://cdn.sunofbeaches.com/images/default_avatar.png"
 
-val VERIFY_CODE_URL =
-    "${SUNNY_BEACH_BASE_URL}uc/ut/captcha?code=${System.currentTimeMillis()}${Random.nextInt(99999)}"
+const val VERIFY_CODE_URL =
+    "${SUNNY_BEACH_BASE_URL}uc/ut/captcha?code=1204736502274318336"
 
 const val DEFAULT_HTTP_OK_CODE = 200
 

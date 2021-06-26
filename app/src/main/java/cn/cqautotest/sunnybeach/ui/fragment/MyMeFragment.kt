@@ -2,7 +2,7 @@ package cn.cqautotest.sunnybeach.ui.fragment
 
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
-import cn.cqautotest.sunnybeach.app.AppFragment
+import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.MyMeFragmentBinding
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
@@ -13,7 +13,13 @@ import cn.cqautotest.sunnybeach.viewmodel.SingletonManager
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
 
-class MyMeFragment : AppFragment<AppActivity>() {
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/6/20
+ * desc   : 个人中心界面
+ */
+class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     private var _binding: MyMeFragmentBinding? = null
     private val binding get() = _binding!!
@@ -42,14 +48,15 @@ class MyMeFragment : AppFragment<AppActivity>() {
 
     override fun initView() {
         val meContent = binding.meContent
-        userViewModel.userBasicInfo.observe(this) {
+        userViewModel.userBasicInfo.observe(this) { userBasicInfo ->
+            val avatar = userBasicInfo?.avatar
             Glide.with(this)
-                .load(it.avatar)
+                .load(avatar)
                 .placeholder(R.mipmap.ic_default_avatar)
                 .error(R.mipmap.ic_default_avatar)
                 .circleCrop()
                 .into(meContent.imageAvatar)
-            meContent.textNickName.text = it.nickname
+            meContent.textNickName.text = userBasicInfo?.nickname ?: ""
         }
     }
 
@@ -58,6 +65,11 @@ class MyMeFragment : AppFragment<AppActivity>() {
         userBasicInfo?.let {
             binding.meContent.textNickName.text = it.nickname
         }
+    }
+
+    override fun isStatusBarEnabled(): Boolean {
+        // 使用沉浸式状态栏
+        return !super.isStatusBarEnabled()
     }
 
     override fun onDestroy() {

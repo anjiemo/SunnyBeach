@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.scwang.smart.refresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/refreshLayout"
+    android:id="@+id/rl_status_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="6dp">
+    android:layout_marginTop="6dp"
+    app:srlEnableLoadMore="false"
+    tools:context=".ui.fragment.home.ArticleListFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/articleListRv"
+    <cn.cqautotest.sunnybeach.widget.StatusLayout
+        android:id="@+id/hl_article_list_hint"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:overScrollMode="never"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="20"
-        tools:listitem="@layout/item_article" />
+        android:layout_height="match_parent">
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/articleListRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="20"
+            tools:listitem="@layout/item_article" />
+
+    </cn.cqautotest.sunnybeach.widget.StatusLayout>
+
+</com.scwang.smart.refresh.layout.SmartRefreshLayout>

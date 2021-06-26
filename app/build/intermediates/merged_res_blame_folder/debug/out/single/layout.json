@@ -20,10 +20,6 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\share_item.xml"
     },
     {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_gallery.xml",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\activity_gallery.xml"
-    },
-    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\message_fragment.xml",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\message_fragment.xml"
     },
@@ -48,10 +44,6 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\message_dialog.xml"
     },
     {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\content_home_discover_more_author.xml",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\content_home_discover_more_author.xml"
-    },
-    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\empty_fragment.xml",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\empty_fragment.xml"
     },
@@ -68,6 +60,10 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\copy_popup.xml"
     },
     {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\article_detail_activity.xml",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\article_detail_activity.xml"
+    },
+    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\image_select_item.xml",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\image_select_item.xml"
     },
@@ -82,10 +78,6 @@
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\input_dialog.xml",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\input_dialog.xml"
-    },
-    {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_discover.xml",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\fragment_discover.xml"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\register_activity.xml",
@@ -164,6 +156,10 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\copy_activity.xml"
     },
     {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\discover_fragment.xml",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\discover_fragment.xml"
+    },
+    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\picker_item.xml",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\picker_item.xml"
     },
@@ -232,6 +228,10 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\share_dialog.xml"
     },
     {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\home_discover_more_author_content.xml",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\home_discover_more_author_content.xml"
+    },
+    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\guide_activity.xml",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\guide_activity.xml"
     },
@@ -270,6 +270,10 @@
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\pay_password_dialog.xml",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\pay_password_dialog.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\gallery_activity.xml",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\gallery_activity.xml"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\splash_activity.xml",

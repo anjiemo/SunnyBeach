@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.hjq:titlebar:8.2@aar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/4267db1b56a110150669b61517e2910c/transformed/jetified-titlebar-8.2/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/4267db1b56a110150669b61517e2910c/transformed/jetified-titlebar-8.2/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/4267db1b56a110150669b61517e2910c/transformed/jetified-titlebar-8.2/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.hjq/titlebar/8.2/1fe413740ddd51130be8ac116f88fb08ff18c0c3/titlebar-8.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.hjq/titlebar/8.2/2d1464e84c08685908e76d788f3098361439ec66/titlebar-8.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

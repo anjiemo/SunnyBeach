@@ -60,9 +60,9 @@ public final class BrowserActivity extends AppActivity
 
     @Override
     protected void initView() {
-        mStatusLayout = findViewById(R.id.hl_browser_hint);
+        mStatusLayout = findViewById(R.id.hl_article_list_hint);
         mProgressBar = findViewById(R.id.pb_browser_progress);
-        mRefreshLayout = findViewById(R.id.sl_browser_refresh);
+        mRefreshLayout = findViewById(R.id.sl_article_detail_refresh);
         mBrowserView = findViewById(R.id.wv_browser_view);
 
         // 设置 WebView 生命管控

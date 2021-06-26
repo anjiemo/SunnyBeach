@@ -5,15 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.blankj.utilcode.util.GsonUtils
-import com.blankj.utilcode.util.NetworkUtils
-import com.blankj.utilcode.util.RegexUtils
-import com.example.blogsystem.execption.LoginFailedException
-import cn.cqautotest.sunnybeach.http.request.api.UserApi
-import com.example.blogsystem.viewmodel.login.LoginFormState
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.http.ServiceCreator
+import cn.cqautotest.sunnybeach.http.request.api.UserApi
 import cn.cqautotest.sunnybeach.model.BaseResponse
 import cn.cqautotest.sunnybeach.model.User
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
@@ -22,7 +17,13 @@ import cn.cqautotest.sunnybeach.utils.SUNNY_BEACH_USER_BASIC_INFO
 import cn.cqautotest.sunnybeach.utils.md5
 import cn.cqautotest.sunnybeach.utils.toJson
 import cn.cqautotest.sunnybeach.viewmodel.login.LoggedInUserView
+import cn.cqautotest.sunnybeach.viewmodel.login.LoginFormState
 import cn.cqautotest.sunnybeach.viewmodel.login.LoginResult
+import com.blankj.utilcode.util.GsonUtils
+import com.blankj.utilcode.util.NetworkUtils
+import com.blankj.utilcode.util.RegexUtils
+import com.example.blogsystem.execption.LoginFailedException
+import com.hjq.http.EasyConfig
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,14 +40,17 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> get() = _loginForm
 
-    private val _loginResult = MutableLiveData<LoginResult>()
-    val loginResult: LiveData<LoginResult> = _loginResult
+    private val _loginResult = MutableLiveData<LoginResult?>()
+    val loginResult: LiveData<LoginResult?> = _loginResult
 
-    private val _userBasicInfo = MutableLiveData<UserBasicInfo>()
-    val userBasicInfo: LiveData<UserBasicInfo> get() = _userBasicInfo
+    private val _userBasicInfo = MutableLiveData<UserBasicInfo?>()
+    val userBasicInfo: LiveData<UserBasicInfo?> get() = _userBasicInfo
 
     private val userApi by lazy { ServiceCreator.create<UserApi>() }
 
+    /**
+     * 用户账号登录
+     */
     fun login(userAccount: String, password: String, captcha: String) = viewModelScope.launch {
         val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
         if (available.not()) return@launch
@@ -64,6 +68,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             if (SUNNY_BEACH_HTTP_OK_CODE == loginResult.code && SUNNY_BEACH_HTTP_OK_CODE == tempUserBasicInfoResponse.code) {
                 userBasicInfoResponse = tempUserBasicInfoResponse
                 _userBasicInfo.value = tempUserBasicInfoResponseData
+                // 更新 Token
+                EasyConfig.getInstance()
+                    .addParam("token", tempUserBasicInfoResponseData.token)
                 loginResult
             } else {
                 throw LoginFailedException()
@@ -81,6 +88,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /**
+     * 检查用户 Token
+     */
     fun checkUserToken() = viewModelScope.launch {
         val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
         if (available.not()) {
@@ -113,6 +123,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /**
+     * 检查用户登录状态
+     */
     fun checkUserState() = viewModelScope.launch {
         val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
         if (available.not()) return@launch
@@ -131,6 +144,16 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private fun saveUserBasicInfo(userBasicInfo: UserBasicInfo) {
         val mmkv = MMKV.defaultMMKV() ?: return
         mmkv.putString(SUNNY_BEACH_USER_BASIC_INFO, userBasicInfo.toJson())
+    }
+
+    /**
+     * 清除用户基本信息数据
+     */
+    fun logoutUserAccount() {
+        val mmkv = MMKV.defaultMMKV() ?: return
+        mmkv.removeValueForKey(SUNNY_BEACH_USER_BASIC_INFO)
+        _loginResult.value = null
+        _userBasicInfo.value = null
     }
 
     /**

@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,34 +18,36 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import cn.cqautotest.sunnybeach.R;
-import cn.cqautotest.sunnybeach.aop.DebugLog;
-import cn.cqautotest.sunnybeach.aop.SingleClick;
-import cn.cqautotest.sunnybeach.app.AppActivity;
-import cn.cqautotest.sunnybeach.http.glide.GlideApp;
-import cn.cqautotest.sunnybeach.http.model.HttpData;
-import cn.cqautotest.sunnybeach.http.request.LoginApi;
-import cn.cqautotest.sunnybeach.http.response.LoginBean;
-import cn.cqautotest.sunnybeach.manager.InputTextManager;
-import cn.cqautotest.sunnybeach.other.IntentKey;
-import cn.cqautotest.sunnybeach.other.KeyboardWatcher;
-import cn.cqautotest.sunnybeach.ui.fragment.MeFragment;
-import cn.cqautotest.sunnybeach.wxapi.WXEntryActivity;
-import com.hjq.http.EasyConfig;
-import com.hjq.http.EasyHttp;
-import com.hjq.http.listener.HttpCallback;
+import com.blankj.utilcode.util.GsonUtils;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.hjq.umeng.Platform;
 import com.hjq.umeng.UmengClient;
 import com.hjq.umeng.UmengLogin;
 import com.hjq.widget.view.SubmitButton;
 
-import okhttp3.Call;
+import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.aop.DebugLog;
+import cn.cqautotest.sunnybeach.aop.SingleClick;
+import cn.cqautotest.sunnybeach.app.AppActivity;
+import cn.cqautotest.sunnybeach.http.glide.GlideApp;
+import cn.cqautotest.sunnybeach.manager.InputTextManager;
+import cn.cqautotest.sunnybeach.other.IntentKey;
+import cn.cqautotest.sunnybeach.other.KeyboardWatcher;
+import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
+import cn.cqautotest.sunnybeach.utils.Constants;
+import cn.cqautotest.sunnybeach.utils.EditTextUtils;
+import cn.cqautotest.sunnybeach.utils.LogUtils;
+import cn.cqautotest.sunnybeach.viewmodel.SingletonManager;
+import cn.cqautotest.sunnybeach.viewmodel.UserViewModel;
+import cn.cqautotest.sunnybeach.viewmodel.login.LoggedInUserView;
+import cn.cqautotest.sunnybeach.wxapi.WXEntryActivity;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2018/10/18
- *    desc   : 登录界面
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2018/10/18
+ * desc   : 登录界面
  */
 public final class LoginActivity extends AppActivity
         implements UmengLogin.OnLoginListener,
@@ -62,11 +65,15 @@ public final class LoginActivity extends AppActivity
         context.startActivity(intent);
     }
 
+    private final UserViewModel mUserViewModel = SingletonManager.INSTANCE.getUserViewModel();
+
     private ImageView mLogoView;
 
     private ViewGroup mBodyLayout;
     private EditText mPhoneView;
     private EditText mPasswordView;
+    private EditText mVerifyCodeViewEt;
+    private ShapeableImageView mVerifyCodeView;
 
     private View mForgetView;
     private SubmitButton mCommitView;
@@ -75,9 +82,13 @@ public final class LoginActivity extends AppActivity
     private View mQQView;
     private View mWeChatView;
 
-    /** logo 缩放比例 */
+    /**
+     * logo 缩放比例
+     */
     private final float mLogoScale = 0.8f;
-    /** 动画时间 */
+    /**
+     * 动画时间
+     */
     private final int mAnimTime = 300;
 
     @Override
@@ -86,30 +97,80 @@ public final class LoginActivity extends AppActivity
     }
 
     @Override
+    public void initObserver() {
+        mUserViewModel.getLoginResult().observe(this, loginResult -> {
+            // 如果是未登录状态，则重置登录按钮
+            if (loginResult == null) {
+                mCommitView.reset();
+                return;
+            }
+            LogUtils.logByDebug(this, "initObserver：===>" + GsonUtils.toJson(loginResult));
+            LoggedInUserView loggedInUserView = loginResult.getSuccess();
+            if (loginResult.getError() != null || loggedInUserView == null) {
+                loadVerifyCode();
+                mCommitView.showError();
+                return;
+            }
+            mCommitView.showSucceed();
+            postDelayed(() -> {
+                HomeActivity.start(getContext(), MyMeFragment.class);
+                finish();
+            }, 1000);
+        });
+    }
+
+    @Override
+    public void initEvent() {
+        EditTextUtils.afterTextChanged(mPhoneView, result -> {
+            if (TextUtils.isEmpty(result)) {
+                mCommitView.reset();
+            }
+            return null;
+        });
+        EditTextUtils.afterTextChanged(mPasswordView, result -> {
+            if (TextUtils.isEmpty(result)) {
+                mCommitView.reset();
+            }
+            return null;
+        });
+        EditTextUtils.afterTextChanged(mVerifyCodeViewEt, result -> {
+            if (TextUtils.isEmpty(result)) {
+                mCommitView.reset();
+            }
+            return null;
+        });
+    }
+
+    @Override
     protected void initView() {
         mLogoView = findViewById(R.id.iv_login_logo);
         mBodyLayout = findViewById(R.id.ll_login_body);
         mPhoneView = findViewById(R.id.et_login_phone);
         mPasswordView = findViewById(R.id.et_login_password);
+        mVerifyCodeViewEt = findViewById(R.id.et_login_verify_code);
+        mVerifyCodeView = findViewById(R.id.siv_login_verify_code);
         mForgetView = findViewById(R.id.tv_login_forget);
         mCommitView = findViewById(R.id.btn_login_commit);
         mOtherView = findViewById(R.id.ll_login_other);
         mQQView = findViewById(R.id.iv_login_qq);
         mWeChatView = findViewById(R.id.iv_login_wechat);
 
-        setOnClickListener(mForgetView, mCommitView, mQQView, mWeChatView);
+        setOnClickListener(mVerifyCodeView, mForgetView, mCommitView, mQQView, mWeChatView);
 
-        mPasswordView.setOnEditorActionListener(this);
+        mVerifyCodeViewEt.setOnEditorActionListener(this);
 
         InputTextManager.with(this)
                 .addView(mPhoneView)
                 .addView(mPasswordView)
+                .addView(mVerifyCodeViewEt)
                 .setMain(mCommitView)
                 .build();
     }
 
     @Override
     protected void initData() {
+        // 首次进入时刷新验证码
+        loadVerifyCode();
         postDelayed(() -> {
             KeyboardWatcher.with(LoginActivity.this)
                     .setListener(LoginActivity.this);
@@ -151,6 +212,10 @@ public final class LoginActivity extends AppActivity
     @SingleClick
     @Override
     public void onClick(View view) {
+        if (view == mVerifyCodeView) {
+            loadVerifyCode();
+            return;
+        }
         if (view == mForgetView) {
             startActivity(PasswordForgetActivity.class);
             return;
@@ -166,56 +231,11 @@ public final class LoginActivity extends AppActivity
 
             // 隐藏软键盘
             hideKeyboard(getCurrentFocus());
-
-            if (true) {
-                mCommitView.showProgress();
-                postDelayed(() -> {
-                    mCommitView.showSucceed();
-                    postDelayed(() -> {
-                        HomeActivity.start(getContext(), MeFragment.class);
-                        finish();
-                    }, 1000);
-                }, 2000);
-                return;
-            }
-
-            EasyHttp.post(this)
-                    .api(new LoginApi()
-                            .setPhone(mPhoneView.getText().toString())
-                            .setPassword(mPasswordView.getText().toString()))
-                    .request(new HttpCallback<HttpData<LoginBean>>(this) {
-
-                        @Override
-                        public void onStart(Call call) {
-                            mCommitView.showProgress();
-                        }
-
-                        @Override
-                        public void onEnd(Call call) {}
-
-                        @Override
-                        public void onSucceed(HttpData<LoginBean> data) {
-                            // 更新 Token
-                            EasyConfig.getInstance()
-                                    .addParam("token", data.getData().getToken());
-                            postDelayed(() -> {
-                                mCommitView.showSucceed();
-                                postDelayed(() -> {
-                                    // 跳转到首页
-                                    HomeActivity.start(getContext(), MeFragment.class);
-                                    finish();
-                                }, 1000);
-                            }, 1000);
-                        }
-
-                        @Override
-                        public void onFail(Exception e) {
-                            super.onFail(e);
-                            postDelayed(() -> {
-                                mCommitView.showError(3000);
-                            }, 1000);
-                        }
-                    });
+            mCommitView.showProgress();
+            // 登录
+            mUserViewModel.login(mPhoneView.getText().toString(),
+                    mPasswordView.getText().toString(),
+                    mVerifyCodeViewEt.getText().toString());
             return;
         }
 
@@ -234,6 +254,17 @@ public final class LoginActivity extends AppActivity
         }
     }
 
+    /**
+     * 加载验证码图片
+     */
+    private void loadVerifyCode() {
+        GlideApp.with(this)
+                .load(Constants.VERIFY_CODE_URL)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(mVerifyCodeView);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -248,8 +279,8 @@ public final class LoginActivity extends AppActivity
     /**
      * 授权成功的回调
      *
-     * @param platform      平台名称
-     * @param data          用户资料返回
+     * @param platform 平台名称
+     * @param data     用户资料返回
      */
     @Override
     public void onSucceed(Platform platform, UmengLogin.LoginData data) {
@@ -281,8 +312,8 @@ public final class LoginActivity extends AppActivity
     /**
      * 授权失败的回调
      *
-     * @param platform      平台名称
-     * @param t             错误原因
+     * @param platform 平台名称
+     * @param t        错误原因
      */
     @Override
     public void onError(Platform platform, Throwable t) {
@@ -292,7 +323,7 @@ public final class LoginActivity extends AppActivity
     /**
      * 授权取消的回调
      *
-     * @param platform      平台名称
+     * @param platform 平台名称
      */
     @Override
     public void onCancel(Platform platform) {

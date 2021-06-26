@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.ArticleDetailActivity">
+
+    <com.hjq.bar.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Activity管理" />
+
+    <ProgressBar
+        android:id="@+id/pb_browser_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:progressDrawable="@drawable/progress_gradient_bg"
+        android:visibility="gone" />
+
+    <cn.cqautotest.sunnybeach.widget.StatusLayout
+        android:id="@+id/hl_article_detail_hint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/sl_article_detail_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlEnableHeaderTranslationContent="false"
+            app:srlEnableLoadMore="false"
+            app:srlEnablePreviewInEditMode="false"
+            app:srlPrimaryColor="#444444">
+
+            <cn.cqautotest.sunnybeach.widget.BrowserView
+                android:id="@+id/wv_browser_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    </cn.cqautotest.sunnybeach.widget.StatusLayout>
+
+</LinearLayout>
