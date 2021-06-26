@@ -64,7 +64,6 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
         }
         articleAdapter.setOnItemClickListener { _, _, position ->
             val articleItem = articleAdapter.getItem(position)
-            LoginActivity.start(requireContext(), "", "")
             ArticleDetailActivity.start(
                 requireContext(),
                 "https://www.sunofbeach.net/a/${articleItem.id}"
