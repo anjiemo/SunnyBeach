@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: ./umeng/libs/umeng-share-core-6.9.8.jar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/umeng/libs/umeng-share-core-6.9.8.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.tencent.bugly:nativecrashreport:3.7.700@aar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f43d7d9f81d6eef308cf8df3a2660c02/transformed/jetified-nativecrashreport-3.7.700/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f43d7d9f81d6eef308cf8df3a2660c02/transformed/jetified-nativecrashreport-3.7.700/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f43d7d9f81d6eef308cf8df3a2660c02/transformed/jetified-nativecrashreport-3.7.700/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.tencent.bugly/nativecrashreport/3.7.700/1149c54973648f32cadd0d7a6ebcb598633f8dc1/nativecrashreport-3.7.700-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.tencent.bugly/nativecrashreport/3.7.700/1149c54973648f32cadd0d7a6ebcb598633f8dc1/nativecrashreport-3.7.700-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
