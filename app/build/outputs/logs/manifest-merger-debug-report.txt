@@ -199,30 +199,30 @@ INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xm
 		INJECTED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:2:11-69
-uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:7:5-79
-MERGED from [:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:5-79
-MERGED from [:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:5-79
-MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:12:5-79
-MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:12:5-79
-	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:7:22-76
-uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:8:5-76
-MERGED from [:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:5-76
-MERGED from [:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:5-76
-MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:14:5-76
-MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:14:5-76
-	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:8:22-73
 uses-permission#android.permission.INTERNET
-ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9:5-67
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:7:5-67
 MERGED from [:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-67
 MERGED from [:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-67
 MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:13:5-67
 MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:13:5-67
 	android:name
-		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9:22-64
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:7:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:8:5-79
+MERGED from [:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:5-79
+MERGED from [:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:5-79
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:12:5-79
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:12:5-79
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:8:22-76
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9:5-76
+MERGED from [:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:5-76
+MERGED from [:umeng] D:\ProgramFiles\Android\SunnyBeach\umeng\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:5-76
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:14:5-76
+MERGED from [mi-appstore:xiaomi-update-sdk:4.0.3] D:\ProgramFiles\GradleWorkSpace\caches\transforms-3\b35890a06d440d5ef2c9ca097c7e1f9c\transformed\jetified-xiaomi-update-sdk-4.0.3\AndroidManifest.xml:14:5-76
+	android:name
+		ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9:22-73
 uses-permission#android.permission.SET_WALLPAPER
 ADDED from D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:11:5-72
 	android:name

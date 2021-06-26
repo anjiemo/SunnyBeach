@@ -11,15 +11,15 @@
 9-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml
 10
 11    <!-- 网络相关 -->
-12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-12-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:7:5-79
-12-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:7:22-76
-13    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-13-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:8:5-76
-13-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:8:22-73
-14    <uses-permission android:name="android.permission.INTERNET" />
-14-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9:5-67
-14-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9:22-64
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:7:5-67
+12-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:7:22-64
+13    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+13-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:8:5-79
+13-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:8:22-76
+14    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+14-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9:5-76
+14-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:9:22-73
 15    <!-- 设置壁纸权限 -->
 16    <uses-permission android:name="android.permission.SET_WALLPAPER" />
 16-->D:\ProgramFiles\Android\SunnyBeach\app\src\main\AndroidManifest.xml:11:5-72
