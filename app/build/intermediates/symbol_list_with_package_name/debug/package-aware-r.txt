@@ -2054,7 +2054,6 @@ drawable ic_mtrl_chip_close_circle
 drawable image_error_bg
 drawable image_loading_bg
 drawable image_preview_indicator
-drawable img_refresh
 drawable info_ic
 drawable input_delete_ic
 drawable leak_canary_count_background
@@ -2398,6 +2397,7 @@ id enterAlways
 id enterAlwaysCollapsed
 id et_login_password
 id et_login_phone
+id et_login_verify_code
 id et_password_forget_code
 id et_password_forget_phone
 id et_password_reset_password1
@@ -2753,6 +2753,7 @@ id showCustom
 id showHome
 id showTitle
 id sin
+id siv_login_verify_code
 id skipCollapsed
 id sl_article_detail_refresh
 id sl_discover_refresh
@@ -3172,9 +3173,9 @@ mipmap ic_no_image
 mipmap ic_no_photo
 mipmap ic_right
 mipmap ic_setting
-mipmap img_refresh
 mipmap launcher_ic
 mipmap leak_canary_icon
+mipmap refresh_ic
 plurals leak_canary_distinct_leaks
 plurals leak_canary_group_screen_title
 plurals mtrl_badge_content_description
