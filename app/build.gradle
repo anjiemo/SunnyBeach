@@ -64,7 +64,7 @@ android {
             // 日志打印开关
             buildConfigField('boolean', 'LOG_ENABLE', 'true')
             // 测试包下的 BuglyId
-            buildConfigField('String', 'BUGLY_ID', '6ce2807170')
+            buildConfigField('String', 'BUGLY_ID', '"6ce2807170"')
             // 测试服务器的主机地址
             buildConfigField('String', 'HOST_URL', '"https://www.test.baidu.com/"')
             // 设置清单占位符
@@ -97,7 +97,7 @@ android {
             // 日志打印开关
             buildConfigField('boolean', 'LOG_ENABLE', 'false')
             // 正式包下的 BuglyId
-            buildConfigField('String', 'BUGLY_ID', '6ce2807170')
+            buildConfigField('String', 'BUGLY_ID', '"6ce2807170"')
             // 正式服务器的主机地址
             buildConfigField('String', 'HOST_URL', '"https://www.baidu.com/"')
             // 设置清单占位符

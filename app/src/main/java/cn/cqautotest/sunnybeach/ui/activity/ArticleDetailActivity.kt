@@ -37,7 +37,7 @@ class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
     private lateinit var mRefreshLayout: SmartRefreshLayout
     private lateinit var mBrowserView: BrowserView
 
-    override fun getLayoutId(): Int = R.layout.browser_activity
+    override fun getLayoutId(): Int = R.layout.article_detail_activity
 
     override fun onBindingView() {
         mBinding = ArticleDetailActivityBinding.bind(viewBindingRoot)
@@ -46,7 +46,7 @@ class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
     override fun initView() {
         mStatusLayout = mBinding.hlArticleDetailHint
         mProgressBar = mBinding.pbBrowserProgress
-        mRefreshLayout = mBinding.slArticleDetailRefresh
+        mRefreshLayout = mBinding.slBrowserRefresh
         mBrowserView = mBinding.wvBrowserView
 
         // 设置 WebView 生命管控

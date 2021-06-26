@@ -50,8 +50,8 @@ public final class BrowserFragment extends AppFragment<AppActivity>
 
     @Override
     protected void initView() {
-        mStatusLayout = findViewById(R.id.hl_article_list_hint);
-        mRefreshLayout = findViewById(R.id.sl_article_detail_refresh);
+        mStatusLayout = findViewById(R.id.hl_browser_hint);
+        mRefreshLayout = findViewById(R.id.sl_browser_refresh);
         mBrowserView = findViewById(R.id.wv_browser_view);
 
         // 设置网页刷新监听

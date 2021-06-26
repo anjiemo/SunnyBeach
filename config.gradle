@@ -8,8 +8,8 @@ android {
         minSdkVersion 21
         // 目标适配版本
         targetSdkVersion 30
-        versionName '2.0'
-        versionCode 3
+        versionName '2.1'
+        versionCode 4
         //versionCode new Date().format("yyyyMMdd") as int
     }
 
