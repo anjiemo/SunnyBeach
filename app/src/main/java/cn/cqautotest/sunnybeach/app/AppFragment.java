@@ -1,5 +1,7 @@
 package cn.cqautotest.sunnybeach.app;
 
+import androidx.annotation.CallSuper;
+
 import com.hjq.base.BaseFragment;
 import cn.cqautotest.sunnybeach.action.Init;
 import cn.cqautotest.sunnybeach.action.ToastAction;
@@ -17,6 +19,7 @@ import okhttp3.Call;
 public abstract class AppFragment<A extends AppActivity> extends BaseFragment<A>
         implements Init, ToastAction, OnHttpListener<Object> {
 
+    @CallSuper
     @Override
     protected void onFragmentResume(boolean first) {
         super.onFragmentResume(first);

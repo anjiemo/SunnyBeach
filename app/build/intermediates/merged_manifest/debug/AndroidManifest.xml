@@ -106,7 +106,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- 引导页 -->
+        </activity>
+        <!-- 引导页 -->
         <activity
             android:name="cn.cqautotest.sunnybeach.ui.activity.GuideActivity"
             android:launchMode="singleTop"
@@ -114,6 +115,12 @@
         <!-- 首页 -->
         <activity
             android:name="cn.cqautotest.sunnybeach.ui.activity.HomeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 文章详情 -->
+        <activity
+            android:name="cn.cqautotest.sunnybeach.ui.activity.ArticleDetailActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />

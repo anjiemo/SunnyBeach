@@ -16,20 +16,9 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
-import cn.cqautotest.sunnybeach.db.CookieRoomDatabase;
 import com.hjq.bar.TitleBar;
 import com.hjq.bar.initializer.LightBarInitializer;
-import cn.cqautotest.sunnybeach.R;
-import cn.cqautotest.sunnybeach.aop.DebugLog;
-import cn.cqautotest.sunnybeach.http.glide.GlideApp;
-import cn.cqautotest.sunnybeach.http.model.RequestHandler;
-import cn.cqautotest.sunnybeach.http.model.RequestServer;
-import cn.cqautotest.sunnybeach.manager.ActivityManager;
-import cn.cqautotest.sunnybeach.other.AppConfig;
-import cn.cqautotest.sunnybeach.other.CrashHandler;
-import cn.cqautotest.sunnybeach.other.DebugLoggerTree;
-import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter;
-import cn.cqautotest.sunnybeach.other.ToastInterceptor;
+import com.hjq.bar.initializer.TransparentBarInitializer;
 import com.hjq.http.EasyConfig;
 import com.hjq.permissions.XXPermissions;
 import com.hjq.toast.ToastUtils;
@@ -39,11 +28,25 @@ import com.scwang.smart.refresh.header.MaterialHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.aop.DebugLog;
+import cn.cqautotest.sunnybeach.db.CookieRoomDatabase;
+import cn.cqautotest.sunnybeach.http.ServiceCreator;
+import cn.cqautotest.sunnybeach.http.glide.GlideApp;
+import cn.cqautotest.sunnybeach.http.model.RequestHandler;
+import cn.cqautotest.sunnybeach.http.model.RequestServer;
+import cn.cqautotest.sunnybeach.manager.ActivityManager;
+import cn.cqautotest.sunnybeach.other.AppConfig;
+import cn.cqautotest.sunnybeach.other.CrashHandler;
+import cn.cqautotest.sunnybeach.other.DebugLoggerTree;
+import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter;
+import cn.cqautotest.sunnybeach.other.ToastInterceptor;
+import cn.cqautotest.sunnybeach.viewmodel.SingletonManager;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
 /**
- *    author : Android 轮子哥
+ *    author : Android 轮子哥 & A Lonely Cat
  *    github : https://github.com/getActivity/AndroidProject
  *    time   : 2018/10/18
  *    desc   : 应用入口
@@ -149,8 +152,7 @@ public final class AppApplication extends Application {
         ActivityManager.getInstance().init(application);
 
         // 网络请求框架初始化
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .build();
+        OkHttpClient okHttpClient = ServiceCreator.INSTANCE.getClient();
 
         EasyConfig.with(okHttpClient)
                 // 是否打印日志
@@ -173,6 +175,14 @@ public final class AppApplication extends Application {
             Timber.plant(new DebugLoggerTree());
         }
 
+        // 设置全局的 TitleBar 样式
+        TitleBar.setDefaultInitializer(new TransparentBarInitializer() {
+            @Override
+            public Drawable getBackgroundDrawable(Context context) {
+                return getDrawableResources(context, R.drawable.shape_gradient);
+            }
+        });
+
         // 注册网络状态变化监听
         ConnectivityManager connectivityManager = ContextCompat.getSystemService(application, ConnectivityManager.class);
         if (connectivityManager != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -190,7 +200,10 @@ public final class AppApplication extends Application {
             });
         }
 
+        // 初始化 Room 数据库
         sDatabase = CookieRoomDatabase.getDatabase(getInstance());
+        // 初始化 appViewModel 中的SDK
+        SingletonManager.INSTANCE.getAppViewModel().initSDK();
     }
 
     public static CookieRoomDatabase getDatabase() {

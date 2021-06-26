@@ -871,6 +871,8 @@ attr rightSize
 attr rightTint
 attr rightTitle
 attr rippleColor
+attr rlClipBackground
+attr rlRadius
 attr round
 attr roundPercent
 attr saturation
@@ -1005,7 +1007,6 @@ attr suffixText
 attr suffixTextAppearance
 attr suffixTextColor
 attr suggestionRowLayout
-attr swipeRefreshLayoutProgressSpinnerBackgroundColor
 attr switchMinWidth
 attr switchPadding
 attr switchStyle
@@ -2019,10 +2020,11 @@ drawable design_password_eye
 drawable design_snackbar_background
 drawable dialog_input_bg
 drawable dialog_rounded_corner_bg
+drawable discover_ic
 drawable error_ic
 drawable example_bg
 drawable finish_ic
-drawable gallery_circle_btn
+drawable gallery_circle_bg
 drawable guide_1_bg
 drawable guide_2_bg
 drawable guide_3_bg
@@ -2044,17 +2046,14 @@ drawable home_navigation_color_selector
 drawable home_search_bar_gray_bg
 drawable home_search_bar_transparent_bg
 drawable ic_clock_black_24dp
-drawable ic_discover
 drawable ic_keyboard_black_24dp
 drawable ic_mtrl_checked_circle
 drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
-drawable ic_setting
 drawable image_error_bg
 drawable image_loading_bg
 drawable image_preview_indicator
-drawable img_refresh
 drawable info_ic
 drawable input_delete_ic
 drawable leak_canary_count_background
@@ -2116,7 +2115,9 @@ drawable radiobutton_selector
 drawable reboot_ic
 drawable safe_ic
 drawable search_ic
+drawable setting_ic
 drawable setting_update_bg
+drawable shape_gradient
 drawable share_ic
 drawable share_link_ic
 drawable share_moment_ic
@@ -2396,6 +2397,7 @@ id enterAlways
 id enterAlwaysCollapsed
 id et_login_password
 id et_login_phone
+id et_login_verify_code
 id et_password_forget_code
 id et_password_forget_phone
 id et_password_reset_password1
@@ -2441,8 +2443,11 @@ id guideline
 id hardware
 id header_title
 id hideable
-id hl_browser_hint
+id hl_article_detail_hint
+id hl_article_list_hint
+id hl_discover_hint
 id hl_image_select_hint
+id hl_my_home_fragment_hint
 id hl_status_hint
 id hl_video_select_hint
 id home
@@ -2673,9 +2678,9 @@ id pv_video_play_view
 id pw_pay_view
 id radio
 id ratio
+id ratio_frame_layout
 id rb_album_check
 id rectangles
-id refreshLayout
 id restart
 id reverse
 id reverseSawtooth
@@ -2748,8 +2753,10 @@ id showCustom
 id showHome
 id showTitle
 id sin
+id siv_login_verify_code
 id skipCollapsed
-id sl_browser_refresh
+id sl_article_detail_refresh
+id sl_discover_refresh
 id slide
 id smallLabel
 id snackbar_action
@@ -2823,7 +2830,7 @@ id titleDividerNoCustom
 id title_template
 id tl_home_tab
 id toggle
-id toolbar
+id toolBar
 id top
 id topLayout
 id topPanel
@@ -2978,15 +2985,14 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout about_activity
-layout activity_gallery
 layout address_dialog
 layout album_dialog
 layout album_item
+layout article_detail_activity
 layout article_list_fragment
 layout browser_activity
 layout browser_fragment
 layout brvah_quick_view_load_more
-layout content_home_discover_more_author
 layout copy_activity
 layout copy_dialog
 layout copy_fragment
@@ -3011,14 +3017,16 @@ layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
 layout dialog_activity
+layout discover_fragment
 layout dynamic_feature_install_fragment
 layout empty_fragment
 layout find_fragment
-layout fragment_discover
+layout gallery_activity
 layout guide_activity
 layout guide_item
 layout hint_dialog
 layout home_activity
+layout home_discover_more_author_content
 layout home_fragment
 layout image_preview_activity
 layout image_preview_item
@@ -3165,9 +3173,9 @@ mipmap ic_no_image
 mipmap ic_no_photo
 mipmap ic_right
 mipmap ic_setting
-mipmap img_refresh
 mipmap launcher_ic
 mipmap leak_canary_icon
+mipmap refresh_ic
 plurals leak_canary_distinct_leaks
 plurals leak_canary_group_screen_title
 plurals mtrl_badge_content_description
@@ -4402,6 +4410,7 @@ styleable RatioFrameLayout sizeRatio
 styleable RecycleListView paddingBottomNoButtons paddingTopNoTitle
 styleable RecyclerView android_orientation android_clipToPadding android_descendantFocusability fastScrollEnabled fastScrollHorizontalThumbDrawable fastScrollHorizontalTrackDrawable fastScrollVerticalThumbDrawable fastScrollVerticalTrackDrawable layoutManager reverseLayout spanCount stackFromEnd
 styleable RegexEditText inputRegex regexType
+styleable RoundRelativeLayout rlClipBackground rlRadius
 styleable ScaleImageView scaleRatio
 styleable ScrimInsetsFrameLayout insetForeground
 styleable ScrollingViewBehavior_Layout behavior_overlapTop
@@ -4421,7 +4430,6 @@ styleable StateListDrawable android_dither android_visible android_variablePaddi
 styleable StateListDrawableItem android_drawable
 styleable StateSet defaultState
 styleable SubmitButton errorColor progressColor progressStyle succeedColor
-styleable SwipeRefreshLayout swipeRefreshLayoutProgressSpinnerBackgroundColor
 styleable SwitchButton android_enabled android_checked
 styleable SwitchCompat android_textOn android_textOff android_thumb showText splitTrack switchMinWidth switchPadding switchTextAppearance thumbTextPadding thumbTint thumbTintMode track trackTint trackTintMode
 styleable SwitchMaterial useMaterialThemeColors

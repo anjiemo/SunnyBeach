@@ -1,8 +1,10 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
+import android.view.View
 import androidx.collection.arrayMapOf
 import androidx.fragment.app.viewModels
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.app.FragmentAdapter
@@ -12,6 +14,8 @@ import cn.cqautotest.sunnybeach.ui.fragment.home.ArticleListFragment
 import cn.cqautotest.sunnybeach.utils.onPageSelected
 import cn.cqautotest.sunnybeach.utils.onTabSelected
 import cn.cqautotest.sunnybeach.viewmodel.home.HomeViewModel
+import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.blankj.utilcode.util.NetworkUtils
 
 /**
  * author : A Lonely Cat
@@ -19,7 +23,7 @@ import cn.cqautotest.sunnybeach.viewmodel.home.HomeViewModel
  * time   : 2021/6/20
  * desc   : 首页 Fragment
  */
-class MyHomeFragment : AppFragment<HomeActivity>() {
+class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
 
     private var _binding: MyHomeFragmentBinding? = null
     private val mBinding get() = _binding!!
@@ -33,31 +37,31 @@ class MyHomeFragment : AppFragment<HomeActivity>() {
         _binding = MyHomeFragmentBinding.bind(view)
     }
 
-    override fun initView() {
-        _binding = MyHomeFragmentBinding.bind(view)
-        mFragmentAdapter = FragmentAdapter(this)
-        mBinding.vp2HomeArticleContainer.apply {
-            // TODO: 2021/6/20 暂时不允许左右滑动，因为ViewPager2的滑动比较灵敏，后期处理之后改为可以左右滑动
-            isUserInputEnabled = false
-            adapter = mFragmentAdapter
+    override fun onFragmentResume(first: Boolean) {
+        super.onFragmentResume(first)
+        if (first) {
+            refreshArticleListData()
+        } else {
+            // 如果没有文章列表数据，则重新加载文章列表数据
+            if (mFragmentMap.isNullOrEmpty()) {
+                refreshArticleListData()
+            }
         }
     }
 
-    override fun initData() {
-        homeViewModel.getCategories()
-    }
-
-    override fun initEvent() {
-        val tabLayoutCategories = mBinding.tabLayoutCategories
-        val vp2HomeArticleContainer = mBinding.vp2HomeArticleContainer
-        tabLayoutCategories.onTabSelected {
-            val tab = it ?: return@onTabSelected
-            val position = tab.position
-            vp2HomeArticleContainer.setCurrentItem(position, false)
-        }
-        vp2HomeArticleContainer.onPageSelected { position ->
-            val tab = tabLayoutCategories.getTabAt(position)
-            tabLayoutCategories.selectTab(tab)
+    /**
+     * 刷新文章列表数据
+     */
+    private fun refreshArticleListData() {
+        NetworkUtils.isAvailableAsync { isAvailable ->
+            if (isAvailable.not()) {
+                showError {
+                    homeViewModel.getCategories()
+                }
+            } else {
+                showLoading()
+                homeViewModel.getCategories()
+            }
         }
     }
 
@@ -66,6 +70,11 @@ class MyHomeFragment : AppFragment<HomeActivity>() {
         val tabLayoutCategories = mBinding.tabLayoutCategories
         val vp2HomeArticleContainer = mBinding.vp2HomeArticleContainer
         homeViewModel.homeCategories.observe(this) { homeCategories ->
+            // 显示分类标签
+            tabLayoutCategories.visibility = View.VISIBLE
+            // 重置数据
+            tabLayoutCategories.removeAllTabs()
+            mFragmentMap.clear()
             tabLayoutCategories.newTab().apply {
                 text = "推荐"
                 tabLayoutCategories.addTab(this)
@@ -86,8 +95,42 @@ class MyHomeFragment : AppFragment<HomeActivity>() {
             }
             vp2HomeArticleContainer.offscreenPageLimit = mFragmentMap.size
             mFragmentAdapter.setFragmentMap(mFragmentMap)
+            showComplete()
         }
     }
+
+    override fun initView() {
+        _binding = MyHomeFragmentBinding.bind(view)
+        showEmpty()
+        mFragmentAdapter = FragmentAdapter(this)
+        mBinding.vp2HomeArticleContainer.apply {
+            // TODO: 2021/6/20 暂时不允许左右滑动，因为ViewPager2的滑动比较灵敏，后期处理之后改为可以左右滑动
+            isUserInputEnabled = false
+            adapter = mFragmentAdapter
+        }
+    }
+
+    override fun initEvent() {
+        val tabLayoutCategories = mBinding.tabLayoutCategories
+        val vp2HomeArticleContainer = mBinding.vp2HomeArticleContainer
+        tabLayoutCategories.onTabSelected {
+            val tab = it ?: return@onTabSelected
+            val position = tab.position
+            showLoading()
+            vp2HomeArticleContainer.setCurrentItem(position, false)
+            if (mFragmentMap[position] == null) {
+                showEmpty()
+            } else {
+                showComplete()
+            }
+        }
+        vp2HomeArticleContainer.onPageSelected { position ->
+            val tab = tabLayoutCategories.getTabAt(position)
+            tabLayoutCategories.selectTab(tab)
+        }
+    }
+
+    override fun initData() {}
 
     override fun onDestroy() {
         super.onDestroy()
@@ -101,4 +144,6 @@ class MyHomeFragment : AppFragment<HomeActivity>() {
             return MyHomeFragment()
         }
     }
+
+    override fun getStatusLayout(): StatusLayout = mBinding.hlMyHomeFragmentHint
 }
