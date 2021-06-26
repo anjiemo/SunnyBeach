@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/hl_article_list_hint"
+    android:id="@+id/hl_browser_hint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragment.BrowserFragment">
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/sl_article_detail_refresh"
+        android:id="@+id/sl_browser_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:srlEnableHeaderTranslationContent="false"

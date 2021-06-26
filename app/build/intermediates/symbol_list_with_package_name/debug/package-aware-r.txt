@@ -2444,7 +2444,7 @@ id hardware
 id header_title
 id hideable
 id hl_article_detail_hint
-id hl_article_list_hint
+id hl_browser_hint
 id hl_discover_hint
 id hl_image_select_hint
 id hl_my_home_fragment_hint
@@ -2755,7 +2755,7 @@ id showTitle
 id sin
 id siv_login_verify_code
 id skipCollapsed
-id sl_article_detail_refresh
+id sl_browser_refresh
 id sl_discover_refresh
 id slide
 id smallLabel

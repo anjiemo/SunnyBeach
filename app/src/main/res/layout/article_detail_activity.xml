@@ -26,7 +26,7 @@
         android:layout_height="match_parent">
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
-            android:id="@+id/sl_article_detail_refresh"
+            android:id="@+id/sl_browser_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srlEnableHeaderTranslationContent="false"

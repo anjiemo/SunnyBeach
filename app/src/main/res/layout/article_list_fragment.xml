@@ -10,7 +10,7 @@
     tools:context=".ui.fragment.home.ArticleListFragment">
 
     <cn.cqautotest.sunnybeach.widget.StatusLayout
-        android:id="@+id/hl_article_list_hint"
+        android:id="@+id/hl_browser_hint"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
