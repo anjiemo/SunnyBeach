@@ -22,12 +22,12 @@
         android:visibility="gone" />
 
     <cn.cqautotest.sunnybeach.widget.StatusLayout
-        android:id="@+id/hl_article_list_hint"
+        android:id="@+id/hl_browser_hint"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
-            android:id="@+id/sl_article_detail_refresh"
+            android:id="@+id/sl_browser_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srlEnableHeaderTranslationContent="false"

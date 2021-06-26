@@ -202,5 +202,5 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
         }
     }
 
-    override fun getStatusLayout(): StatusLayout = mBinding.hlArticleListHint
+    override fun getStatusLayout(): StatusLayout = mBinding.hlBrowserHint
 }

@@ -2443,7 +2443,7 @@ int id hardware 0x7f08011e
 int id header_title 0x7f08011f
 int id hideable 0x7f080120
 int id hl_article_detail_hint 0x7f080121
-int id hl_article_list_hint 0x7f080122
+int id hl_browser_hint 0x7f080122
 int id hl_discover_hint 0x7f080123
 int id hl_image_select_hint 0x7f080124
 int id hl_my_home_fragment_hint 0x7f080125
@@ -2754,7 +2754,7 @@ int id showTitle 0x7f080255
 int id sin 0x7f080256
 int id siv_login_verify_code 0x7f080257
 int id skipCollapsed 0x7f080258
-int id sl_article_detail_refresh 0x7f080259
+int id sl_browser_refresh 0x7f080259
 int id sl_discover_refresh 0x7f08025a
 int id slide 0x7f08025b
 int id smallLabel 0x7f08025c
