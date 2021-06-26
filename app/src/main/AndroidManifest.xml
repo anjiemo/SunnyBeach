@@ -95,7 +95,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- 引导页 -->
+        </activity>
+        <!-- 引导页 -->
         <activity
             android:name=".ui.activity.GuideActivity"
             android:launchMode="singleTop"

@@ -51,6 +51,16 @@ public abstract class AppActivity extends BaseActivity
      */
     private int mDialogTotal;
 
+    /**
+     * 初始化事件监听和观察者
+     */
+    @Override
+    protected void initActivity() {
+        super.initActivity();
+        initEvent();
+        initObserver();
+    }
+
     @Override
     public void initEvent() {
 

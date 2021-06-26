@@ -48,14 +48,15 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     override fun initView() {
         val meContent = binding.meContent
-        userViewModel.userBasicInfo.observe(this) {
+        userViewModel.userBasicInfo.observe(this) { userBasicInfo ->
+            val avatar = userBasicInfo?.avatar
             Glide.with(this)
-                .load(it.avatar)
+                .load(avatar)
                 .placeholder(R.mipmap.ic_default_avatar)
                 .error(R.mipmap.ic_default_avatar)
                 .circleCrop()
                 .into(meContent.imageAvatar)
-            meContent.textNickName.text = it.nickname
+            meContent.textNickName.text = userBasicInfo?.nickname ?: ""
         }
     }
 
