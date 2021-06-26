@@ -240,6 +240,10 @@ public final class LoginActivity extends AppActivity
         }
 
         if (view == mQQView || view == mWeChatView) {
+            if (true) {
+                toast("暂未接入其他登录方式");
+                return;
+            }
             toast("记得改好第三方 AppID 和 AppKey，否则会调不起来哦");
             Platform platform;
             if (view == mQQView) {
