@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.app.WallpaperManager
 import android.content.Context
@@ -12,7 +13,6 @@ import android.os.Environment
 import androidx.core.content.getSystemService
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
-import cn.cqautotest.sunnybeach.BuildConfig
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.GalleryActivityBinding
@@ -23,7 +23,6 @@ import cn.cqautotest.sunnybeach.viewmodel.SingletonManager
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -60,6 +59,7 @@ class GalleryActivity : AppActivity() {
         }
     }
 
+    @SuppressLint("MissingPermission")
     override fun initEvent() {
         mPhotoAdapter.setOnItemClickListener { _, _ ->
             //startActivity<ScrollingActivity>(this)

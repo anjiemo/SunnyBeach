@@ -1,12 +1,11 @@
 package cn.cqautotest.sunnybeach.utils
 
-import android.widget.Toast
-import cn.cqautotest.sunnybeach.app.AppApplication
+import com.hjq.toast.ToastUtils
 
 fun simpleToast(text: Int) {
-    Toast.makeText(AppApplication.getInstance(), text, Toast.LENGTH_SHORT).show()
+    ToastUtils.show(text)
 }
 
 fun simpleToast(text: CharSequence) {
-    Toast.makeText(AppApplication.getInstance(), text, Toast.LENGTH_SHORT).show()
+    ToastUtils.show(text)
 }
