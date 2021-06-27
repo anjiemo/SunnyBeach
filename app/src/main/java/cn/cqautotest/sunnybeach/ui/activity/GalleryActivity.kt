@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import androidx.core.content.getSystemService
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import cn.cqautotest.sunnybeach.R
@@ -19,7 +20,7 @@ import cn.cqautotest.sunnybeach.databinding.GalleryActivityBinding
 import cn.cqautotest.sunnybeach.http.response.model.HomePhotoBean
 import cn.cqautotest.sunnybeach.ui.adapter.PhotoAdapter
 import cn.cqautotest.sunnybeach.utils.*
-import cn.cqautotest.sunnybeach.viewmodel.SingletonManager
+import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.hjq.permissions.OnPermissionCallback
@@ -36,10 +37,10 @@ import kotlinx.coroutines.withContext
  */
 class GalleryActivity : AppActivity() {
 
-    private val discoverViewModel by lazy { SingletonManager.discoverViewModel }
     private lateinit var mBinding: GalleryActivityBinding
     private val mPhotoAdapter by lazy { PhotoAdapter(fillBox = true) }
-    private val mPhotoList by lazy { arrayListOf<HomePhotoBean.Res.Vertical>() }
+    private val mPhotoList = arrayListOf<HomePhotoBean.Res.Vertical>()
+    private lateinit var mDiscoverViewModel: DiscoverViewModel
 
     override fun getLayoutId(): Int = R.layout.gallery_activity
 
@@ -49,7 +50,7 @@ class GalleryActivity : AppActivity() {
 
     override fun initObserver() {
         val loadMoreModule = mPhotoAdapter.loadMoreModule
-        discoverViewModel.verticalPhotoList.observe(this) { verticalPhotoList ->
+        mDiscoverViewModel.verticalPhotoList.observe(this) { verticalPhotoList ->
             logByDebug(msg = "initEvent：===> " + verticalPhotoList.toJson())
             loadMoreModule.apply {
                 mPhotoAdapter.addData(verticalPhotoList)
@@ -74,7 +75,7 @@ class GalleryActivity : AppActivity() {
         mPhotoAdapter.loadMoreModule.run {
             setOnLoadMoreListener {
                 isEnableLoadMore = false
-                discoverViewModel.loadMorePhotoList()
+                mDiscoverViewModel.loadMorePhotoList()
             }
         }
         mBinding.downLoadPhotoTv.setOnClickListener {
@@ -137,15 +138,17 @@ class GalleryActivity : AppActivity() {
     private fun getCurrentVerticalPhotoBean() = mPhotoList[mBinding.galleryViewPager2.currentItem]
 
     override fun initData() {
+        mDiscoverViewModel = ViewModelProvider(this)[DiscoverViewModel::class.java]
         val intent = intent
         val id = intent.getStringExtra("id")
+        mDiscoverViewModel.loadMorePhotoList()
         mPhotoList.apply {
             val cacheVerticalPhotoList =
-                discoverViewModel.cacheVerticalPhotoList.value ?: arrayListOf()
+                mDiscoverViewModel.cacheVerticalPhotoList.value ?: arrayListOf()
             addAll(cacheVerticalPhotoList)
         }
         mPhotoList.forEachIndexed { index, vertical ->
-            if (id.equals(vertical.id)) {
+            if (id == vertical.id) {
                 mCurrentPage = index
             }
         }
@@ -169,6 +172,7 @@ class GalleryActivity : AppActivity() {
 
         private var mCurrentPage = 0
 
+        @JvmStatic
         fun startActivity(context: Context, id: String) {
             val intent = Intent(context, GalleryActivity::class.java)
             intent.putExtra("id", id)

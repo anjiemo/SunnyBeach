@@ -2389,6 +2389,7 @@ int id easeInOut 0x7f0800e8
 int id easeOut 0x7f0800e9
 int id edit_query 0x7f0800ea
 int id elastic 0x7f0800eb
+int id empty_description 0x7f0802fe
 int id end 0x7f0800ec
 int id endToStart 0x7f0800ed
 int id english 0x7f0800ee
@@ -2574,6 +2575,8 @@ int id loading 0x7f0801a1
 int id loading_progress 0x7f0801a2
 int id loading_text 0x7f0801a3
 int id lottie_layer_name 0x7f0801a4
+int id markwon_drawables_scheduler 0x7f080308
+int id markwon_drawables_scheduler_last_text_hashcode 0x7f080309
 int id masked 0x7f0801a5
 int id material_clock_display 0x7f0801a6
 int id material_clock_face 0x7f0801a7
@@ -2754,6 +2757,7 @@ int id showTitle 0x7f080255
 int id sin 0x7f080256
 int id siv_login_verify_code 0x7f080257
 int id skipCollapsed 0x7f080258
+int id sl_article_detail_refresh 0x7f08030a
 int id sl_browser_refresh 0x7f080259
 int id sl_discover_refresh 0x7f08025a
 int id slide 0x7f08025b
@@ -2825,6 +2829,7 @@ int id textinput_prefix_text 0x7f08029c
 int id textinput_suffix_text 0x7f08029d
 int id time 0x7f08029e
 int id title 0x7f08029f
+int id titleBar 0x7f08030b
 int id titleDividerNoCustom 0x7f0802a0
 int id title_template 0x7f0802a1
 int id tl_home_tab 0x7f0802a2

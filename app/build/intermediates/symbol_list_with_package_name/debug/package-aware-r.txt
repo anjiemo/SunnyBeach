@@ -2390,6 +2390,7 @@ id easeInOut
 id easeOut
 id edit_query
 id elastic
+id empty_description
 id end
 id endToStart
 id english
@@ -2575,6 +2576,8 @@ id loading
 id loading_progress
 id loading_text
 id lottie_layer_name
+id markwon_drawables_scheduler
+id markwon_drawables_scheduler_last_text_hashcode
 id masked
 id material_clock_display
 id material_clock_face
@@ -2755,6 +2758,7 @@ id showTitle
 id sin
 id siv_login_verify_code
 id skipCollapsed
+id sl_article_detail_refresh
 id sl_browser_refresh
 id sl_discover_refresh
 id slide
@@ -2826,6 +2830,7 @@ id textinput_prefix_text
 id textinput_suffix_text
 id time
 id title
+id titleBar
 id titleDividerNoCustom
 id title_template
 id tl_home_tab

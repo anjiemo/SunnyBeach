@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
+import androidx.lifecycle.ViewModelProvider
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
@@ -9,7 +10,6 @@ import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.activity.SettingActivity
 import cn.cqautotest.sunnybeach.utils.DEFAULT_AVATAR_URL
 import cn.cqautotest.sunnybeach.utils.MAKE_COMPLAINTS_URL
-import cn.cqautotest.sunnybeach.viewmodel.SingletonManager
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
 
@@ -23,7 +23,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     private var _binding: MyMeFragmentBinding? = null
     private val binding get() = _binding!!
-    private val userViewModel: UserViewModel by lazy { SingletonManager.userViewModel }
+    private val userViewModel by lazy { ViewModelProvider(this)[UserViewModel::class.java] }
 
     override fun getLayoutId(): Int = R.layout.my_me_fragment
 
@@ -78,6 +78,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     }
 
     companion object {
+
         @JvmStatic
         fun newInstance(): MyMeFragment {
             return MyMeFragment()

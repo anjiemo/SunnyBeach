@@ -3,13 +3,11 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.text.TextUtils
-import android.view.KeyEvent
 import android.view.View
-import android.webkit.WebView
 import android.widget.ProgressBar
+import androidx.lifecycle.ViewModelProvider
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.CheckNet
@@ -17,11 +15,21 @@ import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.ArticleDetailActivityBinding
 import cn.cqautotest.sunnybeach.other.IntentKey
-import cn.cqautotest.sunnybeach.widget.BrowserView
+import cn.cqautotest.sunnybeach.utils.GrammarLocatorDef
+import cn.cqautotest.sunnybeach.viewmodel.home.HomeViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.request.target.Target
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
+import io.noties.markwon.Markwon
+import io.noties.markwon.html.HtmlPlugin
+import io.noties.markwon.image.AsyncDrawable
+import io.noties.markwon.image.glide.GlideImagesPlugin
+import io.noties.markwon.syntax.*
+import io.noties.prism4j.Prism4j
 
 /**
  * author : A Lonely Cat
@@ -32,10 +40,12 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
 
     private lateinit var mBinding: ArticleDetailActivityBinding
+    private lateinit var mHomeViewModel: HomeViewModel
     private lateinit var mStatusLayout: StatusLayout
     private lateinit var mProgressBar: ProgressBar
     private lateinit var mRefreshLayout: SmartRefreshLayout
-    private lateinit var mBrowserView: BrowserView
+    private var mArticleId = ""
+    private var mArticleTitle = ""
 
     override fun getLayoutId(): Int = R.layout.article_detail_activity
 
@@ -43,23 +53,56 @@ class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
         mBinding = ArticleDetailActivityBinding.bind(viewBindingRoot)
     }
 
-    override fun initView() {
-        mStatusLayout = mBinding.hlArticleDetailHint
-        mProgressBar = mBinding.pbBrowserProgress
-        mRefreshLayout = mBinding.slBrowserRefresh
-        mBrowserView = mBinding.wvBrowserView
+    override fun initObserver() {
+        mHomeViewModel.articleDetail.observe(this) { articleDetail ->
+            if (articleDetail == null) {
+                showEmpty()
+                return@observe
+            }
+            showComplete()
+            val articleContent = articleDetail.content
+            val prism4jTheme = Prism4jThemeDarkula.create()
+            val markwon = Markwon.builder(this@ArticleDetailActivity)
+                .usePlugin(HtmlPlugin.create())
+                .usePlugin(SyntaxHighlightPlugin.create(Prism4j(GrammarLocatorDef()), prism4jTheme))
+                .usePlugin(GlideImagesPlugin.create(object : GlideImagesPlugin.GlideStore {
+                    override fun load(drawable: AsyncDrawable): RequestBuilder<Drawable> {
+                        return Glide.with(this@ArticleDetailActivity).load(drawable.destination)
+                    }
 
-        // 设置 WebView 生命管控
-        mBrowserView.setLifecycleOwner(this)
-        // 设置网页刷新监听
-        mRefreshLayout.setOnRefreshListener(this)
+                    override fun cancel(target: Target<*>) {
+                        Glide.with(this@ArticleDetailActivity).clear(target)
+                    }
+                }))
+                .build()
+            articleContent?.let {
+                markwon.setMarkdown(mBinding.emptyDescription, it)
+            }
+        }
     }
 
     override fun initData() {
         showLoading()
-        mBrowserView.setBrowserViewClient(MyBrowserViewClient())
-        mBrowserView.setBrowserChromeClient(MyBrowserChromeClient(mBrowserView))
-        mBrowserView.loadUrl(getString(IntentKey.URL))
+        intent.run {
+            mArticleId = getStringExtra(IntentKey.ID) ?: ""
+            mArticleTitle = getStringExtra(IntentKey.TITLE) ?: ""
+        }
+        mBinding.titleBar.title = mArticleTitle
+        loadArticleDetail()
+    }
+
+    override fun initView() {
+        mHomeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        mStatusLayout = mBinding.hlArticleDetailHint
+        mProgressBar = mBinding.pbBrowserProgress
+        mRefreshLayout = mBinding.slArticleDetailRefresh
+    }
+
+    /**
+     * 根据文章id加载文章详情
+     */
+    private fun loadArticleDetail() {
+        mHomeViewModel.getArticleDetailById(mArticleId)
     }
 
     override fun getStatusLayout(): StatusLayout {
@@ -70,97 +113,30 @@ class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
         finish()
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK && mBrowserView.canGoBack()) {
-            // 后退网页并且拦截该事件
-            mBrowserView.goBack()
-            return true
-        }
-        return super.onKeyDown(keyCode, event)
-    }
-
-    /**
-     * 重新加载当前页
-     */
-    @CheckNet
-    private fun reload() {
-        mBrowserView.reload()
-    }
-
     /**
      * [OnRefreshListener]
      */
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        reload()
-    }
-
-    inner class MyBrowserViewClient : BrowserView.BrowserViewClient() {
-        /**
-         * 网页加载错误时回调，这个方法会在 onPageFinished 之前调用
-         */
-        override fun onReceivedError(
-            view: WebView,
-            errorCode: Int,
-            description: String,
-            failingUrl: String
-        ) {
-            // 这里为什么要用延迟呢？因为加载出错之后会先调用 onReceivedError 再调用 onPageFinished
-            post { showError { reload() } }
-        }
-
-        /**
-         * 开始加载网页
-         */
-        override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
-            mProgressBar.visibility = View.VISIBLE
-        }
-
-        /**
-         * 完成加载网页
-         */
-        override fun onPageFinished(view: WebView, url: String) {
-            mProgressBar.visibility = View.GONE
-            mRefreshLayout.finishRefresh()
-            showComplete()
-        }
-    }
-
-    inner class MyBrowserChromeClient(view: BrowserView?) :
-        BrowserView.BrowserChromeClient(view) {
-        /**
-         * 收到网页标题
-         */
-        override fun onReceivedTitle(view: WebView, title: String?) {
-            if (title != null) {
-                setTitle(title)
-            }
-        }
-
-        override fun onReceivedIcon(view: WebView, icon: Bitmap?) {
-            if (icon != null) {
-                rightIcon = BitmapDrawable(resources, icon)
-            }
-        }
-
-        /**
-         * 收到加载进度变化
-         */
-        override fun onProgressChanged(view: WebView, newProgress: Int) {
-            mProgressBar.progress = newProgress
-        }
+        loadArticleDetail()
     }
 
     companion object {
 
+        /**
+         * 文章id、文章标题
+         */
         @JvmStatic
         @CheckNet
         @DebugLog
-        fun start(context: Context, url: String?) {
-            if (TextUtils.isEmpty(url)) {
+        fun start(context: Context, articleId: String?, articleTitle: String?) {
+            if (TextUtils.isEmpty(articleId)) {
                 return
             }
-            val intent = Intent(context, BrowserActivity::class.java)
-            intent.putExtra(IntentKey.URL, url)
+            val intent = Intent(context, ArticleDetailActivity::class.java)
+            intent.run {
+                putExtra(IntentKey.ID, articleId)
+                putExtra(IntentKey.TITLE, articleTitle)
+            }
             if (context !is Activity) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }

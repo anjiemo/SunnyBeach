@@ -140,12 +140,20 @@ android {
             outputFileName += '.apk'
         }
     }
+
+    // 排除重复的 org.jetbrains 注解：https://stackoverflow.com/questions/58903820/java-lang-runtimeexception-duplicate-class-org-intellij-lang-annotations-flow-f
+    configurations {
+        cleanedAnnotations
+        compile.exclude group: 'org.jetbrains', module: 'annotations'
+    }
 }
 
 // api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
 dependencies {
-    def nav_version = "2.3.5"
-    def room_version = "2.3.0"
+    final def nav_version = "2.3.5"
+    final def room_version = "2.3.0"
+    final def markwon_version = "4.6.2"
+    final def prism_version = "2.0.0"
     // 基类封装
     implementation project(':base')
     // 控件封装
@@ -259,4 +267,13 @@ dependencies {
 
     // 小米更新SDK：https://dev.mi.com/console/doc/detail?pId=4
     implementation 'mi-appstore:xiaomi-update-sdk:4.0.3'
+
+    // 自定义文本控件，支持富文本，包含两种状态：编辑状态和预览状态。
+    implementation "io.noties.markwon:core:$markwon_version"
+    implementation "io.noties.markwon:html:$markwon_version"
+    // implementation "io.noties.markwon:image:$markwon_version"
+    implementation "io.noties.markwon:image-glide:$markwon_version"
+    implementation "io.noties:prism4j:${prism_version}"
+    kapt "io.noties:prism4j-bundler:${prism_version}"
+    implementation "io.noties.markwon:syntax-highlight:$markwon_version"
 }

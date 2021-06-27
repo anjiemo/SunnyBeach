@@ -26,6 +26,9 @@ class CustomAndroidViewModelFactory(private val appApplication: AppApplication =
         if (modelClass.isAssignableFrom(DiscoverViewModel::class.java)) {
             return DiscoverViewModel() as T
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
+        throw IllegalArgumentException(
+            "Unknown ViewModel class，" +
+                    "请检查 CustomAndroidViewModelFactory 是否包含该 ViewModel 的创建程序"
+        )
     }
 }

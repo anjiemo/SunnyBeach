@@ -8,6 +8,12 @@ import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.manager.CookieStore
 import kotlinx.coroutines.launch
 
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/6/18
+ * desc   : Cookie的 ViewModel
+ */
 class CookiesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val cookieDao = AppApplication.getDatabase().cookieDao()
