@@ -14,9 +14,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/6/18
+ * desc   : 发现界面的 ViewModel
+ */
 class DiscoverViewModel : ViewModel() {
 
-    private val mPhotoApi by lazy { ServiceCreator.create<PhotoApi>() }
+    private val mPhotoApi by lazy {
+        logByDebug(msg = "DiscoverViewModel：===> exe${_currentPhotoPage.value}")
+        ServiceCreator.create<PhotoApi>()
+    }
 
     // 当前请求的图片页码
     private val _currentPhotoPage = MutableLiveData<Int>()

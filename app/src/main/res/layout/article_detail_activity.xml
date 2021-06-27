@@ -8,9 +8,10 @@
     tools:context=".ui.activity.ArticleDetailActivity">
 
     <com.hjq.bar.TitleBar
+        android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="Activity管理" />
+        app:title="" />
 
     <ProgressBar
         android:id="@+id/pb_browser_progress"
@@ -26,7 +27,7 @@
         android:layout_height="match_parent">
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
-            android:id="@+id/sl_browser_refresh"
+            android:id="@+id/sl_article_detail_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srlEnableHeaderTranslationContent="false"
@@ -34,10 +35,20 @@
             app:srlEnablePreviewInEditMode="false"
             app:srlPrimaryColor="#444444">
 
-            <cn.cqautotest.sunnybeach.widget.BrowserView
-                android:id="@+id/wv_browser_view"
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/empty_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="10dp"
+                    android:paddingTop="30dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="20dp" />
+
+            </androidx.core.widget.NestedScrollView>
 
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 

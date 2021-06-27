@@ -99,17 +99,6 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
         }
     }
 
-    override fun initView() {
-        _binding = MyHomeFragmentBinding.bind(view)
-        showEmpty()
-        mFragmentAdapter = FragmentAdapter(this)
-        mBinding.vp2HomeArticleContainer.apply {
-            // TODO: 2021/6/20 暂时不允许左右滑动，因为ViewPager2的滑动比较灵敏，后期处理之后改为可以左右滑动
-            isUserInputEnabled = false
-            adapter = mFragmentAdapter
-        }
-    }
-
     override fun initEvent() {
         val tabLayoutCategories = mBinding.tabLayoutCategories
         val vp2HomeArticleContainer = mBinding.vp2HomeArticleContainer
@@ -131,6 +120,17 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
     }
 
     override fun initData() {}
+
+    override fun initView() {
+        _binding = MyHomeFragmentBinding.bind(view)
+        showEmpty()
+        mFragmentAdapter = FragmentAdapter(this)
+        mBinding.vp2HomeArticleContainer.apply {
+            // TODO: 2021/6/20 暂时不允许左右滑动，因为ViewPager2的滑动比较灵敏，后期处理之后改为可以左右滑动
+            isUserInputEnabled = false
+            adapter = mFragmentAdapter
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()

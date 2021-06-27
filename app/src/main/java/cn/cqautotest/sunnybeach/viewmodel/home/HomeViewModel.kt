@@ -2,16 +2,23 @@ package cn.cqautotest.sunnybeach.viewmodel.home
 
 import androidx.collection.arrayMapOf
 import androidx.lifecycle.*
-import com.blankj.utilcode.util.NetworkUtils
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.request.api.HomeApi
+import cn.cqautotest.sunnybeach.model.ArticleDetail
 import cn.cqautotest.sunnybeach.model.ArticleInfo
 import cn.cqautotest.sunnybeach.model.HomeCategories
 import cn.cqautotest.sunnybeach.utils.SUNNY_BEACH_HTTP_OK_CODE
+import com.blankj.utilcode.util.NetworkUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/6/18
+ * desc   : 首页的 ViewModel
+ */
 class HomeViewModel : ViewModel(), LifecycleObserver {
 
     private val homeApi by lazy { ServiceCreator.create<HomeApi>() }
@@ -32,6 +39,24 @@ class HomeViewModel : ViewModel(), LifecycleObserver {
     val recommendList: LiveData<ArticleInfo?> get() = _recommendContent
     private val _homeCategories = MutableLiveData<HomeCategories>()
     val homeCategories: LiveData<HomeCategories> get() = _homeCategories
+
+    // 文章详情
+    private val _articleDetail = MutableLiveData<ArticleDetail?>()
+    val articleDetail: LiveData<ArticleDetail?> get() = _articleDetail
+
+    fun getArticleDetailById(articleId: String) = viewModelScope.launch {
+        val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
+        if (available.not()) return@launch
+        runCatching {
+            homeApi.getArticleDetailById(articleId = articleId)
+        }.onSuccess { response ->
+            val responseData = response.data
+            if (SUNNY_BEACH_HTTP_OK_CODE == response.code) {
+                _articleDetail.value = responseData
+            }
+        }
+    }
+
 
     fun refreshArticleListByCategoryId(categoryId: String) = viewModelScope.launch {
         val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }

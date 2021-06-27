@@ -4,6 +4,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.lifecycle.ViewModelProvider;
+
 import com.blankj.utilcode.util.GsonUtils;
 import com.hjq.base.BaseDialog;
 import com.hjq.http.EasyHttp;
@@ -26,7 +28,6 @@ import cn.cqautotest.sunnybeach.ui.dialog.MenuDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.SafeDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog;
 import cn.cqautotest.sunnybeach.utils.Constants;
-import cn.cqautotest.sunnybeach.viewmodel.SingletonManager;
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel;
 import cn.cqautotest.sunnybeach.viewmodel.app.AppUpdateState;
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel;
@@ -47,8 +48,9 @@ public final class SettingActivity extends AppActivity
     private SettingBar mCleanCacheView;
     private SwitchButton mAutoSwitchView;
     private TextView mSettingUpdate;
-    private final AppViewModel mAppViewModel = SingletonManager.INSTANCE.getAppViewModel();
-    private final UserViewModel mUserViewModel = SingletonManager.INSTANCE.getUserViewModel();
+    private AppViewModel mAppViewModel = null;
+    private UserViewModel mUserViewModel = null;
+    private boolean isShowing = false;
 
     @Override
     protected int getLayoutId() {
@@ -81,6 +83,9 @@ public final class SettingActivity extends AppActivity
 
     @Override
     protected void initData() {
+        mAppViewModel = new ViewModelProvider(this, new ViewModelProvider
+                .AndroidViewModelFactory(getApplication())).get(AppViewModel.class);
+        mUserViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         // 检查APP版本更新
         mAppViewModel.checkAppVersionUpdate(Constants.APP_INFO_URL);
 
@@ -217,13 +222,23 @@ public final class SettingActivity extends AppActivity
 
     private void showAppUpdateDialog(AppUpdateInfo appUpdateInfo) {
         showUpdateIcon();
-        new UpdateDialog.Builder(this)
-                .setVersionName(appUpdateInfo.versionName)
-                .setForceUpdate(appUpdateInfo.forceUpdate)
-                .setUpdateLog(appUpdateInfo.updateLog)
-                .setDownloadUrl(appUpdateInfo.url)
-                .setFileMd5(appUpdateInfo.apkHash)
-                .show();
+        // 避免显示多个更新对话框
+        if (!isShowing) {
+            new UpdateDialog.Builder(this)
+                    .setVersionName(appUpdateInfo.versionName)
+                    .setForceUpdate(appUpdateInfo.forceUpdate)
+                    .setUpdateLog(appUpdateInfo.updateLog)
+                    .setDownloadUrl(appUpdateInfo.url)
+                    .setFileMd5(appUpdateInfo.apkHash)
+                    .show();
+            isShowing = true;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isShowing = false;
     }
 
     /**

@@ -15,7 +15,11 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
+import com.bumptech.glide.load.model.GlideUrl;
 import com.hjq.bar.TitleBar;
 import com.hjq.bar.initializer.LightBarInitializer;
 import com.hjq.bar.initializer.TransparentBarInitializer;
@@ -27,6 +31,9 @@ import com.hjq.umeng.UmengClient;
 import com.scwang.smart.refresh.header.MaterialHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.mmkv.MMKV;
+
+import java.io.InputStream;
 
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
@@ -41,15 +48,16 @@ import cn.cqautotest.sunnybeach.other.CrashHandler;
 import cn.cqautotest.sunnybeach.other.DebugLoggerTree;
 import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter;
 import cn.cqautotest.sunnybeach.other.ToastInterceptor;
-import cn.cqautotest.sunnybeach.viewmodel.SingletonManager;
+import cn.cqautotest.sunnybeach.utils.PushHelper;
+import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
 /**
- *    author : Android 轮子哥 & A Lonely Cat
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2018/10/18
- *    desc   : 应用入口
+ * author : Android 轮子哥 & A Lonely Cat
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2018/10/18
+ * desc   : 应用入口
  */
 public final class AppApplication extends Application {
 
@@ -201,9 +209,33 @@ public final class AppApplication extends Application {
         }
 
         // 初始化 Room 数据库
-        sDatabase = CookieRoomDatabase.getDatabase(getInstance());
-        // 初始化 appViewModel 中的SDK
-        SingletonManager.INSTANCE.getAppViewModel().initSDK();
+        sDatabase = CookieRoomDatabase.getDatabase(application);
+        // MMKV初始化
+        MMKV.initialize(application);
+        // 初始化 Glide 的 Cookie 管理
+        Glide.get(application)
+                .getRegistry()
+                .replace(
+                        GlideUrl.class,
+                        InputStream.class,
+                        new OkHttpUrlLoader.Factory(ServiceCreator.INSTANCE.getClient())
+                );
+        // UMConfigure.setLogEnabled(AppConfig.isDebug())
+        // // 客户端用户同意隐私政策后，正式初始化友盟+SDK
+        // UMConfigure.init(
+        //     getApplication(),
+        //     "60c8883fe044530ff0a58a52",
+        //     "XiaoMi",
+        //     0,
+        //     "7c6ef7a280231b605cc9d597471db50d"
+        // )
+        // 选择AUTO页面采集模式，统计SDK基础指标无需手动埋点可自动采集。
+        // 建议在宿主App的Application.onCreate函数中调用此函数。
+        // MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
+
+        // Push注册
+        PushHelper.init();
+        // 在此初始化其它依赖库
     }
 
     public static CookieRoomDatabase getDatabase() {

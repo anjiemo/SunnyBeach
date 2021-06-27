@@ -2,11 +2,11 @@
   <library name="Gradle: com.umeng.umsdk:apm:1.2.0@aar">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/63e13f6f4c33ad05fa7caf95b20232d3/transformed/jetified-apm-1.2.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/63e13f6f4c33ad05fa7caf95b20232d3/transformed/jetified-apm-1.2.0/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/63e13f6f4c33ad05fa7caf95b20232d3/transformed/jetified-apm-1.2.0/AndroidManifest.xml" />
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/63e13f6f4c33ad05fa7caf95b20232d3/transformed/jetified-apm-1.2.0/jars/libs/crashsdk-3.2.0.4-umeng-intl-support.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/63e13f6f4c33ad05fa7caf95b20232d3/transformed/jetified-apm-1.2.0/jars/libs/efs-base-1.3.3.umeng.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/63e13f6f4c33ad05fa7caf95b20232d3/transformed/jetified-apm-1.2.0/jars/libs/pasdk-2.1.154.umeng.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/63e13f6f4c33ad05fa7caf95b20232d3/transformed/jetified-apm-1.2.0/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/63e13f6f4c33ad05fa7caf95b20232d3/transformed/jetified-apm-1.2.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

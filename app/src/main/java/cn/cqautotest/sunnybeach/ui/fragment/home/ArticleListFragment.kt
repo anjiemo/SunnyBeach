@@ -14,7 +14,6 @@ import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.ArticleListFragmentBinding
 import cn.cqautotest.sunnybeach.ui.activity.ArticleDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
-import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 import cn.cqautotest.sunnybeach.ui.adapter.ArticleAdapter
 import cn.cqautotest.sunnybeach.utils.*
 import cn.cqautotest.sunnybeach.viewmodel.home.HomeViewModel
@@ -62,12 +61,10 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
             // 下拉刷新的时候禁用上拉加载
             loadMoreModule.isEnableLoadMore = false
         }
+        // 设置文章列表项的点击事件
         articleAdapter.setOnItemClickListener { _, _, position ->
             val articleItem = articleAdapter.getItem(position)
-            ArticleDetailActivity.start(
-                requireContext(),
-                "https://www.sunofbeach.net/a/${articleItem.id}"
-            )
+            ArticleDetailActivity.start(requireContext(), articleItem.id, articleItem.title)
         }
         articleAdapter.addChildClickViewIds(R.id.iv_avatar)
         articleAdapter.setOnItemChildClickListener { _, view, position ->
@@ -153,6 +150,8 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
         }
     }
 
+    override fun initData() {}
+
     override fun initView() {
         if (isRecommendType()) {
             articleAdapter.addHeaderView(
@@ -182,8 +181,6 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
         }
     }
 
-    override fun initData() {}
-
     override fun onFragmentResume(first: Boolean) {
         super.onFragmentResume(first)
         if (first) {
@@ -195,12 +192,12 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
 
     private fun isRecommendType() = "" == categoryId
 
+    override fun getStatusLayout(): StatusLayout = mBinding.hlBrowserHint
+
     companion object {
         @JvmStatic
         fun newInstance(): ArticleListFragment {
             return ArticleListFragment()
         }
     }
-
-    override fun getStatusLayout(): StatusLayout = mBinding.hlBrowserHint
 }
