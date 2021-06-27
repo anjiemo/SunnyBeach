@@ -30,22 +30,33 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/6/18
+ * desc   : 用户 ViewModel
+ */
 class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     private val cookieDao = AppApplication.getDatabase().cookieDao()
 
+    // 自动登录
     private val _autoLogin = MutableLiveData<Boolean>()
     val autoLogin: LiveData<Boolean> get() = _autoLogin
 
+    // 登录状态表单
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> get() = _loginForm
 
+    // 登录结果
     private val _loginResult = MutableLiveData<LoginResult?>()
     val loginResult: LiveData<LoginResult?> = _loginResult
 
+    // 用户基础数据信息
     private val _userBasicInfo = MutableLiveData<UserBasicInfo?>()
     val userBasicInfo: LiveData<UserBasicInfo?> get() = _userBasicInfo
 
+    // userApi
     private val userApi by lazy { ServiceCreator.create<UserApi>() }
 
     /**
@@ -114,6 +125,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /**
+     * 登录状态改变
+     */
     fun loginDataChanged(userAccount: String, password: String, captcha: String) {
         _loginForm.value = when {
             isUserAccountValid(userAccount).not() -> LoginFormState(userAccountError = R.string.invalid_username)

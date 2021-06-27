@@ -1,16 +1,18 @@
 package cn.cqautotest.sunnybeach.manager
 
+import androidx.lifecycle.ViewModelProvider
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.viewmodel.CookiesViewModel
-import cn.cqautotest.sunnybeach.viewmodel.SingletonManager
+import cn.cqautotest.sunnybeach.viewmodel.CustomAndroidViewModelFactory
 import okhttp3.Cookie
 import okhttp3.CookieJar
 import okhttp3.HttpUrl
 
 class CookieManager : CookieJar {
 
-    private val cookiesViewModel: CookiesViewModel by lazy { SingletonManager.cookiesViewModel }
+    private val cookiesViewModel by lazy { ViewModelProvider.AndroidViewModelFactory(AppApplication.getInstance()).create(CookiesViewModel::class.java) }
 
     /**
      * 通过主机名获取保存的 cookie

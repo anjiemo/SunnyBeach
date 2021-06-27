@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.graphics.Color
 import android.graphics.Rect
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
@@ -17,12 +18,14 @@ import cn.cqautotest.sunnybeach.ui.adapter.PhotoAdapter
 import cn.cqautotest.sunnybeach.utils.*
 import cn.cqautotest.sunnybeach.viewmodel.SingletonManager
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
+import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.blankj.utilcode.util.NetworkUtils
 import com.bumptech.glide.Glide
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
 import com.youth.banner.indicator.CircleIndicator
+import java.lang.ref.WeakReference
 
 /**
  * author : A Lonely Cat
@@ -32,12 +35,12 @@ import com.youth.banner.indicator.CircleIndicator
  */
 class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
 
+    private val discoverViewModel by lazy {ViewModelProvider(this)[DiscoverViewModel::class.java]}
     private var _binding: DiscoverFragmentBinding? = null
     private val mBinding get() = _binding!!
     private val mBannerList = arrayListOf<HomeBannerBean.Data>()
     private val mPhotoAdapter by lazy { PhotoAdapter() }
     private val mPhotoList = arrayListOf<HomePhotoBean.Res.Vertical>()
-    private val discoverViewModel by lazy { SingletonManager.discoverViewModel }
 
     override fun getLayoutId(): Int = R.layout.discover_fragment
 
@@ -178,6 +181,7 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
     override fun getStatusLayout(): StatusLayout = mBinding.hlDiscoverHint
 
     companion object {
+
         @JvmStatic
         fun newInstance(): DiscoverFragment {
             return DiscoverFragment()

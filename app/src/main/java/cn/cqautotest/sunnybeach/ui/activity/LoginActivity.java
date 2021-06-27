@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.blankj.utilcode.util.GsonUtils;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -25,6 +26,8 @@ import com.hjq.umeng.Platform;
 import com.hjq.umeng.UmengClient;
 import com.hjq.umeng.UmengLogin;
 import com.hjq.widget.view.SubmitButton;
+
+import java.lang.ref.WeakReference;
 
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
@@ -65,7 +68,7 @@ public final class LoginActivity extends AppActivity
         context.startActivity(intent);
     }
 
-    private final UserViewModel mUserViewModel = SingletonManager.INSTANCE.getUserViewModel();
+    private UserViewModel mUserViewModel = null;
 
     private ImageView mLogoView;
 
@@ -169,6 +172,7 @@ public final class LoginActivity extends AppActivity
 
     @Override
     protected void initData() {
+        mUserViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         // 首次进入时刷新验证码
         loadVerifyCode();
         postDelayed(() -> {

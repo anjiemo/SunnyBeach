@@ -13,20 +13,21 @@ import cn.cqautotest.sunnybeach.model.AppUpdateInfo
 import cn.cqautotest.sunnybeach.other.AppConfig
 import cn.cqautotest.sunnybeach.utils.*
 import com.blankj.utilcode.util.NetworkUtils
-import com.bumptech.glide.Glide
-import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
-import com.bumptech.glide.load.model.GlideUrl
 import com.hjq.http.EasyHttp
 import com.hjq.http.lifecycle.ApplicationLifecycle
 import com.hjq.http.listener.OnDownloadListener
 import com.hjq.http.model.HttpMethod
-import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.io.InputStream
 
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/6/18
+ * desc   : 应用的 ViewModel
+ */
 class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     private val api by lazy { ServiceCreator.create<AppApi>() }
@@ -132,34 +133,4 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                     onEnd.invoke(file, appUpdateInfo)
                 }
             })
-
-    fun initSDK() = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            // MMKV初始化
-            MMKV.initialize(getApplication())
-            // 在此初始化其它依赖库
-            Glide.get(getApplication())
-                .registry
-                .replace(
-                    GlideUrl::class.java,
-                    InputStream::class.java,
-                    OkHttpUrlLoader.Factory(ServiceCreator.client)
-                )
-            // UMConfigure.setLogEnabled(AppConfig.isDebug())
-            // // 客户端用户同意隐私政策后，正式初始化友盟+SDK
-            // UMConfigure.init(
-            //     getApplication(),
-            //     "60c8883fe044530ff0a58a52",
-            //     "XiaoMi",
-            //     0,
-            //     "7c6ef7a280231b605cc9d597471db50d"
-            // )
-            // 选择AUTO页面采集模式，统计SDK基础指标无需手动埋点可自动采集。
-            // 建议在宿主App的Application.onCreate函数中调用此函数。
-            // MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
-
-            // Push注册
-            PushHelper.init()
-        }
-    }
 }

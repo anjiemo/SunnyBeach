@@ -10,9 +10,9 @@
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 3,
-      "versionName": "2.0",
-      "outputFile": "SunnyBeach_v2.0_debug.apk"
+      "versionCode": 4,
+      "versionName": "2.1",
+      "outputFile": "SunnyBeach_v2.1_debug.apk"
     }
   ]
 }

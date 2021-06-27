@@ -16,6 +16,7 @@ buildscript {
         // 友盟仓库：https://bintray.com/umsdk/release
         maven { url 'https://dl.bintray.com/umsdk/release' }
         // jcenter()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
         google()
         mavenCentral()
     }
@@ -40,6 +41,7 @@ allprojects {
         // maven { url 'https://repo1.maven.org/maven2/' }
         // 友盟仓库：https://bintray.com/umsdk/release
         maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
         // jcenter()
         google()
         mavenCentral()
