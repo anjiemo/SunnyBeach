@@ -212,7 +212,7 @@ public final class SettingActivity extends AppActivity
                 showAppUpdateDialog(appUpdateInfo);
             } else {
                 hideUpdateIcon();
-                // 自动检查时才提示
+                // 非自动检查时才提示
                 if (!isAutoCheck) {
                     toast(R.string.update_no_update);
                 }
@@ -239,6 +239,8 @@ public final class SettingActivity extends AppActivity
     protected void onDestroy() {
         super.onDestroy();
         isShowing = false;
+        mAppViewModel = null;
+        mUserViewModel = null;
     }
 
     /**

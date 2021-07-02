@@ -132,7 +132,7 @@ public abstract class AppActivity extends BaseActivity
     }
 
     /**
-     * 视图绑定
+     * 如果使用 ViewBinding 则复写此方法
      */
     protected void onBindingView() {
 

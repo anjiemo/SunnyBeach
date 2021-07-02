@@ -12,10 +12,8 @@ import cn.cqautotest.sunnybeach.http.request.api.UserApi
 import cn.cqautotest.sunnybeach.model.BaseResponse
 import cn.cqautotest.sunnybeach.model.User
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
-import cn.cqautotest.sunnybeach.utils.SUNNY_BEACH_HTTP_OK_CODE
-import cn.cqautotest.sunnybeach.utils.SUNNY_BEACH_USER_BASIC_INFO
-import cn.cqautotest.sunnybeach.utils.md5
-import cn.cqautotest.sunnybeach.utils.toJson
+import cn.cqautotest.sunnybeach.other.IntentKey
+import cn.cqautotest.sunnybeach.utils.*
 import cn.cqautotest.sunnybeach.viewmodel.login.LoggedInUserView
 import cn.cqautotest.sunnybeach.viewmodel.login.LoginFormState
 import cn.cqautotest.sunnybeach.viewmodel.login.LoginResult
@@ -49,12 +47,12 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     val loginFormState: LiveData<LoginFormState> get() = _loginForm
 
     // 登录结果
-    private val _loginResult = MutableLiveData<LoginResult?>()
-    val loginResult: LiveData<LoginResult?> = _loginResult
+    private val _loginResult = MutableLiveData<LoginResult>()
+    val loginResult: LiveData<LoginResult> = _loginResult
 
     // 用户基础数据信息
-    private val _userBasicInfo = MutableLiveData<UserBasicInfo?>()
-    val userBasicInfo: LiveData<UserBasicInfo?> get() = _userBasicInfo
+    private val _userBasicInfo = MutableLiveData<UserBasicInfo>()
+    val userBasicInfo: LiveData<UserBasicInfo> get() = _userBasicInfo
 
     // userApi
     private val userApi by lazy { ServiceCreator.create<UserApi>() }
@@ -78,10 +76,13 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             // 只有Token校验成功获取到数据才算登录成功，否则也是属于登录失败了
             if (SUNNY_BEACH_HTTP_OK_CODE == loginResult.code && SUNNY_BEACH_HTTP_OK_CODE == tempUserBasicInfoResponse.code) {
                 userBasicInfoResponse = tempUserBasicInfoResponse
+                logByDebug(tag = "UserViewModel：", msg = "login：===>$tempUserBasicInfoResponseData")
                 _userBasicInfo.value = tempUserBasicInfoResponseData
+                // 将基本信息缓存到本地
+                saveUserBasicInfo(tempUserBasicInfoResponseData)
                 // 更新 Token
                 EasyConfig.getInstance()
-                    .addParam("token", tempUserBasicInfoResponseData.token)
+                    .addParam(IntentKey.TOKEN, tempUserBasicInfoResponseData.token)
                 loginResult
             } else {
                 throw LoginFailedException()
@@ -96,6 +97,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }.onFailure {
             _loginResult.value =
                 LoginResult(error = context.getString(R.string.login_failed))
+            logByDebug(tag = "UserViewModel：", msg = "login：====>登陆失败，error msg is $it")
         }
     }
 
@@ -105,7 +107,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     fun checkUserToken() = viewModelScope.launch {
         val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
         if (available.not()) {
-            if (getUserBasicInfo() != null) {
+            if (loadUserBasicInfo() != null) {
                 _autoLogin.value = true
             }
             return@launch
@@ -166,14 +168,13 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     fun logoutUserAccount() {
         val mmkv = MMKV.defaultMMKV() ?: return
         mmkv.removeValueForKey(SUNNY_BEACH_USER_BASIC_INFO)
-        _loginResult.value = null
-        _userBasicInfo.value = null
+        _loginResult.value = LoginResult()
     }
 
     /**
      * 获取用户基本信息
      */
-    private fun getUserBasicInfo(): UserBasicInfo? {
+    fun loadUserBasicInfo(): UserBasicInfo? {
         val mmkv = MMKV.defaultMMKV() ?: return null
         return runCatching {
             val jsonByUserBasicInfo = mmkv.getString(SUNNY_BEACH_USER_BASIC_INFO, null)

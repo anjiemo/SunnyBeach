@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.utils.languages;
+package cn.cqautotest.sunnybeach.utils.markown.languages;
 
 
 import org.jetbrains.annotations.NotNull;

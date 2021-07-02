@@ -4,11 +4,9 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.app.WallpaperManager
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import androidx.core.content.getSystemService
 import androidx.lifecycle.ViewModelProvider
@@ -16,10 +14,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.GalleryActivityBinding
 import cn.cqautotest.sunnybeach.http.response.model.HomePhotoBean
+import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.PhotoAdapter
 import cn.cqautotest.sunnybeach.utils.*
+import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
@@ -38,9 +39,11 @@ import kotlinx.coroutines.withContext
 class GalleryActivity : AppActivity() {
 
     private lateinit var mBinding: GalleryActivityBinding
-    private val mPhotoAdapter by lazy { PhotoAdapter(fillBox = true) }
+    private val mPhotoAdapter = PhotoAdapter(fillBox = true)
     private val mPhotoList = arrayListOf<HomePhotoBean.Res.Vertical>()
-    private lateinit var mDiscoverViewModel: DiscoverViewModel
+    private var _discoverViewModel: DiscoverViewModel? = null
+    private val mDiscoverViewModel get() = _discoverViewModel!!
+    private var mCurrentPage = 0
 
     override fun getLayoutId(): Int = R.layout.gallery_activity
 
@@ -60,11 +63,8 @@ class GalleryActivity : AppActivity() {
         }
     }
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint("InlinedApi")
     override fun initEvent() {
-        mPhotoAdapter.setOnItemClickListener { _, _ ->
-            //startActivity<ScrollingActivity>(this)
-        }
         mPhotoAdapter.setOnItemLongClickListener { verticalPhoto, _ ->
             //打开指定的一张照片
             val intent = Intent(Intent.ACTION_VIEW)
@@ -79,16 +79,9 @@ class GalleryActivity : AppActivity() {
             }
         }
         mBinding.downLoadPhotoTv.setOnClickListener {
+            // 权限框架内部已经做了适配，直接申请 Manifest.permission.MANAGE_EXTERNAL_STORAGE 权限即可
             XXPermissions.with(this)
-                .permission(
-                    // 适配权限
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-                        arrayOf(Manifest.permission.MANAGE_EXTERNAL_STORAGE)
-                    else arrayOf(
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    )
-                )
+                .permission(Manifest.permission.MANAGE_EXTERNAL_STORAGE)
                 .request(object : OnPermissionCallback {
                     override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
                         val dm = getSystemService<DownloadManager>() ?: return
@@ -113,8 +106,7 @@ class GalleryActivity : AppActivity() {
                 })
         }
         mBinding.settingWallpaperTv.setOnClickListener {
-            // TODO: 2021/6/18 后期考虑迁移至ViewModel中进行处理
-            val wallpaperManager = WallpaperManager.getInstance(this)
+            val wallpaperManager = WallpaperManager.getInstance(applicationContext)
             val verticalPhotoBean = getCurrentVerticalPhotoBean()
             lifecycleScope.launch {
                 runCatching {
@@ -138,17 +130,18 @@ class GalleryActivity : AppActivity() {
     private fun getCurrentVerticalPhotoBean() = mPhotoList[mBinding.galleryViewPager2.currentItem]
 
     override fun initData() {
-        mDiscoverViewModel = ViewModelProvider(this)[DiscoverViewModel::class.java]
+        _discoverViewModel = ViewModelProvider(this)[DiscoverViewModel::class.java]
         val intent = intent
-        val id = intent.getStringExtra("id")
-        mDiscoverViewModel.loadMorePhotoList()
+        val photoId = intent.getStringExtra(IntentKey.ID)
+        logByDebug(msg = "initData：===>photoId is $photoId")
         mPhotoList.apply {
-            val cacheVerticalPhotoList =
-                mDiscoverViewModel.cacheVerticalPhotoList.value ?: arrayListOf()
+            clear()
+            val cacheVerticalPhotoList = Repository.loadCachePhotoList()
+            logByDebug(msg = "initData：===> cacheVerticalPhotoList is $cacheVerticalPhotoList")
             addAll(cacheVerticalPhotoList)
         }
         mPhotoList.forEachIndexed { index, vertical ->
-            if (id == vertical.id) {
+            if (photoId == vertical.id) {
                 mCurrentPage = index
             }
         }
@@ -168,14 +161,20 @@ class GalleryActivity : AppActivity() {
         )
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mPhotoList.clear()
+        mPhotoAdapter.data.clear()
+        _discoverViewModel = null
+    }
+
     companion object {
 
-        private var mCurrentPage = 0
-
         @JvmStatic
-        fun startActivity(context: Context, id: String) {
+        fun startActivity(id: String) {
+            val context = AppApplication.getInstance().applicationContext
             val intent = Intent(context, GalleryActivity::class.java)
-            intent.putExtra("id", id)
+            intent.putExtra(IntentKey.ID, id)
             context.startActivity(intent)
         }
     }

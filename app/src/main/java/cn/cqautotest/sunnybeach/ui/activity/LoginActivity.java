@@ -47,7 +47,7 @@ import cn.cqautotest.sunnybeach.viewmodel.login.LoggedInUserView;
 import cn.cqautotest.sunnybeach.wxapi.WXEntryActivity;
 
 /**
- * author : Android 轮子哥
+ * author : Android 轮子哥 & A Lonely Cat
  * github : https://github.com/getActivity/AndroidProject
  * time   : 2018/10/18
  * desc   : 登录界面
