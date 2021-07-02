@@ -1,9 +1,9 @@
 package cn.cqautotest.sunnybeach.utils
 
-import cn.cqautotest.sunnybeach.utils.languages.Prism_c
-import cn.cqautotest.sunnybeach.utils.languages.Prism_json
-import cn.cqautotest.sunnybeach.utils.languages.Prism_kotlin
-import cn.cqautotest.sunnybeach.utils.languages.Prism_python
+import cn.cqautotest.sunnybeach.utils.markown.languages.Prism_c
+import cn.cqautotest.sunnybeach.utils.markown.languages.Prism_json
+import cn.cqautotest.sunnybeach.utils.markown.languages.Prism_kotlin
+import cn.cqautotest.sunnybeach.utils.markown.languages.Prism_python
 import io.noties.prism4j.GrammarLocator
 import io.noties.prism4j.Prism4j
 import java.util.*

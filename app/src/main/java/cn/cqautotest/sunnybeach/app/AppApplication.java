@@ -218,7 +218,7 @@ public final class AppApplication extends Application {
                 .replace(
                         GlideUrl.class,
                         InputStream.class,
-                        new OkHttpUrlLoader.Factory(ServiceCreator.INSTANCE.getClient())
+                        new OkHttpUrlLoader.Factory(okHttpClient)
                 );
         // UMConfigure.setLogEnabled(AppConfig.isDebug())
         // // 客户端用户同意隐私政策后，正式初始化友盟+SDK
@@ -234,7 +234,7 @@ public final class AppApplication extends Application {
         // MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
 
         // Push注册
-        PushHelper.init();
+        // PushHelper.init();
         // 在此初始化其它依赖库
     }
 

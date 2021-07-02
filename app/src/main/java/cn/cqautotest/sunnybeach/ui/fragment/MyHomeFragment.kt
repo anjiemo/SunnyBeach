@@ -2,7 +2,7 @@ package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.view.View
 import androidx.collection.arrayMapOf
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -27,7 +27,8 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
 
     private var _binding: MyHomeFragmentBinding? = null
     private val mBinding get() = _binding!!
-    private val homeViewModel by viewModels<HomeViewModel>()
+    private var _homeViewModel: HomeViewModel? = null
+    private val mHomeViewModel get() = _homeViewModel!!
     private val mFragmentMap by lazy { arrayMapOf<Int, AppFragment<AppActivity>>() }
     private lateinit var mFragmentAdapter: FragmentAdapter
 
@@ -56,20 +57,23 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
         NetworkUtils.isAvailableAsync { isAvailable ->
             if (isAvailable.not()) {
                 showError {
-                    homeViewModel.getCategories()
+                    mHomeViewModel.getCategories()
                 }
             } else {
                 showLoading()
-                homeViewModel.getCategories()
+                mHomeViewModel.getCategories()
             }
         }
     }
 
     override fun initObserver() {
-        lifecycle.addObserver(homeViewModel)
+        lifecycle.run {
+            addObserver(mHomeViewModel)
+            addObserver(mFragmentAdapter)
+        }
         val tabLayoutCategories = mBinding.tabLayoutCategories
         val vp2HomeArticleContainer = mBinding.vp2HomeArticleContainer
-        homeViewModel.homeCategories.observe(this) { homeCategories ->
+        mHomeViewModel.homeCategories.observe(viewLifecycleOwner) { homeCategories ->
             // 显示分类标签
             tabLayoutCategories.visibility = View.VISIBLE
             // 重置数据
@@ -119,15 +123,16 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
         }
     }
 
-    override fun initData() {}
+    override fun initData() {
+        _homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+    }
 
     override fun initView() {
         _binding = MyHomeFragmentBinding.bind(view)
         showEmpty()
         mFragmentAdapter = FragmentAdapter(this)
         mBinding.vp2HomeArticleContainer.apply {
-            // TODO: 2021/6/20 暂时不允许左右滑动，因为ViewPager2的滑动比较灵敏，后期处理之后改为可以左右滑动
-            isUserInputEnabled = false
+            // isUserInputEnabled = false
             adapter = mFragmentAdapter
         }
     }
@@ -135,7 +140,12 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        lifecycle.removeObserver(homeViewModel)
+        lifecycle.run {
+            removeObserver(mHomeViewModel)
+            removeObserver(mFragmentAdapter)
+        }
+        mFragmentMap.clear()
+        _homeViewModel = null
     }
 
     companion object {

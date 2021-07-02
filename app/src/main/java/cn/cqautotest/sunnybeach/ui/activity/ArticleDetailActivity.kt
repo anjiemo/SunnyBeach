@@ -3,8 +3,6 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
-import android.text.TextUtils
 import android.view.View
 import android.widget.ProgressBar
 import androidx.lifecycle.ViewModelProvider
@@ -13,20 +11,17 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.CheckNet
 import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.ArticleDetailActivityBinding
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.utils.GrammarLocatorDef
 import cn.cqautotest.sunnybeach.viewmodel.home.HomeViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
-import com.bumptech.glide.request.target.Target
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import io.noties.markwon.Markwon
 import io.noties.markwon.html.HtmlPlugin
-import io.noties.markwon.image.AsyncDrawable
 import io.noties.markwon.image.glide.GlideImagesPlugin
 import io.noties.markwon.syntax.*
 import io.noties.prism4j.Prism4j
@@ -40,7 +35,8 @@ import io.noties.prism4j.Prism4j
 class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
 
     private lateinit var mBinding: ArticleDetailActivityBinding
-    private lateinit var mHomeViewModel: HomeViewModel
+    private var _homeViewModel: HomeViewModel? = null
+    private val mHomeViewModel get() = _homeViewModel!!
     private lateinit var mStatusLayout: StatusLayout
     private lateinit var mProgressBar: ProgressBar
     private lateinit var mRefreshLayout: SmartRefreshLayout
@@ -62,18 +58,13 @@ class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
             showComplete()
             val articleContent = articleDetail.content
             val prism4jTheme = Prism4jThemeDarkula.create()
-            val markwon = Markwon.builder(this@ArticleDetailActivity)
+            val markwon = Markwon.builder(application)
+                // Html 插件
                 .usePlugin(HtmlPlugin.create())
+                // 语法高亮插件
                 .usePlugin(SyntaxHighlightPlugin.create(Prism4j(GrammarLocatorDef()), prism4jTheme))
-                .usePlugin(GlideImagesPlugin.create(object : GlideImagesPlugin.GlideStore {
-                    override fun load(drawable: AsyncDrawable): RequestBuilder<Drawable> {
-                        return Glide.with(this@ArticleDetailActivity).load(drawable.destination)
-                    }
-
-                    override fun cancel(target: Target<*>) {
-                        Glide.with(this@ArticleDetailActivity).clear(target)
-                    }
-                }))
+                // Glide 插件
+                .usePlugin(GlideImagesPlugin.create(this))
                 .build()
             articleContent?.let {
                 markwon.setMarkdown(mBinding.emptyDescription, it)
@@ -92,7 +83,7 @@ class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
     }
 
     override fun initView() {
-        mHomeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        _homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         mStatusLayout = mBinding.hlArticleDetailHint
         mProgressBar = mBinding.pbBrowserProgress
         mRefreshLayout = mBinding.slArticleDetailRefresh
@@ -120,6 +111,11 @@ class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
         loadArticleDetail()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _homeViewModel = null
+    }
+
     companion object {
 
         /**
@@ -128,10 +124,8 @@ class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
         @JvmStatic
         @CheckNet
         @DebugLog
-        fun start(context: Context, articleId: String?, articleTitle: String?) {
-            if (TextUtils.isEmpty(articleId)) {
-                return
-            }
+        fun start(articleId: String?, articleTitle: String?) {
+            val context = AppApplication.getInstance().applicationContext
             val intent = Intent(context, ArticleDetailActivity::class.java)
             intent.run {
                 putExtra(IntentKey.ID, articleId)

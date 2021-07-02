@@ -11,17 +11,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceCreator {
 
-    private val interceptor by lazy {
+    private val loggingInterceptor by lazy {
         HttpLoggingInterceptor {
             logByDebug(msg = "===> result：${it.unicodeToString()}")
         }.also {
             it.setLevel(HttpLoggingInterceptor.Level.BODY)
         }
     }
+
     private val cookieManager by lazy { CookieManager() }
+
     val client by lazy {
         OkHttpClient.Builder()
-            .addInterceptor(interceptor)
+            .addInterceptor(loggingInterceptor)
             .cookieJar(cookieManager)
             .build()
     }
