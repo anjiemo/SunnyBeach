@@ -1,10 +1,7 @@
 package cn.cqautotest.sunnybeach.viewmodel.app
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.http.ServiceCreator
@@ -50,7 +47,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 logByDebug(msg = "===> App更新数据获取成功")
                 responseData.file =
                     File(
-                        AppApplication.getInstance().filesDir.path,
+                        getApplication<Application>().filesDir.path,
                         "${responseData.versionName}.apk"
                     )
                 _appUpdateState.value =
@@ -68,6 +65,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun downloadApk(
+        lifecycleOwner: LifecycleOwner,
         appUpdateInfo: AppUpdateInfo,
         onStart: (file: File?) -> Unit = {},
         onProgress: (file: File?, progress: Int) -> Unit = { _, _ -> },
@@ -75,6 +73,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         onError: (file: File?, e: Exception?) -> Unit = { _, _ -> },
         onEnd: (file: File?, appUpdateInfo: AppUpdateInfo) -> Unit = { _, _ -> }
     ) = downloadApk(
+        lifecycleOwner,
         HttpMethod.GET,
         appUpdateInfo.file,
         appUpdateInfo.url,
@@ -89,6 +88,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     )
 
     fun downloadApk(
+        lifecycleOwner: LifecycleOwner,
         method: HttpMethod = HttpMethod.GET,
         file: File?,
         url: String?,
@@ -101,7 +101,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         onError: (file: File?, e: Exception?) -> Unit = { _, _ -> },
         onEnd: (file: File?, appUpdateInfo: AppUpdateInfo) -> Unit = { _, _ -> }
     ) =
-        EasyHttp.download(ApplicationLifecycle())
+        EasyHttp.download(lifecycleOwner)
             .tag(TAG)
             .method(method)
             .file(file)

@@ -1,10 +1,9 @@
 package cn.cqautotest.sunnybeach.ui.fragment.home
 
-import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
@@ -33,7 +32,8 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
     private var _binding: ArticleListFragmentBinding? = null
     private val mBinding get() = _binding!!
     private val articleAdapter by lazy { ArticleAdapter() }
-    private val homeViewModel by viewModels<HomeViewModel>()
+    private var _homeViewModel: HomeViewModel? = null
+    private val mHomeViewModel get() = _homeViewModel!!
 
     var title: String = ""
     var categoryId: String = ""
@@ -44,7 +44,24 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
         _binding = ArticleListFragmentBinding.bind(view)
     }
 
-    @SuppressLint("NewApi")
+    override fun initObserver() {
+        val refreshLayout = mBinding.rlStatusRefresh
+        val loadMoreModule = articleAdapter.loadMoreModule
+        if (isRecommendType()) {
+            mHomeViewModel.recommendList.observe(viewLifecycleOwner) { recommendList ->
+                val data = recommendList?.list ?: listOf()
+                articleAdapter.addData(data)
+                refreshComplete(refreshLayout, loadMoreModule)
+            }
+        } else {
+            mHomeViewModel.categoriesMap.observe(viewLifecycleOwner) { articleMap ->
+                val data = articleMap?.get(categoryId) ?: listOf()
+                articleAdapter.addData(data)
+                refreshComplete(refreshLayout, loadMoreModule)
+            }
+        }
+    }
+
     override fun initEvent() {
         val refreshLayout = mBinding.rlStatusRefresh
         val loadMoreModule = articleAdapter.loadMoreModule
@@ -64,7 +81,7 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
         // 设置文章列表项的点击事件
         articleAdapter.setOnItemClickListener { _, _, position ->
             val articleItem = articleAdapter.getItem(position)
-            ArticleDetailActivity.start(requireContext(), articleItem.id, articleItem.title)
+            ArticleDetailActivity.start(articleItem.id, articleItem.title)
         }
         articleAdapter.addChildClickViewIds(R.id.iv_avatar)
         articleAdapter.setOnItemChildClickListener { _, view, position ->
@@ -76,19 +93,6 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
         loadMoreModule.setOnLoadMoreListener {
             loadMoreModule.isEnableLoadMore = false
             loadMoreArticleData()
-        }
-        if (isRecommendType()) {
-            homeViewModel.recommendList.observe(this) { recommendList ->
-                val data = recommendList?.list ?: listOf()
-                articleAdapter.addData(data)
-                refreshComplete(refreshLayout, loadMoreModule)
-            }
-        } else {
-            homeViewModel.categoriesMap.observe(this) { articleMap ->
-                val data = articleMap?.get(categoryId) ?: listOf()
-                articleAdapter.addData(data)
-                refreshComplete(refreshLayout, loadMoreModule)
-            }
         }
     }
 
@@ -122,9 +126,9 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
      */
     private fun loadMoreArticleData() {
         if (isRecommendType()) {
-            homeViewModel.loadMoreRecommendContent()
+            mHomeViewModel.loadMoreRecommendContent()
         } else {
-            homeViewModel.loadMoreArticleListByCategoryId(categoryId = categoryId)
+            mHomeViewModel.loadMoreArticleListByCategoryId(categoryId = categoryId)
         }
     }
 
@@ -144,13 +148,15 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
             }
         }
         if (isRecommendType()) {
-            homeViewModel.refreshRecommendContent()
+            mHomeViewModel.refreshRecommendContent()
         } else {
-            homeViewModel.refreshArticleListByCategoryId(categoryId = categoryId)
+            mHomeViewModel.refreshArticleListByCategoryId(categoryId = categoryId)
         }
     }
 
-    override fun initData() {}
+    override fun initData() {
+        _homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+    }
 
     override fun initView() {
         if (isRecommendType()) {
@@ -193,6 +199,11 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
     private fun isRecommendType() = "" == categoryId
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlBrowserHint
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _homeViewModel = null
+    }
 
     companion object {
         @JvmStatic

@@ -12,11 +12,9 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
 import cn.cqautotest.sunnybeach.http.response.model.HomeBannerBean
-import cn.cqautotest.sunnybeach.http.response.model.HomePhotoBean
 import cn.cqautotest.sunnybeach.ui.activity.GalleryActivity
 import cn.cqautotest.sunnybeach.ui.adapter.PhotoAdapter
 import cn.cqautotest.sunnybeach.utils.*
-import cn.cqautotest.sunnybeach.viewmodel.SingletonManager
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -25,7 +23,6 @@ import com.bumptech.glide.Glide
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
 import com.youth.banner.indicator.CircleIndicator
-import java.lang.ref.WeakReference
 
 /**
  * author : A Lonely Cat
@@ -35,12 +32,12 @@ import java.lang.ref.WeakReference
  */
 class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
 
-    private val discoverViewModel by lazy {ViewModelProvider(this)[DiscoverViewModel::class.java]}
+    private var _discoverViewModel: DiscoverViewModel? = null
+    private val mDiscoverViewModel get() = _discoverViewModel!!
     private var _binding: DiscoverFragmentBinding? = null
     private val mBinding get() = _binding!!
     private val mBannerList = arrayListOf<HomeBannerBean.Data>()
-    private val mPhotoAdapter by lazy { PhotoAdapter() }
-    private val mPhotoList = arrayListOf<HomePhotoBean.Res.Vertical>()
+    private val mPhotoAdapter = PhotoAdapter()
 
     override fun getLayoutId(): Int = R.layout.discover_fragment
 
@@ -51,12 +48,12 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
     override fun onFragmentResume(first: Boolean) {
         super.onFragmentResume(first)
         if (first) {
-            discoverViewModel.loadBannerList()
+            mDiscoverViewModel.loadBannerList()
             refreshPhotoList()
         } else {
             // 如果之前的轮播图没加载上，则重新加载
             if (mBannerList.isNullOrEmpty()) {
-                discoverViewModel.loadBannerList()
+                mDiscoverViewModel.loadBannerList()
             }
             // 如果没有图片列表数据，则重新加载图片列表数据
             val data = mPhotoAdapter.data
@@ -67,11 +64,11 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
     }
 
     override fun initObserver() {
-        discoverViewModel.bannerList.observe(this) { bannerList ->
+        mDiscoverViewModel.bannerList.observe(viewLifecycleOwner) { bannerList ->
             mBinding.banner.setDatas(bannerList)
         }
         val loadMoreModule = mPhotoAdapter.loadMoreModule
-        discoverViewModel.verticalPhotoList.observe(this) { verticalPhotoList ->
+        mDiscoverViewModel.verticalPhotoList.observe(viewLifecycleOwner) { verticalPhotoList ->
             logByDebug(msg = "initEvent：===> " + verticalPhotoList.toJson())
             mBinding.slDiscoverRefresh.finishRefresh()
             if (verticalPhotoList.isNullOrEmpty()) {
@@ -89,8 +86,10 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
 
     override fun initEvent() {
         mPhotoAdapter.setOnItemClickListener { verticalPhoto, _ ->
-            Repository.setLocalPhotoList(mPhotoList)
-            GalleryActivity.startActivity(requireContext(), verticalPhoto.id)
+            Repository.setLocalPhotoList(mPhotoAdapter.data)
+            val photoId = verticalPhoto.id
+            logByDebug(msg = "initEvent：===> photoId is $photoId")
+            GalleryActivity.startActivity(photoId)
         }
         mBinding.slDiscoverRefresh.setOnRefreshListener {
             refreshPhotoList()
@@ -98,7 +97,7 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
         mPhotoAdapter.loadMoreModule.run {
             setOnLoadMoreListener {
                 isEnableLoadMore = false
-                discoverViewModel.loadMorePhotoList()
+                mDiscoverViewModel.loadMorePhotoList()
             }
         }
     }
@@ -111,16 +110,18 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
             if (isAvailable.not()) {
                 mBinding.slDiscoverRefresh.finishRefresh()
                 showError {
-                    discoverViewModel.refreshPhotoList()
+                    mDiscoverViewModel.refreshPhotoList()
                 }
             } else {
                 showLoading()
-                discoverViewModel.refreshPhotoList()
+                mDiscoverViewModel.refreshPhotoList()
             }
         }
     }
 
-    override fun initData() {}
+    override fun initData() {
+        _discoverViewModel = ViewModelProvider(this)[DiscoverViewModel::class.java]
+    }
 
     override fun initView() {
         mBinding.banner.apply {
@@ -179,6 +180,13 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlDiscoverHint
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mBannerList.clear()
+        mPhotoAdapter.data.clear()
+        _discoverViewModel = null
+    }
 
     companion object {
 

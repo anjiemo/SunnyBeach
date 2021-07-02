@@ -1,15 +1,17 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.MyMeFragmentBinding
+import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.activity.SettingActivity
 import cn.cqautotest.sunnybeach.utils.DEFAULT_AVATAR_URL
 import cn.cqautotest.sunnybeach.utils.MAKE_COMPLAINTS_URL
+import cn.cqautotest.sunnybeach.utils.logByDebug
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
 
@@ -23,7 +25,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     private var _binding: MyMeFragmentBinding? = null
     private val binding get() = _binding!!
-    private val userViewModel by lazy { ViewModelProvider(this)[UserViewModel::class.java] }
+    private val mUserViewModel: UserViewModel by viewModels()
 
     override fun getLayoutId(): Int = R.layout.my_me_fragment
 
@@ -46,25 +48,31 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         }
     }
 
+    override fun initData() {}
+
     override fun initView() {
-        val meContent = binding.meContent
-        userViewModel.userBasicInfo.observe(this) { userBasicInfo ->
-            val avatar = userBasicInfo?.avatar
-            Glide.with(this)
-                .load(avatar)
-                .placeholder(R.mipmap.ic_default_avatar)
-                .error(R.mipmap.ic_default_avatar)
-                .circleCrop()
-                .into(meContent.imageAvatar)
-            meContent.textNickName.text = userBasicInfo?.nickname ?: ""
+        mUserViewModel.userBasicInfo.observe(this) { userBasicInfo ->
+            setupUserInfo(userBasicInfo)
         }
     }
 
-    override fun initData() {
-        val userBasicInfo = userViewModel.userBasicInfo.value
-        userBasicInfo?.let {
-            binding.meContent.textNickName.text = it.nickname
-        }
+    private fun setupUserInfo(userBasicInfo: UserBasicInfo?) {
+        val meContent = binding.meContent
+        val avatar = userBasicInfo?.avatar
+        Glide.with(this)
+            .load(avatar)
+            .placeholder(R.mipmap.ic_default_avatar)
+            .error(R.mipmap.ic_default_avatar)
+            .circleCrop()
+            .into(meContent.imageAvatar)
+        meContent.textNickName.text = userBasicInfo?.nickname ?: ""
+    }
+
+    override fun onFragmentResume(first: Boolean) {
+        super.onFragmentResume(first)
+        val userBasicInfo = mUserViewModel.loadUserBasicInfo()
+        logByDebug(msg = "onFragmentResume：userBasicInfo is ===>$userBasicInfo")
+        setupUserInfo(userBasicInfo)
     }
 
     override fun isStatusBarEnabled(): Boolean {
