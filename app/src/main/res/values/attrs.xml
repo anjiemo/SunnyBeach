@@ -6,4 +6,17 @@
         <attr name="rlClipBackground" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="GridLayout">
+        <!--最大 item 个数-->
+        <attr name="maxItemCount" format="integer" />
+        <!--一行显示的最大个数-->
+        <attr name="spanCount" format="integer" />
+        <!--每一列之间的横向间隔-->
+        <attr name="horizontalSpace" format="dimension" />
+        <!--每一列之间的纵向间隔-->
+        <attr name="verticalSpace" format="dimension" />
+        <!--最大 item 行数-->
+        <attr name="maxItemLines" format="integer" />
+    </declare-styleable>
+
 </resources>

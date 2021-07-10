@@ -268,7 +268,7 @@ dependencies {
     // 小米更新SDK：https://dev.mi.com/console/doc/detail?pId=4
     implementation 'mi-appstore:xiaomi-update-sdk:4.0.3'
 
-    // 自定义文本控件，支持富文本，包含两种状态：编辑状态和预览状态。
+    // Markwon是一个适用于 Android 的Markdown库：https://noties.io/Markwon/
     implementation "io.noties.markwon:core:$markwon_version"
     implementation "io.noties.markwon:html:$markwon_version"
     // implementation "io.noties.markwon:image:$markwon_version"
@@ -276,4 +276,6 @@ dependencies {
     implementation "io.noties:prism4j:${prism_version}"
     kapt "io.noties:prism4j-bundler:${prism_version}"
     implementation "io.noties.markwon:syntax-highlight:$markwon_version"
+    // 自动生成语法高亮类的注解处理器
+    annotationProcessor "io.noties:prism4j-bundler:${prism_version}"
 }

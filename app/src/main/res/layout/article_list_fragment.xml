@@ -10,19 +10,19 @@
     tools:context=".ui.fragment.home.ArticleListFragment">
 
     <cn.cqautotest.sunnybeach.widget.StatusLayout
-        android:id="@+id/hl_browser_hint"
+        android:id="@+id/hl_article_list_hint"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/articleListRv"
+            android:id="@+id/rv_article_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="20"
-            tools:listitem="@layout/item_article" />
+            tools:listitem="@layout/article_item" />
 
     </cn.cqautotest.sunnybeach.widget.StatusLayout>
 

@@ -25,7 +25,7 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2021/6/20
- * desc   : 文章列表界面
+ * desc   : 文章列表 Fragment
  */
 class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
 
@@ -83,11 +83,23 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
             val articleItem = articleAdapter.getItem(position)
             ArticleDetailActivity.start(articleItem.id, articleItem.title)
         }
-        articleAdapter.addChildClickViewIds(R.id.iv_avatar)
+        articleAdapter.addChildClickViewIds(
+            R.id.iv_avatar,
+            R.id.article_cover_one,
+            R.id.article_cover_two,
+            R.id.article_cover_there,
+        )
         articleAdapter.setOnItemChildClickListener { _, view, position ->
             if (view.id == R.id.iv_avatar) {
                 val articleItem = articleAdapter.getItem(position)
                 ImagePreviewActivity.start(requireContext(), articleItem.avatar)
+            }
+            if (view.id == R.id.article_cover_one
+                || view.id == R.id.article_cover_two
+                || view.id == R.id.article_cover_there
+            ) {
+                val articleItem = articleAdapter.getItem(position)
+                ImagePreviewActivity.start(requireContext(), articleItem.covers)
             }
         }
         loadMoreModule.setOnLoadMoreListener {
@@ -165,7 +177,7 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
                     .inflate(R.layout.home_discover_more_author_content, null)
             )
         }
-        mBinding.articleListRv.apply {
+        mBinding.rvArticleList.apply {
             adapter = articleAdapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(object : RecyclerView.ItemDecoration() {
@@ -181,7 +193,7 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
                 ) {
                     super.getItemOffsets(outRect, view, parent, state)
                     equilibriumAssignmentOfLinear(unit, outRect, view, parent)
-                    view.setRoundRectBg(cornerRadius = 8.dp)
+                    view.setRoundRectBg(cornerRadius = 16.dp)
                 }
             })
         }
@@ -198,7 +210,7 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
 
     private fun isRecommendType() = "" == categoryId
 
-    override fun getStatusLayout(): StatusLayout = mBinding.hlBrowserHint
+    override fun getStatusLayout(): StatusLayout = mBinding.hlArticleListHint
 
     override fun onDestroy() {
         super.onDestroy()

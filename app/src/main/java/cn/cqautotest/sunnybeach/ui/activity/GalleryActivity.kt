@@ -8,8 +8,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Environment
+import androidx.activity.viewModels
 import androidx.core.content.getSystemService
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import cn.cqautotest.sunnybeach.R
@@ -41,8 +41,7 @@ class GalleryActivity : AppActivity() {
     private lateinit var mBinding: GalleryActivityBinding
     private val mPhotoAdapter = PhotoAdapter(fillBox = true)
     private val mPhotoList = arrayListOf<HomePhotoBean.Res.Vertical>()
-    private var _discoverViewModel: DiscoverViewModel? = null
-    private val mDiscoverViewModel get() = _discoverViewModel!!
+    private val mDiscoverViewModel by viewModels<DiscoverViewModel>()
     private var mCurrentPage = 0
 
     override fun getLayoutId(): Int = R.layout.gallery_activity
@@ -130,7 +129,6 @@ class GalleryActivity : AppActivity() {
     private fun getCurrentVerticalPhotoBean() = mPhotoList[mBinding.galleryViewPager2.currentItem]
 
     override fun initData() {
-        _discoverViewModel = ViewModelProvider(this)[DiscoverViewModel::class.java]
         val intent = intent
         val photoId = intent.getStringExtra(IntentKey.ID)
         logByDebug(msg = "initData：===>photoId is $photoId")
@@ -165,7 +163,6 @@ class GalleryActivity : AppActivity() {
         super.onDestroy()
         mPhotoList.clear()
         mPhotoAdapter.data.clear()
-        _discoverViewModel = null
     }
 
     companion object {

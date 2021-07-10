@@ -6,25 +6,28 @@ import android.content.Intent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
+import com.hjq.http.EasyHttp;
+import com.hjq.http.listener.HttpCallback;
+import com.hjq.widget.view.SlantedTextView;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.app.AppActivity;
 import cn.cqautotest.sunnybeach.http.model.HttpData;
 import cn.cqautotest.sunnybeach.http.request.UserInfoApi;
 import cn.cqautotest.sunnybeach.http.response.UserInfoBean;
 import cn.cqautotest.sunnybeach.other.AppConfig;
-import com.hjq.http.EasyHttp;
-import com.hjq.http.listener.HttpCallback;
-import com.hjq.widget.view.SlantedTextView;
+import cn.cqautotest.sunnybeach.viewmodel.UserViewModel;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2018/10/18
- *    desc   : 闪屏界面
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2018/10/18
+ * desc   : 闪屏界面
  */
 public final class SplashActivity extends AppActivity {
 
@@ -38,6 +41,7 @@ public final class SplashActivity extends AppActivity {
 
     @Override
     protected void initView() {
+        UserViewModel userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         mLottieView = findViewById(R.id.lav_splash_lottie);
         mDebugView = findViewById(R.id.iv_splash_debug);
         // 设置动画监听
@@ -46,7 +50,11 @@ public final class SplashActivity extends AppActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 mLottieView.removeAnimatorListener(this);
-                HomeActivity.start(getContext());
+                if (userViewModel.isAutoLogin() && userViewModel.isLogin()) {
+                    HomeActivity.start(getContext());
+                } else {
+                    LoginActivity.start(getContext(), "", "");
+                }
                 finish();
             }
         });

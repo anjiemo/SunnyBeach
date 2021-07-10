@@ -20,6 +20,7 @@ import cn.cqautotest.sunnybeach.other.DoubleClickHelper;
 import cn.cqautotest.sunnybeach.other.IntentKey;
 import cn.cqautotest.sunnybeach.ui.fragment.DiscoverFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.EmptyFragment;
+import cn.cqautotest.sunnybeach.ui.fragment.FishPondFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.HomeFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.MyHomeFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
@@ -78,10 +79,11 @@ public final class HomeActivity extends AppActivity
     protected void initData() {
         mPagerAdapter = new FragmentPagerAdapter<>(this);
         // mPagerAdapter.addFragment(HomeFragment.newInstance());
-        mPagerAdapter.addFragment(MyHomeFragment.newInstance());
-        mPagerAdapter.addFragment(DiscoverFragment.newInstance());
-        mPagerAdapter.addFragment(EmptyFragment.newInstance());
-        mPagerAdapter.addFragment(MyMeFragment.newInstance());
+        mPagerAdapter.addFragment(new MyHomeFragment());
+        mPagerAdapter.addFragment(new DiscoverFragment());
+        mPagerAdapter.addFragment(new FishPondFragment());
+        mPagerAdapter.addFragment(new EmptyFragment());
+        mPagerAdapter.addFragment(new MyMeFragment());
         mViewPager.setAdapter(mPagerAdapter);
 
         onNewIntent(getIntent());
@@ -106,9 +108,12 @@ public final class HomeActivity extends AppActivity
                 mBottomNavigationView.setSelectedItemId(R.id.home_found);
                 break;
             case 2:
-                mBottomNavigationView.setSelectedItemId(R.id.home_message);
+                mBottomNavigationView.setSelectedItemId(R.id.home_fish_pond);
                 break;
             case 3:
+                mBottomNavigationView.setSelectedItemId(R.id.home_message);
+                break;
+            case 4:
                 mBottomNavigationView.setSelectedItemId(R.id.home_me);
                 break;
             default:
@@ -128,12 +133,15 @@ public final class HomeActivity extends AppActivity
         } else if (itemId == R.id.home_found) {
             mViewPager.setCurrentItem(1);
             return true;
-        } else if (itemId == R.id.home_message) {
+        }else if (itemId == R.id.home_fish_pond) {
             mViewPager.setCurrentItem(2);
+            return true;
+        } else if (itemId == R.id.home_message) {
+            mViewPager.setCurrentItem(3);
             toast("该界面正在装修中...");
             return true;
         } else if (itemId == R.id.home_me) {
-            mViewPager.setCurrentItem(3);
+            mViewPager.setCurrentItem(4);
             return true;
         }
         return false;

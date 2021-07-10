@@ -72,7 +72,7 @@
                 android:layout_height="match_parent"
                 app:spanCount="2"
                 tools:itemCount="20"
-                tools:listitem="@layout/item_photo" />
+                tools:listitem="@layout/photo_item" />
 
         </cn.cqautotest.sunnybeach.widget.StatusLayout>
 
