@@ -57,7 +57,6 @@ class HomeViewModel : ViewModel(), LifecycleObserver {
         }
     }
 
-
     fun refreshArticleListByCategoryId(categoryId: String) = viewModelScope.launch {
         val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
         if (available.not()) return@launch
@@ -135,17 +134,26 @@ class HomeViewModel : ViewModel(), LifecycleObserver {
         }
     }
 
+    /**
+     * 重置推荐内容
+     */
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun resetRecommendContent() {
         _recommendContent.value = null
     }
 
+    /**
+     * 重置普通文章列表内容
+     */
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun resetArticleList() {
         _cacheCategoriesMap.value = null
         _categoriesMap.value = null
     }
 
+    /**
+     * 获取文章分类列表
+     */
     fun getCategories() = viewModelScope.launch {
         val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
         if (available.not()) return@launch

@@ -4,8 +4,8 @@
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/60b951f6bab6a6d3bbc4bce138391fd9/transformed/jetified-refresh-header-material-2.0.3/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/60b951f6bab6a6d3bbc4bce138391fd9/transformed/jetified-refresh-header-material-2.0.3/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/60b951f6bab6a6d3bbc4bce138391fd9/transformed/jetified-refresh-header-material-2.0.3/res" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/60b951f6bab6a6d3bbc4bce138391fd9/transformed/jetified-refresh-header-material-2.0.3/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/60b951f6bab6a6d3bbc4bce138391fd9/transformed/jetified-refresh-header-material-2.0.3/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>

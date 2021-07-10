@@ -4,9 +4,10 @@
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f62f498cc9395339d114d0d7af24f3ef/transformed/jetified-activity-1.2.3/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f62f498cc9395339d114d0d7af24f3ef/transformed/jetified-activity-1.2.3/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f62f498cc9395339d114d0d7af24f3ef/transformed/jetified-activity-1.2.3/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/227ee08f6c791ed5e8601fd6fb404851/transformed/jetified-activity-1.2.3/res" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f62f498cc9395339d114d0d7af24f3ef/transformed/jetified-activity-1.2.3/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f62f498cc9395339d114d0d7af24f3ef/transformed/jetified-activity-1.2.3/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

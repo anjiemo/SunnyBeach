@@ -12,7 +12,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.hjq.widget.layout.RatioFrameLayout
 
 class PhotoAdapter(val fillBox: Boolean = false) :
-    BaseQuickAdapter<HomePhotoBean.Res.Vertical, BaseViewHolder>(R.layout.item_photo),
+    BaseQuickAdapter<HomePhotoBean.Res.Vertical, BaseViewHolder>(R.layout.photo_item),
     LoadMoreModule {
 
     private lateinit var mItemClickListener: ((verticalPhoto: HomePhotoBean.Res.Vertical, position: Int) -> Unit)

@@ -1,8 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.hjq.gson:factory:3.0@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/84399c928e7f4b3b88e8ed487010c3d9/transformed/jetified-factory-3.0/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/84399c928e7f4b3b88e8ed487010c3d9/transformed/jetified-factory-3.0/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/fc46bfde51e6bfb56a95aaa963451b29/transformed/jetified-factory-3.0/res" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/84399c928e7f4b3b88e8ed487010c3d9/transformed/jetified-factory-3.0/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/84399c928e7f4b3b88e8ed487010c3d9/transformed/jetified-factory-3.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>

@@ -4,8 +4,9 @@
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/2bbdb8dfeaf37b781a7a9b8497a5fe92/transformed/jetified-gifdecoder-4.12.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/2bbdb8dfeaf37b781a7a9b8497a5fe92/transformed/jetified-gifdecoder-4.12.0/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/2bbdb8dfeaf37b781a7a9b8497a5fe92/transformed/jetified-gifdecoder-4.12.0/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/a6e3171051ba514b40c0e44b36011f71/transformed/jetified-gifdecoder-4.12.0/res" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/2bbdb8dfeaf37b781a7a9b8497a5fe92/transformed/jetified-gifdecoder-4.12.0/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/2bbdb8dfeaf37b781a7a9b8497a5fe92/transformed/jetified-gifdecoder-4.12.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>

@@ -5,7 +5,12 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.EmptyFragmentBinding
 
-
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/6/18
+ * desc   : 空 Fragment
+ */
 class EmptyFragment : AppFragment<AppActivity>() {
 
     private var _binding: EmptyFragmentBinding? = null
@@ -23,12 +28,5 @@ class EmptyFragment : AppFragment<AppActivity>() {
 
     override fun initData() {
 
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(): EmptyFragment {
-            return EmptyFragment()
-        }
     }
 }

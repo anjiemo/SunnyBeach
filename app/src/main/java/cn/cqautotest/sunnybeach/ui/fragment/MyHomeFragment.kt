@@ -2,7 +2,7 @@ package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.view.View
 import androidx.collection.arrayMapOf
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -27,8 +27,7 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
 
     private var _binding: MyHomeFragmentBinding? = null
     private val mBinding get() = _binding!!
-    private var _homeViewModel: HomeViewModel? = null
-    private val mHomeViewModel get() = _homeViewModel!!
+    private val mHomeViewModel by viewModels<HomeViewModel>()
     private val mFragmentMap by lazy { arrayMapOf<Int, AppFragment<AppActivity>>() }
     private lateinit var mFragmentAdapter: FragmentAdapter
 
@@ -97,7 +96,7 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
                     categoryId = categoriesItem.id
                 }
             }
-            vp2HomeArticleContainer.offscreenPageLimit = mFragmentMap.size
+            // vp2HomeArticleContainer.offscreenPageLimit = mFragmentMap.size
             mFragmentAdapter.setFragmentMap(mFragmentMap)
             showComplete()
         }
@@ -123,16 +122,14 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
         }
     }
 
-    override fun initData() {
-        _homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-    }
+    override fun initData() {}
 
     override fun initView() {
         _binding = MyHomeFragmentBinding.bind(view)
         showEmpty()
         mFragmentAdapter = FragmentAdapter(this)
         mBinding.vp2HomeArticleContainer.apply {
-            // isUserInputEnabled = false
+            isUserInputEnabled = false
             adapter = mFragmentAdapter
         }
     }
@@ -144,15 +141,10 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
             removeObserver(mHomeViewModel)
             removeObserver(mFragmentAdapter)
         }
-        mFragmentMap.clear()
-        _homeViewModel = null
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(): MyHomeFragment {
-            return MyHomeFragment()
+        mFragmentMap.values.forEach {
+            it.onDestroy()
         }
+        mFragmentMap.clear()
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlMyHomeFragmentHint

@@ -15,7 +15,6 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
@@ -49,7 +48,6 @@ import cn.cqautotest.sunnybeach.other.DebugLoggerTree;
 import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter;
 import cn.cqautotest.sunnybeach.other.ToastInterceptor;
 import cn.cqautotest.sunnybeach.utils.PushHelper;
-import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
@@ -234,7 +232,7 @@ public final class AppApplication extends Application {
         // MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
 
         // Push注册
-        // PushHelper.init();
+        // PushHelper.init(application);
         // 在此初始化其它依赖库
     }
 

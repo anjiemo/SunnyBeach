@@ -38,10 +38,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     private val cookieDao = AppApplication.getDatabase().cookieDao()
 
-    // 自动登录
-    private val _autoLogin = MutableLiveData<Boolean>()
-    val autoLogin: LiveData<Boolean> get() = _autoLogin
-
     // 登录状态表单
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> get() = _loginForm
@@ -94,11 +90,29 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         displayName = userBasicInfoResponse?.data?.nickname ?: ""
                     )
                 )
+            setupAutoLogin(true)
         }.onFailure {
             _loginResult.value =
                 LoginResult(error = context.getString(R.string.login_failed))
             logByDebug(tag = "UserViewModel：", msg = "login：====>登陆失败，error msg is $it")
+            setupAutoLogin(false)
         }
+    }
+
+    /**
+     * 设置用户是否自动登录
+     */
+    fun setupAutoLogin(autoLogin: Boolean) {
+        val mmkv = MMKV.defaultMMKV() ?: return
+        mmkv.putBoolean(AUTO_LOGIN, autoLogin)
+    }
+
+    /**
+     * 获取是否自动登录
+     */
+    fun isAutoLogin(): Boolean {
+        val mmkv = MMKV.defaultMMKV() ?: return false
+        return mmkv.getBoolean(AUTO_LOGIN, false)
     }
 
     /**
@@ -107,8 +121,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     fun checkUserToken() = viewModelScope.launch {
         val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
         if (available.not()) {
-            if (loadUserBasicInfo() != null) {
-                _autoLogin.value = true
+            if (isLogin()) {
+                setupAutoLogin(true)
             }
             return@launch
         }
@@ -117,15 +131,19 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }.onSuccess { response ->
             val userBasicInfo = response.data
             val loginSuccess = SUNNY_BEACH_HTTP_OK_CODE == response.code
-            _autoLogin.value = loginSuccess
             _userBasicInfo.value = userBasicInfo
             if (loginSuccess) {
                 saveUserBasicInfo(userBasicInfo)
             }
         }.onFailure {
-            _autoLogin.value = false
+            setupAutoLogin(false)
         }
     }
+
+    /**
+     * 用户是否已经成功登录过一次了
+     */
+    fun isLogin() = loadUserBasicInfo() != null
 
     /**
      * 登录状态改变
@@ -166,9 +184,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
      * 清除用户基本信息数据
      */
     fun logoutUserAccount() {
+        _loginResult.value = LoginResult()
         val mmkv = MMKV.defaultMMKV() ?: return
         mmkv.removeValueForKey(SUNNY_BEACH_USER_BASIC_INFO)
-        _loginResult.value = LoginResult()
     }
 
     /**

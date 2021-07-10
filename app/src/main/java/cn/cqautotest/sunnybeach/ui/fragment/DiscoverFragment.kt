@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.graphics.Color
 import android.graphics.Rect
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,12 +29,11 @@ import com.youth.banner.indicator.CircleIndicator
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2021/6/18
- * desc   : 发现界面
+ * desc   : 发现 Fragment
  */
 class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
 
-    private var _discoverViewModel: DiscoverViewModel? = null
-    private val mDiscoverViewModel get() = _discoverViewModel!!
+    private val mDiscoverViewModel by viewModels<DiscoverViewModel>()
     private var _binding: DiscoverFragmentBinding? = null
     private val mBinding get() = _binding!!
     private val mBannerList = arrayListOf<HomeBannerBean.Data>()
@@ -119,9 +119,7 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
         }
     }
 
-    override fun initData() {
-        _discoverViewModel = ViewModelProvider(this)[DiscoverViewModel::class.java]
-    }
+    override fun initData() {}
 
     override fun initView() {
         mBinding.banner.apply {
@@ -185,14 +183,5 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
         super.onDestroy()
         mBannerList.clear()
         mPhotoAdapter.data.clear()
-        _discoverViewModel = null
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance(): DiscoverFragment {
-            return DiscoverFragment()
-        }
     }
 }
