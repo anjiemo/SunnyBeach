@@ -75,7 +75,7 @@
         android:id="@+id/tabLayout_categories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/home_article_label_bottom_radius_white_bg"
         android:visibility="visible"
         app:tabIndicatorColor="@color/pink"
         app:tabIndicatorFullWidth="false"

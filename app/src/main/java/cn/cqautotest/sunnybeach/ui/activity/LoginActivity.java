@@ -201,15 +201,22 @@ public final class LoginActivity extends AppActivity
     }
 
     @Override
+    public void onLeftClick(View view) {
+        // 用户点击了跳过按钮
+        HomeActivity.start(getContext(), MyMeFragment.class);
+        finish();
+    }
+
+    @Override
     public void onRightClick(View view) {
         // 跳转到注册界面
         RegisterActivity.start(this, mPhoneView.getText().toString(), mPasswordView.getText().toString(), (phone, password) -> {
-            // 如果已经注册成功，就执行登录操作
+            // 如果已经注册成功，就执行登录操作（需要用户先输入验证码）
             mPhoneView.setText(phone);
             mPasswordView.setText(password);
             mPasswordView.requestFocus();
             mPasswordView.setSelection(mPasswordView.getText().length());
-            onClick(mCommitView);
+            // onClick(mCommitView);
         });
     }
 

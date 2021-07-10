@@ -95,6 +95,7 @@ public final class SettingActivity extends AppActivity
         mLanguageView.setRightText("简体中文");
         mPhoneView.setRightText("181****1413");
         mPasswordView.setRightText("密码强度较低");
+        mAutoSwitchView.setChecked(mUserViewModel.isAutoLogin());
     }
 
     @SingleClick
@@ -263,6 +264,8 @@ public final class SettingActivity extends AppActivity
 
     @Override
     public void onCheckedChanged(SwitchButton button, boolean checked) {
+        // 设置是否自动登录
+        mUserViewModel.setupAutoLogin(checked);
         toast("此功能快马加鞭实现中...");
     }
 }

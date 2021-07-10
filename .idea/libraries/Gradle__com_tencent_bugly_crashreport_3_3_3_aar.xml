@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.tencent.bugly:crashreport:3.3.3@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/a4a78cebd0302729ea08a0f3b03be559/transformed/jetified-crashreport-3.3.3/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/a4a78cebd0302729ea08a0f3b03be559/transformed/jetified-crashreport-3.3.3/res" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/a4a78cebd0302729ea08a0f3b03be559/transformed/jetified-crashreport-3.3.3/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/a4a78cebd0302729ea08a0f3b03be559/transformed/jetified-crashreport-3.3.3/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>

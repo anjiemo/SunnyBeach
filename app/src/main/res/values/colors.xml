@@ -25,4 +25,6 @@
     <color name="pink">#FA7299</color>
     <!-- 默认的文本颜色 -->
     <color name="default_font_color">#8A000000</color>
+    <!--markdown代码块的背景颜色-->
+    <string name="markdown_bg_code_color">#263238</string>
 </resources>

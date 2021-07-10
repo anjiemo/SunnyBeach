@@ -39,14 +39,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/empty_description"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingStart="10dp"
-                    android:paddingTop="30dp"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="20dp" />
+                    android:orientation="vertical">
+
+                    <!--文章详情-->
+                    <TextView
+                        android:id="@+id/empty_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="10dp"
+                        android:paddingTop="30dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="20dp" />
+
+                    <!--文章推荐列表 和 文章评论列表-->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/article_recommend_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                </LinearLayout>
 
             </androidx.core.widget.NestedScrollView>
 

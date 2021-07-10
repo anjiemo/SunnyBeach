@@ -1,8 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.hjq:xxpermissions:9.8@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f603e174ac475e4352f0bd68bd692224/transformed/jetified-xxpermissions-9.8/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f603e174ac475e4352f0bd68bd692224/transformed/jetified-xxpermissions-9.8/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/47cf160a88edb7408cd3ffb2f57dbc63/transformed/jetified-xxpermissions-9.8/res" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f603e174ac475e4352f0bd68bd692224/transformed/jetified-xxpermissions-9.8/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f603e174ac475e4352f0bd68bd692224/transformed/jetified-xxpermissions-9.8/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>

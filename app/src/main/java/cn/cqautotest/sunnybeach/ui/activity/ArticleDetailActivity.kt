@@ -1,11 +1,11 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.View
 import android.widget.ProgressBar
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.CheckNet
@@ -14,7 +14,7 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.ArticleDetailActivityBinding
 import cn.cqautotest.sunnybeach.other.IntentKey
-import cn.cqautotest.sunnybeach.utils.GrammarLocatorDef
+import cn.cqautotest.sunnybeach.utils.markown.MyGrammarLocator
 import cn.cqautotest.sunnybeach.viewmodel.home.HomeViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -35,8 +35,7 @@ import io.noties.prism4j.Prism4j
 class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
 
     private lateinit var mBinding: ArticleDetailActivityBinding
-    private var _homeViewModel: HomeViewModel? = null
-    private val mHomeViewModel get() = _homeViewModel!!
+    private val mHomeViewModel by viewModels<HomeViewModel>()
     private lateinit var mStatusLayout: StatusLayout
     private lateinit var mProgressBar: ProgressBar
     private lateinit var mRefreshLayout: SmartRefreshLayout
@@ -57,18 +56,16 @@ class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
             }
             showComplete()
             val articleContent = articleDetail.content
-            val prism4jTheme = Prism4jThemeDarkula.create()
+            val prism4jTheme = Prism4jThemeDarkula.create(Color.parseColor(getString(R.string.markdown_bg_code_color)))
             val markwon = Markwon.builder(application)
                 // Html 插件
                 .usePlugin(HtmlPlugin.create())
                 // 语法高亮插件
-                .usePlugin(SyntaxHighlightPlugin.create(Prism4j(GrammarLocatorDef()), prism4jTheme))
+                .usePlugin(SyntaxHighlightPlugin.create(Prism4j(MyGrammarLocator()), prism4jTheme))
                 // Glide 插件
                 .usePlugin(GlideImagesPlugin.create(this))
                 .build()
-            articleContent?.let {
-                markwon.setMarkdown(mBinding.emptyDescription, it)
-            }
+            markwon.setMarkdown(mBinding.emptyDescription, articleContent ?: "")
         }
     }
 
@@ -83,7 +80,6 @@ class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
     }
 
     override fun initView() {
-        _homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         mStatusLayout = mBinding.hlArticleDetailHint
         mProgressBar = mBinding.pbBrowserProgress
         mRefreshLayout = mBinding.slArticleDetailRefresh
@@ -109,11 +105,6 @@ class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
      */
     override fun onRefresh(refreshLayout: RefreshLayout) {
         loadArticleDetail()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _homeViewModel = null
     }
 
     companion object {

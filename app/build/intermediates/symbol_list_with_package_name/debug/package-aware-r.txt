@@ -547,6 +547,7 @@ attr hintTextColor
 attr homeAsUpIndicator
 attr homeLayout
 attr horizontalOffset
+attr horizontalSpace
 attr hoveredFocusedTranslationZ
 attr icon
 attr iconEndPadding
@@ -753,6 +754,8 @@ attr maxButtonHeight
 attr maxCharacterCount
 attr maxHeight
 attr maxImageSize
+attr maxItemCount
+attr maxItemLines
 attr maxLines
 attr maxVelocity
 attr maxWidth
@@ -1142,6 +1145,7 @@ attr useCompatPadding
 attr useMaterialThemeColors
 attr values
 attr verticalOffset
+attr verticalSpace
 attr viewInflaterClass
 attr visibilityMode
 attr voiceIcon
@@ -2030,6 +2034,10 @@ drawable guide_2_bg
 drawable guide_3_bg
 drawable guide_indicator_selected
 drawable guide_indicator_unselected
+drawable home_article_label_bottom_radius_white_bg
+drawable home_fish_pond_off_ic
+drawable home_fish_pond_on_ic
+drawable home_fish_pond_selector
 drawable home_found_off_ic
 drawable home_found_on_ic
 drawable home_found_selector
@@ -2042,6 +2050,7 @@ drawable home_me_selector
 drawable home_message_off_ic
 drawable home_message_on_ic
 drawable home_message_selector
+drawable home_nav_top_radius_white_bg
 drawable home_navigation_color_selector
 drawable home_search_bar_gray_bg
 drawable home_search_bar_transparent_bg
@@ -2238,7 +2247,10 @@ id always
 id animateToEnd
 id animateToStart
 id app_bar
-id articleListRv
+id article_cover_one
+id article_cover_there
+id article_cover_two
+id article_recommend_list
 id article_top_container
 id asConfigured
 id async
@@ -2413,6 +2425,7 @@ id et_safe_code
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
+id fab_fish_pond
 id fab_image_select_floating
 id fab_video_select_floating
 id fade
@@ -2433,6 +2446,7 @@ id fragment_container_view_tag
 id galleryViewPager2
 id ghost_view
 id ghost_view_holder
+id gl_photo_list
 id glide_custom_view_target_tag
 id gone
 id graph
@@ -2445,8 +2459,10 @@ id hardware
 id header_title
 id hideable
 id hl_article_detail_hint
+id hl_article_list_hint
 id hl_browser_hint
 id hl_discover_hint
+id hl_fish_pond_hint
 id hl_image_select_hint
 id hl_my_home_fragment_hint
 id hl_status_hint
@@ -2454,6 +2470,7 @@ id hl_video_select_hint
 id home
 id homeAsUp
 id homeSearchTv
+id home_fish_pond
 id home_found
 id home_me
 id home_message
@@ -2500,6 +2517,7 @@ id iv_splash_debug
 id iv_splash_name
 id iv_status_icon
 id iv_status_text
+id iv_topic_cover
 id iv_video_select_check
 id iv_video_select_image
 id jumpToEnd
@@ -2696,9 +2714,12 @@ id rl_status_refresh
 id rounded
 id row_index_key
 id rv_album_list
+id rv_article_list
 id rv_date_day
 id rv_date_month
 id rv_date_year
+id rv_fish_pond_labels_list
+id rv_fish_pond_list
 id rv_image_select_list
 id rv_menu_list
 id rv_pay_list
@@ -2839,6 +2860,7 @@ id toolBar
 id top
 id topLayout
 id topPanel
+id topic_container
 id touch_outside
 id transitionToEnd
 id transitionToStart
@@ -2857,6 +2879,10 @@ id tv_crash_info
 id tv_crash_message
 id tv_crash_title
 id tv_create_time
+id tv_fish_pond_avatar
+id tv_fish_pond_content
+id tv_fish_pond_desc
+id tv_fish_pond_nick_name
 id tv_hint_message
 id tv_home_address
 id tv_home_hint
@@ -2884,6 +2910,7 @@ id tv_select_text
 id tv_setting_update
 id tv_share_text
 id tv_status_text
+id tv_topic_name
 id tv_ui_cancel
 id tv_ui_confirm
 id tv_ui_title
@@ -2994,6 +3021,7 @@ layout address_dialog
 layout album_dialog
 layout album_item
 layout article_detail_activity
+layout article_item
 layout article_list_fragment
 layout browser_activity
 layout browser_fragment
@@ -3026,6 +3054,9 @@ layout discover_fragment
 layout dynamic_feature_install_fragment
 layout empty_fragment
 layout find_fragment
+layout fish_pond_fragment
+layout fish_pond_item
+layout fish_pond_setting_activity
 layout gallery_activity
 layout guide_activity
 layout guide_item
@@ -3038,8 +3069,6 @@ layout image_preview_item
 layout image_select_activity
 layout image_select_item
 layout input_dialog
-layout item_article
-layout item_photo
 layout leak_canary_about_screen
 layout leak_canary_heap_analysis_failure_screen
 layout leak_canary_heap_dump_leak_title
@@ -3121,6 +3150,7 @@ layout pay_password_empty_item
 layout pay_password_normal_item
 layout personal_data_activity
 layout phone_reset_activity
+layout photo_item
 layout picker_item
 layout register_activity
 layout safe_dialog
@@ -3152,6 +3182,7 @@ layout text_view_with_line_height_from_style
 layout text_view_with_theme_line_height
 layout text_view_without_line_height
 layout time_dialog
+layout topic_item
 layout ui_dialog
 layout update_dialog
 layout utils_toast_view
@@ -3301,6 +3332,7 @@ string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
 string hide_bottom_view_on_scroll_behavior
 string home_exit_hint
+string home_fish_pond_message
 string home_nav_found
 string home_nav_index
 string home_nav_me
@@ -3407,6 +3439,7 @@ string login_forget
 string login_other
 string login_register
 string login_text
+string markdown_bg_code_color
 string material_clock_display_divider
 string material_clock_toggle_content_description
 string material_hour_selection
@@ -4354,6 +4387,7 @@ styleable FragmentContainerView android_name android_tag
 styleable FragmentNavigator android_name
 styleable GradientColor android_startColor android_endColor android_type android_centerX android_centerY android_gradientRadius android_tileMode android_centerColor android_startX android_startY android_endX android_endY
 styleable GradientColorItem android_color android_offset
+styleable GridLayout horizontalSpace maxItemCount maxItemLines spanCount verticalSpace
 styleable ImageFilterView altSrc brightness contrast crossfade overlay round roundPercent saturation warmth
 styleable Insets paddingBottomSystemWindowInsets paddingLeftSystemWindowInsets paddingRightSystemWindowInsets
 styleable KeyAttribute android_alpha android_transformPivotX android_transformPivotY android_translationX android_translationY android_scaleX android_scaleY android_rotation android_rotationX android_rotationY android_translationZ android_elevation curveFit framePosition motionProgress motionTarget transitionEasing transitionPathRotate
