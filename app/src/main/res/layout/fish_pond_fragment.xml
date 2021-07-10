@@ -1,46 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.fragment.FishPondFragment">
 
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/rl_status_refresh"
+    <com.hjq.bar.TitleBar
+        android:id="@+id/titleBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srlEnableLoadMore="false">
+        android:layout_height="0px"
+        app:backButton="false"
+        app:barStyle="light"
+        app:title="鱼塘" />
 
-        <cn.cqautotest.sunnybeach.widget.StatusLayout
-            android:id="@+id/hl_fish_pond_hint"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_fish_pond_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                tools:itemCount="9"
-                tools:listitem="" />
-
-        </cn.cqautotest.sunnybeach.widget.StatusLayout>
-
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_fish_pond"
-        android:layout_width="wrap_content"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout_topic_list"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="40dp"
-        android:contentDescription="摸鱼发布按钮"
-        android:src="@drawable/add_ic"
-        android:tint="@color/white"
-        app:backgroundTint="@color/common_confirm_text_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:background="@color/white"
+        app:tabIndicatorColor="@color/pink"
+        app:tabIndicatorFullWidth="false"
+        app:tabMode="scrollable" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/rl_status_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srlEnableLoadMore="false">
+
+            <cn.cqautotest.sunnybeach.widget.StatusLayout
+                android:id="@+id/hl_fish_pond_hint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_fish_pond_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    tools:itemCount="9"
+                    tools:listitem="" />
+
+            </cn.cqautotest.sunnybeach.widget.StatusLayout>
+
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_fish_pond"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="40dp"
+            android:contentDescription="摸鱼发布按钮"
+            android:src="@drawable/add_ic"
+            android:tint="@color/white"
+            app:backgroundTint="@color/common_confirm_text_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

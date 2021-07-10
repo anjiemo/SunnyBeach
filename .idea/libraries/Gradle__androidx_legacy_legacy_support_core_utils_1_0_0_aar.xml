@@ -1,10 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.legacy:legacy-support-core-utils:1.0.0@aar">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/0e3a8e36596db908ec53d2e8f255b2a6/transformed/legacy-support-core-utils-1.0.0/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/292570e188be9b703e9b4d0618ccba04/transformed/legacy-support-core-utils-1.0.0/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/0e3a8e36596db908ec53d2e8f255b2a6/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml" />
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/0e3a8e36596db908ec53d2e8f255b2a6/transformed/legacy-support-core-utils-1.0.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/0e3a8e36596db908ec53d2e8f255b2a6/transformed/legacy-support-core-utils-1.0.0/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/0e3a8e36596db908ec53d2e8f255b2a6/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

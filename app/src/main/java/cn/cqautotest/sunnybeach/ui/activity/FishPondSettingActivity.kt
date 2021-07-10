@@ -13,7 +13,7 @@ import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.FishPondSettingActivityBinding
-import cn.cqautotest.sunnybeach.model.Topic
+import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondAdapter
 import cn.cqautotest.sunnybeach.utils.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
@@ -46,20 +46,20 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
     }
 
     override fun initObserver() {
-        mFishPondViewModel.fishTopic.observe(this) { fishTopic ->
+        mFishPondViewModel.fishFishPondTopicList.observe(this) { fishTopic ->
             setupTopicUI(fishTopic)
         }
     }
 
-    private fun setupTopicUI(fishTopic: Topic?) {
+    private fun setupTopicUI(fishFishPondTopicList: FishPondTopicList?) {
         mRefreshLayout.finishRefresh()
-        if (fishTopic == null) {
+        if (fishFishPondTopicList == null) {
             showEmpty()
             return
         }
         showComplete()
-        logByDebug(msg = "initObserver：===> topic is $fishTopic")
-        mFishPondAdapter.setList(fishTopic)
+        logByDebug(msg = "initObserver：===> topic is $fishFishPondTopicList")
+        mFishPondAdapter.setList(fishFishPondTopicList)
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
@@ -76,7 +76,7 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
     }
 
     private fun loadTopic() {
-        mFishPondViewModel.loadTopic()
+        mFishPondViewModel.loadTopicList()
     }
 
     override fun initView() {

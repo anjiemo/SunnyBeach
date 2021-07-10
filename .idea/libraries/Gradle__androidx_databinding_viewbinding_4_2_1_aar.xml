@@ -1,10 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.databinding:viewbinding:4.2.1@aar">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/29e780ccf49f8c53cdeec91d4341eba3/transformed/jetified-viewbinding-4.2.1/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/c0906dbf3a453b5a3c5b5ce66cc19297/transformed/jetified-viewbinding-4.2.1/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/29e780ccf49f8c53cdeec91d4341eba3/transformed/jetified-viewbinding-4.2.1/AndroidManifest.xml" />
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/29e780ccf49f8c53cdeec91d4341eba3/transformed/jetified-viewbinding-4.2.1/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/29e780ccf49f8c53cdeec91d4341eba3/transformed/jetified-viewbinding-4.2.1/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/29e780ccf49f8c53cdeec91d4341eba3/transformed/jetified-viewbinding-4.2.1/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
