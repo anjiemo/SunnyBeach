@@ -1,10 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.squareup.leakcanary:leakcanary-object-watcher-android-androidx:2.5@aar">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/01c364980f382b51fdf038490452dae1/transformed/jetified-leakcanary-object-watcher-android-androidx-2.5/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/e826229cdfd4c32d1cfada38c8e60a76/transformed/jetified-leakcanary-object-watcher-android-androidx-2.5/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/01c364980f382b51fdf038490452dae1/transformed/jetified-leakcanary-object-watcher-android-androidx-2.5/AndroidManifest.xml" />
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/01c364980f382b51fdf038490452dae1/transformed/jetified-leakcanary-object-watcher-android-androidx-2.5/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/01c364980f382b51fdf038490452dae1/transformed/jetified-leakcanary-object-watcher-android-androidx-2.5/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/01c364980f382b51fdf038490452dae1/transformed/jetified-leakcanary-object-watcher-android-androidx-2.5/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.squareup.leakcanary/leakcanary-object-watcher-android-androidx/2.5/b9bfef6fee56d2120713991b1fab188e7494568b/leakcanary-object-watcher-android-androidx-2.5-javadoc.jar!/" />

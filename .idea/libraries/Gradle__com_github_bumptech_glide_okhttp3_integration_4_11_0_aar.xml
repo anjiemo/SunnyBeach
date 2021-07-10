@@ -1,10 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.bumptech.glide:okhttp3-integration:4.11.0@aar">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/6eef819bc03189935e0c75d39b445102/transformed/jetified-okhttp3-integration-4.11.0/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/0d5c8c102ba1e6d07bac6d966ab8971e/transformed/jetified-okhttp3-integration-4.11.0/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/6eef819bc03189935e0c75d39b445102/transformed/jetified-okhttp3-integration-4.11.0/AndroidManifest.xml" />
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/6eef819bc03189935e0c75d39b445102/transformed/jetified-okhttp3-integration-4.11.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/6eef819bc03189935e0c75d39b445102/transformed/jetified-okhttp3-integration-4.11.0/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/6eef819bc03189935e0c75d39b445102/transformed/jetified-okhttp3-integration-4.11.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.github.bumptech.glide/okhttp3-integration/4.11.0/c7e94c4e65dbabaca2e9f98ed20e6bfebfcf455e/okhttp3-integration-4.11.0-javadoc.jar!/" />

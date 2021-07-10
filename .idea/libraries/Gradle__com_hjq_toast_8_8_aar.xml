@@ -1,10 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.hjq:toast:8.8@aar">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/dd76f288fa5eaaad33dc34f7106144ff/transformed/jetified-toast-8.8/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/c15d2e536702ce78b37fe46e64f99fd5/transformed/jetified-toast-8.8/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/dd76f288fa5eaaad33dc34f7106144ff/transformed/jetified-toast-8.8/AndroidManifest.xml" />
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/dd76f288fa5eaaad33dc34f7106144ff/transformed/jetified-toast-8.8/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/dd76f288fa5eaaad33dc34f7106144ff/transformed/jetified-toast-8.8/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/dd76f288fa5eaaad33dc34f7106144ff/transformed/jetified-toast-8.8/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.hjq/toast/8.8/daa43749fdbbb406de5cc0f33ad7956b6487c152/toast-8.8-javadoc.jar!/" />

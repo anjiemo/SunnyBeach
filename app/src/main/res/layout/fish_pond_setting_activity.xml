@@ -29,9 +29,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:overScrollMode="never"
+                android:padding="4dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="3"
                 tools:itemCount="9"
-                tools:listitem="" />
+                tools:listitem="@layout/fish_pond_item" />
 
         </cn.cqautotest.sunnybeach.widget.StatusLayout>
 
