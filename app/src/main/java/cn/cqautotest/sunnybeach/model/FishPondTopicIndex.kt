@@ -5,23 +5,27 @@ import com.google.gson.annotations.SerializedName
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2021/7/10
- * desc   : 话题列表的数据bean类
+ * desc   : 摸鱼首页话题列表的数据bean类
  */
-class Topic : ArrayList<Topic.TopicItem>(){
-    data class TopicItem(
+class FishPondTopicIndex : ArrayList<FishPondTopicIndex.FishPondTopicIndexItem>(){
+    data class FishPondTopicIndexItem(
         @SerializedName("contentCount")
         val contentCount: Int,
         @SerializedName("cover")
-        val cover: String,
+        val cover: Any,
+        @SerializedName("createTime")
+        val createTime: Any,
         @SerializedName("description")
-        val description: String,
+        val description: Any,
         @SerializedName("followCount")
         val followCount: Int,
-        @SerializedName("hasFollowed")
-        val hasFollowed: Boolean,
         @SerializedName("id")
         val id: String,
+        @SerializedName("order")
+        val order: Int,
         @SerializedName("topicName")
-        val topicName: String
+        val topicName: String,
+        @SerializedName("updateTime")
+        val updateTime: Any
     )
 }

@@ -2812,6 +2812,7 @@ id stretch
 id submenuarrow
 id submit_area
 id tabLayout_categories
+id tabLayout_topic_list
 id tabMode
 id tag_accessibility_actions
 id tag_accessibility_clickable_spans
@@ -3057,6 +3058,7 @@ layout find_fragment
 layout fish_pond_fragment
 layout fish_pond_item
 layout fish_pond_setting_activity
+layout fish_pond_topic_list_item
 layout gallery_activity
 layout guide_activity
 layout guide_item
@@ -3182,7 +3184,6 @@ layout text_view_with_line_height_from_style
 layout text_view_with_theme_line_height
 layout text_view_without_line_height
 layout time_dialog
-layout topic_item
 layout ui_dialog
 layout update_dialog
 layout utils_toast_view

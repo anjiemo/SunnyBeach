@@ -4,9 +4,8 @@
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/7d679bd7b3a399f6bc2f874e34513f2b/transformed/print-1.0.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/7d679bd7b3a399f6bc2f874e34513f2b/transformed/print-1.0.0/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/ab66e937bd4c3dfdd86df5261f6be3f6/transformed/print-1.0.0/res" />
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/7d679bd7b3a399f6bc2f874e34513f2b/transformed/print-1.0.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/7d679bd7b3a399f6bc2f874e34513f2b/transformed/print-1.0.0/res" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/7d679bd7b3a399f6bc2f874e34513f2b/transformed/print-1.0.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />

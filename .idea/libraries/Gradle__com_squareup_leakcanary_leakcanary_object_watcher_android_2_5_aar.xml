@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.squareup.leakcanary:leakcanary-object-watcher-android:2.5@aar">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/ec0fedc8e640972f560db48c9f403ab9/transformed/jetified-leakcanary-object-watcher-android-2.5/res" />
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/ec0fedc8e640972f560db48c9f403ab9/transformed/jetified-leakcanary-object-watcher-android-2.5/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/ec0fedc8e640972f560db48c9f403ab9/transformed/jetified-leakcanary-object-watcher-android-2.5/res" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/ec0fedc8e640972f560db48c9f403ab9/transformed/jetified-leakcanary-object-watcher-android-2.5/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
