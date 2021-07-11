@@ -19,14 +19,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/iv_avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+        <FrameLayout
+            android:id="@+id/fl_avatar_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            tools:src="@mipmap/ic_avatar" />
+            android:foreground="@drawable/avatar_circle_vip_ic">
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                tools:src="@mipmap/ic_avatar" />
+
+        </FrameLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -86,9 +94,9 @@
         android:id="@+id/gl_photo_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:horizontalSpace="6dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        app:horizontalSpace="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/article_top_container"

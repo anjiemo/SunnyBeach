@@ -7,14 +7,29 @@ import com.google.gson.annotations.SerializedName
  * time   : 2021/7/7
  * desc   : 摸鱼的数据bean类
  */
-class Fish : ArrayList<Fish.FishItem>(){
+data class Fish(
+    @SerializedName("currentPage")
+    val currentPage: Int,
+    @SerializedName("hasNext")
+    val hasNext: Boolean,
+    @SerializedName("hasPre")
+    val hasPre: Boolean,
+    @SerializedName("list")
+    val list: List<FishItem>,
+    @SerializedName("pageSize")
+    val pageSize: Int,
+    @SerializedName("total")
+    val total: Int,
+    @SerializedName("totalPage")
+    val totalPage: Int
+) {
     data class FishItem(
         @SerializedName("avatar")
-        val avatar: Any,
+        val avatar: String,
         @SerializedName("commentCount")
         val commentCount: Int,
         @SerializedName("company")
-        val company: Any,
+        val company: String,
         @SerializedName("content")
         val content: String,
         @SerializedName("createTime")
@@ -22,7 +37,7 @@ class Fish : ArrayList<Fish.FishItem>(){
         @SerializedName("id")
         val id: String,
         @SerializedName("images")
-        val images: List<Any>,
+        val images: List<String>,
         @SerializedName("linkCover")
         val linkCover: String,
         @SerializedName("linkTitle")
@@ -30,9 +45,9 @@ class Fish : ArrayList<Fish.FishItem>(){
         @SerializedName("linkUrl")
         val linkUrl: String,
         @SerializedName("nickname")
-        val nickname: Any,
+        val nickname: String,
         @SerializedName("position")
-        val position: Any,
+        val position: String,
         @SerializedName("thumbUpCount")
         val thumbUpCount: Int,
         @SerializedName("thumbUpList")
@@ -40,7 +55,7 @@ class Fish : ArrayList<Fish.FishItem>(){
         @SerializedName("topicId")
         val topicId: String,
         @SerializedName("topicName")
-        val topicName: Any,
+        val topicName: String,
         @SerializedName("userId")
         val userId: String,
         @SerializedName("vip")

@@ -11,10 +11,19 @@ import retrofit2.http.Path
 interface FishPondApi {
 
     /**
+     * 获取动态列表
+     */
+    @GET("${SUNNY_BEACH_BASE_URL}ct/moyu/list/{topicId}/{page}")
+    suspend fun loadFishPondListById(
+        @Path("topicId") topicId: String,
+        @Path("page") page: Long
+    ): BaseResponse<Fish>
+
+    /**
      * 获取首页话题（类似于摸鱼首页侧栏）
      */
     @GET("${SUNNY_BEACH_BASE_URL}ct/moyu/topic/index")
-    suspend fun loadTopicListByIndex() : BaseResponse<FishPondTopicIndex>
+    suspend fun loadTopicListByIndex(): BaseResponse<FishPondTopicIndex>
 
     /**
      * 获取热门动态列表
@@ -26,5 +35,5 @@ interface FishPondApi {
      * 获取话题列表
      */
     @GET("${SUNNY_BEACH_BASE_URL}ct/moyu/topic")
-    suspend fun loadTopicList():BaseResponse<FishPondTopicList>
+    suspend fun loadTopicList(): BaseResponse<FishPondTopicList>
 }

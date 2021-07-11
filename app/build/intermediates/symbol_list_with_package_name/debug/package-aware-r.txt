@@ -1990,6 +1990,7 @@ drawable arrows_bottom_ic
 drawable arrows_left_ic
 drawable arrows_right_ic
 drawable arrows_top_ic
+drawable avatar_circle_vip_ic
 drawable avatar_placeholder_ic
 drawable avd_hide_password
 drawable avd_show_password
@@ -2436,6 +2437,7 @@ id fill_vertical
 id filled
 id fitToContents
 id fixed
+id fl_avatar_container
 id fl_image_select_check
 id fl_person_data_avatar
 id fl_video_select_check
@@ -2463,6 +2465,7 @@ id hl_article_list_hint
 id hl_browser_hint
 id hl_discover_hint
 id hl_fish_pond_hint
+id hl_fish_pond_list_hint
 id hl_image_select_hint
 id hl_my_home_fragment_hint
 id hl_status_hint
@@ -2941,6 +2944,7 @@ id view_tree_saved_state_registry_owner
 id view_tree_view_model_store_owner
 id visible
 id visible_removing_fragment_view_tag
+id vp2_fish_pond
 id vp2_home_article_container
 id vp_address_pager
 id vp_guide_pager
@@ -3056,7 +3060,8 @@ layout dynamic_feature_install_fragment
 layout empty_fragment
 layout find_fragment
 layout fish_pond_fragment
-layout fish_pond_item
+layout fish_pond_list_fragment
+layout fish_pond_list_item
 layout fish_pond_setting_activity
 layout fish_pond_topic_list_item
 layout gallery_activity

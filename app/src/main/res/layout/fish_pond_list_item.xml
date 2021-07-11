@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -10,12 +11,20 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <ImageView
-            android:id="@+id/tv_fish_pond_avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:src="@mipmap/ic_default_avatar" />
+        <FrameLayout
+            android:id="@+id/fl_avatar_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foreground="@drawable/avatar_circle_vip_ic">
+
+            <ImageView
+                android:id="@+id/tv_fish_pond_avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/ic_default_avatar" />
+
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,7 +42,8 @@
                 android:id="@+id/tv_fish_pond_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="2" />
+                android:maxLines="2"
+                android:textColor="@color/default_font_color" />
 
         </LinearLayout>
 
@@ -43,7 +53,9 @@
         android:id="@+id/tv_fish_pond_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:ellipsize="end"
         android:maxLines="5" />
 
