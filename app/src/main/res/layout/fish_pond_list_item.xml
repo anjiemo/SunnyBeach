@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -57,5 +58,20 @@
         android:layout_marginBottom="10dp"
         android:ellipsize="end"
         android:maxLines="5" />
+
+    <TextView
+        android:id="@+id/tv_fish_pond_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/topic_label_selector"
+        android:contentDescription="话题标签"
+        android:paddingStart="10dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="6dp"
+        android:textColor="@color/common_confirm_text_color"
+        tools:text="上班摸鱼" />
 
 </LinearLayout>
