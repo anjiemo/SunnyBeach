@@ -11,6 +11,7 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.FishPondListFragmentBinding
 import cn.cqautotest.sunnybeach.model.Fish
+import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondListAdapter
 import cn.cqautotest.sunnybeach.utils.dp
 import cn.cqautotest.sunnybeach.utils.equilibriumAssignmentOfLinear
@@ -79,6 +80,13 @@ class FishPondListFragment : AppFragment<AppActivity>(), StatusAction {
 
     override fun initData() {
         showLoading()
+    }
+
+    override fun initEvent() {
+        mFishPondListAdapter.setOnItemClickListener { _, _, position ->
+            val item = mFishPondListAdapter.getItem(position)
+            FishPondDetailActivity.start(item)
+        }
     }
 
     override fun initObserver() {

@@ -1,11 +1,11 @@
 [
     {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_transparent_selector.xml.flat",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\transparent_selector.xml"
-    },
-    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_guide_activity.xml.flat",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\guide_activity.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_transparent_selector.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\transparent_selector.xml"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_refresh_ic.png.flat",
@@ -72,12 +72,12 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\arrows_left_ic.xml"
     },
     {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_message_fragment.xml.flat",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\message_fragment.xml"
-    },
-    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_home_fish_pond_off_ic.xml.flat",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\home_fish_pond_off_ic.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_message_fragment.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\message_fragment.xml"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_me_content.xml.flat",
@@ -100,12 +100,12 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\album_item.xml"
     },
     {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_avatar.png.flat",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_avatar.png"
-    },
-    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_image_preview_indicator.xml.flat",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\image_preview_indicator.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_avatar.png.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\mipmap-xhdpi\\ic_avatar.png"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_home_message_on_ic.xml.flat",
@@ -180,6 +180,10 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\copy_popup.xml"
     },
     {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_topic_label_selector.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\topic_label_selector.xml"
+    },
+    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_delete_ic.xml.flat",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\delete_ic.xml"
     },
@@ -216,12 +220,12 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\succeed_ic.xml"
     },
     {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_home_navigation_color_selector.xml.flat",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\home_navigation_color_selector.xml"
-    },
-    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_arrows_bottom_ic.xml.flat",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\arrows_bottom_ic.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_home_navigation_color_selector.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\drawable\\home_navigation_color_selector.xml"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_custom_dialog.xml.flat",
@@ -244,12 +248,16 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\copy_item.xml"
     },
     {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\xml_network_security_config.xml.flat",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\xml\\network_security_config.xml"
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\layout_fish_pond_detail_activity.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\fish_pond_detail_activity.xml"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\raw_province.json.flat",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\raw\\province.json"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\xml_network_security_config.xml.flat",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\xml\\network_security_config.xml"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\res\\merged\\debug\\drawable_home_nav_top_radius_white_bg.xml.flat",

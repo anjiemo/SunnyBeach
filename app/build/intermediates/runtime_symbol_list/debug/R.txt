@@ -2141,6 +2141,7 @@ int drawable succeed_ic 0x7f0700ed
 int drawable test_custom_background 0x7f0700ee
 int drawable tooltip_frame_dark 0x7f0700ef
 int drawable tooltip_frame_light 0x7f0700f0
+int drawable topic_label_selector 0x7f070108
 int drawable transparent_selector 0x7f0700f1
 int drawable update_app_top_bg 0x7f0700f2
 int drawable utils_toast_bg 0x7f0700f3
@@ -2434,6 +2435,7 @@ int id fill 0x7f08010b
 int id fill_horizontal 0x7f08010c
 int id fill_vertical 0x7f08010d
 int id filled 0x7f08010e
+int id fish_pond 0x7f08031a
 int id fitToContents 0x7f08010f
 int id fixed 0x7f080110
 int id fl_avatar_container 0x7f080318
@@ -2885,6 +2887,7 @@ int id tv_create_time 0x7f0802cd
 int id tv_fish_pond_avatar 0x7f0802ce
 int id tv_fish_pond_content 0x7f0802cf
 int id tv_fish_pond_desc 0x7f0802d0
+int id tv_fish_pond_label 0x7f080319
 int id tv_fish_pond_nick_name 0x7f0802d1
 int id tv_hint_message 0x7f0802d2
 int id tv_home_address 0x7f0802d3
@@ -3058,6 +3061,7 @@ int layout discover_fragment 0x7f0b003e
 int layout dynamic_feature_install_fragment 0x7f0b003f
 int layout empty_fragment 0x7f0b0040
 int layout find_fragment 0x7f0b0041
+int layout fish_pond_detail_activity 0x7f0b00cd
 int layout fish_pond_fragment 0x7f0b0042
 int layout fish_pond_list_fragment 0x7f0b0043
 int layout fish_pond_list_item 0x7f0b0044

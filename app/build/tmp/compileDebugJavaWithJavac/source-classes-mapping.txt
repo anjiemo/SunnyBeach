@@ -74,10 +74,9 @@ cn/cqautotest/sunnybeach/manager/ThreadPoolManager.java
  cn.cqautotest.sunnybeach.manager.ThreadPoolManager
 cn/cqautotest/sunnybeach/other/GridSpaceDecoration.java
  cn.cqautotest.sunnybeach.other.GridSpaceDecoration
-cn/cqautotest/sunnybeach/db/dao/CookieDao_Impl.java
- cn.cqautotest.sunnybeach.db.dao.CookieDao_Impl
- cn.cqautotest.sunnybeach.db.dao.CookieDao_Impl$1
- cn.cqautotest.sunnybeach.db.dao.CookieDao_Impl$2
+cn/cqautotest/sunnybeach/utils/CustomAnimation.java
+ cn.cqautotest.sunnybeach.utils.CustomAnimation
+ cn.cqautotest.sunnybeach.utils.CustomAnimation$MyInterpolator
 cn/cqautotest/sunnybeach/manager/PickerLayoutManager.java
  cn.cqautotest.sunnybeach.manager.PickerLayoutManager
  cn.cqautotest.sunnybeach.manager.PickerLayoutManager$1
@@ -113,9 +112,8 @@ cn/cqautotest/sunnybeach/http/request/LoginApi.java
  cn.cqautotest.sunnybeach.http.request.LoginApi
 cn/cqautotest/sunnybeach/aop/CheckNet.java
  cn.cqautotest.sunnybeach.aop.CheckNet
-cn/cqautotest/sunnybeach/db/CookieRoomDatabase_Impl.java
- cn.cqautotest.sunnybeach.db.CookieRoomDatabase_Impl
- cn.cqautotest.sunnybeach.db.CookieRoomDatabase_Impl$1
+cn/cqautotest/sunnybeach/other/AppConfig.java
+ cn.cqautotest.sunnybeach.other.AppConfig
 cn/cqautotest/sunnybeach/http/request/UpdateImageApi.java
  cn.cqautotest.sunnybeach.http.request.UpdateImageApi
 cn/cqautotest/sunnybeach/http/response/RegisterBean.java
@@ -141,11 +139,6 @@ cn/cqautotest/sunnybeach/other/KeyboardWatcher.java
  cn.cqautotest.sunnybeach.other.KeyboardWatcher$SoftKeyboardStateListener
 cn/cqautotest/sunnybeach/aop/DebugLog.java
  cn.cqautotest.sunnybeach.aop.DebugLog
-cn/cqautotest/sunnybeach/other/AppConfig.java
- cn.cqautotest.sunnybeach.other.AppConfig
-cn/cqautotest/sunnybeach/utils/CustomAnimation.java
- cn.cqautotest.sunnybeach.utils.CustomAnimation
- cn.cqautotest.sunnybeach.utils.CustomAnimation$MyInterpolator
 cn/cqautotest/sunnybeach/databinding/FishPondListItemBinding.java
  cn.cqautotest.sunnybeach.databinding.FishPondListItemBinding
 cn/cqautotest/sunnybeach/ui/activity/ImageSelectActivity.java
@@ -170,6 +163,10 @@ cn/cqautotest/sunnybeach/ui/fragment/FindFragment.java
  cn.cqautotest.sunnybeach.ui.fragment.FindFragment
 cn/cqautotest/sunnybeach/databinding/HomeActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.HomeActivityBinding
+cn/cqautotest/sunnybeach/db/dao/CookieDao_Impl.java
+ cn.cqautotest.sunnybeach.db.dao.CookieDao_Impl
+ cn.cqautotest.sunnybeach.db.dao.CookieDao_Impl$1
+ cn.cqautotest.sunnybeach.db.dao.CookieDao_Impl$2
 cn/cqautotest/sunnybeach/databinding/HomeFragmentBinding.java
  cn.cqautotest.sunnybeach.databinding.HomeFragmentBinding
 cn/cqautotest/sunnybeach/ui/dialog/TimeDialog.java
@@ -369,6 +366,9 @@ cn/cqautotest/sunnybeach/http/model/RequestHandler.java
 cn/cqautotest/sunnybeach/ui/dialog/CommonDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.CommonDialog
  cn.cqautotest.sunnybeach.ui.dialog.CommonDialog$Builder
+cn/cqautotest/sunnybeach/db/CookieRoomDatabase_Impl.java
+ cn.cqautotest.sunnybeach.db.CookieRoomDatabase_Impl
+ cn.cqautotest.sunnybeach.db.CookieRoomDatabase_Impl$1
 cn/cqautotest/sunnybeach/ui/activity/PasswordForgetActivity.java
  cn.cqautotest.sunnybeach.ui.activity.PasswordForgetActivity
  cn.cqautotest.sunnybeach.ui.activity.PasswordForgetActivity$1
@@ -418,8 +418,8 @@ cn/cqautotest/sunnybeach/databinding/PasswordForgetActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.PasswordForgetActivityBinding
 cn/cqautotest/sunnybeach/databinding/MenuItemBinding.java
  cn.cqautotest.sunnybeach.databinding.MenuItemBinding
-cn/cqautotest/sunnybeach/databinding/CopyActivityBinding.java
- cn.cqautotest.sunnybeach.databinding.CopyActivityBinding
+cn/cqautotest/sunnybeach/ui/activity/HomeActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.HomeActivity
 cn/cqautotest/sunnybeach/databinding/SplashActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.SplashActivityBinding
 cn/cqautotest/sunnybeach/databinding/UpdateDialogBinding.java
@@ -493,8 +493,10 @@ cn/cqautotest/sunnybeach/databinding/ShareItemBinding.java
  cn.cqautotest.sunnybeach.databinding.ShareItemBinding
 cn/cqautotest/sunnybeach/databinding/AlbumDialogBinding.java
  cn.cqautotest.sunnybeach.databinding.AlbumDialogBinding
-cn/cqautotest/sunnybeach/databinding/DiscoverFragmentBinding.java
- cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
+cn/cqautotest/sunnybeach/databinding/ArticleItemBinding.java
+ cn.cqautotest.sunnybeach.databinding.ArticleItemBinding
+cn/cqautotest/sunnybeach/databinding/FishPondDetailActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.FishPondDetailActivityBinding
 cn/cqautotest/sunnybeach/databinding/PersonalDataActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.PersonalDataActivityBinding
 cn/cqautotest/sunnybeach/widget/StatusLayout.java
@@ -559,7 +561,7 @@ cn/cqautotest/sunnybeach/action/StatusAction.java
  cn.cqautotest.sunnybeach.action.StatusAction
 cn/cqautotest/sunnybeach/databinding/PasswordResetActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.PasswordResetActivityBinding
-cn/cqautotest/sunnybeach/databinding/ArticleItemBinding.java
- cn.cqautotest.sunnybeach.databinding.ArticleItemBinding
-cn/cqautotest/sunnybeach/ui/activity/HomeActivity.java
- cn.cqautotest.sunnybeach.ui.activity.HomeActivity
+cn/cqautotest/sunnybeach/databinding/CopyActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.CopyActivityBinding
+cn/cqautotest/sunnybeach/databinding/DiscoverFragmentBinding.java
+ cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
