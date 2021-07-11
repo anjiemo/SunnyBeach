@@ -33,7 +33,7 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="3"
                 tools:itemCount="9"
-                tools:listitem="@layout/fish_pond_item" />
+                tools:listitem="@layout/fish_pond_list_item" />
 
         </cn.cqautotest.sunnybeach.widget.StatusLayout>
 

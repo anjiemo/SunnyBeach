@@ -132,6 +132,10 @@
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\album_item.xml"
     },
     {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fish_pond_list_item.xml",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\fish_pond_list_item.xml"
+    },
+    {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\browser_activity.xml",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\browser_activity.xml"
     },
@@ -186,10 +190,6 @@
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\select_dialog.xml",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\select_dialog.xml"
-    },
-    {
-        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fish_pond_item.xml",
-        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\fish_pond_item.xml"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fish_pond_topic_list_item.xml",
@@ -266,6 +266,10 @@
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\login_activity.xml",
         "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\login_activity.xml"
+    },
+    {
+        "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fish_pond_list_fragment.xml",
+        "source": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\src\\main\\res\\layout\\fish_pond_list_fragment.xml"
     },
     {
         "merged": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fish_pond_fragment.xml",

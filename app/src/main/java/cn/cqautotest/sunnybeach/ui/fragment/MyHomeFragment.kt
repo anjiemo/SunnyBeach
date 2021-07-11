@@ -125,11 +125,9 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
     override fun initData() {}
 
     override fun initView() {
-        _binding = MyHomeFragmentBinding.bind(view)
         showEmpty()
         mFragmentAdapter = FragmentAdapter(this)
         mBinding.vp2HomeArticleContainer.apply {
-            isUserInputEnabled = false
             adapter = mFragmentAdapter
         }
     }

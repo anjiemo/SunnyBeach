@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -16,6 +17,7 @@ class ArticleAdapter :
     LoadMoreModule {
     override fun convert(holder: BaseViewHolder, item: ArticleInfo.ArticleItem) {
         holder.run {
+            val flAvatarContainer = getView<View>(R.id.fl_avatar_container)
             val ivAvatar = getView<ImageView>(R.id.iv_avatar)
             val tvArticleTitle = getView<TextView>(R.id.tv_article_title)
             val tvNickName = getView<TextView>(R.id.tv_nick_name)
@@ -25,6 +27,10 @@ class ArticleAdapter :
             val articleCoverThere = glPhotoList.findViewById<ImageView>(R.id.article_cover_there)
             val tvCreateTime = getView<TextView>(R.id.tv_create_time)
             val tvViewCount = getView<TextView>(R.id.tv_view_count)
+            flAvatarContainer.background = if (item.vip) ContextCompat.getDrawable(
+                context,
+                R.drawable.avatar_circle_vip_ic
+            ) else null
             Glide.with(itemView).load(item.avatar)
                 .placeholder(R.mipmap.ic_default_avatar)
                 .error(R.mipmap.ic_default_avatar)
