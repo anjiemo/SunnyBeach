@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
+import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -28,6 +29,7 @@ class FishPondListAdapter :
             val tvNickname = getView<TextView>(R.id.tv_fish_pond_nick_name)
             val tvDesc = getView<TextView>(R.id.tv_fish_pond_desc)
             val tvContent = getView<TextView>(R.id.tv_fish_pond_content)
+            val tvLabel = getView<TextView>(R.id.tv_fish_pond_label)
             flAvatarContainer.background = if (item.vip) ContextCompat.getDrawable(
                 context,
                 R.drawable.avatar_circle_vip_ic
@@ -50,6 +52,9 @@ class FishPondListAdapter :
             tvNickname.text = item.nickname
             tvDesc.text = item.position
             tvContent.text = item.content
+            val topicName = item.topicName
+            tvLabel.visibility = if (TextUtils.isEmpty(topicName)) View.GONE else View.VISIBLE
+            tvLabel.text = topicName
         }
     }
 }

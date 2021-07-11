@@ -12,6 +12,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/6/18
+ * desc   : 文章列表的适配器
+ */
 class ArticleAdapter :
     BaseQuickAdapter<ArticleInfo.ArticleItem, BaseViewHolder>(R.layout.article_item),
     LoadMoreModule {
