@@ -2404,6 +2404,7 @@ id easeInOut
 id easeOut
 id edit_query
 id elastic
+id elv_fish_pond_detail_comment
 id empty_description
 id end
 id endToStart
@@ -2505,6 +2506,7 @@ id iv_crash_restart
 id iv_crash_share
 id iv_find_circle
 id iv_find_corner
+id iv_fish_pond_avatar
 id iv_home_search
 id iv_image_select_check
 id iv_image_select_image
@@ -2885,11 +2887,11 @@ id tv_crash_info
 id tv_crash_message
 id tv_crash_title
 id tv_create_time
-id tv_fish_pond_avatar
 id tv_fish_pond_content
 id tv_fish_pond_desc
 id tv_fish_pond_label
 id tv_fish_pond_nick_name
+id tv_fish_pond_recommend_content
 id tv_hint_message
 id tv_home_address
 id tv_home_hint
@@ -3063,6 +3065,7 @@ layout dynamic_feature_install_fragment
 layout empty_fragment
 layout find_fragment
 layout fish_pond_detail_activity
+layout fish_pond_detail_commend_list
 layout fish_pond_fragment
 layout fish_pond_list_fragment
 layout fish_pond_list_item

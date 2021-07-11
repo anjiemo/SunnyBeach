@@ -1,49 +1,52 @@
-cn/cqautotest/sunnybeach/manager/ActivityManager.java
- cn.cqautotest.sunnybeach.manager.ActivityManager
-cn/cqautotest/sunnybeach/http/model/HttpListData.java
- cn.cqautotest.sunnybeach.http.model.HttpListData
- cn.cqautotest.sunnybeach.http.model.HttpListData$ListBean
-cn/cqautotest/sunnybeach/http/request/VerifyCodeApi.java
- cn.cqautotest.sunnybeach.http.request.VerifyCodeApi
+cn/cqautotest/sunnybeach/databinding/FishPondListItemBinding.java
+ cn.cqautotest.sunnybeach.databinding.FishPondListItemBinding
+cn/cqautotest/sunnybeach/ui/activity/ImageSelectActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.ImageSelectActivity
+ cn.cqautotest.sunnybeach.ui.activity.ImageSelectActivity$OnPhotoSelectListener
+cn/cqautotest/sunnybeach/databinding/MessageDialogBinding.java
+ cn.cqautotest.sunnybeach.databinding.MessageDialogBinding
 cn/cqautotest/sunnybeach/other/ToastInterceptor.java
  cn.cqautotest.sunnybeach.other.ToastInterceptor
-io/noties/prism4j/languages/Prism_kotlin.java
- io.noties.prism4j.languages.Prism_kotlin
- io.noties.prism4j.languages.Prism_kotlin$1
-cn/cqautotest/sunnybeach/http/glide/OkHttpLoader.java
- cn.cqautotest.sunnybeach.http.glide.OkHttpLoader
- cn.cqautotest.sunnybeach.http.glide.OkHttpLoader$1
- cn.cqautotest.sunnybeach.http.glide.OkHttpLoader$Factory
+cn/cqautotest/sunnybeach/app/AppActivity.java
+ cn.cqautotest.sunnybeach.app.AppActivity
+cn/cqautotest/sunnybeach/other/PermissionCallback.java
+ cn.cqautotest.sunnybeach.other.PermissionCallback
 cn/cqautotest/sunnybeach/http/response/LoginBean.java
  cn.cqautotest.sunnybeach.http.response.LoginBean
 cn/cqautotest/sunnybeach/http/glide/GlideRequests.java
  cn.cqautotest.sunnybeach.http.glide.GlideRequests
-cn/cqautotest/sunnybeach/http/request/CopyApi.java
- cn.cqautotest.sunnybeach.http.request.CopyApi
+cn/cqautotest/sunnybeach/ui/dialog/TimeDialog.java
+ cn.cqautotest.sunnybeach.ui.dialog.TimeDialog
+ cn.cqautotest.sunnybeach.ui.dialog.TimeDialog$1
+ cn.cqautotest.sunnybeach.ui.dialog.TimeDialog$Builder
+ cn.cqautotest.sunnybeach.ui.dialog.TimeDialog$OnListener
+ cn.cqautotest.sunnybeach.ui.dialog.TimeDialog$PickerAdapter
+ cn.cqautotest.sunnybeach.ui.dialog.TimeDialog$PickerAdapter$ViewHolder
 cn/cqautotest/sunnybeach/aop/SingleClickAspect.java
  cn.cqautotest.sunnybeach.aop.SingleClickAspect
-cn/cqautotest/sunnybeach/manager/InputTextManager.java
- cn.cqautotest.sunnybeach.manager.InputTextManager
- cn.cqautotest.sunnybeach.manager.InputTextManager$1
- cn.cqautotest.sunnybeach.manager.InputTextManager$Builder
- cn.cqautotest.sunnybeach.manager.InputTextManager$OnInputTextListener
- cn.cqautotest.sunnybeach.manager.InputTextManager$TextInputLifecycle
-cn/cqautotest/sunnybeach/http/request/PasswordApi.java
- cn.cqautotest.sunnybeach.http.request.PasswordApi
-cn/cqautotest/sunnybeach/http/glide/OkHttpFetcher.java
- cn.cqautotest.sunnybeach.http.glide.OkHttpFetcher
-cn/cqautotest/sunnybeach/other/CrashHandler.java
- cn.cqautotest.sunnybeach.other.CrashHandler
+cn/cqautotest/sunnybeach/databinding/HomeDiscoverMoreAuthorContentBinding.java
+ cn.cqautotest.sunnybeach.databinding.HomeDiscoverMoreAuthorContentBinding
+cn/cqautotest/sunnybeach/databinding/BrowserFragmentBinding.java
+ cn.cqautotest.sunnybeach.databinding.BrowserFragmentBinding
+cn/cqautotest/sunnybeach/aop/CheckNetAspect.java
+ cn.cqautotest.sunnybeach.aop.CheckNetAspect
+cn/cqautotest/sunnybeach/ui/activity/GuideActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.GuideActivity
+ cn.cqautotest.sunnybeach.ui.activity.GuideActivity$1
 cn/cqautotest/sunnybeach/http/glide/GlideRequest.java
  cn.cqautotest.sunnybeach.http.glide.GlideRequest
-cn/cqautotest/sunnybeach/app/AppFragment.java
- cn.cqautotest.sunnybeach.app.AppFragment
+cn/cqautotest/sunnybeach/other/SmartBallPulseFooter.java
+ cn.cqautotest.sunnybeach.other.SmartBallPulseFooter
 cn/cqautotest/sunnybeach/other/DoubleClickHelper.java
  cn.cqautotest.sunnybeach.other.DoubleClickHelper
-cn/cqautotest/sunnybeach/http/request/GetCodeApi.java
- cn.cqautotest.sunnybeach.http.request.GetCodeApi
-cn/cqautotest/sunnybeach/action/ToastAction.java
- cn.cqautotest.sunnybeach.action.ToastAction
+cn/cqautotest/sunnybeach/app/AppApplication.java
+ cn.cqautotest.sunnybeach.app.AppApplication
+ cn.cqautotest.sunnybeach.app.AppApplication$1
+ cn.cqautotest.sunnybeach.app.AppApplication$2
+ cn.cqautotest.sunnybeach.app.AppApplication$3
+ cn.cqautotest.sunnybeach.app.AppApplication$4
+cn/cqautotest/sunnybeach/databinding/MyHomeFragmentBinding.java
+ cn.cqautotest.sunnybeach.databinding.MyHomeFragmentBinding
 cn/cqautotest/sunnybeach/http/request/LogoutApi.java
  cn.cqautotest.sunnybeach.http.request.LogoutApi
 cn/cqautotest/sunnybeach/app/TitleBarFragment.java
@@ -54,190 +57,24 @@ cn/cqautotest/sunnybeach/widget/XCollapsingToolbarLayout.java
 cn/cqautotest/sunnybeach/utils/markown/MyGrammarLocator.java
  cn.cqautotest.sunnybeach.utils.markown.MyGrammarLocator
  cn.cqautotest.sunnybeach.utils.markown.MyGrammarLocator$1
-cn/cqautotest/sunnybeach/http/response/UserInfoBean.java
- cn.cqautotest.sunnybeach.http.response.UserInfoBean
-cn/cqautotest/sunnybeach/aop/DebugLogAspect.java
- cn.cqautotest.sunnybeach.aop.DebugLogAspect
-com/bumptech/glide/GeneratedAppGlideModuleImpl.java
- com.bumptech.glide.GeneratedAppGlideModuleImpl
-cn/cqautotest/sunnybeach/widget/PhotoViewPager.java
- cn.cqautotest.sunnybeach.widget.PhotoViewPager
-cn/cqautotest/sunnybeach/http/glide/GlideApp.java
- cn.cqautotest.sunnybeach.http.glide.GlideApp
-cn/cqautotest/sunnybeach/http/request/RegisterApi.java
- cn.cqautotest.sunnybeach.http.request.RegisterApi
-com/bumptech/glide/GeneratedRequestManagerFactory.java
- com.bumptech.glide.GeneratedRequestManagerFactory
-cn/cqautotest/sunnybeach/aop/SingleClick.java
- cn.cqautotest.sunnybeach.aop.SingleClick
-cn/cqautotest/sunnybeach/manager/ThreadPoolManager.java
- cn.cqautotest.sunnybeach.manager.ThreadPoolManager
-cn/cqautotest/sunnybeach/other/GridSpaceDecoration.java
- cn.cqautotest.sunnybeach.other.GridSpaceDecoration
-cn/cqautotest/sunnybeach/utils/CustomAnimation.java
- cn.cqautotest.sunnybeach.utils.CustomAnimation
- cn.cqautotest.sunnybeach.utils.CustomAnimation$MyInterpolator
-cn/cqautotest/sunnybeach/manager/PickerLayoutManager.java
- cn.cqautotest.sunnybeach.manager.PickerLayoutManager
- cn.cqautotest.sunnybeach.manager.PickerLayoutManager$1
- cn.cqautotest.sunnybeach.manager.PickerLayoutManager$Builder
- cn.cqautotest.sunnybeach.manager.PickerLayoutManager$OnPickerListener
-cn/cqautotest/sunnybeach/other/IntentKey.java
- cn.cqautotest.sunnybeach.other.IntentKey
-cn/cqautotest/sunnybeach/http/model/RequestServer.java
- cn.cqautotest.sunnybeach.http.model.RequestServer
-cn/cqautotest/sunnybeach/http/response/CopyBean.java
- cn.cqautotest.sunnybeach.http.response.CopyBean
-cn/cqautotest/sunnybeach/aop/Permissions.java
- cn.cqautotest.sunnybeach.aop.Permissions
-io/noties/prism4j/languages/Prism_java.java
- io.noties.prism4j.languages.Prism_java
-cn/cqautotest/sunnybeach/widget/PasswordView.java
- cn.cqautotest.sunnybeach.widget.PasswordView
-cn/cqautotest/sunnybeach/http/request/PhoneApi.java
- cn.cqautotest.sunnybeach.http.request.PhoneApi
-cn/cqautotest/sunnybeach/http/request/UserInfoApi.java
- cn.cqautotest.sunnybeach.http.request.UserInfoApi
-cn/cqautotest/sunnybeach/other/DebugLoggerTree.java
- cn.cqautotest.sunnybeach.other.DebugLoggerTree
-cn/cqautotest/sunnybeach/http/glide/GlideOptions.java
- cn.cqautotest.sunnybeach.http.glide.GlideOptions
-cn/cqautotest/sunnybeach/manager/CacheDataManager.java
- cn.cqautotest.sunnybeach.manager.CacheDataManager
-cn/cqautotest/sunnybeach/http/model/HttpData.java
- cn.cqautotest.sunnybeach.http.model.HttpData
-cn/cqautotest/sunnybeach/manager/DialogManager.java
- cn.cqautotest.sunnybeach.manager.DialogManager
-cn/cqautotest/sunnybeach/http/request/LoginApi.java
- cn.cqautotest.sunnybeach.http.request.LoginApi
-cn/cqautotest/sunnybeach/aop/CheckNet.java
- cn.cqautotest.sunnybeach.aop.CheckNet
-cn/cqautotest/sunnybeach/other/AppConfig.java
- cn.cqautotest.sunnybeach.other.AppConfig
-cn/cqautotest/sunnybeach/http/request/UpdateImageApi.java
- cn.cqautotest.sunnybeach.http.request.UpdateImageApi
-cn/cqautotest/sunnybeach/http/response/RegisterBean.java
- cn.cqautotest.sunnybeach.http.response.RegisterBean
-cn/cqautotest/sunnybeach/action/TitleBarAction.java
- cn.cqautotest.sunnybeach.action.TitleBarAction
-cn/cqautotest/sunnybeach/aop/PermissionsAspect.java
- cn.cqautotest.sunnybeach.aop.PermissionsAspect
- cn.cqautotest.sunnybeach.aop.PermissionsAspect$1
-io/noties/prism4j/languages/Prism_clike.java
- io.noties.prism4j.languages.Prism_clike
-cn/cqautotest/sunnybeach/app/AppAdapter.java
- cn.cqautotest.sunnybeach.app.AppAdapter
- cn.cqautotest.sunnybeach.app.AppAdapter$SimpleHolder
-cn/cqautotest/sunnybeach/other/ArrowDrawable.java
- cn.cqautotest.sunnybeach.other.ArrowDrawable
- cn.cqautotest.sunnybeach.other.ArrowDrawable$1
- cn.cqautotest.sunnybeach.other.ArrowDrawable$Builder
-cn/cqautotest/sunnybeach/BuildConfig.java
- cn.cqautotest.sunnybeach.BuildConfig
-cn/cqautotest/sunnybeach/other/KeyboardWatcher.java
- cn.cqautotest.sunnybeach.other.KeyboardWatcher
- cn.cqautotest.sunnybeach.other.KeyboardWatcher$SoftKeyboardStateListener
-cn/cqautotest/sunnybeach/aop/DebugLog.java
- cn.cqautotest.sunnybeach.aop.DebugLog
-cn/cqautotest/sunnybeach/databinding/FishPondListItemBinding.java
- cn.cqautotest.sunnybeach.databinding.FishPondListItemBinding
-cn/cqautotest/sunnybeach/ui/activity/ImageSelectActivity.java
- cn.cqautotest.sunnybeach.ui.activity.ImageSelectActivity
- cn.cqautotest.sunnybeach.ui.activity.ImageSelectActivity$OnPhotoSelectListener
-cn/cqautotest/sunnybeach/databinding/MessageDialogBinding.java
- cn.cqautotest.sunnybeach.databinding.MessageDialogBinding
-cn/cqautotest/sunnybeach/ui/dialog/ShareDialog.java
- cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
- cn.cqautotest.sunnybeach.ui.dialog.ShareDialog$1
- cn.cqautotest.sunnybeach.ui.dialog.ShareDialog$Builder
- cn.cqautotest.sunnybeach.ui.dialog.ShareDialog$ShareAdapter
- cn.cqautotest.sunnybeach.ui.dialog.ShareDialog$ShareAdapter$ViewHolder
- cn.cqautotest.sunnybeach.ui.dialog.ShareDialog$ShareBean
-cn/cqautotest/sunnybeach/databinding/MeContentBinding.java
- cn.cqautotest.sunnybeach.databinding.MeContentBinding
-cn/cqautotest/sunnybeach/app/AppActivity.java
- cn.cqautotest.sunnybeach.app.AppActivity
-cn/cqautotest/sunnybeach/other/PermissionCallback.java
- cn.cqautotest.sunnybeach.other.PermissionCallback
-cn/cqautotest/sunnybeach/ui/fragment/FindFragment.java
- cn.cqautotest.sunnybeach.ui.fragment.FindFragment
-cn/cqautotest/sunnybeach/databinding/HomeActivityBinding.java
- cn.cqautotest.sunnybeach.databinding.HomeActivityBinding
-cn/cqautotest/sunnybeach/db/dao/CookieDao_Impl.java
- cn.cqautotest.sunnybeach.db.dao.CookieDao_Impl
- cn.cqautotest.sunnybeach.db.dao.CookieDao_Impl$1
- cn.cqautotest.sunnybeach.db.dao.CookieDao_Impl$2
-cn/cqautotest/sunnybeach/databinding/HomeFragmentBinding.java
- cn.cqautotest.sunnybeach.databinding.HomeFragmentBinding
-cn/cqautotest/sunnybeach/ui/dialog/TimeDialog.java
- cn.cqautotest.sunnybeach.ui.dialog.TimeDialog
- cn.cqautotest.sunnybeach.ui.dialog.TimeDialog$1
- cn.cqautotest.sunnybeach.ui.dialog.TimeDialog$Builder
- cn.cqautotest.sunnybeach.ui.dialog.TimeDialog$OnListener
- cn.cqautotest.sunnybeach.ui.dialog.TimeDialog$PickerAdapter
- cn.cqautotest.sunnybeach.ui.dialog.TimeDialog$PickerAdapter$ViewHolder
-cn/cqautotest/sunnybeach/databinding/HomeDiscoverMoreAuthorContentBinding.java
- cn.cqautotest.sunnybeach.databinding.HomeDiscoverMoreAuthorContentBinding
-cn/cqautotest/sunnybeach/ui/activity/PhoneResetActivity.java
- cn.cqautotest.sunnybeach.ui.activity.PhoneResetActivity
- cn.cqautotest.sunnybeach.ui.activity.PhoneResetActivity$1
- cn.cqautotest.sunnybeach.ui.activity.PhoneResetActivity$2
-cn/cqautotest/sunnybeach/databinding/BrowserFragmentBinding.java
- cn.cqautotest.sunnybeach.databinding.BrowserFragmentBinding
-cn/cqautotest/sunnybeach/aop/CheckNetAspect.java
- cn.cqautotest.sunnybeach.aop.CheckNetAspect
-cn/cqautotest/sunnybeach/ui/activity/GuideActivity.java
- cn.cqautotest.sunnybeach.ui.activity.GuideActivity
- cn.cqautotest.sunnybeach.ui.activity.GuideActivity$1
-cn/cqautotest/sunnybeach/databinding/PayPasswordEmptyItemBinding.java
- cn.cqautotest.sunnybeach.databinding.PayPasswordEmptyItemBinding
-cn/cqautotest/sunnybeach/other/SmartBallPulseFooter.java
- cn.cqautotest.sunnybeach.other.SmartBallPulseFooter
-cn/cqautotest/sunnybeach/ui/activity/LoginActivity.java
- cn.cqautotest.sunnybeach.ui.activity.LoginActivity
- cn.cqautotest.sunnybeach.ui.activity.LoginActivity$1
-cn/cqautotest/sunnybeach/app/AppApplication.java
- cn.cqautotest.sunnybeach.app.AppApplication
- cn.cqautotest.sunnybeach.app.AppApplication$1
- cn.cqautotest.sunnybeach.app.AppApplication$2
- cn.cqautotest.sunnybeach.app.AppApplication$3
- cn.cqautotest.sunnybeach.app.AppApplication$4
-cn/cqautotest/sunnybeach/databinding/MyHomeFragmentBinding.java
- cn.cqautotest.sunnybeach.databinding.MyHomeFragmentBinding
-cn/cqautotest/sunnybeach/ui/activity/PasswordResetActivity.java
- cn.cqautotest.sunnybeach.ui.activity.PasswordResetActivity
- cn.cqautotest.sunnybeach.ui.activity.PasswordResetActivity$1
-cn/cqautotest/sunnybeach/databinding/ArticleDetailActivityBinding.java
- cn.cqautotest.sunnybeach.databinding.ArticleDetailActivityBinding
-cn/cqautotest/sunnybeach/databinding/VideoSelectActivityBinding.java
- cn.cqautotest.sunnybeach.databinding.VideoSelectActivityBinding
-cn/cqautotest/sunnybeach/databinding/HintDialogBinding.java
- cn.cqautotest.sunnybeach.databinding.HintDialogBinding
-cn/cqautotest/sunnybeach/ui/dialog/MessageDialog.java
- cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
- cn.cqautotest.sunnybeach.ui.dialog.MessageDialog$Builder
- cn.cqautotest.sunnybeach.ui.dialog.MessageDialog$OnListener
-cn/cqautotest/sunnybeach/databinding/ArticleListFragmentBinding.java
- cn.cqautotest.sunnybeach.databinding.ArticleListFragmentBinding
 cn/cqautotest/sunnybeach/databinding/PhotoItemBinding.java
  cn.cqautotest.sunnybeach.databinding.PhotoItemBinding
 cn/cqautotest/sunnybeach/databinding/StatusFragmentBinding.java
  cn.cqautotest.sunnybeach.databinding.StatusFragmentBinding
 cn/cqautotest/sunnybeach/databinding/TimeDialogBinding.java
  cn.cqautotest.sunnybeach.databinding.TimeDialogBinding
-cn/cqautotest/sunnybeach/databinding/AddressDialogBinding.java
- cn.cqautotest.sunnybeach.databinding.AddressDialogBinding
+cn/cqautotest/sunnybeach/widget/PhotoViewPager.java
+ cn.cqautotest.sunnybeach.widget.PhotoViewPager
+cn/cqautotest/sunnybeach/http/glide/GlideApp.java
+ cn.cqautotest.sunnybeach.http.glide.GlideApp
 cn/cqautotest/sunnybeach/ui/activity/RestartActivity.java
  cn.cqautotest.sunnybeach.ui.activity.RestartActivity
-cn/cqautotest/sunnybeach/ui/activity/VideoPlayActivity.java
- cn.cqautotest.sunnybeach.ui.activity.VideoPlayActivity
- cn.cqautotest.sunnybeach.ui.activity.VideoPlayActivity$Builder
- cn.cqautotest.sunnybeach.ui.activity.VideoPlayActivity$Builder$1
+com/bumptech/glide/GeneratedRequestManagerFactory.java
+ com.bumptech.glide.GeneratedRequestManagerFactory
 cn/cqautotest/sunnybeach/databinding/DialogActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.DialogActivityBinding
-cn/cqautotest/sunnybeach/ui/dialog/CopyDialog.java
- cn.cqautotest.sunnybeach.ui.dialog.CopyDialog
- cn.cqautotest.sunnybeach.ui.dialog.CopyDialog$Builder
+cn/cqautotest/sunnybeach/manager/ThreadPoolManager.java
+ cn.cqautotest.sunnybeach.manager.ThreadPoolManager
 cn/cqautotest/sunnybeach/ui/activity/RegisterActivity.java
  cn.cqautotest.sunnybeach.ui.activity.RegisterActivity
  cn.cqautotest.sunnybeach.ui.activity.RegisterActivity$1
@@ -246,41 +83,23 @@ cn/cqautotest/sunnybeach/ui/activity/RegisterActivity.java
 cn/cqautotest/sunnybeach/ui/activity/PersonalDataActivity.java
  cn.cqautotest.sunnybeach.ui.activity.PersonalDataActivity
  cn.cqautotest.sunnybeach.ui.activity.PersonalDataActivity$1
+cn/cqautotest/sunnybeach/manager/PickerLayoutManager.java
+ cn.cqautotest.sunnybeach.manager.PickerLayoutManager
+ cn.cqautotest.sunnybeach.manager.PickerLayoutManager$1
+ cn.cqautotest.sunnybeach.manager.PickerLayoutManager$Builder
+ cn.cqautotest.sunnybeach.manager.PickerLayoutManager$OnPickerListener
 cn/cqautotest/sunnybeach/databinding/SelectDialogBinding.java
  cn.cqautotest.sunnybeach.databinding.SelectDialogBinding
 cn/cqautotest/sunnybeach/databinding/PayPasswordDialogBinding.java
  cn.cqautotest.sunnybeach.databinding.PayPasswordDialogBinding
 cn/cqautotest/sunnybeach/databinding/InputDialogBinding.java
  cn.cqautotest.sunnybeach.databinding.InputDialogBinding
-cn/cqautotest/sunnybeach/databinding/WidgetPlayerViewBinding.java
- cn.cqautotest.sunnybeach.databinding.WidgetPlayerViewBinding
-cn/cqautotest/sunnybeach/databinding/GuideItemBinding.java
- cn.cqautotest.sunnybeach.databinding.GuideItemBinding
-cn/cqautotest/sunnybeach/databinding/MyMeFragmentBinding.java
- cn.cqautotest.sunnybeach.databinding.MyMeFragmentBinding
 cn/cqautotest/sunnybeach/databinding/GalleryActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.GalleryActivityBinding
 cn/cqautotest/sunnybeach/ui/activity/AboutActivity.java
  cn.cqautotest.sunnybeach.ui.activity.AboutActivity
-cn/cqautotest/sunnybeach/databinding/ImageSelectItemBinding.java
- cn.cqautotest.sunnybeach.databinding.ImageSelectItemBinding
-cn/cqautotest/sunnybeach/databinding/FishPondTopicListItemBinding.java
- cn.cqautotest.sunnybeach.databinding.FishPondTopicListItemBinding
-cn/cqautotest/sunnybeach/widget/PlayerView.java
- cn.cqautotest.sunnybeach.widget.PlayerView
- cn.cqautotest.sunnybeach.widget.PlayerView$1
- cn.cqautotest.sunnybeach.widget.PlayerView$2
- cn.cqautotest.sunnybeach.widget.PlayerView$onPlayListener
 cn/cqautotest/sunnybeach/databinding/BrowserActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.BrowserActivityBinding
-cn/cqautotest/sunnybeach/databinding/CopyItemBinding.java
- cn.cqautotest.sunnybeach.databinding.CopyItemBinding
-cn/cqautotest/sunnybeach/databinding/EmptyFragmentBinding.java
- cn.cqautotest.sunnybeach.databinding.EmptyFragmentBinding
-cn/cqautotest/sunnybeach/databinding/UiDialogBinding.java
- cn.cqautotest.sunnybeach.databinding.UiDialogBinding
-cn/cqautotest/sunnybeach/ui/fragment/HomeFragment.java
- cn.cqautotest.sunnybeach.ui.fragment.HomeFragment
 cn/cqautotest/sunnybeach/databinding/ImagePreviewItemBinding.java
  cn.cqautotest.sunnybeach.databinding.ImagePreviewItemBinding
 cn/cqautotest/sunnybeach/ui/activity/DialogActivity.java
@@ -299,58 +118,42 @@ cn/cqautotest/sunnybeach/ui/activity/DialogActivity.java
  cn.cqautotest.sunnybeach.ui.activity.DialogActivity$9
 cn/cqautotest/sunnybeach/ui/activity/StatusActivity.java
  cn.cqautotest.sunnybeach.ui.activity.StatusActivity
-cn/cqautotest/sunnybeach/ui/activity/VideoSelectActivity.java
- cn.cqautotest.sunnybeach.ui.activity.VideoSelectActivity
- cn.cqautotest.sunnybeach.ui.activity.VideoSelectActivity$OnVideoSelectListener
- cn.cqautotest.sunnybeach.ui.activity.VideoSelectActivity$VideoBean
- cn.cqautotest.sunnybeach.ui.activity.VideoSelectActivity$VideoBean$1
-cn/cqautotest/sunnybeach/databinding/CopyFragmentBinding.java
- cn.cqautotest.sunnybeach.databinding.CopyFragmentBinding
+cn/cqautotest/sunnybeach/http/glide/GlideOptions.java
+ cn.cqautotest.sunnybeach.http.glide.GlideOptions
 cn/cqautotest/sunnybeach/databinding/LoginActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.LoginActivityBinding
+cn/cqautotest/sunnybeach/http/model/HttpData.java
+ cn.cqautotest.sunnybeach.http.model.HttpData
 cn/cqautotest/sunnybeach/databinding/CrashActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.CrashActivityBinding
 cn/cqautotest/sunnybeach/ui/fragment/MessageFragment.java
  cn.cqautotest.sunnybeach.ui.fragment.MessageFragment
+cn/cqautotest/sunnybeach/aop/CheckNet.java
+ cn.cqautotest.sunnybeach.aop.CheckNet
 cn/cqautotest/sunnybeach/databinding/MenuDialogBinding.java
  cn.cqautotest.sunnybeach.databinding.MenuDialogBinding
-cn/cqautotest/sunnybeach/ui/dialog/MenuDialog.java
- cn.cqautotest.sunnybeach.ui.dialog.MenuDialog
- cn.cqautotest.sunnybeach.ui.dialog.MenuDialog$1
- cn.cqautotest.sunnybeach.ui.dialog.MenuDialog$Builder
- cn.cqautotest.sunnybeach.ui.dialog.MenuDialog$MenuAdapter
- cn.cqautotest.sunnybeach.ui.dialog.MenuDialog$MenuAdapter$ViewHolder
- cn.cqautotest.sunnybeach.ui.dialog.MenuDialog$OnListener
 cn/cqautotest/sunnybeach/databinding/StatusItemBinding.java
  cn.cqautotest.sunnybeach.databinding.StatusItemBinding
 cn/cqautotest/sunnybeach/databinding/PickerItemBinding.java
  cn.cqautotest.sunnybeach.databinding.PickerItemBinding
 cn/cqautotest/sunnybeach/ui/fragment/StatusFragment.java
  cn.cqautotest.sunnybeach.ui.fragment.StatusFragment
-cn/cqautotest/sunnybeach/ui/popup/ListPopup.java
- cn.cqautotest.sunnybeach.ui.popup.ListPopup
- cn.cqautotest.sunnybeach.ui.popup.ListPopup$1
- cn.cqautotest.sunnybeach.ui.popup.ListPopup$Builder
- cn.cqautotest.sunnybeach.ui.popup.ListPopup$MenuAdapter
- cn.cqautotest.sunnybeach.ui.popup.ListPopup$MenuAdapter$ViewHolder
- cn.cqautotest.sunnybeach.ui.popup.ListPopup$OnListener
 cn/cqautotest/sunnybeach/databinding/PayPasswordNormalItemBinding.java
  cn.cqautotest.sunnybeach.databinding.PayPasswordNormalItemBinding
-cn/cqautotest/sunnybeach/ui/dialog/UpdateDialog.java
- cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog
- cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog$Builder
- cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog$Builder$1
 cn/cqautotest/sunnybeach/ui/dialog/WaitDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.WaitDialog
  cn.cqautotest.sunnybeach.ui.dialog.WaitDialog$Builder
-cn/cqautotest/sunnybeach/databinding/GuideActivityBinding.java
- cn.cqautotest.sunnybeach.databinding.GuideActivityBinding
+cn/cqautotest/sunnybeach/app/AppAdapter.java
+ cn.cqautotest.sunnybeach.app.AppAdapter
+ cn.cqautotest.sunnybeach.app.AppAdapter$SimpleHolder
+cn/cqautotest/sunnybeach/other/ArrowDrawable.java
+ cn.cqautotest.sunnybeach.other.ArrowDrawable
+ cn.cqautotest.sunnybeach.other.ArrowDrawable$1
+ cn.cqautotest.sunnybeach.other.ArrowDrawable$Builder
+cn/cqautotest/sunnybeach/BuildConfig.java
+ cn.cqautotest.sunnybeach.BuildConfig
 cn/cqautotest/sunnybeach/ui/fragment/CopyFragment.java
  cn.cqautotest.sunnybeach.ui.fragment.CopyFragment
-cn/cqautotest/sunnybeach/ui/adapter/ImagePreviewAdapter.java
- cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter
- cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter$1
- cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter$ViewHolder
 cn/cqautotest/sunnybeach/ui/dialog/DateDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.DateDialog
  cn.cqautotest.sunnybeach.ui.dialog.DateDialog$1
@@ -358,25 +161,18 @@ cn/cqautotest/sunnybeach/ui/dialog/DateDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.DateDialog$Builder$PickerAdapter
  cn.cqautotest.sunnybeach.ui.dialog.DateDialog$Builder$PickerAdapter$ViewHolder
  cn.cqautotest.sunnybeach.ui.dialog.DateDialog$OnListener
-cn/cqautotest/sunnybeach/ui/activity/SettingActivity.java
- cn.cqautotest.sunnybeach.ui.activity.SettingActivity
- cn.cqautotest.sunnybeach.ui.activity.SettingActivity$1
 cn/cqautotest/sunnybeach/http/model/RequestHandler.java
  cn.cqautotest.sunnybeach.http.model.RequestHandler
-cn/cqautotest/sunnybeach/ui/dialog/CommonDialog.java
- cn.cqautotest.sunnybeach.ui.dialog.CommonDialog
- cn.cqautotest.sunnybeach.ui.dialog.CommonDialog$Builder
-cn/cqautotest/sunnybeach/db/CookieRoomDatabase_Impl.java
- cn.cqautotest.sunnybeach.db.CookieRoomDatabase_Impl
- cn.cqautotest.sunnybeach.db.CookieRoomDatabase_Impl$1
-cn/cqautotest/sunnybeach/ui/activity/PasswordForgetActivity.java
- cn.cqautotest.sunnybeach.ui.activity.PasswordForgetActivity
- cn.cqautotest.sunnybeach.ui.activity.PasswordForgetActivity$1
- cn.cqautotest.sunnybeach.ui.activity.PasswordForgetActivity$2
 cn/cqautotest/sunnybeach/ui/adapter/CopyAdapter.java
  cn.cqautotest.sunnybeach.ui.adapter.CopyAdapter
  cn.cqautotest.sunnybeach.ui.adapter.CopyAdapter$1
  cn.cqautotest.sunnybeach.ui.adapter.CopyAdapter$ViewHolder
+cn/cqautotest/sunnybeach/manager/InputTextManager.java
+ cn.cqautotest.sunnybeach.manager.InputTextManager
+ cn.cqautotest.sunnybeach.manager.InputTextManager$1
+ cn.cqautotest.sunnybeach.manager.InputTextManager$Builder
+ cn.cqautotest.sunnybeach.manager.InputTextManager$OnInputTextListener
+ cn.cqautotest.sunnybeach.manager.InputTextManager$TextInputLifecycle
 cn/cqautotest/sunnybeach/ui/dialog/SelectDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.SelectDialog
  cn.cqautotest.sunnybeach.ui.dialog.SelectDialog$1
@@ -384,16 +180,14 @@ cn/cqautotest/sunnybeach/ui/dialog/SelectDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.SelectDialog$OnListener
  cn.cqautotest.sunnybeach.ui.dialog.SelectDialog$SelectAdapter
  cn.cqautotest.sunnybeach.ui.dialog.SelectDialog$SelectAdapter$ViewHolder
-cn/cqautotest/sunnybeach/databinding/WidgetStatusLayoutBinding.java
- cn.cqautotest.sunnybeach.databinding.WidgetStatusLayoutBinding
-cn/cqautotest/sunnybeach/databinding/ShareDialogBinding.java
- cn.cqautotest.sunnybeach.databinding.ShareDialogBinding
-cn/cqautotest/sunnybeach/databinding/FishPondListFragmentBinding.java
- cn.cqautotest.sunnybeach.databinding.FishPondListFragmentBinding
 cn/cqautotest/sunnybeach/databinding/VideoPlayActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.VideoPlayActivityBinding
+cn/cqautotest/sunnybeach/http/request/LoginApi.java
+ cn.cqautotest.sunnybeach.http.request.LoginApi
 cn/cqautotest/sunnybeach/databinding/WaitDialogBinding.java
  cn.cqautotest.sunnybeach.databinding.WaitDialogBinding
+io/noties/prism4j/languages/Prism_clike.java
+ io.noties.prism4j.languages.Prism_clike
 cn/cqautotest/sunnybeach/ui/dialog/AddressDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.AddressDialog
  cn.cqautotest.sunnybeach.ui.dialog.AddressDialog$1
@@ -407,53 +201,48 @@ cn/cqautotest/sunnybeach/ui/dialog/AddressDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.AddressDialog$RecyclerViewAdapter
  cn.cqautotest.sunnybeach.ui.dialog.AddressDialog$RecyclerViewAdapter$OnSelectListener
  cn.cqautotest.sunnybeach.ui.dialog.AddressDialog$RecyclerViewAdapter$ViewHolder
-cn/cqautotest/sunnybeach/ui/popup/CopyPopup.java
- cn.cqautotest.sunnybeach.ui.popup.CopyPopup
- cn.cqautotest.sunnybeach.ui.popup.CopyPopup$Builder
-cn/cqautotest/sunnybeach/ui/activity/CrashActivity.java
- cn.cqautotest.sunnybeach.ui.activity.CrashActivity
-cn/cqautotest/sunnybeach/databinding/MessageFragmentBinding.java
- cn.cqautotest.sunnybeach.databinding.MessageFragmentBinding
+cn/cqautotest/sunnybeach/http/request/RegisterApi.java
+ cn.cqautotest.sunnybeach.http.request.RegisterApi
+cn/cqautotest/sunnybeach/other/GridSpaceDecoration.java
+ cn.cqautotest.sunnybeach.other.GridSpaceDecoration
+cn/cqautotest/sunnybeach/manager/ActivityManager.java
+ cn.cqautotest.sunnybeach.manager.ActivityManager
 cn/cqautotest/sunnybeach/databinding/PasswordForgetActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.PasswordForgetActivityBinding
-cn/cqautotest/sunnybeach/databinding/MenuItemBinding.java
- cn.cqautotest.sunnybeach.databinding.MenuItemBinding
-cn/cqautotest/sunnybeach/databinding/DiscoverFragmentBinding.java
- cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
-cn/cqautotest/sunnybeach/databinding/SplashActivityBinding.java
- cn.cqautotest.sunnybeach.databinding.SplashActivityBinding
+cn/cqautotest/sunnybeach/other/KeyboardWatcher.java
+ cn.cqautotest.sunnybeach.other.KeyboardWatcher
+ cn.cqautotest.sunnybeach.other.KeyboardWatcher$SoftKeyboardStateListener
+cn/cqautotest/sunnybeach/http/request/GetCodeApi.java
+ cn.cqautotest.sunnybeach.http.request.GetCodeApi
+cn/cqautotest/sunnybeach/ui/activity/HomeActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.HomeActivity
 cn/cqautotest/sunnybeach/databinding/UpdateDialogBinding.java
  cn.cqautotest.sunnybeach.databinding.UpdateDialogBinding
 cn/cqautotest/sunnybeach/ui/adapter/GuideAdapter.java
  cn.cqautotest.sunnybeach.ui.adapter.GuideAdapter
  cn.cqautotest.sunnybeach.ui.adapter.GuideAdapter$1
  cn.cqautotest.sunnybeach.ui.adapter.GuideAdapter$ViewHolder
+cn/cqautotest/sunnybeach/aop/Permissions.java
+ cn.cqautotest.sunnybeach.aop.Permissions
 cn/cqautotest/sunnybeach/databinding/SafeDialogBinding.java
  cn.cqautotest.sunnybeach.databinding.SafeDialogBinding
 cn/cqautotest/sunnybeach/ui/adapter/VideoSelectAdapter.java
  cn.cqautotest.sunnybeach.ui.adapter.VideoSelectAdapter
  cn.cqautotest.sunnybeach.ui.adapter.VideoSelectAdapter$1
  cn.cqautotest.sunnybeach.ui.adapter.VideoSelectAdapter$ViewHolder
-cn/cqautotest/sunnybeach/databinding/CopyPopupBinding.java
- cn.cqautotest.sunnybeach.databinding.CopyPopupBinding
+cn/cqautotest/sunnybeach/databinding/FishPondDetailCommendListBinding.java
+ cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
 cn/cqautotest/sunnybeach/databinding/PayPasswordDeleteItemBinding.java
  cn.cqautotest.sunnybeach.databinding.PayPasswordDeleteItemBinding
-cn/cqautotest/sunnybeach/databinding/StatusActivityBinding.java
- cn.cqautotest.sunnybeach.databinding.StatusActivityBinding
-cn/cqautotest/sunnybeach/ui/adapter/ImageSelectAdapter.java
- cn.cqautotest.sunnybeach.ui.adapter.ImageSelectAdapter
- cn.cqautotest.sunnybeach.ui.adapter.ImageSelectAdapter$1
- cn.cqautotest.sunnybeach.ui.adapter.ImageSelectAdapter$ViewHolder
-cn/cqautotest/sunnybeach/ui/adapter/StatusAdapter.java
- cn.cqautotest.sunnybeach.ui.adapter.StatusAdapter
- cn.cqautotest.sunnybeach.ui.adapter.StatusAdapter$1
- cn.cqautotest.sunnybeach.ui.adapter.StatusAdapter$ViewHolder
+io/noties/prism4j/languages/Prism_kotlin.java
+ io.noties.prism4j.languages.Prism_kotlin
+ io.noties.prism4j.languages.Prism_kotlin$1
 cn/cqautotest/sunnybeach/databinding/AlbumItemBinding.java
  cn.cqautotest.sunnybeach.databinding.AlbumItemBinding
 cn/cqautotest/sunnybeach/databinding/VideoSelectItemBinding.java
  cn.cqautotest.sunnybeach.databinding.VideoSelectItemBinding
-cn/cqautotest/sunnybeach/databinding/MeFragmentBinding.java
- cn.cqautotest.sunnybeach.databinding.MeFragmentBinding
+cn/cqautotest/sunnybeach/action/ToastAction.java
+ cn.cqautotest.sunnybeach.action.ToastAction
 cn/cqautotest/sunnybeach/ui/fragment/BrowserFragment.java
  cn.cqautotest.sunnybeach.ui.fragment.BrowserFragment
  cn.cqautotest.sunnybeach.ui.fragment.BrowserFragment$1
@@ -462,37 +251,19 @@ cn/cqautotest/sunnybeach/databinding/CopyDialogBinding.java
  cn.cqautotest.sunnybeach.databinding.CopyDialogBinding
 cn/cqautotest/sunnybeach/ui/activity/ImagePreviewActivity.java
  cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
-cn/cqautotest/sunnybeach/databinding/AboutActivityBinding.java
- cn.cqautotest.sunnybeach.databinding.AboutActivityBinding
 cn/cqautotest/sunnybeach/ui/dialog/HintDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.HintDialog
  cn.cqautotest.sunnybeach.ui.dialog.HintDialog$Builder
-cn/cqautotest/sunnybeach/databinding/ImageSelectActivityBinding.java
- cn.cqautotest.sunnybeach.databinding.ImageSelectActivityBinding
-cn/cqautotest/sunnybeach/databinding/ImagePreviewActivityBinding.java
- cn.cqautotest.sunnybeach.databinding.ImagePreviewActivityBinding
-cn/cqautotest/sunnybeach/databinding/DateDialogBinding.java
- cn.cqautotest.sunnybeach.databinding.DateDialogBinding
-cn/cqautotest/sunnybeach/databinding/FishPondSettingActivityBinding.java
- cn.cqautotest.sunnybeach.databinding.FishPondSettingActivityBinding
+cn/cqautotest/sunnybeach/utils/CustomAnimation.java
+ cn.cqautotest.sunnybeach.utils.CustomAnimation
+ cn.cqautotest.sunnybeach.utils.CustomAnimation$MyInterpolator
 cn/cqautotest/sunnybeach/ui/activity/BrowserActivity.java
  cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
  cn.cqautotest.sunnybeach.ui.activity.BrowserActivity$1
  cn.cqautotest.sunnybeach.ui.activity.BrowserActivity$MyBrowserChromeClient
  cn.cqautotest.sunnybeach.ui.activity.BrowserActivity$MyBrowserViewClient
-cn/cqautotest/sunnybeach/ui/activity/CameraActivity.java
- cn.cqautotest.sunnybeach.ui.activity.CameraActivity
- cn.cqautotest.sunnybeach.ui.activity.CameraActivity$OnCameraListener
 cn/cqautotest/sunnybeach/databinding/CustomDialogBinding.java
  cn.cqautotest.sunnybeach.databinding.CustomDialogBinding
-cn/cqautotest/sunnybeach/databinding/PhoneResetActivityBinding.java
- cn.cqautotest.sunnybeach.databinding.PhoneResetActivityBinding
-cn/cqautotest/sunnybeach/databinding/FishPondFragmentBinding.java
- cn.cqautotest.sunnybeach.databinding.FishPondFragmentBinding
-cn/cqautotest/sunnybeach/databinding/ShareItemBinding.java
- cn.cqautotest.sunnybeach.databinding.ShareItemBinding
-cn/cqautotest/sunnybeach/databinding/AlbumDialogBinding.java
- cn.cqautotest.sunnybeach.databinding.AlbumDialogBinding
 cn/cqautotest/sunnybeach/databinding/ArticleItemBinding.java
  cn.cqautotest.sunnybeach.databinding.ArticleItemBinding
 cn/cqautotest/sunnybeach/databinding/FishPondDetailActivityBinding.java
@@ -505,6 +276,248 @@ cn/cqautotest/sunnybeach/databinding/FindFragmentBinding.java
  cn.cqautotest.sunnybeach.databinding.FindFragmentBinding
 cn/cqautotest/sunnybeach/databinding/RegisterActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.RegisterActivityBinding
+cn/cqautotest/sunnybeach/aop/DebugLogAspect.java
+ cn.cqautotest.sunnybeach.aop.DebugLogAspect
+cn/cqautotest/sunnybeach/ui/dialog/PayPasswordDialog.java
+ cn.cqautotest.sunnybeach.ui.dialog.PayPasswordDialog
+ cn.cqautotest.sunnybeach.ui.dialog.PayPasswordDialog$1
+ cn.cqautotest.sunnybeach.ui.dialog.PayPasswordDialog$Builder
+ cn.cqautotest.sunnybeach.ui.dialog.PayPasswordDialog$KeyboardAdapter
+ cn.cqautotest.sunnybeach.ui.dialog.PayPasswordDialog$KeyboardAdapter$ViewHolder
+ cn.cqautotest.sunnybeach.ui.dialog.PayPasswordDialog$OnListener
+cn/cqautotest/sunnybeach/http/request/VerifyCodeApi.java
+ cn.cqautotest.sunnybeach.http.request.VerifyCodeApi
+cn/cqautotest/sunnybeach/databinding/SettingActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.SettingActivityBinding
+cn/cqautotest/sunnybeach/http/glide/GlideConfig.java
+ cn.cqautotest.sunnybeach.http.glide.GlideConfig
+cn/cqautotest/sunnybeach/ui/activity/SplashActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.SplashActivity
+ cn.cqautotest.sunnybeach.ui.activity.SplashActivity$1
+ cn.cqautotest.sunnybeach.ui.activity.SplashActivity$2
+cn/cqautotest/sunnybeach/http/model/HttpListData.java
+ cn.cqautotest.sunnybeach.http.model.HttpListData
+ cn.cqautotest.sunnybeach.http.model.HttpListData$ListBean
+cn/cqautotest/sunnybeach/aop/SingleClick.java
+ cn.cqautotest.sunnybeach.aop.SingleClick
+cn/cqautotest/sunnybeach/aop/DebugLog.java
+ cn.cqautotest.sunnybeach.aop.DebugLog
+cn/cqautotest/sunnybeach/ui/dialog/ShareDialog.java
+ cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
+ cn.cqautotest.sunnybeach.ui.dialog.ShareDialog$1
+ cn.cqautotest.sunnybeach.ui.dialog.ShareDialog$Builder
+ cn.cqautotest.sunnybeach.ui.dialog.ShareDialog$ShareAdapter
+ cn.cqautotest.sunnybeach.ui.dialog.ShareDialog$ShareAdapter$ViewHolder
+ cn.cqautotest.sunnybeach.ui.dialog.ShareDialog$ShareBean
+cn/cqautotest/sunnybeach/databinding/MeContentBinding.java
+ cn.cqautotest.sunnybeach.databinding.MeContentBinding
+cn/cqautotest/sunnybeach/http/response/CopyBean.java
+ cn.cqautotest.sunnybeach.http.response.CopyBean
+cn/cqautotest/sunnybeach/ui/fragment/FindFragment.java
+ cn.cqautotest.sunnybeach.ui.fragment.FindFragment
+cn/cqautotest/sunnybeach/databinding/HomeActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.HomeActivityBinding
+cn/cqautotest/sunnybeach/db/dao/CookieDao_Impl.java
+ cn.cqautotest.sunnybeach.db.dao.CookieDao_Impl
+ cn.cqautotest.sunnybeach.db.dao.CookieDao_Impl$1
+ cn.cqautotest.sunnybeach.db.dao.CookieDao_Impl$2
+cn/cqautotest/sunnybeach/other/IntentKey.java
+ cn.cqautotest.sunnybeach.other.IntentKey
+cn/cqautotest/sunnybeach/databinding/HomeFragmentBinding.java
+ cn.cqautotest.sunnybeach.databinding.HomeFragmentBinding
+cn/cqautotest/sunnybeach/http/model/RequestServer.java
+ cn.cqautotest.sunnybeach.http.model.RequestServer
+cn/cqautotest/sunnybeach/ui/activity/PhoneResetActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.PhoneResetActivity
+ cn.cqautotest.sunnybeach.ui.activity.PhoneResetActivity$1
+ cn.cqautotest.sunnybeach.ui.activity.PhoneResetActivity$2
+cn/cqautotest/sunnybeach/http/glide/OkHttpLoader.java
+ cn.cqautotest.sunnybeach.http.glide.OkHttpLoader
+ cn.cqautotest.sunnybeach.http.glide.OkHttpLoader$1
+ cn.cqautotest.sunnybeach.http.glide.OkHttpLoader$Factory
+cn/cqautotest/sunnybeach/databinding/PayPasswordEmptyItemBinding.java
+ cn.cqautotest.sunnybeach.databinding.PayPasswordEmptyItemBinding
+cn/cqautotest/sunnybeach/ui/activity/LoginActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.LoginActivity
+ cn.cqautotest.sunnybeach.ui.activity.LoginActivity$1
+cn/cqautotest/sunnybeach/action/TitleBarAction.java
+ cn.cqautotest.sunnybeach.action.TitleBarAction
+cn/cqautotest/sunnybeach/http/response/RegisterBean.java
+ cn.cqautotest.sunnybeach.http.response.RegisterBean
+cn/cqautotest/sunnybeach/ui/activity/PasswordResetActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.PasswordResetActivity
+ cn.cqautotest.sunnybeach.ui.activity.PasswordResetActivity$1
+cn/cqautotest/sunnybeach/databinding/ArticleDetailActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.ArticleDetailActivityBinding
+cn/cqautotest/sunnybeach/databinding/VideoSelectActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.VideoSelectActivityBinding
+cn/cqautotest/sunnybeach/databinding/HintDialogBinding.java
+ cn.cqautotest.sunnybeach.databinding.HintDialogBinding
+cn/cqautotest/sunnybeach/ui/dialog/MessageDialog.java
+ cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
+ cn.cqautotest.sunnybeach.ui.dialog.MessageDialog$Builder
+ cn.cqautotest.sunnybeach.ui.dialog.MessageDialog$OnListener
+cn/cqautotest/sunnybeach/other/AppConfig.java
+ cn.cqautotest.sunnybeach.other.AppConfig
+cn/cqautotest/sunnybeach/widget/PasswordView.java
+ cn.cqautotest.sunnybeach.widget.PasswordView
+cn/cqautotest/sunnybeach/databinding/ArticleListFragmentBinding.java
+ cn.cqautotest.sunnybeach.databinding.ArticleListFragmentBinding
+cn/cqautotest/sunnybeach/manager/DialogManager.java
+ cn.cqautotest.sunnybeach.manager.DialogManager
+cn/cqautotest/sunnybeach/databinding/AddressDialogBinding.java
+ cn.cqautotest.sunnybeach.databinding.AddressDialogBinding
+cn/cqautotest/sunnybeach/manager/CacheDataManager.java
+ cn.cqautotest.sunnybeach.manager.CacheDataManager
+cn/cqautotest/sunnybeach/ui/activity/VideoPlayActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.VideoPlayActivity
+ cn.cqautotest.sunnybeach.ui.activity.VideoPlayActivity$Builder
+ cn.cqautotest.sunnybeach.ui.activity.VideoPlayActivity$Builder$1
+cn/cqautotest/sunnybeach/ui/dialog/CopyDialog.java
+ cn.cqautotest.sunnybeach.ui.dialog.CopyDialog
+ cn.cqautotest.sunnybeach.ui.dialog.CopyDialog$Builder
+cn/cqautotest/sunnybeach/aop/PermissionsAspect.java
+ cn.cqautotest.sunnybeach.aop.PermissionsAspect
+ cn.cqautotest.sunnybeach.aop.PermissionsAspect$1
+cn/cqautotest/sunnybeach/other/DebugLoggerTree.java
+ cn.cqautotest.sunnybeach.other.DebugLoggerTree
+cn/cqautotest/sunnybeach/databinding/WidgetPlayerViewBinding.java
+ cn.cqautotest.sunnybeach.databinding.WidgetPlayerViewBinding
+cn/cqautotest/sunnybeach/databinding/GuideItemBinding.java
+ cn.cqautotest.sunnybeach.databinding.GuideItemBinding
+cn/cqautotest/sunnybeach/databinding/MyMeFragmentBinding.java
+ cn.cqautotest.sunnybeach.databinding.MyMeFragmentBinding
+cn/cqautotest/sunnybeach/databinding/ImageSelectItemBinding.java
+ cn.cqautotest.sunnybeach.databinding.ImageSelectItemBinding
+cn/cqautotest/sunnybeach/databinding/FishPondTopicListItemBinding.java
+ cn.cqautotest.sunnybeach.databinding.FishPondTopicListItemBinding
+cn/cqautotest/sunnybeach/widget/PlayerView.java
+ cn.cqautotest.sunnybeach.widget.PlayerView
+ cn.cqautotest.sunnybeach.widget.PlayerView$1
+ cn.cqautotest.sunnybeach.widget.PlayerView$2
+ cn.cqautotest.sunnybeach.widget.PlayerView$onPlayListener
+cn/cqautotest/sunnybeach/databinding/CopyItemBinding.java
+ cn.cqautotest.sunnybeach.databinding.CopyItemBinding
+cn/cqautotest/sunnybeach/databinding/EmptyFragmentBinding.java
+ cn.cqautotest.sunnybeach.databinding.EmptyFragmentBinding
+cn/cqautotest/sunnybeach/databinding/UiDialogBinding.java
+ cn.cqautotest.sunnybeach.databinding.UiDialogBinding
+cn/cqautotest/sunnybeach/ui/fragment/HomeFragment.java
+ cn.cqautotest.sunnybeach.ui.fragment.HomeFragment
+cn/cqautotest/sunnybeach/ui/activity/VideoSelectActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.VideoSelectActivity
+ cn.cqautotest.sunnybeach.ui.activity.VideoSelectActivity$OnVideoSelectListener
+ cn.cqautotest.sunnybeach.ui.activity.VideoSelectActivity$VideoBean
+ cn.cqautotest.sunnybeach.ui.activity.VideoSelectActivity$VideoBean$1
+cn/cqautotest/sunnybeach/databinding/CopyFragmentBinding.java
+ cn.cqautotest.sunnybeach.databinding.CopyFragmentBinding
+cn/cqautotest/sunnybeach/ui/dialog/MenuDialog.java
+ cn.cqautotest.sunnybeach.ui.dialog.MenuDialog
+ cn.cqautotest.sunnybeach.ui.dialog.MenuDialog$1
+ cn.cqautotest.sunnybeach.ui.dialog.MenuDialog$Builder
+ cn.cqautotest.sunnybeach.ui.dialog.MenuDialog$MenuAdapter
+ cn.cqautotest.sunnybeach.ui.dialog.MenuDialog$MenuAdapter$ViewHolder
+ cn.cqautotest.sunnybeach.ui.dialog.MenuDialog$OnListener
+cn/cqautotest/sunnybeach/ui/popup/ListPopup.java
+ cn.cqautotest.sunnybeach.ui.popup.ListPopup
+ cn.cqautotest.sunnybeach.ui.popup.ListPopup$1
+ cn.cqautotest.sunnybeach.ui.popup.ListPopup$Builder
+ cn.cqautotest.sunnybeach.ui.popup.ListPopup$MenuAdapter
+ cn.cqautotest.sunnybeach.ui.popup.ListPopup$MenuAdapter$ViewHolder
+ cn.cqautotest.sunnybeach.ui.popup.ListPopup$OnListener
+cn/cqautotest/sunnybeach/ui/dialog/UpdateDialog.java
+ cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog
+ cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog$Builder
+ cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog$Builder$1
+cn/cqautotest/sunnybeach/databinding/GuideActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.GuideActivityBinding
+cn/cqautotest/sunnybeach/ui/adapter/ImagePreviewAdapter.java
+ cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter
+ cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter$1
+ cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter$ViewHolder
+cn/cqautotest/sunnybeach/ui/activity/SettingActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.SettingActivity
+ cn.cqautotest.sunnybeach.ui.activity.SettingActivity$1
+cn/cqautotest/sunnybeach/ui/dialog/CommonDialog.java
+ cn.cqautotest.sunnybeach.ui.dialog.CommonDialog
+ cn.cqautotest.sunnybeach.ui.dialog.CommonDialog$Builder
+cn/cqautotest/sunnybeach/db/CookieRoomDatabase_Impl.java
+ cn.cqautotest.sunnybeach.db.CookieRoomDatabase_Impl
+ cn.cqautotest.sunnybeach.db.CookieRoomDatabase_Impl$1
+cn/cqautotest/sunnybeach/ui/activity/PasswordForgetActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.PasswordForgetActivity
+ cn.cqautotest.sunnybeach.ui.activity.PasswordForgetActivity$1
+ cn.cqautotest.sunnybeach.ui.activity.PasswordForgetActivity$2
+io/noties/prism4j/languages/Prism_java.java
+ io.noties.prism4j.languages.Prism_java
+cn/cqautotest/sunnybeach/databinding/WidgetStatusLayoutBinding.java
+ cn.cqautotest.sunnybeach.databinding.WidgetStatusLayoutBinding
+cn/cqautotest/sunnybeach/http/request/UpdateImageApi.java
+ cn.cqautotest.sunnybeach.http.request.UpdateImageApi
+cn/cqautotest/sunnybeach/databinding/ShareDialogBinding.java
+ cn.cqautotest.sunnybeach.databinding.ShareDialogBinding
+cn/cqautotest/sunnybeach/databinding/FishPondListFragmentBinding.java
+ cn.cqautotest.sunnybeach.databinding.FishPondListFragmentBinding
+cn/cqautotest/sunnybeach/ui/popup/CopyPopup.java
+ cn.cqautotest.sunnybeach.ui.popup.CopyPopup
+ cn.cqautotest.sunnybeach.ui.popup.CopyPopup$Builder
+cn/cqautotest/sunnybeach/ui/activity/CrashActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.CrashActivity
+cn/cqautotest/sunnybeach/databinding/MessageFragmentBinding.java
+ cn.cqautotest.sunnybeach.databinding.MessageFragmentBinding
+cn/cqautotest/sunnybeach/databinding/MenuItemBinding.java
+ cn.cqautotest.sunnybeach.databinding.MenuItemBinding
+cn/cqautotest/sunnybeach/databinding/SplashActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.SplashActivityBinding
+cn/cqautotest/sunnybeach/http/request/UserInfoApi.java
+ cn.cqautotest.sunnybeach.http.request.UserInfoApi
+cn/cqautotest/sunnybeach/databinding/CopyPopupBinding.java
+ cn.cqautotest.sunnybeach.databinding.CopyPopupBinding
+cn/cqautotest/sunnybeach/databinding/StatusActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.StatusActivityBinding
+cn/cqautotest/sunnybeach/ui/adapter/ImageSelectAdapter.java
+ cn.cqautotest.sunnybeach.ui.adapter.ImageSelectAdapter
+ cn.cqautotest.sunnybeach.ui.adapter.ImageSelectAdapter$1
+ cn.cqautotest.sunnybeach.ui.adapter.ImageSelectAdapter$ViewHolder
+cn/cqautotest/sunnybeach/ui/adapter/StatusAdapter.java
+ cn.cqautotest.sunnybeach.ui.adapter.StatusAdapter
+ cn.cqautotest.sunnybeach.ui.adapter.StatusAdapter$1
+ cn.cqautotest.sunnybeach.ui.adapter.StatusAdapter$ViewHolder
+com/bumptech/glide/GeneratedAppGlideModuleImpl.java
+ com.bumptech.glide.GeneratedAppGlideModuleImpl
+cn/cqautotest/sunnybeach/databinding/MeFragmentBinding.java
+ cn.cqautotest.sunnybeach.databinding.MeFragmentBinding
+cn/cqautotest/sunnybeach/http/response/UserInfoBean.java
+ cn.cqautotest.sunnybeach.http.response.UserInfoBean
+cn/cqautotest/sunnybeach/databinding/AboutActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.AboutActivityBinding
+cn/cqautotest/sunnybeach/databinding/ImageSelectActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.ImageSelectActivityBinding
+cn/cqautotest/sunnybeach/databinding/ImagePreviewActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.ImagePreviewActivityBinding
+cn/cqautotest/sunnybeach/databinding/DateDialogBinding.java
+ cn.cqautotest.sunnybeach.databinding.DateDialogBinding
+cn/cqautotest/sunnybeach/databinding/FishPondSettingActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.FishPondSettingActivityBinding
+cn/cqautotest/sunnybeach/ui/activity/CameraActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.CameraActivity
+ cn.cqautotest.sunnybeach.ui.activity.CameraActivity$OnCameraListener
+cn/cqautotest/sunnybeach/databinding/PhoneResetActivityBinding.java
+ cn.cqautotest.sunnybeach.databinding.PhoneResetActivityBinding
+cn/cqautotest/sunnybeach/databinding/FishPondFragmentBinding.java
+ cn.cqautotest.sunnybeach.databinding.FishPondFragmentBinding
+cn/cqautotest/sunnybeach/databinding/ShareItemBinding.java
+ cn.cqautotest.sunnybeach.databinding.ShareItemBinding
+cn/cqautotest/sunnybeach/app/AppFragment.java
+ cn.cqautotest.sunnybeach.app.AppFragment
+cn/cqautotest/sunnybeach/databinding/AlbumDialogBinding.java
+ cn.cqautotest.sunnybeach.databinding.AlbumDialogBinding
+cn/cqautotest/sunnybeach/other/CrashHandler.java
+ cn.cqautotest.sunnybeach.other.CrashHandler
+cn/cqautotest/sunnybeach/http/glide/OkHttpFetcher.java
+ cn.cqautotest.sunnybeach.http.glide.OkHttpFetcher
+cn/cqautotest/sunnybeach/http/request/PasswordApi.java
+ cn.cqautotest.sunnybeach.http.request.PasswordApi
 cn/cqautotest/sunnybeach/ui/dialog/InputDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.InputDialog
  cn.cqautotest.sunnybeach.ui.dialog.InputDialog$Builder
@@ -513,15 +526,8 @@ cn/cqautotest/sunnybeach/ui/fragment/MeFragment.java
  cn.cqautotest.sunnybeach.ui.fragment.MeFragment
  cn.cqautotest.sunnybeach.ui.fragment.MeFragment$1
  cn.cqautotest.sunnybeach.ui.fragment.MeFragment$2
-cn/cqautotest/sunnybeach/ui/dialog/PayPasswordDialog.java
- cn.cqautotest.sunnybeach.ui.dialog.PayPasswordDialog
- cn.cqautotest.sunnybeach.ui.dialog.PayPasswordDialog$1
- cn.cqautotest.sunnybeach.ui.dialog.PayPasswordDialog$Builder
- cn.cqautotest.sunnybeach.ui.dialog.PayPasswordDialog$KeyboardAdapter
- cn.cqautotest.sunnybeach.ui.dialog.PayPasswordDialog$KeyboardAdapter$ViewHolder
- cn.cqautotest.sunnybeach.ui.dialog.PayPasswordDialog$OnListener
-cn/cqautotest/sunnybeach/databinding/SettingActivityBinding.java
- cn.cqautotest.sunnybeach.databinding.SettingActivityBinding
+cn/cqautotest/sunnybeach/http/request/CopyApi.java
+ cn.cqautotest.sunnybeach.http.request.CopyApi
 cn/cqautotest/sunnybeach/ui/dialog/AlbumDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.AlbumDialog
  cn.cqautotest.sunnybeach.ui.dialog.AlbumDialog$1
@@ -538,8 +544,6 @@ cn/cqautotest/sunnybeach/ui/dialog/SafeDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.SafeDialog$OnListener
 cn/cqautotest/sunnybeach/databinding/SelectItemBinding.java
  cn.cqautotest.sunnybeach.databinding.SelectItemBinding
-cn/cqautotest/sunnybeach/http/glide/GlideConfig.java
- cn.cqautotest.sunnybeach.http.glide.GlideConfig
 cn/cqautotest/sunnybeach/widget/BrowserView.java
  cn.cqautotest.sunnybeach.widget.BrowserView
  cn.cqautotest.sunnybeach.widget.BrowserView$1
@@ -551,17 +555,15 @@ cn/cqautotest/sunnybeach/widget/BrowserView.java
  cn.cqautotest.sunnybeach.widget.BrowserView$BrowserChromeClient$4
  cn.cqautotest.sunnybeach.widget.BrowserView$BrowserViewClient
  cn.cqautotest.sunnybeach.widget.BrowserView$BrowserViewClient$1
-cn/cqautotest/sunnybeach/ui/activity/SplashActivity.java
- cn.cqautotest.sunnybeach.ui.activity.SplashActivity
- cn.cqautotest.sunnybeach.ui.activity.SplashActivity$1
- cn.cqautotest.sunnybeach.ui.activity.SplashActivity$2
 cn/cqautotest/sunnybeach/ui/activity/CopyActivity.java
  cn.cqautotest.sunnybeach.ui.activity.CopyActivity
 cn/cqautotest/sunnybeach/action/StatusAction.java
  cn.cqautotest.sunnybeach.action.StatusAction
+cn/cqautotest/sunnybeach/http/request/PhoneApi.java
+ cn.cqautotest.sunnybeach.http.request.PhoneApi
 cn/cqautotest/sunnybeach/databinding/PasswordResetActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.PasswordResetActivityBinding
 cn/cqautotest/sunnybeach/databinding/CopyActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.CopyActivityBinding
-cn/cqautotest/sunnybeach/ui/activity/HomeActivity.java
- cn.cqautotest.sunnybeach.ui.activity.HomeActivity
+cn/cqautotest/sunnybeach/databinding/DiscoverFragmentBinding.java
+ cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding

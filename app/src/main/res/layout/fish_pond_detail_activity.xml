@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
     tools:context=".ui.activity.FishPondDetailActivity">
 
@@ -21,7 +22,9 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include android:id="@+id/fish_pond" layout="@layout/fish_pond_list_item" />
+            <include
+                android:id="@+id/fish_pond"
+                layout="@layout/fish_pond_list_item" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,13 +46,16 @@
 
             <com.hjq.widget.layout.NestedViewPager
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="相关推荐列表" />
+                android:layout_height="100dp"
+                android:contentDescription="相关推荐列表"
+                android:visibility="gone" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <cn.cqautotest.sunnybeach.widget.NonScrollExpandableListView
+                android:id="@+id/elv_fish_pond_detail_comment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white" />
+                android:contentDescription="可展开的评论列表"
+                android:dividerHeight="1px" />
 
         </LinearLayout>
 
