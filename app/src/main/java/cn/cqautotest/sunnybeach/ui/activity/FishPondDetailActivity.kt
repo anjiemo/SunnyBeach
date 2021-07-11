@@ -73,8 +73,15 @@ class FishPondDetailActivity : AppActivity() {
         tvLabel.text = topicName
     }
 
-    override fun initData() {
+    override fun initData() {}
 
+    override fun initEvent() {
+        val ivAvatar = mBinding.fishPond.flAvatarContainer
+        val fishPondByJsonText = intent.getStringExtra(IntentKey.TEXT)
+        val item = fromJson<Fish.FishItem>(fishPondByJsonText)
+        ivAvatar.setOnClickListener {
+            ImagePreviewActivity.start(this, item.avatar)
+        }
     }
 
     companion object {

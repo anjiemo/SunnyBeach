@@ -418,8 +418,8 @@ cn/cqautotest/sunnybeach/databinding/PasswordForgetActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.PasswordForgetActivityBinding
 cn/cqautotest/sunnybeach/databinding/MenuItemBinding.java
  cn.cqautotest.sunnybeach.databinding.MenuItemBinding
-cn/cqautotest/sunnybeach/ui/activity/HomeActivity.java
- cn.cqautotest.sunnybeach.ui.activity.HomeActivity
+cn/cqautotest/sunnybeach/databinding/DiscoverFragmentBinding.java
+ cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
 cn/cqautotest/sunnybeach/databinding/SplashActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.SplashActivityBinding
 cn/cqautotest/sunnybeach/databinding/UpdateDialogBinding.java
@@ -563,5 +563,5 @@ cn/cqautotest/sunnybeach/databinding/PasswordResetActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.PasswordResetActivityBinding
 cn/cqautotest/sunnybeach/databinding/CopyActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.CopyActivityBinding
-cn/cqautotest/sunnybeach/databinding/DiscoverFragmentBinding.java
- cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
+cn/cqautotest/sunnybeach/ui/activity/HomeActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.HomeActivity
