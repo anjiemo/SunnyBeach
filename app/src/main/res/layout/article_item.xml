@@ -25,8 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:foreground="@drawable/avatar_circle_vip_ic">
+            android:layout_marginBottom="10dp">
 
             <ImageView
                 android:id="@+id/iv_avatar"
