@@ -1,10 +1,10 @@
 package cn.cqautotest.sunnybeach.db
 
 import androidx.room.TypeConverter
+import cn.cqautotest.sunnybeach.manager.CookieStore
+import cn.cqautotest.sunnybeach.util.toJson
 import com.blankj.utilcode.util.GsonUtils
 import com.google.gson.reflect.TypeToken
-import cn.cqautotest.sunnybeach.manager.CookieStore
-import cn.cqautotest.sunnybeach.utils.toJson
 import okhttp3.Cookie
 
 class Converters {

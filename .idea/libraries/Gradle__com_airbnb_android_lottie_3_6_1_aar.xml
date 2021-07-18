@@ -1,12 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: com.airbnb.android:lottie:3.6.1@aar">
     <ANNOTATIONS>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/dcb7db3b57fd26a9edd76bd1b3fbe725/transformed/jetified-lottie-3.6.1/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/e58aaf9f0b78e4f904dac6f938ba387e/transformed/jetified-lottie-3.6.1/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/dcb7db3b57fd26a9edd76bd1b3fbe725/transformed/jetified-lottie-3.6.1/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/dcb7db3b57fd26a9edd76bd1b3fbe725/transformed/jetified-lottie-3.6.1/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/dcb7db3b57fd26a9edd76bd1b3fbe725/transformed/jetified-lottie-3.6.1/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/e58aaf9f0b78e4f904dac6f938ba387e/transformed/jetified-lottie-3.6.1/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/e58aaf9f0b78e4f904dac6f938ba387e/transformed/jetified-lottie-3.6.1/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/e58aaf9f0b78e4f904dac6f938ba387e/transformed/jetified-lottie-3.6.1/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.airbnb.android/lottie/3.6.1/9cfd4bbdc86ce87c0104883127fc5744aa1e57a0/lottie-3.6.1-javadoc.jar!/" />

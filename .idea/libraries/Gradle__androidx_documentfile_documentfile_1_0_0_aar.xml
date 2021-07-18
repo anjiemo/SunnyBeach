@@ -1,9 +1,13 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.documentfile:documentfile:1.0.0@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/4b906110842d1a56e68db91ba0538e42/transformed/documentfile-1.0.0/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/4b906110842d1a56e68db91ba0538e42/transformed/documentfile-1.0.0/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/4b906110842d1a56e68db91ba0538e42/transformed/documentfile-1.0.0/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/b8a834b1ddfcd53ac569075db9b091b2/transformed/documentfile-1.0.0/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/5bef4c0dfb64af6bda415401742da32e/transformed/documentfile-1.0.0/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/e6a38902928307ddc0386de402b860ef/transformed/documentfile-1.0.0/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/2978550184bcc26c3c23afc2459489f2/transformed/documentfile-1.0.0/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/5bef4c0dfb64af6bda415401742da32e/transformed/documentfile-1.0.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/5bef4c0dfb64af6bda415401742da32e/transformed/documentfile-1.0.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

@@ -11,8 +11,8 @@ import cn.cqautotest.sunnybeach.app.FragmentAdapter
 import cn.cqautotest.sunnybeach.databinding.MyHomeFragmentBinding
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity
 import cn.cqautotest.sunnybeach.ui.fragment.home.ArticleListFragment
-import cn.cqautotest.sunnybeach.utils.onPageSelected
-import cn.cqautotest.sunnybeach.utils.onTabSelected
+import cn.cqautotest.sunnybeach.util.onPageSelected
+import cn.cqautotest.sunnybeach.util.onTabSelected
 import cn.cqautotest.sunnybeach.viewmodel.home.HomeViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.blankj.utilcode.util.NetworkUtils
@@ -135,10 +135,6 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        lifecycle.run {
-            removeObserver(mHomeViewModel)
-            removeObserver(mFragmentAdapter)
-        }
         mFragmentMap.values.forEach {
             it.onDestroy()
         }

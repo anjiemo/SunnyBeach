@@ -1,7 +1,7 @@
 package cn.cqautotest.sunnybeach.http.request.api
 
 import cn.cqautotest.sunnybeach.model.*
-import cn.cqautotest.sunnybeach.utils.SUNNY_BEACH_BASE_URL
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_BASE_URL
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -10,10 +10,11 @@ interface FishPondApi {
     /**
      * 获取动态评论
      */
-    @GET("${SUNNY_BEACH_BASE_URL}ct/moyu/comment/{momentId}/{page}")
-    suspend fun loadFishPondRecommendListById(
+    @GET("${SUNNY_BEACH_BASE_URL}ct/moyu/comment/{momentId}/{page}?sort=1")
+    suspend fun loadFishPondCommentListById(
         @Path("momentId") momentId: String,
-        @Path("page") page: Long): BaseResponse<FishPondRecommend>
+        @Path("page") page: Long
+    ): BaseResponse<FishPondComment>
 
     /**
      * 获取动态列表

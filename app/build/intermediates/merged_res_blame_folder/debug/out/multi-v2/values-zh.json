@@ -4,7 +4,7 @@
             "outputFile": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-zh\\values-zh.xml",
             "map": [
                 {
-                    "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\c15657d492c716e5f1ad491ff4683e71\\transformed\\jetified-refresh-layout-kernel-2.0.3\\res\\values-zh\\values-zh.xml",
+                    "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\6b45c9fc69983a7dfdd25541dd924055\\transformed\\jetified-refresh-layout-kernel-2.0.3\\res\\values-zh\\values-zh.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\b35890a06d440d5ef2c9ca097c7e1f9c\\transformed\\jetified-xiaomi-update-sdk-4.0.3\\res\\values-zh\\values-zh.xml",
+                    "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\4639069f4d27ea3eb5e8256ccc651c4d\\transformed\\jetified-xiaomi-update-sdk-4.0.3\\res\\values-zh\\values-zh.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

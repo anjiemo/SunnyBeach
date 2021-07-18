@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blankj.utilcode.util.NetworkUtils
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.request.api.PhotoApi
 import cn.cqautotest.sunnybeach.http.response.model.HomeBannerBean
 import cn.cqautotest.sunnybeach.http.response.model.HomePhotoBean
-import cn.cqautotest.sunnybeach.utils.logByDebug
+import cn.cqautotest.sunnybeach.util.logByDebug
+import com.blankj.utilcode.util.NetworkUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

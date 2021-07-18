@@ -3,15 +3,13 @@ package cn.cqautotest.sunnybeach.viewmodel.app
 import android.app.Application
 import androidx.lifecycle.*
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.request.api.AppApi
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
 import cn.cqautotest.sunnybeach.other.AppConfig
-import cn.cqautotest.sunnybeach.utils.*
+import cn.cqautotest.sunnybeach.util.*
 import com.blankj.utilcode.util.NetworkUtils
 import com.hjq.http.EasyHttp
-import com.hjq.http.lifecycle.ApplicationLifecycle
 import com.hjq.http.listener.OnDownloadListener
 import com.hjq.http.model.HttpMethod
 import kotlinx.coroutines.Dispatchers
