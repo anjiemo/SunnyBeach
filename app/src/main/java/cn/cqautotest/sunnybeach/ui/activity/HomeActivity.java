@@ -24,7 +24,6 @@ import cn.cqautotest.sunnybeach.ui.fragment.FishPondFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.HomeFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.MyHomeFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
-import cn.cqautotest.sunnybeach.utils.ActivityUtils;
 
 /**
  * author : Android 轮子哥

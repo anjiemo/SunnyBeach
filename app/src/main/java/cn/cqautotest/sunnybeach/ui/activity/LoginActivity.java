@@ -27,8 +27,6 @@ import com.hjq.umeng.UmengClient;
 import com.hjq.umeng.UmengLogin;
 import com.hjq.widget.view.SubmitButton;
 
-import java.lang.ref.WeakReference;
-
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
@@ -38,10 +36,9 @@ import cn.cqautotest.sunnybeach.manager.InputTextManager;
 import cn.cqautotest.sunnybeach.other.IntentKey;
 import cn.cqautotest.sunnybeach.other.KeyboardWatcher;
 import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
-import cn.cqautotest.sunnybeach.utils.Constants;
-import cn.cqautotest.sunnybeach.utils.EditTextUtils;
-import cn.cqautotest.sunnybeach.utils.LogUtils;
-import cn.cqautotest.sunnybeach.viewmodel.SingletonManager;
+import cn.cqautotest.sunnybeach.util.Constants;
+import cn.cqautotest.sunnybeach.util.EditTextUtils;
+import cn.cqautotest.sunnybeach.util.LogUtils;
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel;
 import cn.cqautotest.sunnybeach.viewmodel.login.LoggedInUserView;
 import cn.cqautotest.sunnybeach.wxapi.WXEntryActivity;

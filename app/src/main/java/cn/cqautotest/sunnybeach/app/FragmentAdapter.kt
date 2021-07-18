@@ -17,7 +17,7 @@ class FragmentAdapter : FragmentStateAdapter, LifecycleObserver {
     private val mFragmentHashCodes = arrayMapOf<Int, Int>()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private fun resetFragmentData() {
+    fun resetFragmentData() {
         mFragmentOfMap.clear()
         mFragmentHashCodes.clear()
     }

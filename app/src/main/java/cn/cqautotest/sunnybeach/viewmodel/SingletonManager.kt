@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.viewmodel
 
+import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 
@@ -8,12 +9,14 @@ import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
  */
 object SingletonManager {
 
+    private val appApplication by lazy { AppApplication.getInstance() }
+
     val userViewModel: UserViewModel =
-        CustomAndroidViewModelFactory().create(UserViewModel::class.java)
+        CustomAndroidViewModelFactory(appApplication).create(UserViewModel::class.java)
     val cookiesViewModel: CookiesViewModel =
-        CustomAndroidViewModelFactory().create(CookiesViewModel::class.java)
+        CustomAndroidViewModelFactory(appApplication).create(CookiesViewModel::class.java)
     val appViewModel: AppViewModel =
-        CustomAndroidViewModelFactory().create(AppViewModel::class.java)
+        CustomAndroidViewModelFactory(appApplication).create(AppViewModel::class.java)
     val discoverViewModel: DiscoverViewModel =
-        CustomAndroidViewModelFactory().create(DiscoverViewModel::class.java)
+        CustomAndroidViewModelFactory(appApplication).create(DiscoverViewModel::class.java)
 }

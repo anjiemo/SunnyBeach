@@ -7,12 +7,12 @@ import androidx.lifecycle.viewModelScope
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.request.api.FishPondApi
 import cn.cqautotest.sunnybeach.model.Fish
-import cn.cqautotest.sunnybeach.model.FishPondRecommend
+import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.model.FishPondTopicIndex
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
-import cn.cqautotest.sunnybeach.utils.SUNNY_BEACH_HTTP_OK_CODE
-import cn.cqautotest.sunnybeach.utils.TAG
-import cn.cqautotest.sunnybeach.utils.logByDebug
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_HTTP_OK_CODE
+import cn.cqautotest.sunnybeach.util.TAG
+import cn.cqautotest.sunnybeach.util.logByDebug
 import com.blankj.utilcode.util.NetworkUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,18 +41,21 @@ class FishPondViewModel : ViewModel() {
     val fishPond: LiveData<Fish?> get() = _fishPond
 
     // 评论列表
-    private val _fishPondRecommend = MutableLiveData<FishPondRecommend>()
-    val fishPondRecommend: LiveData<FishPondRecommend> get() = _fishPondRecommend
+    private val _fishPondRecommend = MutableLiveData<FishPondComment>()
+    val fishPondComment: LiveData<FishPondComment> get() = _fishPondRecommend
 
-    fun loadFishPondRecommendListById(fishPondId: String)  = viewModelScope.launch {
+    fun loadFishPondRecommendListById(fishPondId: String) = viewModelScope.launch {
         val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
         if (available.not()) return@launch
         runCatching {
             // TODO: 2021/7/11 page后期作为分页参数
-            fishPondApi.loadFishPondRecommendListById(fishPondId, 1)
-        }.onSuccess {  response ->
+            fishPondApi.loadFishPondCommentListById(fishPondId, 1)
+        }.onSuccess { response ->
             val responseData = response.data
-            logByDebug(tag = TAG, msg = "loadFishPondRecommendListById：responseData is ===> $responseData")
+            logByDebug(
+                tag = TAG,
+                msg = "loadFishPondRecommendListById：responseData is ===> $responseData"
+            )
             if (SUNNY_BEACH_HTTP_OK_CODE == response.code) {
                 _fishPondRecommend.value = responseData
             }

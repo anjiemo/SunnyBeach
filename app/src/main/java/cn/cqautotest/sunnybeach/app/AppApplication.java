@@ -47,7 +47,7 @@ import cn.cqautotest.sunnybeach.other.CrashHandler;
 import cn.cqautotest.sunnybeach.other.DebugLoggerTree;
 import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter;
 import cn.cqautotest.sunnybeach.other.ToastInterceptor;
-import cn.cqautotest.sunnybeach.utils.PushHelper;
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
@@ -216,7 +216,7 @@ public final class AppApplication extends Application {
                 .replace(
                         GlideUrl.class,
                         InputStream.class,
-                        new OkHttpUrlLoader.Factory(okHttpClient)
+                        new OkHttpUrlLoader.Factory(castOrNull(okHttpClient))
                 );
         // UMConfigure.setLogEnabled(AppConfig.isDebug())
         // // 客户端用户同意隐私政策后，正式初始化友盟+SDK
@@ -234,6 +234,13 @@ public final class AppApplication extends Application {
         // Push注册
         // PushHelper.init(application);
         // 在此初始化其它依赖库
+    }
+
+    private static Call.Factory castOrNull(OkHttpClient okHttpClient) {
+        if (okHttpClient instanceof Call.Factory) {
+            return (Call.Factory) okHttpClient;
+        }
+        return null;
     }
 
     public static CookieRoomDatabase getDatabase() {

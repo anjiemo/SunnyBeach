@@ -13,7 +13,7 @@ import cn.cqautotest.sunnybeach.model.BaseResponse
 import cn.cqautotest.sunnybeach.model.User
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.other.IntentKey
-import cn.cqautotest.sunnybeach.utils.*
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.login.LoggedInUserView
 import cn.cqautotest.sunnybeach.viewmodel.login.LoginFormState
 import cn.cqautotest.sunnybeach.viewmodel.login.LoginResult
