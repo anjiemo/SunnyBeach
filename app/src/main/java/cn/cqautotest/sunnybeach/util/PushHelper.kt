@@ -1,7 +1,6 @@
-package cn.cqautotest.sunnybeach.utils
+package cn.cqautotest.sunnybeach.util
 
 import android.app.Application
-import cn.cqautotest.sunnybeach.app.AppApplication
 import com.umeng.message.IUmengRegisterCallback
 import com.umeng.message.PushAgent
 

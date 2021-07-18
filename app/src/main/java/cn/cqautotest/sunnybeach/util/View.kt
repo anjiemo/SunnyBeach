@@ -1,6 +1,6 @@
 @file:JvmName("ViewUtils")
 
-package cn.cqautotest.sunnybeach.utils
+package cn.cqautotest.sunnybeach.util
 
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable

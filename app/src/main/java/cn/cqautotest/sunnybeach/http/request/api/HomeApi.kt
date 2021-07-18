@@ -4,7 +4,7 @@ import cn.cqautotest.sunnybeach.model.ArticleDetail
 import cn.cqautotest.sunnybeach.model.ArticleInfo
 import cn.cqautotest.sunnybeach.model.BaseResponse
 import cn.cqautotest.sunnybeach.model.HomeCategories
-import cn.cqautotest.sunnybeach.utils.SUNNY_BEACH_BASE_URL
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_BASE_URL
 import retrofit2.http.GET
 import retrofit2.http.Path
 

@@ -1,25 +1,26 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import android.view.View
 import androidx.activity.viewModels
-import androidx.collection.arrayMapOf
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.observe
+import androidx.viewbinding.ViewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
-import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailActivityBinding
 import cn.cqautotest.sunnybeach.model.Fish
-import cn.cqautotest.sunnybeach.model.FishPondRecommend
+import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.other.IntentKey
-import cn.cqautotest.sunnybeach.ui.adapter.ElvRecommendAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.ElvCommentAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondDetailCommendListAdapter
-import cn.cqautotest.sunnybeach.utils.fromJson
-import cn.cqautotest.sunnybeach.utils.logByDebug
-import cn.cqautotest.sunnybeach.utils.toJson
+import cn.cqautotest.sunnybeach.util.fromJson
+import cn.cqautotest.sunnybeach.util.logByDebug
+import cn.cqautotest.sunnybeach.util.toJson
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.bumptech.glide.Glide
 
@@ -34,12 +35,13 @@ class FishPondDetailActivity : AppActivity() {
     private lateinit var mBinding: FishPondDetailActivityBinding
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
     private val mFishPondDetailCommendListAdapter = FishPondDetailCommendListAdapter()
-    private val mElvRecommendAdapter = ElvRecommendAdapter()
+    private val mElvRecommendAdapter = ElvCommentAdapter()
 
-    override fun getLayoutId(): Int = R.layout.fish_pond_detail_activity
+    override fun getLayoutId(): Int = 0
 
-    override fun onBindingView() {
-        mBinding = FishPondDetailActivityBinding.bind(viewBindingRoot)
+    override fun onBindingView(): ViewBinding {
+        mBinding = FishPondDetailActivityBinding.inflate(layoutInflater)
+        return mBinding
     }
 
     override fun initView() {
@@ -101,9 +103,9 @@ class FishPondDetailActivity : AppActivity() {
     }
 
     override fun initObserver() {
-        mFishPondViewModel.fishPondRecommend.observe(this) { fishPondRecommend ->
-            val groupData = mutableListOf<FishPondRecommend.FishPondRecommendItem>()
-            val childData = mutableListOf<List<FishPondRecommend.FishPondRecommendItem.SubComment>>()
+        mFishPondViewModel.fishPondComment.observe(this) { fishPondRecommend ->
+            val groupData = mutableListOf<FishPondComment.FishPondCommentItem>()
+            val childData = mutableListOf<List<FishPondComment.FishPondCommentItem.SubComment>>()
             for (group in fishPondRecommend.list) {
                 childData.add(group.subComments)
                 groupData.add(group)
@@ -121,12 +123,13 @@ class FishPondDetailActivity : AppActivity() {
         return fromJson<Fish.FishItem>(fishPondByJsonText)
     }
 
+    override fun isStatusBarDarkFont(): Boolean = false
+
     companion object {
 
         @JvmStatic
         @DebugLog
-        fun start(item: Fish.FishItem) {
-            val context = AppApplication.getInstance().applicationContext
+        fun start(context: Context, item: Fish.FishItem) {
             val intent = Intent(context, FishPondDetailActivity::class.java)
             intent.run {
                 putExtra(IntentKey.TEXT, item.toJson())

@@ -1,5 +1,5 @@
 @file:JvmName("LogUtils")
-package cn.cqautotest.sunnybeach.utils
+package cn.cqautotest.sunnybeach.util
 
 import cn.cqautotest.sunnybeach.other.AppConfig
 import timber.log.Timber

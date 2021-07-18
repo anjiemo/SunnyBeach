@@ -1,4 +1,8 @@
-package cn.cqautotest.sunnybeach.utils;
+package cn.cqautotest.sunnybeach.util;
+
+import static java.lang.Math.PI;
+import static java.lang.Math.pow;
+import static java.lang.Math.sin;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
@@ -8,10 +12,6 @@ import android.view.animation.Interpolator;
 import com.chad.library.adapter.base.animation.BaseAnimation;
 
 import org.jetbrains.annotations.NotNull;
-
-import static java.lang.Math.PI;
-import static java.lang.Math.pow;
-import static java.lang.Math.sin;
 
 /**
  * 自定义动画

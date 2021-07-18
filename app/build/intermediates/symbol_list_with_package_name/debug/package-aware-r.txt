@@ -2013,6 +2013,7 @@ drawable checkbox_checked_ic
 drawable checkbox_disable_ic
 drawable checkbox_selector
 drawable close_icon
+drawable comment_divider
 drawable compound_normal_ic
 drawable countdown_color_selector
 drawable countdown_selector
@@ -2026,6 +2027,7 @@ drawable design_snackbar_background
 drawable dialog_input_bg
 drawable dialog_rounded_corner_bg
 drawable discover_ic
+drawable elv_arrows_selector
 drawable error_ic
 drawable example_bg
 drawable finish_ic
@@ -2123,6 +2125,7 @@ drawable radiobutton_checked_ic
 drawable radiobutton_disable_ic
 drawable radiobutton_selector
 drawable reboot_ic
+drawable reply_divider
 drawable safe_ic
 drawable search_ic
 drawable setting_ic
@@ -2328,6 +2331,7 @@ id buttonPanel
 id bv_home_navigation
 id cache_measures
 id cancel_button
+id cb_fish_pond_nick_name
 id center
 id center_horizontal
 id center_vertical
@@ -2891,7 +2895,7 @@ id tv_fish_pond_content
 id tv_fish_pond_desc
 id tv_fish_pond_label
 id tv_fish_pond_nick_name
-id tv_fish_pond_recommend_content
+id tv_fish_pond_submit_comment
 id tv_hint_message
 id tv_home_address
 id tv_home_hint
@@ -2913,6 +2917,7 @@ id tv_player_view_title
 id tv_player_view_total_time
 id tv_prompt
 id tv_register_title
+id tv_reply_msg
 id tv_safe_phone
 id tv_select_checkbox
 id tv_select_text

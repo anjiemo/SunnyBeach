@@ -1,6 +1,6 @@
 @file:JvmName("ActivityUtils")
 
-package cn.cqautotest.sunnybeach.utils
+package cn.cqautotest.sunnybeach.util
 
 import android.app.Activity
 import android.graphics.Color

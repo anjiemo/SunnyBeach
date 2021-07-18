@@ -1,7 +1,7 @@
 package cn.cqautotest.sunnybeach.model
 
+import cn.cqautotest.sunnybeach.util.DEFAULT_AVATAR_URL
 import com.google.gson.annotations.SerializedName
-import cn.cqautotest.sunnybeach.utils.DEFAULT_AVATAR_URL
 
 /**
  * 用户基本信息

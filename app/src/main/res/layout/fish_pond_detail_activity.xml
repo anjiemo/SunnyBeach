@@ -15,7 +15,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0px"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,6 +39,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
                     android:text="相关推荐"
                     android:textStyle="bold"
                     app:drawableEndCompat="@drawable/arrows_right_ic" />
@@ -54,11 +57,30 @@
                 android:id="@+id/elv_fish_pond_detail_comment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:childDivider="@drawable/reply_divider"
                 android:contentDescription="可展开的评论列表"
-                android:dividerHeight="1px" />
+                android:divider="@drawable/comment_divider"
+                android:dividerHeight="2dp" />
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/tv_fish_pond_submit_comment"
+        style="@style/ButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/home_search_bar_gray_bg"
+        android:backgroundTint="@color/white"
+        android:gravity="center_vertical"
+        android:hint="输入评论..."
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:shadowRadius="20" />
 
 </LinearLayout>

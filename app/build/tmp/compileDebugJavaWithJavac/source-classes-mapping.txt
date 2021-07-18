@@ -54,9 +54,6 @@ cn/cqautotest/sunnybeach/app/TitleBarFragment.java
 cn/cqautotest/sunnybeach/widget/XCollapsingToolbarLayout.java
  cn.cqautotest.sunnybeach.widget.XCollapsingToolbarLayout
  cn.cqautotest.sunnybeach.widget.XCollapsingToolbarLayout$OnScrimsListener
-cn/cqautotest/sunnybeach/utils/markown/MyGrammarLocator.java
- cn.cqautotest.sunnybeach.utils.markown.MyGrammarLocator
- cn.cqautotest.sunnybeach.utils.markown.MyGrammarLocator$1
 cn/cqautotest/sunnybeach/databinding/PhotoItemBinding.java
  cn.cqautotest.sunnybeach.databinding.PhotoItemBinding
 cn/cqautotest/sunnybeach/databinding/StatusFragmentBinding.java
@@ -94,6 +91,9 @@ cn/cqautotest/sunnybeach/databinding/PayPasswordDialogBinding.java
  cn.cqautotest.sunnybeach.databinding.PayPasswordDialogBinding
 cn/cqautotest/sunnybeach/databinding/InputDialogBinding.java
  cn.cqautotest.sunnybeach.databinding.InputDialogBinding
+cn/cqautotest/sunnybeach/util/CustomAnimation.java
+ cn.cqautotest.sunnybeach.util.CustomAnimation
+ cn.cqautotest.sunnybeach.util.CustomAnimation$MyInterpolator
 cn/cqautotest/sunnybeach/databinding/GalleryActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.GalleryActivityBinding
 cn/cqautotest/sunnybeach/ui/activity/AboutActivity.java
@@ -214,8 +214,8 @@ cn/cqautotest/sunnybeach/other/KeyboardWatcher.java
  cn.cqautotest.sunnybeach.other.KeyboardWatcher$SoftKeyboardStateListener
 cn/cqautotest/sunnybeach/http/request/GetCodeApi.java
  cn.cqautotest.sunnybeach.http.request.GetCodeApi
-cn/cqautotest/sunnybeach/ui/activity/HomeActivity.java
- cn.cqautotest.sunnybeach.ui.activity.HomeActivity
+cn/cqautotest/sunnybeach/databinding/DiscoverFragmentBinding.java
+ cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
 cn/cqautotest/sunnybeach/databinding/UpdateDialogBinding.java
  cn.cqautotest.sunnybeach.databinding.UpdateDialogBinding
 cn/cqautotest/sunnybeach/ui/adapter/GuideAdapter.java
@@ -254,9 +254,6 @@ cn/cqautotest/sunnybeach/ui/activity/ImagePreviewActivity.java
 cn/cqautotest/sunnybeach/ui/dialog/HintDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.HintDialog
  cn.cqautotest.sunnybeach.ui.dialog.HintDialog$Builder
-cn/cqautotest/sunnybeach/utils/CustomAnimation.java
- cn.cqautotest.sunnybeach.utils.CustomAnimation
- cn.cqautotest.sunnybeach.utils.CustomAnimation$MyInterpolator
 cn/cqautotest/sunnybeach/ui/activity/BrowserActivity.java
  cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
  cn.cqautotest.sunnybeach.ui.activity.BrowserActivity$1
@@ -425,6 +422,9 @@ cn/cqautotest/sunnybeach/ui/popup/ListPopup.java
  cn.cqautotest.sunnybeach.ui.popup.ListPopup$MenuAdapter
  cn.cqautotest.sunnybeach.ui.popup.ListPopup$MenuAdapter$ViewHolder
  cn.cqautotest.sunnybeach.ui.popup.ListPopup$OnListener
+cn/cqautotest/sunnybeach/util/markown/MyGrammarLocator.java
+ cn.cqautotest.sunnybeach.util.markown.MyGrammarLocator
+ cn.cqautotest.sunnybeach.util.markown.MyGrammarLocator$1
 cn/cqautotest/sunnybeach/ui/dialog/UpdateDialog.java
  cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog
  cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog$Builder
@@ -565,5 +565,5 @@ cn/cqautotest/sunnybeach/databinding/PasswordResetActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.PasswordResetActivityBinding
 cn/cqautotest/sunnybeach/databinding/CopyActivityBinding.java
  cn.cqautotest.sunnybeach.databinding.CopyActivityBinding
-cn/cqautotest/sunnybeach/databinding/DiscoverFragmentBinding.java
- cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
+cn/cqautotest/sunnybeach/ui/activity/HomeActivity.java
+ cn.cqautotest.sunnybeach.ui.activity.HomeActivity

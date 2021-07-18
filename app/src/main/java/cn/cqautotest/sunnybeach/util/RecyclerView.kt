@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.utils
+package cn.cqautotest.sunnybeach.util
 
 import android.graphics.Rect
 import android.view.View

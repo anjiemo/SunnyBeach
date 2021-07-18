@@ -1,11 +1,11 @@
-package cn.cqautotest.sunnybeach.utils
+package cn.cqautotest.sunnybeach.util
 
 import android.content.res.Resources
 import android.util.TypedValue
 
-val Int.dp
+val Float.dp
     get() = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
-        this.toFloat(),
+        this,
         Resources.getSystem().displayMetrics
-    ).toInt()
+    )

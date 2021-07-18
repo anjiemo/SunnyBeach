@@ -14,7 +14,7 @@ import cn.cqautotest.sunnybeach.databinding.ArticleListFragmentBinding
 import cn.cqautotest.sunnybeach.ui.activity.ArticleDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.adapter.ArticleAdapter
-import cn.cqautotest.sunnybeach.utils.*
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.home.HomeViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.blankj.utilcode.util.NetworkUtils
@@ -81,7 +81,7 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
         // 设置文章列表项的点击事件
         articleAdapter.setOnItemClickListener { _, _, position ->
             val articleItem = articleAdapter.getItem(position)
-            ArticleDetailActivity.start(articleItem.id, articleItem.title)
+            ArticleDetailActivity.start(requireContext(), articleItem.id, articleItem.title)
         }
         articleAdapter.addChildClickViewIds(
             R.id.iv_avatar,

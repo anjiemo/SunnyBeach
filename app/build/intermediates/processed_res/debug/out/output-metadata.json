@@ -5,7 +5,7 @@
     "kind": "Directory"
   },
   "applicationId": "cn.cqautotest.sunnybeach.debug",
-  "variantName": "debug",
+  "variantName": "processDebugResources",
   "elements": [
     {
       "type": "SINGLE",

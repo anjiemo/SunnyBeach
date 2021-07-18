@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.utils
+package cn.cqautotest.sunnybeach.util
 
 import androidx.fragment.app.Fragment
 

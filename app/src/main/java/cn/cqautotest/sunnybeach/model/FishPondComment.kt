@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
  * time   : 2021/7/7
  * desc   : 摸鱼评论列表bean类
  */
-data class FishPondRecommend(
+data class FishPondComment(
     @SerializedName("currentPage")
     val currentPage: Int,
     @SerializedName("hasNext")
@@ -15,7 +15,7 @@ data class FishPondRecommend(
     @SerializedName("hasPre")
     val hasPre: Boolean,
     @SerializedName("list")
-    val list: List<FishPondRecommendItem>,
+    val list: List<FishPondCommentItem>,
     @SerializedName("pageSize")
     val pageSize: Int,
     @SerializedName("total")
@@ -23,7 +23,7 @@ data class FishPondRecommend(
     @SerializedName("totalPage")
     val totalPage: Int
 ) {
-    data class FishPondRecommendItem(
+    data class FishPondCommentItem(
         @SerializedName("avatar")
         val avatar: String,
         @SerializedName("company")

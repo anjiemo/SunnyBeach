@@ -1,5 +1,5 @@
 @file:JvmName("EditTextUtils")
-package cn.cqautotest.sunnybeach.utils
+package cn.cqautotest.sunnybeach.util
 
 import android.text.Editable
 import android.text.TextWatcher

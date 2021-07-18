@@ -1,5 +1,5 @@
 @file:JvmName("LiveDataUtils")
-package cn.cqautotest.sunnybeach.utils
+package cn.cqautotest.sunnybeach.util
 
 import androidx.lifecycle.LiveData
 

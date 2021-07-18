@@ -1,6 +1,6 @@
 @file:JvmName("Constants")
 
-package cn.cqautotest.sunnybeach.utils
+package cn.cqautotest.sunnybeach.util
 
 const val USER_SETTING = "userSetting"
 

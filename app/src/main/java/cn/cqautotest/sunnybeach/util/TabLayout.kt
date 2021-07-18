@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.utils
+package cn.cqautotest.sunnybeach.util
 
 import com.google.android.material.tabs.TabLayout
 

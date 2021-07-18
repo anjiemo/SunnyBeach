@@ -13,10 +13,10 @@ import cn.cqautotest.sunnybeach.databinding.FishPondFragmentBinding
 import cn.cqautotest.sunnybeach.model.FishPondTopicIndex
 import cn.cqautotest.sunnybeach.ui.activity.FishPondSettingActivity
 import cn.cqautotest.sunnybeach.ui.fragment.fishpond.FishPondListFragment
-import cn.cqautotest.sunnybeach.utils.logByDebug
-import cn.cqautotest.sunnybeach.utils.onPageSelected
-import cn.cqautotest.sunnybeach.utils.onTabSelected
-import cn.cqautotest.sunnybeach.utils.startActivity
+import cn.cqautotest.sunnybeach.util.logByDebug
+import cn.cqautotest.sunnybeach.util.onPageSelected
+import cn.cqautotest.sunnybeach.util.onTabSelected
+import cn.cqautotest.sunnybeach.util.startActivity
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 
