@@ -57,17 +57,21 @@ class ArticleAdapter :
             if (covers.size > 1) {
                 covers.getOrNull(0)?.run {
                     Glide.with(itemView).load(covers.getOrNull(0)).into(articleCoverOne)
+                    articleCoverOne.visibility = View.VISIBLE
                 }
                 covers.getOrNull(1)?.run {
                     Glide.with(itemView).load(covers.getOrNull(1)).into(articleCoverTwo)
+                    articleCoverTwo.visibility = View.VISIBLE
                 }
                 covers.getOrNull(2)?.run {
                     Glide.with(itemView).load(covers.getOrNull(2)).into(articleCoverThere)
+                    articleCoverThere.visibility = View.VISIBLE
                 }
             }
             if (covers.size == 1) {
                 covers.getOrNull(0)?.run {
-                    Glide.with(itemView).load(covers.getOrNull(0)).into(articleCoverTwo)
+                    Glide.with(itemView).load(covers.getOrNull(0)).into(articleCoverOne)
+                    articleCoverOne.visibility = View.VISIBLE
                 }
             }
             glPhotoList.findViewById<ImageView>(R.id.article_cover_two)

@@ -104,12 +104,14 @@
         <ImageView
             android:id="@+id/article_cover_one"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="match_parent"
             android:scaleType="matrix" />
 
         <ImageView
             android:id="@+id/article_cover_two"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="match_parent"
             android:scaleType="matrix" />
 
@@ -117,6 +119,7 @@
             android:id="@+id/article_cover_there"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             android:scaleType="matrix" />
 
     </cn.cqautotest.sunnybeach.widget.GridLayout>
