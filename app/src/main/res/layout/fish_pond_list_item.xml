@@ -34,12 +34,32 @@
             android:layout_marginStart="10dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_fish_pond_nick_name"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textSize="16sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_fish_pond_nick_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_weight="3"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_fish_pond_create_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:text=""
+                    android:textColor="@color/black30" />
+
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_fish_pond_desc"
@@ -47,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:textColor="@color/default_font_color" />
-
         </LinearLayout>
 
     </LinearLayout>

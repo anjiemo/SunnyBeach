@@ -8,6 +8,7 @@
     tools:context=".ui.fragment.MyHomeFragment">
 
     <LinearLayout
+        android:layout_marginTop="-10dp"
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +20,7 @@
         tools:ignore="RtlSymmetry">
 
         <RelativeLayout
+
             android:id="@+id/searchContainer"
             android:layout_width="0px"
             android:layout_height="40dp"

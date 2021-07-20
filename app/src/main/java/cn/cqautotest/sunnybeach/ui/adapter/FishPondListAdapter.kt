@@ -27,6 +27,7 @@ class FishPondListAdapter :
             val flAvatarContainer = getView<View>(R.id.fl_avatar_container)
             val ivAvatar = getView<ImageView>(R.id.iv_fish_pond_avatar)
             val tvNickname = getView<TextView>(R.id.tv_fish_pond_nick_name)
+            val tvCreateTime = getView<TextView>(R.id.tv_fish_pond_create_time)
             val tvDesc = getView<TextView>(R.id.tv_fish_pond_desc)
             val tvContent = getView<TextView>(R.id.tv_fish_pond_content)
             val tvLabel = getView<TextView>(R.id.tv_fish_pond_label)
@@ -50,6 +51,7 @@ class FishPondListAdapter :
                 )
             )
             tvNickname.text = item.nickname
+            tvCreateTime.text = item.createTime
             tvDesc.text = item.position
             tvContent.text = item.content
             val topicName = item.topicName
