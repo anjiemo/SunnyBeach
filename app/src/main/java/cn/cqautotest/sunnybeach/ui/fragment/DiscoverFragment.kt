@@ -88,7 +88,7 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
             Repository.setLocalPhotoList(mPhotoAdapter.data)
             val photoId = verticalPhoto.id
             logByDebug(msg = "initEvent：===> photoId is $photoId")
-            GalleryActivity.start(photoId)
+            GalleryActivity.start(requireContext(), photoId)
         }
         mBinding.slDiscoverRefresh.setOnRefreshListener {
             refreshPhotoList()

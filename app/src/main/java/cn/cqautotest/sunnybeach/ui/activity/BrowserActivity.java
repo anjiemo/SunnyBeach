@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,30 +22,30 @@ import cn.cqautotest.sunnybeach.action.StatusAction;
 import cn.cqautotest.sunnybeach.aop.CheckNet;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.app.AppActivity;
-import cn.cqautotest.sunnybeach.app.AppApplication;
 import cn.cqautotest.sunnybeach.other.IntentKey;
 import cn.cqautotest.sunnybeach.widget.BrowserView;
 import cn.cqautotest.sunnybeach.widget.StatusLayout;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2018/10/18
- *    desc   : 浏览器界面
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2018/10/18
+ * desc   : 浏览器界面
  */
 public final class BrowserActivity extends AppActivity
         implements StatusAction, OnRefreshListener {
 
     @CheckNet
     @DebugLog
-    public static void start(String url) {
-        Context context = AppApplication.getInstance();
+    public static void start(Context context, String url) {
         if (TextUtils.isEmpty(url)) {
             return;
         }
         Intent intent = new Intent(context, BrowserActivity.class);
         intent.putExtra(IntentKey.URL, url);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
         context.startActivity(intent);
     }
 

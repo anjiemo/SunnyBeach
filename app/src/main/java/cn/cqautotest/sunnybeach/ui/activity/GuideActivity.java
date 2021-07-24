@@ -11,10 +11,10 @@ import cn.cqautotest.sunnybeach.ui.adapter.GuideAdapter;
 import me.relex.circleindicator.CircleIndicator3;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/09/21
- *    desc   : 应用引导页
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/09/21
+ * desc   : 应用引导页
  */
 public final class GuideActivity extends AppActivity {
 
@@ -52,7 +52,7 @@ public final class GuideActivity extends AppActivity {
     @Override
     public void onClick(View view) {
         if (view == mCompleteView) {
-            HomeActivity.start();
+            HomeActivity.start(this);
             finish();
         }
     }

@@ -1,5 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.view.View
@@ -10,7 +12,6 @@ import androidx.viewbinding.ViewBinding
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
-import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.FishPondSettingActivityBinding
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondAdapter
@@ -120,10 +121,11 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
     companion object {
 
         @DebugLog
-        fun start() {
-            val context = AppApplication.getInstance()
+        fun start(context: Context) {
             val intent = Intent(context, FishPondSettingActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            if (context !is Activity) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
             context.startActivity(intent)
         }
     }

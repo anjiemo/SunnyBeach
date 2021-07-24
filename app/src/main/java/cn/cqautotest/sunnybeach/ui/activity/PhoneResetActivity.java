@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
@@ -19,7 +20,6 @@ import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
 import cn.cqautotest.sunnybeach.app.AppActivity;
-import cn.cqautotest.sunnybeach.app.AppApplication;
 import cn.cqautotest.sunnybeach.http.model.HttpData;
 import cn.cqautotest.sunnybeach.http.request.GetCodeApi;
 import cn.cqautotest.sunnybeach.http.request.PhoneApi;
@@ -28,20 +28,21 @@ import cn.cqautotest.sunnybeach.other.IntentKey;
 import cn.cqautotest.sunnybeach.ui.dialog.HintDialog;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/04/20
- *    desc   : 设置手机号
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/04/20
+ * desc   : 设置手机号
  */
 public final class PhoneResetActivity extends AppActivity
         implements TextView.OnEditorActionListener {
 
     @DebugLog
-    public static void start(String code) {
-        Context context = AppApplication.getInstance();
+    public static void start(Context context, String code) {
         Intent intent = new Intent(context, PhoneResetActivity.class);
         intent.putExtra(IntentKey.CODE, code);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
         context.startActivity(intent);
     }
 
@@ -50,7 +51,9 @@ public final class PhoneResetActivity extends AppActivity
     private CountdownView mCountdownView;
     private Button mCommitView;
 
-    /** 验证码 */
+    /**
+     * 验证码
+     */
     private String mVerifyCode;
 
     @Override

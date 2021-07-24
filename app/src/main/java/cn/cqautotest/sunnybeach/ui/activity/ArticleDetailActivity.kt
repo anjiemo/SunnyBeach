@@ -1,5 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
@@ -118,13 +120,14 @@ class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
          */
         @CheckNet
         @DebugLog
-        fun start(articleId: String?, articleTitle: String?) {
-            val context = AppApplication.getInstance()
+        fun start(context: Context, articleId: String?, articleTitle: String?) {
             val intent = Intent(context, ArticleDetailActivity::class.java)
             intent.run {
                 putExtra(IntentKey.ID, articleId)
                 putExtra(IntentKey.TITLE, articleTitle)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                if (context !is Activity) {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
             }
             context.startActivity(intent)
         }
