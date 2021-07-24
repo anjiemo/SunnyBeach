@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.squareup.leakcanary:leakcanary-android-core:2.5@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/a09c5ca588ee97dcbcdadda4f0ab7b74/transformed/jetified-leakcanary-android-core-2.5/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/a09c5ca588ee97dcbcdadda4f0ab7b74/transformed/jetified-leakcanary-android-core-2.5/AndroidManifest.xml" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/a09c5ca588ee97dcbcdadda4f0ab7b74/transformed/jetified-leakcanary-android-core-2.5/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/6fce975c7702bca556e398d3f5eb21e3/transformed/jetified-leakcanary-android-core-2.5/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/6fce975c7702bca556e398d3f5eb21e3/transformed/jetified-leakcanary-android-core-2.5/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/6fce975c7702bca556e398d3f5eb21e3/transformed/jetified-leakcanary-android-core-2.5/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.squareup.leakcanary/leakcanary-android-core/2.5/1ef4043fac6e093d37000489733179265a335393/leakcanary-android-core-2.5-javadoc.jar!/" />

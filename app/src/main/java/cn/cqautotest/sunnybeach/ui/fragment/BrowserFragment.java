@@ -7,6 +7,10 @@ import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
 
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.action.StatusAction;
 import cn.cqautotest.sunnybeach.aop.CheckNet;
@@ -17,9 +21,6 @@ import cn.cqautotest.sunnybeach.other.IntentKey;
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity;
 import cn.cqautotest.sunnybeach.widget.BrowserView;
 import cn.cqautotest.sunnybeach.widget.StatusLayout;
-import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 /**
  *    author : Android 轮子哥
@@ -132,7 +133,7 @@ public final class BrowserFragment extends AppFragment<AppActivity>
                 // 如果这是跳链接操作
                 case "http":
                 case "https":
-                    BrowserActivity.start(getAttachActivity(), url);
+                    BrowserActivity.start(url);
                     break;
                 default:
                     break;

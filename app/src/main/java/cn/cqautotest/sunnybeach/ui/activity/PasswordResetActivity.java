@@ -1,6 +1,5 @@
 package cn.cqautotest.sunnybeach.ui.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
@@ -11,17 +10,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hjq.http.EasyHttp;
+import com.hjq.http.listener.HttpCallback;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
 import cn.cqautotest.sunnybeach.app.AppActivity;
+import cn.cqautotest.sunnybeach.app.AppApplication;
 import cn.cqautotest.sunnybeach.http.model.HttpData;
 import cn.cqautotest.sunnybeach.http.request.PasswordApi;
 import cn.cqautotest.sunnybeach.manager.InputTextManager;
 import cn.cqautotest.sunnybeach.other.IntentKey;
 import cn.cqautotest.sunnybeach.ui.dialog.HintDialog;
-import com.hjq.http.EasyHttp;
-import com.hjq.http.listener.HttpCallback;
 
 /**
  *    author : Android 轮子哥
@@ -33,13 +34,12 @@ public final class PasswordResetActivity extends AppActivity
         implements TextView.OnEditorActionListener {
 
     @DebugLog
-    public static void start(Context context, String phone, String code) {
+    public static void start(String phone, String code) {
+        Context context = AppApplication.getInstance();
         Intent intent = new Intent(context, PasswordResetActivity.class);
         intent.putExtra(IntentKey.PHONE, phone);
         intent.putExtra(IntentKey.CODE, code);
-        if (!(context instanceof Activity)) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 

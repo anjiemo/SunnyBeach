@@ -6,8 +6,8 @@
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/af379d6ca62940bed904324be4b8ec68/transformed/jetified-leakcanary-object-watcher-android-androidx-2.5/res" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/6e5cc6c880a5370ae5f21b17cad452f9/transformed/jetified-leakcanary-object-watcher-android-androidx-2.5/res" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/d42345cd7c42884bbd242f269645cc35/transformed/jetified-leakcanary-object-watcher-android-androidx-2.5/res" />
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/af379d6ca62940bed904324be4b8ec68/transformed/jetified-leakcanary-object-watcher-android-androidx-2.5/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/af379d6ca62940bed904324be4b8ec68/transformed/jetified-leakcanary-object-watcher-android-androidx-2.5/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/d42345cd7c42884bbd242f269645cc35/transformed/jetified-leakcanary-object-watcher-android-androidx-2.5/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/d42345cd7c42884bbd242f269645cc35/transformed/jetified-leakcanary-object-watcher-android-androidx-2.5/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.squareup.leakcanary/leakcanary-object-watcher-android-androidx/2.5/b9bfef6fee56d2120713991b1fab188e7494568b/leakcanary-object-watcher-android-androidx-2.5-javadoc.jar!/" />

@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/arrows_left_ic.xml" value="0.1305" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/arrows_right_ic.xml" value="0.132" />
+        <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/avatar_circle_vip_ic.xml" value="0.1305" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/button_rect_selector.xml" value="0.1305" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/button_round_selector.xml" value="0.1305" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/checkbox_selector.xml" value="0.1305" />
@@ -12,6 +14,7 @@
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/home_navigation_color_selector.xml" value="0.132" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/home_search_bar_gray_bg.xml" value="0.1305" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/reply_divider.xml" value="0.132" />
+        <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/shape_gradient.xml" value="0.1305" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/topic_label_selector.xml" value="0.1305" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/about_activity.xml" value="0.12335359675785208" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/article_detail_activity.xml" value="0.12552083333333333" />

@@ -4,24 +4,7 @@
             "outputFile": "D:\\ProgramFiles\\Android\\SunnyBeach\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-zh\\values-zh.xml",
             "map": [
                 {
-                    "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\6b45c9fc69983a7dfdd25541dd924055\\transformed\\jetified-refresh-layout-kernel-2.0.3\\res\\values-zh\\values-zh.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,163",
-                        "endColumns": "107,91",
-                        "endOffsets": "158,250"
-                    },
-                    "to": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "105,213",
-                        "endColumns": "107,91",
-                        "endOffsets": "208,300"
-                    }
-                },
-                {
-                    "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\4639069f4d27ea3eb5e8256ccc651c4d\\transformed\\jetified-xiaomi-update-sdk-4.0.3\\res\\values-zh\\values-zh.xml",
+                    "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\3e14b5a566e761c7a3654cefef118489\\transformed\\jetified-xiaomi-update-sdk-4.0.3\\res\\values-zh\\values-zh.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -35,6 +18,23 @@
                         "startOffsets": "305,393,497,647,808,904,994,1087",
                         "endColumns": "87,103,149,160,95,89,92,92",
                         "endOffsets": "388,492,642,803,899,989,1082,1175"
+                    }
+                },
+                {
+                    "source": "D:\\ProgramFiles\\GradleWorkSpace\\caches\\transforms-3\\efeacd8bdb90be769e723e1e5a9d41a1\\transformed\\jetified-refresh-layout-kernel-2.0.3\\res\\values-zh\\values-zh.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,163",
+                        "endColumns": "107,91",
+                        "endOffsets": "158,250"
+                    },
+                    "to": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "105,213",
+                        "endColumns": "107,91",
+                        "endOffsets": "208,300"
                     }
                 }
             ]

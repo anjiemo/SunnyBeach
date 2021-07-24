@@ -29,4 +29,9 @@ class EmptyFragment : AppFragment<AppActivity>() {
     override fun initData() {
 
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }

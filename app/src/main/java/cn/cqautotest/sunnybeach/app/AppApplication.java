@@ -3,15 +3,12 @@ package cn.cqautotest.sunnybeach.app;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Build;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
@@ -20,7 +17,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.hjq.bar.TitleBar;
-import com.hjq.bar.initializer.LightBarInitializer;
 import com.hjq.bar.initializer.TransparentBarInitializer;
 import com.hjq.http.EasyConfig;
 import com.hjq.permissions.XXPermissions;
@@ -108,21 +104,10 @@ public final class AppApplication extends Application {
         ToastUtils.setToastInterceptor(new ToastInterceptor());
 
         // 设置标题栏初始化器
-        TitleBar.setDefaultInitializer(new LightBarInitializer() {
-
+        TitleBar.setDefaultInitializer(new TransparentBarInitializer() {
             @Override
             public Drawable getBackgroundDrawable(Context context) {
-                return new ColorDrawable(ContextCompat.getColor(application, R.color.common_primary_color));
-            }
-
-            @Override
-            public Drawable getBackIcon(Context context) {
-                return ContextCompat.getDrawable(context, R.drawable.arrows_left_ic);
-            }
-
-            @Override
-            protected TextView createTextView(Context context) {
-                return new AppCompatTextView(context);
+                return getDrawableResources(context, R.drawable.shape_gradient);
             }
         });
 
@@ -180,14 +165,6 @@ public final class AppApplication extends Application {
         if (AppConfig.isLogEnable()) {
             Timber.plant(new DebugLoggerTree());
         }
-
-        // 设置全局的 TitleBar 样式
-        TitleBar.setDefaultInitializer(new TransparentBarInitializer() {
-            @Override
-            public Drawable getBackgroundDrawable(Context context) {
-                return getDrawableResources(context, R.drawable.shape_gradient);
-            }
-        });
 
         // 注册网络状态变化监听
         ConnectivityManager connectivityManager = ContextCompat.getSystemService(application, ConnectivityManager.class);

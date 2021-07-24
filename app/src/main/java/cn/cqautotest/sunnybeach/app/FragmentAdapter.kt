@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.hjq.base.BaseActivity
 import com.hjq.base.BaseFragment
@@ -15,12 +14,6 @@ class FragmentAdapter : FragmentStateAdapter, LifecycleObserver {
 
     private val mFragmentOfMap = arrayMapOf<Int, Fragment>()
     private val mFragmentHashCodes = arrayMapOf<Int, Int>()
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun resetFragmentData() {
-        mFragmentOfMap.clear()
-        mFragmentHashCodes.clear()
-    }
 
     fun setFragmentMap(fragmentMap: Map<Int, AppFragment<AppActivity>>) {
         mFragmentOfMap.run {

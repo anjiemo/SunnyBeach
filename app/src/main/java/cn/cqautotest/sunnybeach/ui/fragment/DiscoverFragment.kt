@@ -88,7 +88,7 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
             Repository.setLocalPhotoList(mPhotoAdapter.data)
             val photoId = verticalPhoto.id
             logByDebug(msg = "initEvent：===> photoId is $photoId")
-            GalleryActivity.start(requireContext(), photoId)
+            GalleryActivity.start(photoId)
         }
         mBinding.slDiscoverRefresh.setOnRefreshListener {
             refreshPhotoList()
@@ -145,7 +145,7 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
                         if (data == null) View.VISIBLE else View.GONE
                 }
             }
-            addBannerLifecycleObserver(this@DiscoverFragment)
+            addBannerLifecycleObserver(viewLifecycleOwner)
             indicator = CircleIndicator(context)
             setIndicatorSelectedColor(Color.WHITE)
         }
@@ -180,6 +180,7 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
 
     override fun onDestroy() {
         super.onDestroy()
+        _binding = null
         mBannerList.clear()
         mPhotoAdapter.data.clear()
     }
