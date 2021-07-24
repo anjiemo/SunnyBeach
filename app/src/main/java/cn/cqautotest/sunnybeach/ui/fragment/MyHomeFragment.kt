@@ -68,7 +68,6 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
     override fun initObserver() {
         lifecycle.run {
             addObserver(mHomeViewModel)
-            addObserver(mFragmentAdapter)
         }
         val tabLayoutCategories = mBinding.tabLayoutCategories
         val vp2HomeArticleContainer = mBinding.vp2HomeArticleContainer
@@ -135,9 +134,6 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        mFragmentMap.values.forEach {
-            it.onDestroy()
-        }
         mFragmentMap.clear()
     }
 

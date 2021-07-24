@@ -8,7 +8,6 @@ import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
 import cn.cqautotest.sunnybeach.app.AppActivity;
 import cn.cqautotest.sunnybeach.ui.adapter.GuideAdapter;
-
 import me.relex.circleindicator.CircleIndicator3;
 
 /**
@@ -53,7 +52,7 @@ public final class GuideActivity extends AppActivity {
     @Override
     public void onClick(View view) {
         if (view == mCompleteView) {
-            HomeActivity.start(getContext());
+            HomeActivity.start();
             finish();
         }
     }

@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.ui.activity;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -31,6 +30,7 @@ import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
 import cn.cqautotest.sunnybeach.app.AppActivity;
+import cn.cqautotest.sunnybeach.app.AppApplication;
 import cn.cqautotest.sunnybeach.http.glide.GlideApp;
 import cn.cqautotest.sunnybeach.manager.InputTextManager;
 import cn.cqautotest.sunnybeach.other.IntentKey;
@@ -55,13 +55,12 @@ public final class LoginActivity extends AppActivity
         TextView.OnEditorActionListener {
 
     @DebugLog
-    public static void start(Context context, String phone, String password) {
+    public static void start(String phone, String password) {
+        Context context = AppApplication.getInstance();
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra(IntentKey.PHONE, phone);
         intent.putExtra(IntentKey.PASSWORD, password);
-        if (!(context instanceof Activity)) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -113,7 +112,7 @@ public final class LoginActivity extends AppActivity
             }
             mCommitView.showSucceed();
             postDelayed(() -> {
-                HomeActivity.start(getContext(), MyMeFragment.class);
+                HomeActivity.start(MyMeFragment.class);
                 finish();
             }, 1000);
         });
@@ -200,7 +199,7 @@ public final class LoginActivity extends AppActivity
     @Override
     public void onLeftClick(View view) {
         // 用户点击了跳过按钮
-        HomeActivity.start(getContext(), MyMeFragment.class);
+        HomeActivity.start(MyMeFragment.class);
         finish();
     }
 

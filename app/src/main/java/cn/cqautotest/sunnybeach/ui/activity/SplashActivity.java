@@ -51,9 +51,9 @@ public final class SplashActivity extends AppActivity {
             public void onAnimationEnd(Animator animation) {
                 mLottieView.removeAnimatorListener(this);
                 if (userViewModel.isAutoLogin() && userViewModel.isLogin()) {
-                    HomeActivity.start(getContext());
+                    HomeActivity.start();
                 } else {
-                    LoginActivity.start(getContext(), "", "");
+                    LoginActivity.start("", "");
                 }
                 finish();
             }

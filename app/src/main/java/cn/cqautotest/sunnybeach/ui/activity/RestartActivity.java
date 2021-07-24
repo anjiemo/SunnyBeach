@@ -6,20 +6,20 @@ import android.content.Intent;
 
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.app.AppActivity;
+import cn.cqautotest.sunnybeach.app.AppApplication;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2020/11/29
- *    desc   : 重启应用
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2020/11/29
+ * desc   : 重启应用
  */
 public final class RestartActivity extends AppActivity {
 
-    public static void start(Context context) {
+    public static void start() {
+        Context context = AppApplication.getInstance();
         Intent intent = new Intent(context, RestartActivity.class);
-        if (!(context instanceof Activity)) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 

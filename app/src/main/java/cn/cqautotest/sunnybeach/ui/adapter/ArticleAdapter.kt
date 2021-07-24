@@ -54,20 +54,28 @@ class ArticleAdapter :
                 )
             )
             val covers = item.covers
-            if (covers.size > 1) {
-                covers.getOrNull(0)?.run {
-                    Glide.with(itemView).load(covers.getOrNull(0)).into(articleCoverOne)
+            val coverSize = covers.size
+            Glide.with(itemView).load(covers.getOrNull(0)).into(articleCoverOne)
+            Glide.with(itemView).load(covers.getOrNull(1)).into(articleCoverTwo)
+            Glide.with(itemView).load(covers.getOrNull(2)).into(articleCoverThere)
+            articleCoverOne.visibility = View.GONE
+            articleCoverTwo.visibility = View.GONE
+            articleCoverThere.visibility = View.GONE
+            // 根据封面的集合的大小判断需要显示几个封面
+            when (coverSize) {
+                1 -> {
+                    articleCoverOne.visibility = View.VISIBLE
                 }
-                covers.getOrNull(1)?.run {
-                    Glide.with(itemView).load(covers.getOrNull(1)).into(articleCoverTwo)
+                2 -> {
+                    articleCoverOne.visibility = View.VISIBLE
+                    articleCoverTwo.visibility = View.VISIBLE
                 }
-                covers.getOrNull(2)?.run {
-                    Glide.with(itemView).load(covers.getOrNull(2)).into(articleCoverThere)
-                }
-            }
-            if (covers.size == 1) {
-                covers.getOrNull(0)?.run {
-                    Glide.with(itemView).load(covers.getOrNull(0)).into(articleCoverTwo)
+                // 如果返回的 covers 集合大于 3（等于 0 时不受影响，因为前面已经把 covers 全部置为 GONE 了） ，
+                // 则有可能会因为复用而导致数据显示不正常
+                else -> {
+                    articleCoverOne.visibility = View.VISIBLE
+                    articleCoverTwo.visibility = View.VISIBLE
+                    articleCoverThere.visibility = View.VISIBLE
                 }
             }
             glPhotoList.findViewById<ImageView>(R.id.article_cover_two)

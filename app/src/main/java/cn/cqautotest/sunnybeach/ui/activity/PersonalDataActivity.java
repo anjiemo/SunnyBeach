@@ -15,6 +15,15 @@ import androidx.core.content.FileProvider;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.hjq.http.EasyHttp;
+import com.hjq.http.listener.HttpCallback;
+import com.hjq.widget.layout.SettingBar;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
 import cn.cqautotest.sunnybeach.app.AppActivity;
@@ -24,14 +33,6 @@ import cn.cqautotest.sunnybeach.http.request.UpdateImageApi;
 import cn.cqautotest.sunnybeach.other.AppConfig;
 import cn.cqautotest.sunnybeach.ui.dialog.AddressDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog;
-import com.hjq.http.EasyHttp;
-import com.hjq.http.listener.HttpCallback;
-import com.hjq.widget.layout.SettingBar;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  *    author : Android 轮子哥
@@ -99,7 +100,7 @@ public final class PersonalDataActivity extends AppActivity {
         } else if (view == mAvatarView) {
             if (!TextUtils.isEmpty(mAvatarUrl)) {
                 // 查看头像
-                ImagePreviewActivity.start(getActivity(), mAvatarUrl);
+                ImagePreviewActivity.start(mAvatarUrl);
             } else {
                 // 选择头像
                 onClick(mAvatarLayout);
