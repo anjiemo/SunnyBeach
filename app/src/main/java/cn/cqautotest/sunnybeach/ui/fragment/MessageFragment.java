@@ -16,10 +16,10 @@ import cn.cqautotest.sunnybeach.http.glide.GlideApp;
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2018/10/18
- *    desc   : 消息 Fragment
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2018/10/18
+ * desc   : 消息 Fragment
  */
 public final class MessageFragment extends TitleBarFragment<HomeActivity> {
 
@@ -103,7 +103,7 @@ public final class MessageFragment extends TitleBarFragment<HomeActivity> {
 
         } else if (viewId == R.id.btn_message_tab) {
 
-            HomeActivity.start(HomeFragment.class);
+            HomeActivity.start(requireContext(), HomeFragment.class);
         }
     }
 

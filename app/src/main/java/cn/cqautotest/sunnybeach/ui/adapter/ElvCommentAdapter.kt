@@ -15,6 +15,7 @@ import androidx.core.text.HtmlCompat
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.model.FishPondComment
+import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.dp
 import cn.cqautotest.sunnybeach.util.setRoundRectBg
 import com.bumptech.glide.Glide
@@ -133,7 +134,8 @@ class ElvCommentAdapter : BaseExpandableListAdapter() {
             )
             cbNickname.text = group.nickname
             tvDesc.text = HtmlCompat.fromHtml(
-                "${group.position} <font color=\"#0084ff\">@${group.company}</font>",
+                "${group.position} <font color=\"#0084ff\">@${group.company}</font> · "
+                        + DateHelper.transform2FriendlyTimeSpanByNow("${group.createTime}:00"),
                 HtmlCompat.FROM_HTML_MODE_LEGACY
             )
             tvReply.setRoundRectBg(color = replyBgColor, cornerRadius = 4.dp)
@@ -179,7 +181,8 @@ class ElvCommentAdapter : BaseExpandableListAdapter() {
             cbNickname.clearArrowsCompoundDrawablesWithIntrinsicBounds()
             cbNickname.text = child.nickname
             tvDesc.text = HtmlCompat.fromHtml(
-                "${child.position}<font color=\"#0084ff\">@${child.company}</font>",
+                "${child.position}<font color=\"#0084ff\">@${child.company}</font> · "
+                        + DateHelper.transform2FriendlyTimeSpanByNow("${child.createTime}:00"),
                 HtmlCompat.FROM_HTML_MODE_LEGACY
             )
             tvReply.setRoundRectBg(color = replyBgColor, cornerRadius = 4.dp)

@@ -21,10 +21,10 @@ import cn.cqautotest.sunnybeach.http.request.VerifyCodeApi;
 import cn.cqautotest.sunnybeach.manager.InputTextManager;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/02/27
- *    desc   : 忘记密码
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/02/27
+ * desc   : 忘记密码
  */
 public final class PasswordForgetActivity extends AppActivity
         implements TextView.OnEditorActionListener {
@@ -108,7 +108,7 @@ public final class PasswordForgetActivity extends AppActivity
             }
 
             if (true) {
-                PasswordResetActivity.start(mPhoneView.getText().toString(), mCodeView.getText().toString());
+                PasswordResetActivity.start(this, mPhoneView.getText().toString(), mCodeView.getText().toString());
                 finish();
                 return;
             }
@@ -122,7 +122,7 @@ public final class PasswordForgetActivity extends AppActivity
 
                         @Override
                         public void onSucceed(HttpData<Void> data) {
-                            PasswordResetActivity.start(mPhoneView.getText().toString(), mCodeView.getText().toString());
+                            PasswordResetActivity.start(PasswordForgetActivity.this, mPhoneView.getText().toString(), mCodeView.getText().toString());
                             finish();
                         }
                     });

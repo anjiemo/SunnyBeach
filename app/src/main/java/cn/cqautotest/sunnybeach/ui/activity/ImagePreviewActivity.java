@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -23,35 +24,33 @@ import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.CheckNet;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.app.AppActivity;
-import cn.cqautotest.sunnybeach.app.AppApplication;
 import cn.cqautotest.sunnybeach.other.IntentKey;
 import cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter;
 import me.relex.circleindicator.CircleIndicator;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/03/05
- *    desc   : 查看大图
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/03/05
+ * desc   : 查看大图
  */
 public final class ImagePreviewActivity extends AppActivity
         implements ViewPager.OnPageChangeListener,
         BaseAdapter.OnItemClickListener {
 
-    public static void start(String url) {
+    public static void start(Context context, String url) {
         ArrayList<String> images = new ArrayList<>(1);
         images.add(url);
-        start(images);
+        start(context, images);
     }
 
-    public static void start(List<String> urls) {
-        start(urls, 0);
+    public static void start(Context context, List<String> urls) {
+        start(context, urls, 0);
     }
 
     @CheckNet
     @DebugLog
-    public static void start(List<String> urls, int index) {
-        Context context = AppApplication.getInstance();
+    public static void start(Context context, List<String> urls, int index) {
         if (urls == null || urls.isEmpty()) {
             return;
         }
@@ -70,16 +69,22 @@ public final class ImagePreviewActivity extends AppActivity
             intent.putExtra(IntentKey.IMAGE, new ArrayList<>(urls));
         }
         intent.putExtra(IntentKey.INDEX, index);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
         context.startActivity(intent);
     }
 
     private ViewPager mViewPager;
     private ImagePreviewAdapter mAdapter;
 
-    /** 圆圈指示器 */
+    /**
+     * 圆圈指示器
+     */
     private CircleIndicator mCircleIndicatorView;
-    /** 文本指示器 */
+    /**
+     * 文本指示器
+     */
     private TextView mTextIndicatorView;
 
     @Override
@@ -142,7 +147,8 @@ public final class ImagePreviewActivity extends AppActivity
      */
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -151,7 +157,8 @@ public final class ImagePreviewActivity extends AppActivity
     }
 
     @Override
-    public void onPageScrollStateChanged(int state) {}
+    public void onPageScrollStateChanged(int state) {
+    }
 
     @Override
     protected void onDestroy() {
@@ -161,9 +168,10 @@ public final class ImagePreviewActivity extends AppActivity
 
     /**
      * {@link BaseAdapter.OnItemClickListener}
-     * @param recyclerView      RecyclerView 对象
-     * @param itemView          被点击的条目对象
-     * @param position          被点击的条目位置
+     *
+     * @param recyclerView RecyclerView 对象
+     * @param itemView     被点击的条目对象
+     * @param position     被点击的条目位置
      */
     @Override
     public void onItemClick(RecyclerView recyclerView, View itemView, int position) {

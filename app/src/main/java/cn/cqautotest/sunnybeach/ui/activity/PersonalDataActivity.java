@@ -35,10 +35,10 @@ import cn.cqautotest.sunnybeach.ui.dialog.AddressDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/04/20
- *    desc   : 个人资料
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/04/20
+ * desc   : 个人资料
  */
 public final class PersonalDataActivity extends AppActivity {
 
@@ -48,14 +48,22 @@ public final class PersonalDataActivity extends AppActivity {
     private SettingBar mNameView;
     private SettingBar mAddressView;
 
-    /** 省 */
+    /**
+     * 省
+     */
     private String mProvince = "广东省";
-    /** 市 */
+    /**
+     * 市
+     */
     private String mCity = "广州市";
-    /** 区 */
+    /**
+     * 区
+     */
     private String mArea = "天河区";
 
-    /** 头像地址 */
+    /**
+     * 头像地址
+     */
     private String mAvatarUrl;
 
     @Override
@@ -100,7 +108,7 @@ public final class PersonalDataActivity extends AppActivity {
         } else if (view == mAvatarView) {
             if (!TextUtils.isEmpty(mAvatarUrl)) {
                 // 查看头像
-                ImagePreviewActivity.start(mAvatarUrl);
+                ImagePreviewActivity.start(this, mAvatarUrl);
             } else {
                 // 选择头像
                 onClick(mAvatarLayout);
@@ -158,7 +166,7 @@ public final class PersonalDataActivity extends AppActivity {
         }
 
         String regex = "^(.+)(\\..+)$";
-        String fileName = sourceFile.getName().replaceFirst(regex, "$1_crop_" + new SimpleDateFormat("HHmmss", Locale.getDefault()).format(new Date())+ "$2");
+        String fileName = sourceFile.getName().replaceFirst(regex, "$1_crop_" + new SimpleDateFormat("HHmmss", Locale.getDefault()).format(new Date()) + "$2");
 
         File outputFile = new File(sourceFile.getParent(), fileName);
         if (outputFile.exists()) {

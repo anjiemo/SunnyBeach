@@ -34,10 +34,10 @@ import cn.cqautotest.sunnybeach.ui.dialog.InputDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2018/10/18
- *    desc   : 我的 Fragment
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2018/10/18
+ * desc   : 我的 Fragment
  */
 public final class MeFragment extends TitleBarFragment<HomeActivity> {
 
@@ -119,7 +119,7 @@ public final class MeFragment extends TitleBarFragment<HomeActivity> {
                     .setHint("请输入网页地址")
                     .setConfirm(getString(R.string.common_confirm))
                     .setCancel(getString(R.string.common_cancel))
-                    .setListener((dialog, content) -> BrowserActivity.start(content))
+                    .setListener((dialog, content) -> BrowserActivity.start(requireContext(), content))
                     .show();
 
         } else if (viewId == R.id.btn_me_image_select) {
@@ -142,7 +142,7 @@ public final class MeFragment extends TitleBarFragment<HomeActivity> {
             ArrayList<String> images = new ArrayList<>();
             images.add("https://www.baidu.com/img/bd_logo.png");
             images.add("https://avatars1.githubusercontent.com/u/28616817");
-            ImagePreviewActivity.start(images, images.size() - 1);
+            ImagePreviewActivity.start(requireContext(), images, images.size() - 1);
 
         } else if (viewId == R.id.btn_me_video_select) {
 
@@ -181,7 +181,7 @@ public final class MeFragment extends TitleBarFragment<HomeActivity> {
                     .setCancel(null)
                     //.setAutoDismiss(false)
                     .setListener(dialog -> {
-                        BrowserActivity.start("https://gitee.com/getActivity/Donate");
+                        BrowserActivity.start(requireContext(), "https://gitee.com/getActivity/Donate");
                         toast("AndroidProject 因为有你的支持而能够不断更新、完善，非常感谢支持！");
                         postDelayed(() -> {
                             try {
