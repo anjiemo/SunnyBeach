@@ -73,6 +73,7 @@ public abstract class BaseActivity extends AppCompatActivity
         if (getLayoutId() > 0) {
             setContentView(getLayoutId());
         } else {
+            // 如果是使用 ViewBinding ，则从 ViewBinding 中获取根视图
             View rootView = handleViewBinding();
             setContentView(rootView);
         }

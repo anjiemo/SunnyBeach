@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.bumptech.glide:glide:4.12.0@aar">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/dfe7e6d488552a5011a4c77ed8d18927/transformed/jetified-glide-4.12.0/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/dfe7e6d488552a5011a4c77ed8d18927/transformed/jetified-glide-4.12.0/AndroidManifest.xml" />
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/dfe7e6d488552a5011a4c77ed8d18927/transformed/jetified-glide-4.12.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/71dc2f54f231c66939db721b1ef06f0e/transformed/jetified-glide-4.12.0/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/71dc2f54f231c66939db721b1ef06f0e/transformed/jetified-glide-4.12.0/res" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/71dc2f54f231c66939db721b1ef06f0e/transformed/jetified-glide-4.12.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.github.bumptech.glide/glide/4.12.0/a1ed6593904cff903246abb68f5dbbc9bf7dde60/glide-4.12.0-javadoc.jar!/" />

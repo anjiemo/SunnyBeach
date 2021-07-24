@@ -110,7 +110,7 @@ public final class SettingActivity extends AppActivity
                     .setList(R.string.setting_language_simple, R.string.setting_language_complex)
                     .setListener((MenuDialog.OnListener<String>) (dialog, position, string) -> {
                         mLanguageView.setRightText(string);
-                        BrowserActivity.start(getActivity(), "https://github.com/getActivity/MultiLanguages");
+                        BrowserActivity.start("https://github.com/getActivity/MultiLanguages");
                     })
                     .setGravity(Gravity.BOTTOM)
                     .setAnimStyle(BaseDialog.ANIM_BOTTOM)
@@ -123,18 +123,18 @@ public final class SettingActivity extends AppActivity
         } else if (viewId == R.id.sb_setting_phone) {
 
             new SafeDialog.Builder(this)
-                    .setListener((dialog, phone, code) -> PhoneResetActivity.start(getActivity(), code))
+                    .setListener((dialog, phone, code) -> PhoneResetActivity.start(code))
                     .show();
 
         } else if (viewId == R.id.sb_setting_password) {
 
             new SafeDialog.Builder(this)
-                    .setListener((dialog, phone, code) -> PasswordResetActivity.start(getActivity(), phone, code))
+                    .setListener((dialog, phone, code) -> PasswordResetActivity.start(phone, code))
                     .show();
 
         } else if (viewId == R.id.sb_setting_agreement) {
 
-            BrowserActivity.start(this, "https://github.com/anjiemo/SunnyBeach");
+            BrowserActivity.start("https://github.com/anjiemo/SunnyBeach");
 
         } else if (viewId == R.id.sb_setting_about) {
 
@@ -162,7 +162,7 @@ public final class SettingActivity extends AppActivity
         } else if (viewId == R.id.sb_setting_exit) {
 
             if (true) {
-                LoginActivity.start(this, "", "");
+                LoginActivity.start("", "");
                 // 进行内存优化，销毁除登录页之外的所有界面
                 ActivityManager.getInstance().finishAllActivities(LoginActivity.class);
                 // 清除用户基本信息数据

@@ -5,6 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 
+import com.tencent.bugly.crashreport.CrashReport;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
 import cn.cqautotest.sunnybeach.app.TitleBarFragment;
@@ -27,10 +32,6 @@ import cn.cqautotest.sunnybeach.ui.activity.VideoPlayActivity;
 import cn.cqautotest.sunnybeach.ui.activity.VideoSelectActivity;
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog;
-import com.tencent.bugly.crashreport.CrashReport;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *    author : Android 轮子哥
@@ -118,7 +119,7 @@ public final class MeFragment extends TitleBarFragment<HomeActivity> {
                     .setHint("请输入网页地址")
                     .setConfirm(getString(R.string.common_confirm))
                     .setCancel(getString(R.string.common_cancel))
-                    .setListener((dialog, content) -> BrowserActivity.start(getAttachActivity(), content))
+                    .setListener((dialog, content) -> BrowserActivity.start(content))
                     .show();
 
         } else if (viewId == R.id.btn_me_image_select) {
@@ -141,7 +142,7 @@ public final class MeFragment extends TitleBarFragment<HomeActivity> {
             ArrayList<String> images = new ArrayList<>();
             images.add("https://www.baidu.com/img/bd_logo.png");
             images.add("https://avatars1.githubusercontent.com/u/28616817");
-            ImagePreviewActivity.start(getAttachActivity(), images, images.size() - 1);
+            ImagePreviewActivity.start(images, images.size() - 1);
 
         } else if (viewId == R.id.btn_me_video_select) {
 
@@ -180,7 +181,7 @@ public final class MeFragment extends TitleBarFragment<HomeActivity> {
                     .setCancel(null)
                     //.setAutoDismiss(false)
                     .setListener(dialog -> {
-                        BrowserActivity.start(getAttachActivity(), "https://gitee.com/getActivity/Donate");
+                        BrowserActivity.start("https://gitee.com/getActivity/Donate");
                         toast("AndroidProject 因为有你的支持而能够不断更新、完善，非常感谢支持！");
                         postDelayed(() -> {
                             try {

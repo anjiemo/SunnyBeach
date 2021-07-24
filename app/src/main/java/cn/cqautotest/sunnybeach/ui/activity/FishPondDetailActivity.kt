@@ -1,17 +1,16 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.observe
 import androidx.viewbinding.ViewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailActivityBinding
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondComment
@@ -98,12 +97,13 @@ class FishPondDetailActivity : AppActivity() {
         val ivAvatar = mBinding.fishPond.flAvatarContainer
         val item = getFishItem()
         ivAvatar.setOnClickListener {
-            ImagePreviewActivity.start(this, item?.avatar)
+            ImagePreviewActivity.start(item?.avatar)
         }
     }
 
     override fun initObserver() {
         mFishPondViewModel.fishPondComment.observe(this) { fishPondRecommend ->
+            // 评论列表数据
             val groupData = mutableListOf<FishPondComment.FishPondCommentItem>()
             val childData = mutableListOf<List<FishPondComment.FishPondCommentItem.SubComment>>()
             for (group in fishPondRecommend.list) {
@@ -112,7 +112,6 @@ class FishPondDetailActivity : AppActivity() {
             }
             logByDebug(msg = "initData：===> groupData size is ${groupData.size}  childData size is ${childData.size}")
             mElvRecommendAdapter.setData(groupData, childData)
-
             val data = fishPondRecommend.list
             mFishPondDetailCommendListAdapter.setList(data)
         }
@@ -127,9 +126,9 @@ class FishPondDetailActivity : AppActivity() {
 
     companion object {
 
-        @JvmStatic
         @DebugLog
-        fun start(context: Context, item: Fish.FishItem) {
+        fun start(item: Fish.FishItem) {
+            val context = AppApplication.getInstance().applicationContext
             val intent = Intent(context, FishPondDetailActivity::class.java)
             intent.run {
                 putExtra(IntentKey.TEXT, item.toJson())

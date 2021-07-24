@@ -136,5 +136,6 @@ class FishPondFragment : TitleBarFragment<AppActivity>(), StatusAction {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        mFragmentMap.clear()
     }
 }

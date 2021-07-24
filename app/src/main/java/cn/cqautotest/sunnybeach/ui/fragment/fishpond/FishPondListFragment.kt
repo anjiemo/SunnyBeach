@@ -87,18 +87,18 @@ class FishPondListFragment : AppFragment<AppActivity>(), StatusAction {
         mFishPondListAdapter.addChildClickViewIds(R.id.fl_avatar_container)
         mFishPondListAdapter.setOnItemClickListener { _, _, position ->
             val item = mFishPondListAdapter.getItem(position)
-            FishPondDetailActivity.start(requireContext(), item)
+            FishPondDetailActivity.start(item)
         }
         mFishPondListAdapter.setOnItemChildClickListener { _, view, position ->
             val item = mFishPondListAdapter.getItem(position)
             if (view.id == R.id.fl_avatar_container) {
-                ImagePreviewActivity.start(requireContext(), item.avatar)
+                ImagePreviewActivity.start(item.avatar)
             }
         }
     }
 
     override fun initObserver() {
-        fishPondViewModel.fishPond.observe(this) { fishPondList ->
+        fishPondViewModel.fishPond.observe(viewLifecycleOwner) { fishPondList ->
             setupFishPondList(fishPondList)
         }
     }

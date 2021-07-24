@@ -37,10 +37,10 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         val meContent = binding.meContent
         meContent.run {
             imageAvatar.setOnClickListener {
-                ImagePreviewActivity.start(requireContext(), DEFAULT_AVATAR_URL)
+                ImagePreviewActivity.start(DEFAULT_AVATAR_URL)
             }
             feedbackContainer.setOnClickListener {
-                BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
+                BrowserActivity.start(MAKE_COMPLAINTS_URL)
             }
             settingContainer.setOnClickListener {
                 startActivity(SettingActivity::class.java)
@@ -51,7 +51,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     override fun initData() {}
 
     override fun initView() {
-        mUserViewModel.userBasicInfo.observe(this) { userBasicInfo ->
+        mUserViewModel.userBasicInfo.observe(viewLifecycleOwner) { userBasicInfo ->
             setupUserInfo(userBasicInfo)
         }
     }

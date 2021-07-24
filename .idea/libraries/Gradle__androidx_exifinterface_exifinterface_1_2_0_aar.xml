@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.exifinterface:exifinterface:1.2.0@aar">
     <ANNOTATIONS>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/52a7bb300878481bb0e114142a36e6de/transformed/exifinterface-1.2.0/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/a54fa251096f0c346f2ed06dc990787b/transformed/exifinterface-1.2.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/cc5a62a9050a659dee9b933a64e46a8f/transformed/exifinterface-1.2.0/res" />
@@ -9,8 +9,8 @@
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/52a7bb300878481bb0e114142a36e6de/transformed/exifinterface-1.2.0/res" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/a576afadad6b20e18e49ff9847129d30/transformed/exifinterface-1.2.0/res" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/a54fa251096f0c346f2ed06dc990787b/transformed/exifinterface-1.2.0/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/52a7bb300878481bb0e114142a36e6de/transformed/exifinterface-1.2.0/AndroidManifest.xml" />
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/52a7bb300878481bb0e114142a36e6de/transformed/exifinterface-1.2.0/jars/classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/a54fa251096f0c346f2ed06dc990787b/transformed/exifinterface-1.2.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/a54fa251096f0c346f2ed06dc990787b/transformed/exifinterface-1.2.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

@@ -58,7 +58,7 @@ public final class CrashHandler implements Thread.UncaughtExceptionHandler {
         if (deadlyCrash || AppConfig.isDebug()) {
             CrashActivity.start(mApplication, throwable);
         } else {
-            RestartActivity.start(mApplication);
+            RestartActivity.start();
         }
 
         // 不去触发系统的崩溃处理（com.android.internal.os.RuntimeInit$KillApplicationHandler）
