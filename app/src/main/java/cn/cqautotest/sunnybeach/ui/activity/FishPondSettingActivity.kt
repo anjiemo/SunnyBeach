@@ -1,13 +1,12 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Rect
 import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import cn.cqautotest.sunnybeach.R
+import androidx.viewbinding.ViewBinding
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -15,7 +14,7 @@ import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.FishPondSettingActivityBinding
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondAdapter
-import cn.cqautotest.sunnybeach.utils.*
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.blankj.utilcode.util.DeviceUtils
@@ -39,10 +38,11 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
     private lateinit var mRefreshLayout: SmartRefreshLayout
     private val mFishPondAdapter = FishPondAdapter()
 
-    override fun getLayoutId(): Int = R.layout.fish_pond_setting_activity
+    override fun getLayoutId(): Int = 0
 
-    override fun onBindingView() {
-        mBinding = FishPondSettingActivityBinding.bind(viewBindingRoot)
+    override fun onBindingView(): ViewBinding {
+        mBinding = FishPondSettingActivityBinding.inflate(layoutInflater)
+        return mBinding
     }
 
     override fun initObserver() {
@@ -119,14 +119,11 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
 
     companion object {
 
-        @JvmStatic
         @DebugLog
         fun start() {
-            val context = AppApplication.getInstance().applicationContext
+            val context = AppApplication.getInstance()
             val intent = Intent(context, FishPondSettingActivity::class.java)
-            if (context !is Activity) {
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
     }

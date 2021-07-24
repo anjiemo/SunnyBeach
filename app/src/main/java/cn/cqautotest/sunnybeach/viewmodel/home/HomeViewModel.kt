@@ -7,7 +7,7 @@ import cn.cqautotest.sunnybeach.http.request.api.HomeApi
 import cn.cqautotest.sunnybeach.model.ArticleDetail
 import cn.cqautotest.sunnybeach.model.ArticleInfo
 import cn.cqautotest.sunnybeach.model.HomeCategories
-import cn.cqautotest.sunnybeach.utils.SUNNY_BEACH_HTTP_OK_CODE
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_HTTP_OK_CODE
 import com.blankj.utilcode.util.NetworkUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

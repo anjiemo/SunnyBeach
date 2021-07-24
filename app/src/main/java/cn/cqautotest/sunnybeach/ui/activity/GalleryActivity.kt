@@ -11,15 +11,15 @@ import android.os.Environment
 import androidx.activity.viewModels
 import androidx.core.content.getSystemService
 import androidx.lifecycle.lifecycleScope
+import androidx.viewbinding.ViewBinding
 import androidx.viewpager2.widget.ViewPager2
-import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.GalleryActivityBinding
 import cn.cqautotest.sunnybeach.http.response.model.HomePhotoBean
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.PhotoAdapter
-import cn.cqautotest.sunnybeach.utils.*
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 import com.bumptech.glide.Glide
@@ -44,10 +44,11 @@ class GalleryActivity : AppActivity() {
     private val mDiscoverViewModel by viewModels<DiscoverViewModel>()
     private var mCurrentPage = 0
 
-    override fun getLayoutId(): Int = R.layout.gallery_activity
+    override fun getLayoutId(): Int = 0
 
-    override fun onBindingView() {
-        mBinding = GalleryActivityBinding.bind(contentView)
+    override fun onBindingView(): ViewBinding {
+        mBinding = GalleryActivityBinding.inflate(layoutInflater)
+        return mBinding
     }
 
     override fun initObserver() {
@@ -105,7 +106,7 @@ class GalleryActivity : AppActivity() {
                 })
         }
         mBinding.settingWallpaperTv.setOnClickListener {
-            val wallpaperManager = WallpaperManager.getInstance(applicationContext)
+            val wallpaperManager = WallpaperManager.getInstance(this)
             val verticalPhotoBean = getCurrentVerticalPhotoBean()
             lifecycleScope.launch {
                 runCatching {
@@ -148,7 +149,6 @@ class GalleryActivity : AppActivity() {
     }
 
     override fun initView() {
-        fullWindow()
         mBinding.galleryViewPager2.let {
             it.orientation = ViewPager2.ORIENTATION_VERTICAL
             it.adapter = mPhotoAdapter
@@ -167,11 +167,11 @@ class GalleryActivity : AppActivity() {
 
     companion object {
 
-        @JvmStatic
-        fun startActivity(id: String) {
-            val context = AppApplication.getInstance().applicationContext
+        fun start(id: String) {
+            val context = AppApplication.getInstance()
             val intent = Intent(context, GalleryActivity::class.java)
             intent.putExtra(IntentKey.ID, id)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
     }

@@ -9,7 +9,7 @@ import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 /**
  * ViewModel 提供程序工厂以实例化 ViewModel。需要给定 ViewModel 有一个非空的构造函数
  */
-class CustomAndroidViewModelFactory(private val appApplication: AppApplication = AppApplication.getInstance()) :
+class CustomAndroidViewModelFactory(private val appApplication: AppApplication) :
     ViewModelProvider.AndroidViewModelFactory(appApplication) {
 
     @Suppress("UNCHECKED_CAST")
@@ -18,7 +18,10 @@ class CustomAndroidViewModelFactory(private val appApplication: AppApplication =
             return UserViewModel(application = appApplication) as T
         }
         if (modelClass.isAssignableFrom(CookiesViewModel::class.java)) {
-            return CookiesViewModel(application = appApplication) as T
+            return CookiesViewModel(
+                application = appApplication,
+                cookieDao = AppApplication.getDatabase().cookieDao()
+            ) as T
         }
         if (modelClass.isAssignableFrom(AppViewModel::class.java)) {
             return AppViewModel(application = appApplication) as T

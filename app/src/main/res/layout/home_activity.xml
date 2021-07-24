@@ -26,5 +26,4 @@
         app:labelVisibilityMode="labeled"
         app:menu="@menu/menu_home_bottom_nav" />
 
-
 </LinearLayout>
