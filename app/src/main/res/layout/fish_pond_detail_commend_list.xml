@@ -45,7 +45,7 @@
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_fish_pond_desc"
@@ -55,8 +55,7 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:textColor="@color/default_font_color"
-                android:textSize="14sp" />
+                android:textColor="@color/default_font_color" />
 
             <TextView
                 android:id="@+id/tv_reply_msg"

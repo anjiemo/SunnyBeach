@@ -81,7 +81,7 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
         // 设置文章列表项的点击事件
         articleAdapter.setOnItemClickListener { _, _, position ->
             val articleItem = articleAdapter.getItem(position)
-            ArticleDetailActivity.start(articleItem.id, articleItem.title)
+            ArticleDetailActivity.start(requireContext(), articleItem.id, articleItem.title)
         }
         articleAdapter.addChildClickViewIds(
             R.id.iv_avatar,
@@ -92,14 +92,14 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
         articleAdapter.setOnItemChildClickListener { _, view, position ->
             if (view.id == R.id.iv_avatar) {
                 val articleItem = articleAdapter.getItem(position)
-                ImagePreviewActivity.start(articleItem.avatar)
+                ImagePreviewActivity.start(requireContext(), articleItem.avatar)
             }
             if (view.id == R.id.article_cover_one
                 || view.id == R.id.article_cover_two
                 || view.id == R.id.article_cover_there
             ) {
                 val articleItem = articleAdapter.getItem(position)
-                ImagePreviewActivity.start(articleItem.covers)
+                ImagePreviewActivity.start(requireContext(), articleItem.covers)
             }
         }
         loadMoreModule.setOnLoadMoreListener {

@@ -37,10 +37,10 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         val meContent = binding.meContent
         meContent.run {
             imageAvatar.setOnClickListener {
-                ImagePreviewActivity.start(DEFAULT_AVATAR_URL)
+                ImagePreviewActivity.start(requireContext(), DEFAULT_AVATAR_URL)
             }
             feedbackContainer.setOnClickListener {
-                BrowserActivity.start(MAKE_COMPLAINTS_URL)
+                BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
             }
             settingContainer.setOnClickListener {
                 startActivity(SettingActivity::class.java)

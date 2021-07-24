@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.Menu;
@@ -13,7 +14,6 @@ import com.hjq.base.FragmentPagerAdapter;
 
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.app.AppActivity;
-import cn.cqautotest.sunnybeach.app.AppApplication;
 import cn.cqautotest.sunnybeach.app.AppFragment;
 import cn.cqautotest.sunnybeach.manager.ActivityManager;
 import cn.cqautotest.sunnybeach.other.DoubleClickHelper;
@@ -39,15 +39,16 @@ public final class HomeActivity extends AppActivity
 
     private FragmentPagerAdapter<AppFragment<?>> mPagerAdapter;
 
-    public static void start() {
-        start(HomeFragment.class);
+    public static void start(Context context) {
+        start(context, HomeFragment.class);
     }
 
-    public static void start(Class<? extends AppFragment<?>> fragmentClass) {
-        Context context = AppApplication.getInstance();
+    public static void start(Context context, Class<? extends AppFragment<?>> fragmentClass) {
         Intent intent = new Intent(context, HomeActivity.class);
         intent.putExtra(IntentKey.INDEX, fragmentClass);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
         context.startActivity(intent);
     }
 

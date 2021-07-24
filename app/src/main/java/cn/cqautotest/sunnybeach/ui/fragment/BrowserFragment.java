@@ -23,10 +23,10 @@ import cn.cqautotest.sunnybeach.widget.BrowserView;
 import cn.cqautotest.sunnybeach.widget.StatusLayout;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2020/10/24
- *    desc   : 浏览器 Fragment
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2020/10/24
+ * desc   : 浏览器 Fragment
  */
 public final class BrowserFragment extends AppFragment<AppActivity>
         implements StatusAction, OnRefreshListener {
@@ -109,7 +109,8 @@ public final class BrowserFragment extends AppFragment<AppActivity>
          * 开始加载网页
          */
         @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {}
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        }
 
         /**
          * 完成加载网页
@@ -133,7 +134,7 @@ public final class BrowserFragment extends AppFragment<AppActivity>
                 // 如果这是跳链接操作
                 case "http":
                 case "https":
-                    BrowserActivity.start(url);
+                    BrowserActivity.start(requireContext(), url);
                     break;
                 default:
                     break;

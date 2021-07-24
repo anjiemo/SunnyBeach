@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
+import android.annotation.SuppressLint
 import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
@@ -7,6 +8,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.model.Fish
+import cn.cqautotest.sunnybeach.util.DateHelper
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.module.DraggableModule
@@ -22,6 +24,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 class FishPondListAdapter :
     BaseQuickAdapter<Fish.FishItem, BaseViewHolder>(R.layout.fish_pond_list_item),
     LoadMoreModule, DraggableModule {
+    @SuppressLint("SetTextI18n")
     override fun convert(holder: BaseViewHolder, item: Fish.FishItem) {
         holder.run {
             val flAvatarContainer = getView<View>(R.id.fl_avatar_container)
@@ -50,7 +53,9 @@ class FishPondListAdapter :
                 )
             )
             tvNickname.text = item.nickname
-            tvDesc.text = item.position
+            tvDesc.text =
+                "${item.position} · " +
+                        DateHelper.transform2FriendlyTimeSpanByNow("${item.createTime}:00")
             tvContent.text = item.content
             val topicName = item.topicName
             tvLabel.visibility = if (TextUtils.isEmpty(topicName)) View.GONE else View.VISIBLE

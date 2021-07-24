@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -22,6 +23,7 @@ class FishPondDetailCommendListAdapter :
         R.layout.fish_pond_detail_commend_list
     ),
     LoadMoreModule {
+    @SuppressLint("SetTextI18n")
     override fun convert(holder: BaseViewHolder, item: FishPondComment.FishPondCommentItem) {
         holder.run {
             val flAvatarContainer = getView<View>(R.id.fl_avatar_container)
@@ -49,6 +51,7 @@ class FishPondDetailCommendListAdapter :
                 )
             )
             tvNickname.text = item.nickname
+            // 摸鱼详情列表的时间没有精确到秒
             tvDesc.text = item.position
             tvReply.text = item.content
         }

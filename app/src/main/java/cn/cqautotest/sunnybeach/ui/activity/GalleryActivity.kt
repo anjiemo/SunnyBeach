@@ -2,8 +2,10 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.DownloadManager
 import android.app.WallpaperManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -14,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import androidx.viewpager2.widget.ViewPager2
 import cn.cqautotest.sunnybeach.app.AppActivity
-import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.GalleryActivityBinding
 import cn.cqautotest.sunnybeach.http.response.model.HomePhotoBean
 import cn.cqautotest.sunnybeach.other.IntentKey
@@ -167,11 +168,12 @@ class GalleryActivity : AppActivity() {
 
     companion object {
 
-        fun start(id: String) {
-            val context = AppApplication.getInstance()
+        fun start(context: Context, id: String) {
             val intent = Intent(context, GalleryActivity::class.java)
             intent.putExtra(IntentKey.ID, id)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            if (context !is Activity) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
             context.startActivity(intent)
         }
     }

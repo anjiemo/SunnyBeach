@@ -1,6 +1,8 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import android.view.View
@@ -10,13 +12,13 @@ import androidx.viewbinding.ViewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
-import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailActivityBinding
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.ElvCommentAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondDetailCommendListAdapter
+import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.fromJson
 import cn.cqautotest.sunnybeach.util.logByDebug
 import cn.cqautotest.sunnybeach.util.toJson
@@ -43,6 +45,7 @@ class FishPondDetailActivity : AppActivity() {
         return mBinding
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initView() {
         val fishPond = mBinding.fishPond
         val flAvatarContainer = fishPond.flAvatarContainer
@@ -72,7 +75,8 @@ class FishPondDetailActivity : AppActivity() {
                 )
             )
             tvNickname.text = item.nickname
-            tvDesc.text = item.position
+            tvDesc.text = "${item.position} · " +
+                    DateHelper.transform2FriendlyTimeSpanByNow("${item.createTime}:00")
             tvContent.apply {
                 maxLines = Int.MAX_VALUE
                 ellipsize = null
@@ -97,7 +101,7 @@ class FishPondDetailActivity : AppActivity() {
         val ivAvatar = mBinding.fishPond.flAvatarContainer
         val item = getFishItem()
         ivAvatar.setOnClickListener {
-            ImagePreviewActivity.start(item?.avatar)
+            ImagePreviewActivity.start(this, item?.avatar)
         }
     }
 
@@ -127,8 +131,7 @@ class FishPondDetailActivity : AppActivity() {
     companion object {
 
         @DebugLog
-        fun start(item: Fish.FishItem) {
-            val context = AppApplication.getInstance().applicationContext
+        fun start(context: Context, item: Fish.FishItem) {
             val intent = Intent(context, FishPondDetailActivity::class.java)
             intent.run {
                 putExtra(IntentKey.TEXT, item.toJson())

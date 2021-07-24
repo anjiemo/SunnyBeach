@@ -39,10 +39,10 @@ import cn.cqautotest.sunnybeach.ui.dialog.AlbumDialog;
 import cn.cqautotest.sunnybeach.widget.StatusLayout;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/07/24
- *    desc   : 选择图片
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/07/24
+ * desc   : 选择图片
  */
 public final class ImageSelectActivity extends AppActivity
         implements StatusAction, Runnable,
@@ -96,17 +96,27 @@ public final class ImageSelectActivity extends AppActivity
 
     private ImageSelectAdapter mAdapter;
 
-    /** 最大选中 */
+    /**
+     * 最大选中
+     */
     private int mMaxSelect = 1;
-    /** 选中列表 */
+    /**
+     * 选中列表
+     */
     private final ArrayList<String> mSelectImage = new ArrayList<>();
 
-    /** 全部图片 */
+    /**
+     * 全部图片
+     */
     private final ArrayList<String> mAllImage = new ArrayList<>();
-    /** 图片专辑 */
+    /**
+     * 图片专辑
+     */
     private final HashMap<String, List<String>> mAllAlbum = new HashMap<>();
 
-    /** 专辑选择对话框 */
+    /**
+     * 专辑选择对话框
+     */
     private AlbumDialog.Builder mAlbumDialog;
 
     @Override
@@ -251,20 +261,22 @@ public final class ImageSelectActivity extends AppActivity
 
     /**
      * {@link BaseAdapter.OnItemClickListener}
-     * @param recyclerView      RecyclerView对象
-     * @param itemView          被点击的条目对象
-     * @param position          被点击的条目位置
+     *
+     * @param recyclerView RecyclerView对象
+     * @param itemView     被点击的条目对象
+     * @param position     被点击的条目位置
      */
     @Override
     public void onItemClick(RecyclerView recyclerView, View itemView, int position) {
-        ImagePreviewActivity.start(mAdapter.getData(), position);
+        ImagePreviewActivity.start(this, mAdapter.getData(), position);
     }
 
     /**
      * {@link BaseAdapter.OnItemLongClickListener}
-     * @param recyclerView      RecyclerView对象
-     * @param itemView          被点击的条目对象
-     * @param position          被点击的条目位置
+     *
+     * @param recyclerView RecyclerView对象
+     * @param itemView     被点击的条目对象
+     * @param position     被点击的条目位置
      */
     @Override
     public boolean onItemLongClick(RecyclerView recyclerView, View itemView, int position) {
@@ -277,9 +289,10 @@ public final class ImageSelectActivity extends AppActivity
 
     /**
      * {@link BaseAdapter.OnChildClickListener}
-     * @param recyclerView      RecyclerView对象
-     * @param childView         被点击的条目子 View Id
-     * @param position          被点击的条目位置
+     *
+     * @param recyclerView RecyclerView对象
+     * @param childView    被点击的条目子 View Id
+     * @param position     被点击的条目位置
      */
     @Override
     public void onChildClick(RecyclerView recyclerView, View childView, int position) {
@@ -436,13 +449,14 @@ public final class ImageSelectActivity extends AppActivity
         /**
          * 选择回调
          *
-         * @param data          图片列表
+         * @param data 图片列表
          */
         void onSelected(List<String> data);
 
         /**
          * 取消回调
          */
-        default void onCancel() {}
+        default void onCancel() {
+        }
     }
 }
