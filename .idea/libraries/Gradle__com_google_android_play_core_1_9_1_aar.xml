@@ -1,12 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.android.play:core:1.9.1@aar">
     <ANNOTATIONS>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/7208decd9137a137c7329319d5a18705/transformed/jetified-core-1.9.1/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/6db1e17766cfdc8fca58921277889866/transformed/jetified-core-1.9.1/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/7208decd9137a137c7329319d5a18705/transformed/jetified-core-1.9.1/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/7208decd9137a137c7329319d5a18705/transformed/jetified-core-1.9.1/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/7208decd9137a137c7329319d5a18705/transformed/jetified-core-1.9.1/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/6db1e17766cfdc8fca58921277889866/transformed/jetified-core-1.9.1/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/6db1e17766cfdc8fca58921277889866/transformed/jetified-core-1.9.1/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/6db1e17766cfdc8fca58921277889866/transformed/jetified-core-1.9.1/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

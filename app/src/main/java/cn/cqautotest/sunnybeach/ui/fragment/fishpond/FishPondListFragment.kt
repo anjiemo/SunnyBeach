@@ -14,10 +14,10 @@ import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondListAdapter
-import cn.cqautotest.sunnybeach.utils.dp
-import cn.cqautotest.sunnybeach.utils.equilibriumAssignmentOfLinear
-import cn.cqautotest.sunnybeach.utils.logByDebug
-import cn.cqautotest.sunnybeach.utils.setRoundRectBg
+import cn.cqautotest.sunnybeach.util.dp
+import cn.cqautotest.sunnybeach.util.equilibriumAssignmentOfLinear
+import cn.cqautotest.sunnybeach.util.logByDebug
+import cn.cqautotest.sunnybeach.util.setRoundRectBg
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 
@@ -85,20 +85,20 @@ class FishPondListFragment : AppFragment<AppActivity>(), StatusAction {
 
     override fun initEvent() {
         mFishPondListAdapter.addChildClickViewIds(R.id.fl_avatar_container)
-        mFishPondListAdapter.setOnItemClickListener{ _, _, position ->
+        mFishPondListAdapter.setOnItemClickListener { _, _, position ->
             val item = mFishPondListAdapter.getItem(position)
             FishPondDetailActivity.start(item)
         }
         mFishPondListAdapter.setOnItemChildClickListener { _, view, position ->
             val item = mFishPondListAdapter.getItem(position)
             if (view.id == R.id.fl_avatar_container) {
-                ImagePreviewActivity.start(requireContext(), item.avatar)
+                ImagePreviewActivity.start(item.avatar)
             }
         }
     }
 
     override fun initObserver() {
-        fishPondViewModel.fishPond.observe(this) { fishPondList ->
+        fishPondViewModel.fishPond.observe(viewLifecycleOwner) { fishPondList ->
             setupFishPondList(fishPondList)
         }
     }

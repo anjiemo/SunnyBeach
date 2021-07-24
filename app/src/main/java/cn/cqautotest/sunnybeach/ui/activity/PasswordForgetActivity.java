@@ -8,6 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hjq.http.EasyHttp;
+import com.hjq.http.listener.HttpCallback;
+import com.hjq.widget.view.CountdownView;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
 import cn.cqautotest.sunnybeach.app.AppActivity;
@@ -15,9 +19,6 @@ import cn.cqautotest.sunnybeach.http.model.HttpData;
 import cn.cqautotest.sunnybeach.http.request.GetCodeApi;
 import cn.cqautotest.sunnybeach.http.request.VerifyCodeApi;
 import cn.cqautotest.sunnybeach.manager.InputTextManager;
-import com.hjq.http.EasyHttp;
-import com.hjq.http.listener.HttpCallback;
-import com.hjq.widget.view.CountdownView;
 
 /**
  *    author : Android 轮子哥
@@ -107,7 +108,7 @@ public final class PasswordForgetActivity extends AppActivity
             }
 
             if (true) {
-                PasswordResetActivity.start(getActivity(), mPhoneView.getText().toString(), mCodeView.getText().toString());
+                PasswordResetActivity.start(mPhoneView.getText().toString(), mCodeView.getText().toString());
                 finish();
                 return;
             }
@@ -121,7 +122,7 @@ public final class PasswordForgetActivity extends AppActivity
 
                         @Override
                         public void onSucceed(HttpData<Void> data) {
-                            PasswordResetActivity.start(getActivity(), mPhoneView.getText().toString(), mCodeView.getText().toString());
+                            PasswordResetActivity.start(mPhoneView.getText().toString(), mCodeView.getText().toString());
                             finish();
                         }
                     });

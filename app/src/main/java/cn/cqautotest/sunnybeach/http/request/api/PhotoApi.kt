@@ -2,7 +2,7 @@ package cn.cqautotest.sunnybeach.http.request.api
 
 import cn.cqautotest.sunnybeach.http.response.model.HomeBannerBean
 import cn.cqautotest.sunnybeach.http.response.model.HomePhotoBean
-import cn.cqautotest.sunnybeach.utils.DEFAULT_BANNER_URL
+import cn.cqautotest.sunnybeach.util.DEFAULT_BANNER_URL
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.Url

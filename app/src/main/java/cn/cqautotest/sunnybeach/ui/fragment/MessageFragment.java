@@ -5,14 +5,15 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.Permissions;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
 import cn.cqautotest.sunnybeach.app.TitleBarFragment;
 import cn.cqautotest.sunnybeach.http.glide.GlideApp;
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity;
-import com.hjq.permissions.Permission;
-import com.hjq.permissions.XXPermissions;
 
 /**
  *    author : Android 轮子哥
@@ -102,7 +103,7 @@ public final class MessageFragment extends TitleBarFragment<HomeActivity> {
 
         } else if (viewId == R.id.btn_message_tab) {
 
-            HomeActivity.start(getActivity(), HomeFragment.class);
+            HomeActivity.start(HomeFragment.class);
         }
     }
 

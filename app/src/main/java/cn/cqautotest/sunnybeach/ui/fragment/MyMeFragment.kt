@@ -9,9 +9,9 @@ import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.activity.SettingActivity
-import cn.cqautotest.sunnybeach.utils.DEFAULT_AVATAR_URL
-import cn.cqautotest.sunnybeach.utils.MAKE_COMPLAINTS_URL
-import cn.cqautotest.sunnybeach.utils.logByDebug
+import cn.cqautotest.sunnybeach.util.DEFAULT_AVATAR_URL
+import cn.cqautotest.sunnybeach.util.MAKE_COMPLAINTS_URL
+import cn.cqautotest.sunnybeach.util.logByDebug
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
 
@@ -25,7 +25,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     private var _binding: MyMeFragmentBinding? = null
     private val binding get() = _binding!!
-    private val mUserViewModel: UserViewModel by viewModels()
+    private val mUserViewModel by viewModels<UserViewModel>()
 
     override fun getLayoutId(): Int = R.layout.my_me_fragment
 
@@ -37,10 +37,10 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         val meContent = binding.meContent
         meContent.run {
             imageAvatar.setOnClickListener {
-                ImagePreviewActivity.start(requireContext(), DEFAULT_AVATAR_URL)
+                ImagePreviewActivity.start(DEFAULT_AVATAR_URL)
             }
             feedbackContainer.setOnClickListener {
-                BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
+                BrowserActivity.start(MAKE_COMPLAINTS_URL)
             }
             settingContainer.setOnClickListener {
                 startActivity(SettingActivity::class.java)
@@ -51,7 +51,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     override fun initData() {}
 
     override fun initView() {
-        mUserViewModel.userBasicInfo.observe(this) { userBasicInfo ->
+        mUserViewModel.userBasicInfo.observe(viewLifecycleOwner) { userBasicInfo ->
             setupUserInfo(userBasicInfo)
         }
     }
@@ -83,13 +83,5 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance(): MyMeFragment {
-            return MyMeFragment()
-        }
     }
 }

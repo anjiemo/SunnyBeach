@@ -14,7 +14,7 @@ import cn.cqautotest.sunnybeach.databinding.ArticleListFragmentBinding
 import cn.cqautotest.sunnybeach.ui.activity.ArticleDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.adapter.ArticleAdapter
-import cn.cqautotest.sunnybeach.utils.*
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.home.HomeViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.blankj.utilcode.util.NetworkUtils
@@ -92,14 +92,14 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
         articleAdapter.setOnItemChildClickListener { _, view, position ->
             if (view.id == R.id.iv_avatar) {
                 val articleItem = articleAdapter.getItem(position)
-                ImagePreviewActivity.start(requireContext(), articleItem.avatar)
+                ImagePreviewActivity.start(articleItem.avatar)
             }
             if (view.id == R.id.article_cover_one
                 || view.id == R.id.article_cover_two
                 || view.id == R.id.article_cover_there
             ) {
                 val articleItem = articleAdapter.getItem(position)
-                ImagePreviewActivity.start(requireContext(), articleItem.covers)
+                ImagePreviewActivity.start(articleItem.covers)
             }
         }
         loadMoreModule.setOnLoadMoreListener {
@@ -214,11 +214,11 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
 
     override fun onDestroy() {
         super.onDestroy()
+        _binding = null
         _homeViewModel = null
     }
 
     companion object {
-        @JvmStatic
         fun newInstance(): ArticleListFragment {
             return ArticleListFragment()
         }

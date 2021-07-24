@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
@@ -15,7 +14,7 @@ import cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
 import cn.cqautotest.sunnybeach.http.response.model.HomeBannerBean
 import cn.cqautotest.sunnybeach.ui.activity.GalleryActivity
 import cn.cqautotest.sunnybeach.ui.adapter.PhotoAdapter
-import cn.cqautotest.sunnybeach.utils.*
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -89,7 +88,7 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
             Repository.setLocalPhotoList(mPhotoAdapter.data)
             val photoId = verticalPhoto.id
             logByDebug(msg = "initEvent：===> photoId is $photoId")
-            GalleryActivity.startActivity(photoId)
+            GalleryActivity.start(photoId)
         }
         mBinding.slDiscoverRefresh.setOnRefreshListener {
             refreshPhotoList()
@@ -146,7 +145,7 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
                         if (data == null) View.VISIBLE else View.GONE
                 }
             }
-            addBannerLifecycleObserver(this@DiscoverFragment)
+            addBannerLifecycleObserver(viewLifecycleOwner)
             indicator = CircleIndicator(context)
             setIndicatorSelectedColor(Color.WHITE)
         }
@@ -181,6 +180,7 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
 
     override fun onDestroy() {
         super.onDestroy()
+        _binding = null
         mBannerList.clear()
         mPhotoAdapter.data.clear()
     }

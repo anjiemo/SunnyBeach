@@ -27,7 +27,7 @@ import cn.cqautotest.sunnybeach.other.AppConfig;
 import cn.cqautotest.sunnybeach.ui.dialog.MenuDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.SafeDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog;
-import cn.cqautotest.sunnybeach.utils.Constants;
+import cn.cqautotest.sunnybeach.util.Constants;
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel;
 import cn.cqautotest.sunnybeach.viewmodel.app.AppUpdateState;
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel;
@@ -83,8 +83,7 @@ public final class SettingActivity extends AppActivity
 
     @Override
     protected void initData() {
-        mAppViewModel = new ViewModelProvider(this, new ViewModelProvider
-                .AndroidViewModelFactory(getApplication())).get(AppViewModel.class);
+        mAppViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(AppViewModel.class);
         mUserViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         // 检查APP版本更新
         mAppViewModel.checkAppVersionUpdate(Constants.APP_INFO_URL);
@@ -111,7 +110,7 @@ public final class SettingActivity extends AppActivity
                     .setList(R.string.setting_language_simple, R.string.setting_language_complex)
                     .setListener((MenuDialog.OnListener<String>) (dialog, position, string) -> {
                         mLanguageView.setRightText(string);
-                        BrowserActivity.start(getActivity(), "https://github.com/getActivity/MultiLanguages");
+                        BrowserActivity.start("https://github.com/getActivity/MultiLanguages");
                     })
                     .setGravity(Gravity.BOTTOM)
                     .setAnimStyle(BaseDialog.ANIM_BOTTOM)
@@ -124,18 +123,18 @@ public final class SettingActivity extends AppActivity
         } else if (viewId == R.id.sb_setting_phone) {
 
             new SafeDialog.Builder(this)
-                    .setListener((dialog, phone, code) -> PhoneResetActivity.start(getActivity(), code))
+                    .setListener((dialog, phone, code) -> PhoneResetActivity.start(code))
                     .show();
 
         } else if (viewId == R.id.sb_setting_password) {
 
             new SafeDialog.Builder(this)
-                    .setListener((dialog, phone, code) -> PasswordResetActivity.start(getActivity(), phone, code))
+                    .setListener((dialog, phone, code) -> PasswordResetActivity.start(phone, code))
                     .show();
 
         } else if (viewId == R.id.sb_setting_agreement) {
 
-            BrowserActivity.start(this, "https://github.com/anjiemo/SunnyBeach");
+            BrowserActivity.start("https://github.com/anjiemo/SunnyBeach");
 
         } else if (viewId == R.id.sb_setting_about) {
 
@@ -163,7 +162,7 @@ public final class SettingActivity extends AppActivity
         } else if (viewId == R.id.sb_setting_exit) {
 
             if (true) {
-                LoginActivity.start(this, "", "");
+                LoginActivity.start("", "");
                 // 进行内存优化，销毁除登录页之外的所有界面
                 ActivityManager.getInstance().finishAllActivities(LoginActivity.class);
                 // 清除用户基本信息数据
@@ -240,8 +239,6 @@ public final class SettingActivity extends AppActivity
     protected void onDestroy() {
         super.onDestroy();
         isShowing = false;
-        mAppViewModel = null;
-        mUserViewModel = null;
     }
 
     /**

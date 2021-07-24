@@ -3,12 +3,11 @@ package cn.cqautotest.sunnybeach.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.viewbinding.ViewBinding;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.TitleBar;
@@ -128,27 +127,21 @@ public abstract class AppActivity extends BaseActivity
                 ImmersionBar.setTitleBar(this, getTitleBar());
             }
         }
-        onBindingView();
+    }
+
+    @Override
+    protected View handleViewBinding() {
+        ViewBinding viewBinding = onBindingView();
+        if (viewBinding == null) {
+            return null;
+        }
+        return viewBinding.getRoot();
     }
 
     /**
      * 如果使用 ViewBinding 则复写此方法
      */
-    protected void onBindingView() {
-
-    }
-
-    /**
-     * 获取视图绑定的根View
-     * @return LinearLayout
-     */
-    protected LinearLayout getViewBindingRoot() {
-        ViewGroup contentView = getContentView();
-        if (contentView == null) return null;
-        int count = contentView.getChildCount();
-        if (count > 0) {
-            return ((LinearLayout) contentView.getChildAt(0));
-        }
+    protected ViewBinding onBindingView() {
         return null;
     }
 

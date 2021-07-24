@@ -1,9 +1,9 @@
 package cn.cqautotest.sunnybeach.http
 
-import cn.cqautotest.sunnybeach.utils.logByDebug
-import cn.cqautotest.sunnybeach.utils.unicodeToString
 import cn.cqautotest.sunnybeach.manager.CookieManager
-import cn.cqautotest.sunnybeach.utils.BASE_URL
+import cn.cqautotest.sunnybeach.util.BASE_URL
+import cn.cqautotest.sunnybeach.util.logByDebug
+import cn.cqautotest.sunnybeach.util.unicodeToString
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

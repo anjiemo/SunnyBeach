@@ -1,7 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -15,17 +14,18 @@ import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.base.BaseAdapter;
 import com.hjq.base.RecyclerPagerAdapter;
-import cn.cqautotest.sunnybeach.R;
-import cn.cqautotest.sunnybeach.aop.CheckNet;
-import cn.cqautotest.sunnybeach.aop.DebugLog;
-import cn.cqautotest.sunnybeach.app.AppActivity;
-import cn.cqautotest.sunnybeach.other.IntentKey;
-import cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.aop.CheckNet;
+import cn.cqautotest.sunnybeach.aop.DebugLog;
+import cn.cqautotest.sunnybeach.app.AppActivity;
+import cn.cqautotest.sunnybeach.app.AppApplication;
+import cn.cqautotest.sunnybeach.other.IntentKey;
+import cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter;
 import me.relex.circleindicator.CircleIndicator;
 
 /**
@@ -38,19 +38,20 @@ public final class ImagePreviewActivity extends AppActivity
         implements ViewPager.OnPageChangeListener,
         BaseAdapter.OnItemClickListener {
 
-    public static void start(Context context, String url) {
+    public static void start(String url) {
         ArrayList<String> images = new ArrayList<>(1);
         images.add(url);
-        start(context, images);
+        start(images);
     }
 
-    public static void start(Context context, List<String> urls) {
-        start(context, urls, 0);
+    public static void start(List<String> urls) {
+        start(urls, 0);
     }
 
     @CheckNet
     @DebugLog
-    public static void start(Context context, List<String> urls, int index) {
+    public static void start(List<String> urls, int index) {
+        Context context = AppApplication.getInstance();
         if (urls == null || urls.isEmpty()) {
             return;
         }
@@ -69,9 +70,7 @@ public final class ImagePreviewActivity extends AppActivity
             intent.putExtra(IntentKey.IMAGE, new ArrayList<>(urls));
         }
         intent.putExtra(IntentKey.INDEX, index);
-        if (!(context instanceof Activity)) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 

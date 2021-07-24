@@ -25,7 +25,7 @@ class FishPondListAdapter :
     override fun convert(holder: BaseViewHolder, item: Fish.FishItem) {
         holder.run {
             val flAvatarContainer = getView<View>(R.id.fl_avatar_container)
-            val ivAvatar = getView<ImageView>(R.id.tv_fish_pond_avatar)
+            val ivAvatar = getView<ImageView>(R.id.iv_fish_pond_avatar)
             val tvNickname = getView<TextView>(R.id.tv_fish_pond_nick_name)
             val tvDesc = getView<TextView>(R.id.tv_fish_pond_desc)
             val tvContent = getView<TextView>(R.id.tv_fish_pond_content)
