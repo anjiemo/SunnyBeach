@@ -1,9 +1,13 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.sqlite:sqlite-framework:2.1.0@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/7e6305ad1b4cec22f5ce0120de16d349/transformed/sqlite-framework-2.1.0/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/7e6305ad1b4cec22f5ce0120de16d349/transformed/sqlite-framework-2.1.0/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/7e6305ad1b4cec22f5ce0120de16d349/transformed/sqlite-framework-2.1.0/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/36f7dc690fd415f5e36894ff86f25f07/transformed/sqlite-framework-2.1.0/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/2cf478b7dcfde20b7786cac082e16e7a/transformed/sqlite-framework-2.1.0/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/25a33d87364aaa7da7fd823703ce23d8/transformed/sqlite-framework-2.1.0/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/91eb99a0c5db08a4a20dda8251b7dc90/transformed/sqlite-framework-2.1.0/res" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/91eb99a0c5db08a4a20dda8251b7dc90/transformed/sqlite-framework-2.1.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/91eb99a0c5db08a4a20dda8251b7dc90/transformed/sqlite-framework-2.1.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

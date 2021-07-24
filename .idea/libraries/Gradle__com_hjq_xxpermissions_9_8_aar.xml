@@ -1,9 +1,13 @@
 <component name="libraryTable">
   <library name="Gradle: com.hjq:xxpermissions:9.8@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f603e174ac475e4352f0bd68bd692224/transformed/jetified-xxpermissions-9.8/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f603e174ac475e4352f0bd68bd692224/transformed/jetified-xxpermissions-9.8/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f603e174ac475e4352f0bd68bd692224/transformed/jetified-xxpermissions-9.8/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/350780b51b578f1a72416d95fdaef23d/transformed/jetified-xxpermissions-9.8/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/39c9a2ebb95124b1f6c912d78e45be6b/transformed/jetified-xxpermissions-9.8/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f4cee26d4130de740703f4b924475ef2/transformed/jetified-xxpermissions-9.8/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/026ffdcace2a8fec5b0979488092916b/transformed/jetified-xxpermissions-9.8/res" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/026ffdcace2a8fec5b0979488092916b/transformed/jetified-xxpermissions-9.8/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/026ffdcace2a8fec5b0979488092916b/transformed/jetified-xxpermissions-9.8/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.hjq/xxpermissions/9.8/527d1c660f235a60b87bce3a214c557a0a47d653/xxpermissions-9.8-javadoc.jar!/" />

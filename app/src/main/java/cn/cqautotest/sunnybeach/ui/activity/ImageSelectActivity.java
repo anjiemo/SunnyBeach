@@ -15,6 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hjq.base.BaseActivity;
 import com.hjq.base.BaseAdapter;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.action.StatusAction;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
@@ -27,15 +37,6 @@ import cn.cqautotest.sunnybeach.other.IntentKey;
 import cn.cqautotest.sunnybeach.ui.adapter.ImageSelectAdapter;
 import cn.cqautotest.sunnybeach.ui.dialog.AlbumDialog;
 import cn.cqautotest.sunnybeach.widget.StatusLayout;
-import com.hjq.permissions.Permission;
-import com.hjq.permissions.XXPermissions;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
 /**
  *    author : Android 轮子哥
@@ -256,7 +257,7 @@ public final class ImageSelectActivity extends AppActivity
      */
     @Override
     public void onItemClick(RecyclerView recyclerView, View itemView, int position) {
-        ImagePreviewActivity.start(getActivity(), mAdapter.getData(), position);
+        ImagePreviewActivity.start(mAdapter.getData(), position);
     }
 
     /**

@@ -3,15 +3,12 @@ package cn.cqautotest.sunnybeach.app;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Build;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
@@ -20,13 +17,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.hjq.bar.TitleBar;
-import com.hjq.bar.initializer.LightBarInitializer;
 import com.hjq.bar.initializer.TransparentBarInitializer;
 import com.hjq.http.EasyConfig;
 import com.hjq.permissions.XXPermissions;
 import com.hjq.toast.ToastUtils;
 import com.hjq.toast.style.ToastBlackStyle;
-import com.hjq.umeng.UmengClient;
 import com.scwang.smart.refresh.header.MaterialHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -47,7 +42,7 @@ import cn.cqautotest.sunnybeach.other.CrashHandler;
 import cn.cqautotest.sunnybeach.other.DebugLoggerTree;
 import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter;
 import cn.cqautotest.sunnybeach.other.ToastInterceptor;
-import cn.cqautotest.sunnybeach.utils.PushHelper;
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
@@ -108,21 +103,10 @@ public final class AppApplication extends Application {
         ToastUtils.setToastInterceptor(new ToastInterceptor());
 
         // 设置标题栏初始化器
-        TitleBar.setDefaultInitializer(new LightBarInitializer() {
-
+        TitleBar.setDefaultInitializer(new TransparentBarInitializer() {
             @Override
             public Drawable getBackgroundDrawable(Context context) {
-                return new ColorDrawable(ContextCompat.getColor(application, R.color.common_primary_color));
-            }
-
-            @Override
-            public Drawable getBackIcon(Context context) {
-                return ContextCompat.getDrawable(context, R.drawable.arrows_left_ic);
-            }
-
-            @Override
-            protected TextView createTextView(Context context) {
-                return new AppCompatTextView(context);
+                return getDrawableResources(context, R.drawable.shape_gradient);
             }
         });
 
@@ -130,7 +114,7 @@ public final class AppApplication extends Application {
         CrashHandler.register(application);
 
         // 友盟统计、登录、分享 SDK
-        UmengClient.init(application);
+        // UmengClient.init(application);
 
         // Bugly 异常捕捉
         CrashReport.initCrashReport(application, AppConfig.getBuglyId(), AppConfig.isDebug());
@@ -181,14 +165,6 @@ public final class AppApplication extends Application {
             Timber.plant(new DebugLoggerTree());
         }
 
-        // 设置全局的 TitleBar 样式
-        TitleBar.setDefaultInitializer(new TransparentBarInitializer() {
-            @Override
-            public Drawable getBackgroundDrawable(Context context) {
-                return getDrawableResources(context, R.drawable.shape_gradient);
-            }
-        });
-
         // 注册网络状态变化监听
         ConnectivityManager connectivityManager = ContextCompat.getSystemService(application, ConnectivityManager.class);
         if (connectivityManager != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -216,7 +192,7 @@ public final class AppApplication extends Application {
                 .replace(
                         GlideUrl.class,
                         InputStream.class,
-                        new OkHttpUrlLoader.Factory(okHttpClient)
+                        new OkHttpUrlLoader.Factory(castOrNull(okHttpClient))
                 );
         // UMConfigure.setLogEnabled(AppConfig.isDebug())
         // // 客户端用户同意隐私政策后，正式初始化友盟+SDK
@@ -234,6 +210,13 @@ public final class AppApplication extends Application {
         // Push注册
         // PushHelper.init(application);
         // 在此初始化其它依赖库
+    }
+
+    private static Call.Factory castOrNull(OkHttpClient okHttpClient) {
+        if (okHttpClient instanceof Call.Factory) {
+            return (Call.Factory) okHttpClient;
+        }
+        return null;
     }
 
     public static CookieRoomDatabase getDatabase() {

@@ -1,6 +1,5 @@
 package cn.cqautotest.sunnybeach.ui.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.Menu;
@@ -14,6 +13,7 @@ import com.hjq.base.FragmentPagerAdapter;
 
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.app.AppActivity;
+import cn.cqautotest.sunnybeach.app.AppApplication;
 import cn.cqautotest.sunnybeach.app.AppFragment;
 import cn.cqautotest.sunnybeach.manager.ActivityManager;
 import cn.cqautotest.sunnybeach.other.DoubleClickHelper;
@@ -24,7 +24,6 @@ import cn.cqautotest.sunnybeach.ui.fragment.FishPondFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.HomeFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.MyHomeFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
-import cn.cqautotest.sunnybeach.utils.ActivityUtils;
 
 /**
  * author : Android 轮子哥
@@ -40,16 +39,15 @@ public final class HomeActivity extends AppActivity
 
     private FragmentPagerAdapter<AppFragment<?>> mPagerAdapter;
 
-    public static void start(Context context) {
-        start(context, HomeFragment.class);
+    public static void start() {
+        start(HomeFragment.class);
     }
 
-    public static void start(Context context, Class<? extends AppFragment<?>> fragmentClass) {
+    public static void start(Class<? extends AppFragment<?>> fragmentClass) {
+        Context context = AppApplication.getInstance();
         Intent intent = new Intent(context, HomeActivity.class);
         intent.putExtra(IntentKey.INDEX, fragmentClass);
-        if (!(context instanceof Activity)) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -133,7 +131,7 @@ public final class HomeActivity extends AppActivity
         } else if (itemId == R.id.home_found) {
             mViewPager.setCurrentItem(1);
             return true;
-        }else if (itemId == R.id.home_fish_pond) {
+        } else if (itemId == R.id.home_fish_pond) {
             mViewPager.setCurrentItem(2);
             return true;
         } else if (itemId == R.id.home_message) {
