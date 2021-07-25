@@ -230,6 +230,7 @@ public final class SettingActivity extends AppActivity
                     .setUpdateLog(appUpdateInfo.updateLog)
                     .setDownloadUrl(appUpdateInfo.url)
                     .setFileMd5(appUpdateInfo.apkHash)
+                    .addOnDismissListener(dialog -> isShowing = false)
                     .show();
             isShowing = true;
         }
