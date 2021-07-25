@@ -22,7 +22,7 @@
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="20"
-            tools:listitem="@layout/article_item" />
+            tools:listitem="@layout/article_list_item" />
 
     </cn.cqautotest.sunnybeach.widget.StatusLayout>
 

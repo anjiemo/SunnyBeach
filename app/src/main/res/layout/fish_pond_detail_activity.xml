@@ -60,7 +60,8 @@
                 android:childDivider="@drawable/reply_divider"
                 android:contentDescription="可展开的评论列表"
                 android:divider="@drawable/comment_divider"
-                android:dividerHeight="2dp" />
+                android:dividerHeight="2dp"
+                tools:listitem="@layout/fish_pond_list_item" />
 
         </LinearLayout>
 

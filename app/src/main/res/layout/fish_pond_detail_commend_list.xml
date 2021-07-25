@@ -55,7 +55,8 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:textColor="@color/default_font_color" />
+                android:textColor="@color/default_font_color"
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/tv_reply_msg"
