@@ -21,7 +21,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
  * desc   : 文章列表的适配器
  */
 class ArticleAdapter :
-    BaseQuickAdapter<ArticleInfo.ArticleItem, BaseViewHolder>(R.layout.article_item),
+    BaseQuickAdapter<ArticleInfo.ArticleItem, BaseViewHolder>(R.layout.article_list_item),
     LoadMoreModule {
 
     @SuppressLint("SetTextI18n")
