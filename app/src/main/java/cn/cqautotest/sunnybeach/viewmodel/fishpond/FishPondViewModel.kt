@@ -6,10 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.request.api.FishPondApi
-import cn.cqautotest.sunnybeach.model.Fish
-import cn.cqautotest.sunnybeach.model.FishPondComment
-import cn.cqautotest.sunnybeach.model.FishPondTopicIndex
-import cn.cqautotest.sunnybeach.model.FishPondTopicList
+import cn.cqautotest.sunnybeach.model.*
 import cn.cqautotest.sunnybeach.util.PageBean
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_HTTP_OK_CODE
 import cn.cqautotest.sunnybeach.util.TAG
@@ -67,28 +64,21 @@ class FishPondViewModel : ViewModel() {
         }
     }
 
-    fun loadFishPondListById(topicId: String, refresh: Boolean = false) = viewModelScope.launch {
-        if (refresh) mFishPageBean.resetPage()
+    fun loadFishPondListById(topicId: String, page: Int) = viewModelScope.launch {
         val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
-        if (available.not() || mFishPageBean.isLoading()) return@launch
+        if (available.not()) return@launch
         logByDebug(msg = "loadFishPondListById：mFishPageBean current page is ===> ${mFishPageBean.currentPage}")
         runCatching {
-            mFishPageBean.nextPage()
-            mFishPageBean.startLoading()
-            fishPondApi.loadFishPondListById(topicId, mFishPageBean.currentPage.toLong())
+            fishPondApi.loadFishPondListById(topicId, page)
         }.onSuccess { response ->
             val responseData = response.data
             logByDebug(tag = TAG, msg = "loadFishPondListById：responseData is ===> $responseData")
             if (SUNNY_BEACH_HTTP_OK_CODE == response.code) {
                 _fishPond.value = responseData
-            } else {
-                mFishPageBean.prePage()
             }
         }.onFailure {
             it.printStackTrace()
-            mFishPageBean.prePage()
         }
-        mFishPageBean.finishLoading()
     }
 
     fun loadTopicListByIndex() = viewModelScope.launch {
