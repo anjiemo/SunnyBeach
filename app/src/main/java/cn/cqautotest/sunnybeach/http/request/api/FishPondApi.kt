@@ -22,7 +22,7 @@ interface FishPondApi {
     @GET("${SUNNY_BEACH_BASE_URL}ct/moyu/list/{topicId}/{page}")
     suspend fun loadFishPondListById(
         @Path("topicId") topicId: String,
-        @Path("page") page: Long
+        @Path("page") page: Int
     ): BaseResponse<Fish>
 
     /**

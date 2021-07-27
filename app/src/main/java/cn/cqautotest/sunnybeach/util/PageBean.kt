@@ -29,7 +29,14 @@ class PageBean {
     // 总页数，或最后一页
     var totalPage: Int = currentPage
 
+    // 是否在加载中
     private var isLoading: Boolean = false
+
+    // 是否有上一页
+    var hasPrePage = false
+
+    // 是否有下一页
+    var hasNextPage = true
 
     /**
      * @Description: 获取首页页码
@@ -67,6 +74,8 @@ class PageBean {
         pageSize = DEFAULT_PAGE_NUMBER
         count = 0
         totalPage = currentPage
+        hasPrePage = false
+        hasNextPage = true
     }
 
     /**
