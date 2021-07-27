@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Gradle: com.squareup.okhttp3:logging-interceptor:4.10.0-RC1">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.squareup.okhttp3/logging-interceptor/4.10.0-RC1/4b02ffc865d19e4d70063675f8b33fa94ab1b4b6/logging-interceptor-4.10.0-RC1.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/logging-interceptor/4.10.0-RC1/4b02ffc865d19e4d70063675f8b33fa94ab1b4b6/logging-interceptor-4.10.0-RC1.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.squareup.okhttp3/logging-interceptor/4.10.0-RC1/1e7199a1c390cab728f84ca280339cc57d8cfb4c/logging-interceptor-4.10.0-RC1-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/logging-interceptor/4.10.0-RC1/1e7199a1c390cab728f84ca280339cc57d8cfb4c/logging-interceptor-4.10.0-RC1-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.squareup.okhttp3/logging-interceptor/4.10.0-RC1/2e01cc598bd5fd891ef407491364b07077aa15a4/logging-interceptor-4.10.0-RC1-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/logging-interceptor/4.10.0-RC1/2e01cc598bd5fd891ef407491364b07077aa15a4/logging-interceptor-4.10.0-RC1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

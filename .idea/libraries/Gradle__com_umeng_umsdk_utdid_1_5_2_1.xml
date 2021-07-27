@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Gradle: com.umeng.umsdk:utdid:1.5.2.1">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/utdid/1.5.2.1/f0feaabdbee654ef378d2cc5249ce7c02b876a7c/utdid-1.5.2.1.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/utdid/1.5.2.1/f0feaabdbee654ef378d2cc5249ce7c02b876a7c/utdid-1.5.2.1.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/utdid/1.5.2.1/e9a5133e8d5140e7548b3ab6f3241899b01b8ad/utdid-1.5.2.1-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/utdid/1.5.2.1/e9a5133e8d5140e7548b3ab6f3241899b01b8ad/utdid-1.5.2.1-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/utdid/1.5.2.1/e9a5133e8d5140e7548b3ab6f3241899b01b8ad/utdid-1.5.2.1-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/utdid/1.5.2.1/e9a5133e8d5140e7548b3ab6f3241899b01b8ad/utdid-1.5.2.1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
