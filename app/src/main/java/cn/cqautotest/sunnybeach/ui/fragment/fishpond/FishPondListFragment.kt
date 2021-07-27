@@ -14,10 +14,7 @@ import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondListAdapter
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.equilibriumAssignmentOfLinear
-import cn.cqautotest.sunnybeach.util.logByDebug
-import cn.cqautotest.sunnybeach.util.setRoundRectBg
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 
@@ -33,6 +30,7 @@ class FishPondListFragment : AppFragment<AppActivity>(), StatusAction {
     private val mBinding get() = _binding!!
     private val fishPondViewModel by viewModels<FishPondViewModel>()
     private val mFishPondListAdapter = FishPondListAdapter()
+    private val mFishPage = PageBean()
     private var isRefresh = false
 
     var title: String = ""
@@ -55,13 +53,18 @@ class FishPondListFragment : AppFragment<AppActivity>(), StatusAction {
 
     private fun refreshFishPondData() {
         isRefresh = true
+        mFishPage.startLoading()
+        mFishPage.resetPage()
+        mFishPage.nextPage()
         showLoading()
-        fishPondViewModel.loadFishPondListById(topicId, isRefresh)
+        fishPondViewModel.loadFishPondListById(topicId, mFishPage.currentPage)
     }
 
     private fun loadMoreFishPondData() {
         isRefresh = false
-        fishPondViewModel.loadFishPondListById(topicId, isRefresh)
+        mFishPage.startLoading()
+        mFishPage.nextPage()
+        fishPondViewModel.loadFishPondListById(topicId, mFishPage.currentPage)
     }
 
     override fun initView() {
@@ -87,9 +90,7 @@ class FishPondListFragment : AppFragment<AppActivity>(), StatusAction {
         }
     }
 
-    override fun initData() {
-        showLoading()
-    }
+    override fun initData() {}
 
     override fun initEvent() {
         mFishPondListAdapter.addChildClickViewIds(R.id.fl_avatar_container)
@@ -106,13 +107,9 @@ class FishPondListFragment : AppFragment<AppActivity>(), StatusAction {
         val rlStatusRefresh = mBinding.rlStatusRefresh
         val loadMoreModule = mFishPondListAdapter.loadMoreModule
         rlStatusRefresh.setOnRefreshListener {
-            rlStatusRefresh.setEnableRefresh(false)
-            loadMoreModule.isEnableLoadMore = false
             refreshFishPondData()
         }
         loadMoreModule.setOnLoadMoreListener {
-            rlStatusRefresh.setEnableRefresh(false)
-            loadMoreModule.isEnableLoadMore = false
             loadMoreFishPondData()
         }
     }
@@ -126,26 +123,25 @@ class FishPondListFragment : AppFragment<AppActivity>(), StatusAction {
     private fun setupFishPondList(fish: Fish?) {
         val rlStatusRefresh = mBinding.rlStatusRefresh
         val loadMoreModule = mFishPondListAdapter.loadMoreModule
-        rlStatusRefresh.finishRefresh()
-        loadMoreModule.loadMoreComplete()
-        rlStatusRefresh.setEnableRefresh(true)
-        loadMoreModule.isEnableLoadMore = true
-        val fishPondList = if (fish == null) {
-            showEmpty()
-            return
-        } else {
-            fish.list
-        }
-        if (fishPondList.isNullOrEmpty()) {
-            showEmpty()
-        }
+        val fishPondList = fish?.list ?: listOf()
+        val hasNext = fish?.hasNext ?: false
         logByDebug(msg = "setupFishPondList：===> fishPondList size is $fishPondList")
         if (isRefresh) {
             mFishPondListAdapter.setList(arrayListOf())
+            isRefresh = false
         }
         mFishPondListAdapter.addData(fishPondList)
-        isRefresh = false
-        showComplete()
+        if (mFishPondListAdapter.data.isNullOrEmpty()) {
+            showEmpty()
+        } else {
+            showComplete()
+        }
+        rlStatusRefresh.finishRefresh()
+        loadMoreModule.loadMoreComplete()
+        if (hasNext.not()) {
+            logByDebug(msg = "setupFishPondList：hasNext is ===> $hasNext")
+            loadMoreModule.isEnableLoadMore = false
+        }
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlFishPondListHint
