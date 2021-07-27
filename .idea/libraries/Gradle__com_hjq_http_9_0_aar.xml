@@ -6,14 +6,15 @@
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/34bb7efddc2f7ee70c8e3eeea62a89e5/transformed/jetified-http-9.0/res" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/a2fc7750f13ca29552a7e458fb5c331b/transformed/jetified-http-9.0/res" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f2f1089b0680b976e1fa6c7915e71904/transformed/jetified-http-9.0/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f2f1089b0680b976e1fa6c7915e71904/transformed/jetified-http-9.0/AndroidManifest.xml" />
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f2f1089b0680b976e1fa6c7915e71904/transformed/jetified-http-9.0/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/f2f1089b0680b976e1fa6c7915e71904/transformed/jetified-http-9.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/f2f1089b0680b976e1fa6c7915e71904/transformed/jetified-http-9.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/f2f1089b0680b976e1fa6c7915e71904/transformed/jetified-http-9.0/res" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.hjq/http/9.0/1fde445dd14b42c9b4fce57d12acc4d2e6757b77/http-9.0-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.hjq/http/9.0/1fde445dd14b42c9b4fce57d12acc4d2e6757b77/http-9.0-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.hjq/http/9.0/9444389f8f06144d0461d0f3bd288181d67dcf50/http-9.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.hjq/http/9.0/9444389f8f06144d0461d0f3bd288181d67dcf50/http-9.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

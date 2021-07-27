@@ -33,6 +33,7 @@ class FishPondListFragment : AppFragment<AppActivity>(), StatusAction {
     private val mBinding get() = _binding!!
     private val fishPondViewModel by viewModels<FishPondViewModel>()
     private val mFishPondListAdapter = FishPondListAdapter()
+    private var isRefresh = false
 
     var title: String = ""
     var topicId: String = ""
@@ -53,7 +54,14 @@ class FishPondListFragment : AppFragment<AppActivity>(), StatusAction {
     }
 
     private fun refreshFishPondData() {
-        fishPondViewModel.loadFishPondListById(topicId)
+        isRefresh = true
+        showLoading()
+        fishPondViewModel.loadFishPondListById(topicId, isRefresh)
+    }
+
+    private fun loadMoreFishPondData() {
+        isRefresh = false
+        fishPondViewModel.loadFishPondListById(topicId, isRefresh)
     }
 
     override fun initView() {
@@ -95,6 +103,18 @@ class FishPondListFragment : AppFragment<AppActivity>(), StatusAction {
                 ImagePreviewActivity.start(requireContext(), item.avatar)
             }
         }
+        val rlStatusRefresh = mBinding.rlStatusRefresh
+        val loadMoreModule = mFishPondListAdapter.loadMoreModule
+        rlStatusRefresh.setOnRefreshListener {
+            rlStatusRefresh.setEnableRefresh(false)
+            loadMoreModule.isEnableLoadMore = false
+            refreshFishPondData()
+        }
+        loadMoreModule.setOnLoadMoreListener {
+            rlStatusRefresh.setEnableRefresh(false)
+            loadMoreModule.isEnableLoadMore = false
+            loadMoreFishPondData()
+        }
     }
 
     override fun initObserver() {
@@ -104,6 +124,12 @@ class FishPondListFragment : AppFragment<AppActivity>(), StatusAction {
     }
 
     private fun setupFishPondList(fish: Fish?) {
+        val rlStatusRefresh = mBinding.rlStatusRefresh
+        val loadMoreModule = mFishPondListAdapter.loadMoreModule
+        rlStatusRefresh.finishRefresh()
+        loadMoreModule.loadMoreComplete()
+        rlStatusRefresh.setEnableRefresh(true)
+        loadMoreModule.isEnableLoadMore = true
         val fishPondList = if (fish == null) {
             showEmpty()
             return
@@ -112,10 +138,13 @@ class FishPondListFragment : AppFragment<AppActivity>(), StatusAction {
         }
         if (fishPondList.isNullOrEmpty()) {
             showEmpty()
-            return
         }
         logByDebug(msg = "setupFishPondList：===> fishPondList size is $fishPondList")
-        mFishPondListAdapter.setList(fishPondList)
+        if (isRefresh) {
+            mFishPondListAdapter.setList(arrayListOf())
+        }
+        mFishPondListAdapter.addData(fishPondList)
+        isRefresh = false
         showComplete()
     }
 
