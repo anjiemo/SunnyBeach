@@ -279,4 +279,6 @@ dependencies {
     implementation "io.noties.markwon:syntax-highlight:$markwon_version"
     // 自动生成语法高亮类的注解处理器
     annotationProcessor "io.noties:prism4j-bundler:${prism_version}"
+    // 支持动画展开和折叠其子视图的 Android 布局类：https://github.com/cachapa/ExpandableLayout
+    implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
 }

@@ -1,15 +1,15 @@
 <component name="libraryTable">
   <library name="Gradle: me.relex:circleindicator:2.1.4@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/9f89f17fbc60e1a086084a94a88e2260/transformed/jetified-circleindicator-2.1.4/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/9f89f17fbc60e1a086084a94a88e2260/transformed/jetified-circleindicator-2.1.4/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/9f89f17fbc60e1a086084a94a88e2260/transformed/jetified-circleindicator-2.1.4/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/9f89f17fbc60e1a086084a94a88e2260/transformed/jetified-circleindicator-2.1.4/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/9f89f17fbc60e1a086084a94a88e2260/transformed/jetified-circleindicator-2.1.4/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/9f89f17fbc60e1a086084a94a88e2260/transformed/jetified-circleindicator-2.1.4/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/me.relex/circleindicator/2.1.4/620aea7d06984419ff96e4a29e7968d5d02ec9b3/circleindicator-2.1.4-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/me.relex/circleindicator/2.1.4/620aea7d06984419ff96e4a29e7968d5d02ec9b3/circleindicator-2.1.4-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/me.relex/circleindicator/2.1.4/8c7ebd8805bfaa6da9e1912b0c8c082262fb8359/circleindicator-2.1.4-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/me.relex/circleindicator/2.1.4/8c7ebd8805bfaa6da9e1912b0c8c082262fb8359/circleindicator-2.1.4-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

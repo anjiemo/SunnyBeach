@@ -6,14 +6,15 @@
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/c08600b2e5089e0f41d7bb146e61c84e/transformed/jetified-toast-8.8/res" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/86472b6c80293d63e975280f90d19650/transformed/jetified-toast-8.8/res" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/9deae56fe74336350300ced3666b2a83/transformed/jetified-toast-8.8/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/9deae56fe74336350300ced3666b2a83/transformed/jetified-toast-8.8/AndroidManifest.xml" />
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/9deae56fe74336350300ced3666b2a83/transformed/jetified-toast-8.8/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/9deae56fe74336350300ced3666b2a83/transformed/jetified-toast-8.8/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/9deae56fe74336350300ced3666b2a83/transformed/jetified-toast-8.8/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/9deae56fe74336350300ced3666b2a83/transformed/jetified-toast-8.8/res" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.hjq/toast/8.8/daa43749fdbbb406de5cc0f33ad7956b6487c152/toast-8.8-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.hjq/toast/8.8/daa43749fdbbb406de5cc0f33ad7956b6487c152/toast-8.8-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.hjq/toast/8.8/a583544ab3992c96fbf5b239c8b7ced8b21da2b3/toast-8.8-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.hjq/toast/8.8/a583544ab3992c96fbf5b239c8b7ced8b21da2b3/toast-8.8-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

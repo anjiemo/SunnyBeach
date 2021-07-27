@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.fragment.home
 
+import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
@@ -170,8 +171,9 @@ class ArticleListFragment : AppFragment<AppActivity>(), StatusAction {
         _homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
     }
 
+    @SuppressLint("InflateParams")
     override fun initView() {
-        if (isRecommendType()) {
+        if (isLoading.not() && isRecommendType()) {
             articleAdapter.addHeaderView(
                 LayoutInflater.from(requireContext())
                     .inflate(R.layout.home_discover_more_author_content, null)

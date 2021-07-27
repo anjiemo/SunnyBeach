@@ -10,6 +10,7 @@ import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.model.FishPondTopicIndex
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
+import cn.cqautotest.sunnybeach.util.PageBean
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_HTTP_OK_CODE
 import cn.cqautotest.sunnybeach.util.TAG
 import cn.cqautotest.sunnybeach.util.logByDebug
@@ -44,6 +45,8 @@ class FishPondViewModel : ViewModel() {
     private val _fishPondRecommend = MutableLiveData<FishPondComment>()
     val fishPondComment: LiveData<FishPondComment> get() = _fishPondRecommend
 
+    private val mFishPageBean by lazy { PageBean() }
+
     fun loadFishPondRecommendListById(fishPondId: String) = viewModelScope.launch {
         val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
         if (available.not()) return@launch
@@ -64,21 +67,28 @@ class FishPondViewModel : ViewModel() {
         }
     }
 
-    fun loadFishPondListById(topicId: String) = viewModelScope.launch {
+    fun loadFishPondListById(topicId: String, refresh: Boolean = false) = viewModelScope.launch {
+        if (refresh) mFishPageBean.resetPage()
         val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
-        if (available.not()) return@launch
+        if (available.not() || mFishPageBean.isLoading()) return@launch
+        logByDebug(msg = "loadFishPondListById：mFishPageBean current page is ===> ${mFishPageBean.currentPage}")
         runCatching {
-            // TODO: 2021/7/11 page后期作为分页参数
-            fishPondApi.loadFishPondListById(topicId, 1)
+            mFishPageBean.nextPage()
+            mFishPageBean.startLoading()
+            fishPondApi.loadFishPondListById(topicId, mFishPageBean.currentPage.toLong())
         }.onSuccess { response ->
             val responseData = response.data
             logByDebug(tag = TAG, msg = "loadFishPondListById：responseData is ===> $responseData")
             if (SUNNY_BEACH_HTTP_OK_CODE == response.code) {
                 _fishPond.value = responseData
+            } else {
+                mFishPageBean.prePage()
             }
         }.onFailure {
             it.printStackTrace()
+            mFishPageBean.prePage()
         }
+        mFishPageBean.finishLoading()
     }
 
     fun loadTopicListByIndex() = viewModelScope.launch {
