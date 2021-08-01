@@ -178,10 +178,15 @@ class DiscoverFragment : AppFragment<AppActivity>(), StatusAction {
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlDiscoverHint
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
-        mBannerList.clear()
-        mPhotoAdapter.data.clear()
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(): AppFragment<*> {
+            return DiscoverFragment()
+        }
     }
 }

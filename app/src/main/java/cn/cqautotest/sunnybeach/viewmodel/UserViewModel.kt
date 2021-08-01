@@ -57,6 +57,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
      * 用户账号登录
      */
     fun login(userAccount: String, password: String, captcha: String) = viewModelScope.launch {
+        cookieDao
         val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
         if (available.not()) return@launch
         val context = getApplication<Application>()
@@ -184,9 +185,17 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
      * 清除用户基本信息数据
      */
     fun logoutUserAccount() {
+        // 使用异步清空浏览器的 Cookies 缓存
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                android.webkit.CookieManager.getInstance().removeAllCookies(null)
+            }
+            withContext(Dispatchers.IO) {
+                cookieDao.clearCookies()
+            }
+        }
         _loginResult.value = LoginResult()
-        val mmkv = MMKV.defaultMMKV() ?: return
-        mmkv.removeValueForKey(SUNNY_BEACH_USER_BASIC_INFO)
+        MMKV.defaultMMKV()?.removeValueForKey(SUNNY_BEACH_USER_BASIC_INFO)
     }
 
     /**

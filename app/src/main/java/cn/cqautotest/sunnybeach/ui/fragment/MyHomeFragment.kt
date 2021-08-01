@@ -15,7 +15,6 @@ import cn.cqautotest.sunnybeach.util.onPageSelected
 import cn.cqautotest.sunnybeach.util.onTabSelected
 import cn.cqautotest.sunnybeach.viewmodel.home.HomeViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import com.blankj.utilcode.util.NetworkUtils
 
 /**
  * author : A Lonely Cat
@@ -28,8 +27,10 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
     private var _binding: MyHomeFragmentBinding? = null
     private val mBinding get() = _binding!!
     private val mHomeViewModel by viewModels<HomeViewModel>()
-    private val mFragmentMap by lazy { arrayMapOf<Int, AppFragment<AppActivity>>() }
+    private val mFragmentMap = arrayMapOf<Int, AppFragment<AppActivity>>()
     private lateinit var mFragmentAdapter: FragmentAdapter
+    private val mRecommendFragment by lazy { ArticleListFragment() }
+    private var mInitArticleCategoriesData = false
 
     override fun getLayoutId(): Int = R.layout.my_home_fragment
 
@@ -39,50 +40,24 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
 
     override fun onFragmentResume(first: Boolean) {
         super.onFragmentResume(first)
-        if (first) {
-            refreshArticleListData()
-        } else {
-            // 如果没有文章列表数据，则重新加载文章列表数据
-            if (mFragmentMap.isNullOrEmpty()) {
-                refreshArticleListData()
-            }
+        // 如果不是首次加载，且没有初始化文章分类列表数据，则重新加载文章列表数据
+        if (first.not() && mInitArticleCategoriesData.not()) {
+            loadArticleCategoriesData()
         }
     }
 
     /**
-     * 刷新文章列表数据
+     * 加载文章分类列表数据
      */
-    private fun refreshArticleListData() {
-        NetworkUtils.isAvailableAsync { isAvailable ->
-            if (isAvailable.not()) {
-                showError {
-                    mHomeViewModel.getCategories()
-                }
-            } else {
-                showLoading()
-                mHomeViewModel.getCategories()
-            }
-        }
+    private fun loadArticleCategoriesData() {
+        mHomeViewModel.getCategories()
     }
 
     override fun initObserver() {
-        lifecycle.run {
-            addObserver(mHomeViewModel)
-        }
         val tabLayoutCategories = mBinding.tabLayoutCategories
-        val vp2HomeArticleContainer = mBinding.vp2HomeArticleContainer
         mHomeViewModel.homeCategories.observe(viewLifecycleOwner) { homeCategories ->
-            // 显示分类标签
-            tabLayoutCategories.visibility = View.VISIBLE
-            // 重置数据
-            tabLayoutCategories.removeAllTabs()
-            mFragmentMap.clear()
-            tabLayoutCategories.newTab().apply {
-                text = "推荐"
-                tabLayoutCategories.addTab(this)
-            }
-            mFragmentMap[0] = ArticleListFragment().apply {
-                title = "推荐"
+            if (mInitArticleCategoriesData) {
+                return@observe
             }
             // 动态创建 Tab 标签
             homeCategories.forEachIndexed { index, categoriesItem ->
@@ -97,6 +72,7 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
             }
             // vp2HomeArticleContainer.offscreenPageLimit = mFragmentMap.size
             mFragmentAdapter.setFragmentMap(mFragmentMap)
+            mInitArticleCategoriesData = homeCategories.isNotEmpty()
             showComplete()
         }
     }
@@ -107,10 +83,9 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
         tabLayoutCategories.onTabSelected {
             val tab = it ?: return@onTabSelected
             val position = tab.position
-            showLoading()
             vp2HomeArticleContainer.setCurrentItem(position, false)
             if (mFragmentMap[position] == null) {
-                showEmpty()
+                showLoading()
             } else {
                 showComplete()
             }
@@ -121,21 +96,46 @@ class MyHomeFragment : AppFragment<HomeActivity>(), StatusAction {
         }
     }
 
-    override fun initData() {}
+    override fun initData() {
+        loadDefaultArticleData()
+        loadArticleCategoriesData()
+    }
+
+    private fun loadDefaultArticleData() {
+        val tabLayoutCategories = mBinding.tabLayoutCategories
+        // 显示分类标签
+        tabLayoutCategories.visibility = View.VISIBLE
+        // 重置数据
+        tabLayoutCategories.removeAllTabs()
+        mFragmentMap.clear()
+        tabLayoutCategories.newTab().apply {
+            text = "推荐"
+            tabLayoutCategories.addTab(this)
+        }
+        mFragmentMap[0] = mRecommendFragment.apply {
+            title = "推荐"
+        }
+        mFragmentAdapter.setFragmentMap(mFragmentMap)
+    }
 
     override fun initView() {
-        showEmpty()
         mFragmentAdapter = FragmentAdapter(this)
         mBinding.vp2HomeArticleContainer.apply {
             adapter = mFragmentAdapter
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
-        mFragmentMap.clear()
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlMyHomeFragmentHint
+
+    companion object {
+        @JvmStatic
+        fun newInstance(): AppFragment<*> {
+            return MyHomeFragment()
+        }
+    }
 }

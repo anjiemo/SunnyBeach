@@ -49,6 +49,10 @@ public abstract class AppActivity extends BaseActivity
      * 对话框数量
      */
     private int mDialogTotal;
+    /**
+     * 视图绑定接口
+     */
+    private ViewBinding mViewBinding;
 
     /**
      * 初始化事件监听和观察者
@@ -131,11 +135,11 @@ public abstract class AppActivity extends BaseActivity
 
     @Override
     protected View handleViewBinding() {
-        ViewBinding viewBinding = onBindingView();
-        if (viewBinding == null) {
+        mViewBinding = onBindingView();
+        if (mViewBinding == null) {
             return null;
         }
-        return viewBinding.getRoot();
+        return mViewBinding.getRoot();
     }
 
     /**
@@ -262,5 +266,6 @@ public abstract class AppActivity extends BaseActivity
             hideDialog();
         }
         mDialog = null;
+        mViewBinding = null;
     }
 }

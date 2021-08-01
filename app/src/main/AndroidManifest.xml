@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 清单文件合并指引：https://developer.android.google.cn/studio/build/manifest-merge?hl=zh-cn -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="cn.cqautotest.sunnybeach">
@@ -57,6 +58,8 @@
         </intent>
     </queries>
 
+    <!-- Application 节点详解：https://developer.android.google.cn/guide/topics/manifest/application-element -->
+    <!-- Activity 节点详解：https://developer.android.google.cn/guide/topics/manifest/activity-element -->
     <application
         android:name=".app.AppApplication"
         android:allowBackup="false"
@@ -111,7 +114,7 @@
         <!-- 摸鱼详情页 -->
         <activity
             android:name=".ui.activity.FishPondDetailActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!-- 摸鱼设置页 -->
@@ -123,7 +126,7 @@
         <!-- 文章详情 -->
         <activity
             android:name=".ui.activity.ArticleDetailActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!-- 登录页 -->
