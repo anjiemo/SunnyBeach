@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.viewmodel.app
 
 import android.app.Application
+import android.text.TextUtils
 import androidx.lifecycle.*
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.http.ServiceCreator
@@ -25,17 +26,16 @@ import java.io.File
  */
 class AppViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val api by lazy { ServiceCreator.create<AppApi>() }
+    private val mAppApi by lazy { ServiceCreator.create<AppApi>() }
     private var _appUpdateState = MutableLiveData<AppUpdateState>()
     val appUpdateState: LiveData<AppUpdateState> get() = _appUpdateState
 
     @JvmOverloads
-    fun checkAppVersionUpdate(url: String? = APP_INFO_URL) = viewModelScope.launch {
-        url ?: return@launch
+    fun checkAppVersionUpdate(url: String = APP_INFO_URL) = viewModelScope.launch {
         val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
-        if (available.not()) return@launch
+        if (available.not() || TextUtils.isEmpty(url)) return@launch
         runCatching {
-            api.checkAppUpdate(url)
+            mAppApi.checkAppUpdate(url)
         }.onSuccess { response ->
             val responseData = response.data
             if (DEFAULT_HTTP_OK_CODE == response.code) {

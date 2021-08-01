@@ -28,10 +28,10 @@ import cn.cqautotest.sunnybeach.ui.dialog.MenuDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.SafeDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog;
 import cn.cqautotest.sunnybeach.util.Constants;
+import cn.cqautotest.sunnybeach.util.LogUtils;
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel;
 import cn.cqautotest.sunnybeach.viewmodel.app.AppUpdateState;
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel;
-import timber.log.Timber;
 
 /**
  * author : Android 轮子哥
@@ -102,7 +102,6 @@ public final class SettingActivity extends AppActivity
     public void onClick(View view) {
         int viewId = view.getId();
         if (viewId == R.id.sb_setting_language) {
-
             // 底部选择框
             new MenuDialog.Builder(this)
                     // 设置点击按钮后不关闭对话框
@@ -119,34 +118,22 @@ public final class SettingActivity extends AppActivity
         } else if (viewId == R.id.sb_setting_update) {
             AppUpdateState appUpdateState = mAppViewModel.getAppUpdateState().getValue();
             checkAppUpdate(appUpdateState, false);
-
         } else if (viewId == R.id.sb_setting_phone) {
-
             new SafeDialog.Builder(this)
                     .setListener((dialog, phone, code) -> PhoneResetActivity.start(this, code))
                     .show();
-
         } else if (viewId == R.id.sb_setting_password) {
-
             new SafeDialog.Builder(this)
                     .setListener((dialog, phone, code) -> PasswordResetActivity.start(this, phone, code))
                     .show();
-
         } else if (viewId == R.id.sb_setting_agreement) {
-
             BrowserActivity.start(this, "https://github.com/anjiemo/SunnyBeach");
-
         } else if (viewId == R.id.sb_setting_about) {
-
             startActivity(AboutActivity.class);
-
         } else if (viewId == R.id.sb_setting_auto) {
-
             // 自动登录
             mAutoSwitchView.setChecked(!mAutoSwitchView.isChecked());
-
         } else if (viewId == R.id.sb_setting_cache) {
-
             // 清除内存缓存（必须在主线程）
             GlideApp.get(getActivity()).clearMemory();
             ThreadPoolManager.getInstance().execute(() -> {
@@ -158,9 +145,7 @@ public final class SettingActivity extends AppActivity
                     mCleanCacheView.setRightText(CacheDataManager.getTotalCacheSize(getActivity()));
                 });
             });
-
         } else if (viewId == R.id.sb_setting_exit) {
-
             if (true) {
                 LoginActivity.start(this, "", "");
                 // 进行内存优化，销毁除登录页之外的所有界面
@@ -169,7 +154,6 @@ public final class SettingActivity extends AppActivity
                 mUserViewModel.logoutUserAccount();
                 return;
             }
-
             // 退出登录
             EasyHttp.post(this)
                     .api(new LogoutApi())
@@ -182,7 +166,6 @@ public final class SettingActivity extends AppActivity
                             ActivityManager.getInstance().finishAllActivities(LoginActivity.class);
                         }
                     });
-
         }
     }
 
@@ -192,7 +175,7 @@ public final class SettingActivity extends AppActivity
      * @param appUpdateState app的更新状态
      */
     private void checkAppUpdate(AppUpdateState appUpdateState, boolean isAutoCheck) {
-        Timber.d("===>%s", GsonUtils.toJson(appUpdateState));
+        LogUtils.logByDebug(this, "checkAppUpdate：===>" + GsonUtils.toJson(appUpdateState));
         if (appUpdateState != null) {
             if (!appUpdateState.isDataValid) {
                 if (appUpdateState.networkError != null) {
@@ -259,7 +242,6 @@ public final class SettingActivity extends AppActivity
     /**
      * {@link SwitchButton.OnCheckedChangeListener}
      */
-
     @Override
     public void onCheckedChanged(SwitchButton button, boolean checked) {
         // 设置是否自动登录

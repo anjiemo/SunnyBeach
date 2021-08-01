@@ -17,4 +17,8 @@ interface CookieDao {
     @Transaction
     @Query("SELECT * FROM tb_cookies")
     fun getCookies(): List<CookieStore>
+
+    @Transaction
+    @Query("DELETE FROM tb_cookies")
+    fun clearCookies()
 }

@@ -45,6 +45,11 @@ public abstract class BaseFragment<A extends BaseActivity> extends Fragment impl
      */
     private boolean mLoading;
 
+    /**
+     * 当前视图是否被销毁
+     */
+    protected boolean mIsDestroyView;
+
     @SuppressWarnings("unchecked")
     @Override
     public void onAttach(@NonNull Context context) {
@@ -65,6 +70,11 @@ public abstract class BaseFragment<A extends BaseActivity> extends Fragment impl
         return mRootView;
     }
 
+    /**
+     * 注意：Fragment 的存在时间比其视图长。
+     * 请务必在 Fragment 的 onDestroyView() 方法中清除对绑定类实例的所有引用
+     * 详情请参考：https://developer.android.com/topic/libraries/view-binding
+     */
     protected void onBindingView() {
 
     }
@@ -103,6 +113,7 @@ public abstract class BaseFragment<A extends BaseActivity> extends Fragment impl
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mIsDestroyView = true;
         mRootView = null;
     }
 

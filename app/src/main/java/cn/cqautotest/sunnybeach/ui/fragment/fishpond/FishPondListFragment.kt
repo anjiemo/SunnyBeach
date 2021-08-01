@@ -146,8 +146,8 @@ class FishPondListFragment : AppFragment<AppActivity>(), StatusAction {
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlFishPondListHint
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }

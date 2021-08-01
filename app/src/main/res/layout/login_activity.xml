@@ -126,7 +126,7 @@
     <View
         android:layout_width="wrap_content"
         android:layout_height="0px"
-        android:layout_weight="5" />
+        android:layout_weight="1" />
 
     <LinearLayout
         android:id="@+id/ll_login_other"
@@ -152,6 +152,7 @@
             style="@style/HorizontalLineStyle"
             android:layout_width="60dp"
             android:layout_weight="1" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -178,6 +179,7 @@
             android:layout_weight="1"
             app:scaleRatio="1.2"
             app:srcCompat="@drawable/login_wechat_ic" />
+
     </LinearLayout>
 
 </LinearLayout>

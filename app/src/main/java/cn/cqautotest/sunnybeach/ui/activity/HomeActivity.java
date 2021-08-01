@@ -38,6 +38,11 @@ public final class HomeActivity extends AppActivity
     private BottomNavigationView mBottomNavigationView;
 
     private FragmentPagerAdapter<AppFragment<?>> mPagerAdapter;
+    private AppFragment<?> mMyHomeFragment = MyHomeFragment.newInstance();
+    private AppFragment<?> mDiscoverFragment = DiscoverFragment.newInstance();
+    private AppFragment<?> mEmptyFragment = EmptyFragment.newInstance();
+    private AppFragment<?> mFishPondFragment = FishPondFragment.newInstance();
+    private AppFragment<?> mMyMeFragment = MyMeFragment.newInstance();
 
     public static void start(Context context) {
         start(context, HomeFragment.class);
@@ -78,11 +83,11 @@ public final class HomeActivity extends AppActivity
     protected void initData() {
         mPagerAdapter = new FragmentPagerAdapter<>(this);
         // mPagerAdapter.addFragment(HomeFragment.newInstance());
-        mPagerAdapter.addFragment(new MyHomeFragment());
-        mPagerAdapter.addFragment(new DiscoverFragment());
-        mPagerAdapter.addFragment(new FishPondFragment());
-        mPagerAdapter.addFragment(new EmptyFragment());
-        mPagerAdapter.addFragment(new MyMeFragment());
+        mPagerAdapter.addFragment(mMyHomeFragment);
+        mPagerAdapter.addFragment(mDiscoverFragment);
+        mPagerAdapter.addFragment(mFishPondFragment);
+        mPagerAdapter.addFragment(mEmptyFragment);
+        mPagerAdapter.addFragment(mMyMeFragment);
         mViewPager.setAdapter(mPagerAdapter);
 
         onNewIntent(getIntent());

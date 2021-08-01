@@ -13,7 +13,6 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.CheckNet
 import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
-import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.ArticleDetailActivityBinding
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.util.markown.MyGrammarLocator
@@ -60,16 +59,15 @@ class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
             }
             showComplete()
             val articleContent = articleDetail.content
-            val appContext = AppApplication.getInstance()
             val prism4jTheme =
                 Prism4jThemeDarkula.create(Color.parseColor(getString(R.string.markdown_bg_code_color)))
-            val markwon = Markwon.builder(appContext)
+            val markwon = Markwon.builder(this)
                 // Html 插件
                 .usePlugin(HtmlPlugin.create())
                 // 语法高亮插件
                 .usePlugin(SyntaxHighlightPlugin.create(Prism4j(MyGrammarLocator()), prism4jTheme))
                 // Glide 插件
-                .usePlugin(GlideImagesPlugin.create(appContext))
+                .usePlugin(GlideImagesPlugin.create(this))
                 .build()
             markwon.setMarkdown(mBinding.emptyDescription, articleContent ?: "")
         }
