@@ -1,6 +1,5 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
-import android.view.View
 import androidx.collection.arrayMapOf
 import androidx.fragment.app.viewModels
 import cn.cqautotest.sunnybeach.R
@@ -31,8 +30,10 @@ class FishPondFragment : TitleBarFragment<AppActivity>(), StatusAction {
     private var _binding: FishPondFragmentBinding? = null
     private val mBinding get() = _binding!!
     private val fishPondViewModel by viewModels<FishPondViewModel>()
-    private val mFragmentMap by lazy { arrayMapOf<Int, AppFragment<AppActivity>>() }
+    private val mFragmentMap = arrayMapOf<Int, AppFragment<AppActivity>>()
     private lateinit var mFragmentAdapter: FragmentAdapter
+    private val mRecommendFragment by lazy { FishPondListFragment() }
+    private val mFollowFragment by lazy { FishPondListFragment() }
 
     override fun getLayoutId(): Int = R.layout.fish_pond_fragment
 
@@ -41,7 +42,6 @@ class FishPondFragment : TitleBarFragment<AppActivity>(), StatusAction {
     }
 
     override fun initView() {
-        showEmpty()
         mFragmentAdapter = FragmentAdapter(this)
         mBinding.vp2FishPond.apply {
             adapter = mFragmentAdapter
@@ -49,8 +49,35 @@ class FishPondFragment : TitleBarFragment<AppActivity>(), StatusAction {
     }
 
     override fun initData() {
+        loadDefaultFishPondData()
         fishPondViewModel.loadTopicListByIndex()
-        showLoading()
+    }
+
+    /**
+     * 加载默认的摸鱼列表数据（推荐、关注）
+     */
+    private fun loadDefaultFishPondData() {
+        val tabLayoutTopicList = mBinding.tabLayoutTopicList
+        // 重置数据
+        tabLayoutTopicList.removeAllTabs()
+        mFragmentMap.clear()
+        tabLayoutTopicList.newTab().apply {
+            text = "推荐"
+            tabLayoutTopicList.addTab(this)
+        }
+        mFragmentMap[0] = mRecommendFragment.apply {
+            title = "推荐"
+            topicId = "recommend"
+        }
+        tabLayoutTopicList.newTab().apply {
+            text = "关注"
+            tabLayoutTopicList.addTab(this)
+        }
+        mFragmentMap[1] = mFollowFragment.apply {
+            title = "关注"
+            topicId = "follow"
+        }
+        mFragmentAdapter.setFragmentMap(mFragmentMap)
     }
 
     override fun initEvent() {
@@ -62,7 +89,7 @@ class FishPondFragment : TitleBarFragment<AppActivity>(), StatusAction {
             showLoading()
             vp2FishPond.setCurrentItem(position, false)
             if (mFragmentMap[position] == null) {
-                showEmpty()
+                showLoading()
             } else {
                 showComplete()
             }
@@ -77,7 +104,6 @@ class FishPondFragment : TitleBarFragment<AppActivity>(), StatusAction {
         fishPondViewModel.fishPondTopicIndex.observe(viewLifecycleOwner) { fishPondTopicIndex ->
             logByDebug(msg = "initObserver：===> fishPondTopicIndex is $fishPondTopicIndex")
             if (fishPondTopicIndex.isNullOrEmpty()) {
-                showEmpty()
                 return@observe
             }
             setupTopicLabels(fishPondTopicIndex)
@@ -86,27 +112,6 @@ class FishPondFragment : TitleBarFragment<AppActivity>(), StatusAction {
 
     private fun setupTopicLabels(fishPondTopicIndex: FishPondTopicIndex) {
         val tabLayoutTopicList = mBinding.tabLayoutTopicList
-        // 显示分类标签
-        tabLayoutTopicList.visibility = View.VISIBLE
-        // 重置数据
-        tabLayoutTopicList.removeAllTabs()
-        mFragmentMap.clear()
-        tabLayoutTopicList.newTab().apply {
-            text = "推荐"
-            tabLayoutTopicList.addTab(this)
-        }
-        mFragmentMap[0] = FishPondListFragment().apply {
-            title = "推荐"
-            topicId = "recommend"
-        }
-        tabLayoutTopicList.newTab().apply {
-            text = "关注"
-            tabLayoutTopicList.addTab(this)
-        }
-        mFragmentMap[1] = FishPondListFragment().apply {
-            title = "关注"
-            topicId = "follow"
-        }
         // 动态创建 Tab 标签
         fishPondTopicIndex.forEachIndexed { index, topicIndex ->
             val tab = tabLayoutTopicList.newTab()
@@ -122,8 +127,8 @@ class FishPondFragment : TitleBarFragment<AppActivity>(), StatusAction {
                 logByDebug(msg = "setupTopicLabels：===> topicName is ${topicIndex.topicName} topicId is $topicId")
             }
         }
-        mFragmentAdapter.setFragmentMap(mFragmentMap)
-        showComplete()
+        // vp2FishPond.offscreenPageLimit = mFragmentMap.size
+        mFragmentAdapter.putAllFragmentMap(mFragmentMap)
     }
 
     override fun isStatusBarEnabled(): Boolean {
@@ -133,9 +138,18 @@ class FishPondFragment : TitleBarFragment<AppActivity>(), StatusAction {
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlFishPondHint
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+    override fun onDestroyView() {
+        super.onDestroyView()
+        val vp2FishPond = mBinding.vp2FishPond
+        vp2FishPond.adapter = null
         mFragmentMap.clear()
+        _binding = null
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(): AppFragment<*> {
+            return FishPondFragment()
+        }
     }
 }

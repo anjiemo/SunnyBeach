@@ -23,6 +23,7 @@ import cn.cqautotest.sunnybeach.aop.CheckNet;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.app.AppActivity;
 import cn.cqautotest.sunnybeach.other.IntentKey;
+import cn.cqautotest.sunnybeach.util.LogUtils;
 import cn.cqautotest.sunnybeach.widget.BrowserView;
 import cn.cqautotest.sunnybeach.widget.StatusLayout;
 
@@ -43,6 +44,27 @@ public final class BrowserActivity extends AppActivity
         }
         Intent intent = new Intent(context, BrowserActivity.class);
         intent.putExtra(IntentKey.URL, url);
+        // 加载非反馈界面
+        intent.putExtra(IntentKey.OTHER, false);
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        context.startActivity(intent);
+    }
+
+    @CheckNet
+    @DebugLog
+    public static void start(Context context, String url, String openId, String nickName, String avatar) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Intent intent = new Intent(context, BrowserActivity.class);
+        intent.putExtra(IntentKey.URL, url);
+        intent.putExtra(IntentKey.ID, openId);
+        intent.putExtra(IntentKey.NAME, nickName);
+        intent.putExtra(IntentKey.AVATAR_URL, avatar);
+        // 加载反馈界面
+        intent.putExtra(IntentKey.OTHER, true);
         if (!(context instanceof Activity)) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
@@ -78,7 +100,22 @@ public final class BrowserActivity extends AppActivity
 
         mBrowserView.setBrowserViewClient(new MyBrowserViewClient());
         mBrowserView.setBrowserChromeClient(new MyBrowserChromeClient(mBrowserView));
-        mBrowserView.loadUrl(getString(IntentKey.URL));
+        boolean feedback = getBoolean(IntentKey.OTHER);
+        if (feedback) {
+            String openId = getString(IntentKey.ID);
+            String nickName = getString(IntentKey.NAME);
+            String avatar = getString(IntentKey.AVATAR_URL);
+            LogUtils.logByDebug(this,
+                    "initData：===> openId is " + openId + " nickName is " + nickName + " avatar is " + avatar);
+            mBrowserView.postUrl(getString(IntentKey.URL), ("nickname=" +
+                    nickName +
+                    "&avatar=" +
+                    avatar +
+                    "&openid=" +
+                    openId).getBytes());
+        } else {
+            mBrowserView.loadUrl(getString(IntentKey.URL));
+        }
     }
 
     @Override

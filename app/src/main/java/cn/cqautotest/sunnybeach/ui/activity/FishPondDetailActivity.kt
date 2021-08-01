@@ -37,6 +37,8 @@ class FishPondDetailActivity : AppActivity() {
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
     private val mFishPondDetailCommendListAdapter = FishPondDetailCommendListAdapter()
     private val mElvRecommendAdapter = ElvCommentAdapter()
+    private val mGroupData = mutableListOf<FishPondComment.FishPondCommentItem>()
+    private val mChildData = mutableListOf<List<FishPondComment.FishPondCommentItem.SubComment>>()
 
     override fun getLayoutId(): Int = 0
 
@@ -107,15 +109,15 @@ class FishPondDetailActivity : AppActivity() {
 
     override fun initObserver() {
         mFishPondViewModel.fishPondComment.observe(this) { fishPondRecommend ->
+            mGroupData.clear()
+            mChildData.clear()
             // 评论列表数据
-            val groupData = mutableListOf<FishPondComment.FishPondCommentItem>()
-            val childData = mutableListOf<List<FishPondComment.FishPondCommentItem.SubComment>>()
             for (group in fishPondRecommend.list) {
-                childData.add(group.subComments)
-                groupData.add(group)
+                mChildData.add(group.subComments)
+                mGroupData.add(group)
             }
-            logByDebug(msg = "initData：===> groupData size is ${groupData.size}  childData size is ${childData.size}")
-            mElvRecommendAdapter.setData(groupData, childData)
+            logByDebug(msg = "initData：===> mGroupData size is ${mGroupData.size}  mChildData size is ${mChildData.size}")
+            mElvRecommendAdapter.setData(mGroupData, mChildData)
             val data = fishPondRecommend.list
             mFishPondDetailCommendListAdapter.setList(data)
         }
@@ -127,6 +129,12 @@ class FishPondDetailActivity : AppActivity() {
     }
 
     override fun isStatusBarDarkFont(): Boolean = false
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mGroupData.clear()
+        mChildData.clear()
+    }
 
     companion object {
 

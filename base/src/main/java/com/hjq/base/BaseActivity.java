@@ -75,7 +75,9 @@ public abstract class BaseActivity extends AppCompatActivity
         } else {
             // 如果是使用 ViewBinding ，则从 ViewBinding 中获取根视图
             View rootView = handleViewBinding();
-            setContentView(rootView);
+            if (rootView != null) {
+                setContentView(rootView);
+            }
         }
         initSoftKeyboard();
     }

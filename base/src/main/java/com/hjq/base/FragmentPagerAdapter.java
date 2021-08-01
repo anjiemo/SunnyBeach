@@ -13,25 +13,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2018/10/18
- *    desc   : FragmentPagerAdapter 封装
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2018/10/18
+ * desc   : FragmentPagerAdapter 封装
  */
 public final class FragmentPagerAdapter<F extends Fragment> extends androidx.fragment.app.FragmentPagerAdapter {
 
-    /** Fragment 集合 */
+    /**
+     * Fragment 集合
+     */
     private final List<F> mFragmentSet = new ArrayList<>();
-    /** Fragment 标题 */
+    /**
+     * Fragment 标题
+     */
     private final List<CharSequence> mFragmentTitle = new ArrayList<>();
 
-    /** 当前显示的Fragment */
+    /**
+     * 当前显示的Fragment
+     */
     private F mShowFragment;
 
-    /** 当前 ViewPager */
+    /**
+     * 当前 ViewPager
+     */
     private ViewPager mViewPager;
 
-    /** 设置成懒加载模式 */
+    /**
+     * 设置成懒加载模式
+     */
     private boolean mLazyMode = true;
 
     public FragmentPagerAdapter(FragmentActivity activity) {

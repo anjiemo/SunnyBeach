@@ -72,6 +72,8 @@ class DiscoverViewModel : ViewModel() {
                 // 本次查询成功，当前页码 +1
                 _currentPhotoPage.value = currentPage + 1
             }
+        }.onFailure {
+            it.printStackTrace()
         }
     }
 
@@ -101,6 +103,8 @@ class DiscoverViewModel : ViewModel() {
                 // 本次查询成功，当前页码 +1
                 _currentPhotoPage.value = currentPage + 1
             }
+        }.onFailure {
+            it.printStackTrace()
         }
     }
 
@@ -114,6 +118,8 @@ class DiscoverViewModel : ViewModel() {
             if ("0" == response.errno) {
                 _bannerList.value = responseData
             }
+        }.onFailure {
+            it.printStackTrace()
         }
     }
 }

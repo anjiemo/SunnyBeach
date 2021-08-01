@@ -30,8 +30,15 @@ class EmptyFragment : AppFragment<AppActivity>() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(): AppFragment<*> {
+            return EmptyFragment()
+        }
     }
 }

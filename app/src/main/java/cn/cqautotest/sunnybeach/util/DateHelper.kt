@@ -50,7 +50,7 @@ object DateHelper {
             date.replaceRange(lastIndexOf, date.length, "")
         } catch (e: IndexOutOfBoundsException) {
             logByError(msg = "传入的参数不是 yyyy-MM-dd HH:mm:ss.0 格式")
-            e.printStackTrace()
+            // e.printStackTrace()
             date
         }
     }

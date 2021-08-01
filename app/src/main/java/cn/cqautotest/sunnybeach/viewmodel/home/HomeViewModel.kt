@@ -54,6 +54,8 @@ class HomeViewModel : ViewModel(), LifecycleObserver {
             if (SUNNY_BEACH_HTTP_OK_CODE == response.code) {
                 _articleDetail.value = responseData
             }
+        }.onFailure {
+            it.printStackTrace()
         }
     }
 
@@ -75,6 +77,8 @@ class HomeViewModel : ViewModel(), LifecycleObserver {
                 val currentPage = _currentArticlePageMap[categoryId] ?: 1
                 _currentArticlePageMap[categoryId] = currentPage + 1
             }
+        }.onFailure {
+            it.printStackTrace()
         }
     }
 
@@ -99,6 +103,8 @@ class HomeViewModel : ViewModel(), LifecycleObserver {
                 val currentPage = _currentArticlePageMap[categoryId] ?: 1
                 _currentArticlePageMap[categoryId] = currentPage + 1
             }
+        }.onFailure {
+            it.printStackTrace()
         }
     }
 
@@ -114,6 +120,8 @@ class HomeViewModel : ViewModel(), LifecycleObserver {
                 _recommendContent.value = response.data
                 currentRecommendPage++
             }
+        }.onFailure {
+            it.printStackTrace()
         }
     }
 
@@ -131,6 +139,8 @@ class HomeViewModel : ViewModel(), LifecycleObserver {
                 _recommendContent.value = response.data
                 currentRecommendPage++
             }
+        }.onFailure {
+            it.printStackTrace()
         }
     }
 
@@ -164,6 +174,8 @@ class HomeViewModel : ViewModel(), LifecycleObserver {
             if (SUNNY_BEACH_HTTP_OK_CODE == it.code) {
                 _homeCategories.value = homeCategories
             }
+        }.onFailure {
+            it.printStackTrace()
         }
     }
 }

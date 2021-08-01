@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import androidx.fragment.app.viewModels
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.MyMeFragmentBinding
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
@@ -26,6 +27,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     private var _binding: MyMeFragmentBinding? = null
     private val binding get() = _binding!!
     private val mUserViewModel by viewModels<UserViewModel>()
+    private var mUserBasicInfo: UserBasicInfo? = null
 
     override fun getLayoutId(): Int = R.layout.my_me_fragment
 
@@ -40,7 +42,23 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
                 ImagePreviewActivity.start(requireContext(), DEFAULT_AVATAR_URL)
             }
             feedbackContainer.setOnClickListener {
-                BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
+                val userBasicInfo = mUserViewModel.loadUserBasicInfo()
+                logByDebug(msg = "initEvent：===> userBasicInfo is $userBasicInfo")
+                userBasicInfo?.let {
+                    val id = it.id
+                    val nickName = it.nickname
+                    val avatar = it.avatar
+                    BrowserActivity.start(
+                        requireContext(),
+                        MAKE_COMPLAINTS_URL,
+                        id,
+                        nickName,
+                        avatar
+                    )
+                }
+                if (userBasicInfo == null) {
+                    BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
+                }
             }
             settingContainer.setOnClickListener {
                 startActivity(SettingActivity::class.java)
@@ -52,6 +70,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     override fun initView() {
         mUserViewModel.userBasicInfo.observe(viewLifecycleOwner) { userBasicInfo ->
+            mUserBasicInfo = userBasicInfo
             setupUserInfo(userBasicInfo)
         }
     }
@@ -71,7 +90,6 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     override fun onFragmentResume(first: Boolean) {
         super.onFragmentResume(first)
         val userBasicInfo = mUserViewModel.loadUserBasicInfo()
-        logByDebug(msg = "onFragmentResume：userBasicInfo is ===>$userBasicInfo")
         setupUserInfo(userBasicInfo)
     }
 
@@ -80,8 +98,15 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         return !super.isStatusBarEnabled()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(): AppFragment<*> {
+            return MyMeFragment()
+        }
     }
 }
