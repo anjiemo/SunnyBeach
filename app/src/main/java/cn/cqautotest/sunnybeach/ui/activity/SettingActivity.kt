@@ -20,6 +20,8 @@ import cn.cqautotest.sunnybeach.manager.ThreadPoolManager
 import cn.cqautotest.sunnybeach.ui.dialog.MenuDialog
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
 import cn.cqautotest.sunnybeach.ui.dialog.SafeDialog
+import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog
+import cn.cqautotest.sunnybeach.util.simpleToast
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import com.hjq.base.BaseDialog
 import com.hjq.http.EasyHttp
@@ -45,7 +47,22 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
     }
 
     override fun initObserver() {
-
+        mAppViewModel.appUpdateState.observe(this) {
+            if (it.isDataValid.not()) {
+                simpleToast("更新检查失败")
+                mBinding.tvSettingUpdate.visibility = View.GONE
+                return@observe
+            }
+            mBinding.tvSettingUpdate.visibility = View.VISIBLE
+            val appUpdateInfo = it.appUpdateInfo
+            UpdateDialog.Builder(this)
+                .setFileMd5(appUpdateInfo?.apkHash)
+                .setDownloadUrl(appUpdateInfo?.url)
+                .setForceUpdate(appUpdateInfo?.forceUpdate ?: false)
+                .setUpdateLog(appUpdateInfo?.updateLog)
+                .setVersionName(appUpdateInfo?.versionName)
+                .show()
+        }
     }
 
     override fun initView() {
