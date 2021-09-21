@@ -3,30 +3,25 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.view.View
-import android.widget.ProgressBar
-import androidx.activity.viewModels
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebSettings
+import android.webkit.WebView
+import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
-import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.CheckNet
 import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.ArticleDetailActivityBinding
 import cn.cqautotest.sunnybeach.other.IntentKey
-import cn.cqautotest.sunnybeach.util.markown.MyGrammarLocator
-import cn.cqautotest.sunnybeach.viewmodel.home.HomeViewModel
+import cn.cqautotest.sunnybeach.util.logByDebug
+import cn.cqautotest.sunnybeach.widget.BrowserView
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
-import io.noties.markwon.Markwon
-import io.noties.markwon.html.HtmlPlugin
-import io.noties.markwon.image.glide.GlideImagesPlugin
-import io.noties.markwon.syntax.Prism4jThemeDarkula
-import io.noties.markwon.syntax.SyntaxHighlightPlugin
-import io.noties.prism4j.Prism4j
+import kotlinx.coroutines.launch
+import java.lang.ref.WeakReference
 
 /**
  * author : A Lonely Cat
@@ -37,10 +32,6 @@ import io.noties.prism4j.Prism4j
 class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
 
     private lateinit var mBinding: ArticleDetailActivityBinding
-    private val mHomeViewModel by viewModels<HomeViewModel>()
-    private lateinit var mStatusLayout: StatusLayout
-    private lateinit var mProgressBar: ProgressBar
-    private lateinit var mRefreshLayout: SmartRefreshLayout
     private var mArticleId = ""
     private var mArticleTitle = ""
 
@@ -51,57 +42,42 @@ class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
         return mBinding
     }
 
-    override fun initObserver() {
-        mHomeViewModel.articleDetail.observe(this) { articleDetail ->
-            if (articleDetail == null) {
-                showEmpty()
-                return@observe
-            }
-            showComplete()
-            val articleContent = articleDetail.content
-            val prism4jTheme =
-                Prism4jThemeDarkula.create(Color.parseColor(getString(R.string.markdown_bg_code_color)))
-            val markwon = Markwon.builder(this)
-                // Html 插件
-                .usePlugin(HtmlPlugin.create())
-                // 语法高亮插件
-                .usePlugin(SyntaxHighlightPlugin.create(Prism4j(MyGrammarLocator()), prism4jTheme))
-                // Glide 插件
-                .usePlugin(GlideImagesPlugin.create(this))
-                .build()
-            markwon.setMarkdown(mBinding.emptyDescription, articleContent ?: "")
-        }
-    }
+    override fun initObserver() {}
+
+    override fun initEvent() {}
 
     override fun initData() {
         showLoading()
-        intent.run {
-            mArticleId = getStringExtra(IntentKey.ID) ?: ""
-            mArticleTitle = getStringExtra(IntentKey.TITLE) ?: ""
-        }
+        mArticleId = intent.getStringExtra(IntentKey.ID) ?: ""
+        mArticleTitle = intent.getStringExtra(IntentKey.TITLE) ?: ""
         mBinding.titleBar.title = mArticleTitle
         loadArticleDetail()
     }
 
     override fun initView() {
-        mStatusLayout = mBinding.hlArticleDetailHint
-        mProgressBar = mBinding.pbBrowserProgress
-        mRefreshLayout = mBinding.slArticleDetailRefresh
+        val webView = mBinding.wvBrowserView
+        // 设置 WebView 生命管控
+        webView.setLifecycleOwner(this)
+        webView.settings.apply {
+            useWideViewPort = true
+            loadWithOverviewMode = true
+            layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
+            textZoom = 125
+        }
+        webView.setInitialScale(144)
     }
 
     /**
      * 根据文章id加载文章详情
      */
     private fun loadArticleDetail() {
-        mHomeViewModel.getArticleDetailById(mArticleId)
+        val webView = mBinding.wvBrowserView
+        webView.loadUrl("https://www.sunofbeach.net/a/${mArticleId}")
+        webView.setBrowserViewClient(MyBrowserViewClient(this))
     }
 
     override fun getStatusLayout(): StatusLayout {
-        return mStatusLayout
-    }
-
-    override fun onLeftClick(view: View?) {
-        finish()
+        return mBinding.hlArticleDetailHint
     }
 
     /**
@@ -111,11 +87,81 @@ class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
         loadArticleDetail()
     }
 
+    override fun isStatusBarDarkFont(): Boolean = false
+
     companion object {
+
+        private class FitScreen(webView: WebView) :
+            Runnable {
+
+            private val mWebView = WeakReference(webView)
+
+            override fun run() {
+                val webView = mWebView.get() ?: return
+                webView.evaluateJavascript(
+                    "var child=document.getElementById(\"header-container\");\n" +
+                            "child.parentNode.removeChild(child);", null
+                )
+                webView.evaluateJavascript(
+                    "var child=document.getElementById(\"article-detail-left-part\");\n" +
+                            "child.parentNode.removeChild(child);", null
+                )
+                webView.evaluateJavascript(
+                    "var child=document.getElementById(\"article-detail-right-part\");\n" +
+                            "child.parentNode.removeChild(child);", null
+                )
+                webView.evaluateJavascript(
+                    "var child=document.getElementById(\"footer-container\");\n" +
+                            "child.parentNode.removeChild(child);", null
+                )
+                webView.evaluateJavascript(
+                    "var child=document.getElementById('article-detail-center-part');\n" +
+                            "child.style.margin='-20px 0 0 0';", null
+                )
+                webView.evaluateJavascript(
+                    "var child=document.getElementById('main-content');\n" +
+                            "child.style.width='750px';", null
+                )
+            }
+        }
+
+        private class MyBrowserViewClient(activity: ArticleDetailActivity) :
+            BrowserView.BrowserViewClient() {
+
+            private val mActivity: WeakReference<ArticleDetailActivity> = WeakReference(activity)
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                logByDebug(msg = "onPageFinished：===> pageFinished")
+                view ?: return
+                // 在网页加载完毕后才调用，否则可能没有渲染出要操作的 dom 元素
+                mActivity.get()?.let {
+                    it.lifecycleScope.launch {
+                        FitScreen(view).run()
+                        if (view.progress == 100) {
+                            // 网页加载完毕时再显示界面，否则会有页面闪烁的效果
+                            it.showComplete()
+                        }
+                    }
+                }
+            }
+
+            override fun onReceivedError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                error: WebResourceError?
+            ) {
+                super.onReceivedError(view, request, error)
+                mActivity.get()?.showError {
+                    mActivity.get()?.loadArticleDetail()
+                }
+            }
+        }
 
         /**
          * 文章id、文章标题
          */
+        @JvmStatic
         @CheckNet
         @DebugLog
         fun start(context: Context, articleId: String?, articleTitle: String?) {

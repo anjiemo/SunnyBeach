@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Gradle: com.umeng.umsdk:push:6.3.3">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/push/6.3.3/1c6c59ae724b58e9a96ec90b2faf967222be0cc8/push-6.3.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/push/6.3.3/1c6c59ae724b58e9a96ec90b2faf967222be0cc8/push-6.3.3.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/push/6.3.3/f9913ef1dc1fc6f6affb929f3e1b56182d3f269a/push-6.3.3-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/push/6.3.3/f9913ef1dc1fc6f6affb929f3e1b56182d3f269a/push-6.3.3-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/push/6.3.3/f9913ef1dc1fc6f6affb929f3e1b56182d3f269a/push-6.3.3-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/push/6.3.3/f9913ef1dc1fc6f6affb929f3e1b56182d3f269a/push-6.3.3-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.FishCommendDetailActivity">
+
+    <com.hjq.bar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftTitle="评论" />
+
+    <include
+        android:id="@+id/fish_pond_detail_comment"
+        layout="@layout/fish_pond_detail_commend_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp" />
+
+    <TextView
+        android:id="@+id/tv_reply_and_great"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingStart="14dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="0 回复  |  0 赞"
+        android:textColor="@color/default_font_color" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_fish_commend_detail_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/fish_pond_detail_commend_list" />
+
+</LinearLayout>

@@ -16,9 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hjq.base.BaseAdapter;
 import com.hjq.base.BaseDialog;
-import cn.cqautotest.sunnybeach.R;
-import cn.cqautotest.sunnybeach.app.AppAdapter;
-import com.hjq.toast.ToastUtils;
 import com.hjq.umeng.Platform;
 import com.hjq.umeng.UmengClient;
 import com.hjq.umeng.UmengShare;
@@ -26,11 +23,14 @@ import com.hjq.umeng.UmengShare;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.app.AppAdapter;
+
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/03/23
- *    desc   : 分享对话框
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/03/23
+ * desc   : 分享对话框
  */
 public final class ShareDialog {
 
@@ -108,7 +108,7 @@ public final class ShareDialog {
             } else {
                 // 复制到剪贴板
                 getSystemService(ClipboardManager.class).setPrimaryClip(ClipData.newPlainText("url", mData.getShareUrl()));
-                ToastUtils.show(R.string.share_platform_copy_hint);
+                // ToastUtils.show(R.string.share_platform_copy_hint);
             }
             dismiss();
         }

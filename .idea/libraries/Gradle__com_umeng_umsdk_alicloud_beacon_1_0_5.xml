@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Gradle: com.umeng.umsdk:alicloud_beacon:1.0.5">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/alicloud_beacon/1.0.5/1f688aeba90ae3459d42cffdc308527f380fe254/alicloud_beacon-1.0.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/alicloud_beacon/1.0.5/1f688aeba90ae3459d42cffdc308527f380fe254/alicloud_beacon-1.0.5.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/alicloud_beacon/1.0.5/cc7b4872c443dab7a3c2fd7dd481c743932f2328/alicloud_beacon-1.0.5-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/alicloud_beacon/1.0.5/cc7b4872c443dab7a3c2fd7dd481c743932f2328/alicloud_beacon-1.0.5-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/alicloud_beacon/1.0.5/cc7b4872c443dab7a3c2fd7dd481c743932f2328/alicloud_beacon-1.0.5-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/alicloud_beacon/1.0.5/cc7b4872c443dab7a3c2fd7dd481c743932f2328/alicloud_beacon-1.0.5-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

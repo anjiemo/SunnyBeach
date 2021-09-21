@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
-import com.hjq.toast.ToastUtils;
 import com.hjq.widget.view.CountdownView;
 
 import cn.cqautotest.sunnybeach.R;
@@ -122,7 +121,7 @@ public final class PhoneResetActivity extends AppActivity
             }
 
             if (mCodeView.getText().toString().length() != getResources().getInteger(R.integer.sms_code_length)) {
-                ToastUtils.show(R.string.common_code_error_hint);
+                // ToastUtils.show(R.string.common_code_error_hint);
                 return;
             }
 

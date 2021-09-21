@@ -79,6 +79,13 @@
                 app:bar_rightIcon="@drawable/arrows_right_ic" />
 
             <com.hjq.widget.layout.SettingBar
+                android:id="@+id/sb_setting_me_pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:bar_leftText="@string/setting_me_pay"
+                app:bar_rightIcon="@drawable/arrows_right_ic" />
+
+            <com.hjq.widget.layout.SettingBar
                 android:id="@+id/sb_setting_about"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -21,6 +21,9 @@ android {
 
         // 混淆配置
         proguardFiles 'proguard-sdk.pro', 'proguard-app.pro'
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
 
     // Apk 签名的那些事：https://www.jianshu.com/p/a1f8e5896aa2
@@ -40,6 +43,7 @@ android {
     // Kotlin
     kotlinOptions {
         jvmTarget = '1.8'
+        useIR = true
     }
 
     // 避免编译不能用于在编译类路径中发现的注解处理器，因为它们中的任何更改都需要运行注解处理任务
@@ -142,20 +146,21 @@ android {
     }
 
     // 排除重复的 org.jetbrains 注解：https://stackoverflow.com/questions/58903820/java-lang-runtimeexception-duplicate-class-org-intellij-lang-annotations-flow-f
+    // Gradle依赖排除 参考：https://www.zhyea.com/2018/02/08/gradle-exclude-dependencies.html
     configurations {
-        cleanedAnnotations
-        compile.exclude group: 'org.jetbrains', module: 'annotations'
+        // cleanedAnnotations
+        // compile.exclude group: 'org.jetbrains', module: 'annotations'
     }
 }
 
 // api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
 dependencies {
+    final def kotlin_version = "1.5.10"
     final def paging_version = "3.0.1"
     final def nav_version = "2.3.5"
     final def room_version = "2.3.0"
     final def markwon_version = "4.6.2"
     final def prism_version = "2.0.0"
-    final def kotlin_version = "1.4.10"
     // 基类封装
     implementation project(':base')
     // 控件封装
@@ -163,12 +168,19 @@ dependencies {
     // 友盟封装
     implementation project(':umeng')
 
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.activity:activity-ktx:1.3.0'
+    implementation 'androidx.activity:activity-ktx:1.3.1'
     implementation 'androidx.fragment:fragment-ktx:1.3.6'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+
+    // Room 数据库
+    implementation "androidx.room:room-runtime:$room_version"
+    // 使用 Kotlin 注解处理工具 (kapt)
+    kapt "androidx.room:room-compiler:$room_version"
+    // 对 Room 的 Kotlin 扩展和协程支持
+    implementation "androidx.room:room-ktx:$room_version"
+
     // Paging 分页
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
     // navigation 导航
@@ -176,8 +188,9 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     // Feature module Support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+
     // 权限请求框架：https://github.com/getActivity/XXPermissions
-    implementation 'com.hjq:xxpermissions:9.8'
+    implementation 'com.hjq:xxpermissions:10.2'
 
     // 标题栏框架：https://github.com/getActivity/TitleBar
     implementation 'com.hjq:titlebar:8.2'
@@ -234,10 +247,8 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.4'
 
     // 内存泄漏监测框架：https://github.com/square/leakcanary
-    // noinspection GradleDependency
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
-    // noinspection GradleDependency
-    previewImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+    previewImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
     // 国际化：https://github.com/getActivity/MultiLanguages
     // 悬浮窗：https://github.com/getActivity/XToast
@@ -255,33 +266,27 @@ dependencies {
     // 多渠道打包：https://github.com/Meituan-Dianping/walle
     // 设备唯一标识：http://msa-alliance.cn/col.jsp?id=120
 
-    // Room 数据库
-    implementation "androidx.room:room-runtime:$room_version"
-    // 使用 Kotlin 注解处理工具 (kapt)
-    kapt "androidx.room:room-compiler:$room_version"
-    // 对 Room 的 Kotlin 扩展和协程支持
-    implementation "androidx.room:room-ktx:$room_version"
     // MMKV，基于 mmap 的高性能通用 key-value 组件：https://github.com/Tencent/MMKV
     implementation 'com.tencent:mmkv-static:1.2.9'
 
     // 一个强大并且灵活的RecyclerViewAdapter：https://github.com/CymChad/BaseRecyclerViewAdapterHelper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     // 轮播图库：https://github.com/youth5201314/banner
-    implementation 'com.youth.banner:banner:2.1.0'
+    implementation 'io.github.youth5201314:banner:2.2.2'
 
     // 小米更新SDK：https://dev.mi.com/console/doc/detail?pId=4
     implementation 'mi-appstore:xiaomi-update-sdk:4.0.3'
 
-    // Markwon是一个适用于 Android 的Markdown库：https://noties.io/Markwon/
-    implementation "io.noties.markwon:core:$markwon_version"
-    implementation "io.noties.markwon:html:$markwon_version"
-    // implementation "io.noties.markwon:image:$markwon_version"
-    implementation "io.noties.markwon:image-glide:$markwon_version"
-    implementation "io.noties:prism4j:${prism_version}"
-    kapt "io.noties:prism4j-bundler:${prism_version}"
-    implementation "io.noties.markwon:syntax-highlight:$markwon_version"
-    // 自动生成语法高亮类的注解处理器
-    annotationProcessor "io.noties:prism4j-bundler:${prism_version}"
+    // // Markwon是一个适用于 Android 的Markdown库：https://noties.io/Markwon/
+    // implementation "io.noties.markwon:core:$markwon_version"
+    // implementation "io.noties.markwon:html:$markwon_version"
+    // // implementation "io.noties.markwon:image:$markwon_version"
+    // implementation "io.noties.markwon:image-glide:$markwon_version"
+    // implementation "io.noties:prism4j:${prism_version}"
+    // kapt "io.noties:prism4j-bundler:${prism_version}"
+    // implementation "io.noties.markwon:syntax-highlight:$markwon_version"
+    // // 自动生成语法高亮类的注解处理器
+    // annotationProcessor "io.noties:prism4j-bundler:${prism_version}"
     // 支持动画展开和折叠其子视图的 Android 布局类：https://github.com/cachapa/ExpandableLayout
     implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
 }

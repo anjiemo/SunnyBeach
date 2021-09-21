@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Gradle: com.umeng.umsdk:agoo-accs:3.4.2.7">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/agoo-accs/3.4.2.7/e12a0b13893426800533302d4c1ffc22ae06b791/agoo-accs-3.4.2.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/agoo-accs/3.4.2.7/e12a0b13893426800533302d4c1ffc22ae06b791/agoo-accs-3.4.2.7.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/agoo-accs/3.4.2.7/3259129aa7ec7f486e527f436084032d5c54c49f/agoo-accs-3.4.2.7-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/agoo-accs/3.4.2.7/3259129aa7ec7f486e527f436084032d5c54c49f/agoo-accs-3.4.2.7-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/agoo-accs/3.4.2.7/3259129aa7ec7f486e527f436084032d5c54c49f/agoo-accs-3.4.2.7-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/agoo-accs/3.4.2.7/3259129aa7ec7f486e527f436084032d5c54c49f/agoo-accs-3.4.2.7-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
