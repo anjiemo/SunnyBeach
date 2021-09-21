@@ -18,7 +18,6 @@ import cn.cqautotest.sunnybeach.viewmodel.login.LoggedInUserView
 import cn.cqautotest.sunnybeach.viewmodel.login.LoginFormState
 import cn.cqautotest.sunnybeach.viewmodel.login.LoginResult
 import com.blankj.utilcode.util.GsonUtils
-import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.RegexUtils
 import com.example.blogsystem.execption.LoginFailedException
 import com.hjq.http.EasyConfig
@@ -56,47 +55,50 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * 用户账号登录
      */
-    fun login(userAccount: String, password: String, captcha: String) = viewModelScope.launch {
-        cookieDao
-        val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
-        if (available.not()) return@launch
-        val context = getApplication<Application>()
-        var userBasicInfoResponse: BaseResponse<UserBasicInfo>? = null
-        runCatching {
-            val user = User(
-                phoneNum = userAccount, password = password.md5
-                    .toLowerCase(Locale.SIMPLIFIED_CHINESE)
-            )
-            val loginResult = userApi.login(captcha = captcha, user = user)
-            val tempUserBasicInfoResponse = userApi.checkToken()
-            val tempUserBasicInfoResponseData = tempUserBasicInfoResponse.data
-            // 只有Token校验成功获取到数据才算登录成功，否则也是属于登录失败了
-            if (SUNNY_BEACH_HTTP_OK_CODE == loginResult.code && SUNNY_BEACH_HTTP_OK_CODE == tempUserBasicInfoResponse.code) {
-                userBasicInfoResponse = tempUserBasicInfoResponse
-                logByDebug(tag = "UserViewModel：", msg = "login：===>$tempUserBasicInfoResponseData")
-                _userBasicInfo.value = tempUserBasicInfoResponseData
-                // 将基本信息缓存到本地
-                saveUserBasicInfo(tempUserBasicInfoResponseData)
-                // 更新 Token
-                EasyConfig.getInstance()
-                    .addParam(IntentKey.TOKEN, tempUserBasicInfoResponseData.token)
-                loginResult
-            } else {
-                throw LoginFailedException()
-            }
-        }.onSuccess {
-            _loginResult.value =
-                LoginResult(
-                    success = LoggedInUserView(
-                        displayName = userBasicInfoResponse?.data?.nickname ?: ""
-                    )
+    fun login(userAccount: String, password: String, captcha: String) {
+        viewModelScope.launch {
+            val context = getApplication<Application>()
+            var userBasicInfoResponse: BaseResponse<UserBasicInfo>? = null
+            runCatching {
+                val user = User(
+                    phoneNum = userAccount, password = password.md5
+                        .toLowerCase(Locale.SIMPLIFIED_CHINESE)
                 )
-            setupAutoLogin(true)
-        }.onFailure {
-            _loginResult.value =
-                LoginResult(error = context.getString(R.string.login_failed))
-            logByDebug(tag = "UserViewModel：", msg = "login：====>登陆失败，error msg is $it")
-            setupAutoLogin(false)
+                val loginResult = userApi.login(captcha = captcha, user = user)
+                val tempUserBasicInfoResponse = withContext(Dispatchers.IO) { userApi.checkToken() }
+                val tempUserBasicInfoResponseData = tempUserBasicInfoResponse.data
+                // 只有Token校验成功获取到数据才算登录成功，否则也是属于登录失败了
+                if (SUNNY_BEACH_HTTP_OK_CODE == loginResult.code && SUNNY_BEACH_HTTP_OK_CODE == tempUserBasicInfoResponse.code) {
+                    userBasicInfoResponse = tempUserBasicInfoResponse
+                    logByDebug(
+                        tag = "UserViewModel：",
+                        msg = "login：===>$tempUserBasicInfoResponseData"
+                    )
+                    _userBasicInfo.value = tempUserBasicInfoResponseData
+                    // 将基本信息缓存到本地
+                    saveUserBasicInfo(tempUserBasicInfoResponseData)
+                    // 更新 Token
+                    EasyConfig.getInstance()
+                        .addParam(IntentKey.TOKEN, tempUserBasicInfoResponseData.token)
+                    loginResult
+                } else {
+                    throw LoginFailedException()
+                }
+            }.onSuccess {
+                _loginResult.value =
+                    LoginResult(
+                        success = LoggedInUserView(
+                            displayName = userBasicInfoResponse?.data?.nickname ?: ""
+                        )
+                    )
+                setupAutoLogin(true)
+            }.onFailure {
+                it.printStackTrace()
+                _loginResult.value =
+                    LoginResult(error = context.getString(R.string.login_failed))
+                logByDebug(tag = "UserViewModel：", msg = "login：====>登陆失败，error msg is $it")
+                setupAutoLogin(false)
+            }
         }
     }
 
@@ -119,25 +121,23 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * 检查用户 Token
      */
-    fun checkUserToken() = viewModelScope.launch {
-        val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
-        if (available.not()) {
-            if (isLogin()) {
-                setupAutoLogin(true)
+    fun checkUserToken() {
+        viewModelScope.launch {
+            runCatching {
+                withContext(Dispatchers.IO) {
+                    userApi.checkToken()
+                }
+            }.onSuccess { response ->
+                val userBasicInfo = response.data
+                val loginSuccess = SUNNY_BEACH_HTTP_OK_CODE == response.code
+                _userBasicInfo.value = userBasicInfo
+                if (loginSuccess) {
+                    saveUserBasicInfo(userBasicInfo)
+                }
+            }.onFailure {
+                it.printStackTrace()
+                setupAutoLogin(false)
             }
-            return@launch
-        }
-        runCatching {
-            userApi.checkToken()
-        }.onSuccess { response ->
-            val userBasicInfo = response.data
-            val loginSuccess = SUNNY_BEACH_HTTP_OK_CODE == response.code
-            _userBasicInfo.value = userBasicInfo
-            if (loginSuccess) {
-                saveUserBasicInfo(userBasicInfo)
-            }
-        }.onFailure {
-            setupAutoLogin(false)
         }
     }
 
@@ -161,15 +161,15 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * 检查用户登录状态
      */
-    fun checkUserState() = viewModelScope.launch {
-        val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
-        if (available.not()) return@launch
-        val userBasicInfoResponse = userApi.checkToken()
-        val userBasicInfoResponseData = userBasicInfoResponse.data
-        if (SUNNY_BEACH_HTTP_OK_CODE == userBasicInfoResponse.code) {
-            saveUserBasicInfo(userBasicInfoResponseData)
-            _loginResult.value =
-                LoginResult(success = LoggedInUserView(displayName = userBasicInfoResponseData.nickname))
+    fun checkUserState() {
+        viewModelScope.launch {
+            val userBasicInfoResponse = withContext(Dispatchers.IO) { userApi.checkToken() }
+            val userBasicInfoResponseData = userBasicInfoResponse.data
+            if (SUNNY_BEACH_HTTP_OK_CODE == userBasicInfoResponse.code) {
+                saveUserBasicInfo(userBasicInfoResponseData)
+                _loginResult.value =
+                    LoginResult(success = LoggedInUserView(displayName = userBasicInfoResponseData.nickname))
+            }
         }
     }
 

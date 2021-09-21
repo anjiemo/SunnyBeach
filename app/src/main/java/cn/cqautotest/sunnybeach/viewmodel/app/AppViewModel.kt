@@ -1,15 +1,16 @@
 package cn.cqautotest.sunnybeach.viewmodel.app
 
 import android.app.Application
-import android.text.TextUtils
 import androidx.lifecycle.*
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.request.api.AppApi
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
 import cn.cqautotest.sunnybeach.other.AppConfig
-import cn.cqautotest.sunnybeach.util.*
-import com.blankj.utilcode.util.NetworkUtils
+import cn.cqautotest.sunnybeach.util.APP_INFO_URL
+import cn.cqautotest.sunnybeach.util.DEFAULT_HTTP_OK_CODE
+import cn.cqautotest.sunnybeach.util.TAG
+import cn.cqautotest.sunnybeach.util.logByDebug
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.OnDownloadListener
 import com.hjq.http.model.HttpMethod
@@ -31,34 +32,37 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     val appUpdateState: LiveData<AppUpdateState> get() = _appUpdateState
 
     @JvmOverloads
-    fun checkAppVersionUpdate(url: String = APP_INFO_URL) = viewModelScope.launch {
-        val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
-        if (available.not() || TextUtils.isEmpty(url)) return@launch
-        runCatching {
-            mAppApi.checkAppUpdate(url)
-        }.onSuccess { response ->
-            val responseData = response.data
-            if (DEFAULT_HTTP_OK_CODE == response.code) {
-                // App检查更新成功
-                val currentVersion = AppConfig.getVersionCode()
-                logByDebug(msg = "===> currentVersion:$currentVersion")
-                logByDebug(msg = "===> App更新数据获取成功")
-                responseData.file =
-                    File(
-                        getApplication<Application>().filesDir.path,
-                        "${responseData.versionName}.apk"
-                    )
+    fun checkAppVersionUpdate(url: String = APP_INFO_URL) {
+        viewModelScope.launch {
+            runCatching {
+                withContext(Dispatchers.IO) {
+                    mAppApi.checkAppUpdate(url)
+                }
+            }.onSuccess { response ->
+                val responseData = response.data
+                if (DEFAULT_HTTP_OK_CODE == response.code) {
+                    // App检查更新成功
+                    val currentVersion = AppConfig.getVersionCode()
+                    logByDebug(msg = "===> currentVersion:$currentVersion")
+                    logByDebug(msg = "===> App更新数据获取成功")
+                    responseData.file =
+                        File(
+                            getApplication<Application>().filesDir.path,
+                            "${responseData.versionName}.apk"
+                        )
+                    _appUpdateState.value =
+                        AppUpdateState(appUpdateInfo = responseData, isDataValid = true)
+                } else {
+                    // 服务器错误，App检查更新失败
+                    _appUpdateState.value =
+                        AppUpdateState(checkUpdateError = R.string.check_update_error)
+                }
+            }.onFailure {
+                it.printStackTrace()
+                // 网络错误，App检查更新失败
                 _appUpdateState.value =
-                    AppUpdateState(appUpdateInfo = responseData, isDataValid = true)
-            } else {
-                // 服务器错误，App检查更新失败
-                _appUpdateState.value =
-                    AppUpdateState(checkUpdateError = R.string.check_update_error)
+                    AppUpdateState(networkError = R.string.network_error)
             }
-        }.onFailure {
-            // 网络错误，App检查更新失败
-            _appUpdateState.value =
-                AppUpdateState(networkError = R.string.network_error)
         }
     }
 
@@ -98,7 +102,8 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         onComplete: (file: File?) -> Unit = {},
         onError: (file: File?, e: Exception?) -> Unit = { _, _ -> },
         onEnd: (file: File?, appUpdateInfo: AppUpdateInfo) -> Unit = { _, _ -> }
-    ) =
+    ) {
+
         EasyHttp.download(lifecycleOwner)
             .tag(TAG)
             .method(method)
@@ -131,4 +136,5 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                     onEnd.invoke(file, appUpdateInfo)
                 }
             })
+    }
 }

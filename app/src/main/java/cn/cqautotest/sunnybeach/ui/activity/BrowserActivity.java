@@ -155,6 +155,11 @@ public final class BrowserActivity extends AppActivity
         reload();
     }
 
+    @Override
+    protected boolean isStatusBarDarkFont() {
+        return false;
+    }
+
     private class MyBrowserViewClient extends BrowserView.BrowserViewClient {
 
         /**

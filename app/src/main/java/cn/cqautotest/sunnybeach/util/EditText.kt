@@ -4,10 +4,6 @@ package cn.cqautotest.sunnybeach.util
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
-import android.widget.TextView
-
-val TextView.textString
-    get() = text.toString()
 
 /**
  * 用于简化将 afterTextChanged 操作设置为 EditText 组件的扩展功能

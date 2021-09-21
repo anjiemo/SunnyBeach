@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_fish_item_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:paddingBottom="10dp">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +40,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                tools:text="A Lonely Cat"
+                tools:textColor="@color/pink" />
 
             <TextView
                 android:id="@+id/tv_fish_pond_desc"
@@ -53,7 +56,7 @@
 
     </LinearLayout>
 
-    <TextView
+    <cn.cqautotest.sunnybeach.widget.CustomTextView
         android:id="@+id/tv_fish_pond_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,8 +64,51 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="6dp"
         android:ellipsize="end"
-        android:lineSpacingMultiplier="1.5"
-        android:maxLines="5" />
+        android:maxLines="5"
+        android:textIsSelectable="true"
+        tools:text="我是摸鱼列表的正文内容啦" />
+
+    <cn.cqautotest.sunnybeach.widget.RoundRelativeLayout
+        android:id="@+id/rrl_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="6dp"
+        app:rlClipBackground="true"
+        app:rlRadius="@dimen/dp_10">
+
+        <LinearLayout
+            android:id="@+id/ll_images_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:contentDescription="图片1"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_no_photo" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:contentDescription="图片2"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_no_photo" />
+
+            <ImageView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="图片3"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_no_photo" />
+
+        </LinearLayout>
+
+    </cn.cqautotest.sunnybeach.widget.RoundRelativeLayout>
 
     <TextView
         android:id="@+id/tv_fish_pond_label"
@@ -70,15 +116,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/topic_label_selector"
         android:contentDescription="话题标签"
-        android:paddingStart="10dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="6dp"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
         android:textColor="@color/common_confirm_text_color"
         android:textSize="12sp"
         tools:text="上班摸鱼" />
+
+    <cn.cqautotest.sunnybeach.widget.ListMenuItemContainer
+        android:id="@+id/list_menu_item"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
 
 </LinearLayout>

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="ListMenuItemContainer">
+        <attr name="defaultFirstIcon" format="reference" />
+        <attr name="defaultFirstText" format="string" />
+        <attr name="defaultSecondIcon" format="reference" />
+        <attr name="defaultSecondText" format="string" />
+        <attr name="defaultShareIcon" format="reference" />
+    </declare-styleable>
+
     <declare-styleable name="RoundRelativeLayout">
         <attr name="rlRadius" format="dimension" />
         <attr name="rlClipBackground" format="boolean" />

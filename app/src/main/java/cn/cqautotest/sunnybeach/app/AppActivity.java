@@ -4,22 +4,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.viewbinding.ViewBinding;
 
+import com.blankj.utilcode.util.DeviceUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.TitleBar;
 import com.hjq.base.BaseActivity;
 import com.hjq.base.BaseDialog;
 import com.hjq.http.listener.OnHttpListener;
+import com.hjq.toast.ToastUtils;
 
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.action.Init;
 import cn.cqautotest.sunnybeach.action.TitleBarAction;
 import cn.cqautotest.sunnybeach.action.ToastAction;
 import cn.cqautotest.sunnybeach.http.model.HttpData;
+import cn.cqautotest.sunnybeach.manager.ActivityManager;
+import cn.cqautotest.sunnybeach.other.AppConfig;
 import cn.cqautotest.sunnybeach.ui.dialog.WaitDialog;
 import okhttp3.Call;
 
@@ -49,10 +54,6 @@ public abstract class AppActivity extends BaseActivity
      * 对话框数量
      */
     private int mDialogTotal;
-    /**
-     * 视图绑定接口
-     */
-    private ViewBinding mViewBinding;
 
     /**
      * 初始化事件监听和观察者
@@ -135,11 +136,11 @@ public abstract class AppActivity extends BaseActivity
 
     @Override
     protected View handleViewBinding() {
-        mViewBinding = onBindingView();
-        if (mViewBinding == null) {
+        ViewBinding viewBinding = onBindingView();
+        if (viewBinding == null) {
             return null;
         }
-        return mViewBinding.getRoot();
+        return viewBinding.getRoot();
     }
 
     /**
@@ -160,7 +161,7 @@ public abstract class AppActivity extends BaseActivity
      * 状态栏字体深色模式
      */
     protected boolean isStatusBarDarkFont() {
-        return true;
+        return false;
     }
 
     /**
@@ -259,6 +260,26 @@ public abstract class AppActivity extends BaseActivity
         hideDialog();
     }
 
+    @CallSuper
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!AppConfig.isDebug() && DeviceUtils.isDeviceRooted()) {
+            toast("请勿在root设备使用本App");
+            postDelayed(() -> ActivityManager.getInstance().finishAllActivities(), ToastUtils.getToast().getDuration());
+            return;
+        }
+        if (!AppConfig.isDebug() && DeviceUtils.isEmulator()) {
+            toast("请勿在模拟器上使用本App");
+            postDelayed(() -> ActivityManager.getInstance().finishAllActivities(), ToastUtils.getToast().getDuration());
+            return;
+        }
+        if (!AppConfig.isDebug() && (DeviceUtils.isAdbEnabled() || DeviceUtils.isDevelopmentSettingsEnabled())) {
+            toast("请勿调试本App");
+            postDelayed(() -> ActivityManager.getInstance().finishAllActivities(), ToastUtils.getToast().getDuration());
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -266,6 +287,5 @@ public abstract class AppActivity extends BaseActivity
             hideDialog();
         }
         mDialog = null;
-        mViewBinding = null;
     }
 }

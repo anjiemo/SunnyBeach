@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Gradle: org.aspectj:aspectjrt:1.9.6">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.9.6/1651849d48659e5703adc2599e694bf67b8c3fc4/aspectjrt-1.9.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.9.6/1651849d48659e5703adc2599e694bf67b8c3fc4/aspectjrt-1.9.6.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.9.6/73911881b1f42b1faa5599f5ae3d465d903fa248/aspectjrt-1.9.6-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.9.6/73911881b1f42b1faa5599f5ae3d465d903fa248/aspectjrt-1.9.6-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.9.6/fa2628e30084aaa5228d551c3bfa6065948fdd63/aspectjrt-1.9.6-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.9.6/fa2628e30084aaa5228d551c3bfa6065948fdd63/aspectjrt-1.9.6-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

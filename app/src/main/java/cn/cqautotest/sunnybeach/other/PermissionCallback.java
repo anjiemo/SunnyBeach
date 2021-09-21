@@ -4,22 +4,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 
-import cn.cqautotest.sunnybeach.R;
-import cn.cqautotest.sunnybeach.manager.ActivityManager;
-import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
-import com.hjq.toast.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.manager.ActivityManager;
+import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog;
+
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2020/10/24
- *    desc   : 权限申请回调封装
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2020/10/24
+ * desc   : 权限申请回调封装
  */
 public abstract class PermissionCallback implements OnPermissionCallback {
 
@@ -31,11 +31,11 @@ public abstract class PermissionCallback implements OnPermissionCallback {
         }
 
         if (permissions.size() == 1 && Permission.ACCESS_BACKGROUND_LOCATION.equals(permissions.get(0))) {
-            ToastUtils.show(R.string.common_permission_fail_4);
+            // ToastUtils.show(R.string.common_permission_fail_4);
             return;
         }
 
-        ToastUtils.show(R.string.common_permission_fail_1);
+        // ToastUtils.show(R.string.common_permission_fail_1);
     }
 
     /**

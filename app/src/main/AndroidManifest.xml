@@ -1,30 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 清单文件合并指引：https://developer.android.google.cn/studio/build/manifest-merge?hl=zh-cn -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="cn.cqautotest.sunnybeach">
-
     <!-- 网络相关 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- 设置壁纸权限 -->
-    <uses-permission android:name="android.permission.SET_WALLPAPER" />
-    <!-- 外部存储 -->
-    <!--权限框架内部已经做了适配，直接申请 Manifest.permission.MANAGE_EXTERNAL_STORAGE 权限即可-->
-    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
-    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 设置壁纸权限 -->
+    <uses-permission android:name="android.permission.SET_WALLPAPER" /> <!-- 外部存储 -->
+    <!-- 权限框架内部已经做了适配，直接申请 Manifest.permission.MANAGE_EXTERNAL_STORAGE 权限即可 -->
+    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> -->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
-    <!-- 拍照权限 -->
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!-- 安装权限 -->
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <!-- 定位权限（用于 WebView 定位） -->
+        tools:ignore="ScopedStorage" /> <!-- 拍照权限 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 安装权限 -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!-- 定位权限（用于 WebView 定位） -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- Android 11 软件包可见性适配：https://www.jianshu.com/p/d1ccd425c4ce -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Android 11 软件包可见性适配：https://www.jianshu.com/p/d1ccd425c4ce -->
     <queries>
 
         <!-- 拍照意图：MediaStore.ACTION_IMAGE_CAPTURE -->
@@ -58,8 +50,6 @@
         </intent>
     </queries>
 
-    <!-- Application 节点详解：https://developer.android.google.cn/guide/topics/manifest/application-element -->
-    <!-- Activity 节点详解：https://developer.android.google.cn/guide/topics/manifest/activity-element -->
     <application
         android:name=".app.AppApplication"
         android:allowBackup="false"
@@ -84,8 +74,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider>
-        <!-- 闪屏页 -->
+        </provider> <!-- 闪屏页 -->
         <activity
             android:name=".ui.activity.SplashActivity"
             android:launchMode="singleTop"
@@ -120,9 +109,28 @@
         <!-- 摸鱼设置页 -->
         <activity
             android:name=".ui.activity.FishPondSettingActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <!-- 发布摸鱼页 -->
+        <activity
+            android:name=".ui.activity.PutFishActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <!-- 摸鱼评论列表页 -->
+        <activity
+            android:name=".ui.activity.FishCommendDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 评论回复页 -->
+        <activity
+            android:name=".ui.activity.SubmitCommendActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTranslucentNoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <!-- 文章详情 -->
         <activity
             android:name=".ui.activity.ArticleDetailActivity"
