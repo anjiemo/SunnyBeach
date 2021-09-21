@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.view.Gravity
 import android.view.View
+import androidx.activity.viewModels
 import androidx.viewbinding.ViewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.SingleClick
@@ -19,6 +20,7 @@ import cn.cqautotest.sunnybeach.manager.ThreadPoolManager
 import cn.cqautotest.sunnybeach.ui.dialog.MenuDialog
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
 import cn.cqautotest.sunnybeach.ui.dialog.SafeDialog
+import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import com.hjq.base.BaseDialog
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.HttpCallback
@@ -33,6 +35,7 @@ import com.hjq.widget.view.SwitchButton
 class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
 
     private lateinit var mBinding: SettingActivityBinding
+    private val mAppViewModel by viewModels<AppViewModel>()
 
     override fun getLayoutId(): Int = 0
 
@@ -91,7 +94,8 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                     .show()
             }
             R.id.sb_setting_update -> {
-                // TODO: 检查更新
+                // 检查更新
+                mAppViewModel.checkAppVersionUpdate()
             }
             R.id.sb_setting_phone -> {
                 SafeDialog.Builder(this)
