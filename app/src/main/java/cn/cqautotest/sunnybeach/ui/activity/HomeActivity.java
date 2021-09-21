@@ -20,7 +20,6 @@ import cn.cqautotest.sunnybeach.other.DoubleClickHelper;
 import cn.cqautotest.sunnybeach.other.IntentKey;
 import cn.cqautotest.sunnybeach.ui.fragment.ArticleListFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.DiscoverFragment;
-import cn.cqautotest.sunnybeach.ui.fragment.EmptyFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.FishListFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.HomeFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
@@ -80,7 +79,7 @@ public final class HomeActivity extends AppActivity
         mPagerAdapter.addFragment(ArticleListFragment.newInstance());
         mPagerAdapter.addFragment(DiscoverFragment.newInstance());
         mPagerAdapter.addFragment(FishListFragment.newInstance());
-        mPagerAdapter.addFragment(EmptyFragment.newInstance());
+        // mPagerAdapter.addFragment(EmptyFragment.newInstance());
         mPagerAdapter.addFragment(MyMeFragment.newInstance());
         mViewPager.setAdapter(mPagerAdapter);
 
@@ -147,20 +146,20 @@ public final class HomeActivity extends AppActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.menu_home) {
-            mViewPager.setCurrentItem(0);
+            mViewPager.setCurrentItem(0, false);
             return true;
         } else if (itemId == R.id.home_found) {
-            mViewPager.setCurrentItem(1);
+            mViewPager.setCurrentItem(1, false);
             return true;
         } else if (itemId == R.id.home_fish_pond) {
-            mViewPager.setCurrentItem(2);
+            mViewPager.setCurrentItem(2, false);
             return true;
-        } else if (itemId == R.id.home_message) {
-            mViewPager.setCurrentItem(3);
-            toast("该界面正在装修中...");
-            return true;
+            // } else if (itemId == R.id.home_message) {
+            //     mViewPager.setCurrentItem(3, false);
+            //     toast("该界面正在装修中...");
+            //     return true;
         } else if (itemId == R.id.home_me) {
-            mViewPager.setCurrentItem(4);
+            mViewPager.setCurrentItem(4, false);
             return true;
         }
         return false;
