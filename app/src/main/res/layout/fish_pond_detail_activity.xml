@@ -13,75 +13,105 @@
         android:layout_height="wrap_content"
         app:title="摸鱼详情" />
 
-    <androidx.core.widget.NestedScrollView
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/sl_fish_detail_refresh"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1">
 
-        <LinearLayout
+        <cn.cqautotest.sunnybeach.widget.StatusLayout
+            android:id="@+id/sl_fish_detail_hint"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include
-                android:id="@+id/fish_pond"
-                layout="@layout/fish_pond_list_item" />
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="6dp"
-                android:background="@color/white"
-                android:orientation="horizontal"
-                android:padding="10dp">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <TextView
+                <include
+                    android:id="@+id/fish_pond"
+                    layout="@layout/fish_pond_list_item" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:text="相关推荐"
-                    android:textStyle="bold"
-                    app:drawableEndCompat="@drawable/arrows_right_ic" />
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:text="相关推荐"
+                        android:textStyle="bold"
+                        app:drawableEndCompat="@drawable/arrows_right_ic" />
+
+                </LinearLayout>
+
+                <com.hjq.widget.layout.NestedViewPager
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:contentDescription="相关推荐列表"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_fish_pond_detail_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/fish_pond_list_item" />
 
             </LinearLayout>
 
-            <com.hjq.widget.layout.NestedViewPager
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:contentDescription="相关推荐列表"
-                android:visibility="gone" />
+        </cn.cqautotest.sunnybeach.widget.StatusLayout>
 
-            <cn.cqautotest.sunnybeach.widget.NonScrollExpandableListView
-                android:id="@+id/elv_fish_pond_detail_comment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:childDivider="@drawable/reply_divider"
-                android:contentDescription="可展开的评论列表"
-                android:divider="@drawable/comment_divider"
-                android:dividerHeight="2dp"
-                tools:listitem="@layout/fish_pond_list_item" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-    <TextView
-        android:id="@+id/tv_fish_pond_submit_comment"
-        style="@style/ButtonStyle"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_reply_container"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/home_search_bar_gray_bg"
-        android:backgroundTint="@color/white"
-        android:gravity="center_vertical"
-        android:hint="输入评论..."
-        android:paddingTop="0dp"
-        android:paddingBottom="0dp"
-        android:shadowRadius="20" />
+        android:layout_height="70dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginTop="1px"
+        android:background="@drawable/recommend_top_line_ic"
+        android:paddingBottom="10dp">
+
+        <View
+            android:id="@+id/v_open_or_close"
+            android:layout_width="50dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/menu_top_bg"
+            android:padding="48dp"
+            app:layout_constraintBottom_toTopOf="@id/tv_fish_pond_submit_comment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_fish_pond_submit_comment"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/home_search_bar_gray_bg"
+            android:gravity="center_vertical"
+            android:hint="写回复..."
+            android:textColor="#A4A4A4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

@@ -29,8 +29,7 @@ import com.bumptech.glide.Glide
 class ElvCommentAdapter : BaseExpandableListAdapter() {
 
     private var mInflater: LayoutInflater =
-        AppApplication.getInstance()
-            .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        AppApplication.getInstance().applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     private val replyBgColor = Color.parseColor("#F5F5F5")
     private val mGroupData: MutableList<FishPondComment.FishPondCommentItem> = arrayListOf()
     private val mChildData: MutableList<List<FishPondComment.FishPondCommentItem.SubComment>> =

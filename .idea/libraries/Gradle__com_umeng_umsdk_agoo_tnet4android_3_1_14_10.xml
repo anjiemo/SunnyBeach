@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Gradle: com.umeng.umsdk:agoo_tnet4android:3.1.14.10">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/agoo_tnet4android/3.1.14.10/4dc40b6b3fa610167225e69cea1346c1920a3f43/agoo_tnet4android-3.1.14.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/agoo_tnet4android/3.1.14.10/4dc40b6b3fa610167225e69cea1346c1920a3f43/agoo_tnet4android-3.1.14.10.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/agoo_tnet4android/3.1.14.10/f6dea1c2480813d18f85240336991423cb8131d7/agoo_tnet4android-3.1.14.10-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/agoo_tnet4android/3.1.14.10/f6dea1c2480813d18f85240336991423cb8131d7/agoo_tnet4android-3.1.14.10-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/agoo_tnet4android/3.1.14.10/f6dea1c2480813d18f85240336991423cb8131d7/agoo_tnet4android-3.1.14.10-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.umeng.umsdk/agoo_tnet4android/3.1.14.10/f6dea1c2480813d18f85240336991423cb8131d7/agoo_tnet4android-3.1.14.10-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

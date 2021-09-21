@@ -41,7 +41,6 @@ import cn.cqautotest.sunnybeach.other.AppConfig;
 import cn.cqautotest.sunnybeach.other.CrashHandler;
 import cn.cqautotest.sunnybeach.other.DebugLoggerTree;
 import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter;
-import cn.cqautotest.sunnybeach.other.ToastInterceptor;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
@@ -100,13 +99,13 @@ public final class AppApplication extends Application {
         });
 
         // 设置 Toast 拦截器
-        ToastUtils.setToastInterceptor(new ToastInterceptor());
+        // ToastUtils.setToastInterceptor(new ToastInterceptor());
 
         // 设置标题栏初始化器
         TitleBar.setDefaultInitializer(new TransparentBarInitializer() {
             @Override
             public Drawable getBackgroundDrawable(Context context) {
-                return getDrawableResources(context, R.drawable.shape_gradient);
+                return ContextCompat.getDrawable(context, R.drawable.shape_gradient);
             }
         });
 
@@ -175,7 +174,7 @@ public final class AppApplication extends Application {
                     if (topActivity instanceof LifecycleOwner) {
                         LifecycleOwner lifecycleOwner = ((LifecycleOwner) topActivity);
                         if (lifecycleOwner.getLifecycle().getCurrentState() == Lifecycle.State.RESUMED) {
-                            ToastUtils.show(R.string.common_network_error);
+                            // ToastUtils.show(R.string.common_network_error);
                         }
                     }
                 }

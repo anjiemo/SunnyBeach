@@ -3,11 +3,8 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Rect
-import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.DebugLog
@@ -23,7 +20,6 @@ import com.chad.library.adapter.base.module.BaseDraggableModule
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
-import io.noties.markwon.syntax.*
 
 /**
  * author : A Lonely Cat
@@ -47,9 +43,9 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
     }
 
     override fun initObserver() {
-        mFishPondViewModel.fishFishPondTopicList.observe(this) { fishTopic ->
-            setupTopicUI(fishTopic)
-        }
+        // mFishPondViewModel.fishFishPondTopicList.observe(this) { fishTopic ->
+        //     setupTopicUI(fishTopic)
+        // }
     }
 
     private fun setupTopicUI(fishFishPondTopicList: FishPondTopicList?) {
@@ -77,7 +73,7 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
     }
 
     private fun loadTopic() {
-        mFishPondViewModel.loadTopicList()
+        // mFishPondViewModel.loadTopicList()
     }
 
     override fun initView() {
@@ -91,22 +87,7 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
             val draggableModule = BaseDraggableModule(mFishPondAdapter)
             draggableModule.attachToRecyclerView(this)
             draggableModule.isDragEnabled = true
-            addItemDecoration(object : RecyclerView.ItemDecoration() {
-
-                // 单位间距（实际间距的一半）
-                private val unit = 4.dp
-
-                override fun getItemOffsets(
-                    outRect: Rect,
-                    view: View,
-                    parent: RecyclerView,
-                    state: RecyclerView.State
-                ) {
-                    super.getItemOffsets(outRect, view, parent, state)
-                    equilibriumAssignmentOfGrid(unit, outRect, view, parent)
-                    view.setRoundRectBg(cornerRadius = 16.dp)
-                }
-            })
+            addItemDecoration(GridSpaceItemDecoration(4.dp))
         }
     }
 
@@ -114,12 +95,9 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
         return mStatusLayout
     }
 
-    override fun onLeftClick(view: View?) {
-        finish()
-    }
-
     companion object {
 
+        @JvmStatic
         @DebugLog
         fun start(context: Context) {
             val intent = Intent(context, FishPondSettingActivity::class.java)

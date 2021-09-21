@@ -15,9 +15,8 @@
         <cn.cqautotest.sunnybeach.widget.XCollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentScrim="@color/white"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:toolbarId="@+id/toolBar">
+            app:contentScrim="@color/transparent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <!--默认设置黄金分割比例反比显示-->
             <com.hjq.widget.layout.RatioFrameLayout
@@ -25,20 +24,18 @@
                 android:layout_height="wrap_content"
                 app:sizeRatio="1000:618">
 
-                <com.youth.banner.Banner
-                    android:id="@+id/banner"
+                <cn.cqautotest.sunnybeach.widget.StatusContainer
+                    android:id="@+id/sl_banner_hint"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#F2F2F2">
+                    android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/bannerNoDataIv"
+                    <com.youth.banner.Banner
+                        android:id="@+id/banner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="60dp"
-                        android:src="@mipmap/ic_no_photo" />
+                        android:background="#F2F2F2" />
 
-                </com.youth.banner.Banner>
+                </cn.cqautotest.sunnybeach.widget.StatusContainer>
 
             </com.hjq.widget.layout.RatioFrameLayout>
 
@@ -52,30 +49,30 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/sl_discover_refresh"
+    <cn.cqautotest.sunnybeach.widget.StatusLayout
+        android:id="@+id/sl_discover_hint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fadingEdge="none"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         app:srlEnableLoadMore="false">
 
-        <cn.cqautotest.sunnybeach.widget.StatusLayout
-            android:id="@+id/hl_discover_hint"
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/photoListRv"
+                android:id="@+id/rv_photo_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
                 tools:itemCount="20"
-                tools:listitem="@layout/photo_item" />
+                tools:listitem="@layout/photo_list_item" />
 
-        </cn.cqautotest.sunnybeach.widget.StatusLayout>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+    </cn.cqautotest.sunnybeach.widget.StatusLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

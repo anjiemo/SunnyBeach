@@ -1,0 +1,599 @@
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" type="text/css" href="../css/shCore.css">
+        <!--    <link rel="stylesheet" type="text/css" href="syntaxhighlighter/css/shThemeArticle.css">-->
+        <link rel="stylesheet" type="text/css" href="../css/shThemeFadeToGrey.css">
+        <script type="text/javascript" src="../js/XRegExp.js"></script>
+        <script type="text/javascript" src="../js/shCore.js"></script>
+        <script type="text/javascript" src="../js/shBrushJava.js"></script>
+        <script type="text/javascript" src="../js/shBrushPowerShell.js"></script>
+        <script type="text/javascript" src="../js/shBrushJScript.js"></script>
+        <script type="text/javascript" src="../js/shBrushSql.js"></script>
+        <script type="text/javascript" src="../js/shBrushXml.js"></script>
+        <script type="text/javascript" src="../js/shBrushPlain.js"></script>
+        <script type="text/javascript" src="../js/shBrushKotlin.js"></script>
+        <script type="text/javascript">
+        SyntaxHighlighter.all()
+        function onTouchStart(e) {
+            androidApi.touchEvent(0);
+        }
+        function onTouchEnd(e) {
+            androidApi.touchEvent(2);
+        }
+         function onTouchMove(e) {
+            androidApi.touchEvent(1);
+        }
+        function addTouchListener() {
+            var dom = document.getElementsByClassName('code');
+            androidApi.log(dom.length);
+            for (i in dom){
+                dom[i].addEventListener('touchstart', onTouchStart, false);
+                dom[i].addEventListener('touchmove', onTouchMove, false);
+                dom[i].addEventListener('touchend', onTouchEnd, false);
+            }
+        }
+
+
+        </script>
+        <style>
+        img {
+            max-width: 100%;
+        }
+        .code_block{
+            display: block;
+            overflow-x: auto;
+            padding: .5em;
+            background: #f0f0f0;
+        }
+        .key_word{
+            word-break: break-word;
+            border-radius: 2px;
+            margin-left: 3px;
+            margin-right: 3px;
+            overflow-x: auto;
+            background-color: #f7f7f7;
+            color: #ff502c;
+            font-size: .87em;
+            padding: .065em .4em!important;
+            display: inline!important;
+        }
+
+
+        </style>
+    </head>
+<body>
+<h1>自定义控件-阳光沙滩用户头像</h1>
+<p><img src="https://images.sunofbeaches.com/content/2021_07_22/867893313296924672.jpg" alt="图片描述">
+</p>
+<h2>开发需求</h2>
+<ul>
+    <li>
+        在阳光沙滩客户端中会有大量的显示用户头像的地方，例如文章列表、摸鱼列表、相关评论中都会用到，并且在不同地方他们的大小和样式可能也不一样，还有就是Vip和普通用户也有不同标志，因此需要用到自定义控件，并且控件应该自适应大小和通过其属性控制控件的样式
+        <ol>
+            <li>控件自适应</li>
+            <li>属性控制控件的形状</li>
+            <li>属性控制控件的VIP和非VIP的样式</li>
+        </ol>
+    </li>
+</ul>
+<h2>开发知识预热</h2>
+<ul>
+    <li><p>Paint的xfermode的应用</p>
+        <p>由于图片的形状是矩形，而在自定义过程中我们要将头像设置成圆形或圆角矩形，我们在这里使用<span class="key_word">Paint</span>的<span
+                class="key_word">xfermode</span>实现, 当取不同的值是可以将得到两张图片的并集、合集等等，具体知识可以参看文章：<a
+                href="https://www.jianshu.com/p/d11892bbe055">各个击破搞明白PorterDuff.Mode</a>。在当前需求中我们使用<span
+                class="key_word">PorterDuff.Mode.SRC_IN</span>,在此模式下： 1. 在两者相交的地方绘制源图像 2.
+            绘制的效果会受到目标图像对应地方透明度的影响</p>
+        <p>重点在于第一点，第二点由于需求没有涉及到透明度的问题所以用不到这个属性。而实现圆形和圆角矩形就是在canvs上绘制需要的图像形状，然后设置<span
+                class="key_word">xfermode</span>,最终绘制原图像，即可获取到所需形状的图像</p>
+        <p>绘制圆角矩形图片的代码示例：</p>
+        <pre class="code_block"><div><div id="highlighter_7016" class="syntaxhighlighter  kotlin"><table
+                border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div
+                class="line number1 index0 alt2">1</div><div
+                class="line number2 index1 alt1">2</div><div
+                class="line number3 index2 alt2">3</div><div
+                class="line number4 index3 alt1">4</div><div
+                class="line number5 index4 alt2">5</div><div
+                class="line number6 index5 alt1">6</div><div
+                class="line number7 index6 alt2">7</div><div
+                class="line number8 index7 alt1">8</div><div
+                class="line number9 index8 alt2">9</div><div
+                class="line number10 index9 alt1">10</div><div
+                class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div
+                class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div
+                class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div></td><td
+                class="code"><div class="container"><div class="line number1 index0 alt2"><code
+                class="kotlin keyword">private</code> <code class="kotlin keyword">fun</code> <code
+                class="kotlin plain">createRoundImage(bitmap: Bitmap, width: Int, height: Int): Bitmap{</code></div><div
+                class="line number2 index1 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">paint.isAntiAlias = </code><code
+                class="kotlin keyword">true</code></div><div class="line number3 index2 alt2"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="kotlin keyword">val</code> <code
+                class="kotlin plain">target = Bitmap.createBitmap(bitmap.width, bitmap.width, Bitmap.Config.ARGB_8888)</code></div><div
+                class="line number4 index3 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">val</code> <code
+                class="kotlin plain">canvas = Canvas(target)</code></div><div
+                class="line number5 index4 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">val</code> <code class="kotlin plain">min = Math.min(bitmap.width, bitmap.height)</code></div><div
+                class="line number6 index5 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">val</code> <code
+                class="kotlin plain">dstRect = Rect(</code><code class="kotlin value">0</code><code
+                class="kotlin plain">, </code><code class="kotlin value">0</code><code
+                class="kotlin plain">, width, height)</code></div><div
+                class="line number7 index6 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">val</code> <code
+                class="kotlin plain">srcRect = Rect(</code><code class="kotlin value">0</code><code
+                class="kotlin plain">, </code><code class="kotlin value">0</code><code
+                class="kotlin plain">, min, min)</code></div><div
+                class="line number8 index7 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">val</code> <code
+                class="kotlin plain">backgroundRect = RectF(</code><code
+                class="kotlin value">0</code><code
+                class="kotlin plain">.0f + borderWidth,</code><code
+                class="kotlin value">0</code><code class="kotlin plain">.0f + borderWidth, width.toFloat() - borderWidth, height.toFloat() - borderWidth)</code></div><div
+                class="line number9 index8 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">val</code> <code class="kotlin plain">roundR = ScreenUtils.dip2px(context, 8f).toFloat()</code></div><div
+                class="line number10 index9 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">canvas.drawRoundRect(backgroundRect, roundR - borderWidth, roundR - borderWidth, paint)</code></div><div
+                class="line number11 index10 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin comments">// 核心代码取两个图片的交集部分</code></div><div
+                class="line number12 index11 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)</code></div><div
+                class="line number13 index12 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">canvas.drawBitmap(bitmap, srcRect, dstRect, paint)</code></div><div
+                class="line number14 index13 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">paint.xfermode = </code><code
+                class="kotlin keyword">null</code></div><div
+                class="line number15 index14 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">return</code> <code class="kotlin plain">target</code></div><div
+                class="line number16 index15 alt1"><code
+                class="kotlin plain">}</code></div></div></td></tr></tbody></table></div></div></pre>
+    </li>
+    <li><p>Glide加载图片的监听 在glide的使用中最简单和最频繁的使用的代码是：</p>
+        <pre class="code_block"><div><div id="highlighter_503329" class="syntaxhighlighter  kotlin"><table
+                border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div
+                class="line number1 index0 alt2">1</div></td><td class="code"><div
+                class="container"><div class="line number1 index0 alt2"><code class="kotlin plain">Glide.</code><code
+                class="kotlin keyword">with</code><code class="kotlin plain">(context).load(url).into(iv)</code></div></div></td></tr></tbody></table></div></div></pre>
+        <p>但是在本次需求中我们要再设置的图片后去创建指定形状的图片和绘制其他VIP相关的样式，所以我们要让控件何时被设置了图片然后去调用postInvalidate()重新绘制图片</p>
+        <p>设置glide加载图片的代码示例：</p>
+        <pre class="code_block"><div><div id="highlighter_641028" class="syntaxhighlighter  kotlin"><table
+                border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div
+                class="line number1 index0 alt2">1</div><div
+                class="line number2 index1 alt1">2</div><div
+                class="line number3 index2 alt2">3</div><div
+                class="line number4 index3 alt1">4</div><div
+                class="line number5 index4 alt2">5</div><div
+                class="line number6 index5 alt1">6</div><div
+                class="line number7 index6 alt2">7</div><div
+                class="line number8 index7 alt1">8</div><div
+                class="line number9 index8 alt2">9</div><div
+                class="line number10 index9 alt1">10</div><div
+                class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div
+                class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div
+                class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div
+                class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div
+                class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div
+                class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div
+                class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div
+                class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div><div
+                class="line number27 index26 alt2">27</div><div class="line number28 index27 alt1">28</div><div
+                class="line number29 index28 alt2">29</div><div class="line number30 index29 alt1">30</div><div
+                class="line number31 index30 alt2">31</div></td><td class="code"><div
+                class="container"><div class="line number1 index0 alt2"><code
+                class="kotlin comments">//使用了ViewDataBing中的自定义属性</code></div><div
+                class="line number2 index1 alt1"><code
+                class="kotlin color1">@BindingAdapter</code><code class="kotlin plain">(</code><code
+                class="kotlin string">"avatar"</code><code class="kotlin plain">)</code></div><div
+                class="line number3 index2 alt2"><code class="kotlin keyword">fun</code> <code
+                class="kotlin plain">setAvatarImage(iv: SobAvatarView, avatar:String){</code></div><div
+                class="line number4 index3 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">Glide.</code><code class="kotlin keyword">with</code><code
+                class="kotlin plain">(iv.context)</code></div><div class="line number5 index4 alt2"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">.asBitmap()</code></div><div
+                class="line number6 index5 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">.load(avatar)</code></div><div
+                class="line number7 index6 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">.listener(object:RequestListener&lt;Bitmap&gt;{</code></div><div
+                class="line number8 index7 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">override </code><code class="kotlin keyword">fun</code> <code
+                class="kotlin plain">onLoadFailed(</code></div><div
+                class="line number9 index8 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">e: GlideException?,</code></div><div
+                class="line number10 index9 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">model: Any?,</code></div><div
+                class="line number11 index10 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">target: Target&lt;Bitmap&gt;?,</code></div><div
+                class="line number12 index11 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">isFirstResource: Boolean</code></div><div
+                class="line number13 index12 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">): Boolean {</code></div><div
+                class="line number14 index13 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">return</code> <code class="kotlin keyword">true</code></div><div
+                class="line number15 index14 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">}</code></div><div
+                class="line number16 index15 alt1">&nbsp;</div><div
+                class="line number17 index16 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">override </code><code class="kotlin keyword">fun</code> <code
+                class="kotlin plain">onResourceReady(</code></div><div
+                class="line number18 index17 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">resource: Bitmap?,</code></div><div
+                class="line number19 index18 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">model: Any?,</code></div><div
+                class="line number20 index19 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">target: Target&lt;Bitmap&gt;?,</code></div><div
+                class="line number21 index20 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">dataSource: DataSource?,</code></div><div
+                class="line number22 index21 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">isFirstResource: Boolean</code></div><div
+                class="line number23 index22 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">): Boolean {</code></div><div
+                class="line number24 index23 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin comments">//资源准备完毕,设置图片并刷新控件</code></div><div
+                class="line number25 index24 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">iv.setImageBitmap(resource)</code></div><div
+                class="line number26 index25 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">iv.update()</code></div><div
+                class="line number27 index26 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">return</code> <code class="kotlin keyword">true</code></div><div
+                class="line number28 index27 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">}</code></div><div
+                class="line number29 index28 alt2">&nbsp;</div><div
+                class="line number30 index29 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">}).into(iv)</code></div><div
+                class="line number31 index30 alt2"><code
+                class="kotlin plain">}</code></div></div></td></tr></tbody></table></div></div></pre>
+        <p>补充小知识：使用glide直接设置图片圆角</p>
+        <pre class="code_block"><div><div id="highlighter_466760" class="syntaxhighlighter  kotlin"><table
+                border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div
+                class="line number1 index0 alt2">1</div><div
+                class="line number2 index1 alt1">2</div><div
+                class="line number3 index2 alt2">3</div><div
+                class="line number4 index3 alt1">4</div><div
+                class="line number5 index4 alt2">5</div><div
+                class="line number6 index5 alt1">6</div><div
+                class="line number7 index6 alt2">7</div><div
+                class="line number8 index7 alt1">8</div><div
+                class="line number9 index8 alt2">9</div><div
+                class="line number10 index9 alt1">10</div><div
+                class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div
+                class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div
+                class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div
+                class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div></td><td
+                class="code"><div class="container"><div class="line number1 index0 alt2"><code
+                class="kotlin comments">//使用了ViewDataBing中的自定义属性</code></div><div
+                class="line number2 index1 alt1"><code
+                class="kotlin color1">@BindingAdapter</code><code
+                class="kotlin plain">(value=[</code><code
+                class="kotlin string">"pic_url"</code><code class="kotlin plain">, </code><code
+                class="kotlin string">"pic_corner"</code><code
+                class="kotlin plain">], requireAll = </code><code
+                class="kotlin keyword">false</code><code class="kotlin plain">)</code></div><div
+                class="line number3 index2 alt2"><code class="kotlin keyword">fun</code> <code
+                class="kotlin plain">setImageViewCorner(iv: ImageView, pic_url:String?, pic_corner: Int?){</code></div><div
+                class="line number4 index3 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">pic_url?.</code><code class="kotlin keyword">let</code> <code
+                class="kotlin plain">{</code></div><div class="line number5 index4 alt2"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">var</code> <code class="kotlin plain">override:RequestOptions? = </code><code
+                class="kotlin keyword">null</code></div><div class="line number6 index5 alt1"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">pic_corner?.</code><code
+                class="kotlin keyword">let</code> <code class="kotlin plain">{</code></div><div
+                class="line number7 index6 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">if</code><code
+                class="kotlin plain">(pic_corner &gt; </code><code
+                class="kotlin value">0</code><code class="kotlin plain">){</code></div><div
+                class="line number8 index7 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">val</code> <code class="kotlin plain">corners = RoundedCorners(ScreenUtils.dp2px(pic_corner))</code></div><div
+                class="line number9 index8 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">override = RequestOptions.bitmapTransform(corners)</code></div><div
+                class="line number10 index9 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">}</code></div><div class="line number11 index10 alt2"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">}</code></div><div class="line number12 index11 alt1"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">if</code> <code
+                class="kotlin plain">(override == </code><code
+                class="kotlin keyword">null</code><code class="kotlin plain">) {</code></div><div
+                class="line number13 index12 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">Glide.</code><code class="kotlin keyword">with</code><code
+                class="kotlin plain">(iv.context).load(pic_url).into(iv)</code></div><div
+                class="line number14 index13 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">}</code><code class="kotlin keyword">else</code><code
+                class="kotlin plain">{</code></div><div class="line number15 index14 alt2"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">Glide.</code><code class="kotlin keyword">with</code><code
+                class="kotlin plain">(iv.context).load(pic_url).</code><code class="kotlin keyword">apply</code><code
+                class="kotlin plain">(override!!).into(iv)</code></div><div
+                class="line number16 index15 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">}</code></div><div class="line number17 index16 alt2"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">}</code></div><div class="line number18 index17 alt1"><code
+                class="kotlin plain">}</code></div></div></td></tr></tbody></table></div></div></pre>
+    </li>
+    <li><p>DataBing在为自定义属性绑定赋值中遇到的问题</p>
+        <p>在此次需求中isVip属性是通过DataBing绑定给控件的，使用<span class="key_word">{data.isVip}</span>后编译会报错，说找不这个接口，因此需要在控件中创建函数isVip(vip:Boolean)解决该问题
+        </p>
+        <pre class="code_block"><div><div id="highlighter_698320" class="syntaxhighlighter  kotlin"><table
+                border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div
+                class="line number1 index0 alt2">1</div><div
+                class="line number2 index1 alt1">2</div><div
+                class="line number3 index2 alt2">3</div><div
+                class="line number4 index3 alt1">4</div><div
+                class="line number5 index4 alt2">5</div><div
+                class="line number6 index5 alt1">6</div><div
+                class="line number7 index6 alt2">7</div></td><td class="code"><div
+                class="container"><div class="line number1 index0 alt2"><code
+                class="kotlin keyword">fun</code> <code
+                class="kotlin plain">isVip(vip:Boolean){</code></div><div
+                class="line number2 index1 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">isVip = vip</code></div><div
+                class="line number3 index2 alt2"><code
+                class="kotlin comments">//参数置为0，绘画时重新新计算参数</code></div><div
+                class="line number4 index3 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">viewHeight = </code><code class="kotlin value">0</code></div><div
+                class="line number5 index4 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">viewWidth = </code><code class="kotlin value">0</code></div><div
+                class="line number6 index5 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">postInvalidate()</code></div><div
+                class="line number7 index6 alt2"><code
+                class="kotlin plain">}</code></div></div></td></tr></tbody></table></div></div></pre>
+    </li>
+</ul>
+<h2>开始敲代码</h2>
+<ol>
+    <li><p>根据需求自定义属性如下：</p>
+        <pre class="code_block"><div><div id="highlighter_639103" class="syntaxhighlighter  xml"><table
+                border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div
+                class="line number1 index0 alt2">1</div><div
+                class="line number2 index1 alt1">2</div><div
+                class="line number3 index2 alt2">3</div><div
+                class="line number4 index3 alt1">4</div></td><td class="code"><div
+                class="container"><div class="line number1 index0 alt2"><code
+                class="xml plain">&lt;</code><code
+                class="xml keyword">declare-styleable</code> <code
+                class="xml color1">name</code><code class="xml plain">=</code><code
+                class="xml string">"SobAvatarView"</code><code class="xml plain">&gt;</code></div><div
+                class="line number2 index1 alt1"><code
+                class="xml spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="xml plain">&lt;</code><code class="xml keyword">attr</code> <code
+                class="xml color1">name</code><code class="xml plain">=</code><code
+                class="xml string">"isCircle"</code> <code class="xml color1">format</code><code
+                class="xml plain">=</code><code class="xml string">"boolean"</code><code
+                class="xml plain">/&gt;</code></div><div class="line number3 index2 alt2"><code
+                class="xml spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="xml plain">&lt;</code><code class="xml keyword">attr</code> <code
+                class="xml color1">name</code><code class="xml plain">=</code><code
+                class="xml string">"isVip"</code> <code class="xml color1">format</code><code
+                class="xml plain">=</code><code class="xml string">"boolean"</code><code
+                class="xml plain">/&gt;</code></div><div class="line number4 index3 alt1"><code
+                class="xml plain">&lt;/</code><code
+                class="xml keyword">declare-styleable</code><code
+                class="xml plain">&gt;</code></div></div></td></tr></tbody></table></div></div></pre>
+    </li>
+    <li><p>编写控件代码</p>
+        <ol>
+            <li><p>初始化获取自定义属性的值</p>
+                <pre class="code_block"><div><div id="highlighter_469653"
+                                                  class="syntaxhighlighter  kotlin"><table
+                        border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div
+                        class="line number1 index0 alt2">1</div><div
+                        class="line number2 index1 alt1">2</div><div
+                        class="line number3 index2 alt2">3</div><div
+                        class="line number4 index3 alt1">4</div><div
+                        class="line number5 index4 alt2">5</div></td><td class="code"><div
+                        class="container"><div class="line number1 index0 alt2"><code
+                        class="kotlin plain">init {</code></div><div
+                        class="line number2 index1 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                        class="kotlin keyword">val</code> <code class="kotlin plain">obtainStyledAttributes = context.obtainStyledAttributes(attrs, R.styleable.SobAvatarView)</code></div><div
+                        class="line number3 index2 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                        class="kotlin plain">isCircle = obtainStyledAttributes.getBoolean(R.styleable.SobAvatarView_isCircle, isCircle)</code></div><div
+                        class="line number4 index3 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                        class="kotlin plain">isVip = obtainStyledAttributes.getBoolean(R.styleable.SobAvatarView_isVip, isVip)</code></div><div
+                        class="line number5 index4 alt2"><code
+                        class="kotlin plain">}</code></div></div></td></tr></tbody></table></div></div></pre>
+            </li>
+            <li><p>编写onDraw代码</p></li>
+        </ol>
+        <pre class="code_block"><div><div id="highlighter_594749" class="syntaxhighlighter  kotlin"><table
+                border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div
+                class="line number1 index0 alt2">1</div><div
+                class="line number2 index1 alt1">2</div><div
+                class="line number3 index2 alt2">3</div><div
+                class="line number4 index3 alt1">4</div><div
+                class="line number5 index4 alt2">5</div><div
+                class="line number6 index5 alt1">6</div><div
+                class="line number7 index6 alt2">7</div><div
+                class="line number8 index7 alt1">8</div><div
+                class="line number9 index8 alt2">9</div><div
+                class="line number10 index9 alt1">10</div><div
+                class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div
+                class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div
+                class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div
+                class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div
+                class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div></td><td
+                class="code"><div class="container"><div class="line number1 index0 alt2"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="kotlin plain">override </code><code
+                class="kotlin keyword">fun</code> <code class="kotlin plain">onDraw(canvas: Canvas?) {</code></div><div
+                class="line number2 index1 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">canvas?.</code><code class="kotlin keyword">let</code> <code
+                class="kotlin plain">{</code></div><div class="line number3 index2 alt2"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin comments">//检查需要重新初始化相关属性</code></div><div
+                class="line number4 index3 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">if</code><code
+                class="kotlin plain">(viewHeight == </code><code class="kotlin value">0</code> <code
+                class="kotlin plain">|| viewWidth == </code><code class="kotlin value">0</code><code
+                class="kotlin plain">){</code></div><div class="line number5 index4 alt2"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin comments">//计算相关属性的值</code></div><div
+                class="line number6 index5 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">calcValues()</code></div><div class="line number7 index6 alt2"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">}</code></div><div class="line number8 index7 alt1"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin comments">//判断画那种样式</code></div><div class="line number9 index8 alt2"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">if</code><code class="kotlin plain">(isCircle){</code></div><div
+                class="line number10 index9 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">drawCircleStyle(it)</code></div><div
+                class="line number11 index10 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">}</code><code class="kotlin keyword">else</code><code
+                class="kotlin plain">{</code></div><div class="line number12 index11 alt1"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">drawRoundStyle(it)</code></div><div
+                class="line number13 index12 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">}</code></div><div class="line number14 index13 alt1"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin comments">//画字母V</code></div><div
+                class="line number15 index14 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">drawLetterV(it)</code></div><div
+                class="line number16 index15 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">}</code></div><div class="line number17 index16 alt2"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">if</code> <code class="kotlin plain">(canvas == </code><code
+                class="kotlin keyword">null</code><code class="kotlin plain">) {</code></div><div
+                class="line number18 index17 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">super</code><code
+                class="kotlin plain">.draw(canvas)</code></div><div
+                class="line number19 index18 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">}</code></div><div class="line number20 index19 alt1"><code
+                class="kotlin plain">}</code></div></div></td></tr></tbody></table></div></div></pre>
+        <ol>
+            <li>相关属性的值的计算</li>
+        </ol>
+        <pre class="code_block"><div><div id="highlighter_283839" class="syntaxhighlighter  kotlin"><table
+                border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div
+                class="line number1 index0 alt2">1</div><div
+                class="line number2 index1 alt1">2</div><div
+                class="line number3 index2 alt2">3</div><div
+                class="line number4 index3 alt1">4</div><div
+                class="line number5 index4 alt2">5</div><div
+                class="line number6 index5 alt1">6</div><div
+                class="line number7 index6 alt2">7</div><div
+                class="line number8 index7 alt1">8</div><div
+                class="line number9 index8 alt2">9</div><div
+                class="line number10 index9 alt1">10</div><div
+                class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div
+                class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div
+                class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div
+                class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div
+                class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div
+                class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div
+                class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div
+                class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div><div
+                class="line number27 index26 alt2">27</div></td><td class="code"><div
+                class="container"><div class="line number1 index0 alt2"><code
+                class="kotlin preprocessor">/**</code></div><div
+                class="line number2 index1 alt1"><code class="kotlin spaces">&nbsp;</code><code
+                class="kotlin preprocessor">* 计算相关参数</code></div><div
+                class="line number3 index2 alt2"><code class="kotlin spaces">&nbsp;</code><code
+                class="kotlin preprocessor">*/</code></div><div
+                class="line number4 index3 alt1"><code class="kotlin keyword">private</code> <code
+                class="kotlin keyword">fun</code> <code
+                class="kotlin plain">calcValues() {</code></div><div
+                class="line number5 index4 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin comments">//计算控件的宽高</code></div><div class="line number6 index5 alt1"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="kotlin plain">viewHeight = height - paddingBottom - paddingTop</code></div><div
+                class="line number7 index6 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">viewWidth = width - paddingStart - paddingEnd</code></div><div
+                class="line number8 index7 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin comments">//将设置的图片转化为控件大小的Bitmap</code></div><div
+                class="line number9 index8 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">val</code> <code class="kotlin plain">image: Bitmap = drawableToBitmap(drawable)</code></div><div
+                class="line number10 index9 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">val</code> <code class="kotlin plain">resSizeBitmap = resizeBitmap(image, viewWidth, viewHeight)</code></div><div
+                class="line number11 index10 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin comments">//VIP broad宽度</code></div><div
+                class="line number12 index11 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">borderWidth =</code></div><div
+                class="line number13 index12 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">(defBorderWidth * </code><code class="kotlin value">1.0</code> <code
+                class="kotlin plain">* (viewWidth * </code><code
+                class="kotlin value">1.0</code> <code class="kotlin plain">/ ScreenUtils.dip2px(context, 60f))).toInt()</code></div><div
+                class="line number14 index13 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin comments">//VIP图标半径</code></div><div
+                class="line number15 index14 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">smallR = viewWidth / </code><code class="kotlin value">2</code><code
+                class="kotlin plain">.0f - ((viewWidth - borderWidth) / </code><code
+                class="kotlin value">2</code><code class="kotlin plain">.0f) * (sqrt2 / </code><code
+                class="kotlin value">2</code><code class="kotlin plain">.0f).toFloat()</code></div><div
+                class="line number16 index15 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin keyword">if</code> <code
+                class="kotlin plain">(isCircle) {</code></div><div
+                class="line number17 index16 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin comments">//圆形头像</code></div><div
+                class="line number18 index17 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">circleBitmap = createCircleImage(resSizeBitmap, viewWidth, viewHeight)</code></div><div
+                class="line number19 index18 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">} </code><code class="kotlin keyword">else</code> <code
+                class="kotlin plain">{</code></div><div class="line number20 index19 alt1"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin comments">//圆角矩形头像</code></div><div
+                class="line number21 index20 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">roundBitmap = createRoundImage(resSizeBitmap, viewWidth, viewHeight)</code></div><div
+                class="line number22 index21 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">}</code></div><div class="line number23 index22 alt2"><code
+                class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="kotlin plain">vipIconRect = RectF(</code></div><div
+                class="line number24 index23 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">viewWidth - </code><code class="kotlin value">2</code> <code
+                class="kotlin plain">* smallR, viewWidth - </code><code
+                class="kotlin value">2</code> <code class="kotlin plain">* smallR,</code></div><div
+                class="line number25 index24 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">viewWidth.toFloat(), viewHeight.toFloat()</code></div><div
+                class="line number26 index25 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">)</code></div><div class="line number27 index26 alt2"><code
+                class="kotlin plain">}</code></div></div></td></tr></tbody></table></div></div></pre>
+        <ol>
+            <li>刷新头像数据的接口</li>
+        </ol>
+        <pre class="code_block"><div><div id="highlighter_482032" class="syntaxhighlighter  kotlin"><table
+                border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div
+                class="line number1 index0 alt2">1</div><div
+                class="line number2 index1 alt1">2</div><div
+                class="line number3 index2 alt2">3</div><div
+                class="line number4 index3 alt1">4</div><div
+                class="line number5 index4 alt2">5</div><div
+                class="line number6 index5 alt1">6</div><div
+                class="line number7 index6 alt2">7</div><div
+                class="line number8 index7 alt1">8</div><div
+                class="line number9 index8 alt2">9</div></td><td class="code"><div
+                class="container"><div class="line number1 index0 alt2"><code
+                class="kotlin preprocessor">/**</code></div><div
+                class="line number2 index1 alt1"><code class="kotlin spaces">&nbsp;</code><code
+                class="kotlin preprocessor">* 提供给外部设置头像后用来刷新数据的接口</code></div><div
+                class="line number3 index2 alt2"><code class="kotlin spaces">&nbsp;</code><code
+                class="kotlin preprocessor">*/</code></div><div
+                class="line number4 index3 alt1"><code class="kotlin keyword">fun</code> <code
+                class="kotlin plain">update() {</code></div><div
+                class="line number5 index4 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin comments">//参数置为0，绘画时重新新计算参数</code></div><div
+                class="line number6 index5 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">viewHeight = </code><code class="kotlin value">0</code></div><div
+                class="line number7 index6 alt2"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">viewWidth = </code><code class="kotlin value">0</code></div><div
+                class="line number8 index7 alt1"><code class="kotlin spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code
+                class="kotlin plain">postInvalidate()</code></div><div
+                class="line number9 index8 alt2"><code
+                class="kotlin plain">}</code></div></div></td></tr></tbody></table></div></div></pre>
+        <ol>
+            <li><p>小结</p></li>
+            <li><p>阳光沙滩用户头像的自定义View的代码分享如上，除了以上方法为还有其余方法都是简单的功能函数，避免篇幅过大，暂不做分享，详细代码可以<a
+                    href="https://github.com/coder-zt/SOBBlog/blob/master/app/src/main/java/com/coder/zt/sobblog/ui/view/SobAvatarView.kt">在这里</a>阅读。希望xdjmm能阅读阅读代码，指出不足的地方，相互学习，哈哈哈。
+            </p></li>
+        </ol>
+    </li>
+</ol>
+<h2>总结</h2>
+<ul>
+    <li><p>
+        好久都没写文章了，肚子里也没什么墨水了，因此文章大部分都是代码，但是关键注释还是有的，希望大家通过文章能够学习到关于自定义View的相关知识，如果代码阅读过程中遇到不足的地方欢迎在评论区指出纠正，大家一起学习，共同进步；一直觉得程序猿（媛）写代码的时间占据了大部分，在大部分时间效率较低，而对代码的商量与思考时间较少，所以希望阳光沙滩能越来越热闹，xdjmm能在这里愉快的交流分享知识。至少现在对于我来说代码能使感到愉快，希望以后也如此！</p>
+    </li>
+    <li><p>最后是关于阳光沙客户端文章详情的预告，因为文章的样式已经优化的不错了（在我看来是🤭），争取这周日分享出来，敬请期待。。。</p></li>
+</ul>
+
+</body></head>

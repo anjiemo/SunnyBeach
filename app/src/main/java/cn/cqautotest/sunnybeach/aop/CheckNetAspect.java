@@ -6,20 +6,18 @@ import android.net.NetworkInfo;
 
 import androidx.core.content.ContextCompat;
 
-import cn.cqautotest.sunnybeach.R;
-import cn.cqautotest.sunnybeach.manager.ActivityManager;
-import com.hjq.toast.ToastUtils;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
+import cn.cqautotest.sunnybeach.manager.ActivityManager;
+
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2020/01/11
- *    desc   : 网络检测切面
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2020/01/11
+ * desc   : 网络检测切面
  */
 @Aspect
 public class CheckNetAspect {
@@ -42,7 +40,7 @@ public class CheckNetAspect {
                 NetworkInfo info = manager.getActiveNetworkInfo();
                 // 判断网络是否连接
                 if (info == null || !info.isConnected()) {
-                    ToastUtils.show(R.string.common_network_hint);
+                    // ToastUtils.show(R.string.common_network_hint);
                     return;
                 }
             }

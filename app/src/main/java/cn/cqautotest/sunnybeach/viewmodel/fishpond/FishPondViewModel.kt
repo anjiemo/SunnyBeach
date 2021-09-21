@@ -1,20 +1,18 @@
 package cn.cqautotest.sunnybeach.viewmodel.fishpond
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.request.api.FishPondApi
-import cn.cqautotest.sunnybeach.model.*
-import cn.cqautotest.sunnybeach.util.PageBean
-import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_HTTP_OK_CODE
-import cn.cqautotest.sunnybeach.util.TAG
-import cn.cqautotest.sunnybeach.util.logByDebug
-import com.blankj.utilcode.util.NetworkUtils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import cn.cqautotest.sunnybeach.model.Fish
+import cn.cqautotest.sunnybeach.model.FishPondComment
+import cn.cqautotest.sunnybeach.paging.source.FishDetailCommendListPagingSource
+import cn.cqautotest.sunnybeach.paging.source.FishPagingSource
+import cn.cqautotest.sunnybeach.viewmodel.app.Repository
+import kotlinx.coroutines.flow.Flow
+import java.io.File
 
 /**
  * author : A Lonely Cat
@@ -24,105 +22,25 @@ import kotlinx.coroutines.withContext
  */
 class FishPondViewModel : ViewModel() {
 
-    private val fishPondApi by lazy { ServiceCreator.create<FishPondApi>() }
+    fun postComment(momentComment: Map<String, Any?>) = Repository.postComment(momentComment)
 
-    // 全部摸鱼话题列表
-    private val _fishPondTopic = MutableLiveData<FishPondTopicList?>()
-    val fishFishPondTopicList: LiveData<FishPondTopicList?> get() = _fishPondTopic
-
-    // 摸鱼首页话题列表
-    private val _fishPondTopicIndex = MutableLiveData<FishPondTopicIndex?>()
-    val fishPondTopicIndex: LiveData<FishPondTopicIndex?> get() = _fishPondTopicIndex
-
-    // 摸鱼
-    private val _fishPond = MutableLiveData<Fish?>()
-    val fishPond: LiveData<Fish?> get() = _fishPond
-
-    // 评论列表
-    private val _fishPondRecommend = MutableLiveData<FishPondComment>()
-    val fishPondComment: LiveData<FishPondComment> get() = _fishPondRecommend
-
-    private val mFishPageBean by lazy { PageBean() }
-
-    fun loadFishPondRecommendListById(fishPondId: String) = viewModelScope.launch {
-        val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
-        if (available.not()) return@launch
-        runCatching {
-            // TODO: 2021/7/11 page后期作为分页参数
-            fishPondApi.loadFishPondCommentListById(fishPondId, 1)
-        }.onSuccess { response ->
-            val responseData = response.data
-            logByDebug(
-                tag = TAG,
-                msg = "loadFishPondRecommendListById：responseData is ===> $responseData"
-            )
-            if (SUNNY_BEACH_HTTP_OK_CODE == response.code) {
-                _fishPondRecommend.value = responseData
-            }
-        }.onFailure {
-            it.printStackTrace()
-        }
+    fun getFishCommendListById(momentId: String): Flow<PagingData<FishPondComment.FishPondCommentItem>> {
+        return Pager(config = PagingConfig(30),
+            pagingSourceFactory = {
+                FishDetailCommendListPagingSource(momentId)
+            }).flow.cachedIn(viewModelScope)
     }
 
-    fun loadFishPondListById(topicId: String, page: Int) = viewModelScope.launch {
-        val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
-        if (available.not()) return@launch
-        logByDebug(msg = "loadFishPondListById：mFishPageBean current page is ===> ${mFishPageBean.currentPage}")
-        runCatching {
-            fishPondApi.loadFishPondListById(topicId, page)
-        }.onSuccess { response ->
-            val responseData = response.data
-            logByDebug(tag = TAG, msg = "loadFishPondListById：responseData is ===> $responseData")
-            if (SUNNY_BEACH_HTTP_OK_CODE == response.code) {
-                _fishPond.value = responseData
-            }
-        }.onFailure {
-            it.printStackTrace()
-        }
-    }
+    suspend fun uploadFishImage(image: File) = Repository.uploadFishImage(image)
 
-    fun loadTopicListByIndex() = viewModelScope.launch {
-        val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
-        if (available.not()) return@launch
-        runCatching {
-            fishPondApi.loadTopicListByIndex()
-        }.onSuccess { response ->
-            val responseData = response.data
-            if (SUNNY_BEACH_HTTP_OK_CODE == response.code) {
-                _fishPondTopicIndex.value = responseData
-            }
-        }.onFailure {
-            it.printStackTrace()
-        }
-    }
+    fun putFish(moment: Map<String, Any?>) = Repository.putFish(moment)
 
-    fun loadTopicList() = viewModelScope.launch {
-        val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
-        if (available.not()) return@launch
-        runCatching {
-            fishPondApi.loadTopicList()
-        }.onSuccess { response ->
-            val responseData = response.data
-            if (SUNNY_BEACH_HTTP_OK_CODE == response.code) {
-                _fishPondTopic.value = responseData
-            }
-        }.onFailure {
-            it.printStackTrace()
-        }
-    }
+    fun getFishDetailById(momentId: String) = Repository.loadFishDetailById(momentId)
 
-    fun loadHotFish() = viewModelScope.launch {
-        val available = withContext(Dispatchers.IO) { NetworkUtils.isAvailable() }
-        if (available.not()) return@launch
-        runCatching {
-            fishPondApi.loadHotFish(10)
-        }.onSuccess { response ->
-            val responseData = response.data
-            if (SUNNY_BEACH_HTTP_OK_CODE == response.code) {
-                _fishPond.value = responseData
-            }
-        }.onFailure {
-            it.printStackTrace()
-        }
+    fun getFishListByCategoryId(topicId: String): Flow<PagingData<Fish.FishItem>> {
+        return Pager(config = PagingConfig(30),
+            pagingSourceFactory = {
+                FishPagingSource(topicId)
+            }).flow.cachedIn(viewModelScope)
     }
 }

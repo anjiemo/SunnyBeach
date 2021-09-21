@@ -18,11 +18,11 @@ import cn.cqautotest.sunnybeach.app.AppFragment;
 import cn.cqautotest.sunnybeach.manager.ActivityManager;
 import cn.cqautotest.sunnybeach.other.DoubleClickHelper;
 import cn.cqautotest.sunnybeach.other.IntentKey;
+import cn.cqautotest.sunnybeach.ui.fragment.ArticleListFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.DiscoverFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.EmptyFragment;
-import cn.cqautotest.sunnybeach.ui.fragment.FishPondFragment;
+import cn.cqautotest.sunnybeach.ui.fragment.FishListFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.HomeFragment;
-import cn.cqautotest.sunnybeach.ui.fragment.MyHomeFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
 
 /**
@@ -38,11 +38,6 @@ public final class HomeActivity extends AppActivity
     private BottomNavigationView mBottomNavigationView;
 
     private FragmentPagerAdapter<AppFragment<?>> mPagerAdapter;
-    private AppFragment<?> mMyHomeFragment = MyHomeFragment.newInstance();
-    private AppFragment<?> mDiscoverFragment = DiscoverFragment.newInstance();
-    private AppFragment<?> mEmptyFragment = EmptyFragment.newInstance();
-    private AppFragment<?> mFishPondFragment = FishPondFragment.newInstance();
-    private AppFragment<?> mMyMeFragment = MyMeFragment.newInstance();
 
     public static void start(Context context) {
         start(context, HomeFragment.class);
@@ -82,17 +77,37 @@ public final class HomeActivity extends AppActivity
     @Override
     protected void initData() {
         mPagerAdapter = new FragmentPagerAdapter<>(this);
-        // mPagerAdapter.addFragment(HomeFragment.newInstance());
-        mPagerAdapter.addFragment(mMyHomeFragment);
-        mPagerAdapter.addFragment(mDiscoverFragment);
-        mPagerAdapter.addFragment(mFishPondFragment);
-        mPagerAdapter.addFragment(mEmptyFragment);
-        mPagerAdapter.addFragment(mMyMeFragment);
+        mPagerAdapter.addFragment(ArticleListFragment.newInstance());
+        mPagerAdapter.addFragment(DiscoverFragment.newInstance());
+        mPagerAdapter.addFragment(FishListFragment.newInstance());
+        mPagerAdapter.addFragment(EmptyFragment.newInstance());
+        mPagerAdapter.addFragment(MyMeFragment.newInstance());
         mViewPager.setAdapter(mPagerAdapter);
 
         onNewIntent(getIntent());
 
         toast("若发现BUG，可在意见反馈界面中反馈");
+    }
+
+    @Override
+    public void initEvent() {
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                MenuItem menuItem = mBottomNavigationView.getMenu().getItem(position);
+                mBottomNavigationView.setSelectedItemId(menuItem.getItemId());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -173,5 +188,10 @@ public final class HomeActivity extends AppActivity
         super.onDestroy();
         mViewPager.setAdapter(null);
         mBottomNavigationView.setOnNavigationItemSelectedListener(null);
+    }
+
+    @Override
+    protected boolean isStatusBarDarkFont() {
+        return true;
     }
 }

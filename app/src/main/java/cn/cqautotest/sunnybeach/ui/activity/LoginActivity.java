@@ -169,7 +169,9 @@ public final class LoginActivity extends AppActivity
 
     @Override
     protected void initData() {
-        mUserViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        mUserViewModel = ViewModelProvider.AndroidViewModelFactory
+                .getInstance(getApplication())
+                .create(UserViewModel.class);
         // 首次进入时刷新验证码
         loadVerifyCode();
         postDelayed(() -> {

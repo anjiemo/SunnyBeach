@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".ui.activity.HomeActivity">
 
-    <com.hjq.widget.layout.NoScrollViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_home_pager"
         android:layout_width="match_parent"
         android:layout_height="0px"
@@ -18,7 +18,7 @@
         android:id="@+id/bv_home_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/home_nav_top_radius_white_bg"
+        android:background="@color/white"
         app:itemBackground="@null"
         app:itemTextAppearanceActive="@style/BottomTabTextStyle"
         app:itemTextAppearanceInactive="@style/BottomTabTextStyle"
