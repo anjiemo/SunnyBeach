@@ -366,7 +366,7 @@ public final class ImageSelectActivity extends AppActivity
                 MediaStore.MediaColumns.HEIGHT, MediaStore.MediaColumns.SIZE};
 
         Cursor cursor = null;
-        if (XXPermissions.isGrantedPermission(this, Permission.MANAGE_EXTERNAL_STORAGE)) {
+        if (XXPermissions.isGranted(this, Permission.MANAGE_EXTERNAL_STORAGE)) {
             cursor = contentResolver.query(contentUri, projections, selection, new String[]{String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE)}, sortOrder);
         }
         if (cursor != null && cursor.moveToFirst()) {

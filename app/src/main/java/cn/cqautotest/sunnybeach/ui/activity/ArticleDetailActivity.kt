@@ -26,7 +26,7 @@ import java.lang.ref.WeakReference
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/6/24
+ * time   : 2021/06/24
  * desc   : 文章详情界面
  */
 class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {

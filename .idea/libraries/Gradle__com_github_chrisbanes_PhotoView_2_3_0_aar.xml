@@ -1,9 +1,10 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.chrisbanes:PhotoView:2.3.0@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/4b90c53b6f771b7fdce5e705cee172b5/transformed/jetified-PhotoView-2.3.0/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/4b90c53b6f771b7fdce5e705cee172b5/transformed/jetified-PhotoView-2.3.0/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/4b90c53b6f771b7fdce5e705cee172b5/transformed/jetified-PhotoView-2.3.0/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f5b1834f8d8090165b1cc87e51a7098f/transformed/jetified-PhotoView-2.3.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f5b1834f8d8090165b1cc87e51a7098f/transformed/jetified-PhotoView-2.3.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/f5b1834f8d8090165b1cc87e51a7098f/transformed/jetified-PhotoView-2.3.0/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.github.chrisbanes/PhotoView/2.3.0/5e9669ead9a641af9c7c1b43cc62223a84977ff5/PhotoView-2.3.0-javadoc.jar!/" />

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.hjq.base.FragmentPagerAdapter;
 
 import cn.cqautotest.sunnybeach.R;
@@ -30,8 +31,7 @@ import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
  * time   : 2018/10/18
  * desc   : 首页界面
  */
-public final class HomeActivity extends AppActivity
-        implements BottomNavigationView.OnNavigationItemSelectedListener {
+public final class HomeActivity extends AppActivity implements NavigationBarView.OnItemSelectedListener {
 
     private ViewPager mViewPager;
     private BottomNavigationView mBottomNavigationView;
@@ -64,7 +64,7 @@ public final class HomeActivity extends AppActivity
         // 不使用图标默认变色
         mBottomNavigationView.setItemIconTintList(null);
         // 设置导航栏条目点击事件
-        mBottomNavigationView.setOnNavigationItemSelectedListener(this);
+        mBottomNavigationView.setOnItemSelectedListener(this);
 
         // 屏蔽底部导航栏长按文本提示
         Menu menu = mBottomNavigationView.getMenu();
@@ -83,7 +83,7 @@ public final class HomeActivity extends AppActivity
         mPagerAdapter.addFragment(MyMeFragment.newInstance());
         mViewPager.setAdapter(mPagerAdapter);
 
-        onNewIntent(getIntent());
+        // onNewIntent(getIntent());
 
         toast("若发现BUG，可在意见反馈界面中反馈");
     }
@@ -140,7 +140,7 @@ public final class HomeActivity extends AppActivity
     }
 
     /**
-     * {@link BottomNavigationView.OnNavigationItemSelectedListener}
+     * {@link BottomNavigationView.OnItemSelectedListener}
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

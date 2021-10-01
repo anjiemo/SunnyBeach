@@ -17,11 +17,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.hjq.bar.TitleBar;
-import com.hjq.bar.initializer.TransparentBarInitializer;
+import com.hjq.bar.style.RippleBarStyle;
 import com.hjq.http.EasyConfig;
-import com.hjq.permissions.XXPermissions;
 import com.hjq.toast.ToastUtils;
-import com.hjq.toast.style.ToastBlackStyle;
 import com.scwang.smart.refresh.header.MaterialHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -41,6 +39,7 @@ import cn.cqautotest.sunnybeach.other.AppConfig;
 import cn.cqautotest.sunnybeach.other.CrashHandler;
 import cn.cqautotest.sunnybeach.other.DebugLoggerTree;
 import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter;
+import cn.cqautotest.sunnybeach.other.ToastLogInterceptor;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
@@ -64,53 +63,29 @@ public final class AppApplication extends Application {
         initSdk(this);
     }
 
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        // 清理所有图片内存缓存
-        GlideApp.get(this).onLowMemory();
-    }
-
-    @Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-        // 根据手机内存剩余情况清理图片内存缓存
-        GlideApp.get(this).onTrimMemory(level);
-    }
-
-    public static AppApplication getInstance() {
-        return INSTANCE;
-    }
-
     /**
      * 初始化一些第三方框架
      */
     public static void initSdk(Application application) {
-        // 设置调试模式
-        XXPermissions.setDebugMode(AppConfig.isDebug());
+        // 本地异常捕捉
+        CrashHandler.register(application);
+        // MMKV初始化
+        MMKV.initialize(application);
 
         // 初始化吐司
-        ToastUtils.init(application, new ToastBlackStyle(application) {
-
-            @Override
-            public int getCornerRadius() {
-                return (int) application.getResources().getDimension(R.dimen.button_round_size);
-            }
-        });
+        ToastUtils.init(application);
+        // 设置调试模式
 
         // 设置 Toast 拦截器
-        // ToastUtils.setToastInterceptor(new ToastInterceptor());
+        ToastUtils.setInterceptor(new ToastLogInterceptor());
 
         // 设置标题栏初始化器
-        TitleBar.setDefaultInitializer(new TransparentBarInitializer() {
+        TitleBar.setDefaultStyle(new RippleBarStyle() {
             @Override
-            public Drawable getBackgroundDrawable(Context context) {
+            public Drawable getTitleBarBackground(Context context) {
                 return ContextCompat.getDrawable(context, R.drawable.shape_gradient);
             }
         });
-
-        // 本地异常捕捉
-        CrashHandler.register(application);
 
         // 友盟统计、登录、分享 SDK
         // UmengClient.init(application);
@@ -174,7 +149,7 @@ public final class AppApplication extends Application {
                     if (topActivity instanceof LifecycleOwner) {
                         LifecycleOwner lifecycleOwner = ((LifecycleOwner) topActivity);
                         if (lifecycleOwner.getLifecycle().getCurrentState() == Lifecycle.State.RESUMED) {
-                            // ToastUtils.show(R.string.common_network_error);
+                            ToastUtils.show(R.string.common_network_error);
                         }
                     }
                 }
@@ -183,8 +158,6 @@ public final class AppApplication extends Application {
 
         // 初始化 Room 数据库
         sDatabase = CookieRoomDatabase.getDatabase(application);
-        // MMKV初始化
-        MMKV.initialize(application);
         // 初始化 Glide 的 Cookie 管理
         Glide.get(application)
                 .getRegistry()
@@ -209,6 +182,29 @@ public final class AppApplication extends Application {
         // Push注册
         // PushHelper.init(application);
         // 在此初始化其它依赖库
+    }
+
+    public static AppApplication getInstance() {
+        return INSTANCE;
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        // 清理所有图片内存缓存
+        GlideApp.get(this).onLowMemory();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        // 根据手机内存剩余情况清理图片内存缓存
+        GlideApp.get(this).onTrimMemory(level);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
     }
 
     private static Call.Factory castOrNull(OkHttpClient okHttpClient) {

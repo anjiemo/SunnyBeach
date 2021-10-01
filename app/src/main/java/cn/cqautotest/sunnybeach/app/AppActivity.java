@@ -16,7 +16,6 @@ import com.hjq.bar.TitleBar;
 import com.hjq.base.BaseActivity;
 import com.hjq.base.BaseDialog;
 import com.hjq.http.listener.OnHttpListener;
-import com.hjq.toast.ToastUtils;
 
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.action.Init;
@@ -266,17 +265,12 @@ public abstract class AppActivity extends BaseActivity
         super.onResume();
         if (!AppConfig.isDebug() && DeviceUtils.isDeviceRooted()) {
             toast("请勿在root设备使用本App");
-            postDelayed(() -> ActivityManager.getInstance().finishAllActivities(), ToastUtils.getToast().getDuration());
+            ActivityManager.getInstance().finishAllActivities();
             return;
         }
         if (!AppConfig.isDebug() && DeviceUtils.isEmulator()) {
             toast("请勿在模拟器上使用本App");
-            postDelayed(() -> ActivityManager.getInstance().finishAllActivities(), ToastUtils.getToast().getDuration());
-            return;
-        }
-        if (!AppConfig.isDebug() && (DeviceUtils.isAdbEnabled() || DeviceUtils.isDevelopmentSettingsEnabled())) {
-            toast("请勿调试本App");
-            postDelayed(() -> ActivityManager.getInstance().finishAllActivities(), ToastUtils.getToast().getDuration());
+            ActivityManager.getInstance().finishAllActivities();
         }
     }
 

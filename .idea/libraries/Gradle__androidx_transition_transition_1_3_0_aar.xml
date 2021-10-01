@@ -1,12 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.transition:transition:1.3.0@aar">
     <ANNOTATIONS>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/b35c62d74362e745b1898dc2bafedaf6/transformed/transition-1.3.0/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/0df5b573e74e9e59df6d9abc5fc9ce75/transformed/transition-1.3.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/b35c62d74362e745b1898dc2bafedaf6/transformed/transition-1.3.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/b35c62d74362e745b1898dc2bafedaf6/transformed/transition-1.3.0/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/b35c62d74362e745b1898dc2bafedaf6/transformed/transition-1.3.0/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/0df5b573e74e9e59df6d9abc5fc9ce75/transformed/transition-1.3.0/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/0df5b573e74e9e59df6d9abc5fc9ce75/transformed/transition-1.3.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/0df5b573e74e9e59df6d9abc5fc9ce75/transformed/transition-1.3.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

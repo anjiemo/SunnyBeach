@@ -20,12 +20,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.gyf.immersionbar.ImmersionBar;
-import cn.cqautotest.sunnybeach.R;
-import cn.cqautotest.sunnybeach.aop.SingleClick;
-import cn.cqautotest.sunnybeach.app.AppActivity;
-import cn.cqautotest.sunnybeach.manager.ThreadPoolManager;
-import cn.cqautotest.sunnybeach.other.AppConfig;
-import cn.cqautotest.sunnybeach.other.IntentKey;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 
@@ -41,15 +35,24 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.aop.SingleClick;
+import cn.cqautotest.sunnybeach.app.AppActivity;
+import cn.cqautotest.sunnybeach.manager.ThreadPoolManager;
+import cn.cqautotest.sunnybeach.other.AppConfig;
+import cn.cqautotest.sunnybeach.other.IntentKey;
+
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/06/27
- *    desc   : 崩溃捕捉界面
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/06/27
+ * desc   : 崩溃捕捉界面
  */
 public final class CrashActivity extends AppActivity {
 
-    /** 报错代码行数正则表达式 */
+    /**
+     * 报错代码行数正则表达式
+     */
     private static final Pattern CODE_REGEX = Pattern.compile("\\(\\w+\\.\\w+:\\d+\\)");
 
     public static void start(Application application, Throwable throwable) {
@@ -166,17 +169,17 @@ public final class CrashActivity extends AppActivity {
             List<String> permissions = Arrays.asList(packageInfo.requestedPermissions);
 
             if (permissions.contains(Permission.MANAGE_EXTERNAL_STORAGE)) {
-                builder.append("\n存储权限：\t").append(XXPermissions.isGrantedPermission(this, Permission.MANAGE_EXTERNAL_STORAGE) ? "已获得" : "未获得");
+                builder.append("\n存储权限：\t").append(XXPermissions.isGranted(this, Permission.MANAGE_EXTERNAL_STORAGE) ? "已获得" : "未获得");
             }
 
             if (permissions.contains(Permission.ACCESS_FINE_LOCATION) || permissions.contains(Permission.ACCESS_COARSE_LOCATION)) {
                 builder.append("\n定位权限：\t");
-                if (XXPermissions.isGrantedPermission(this, Permission.Group.LOCATION)) {
+                if (XXPermissions.isGranted(this, Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION)) {
                     builder.append("精确、粗略");
                 } else {
-                    if (XXPermissions.isGrantedPermission(this, Permission.ACCESS_FINE_LOCATION)) {
+                    if (XXPermissions.isGranted(this, Permission.ACCESS_FINE_LOCATION)) {
                         builder.append("精确");
-                    } else if (XXPermissions.isGrantedPermission(this, Permission.ACCESS_COARSE_LOCATION)) {
+                    } else if (XXPermissions.isGranted(this, Permission.ACCESS_COARSE_LOCATION)) {
                         builder.append("粗略");
                     } else {
                         builder.append("未获得");
@@ -185,19 +188,19 @@ public final class CrashActivity extends AppActivity {
             }
 
             if (permissions.contains(Permission.CAMERA)) {
-                builder.append("\n相机权限：\t").append(XXPermissions.isGrantedPermission(this, Permission.CAMERA) ? "已获得" : "未获得");
+                builder.append("\n相机权限：\t").append(XXPermissions.isGranted(this, Permission.CAMERA) ? "已获得" : "未获得");
             }
 
             if (permissions.contains(Permission.RECORD_AUDIO)) {
-                builder.append("\n录音权限：\t").append(XXPermissions.isGrantedPermission(this, Permission.RECORD_AUDIO) ? "已获得" : "未获得");
+                builder.append("\n录音权限：\t").append(XXPermissions.isGranted(this, Permission.RECORD_AUDIO) ? "已获得" : "未获得");
             }
 
             if (permissions.contains(Permission.SYSTEM_ALERT_WINDOW)) {
-                builder.append("\n悬浮窗权限：\t").append(XXPermissions.isGrantedPermission(this, Permission.SYSTEM_ALERT_WINDOW) ? "已获得" : "未获得");
+                builder.append("\n悬浮窗权限：\t").append(XXPermissions.isGranted(this, Permission.SYSTEM_ALERT_WINDOW) ? "已获得" : "未获得");
             }
 
             if (permissions.contains(Permission.REQUEST_INSTALL_PACKAGES)) {
-                builder.append("\n安装包权限：\t").append(XXPermissions.isGrantedPermission(this, Permission.REQUEST_INSTALL_PACKAGES) ? "已获得" : "未获得");
+                builder.append("\n安装包权限：\t").append(XXPermissions.isGranted(this, Permission.REQUEST_INSTALL_PACKAGES) ? "已获得" : "未获得");
             }
 
             if (permissions.contains(Manifest.permission.INTERNET)) {
@@ -217,7 +220,8 @@ public final class CrashActivity extends AppActivity {
                 mInfoView.setText(builder);
             }
 
-        } catch (PackageManager.NameNotFoundException ignored) {}
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
     }
 
     @SingleClick

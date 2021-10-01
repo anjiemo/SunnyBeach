@@ -66,7 +66,6 @@ class FishPondListAdapter :
                 )
             )
             tvNickname.text = item.nickname
-            Int.MAX_VALUE
             tvDesc.text =
                 "${item.position} · " +
                         DateHelper.transform2FriendlyTimeSpanByNow("${item.createTime}:00")

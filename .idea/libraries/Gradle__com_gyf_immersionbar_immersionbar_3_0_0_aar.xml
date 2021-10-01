@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.gyf.immersionbar:immersionbar:3.0.0@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/98279bd35fc1355e262b9dc260513cd7/transformed/jetified-immersionbar-3.0.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/98279bd35fc1355e262b9dc260513cd7/transformed/jetified-immersionbar-3.0.0/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/98279bd35fc1355e262b9dc260513cd7/transformed/jetified-immersionbar-3.0.0/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/911a5c05cdae2b4ae4a4eb518f549bbe/transformed/jetified-immersionbar-3.0.0/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/911a5c05cdae2b4ae4a4eb518f549bbe/transformed/jetified-immersionbar-3.0.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/911a5c05cdae2b4ae4a4eb518f549bbe/transformed/jetified-immersionbar-3.0.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.gyf.immersionbar/immersionbar/3.0.0/26487680c1579c0008352d780f245173753fd245/immersionbar-3.0.0-javadoc.jar!/" />
