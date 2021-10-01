@@ -20,7 +20,6 @@ class WallpaperPagingSource : PagingSource<Int, WallpaperBean.Res.Vertical>() {
     private val photoApi = ServiceCreator.create<PhotoApi>()
 
     override fun getRefreshKey(state: PagingState<Int, WallpaperBean.Res.Vertical>): Int? {
-        Int.MAX_VALUE
         return null
     }
 

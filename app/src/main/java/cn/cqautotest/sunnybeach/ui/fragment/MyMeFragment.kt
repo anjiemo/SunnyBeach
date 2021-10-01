@@ -10,6 +10,7 @@ import cn.cqautotest.sunnybeach.ui.activity.SettingActivity
 import cn.cqautotest.sunnybeach.util.MAKE_COMPLAINTS_URL
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 /**
  * author : A Lonely Cat
@@ -36,6 +37,8 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         Glide.with(this)
             .load(userBasicInfo?.avatar)
             .circleCrop()
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(meContent.imageAvatar)
         meContent.textNickName.text = userBasicInfo?.nickname
     }

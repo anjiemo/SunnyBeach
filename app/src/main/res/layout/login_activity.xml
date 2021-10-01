@@ -14,11 +14,11 @@
     <com.hjq.bar.TitleBar
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:backButton="false"
         app:barStyle="transparent"
-        app:leftColor="@color/common_accent_color"
+        app:leftIcon="@null"
+        app:leftTitleColor="@color/common_accent_color"
         app:leftTitle="跳过"
-        app:rightColor="@color/common_accent_color"
+        app:rightTitleColor="@color/common_accent_color"
         app:rightTitle="@string/login_register"
         app:title="" />
 
