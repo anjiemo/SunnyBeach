@@ -6,9 +6,6 @@ import android.graphics.drawable.LevelListDrawable
 import android.net.Uri
 import android.text.TextUtils
 import android.view.*
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
@@ -19,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.FishPondListItemBinding
 import cn.cqautotest.sunnybeach.model.Fish
-import cn.cqautotest.sunnybeach.util.*
-import com.blankj.utilcode.util.ScreenUtils
+import cn.cqautotest.sunnybeach.util.DateHelper
+import cn.cqautotest.sunnybeach.util.DownloadHelper
+import cn.cqautotest.sunnybeach.util.setFixOnClickListener
+import cn.cqautotest.sunnybeach.util.simpleToast
 import com.bumptech.glide.Glide
 
 
@@ -73,7 +72,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvDesc = binding.tvFishPondDesc
         val tvContent = binding.tvFishPondContent
         val rrlContainer = binding.rrlContainer
-        val llImagesContainer = binding.llImagesContainer
+        val simpleGridLayout = binding.simpleGridLayout
         val tvLabel = binding.tvFishPondLabel
         val tvComment = binding.listMenuItem.tvComment
         val tvGreat = binding.listMenuItem.tvGreat
@@ -99,7 +98,6 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
         }
         tvNickname.setTextColor(ContextCompat.getColor(context, nickNameColor))
         tvNickname.text = item.nickname
-        Int.MAX_VALUE
         tvDesc.text =
             "${item.position} · " +
                     DateHelper.transform2FriendlyTimeSpanByNow("${item.createTime}:00")
@@ -180,29 +178,14 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
         }
         val topicName = item.topicName
         val images = item.images
-        rrlContainer.visibility = if (images.isNullOrEmpty()) View.GONE else View.VISIBLE
-        llImagesContainer.layoutParams = RelativeLayout.LayoutParams(
-            (ScreenUtils.getScreenWidth() - 40.dp) / 3 * images.size,
-            (ScreenUtils.getScreenWidth() - 40.dp) / 3
-        )
-        repeat(llImagesContainer.childCount) {
-            // childView 只能是 ImageView 或其子类，否则会强转异常
-            val imageView = llImagesContainer.getChildAt(it) as ImageView
-            imageView.layoutParams = LinearLayout.LayoutParams(
-                (ScreenUtils.getScreenWidth() - 40.dp) / 3,
-                LinearLayout.LayoutParams.MATCH_PARENT
-            )
-            val imageUrl = images.getOrNull(it)
-            imageView.visibility = if (imageUrl != null) {
-                // 如果是有效链接或者能获取到链接，则加载图片
-                Glide.with(itemView).load(imageUrl).into(imageView)
-                // 显示该位置的图片
-                View.VISIBLE
-            } else {
-                // 隐藏该位置的图片
-                View.GONE
+        val imageCount = images.size
+        simpleGridLayout.setSpanCount(
+            when (imageCount) {
+                // 规避 0 ，避免导致：IllegalArgumentException，Span count should be at least 1. Provided 0.
+                in 1..3 -> imageCount
+                else -> 2
             }
-        }
+        ).setData(images)
         tvLabel.visibility = if (TextUtils.isEmpty(topicName)) View.GONE else View.VISIBLE
         tvLabel.text = topicName
         tvComment.text = with(item.commentCount) {

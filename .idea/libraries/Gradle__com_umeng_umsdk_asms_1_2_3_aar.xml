@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.umeng.umsdk:asms:1.2.3@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/37f2ff8447e9c7a085e1405d163c904c/transformed/jetified-asms-1.2.3/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/37f2ff8447e9c7a085e1405d163c904c/transformed/jetified-asms-1.2.3/res" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/37f2ff8447e9c7a085e1405d163c904c/transformed/jetified-asms-1.2.3/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/82c024d2c650394ae6c79c9975125cee/transformed/jetified-asms-1.2.3/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/82c024d2c650394ae6c79c9975125cee/transformed/jetified-asms-1.2.3/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/82c024d2c650394ae6c79c9975125cee/transformed/jetified-asms-1.2.3/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

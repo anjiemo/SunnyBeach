@@ -13,9 +13,6 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import androidx.activity.viewModels
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
@@ -34,7 +31,6 @@ import cn.cqautotest.sunnybeach.ui.adapter.FishPondDetailCommendListAdapter
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import com.blankj.utilcode.util.ScreenUtils
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.collectLatest
 import java.lang.ref.WeakReference
@@ -97,7 +93,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
             val tvDesc = fishPond.tvFishPondDesc
             val tvContent = fishPond.tvFishPondContent
             val rrlContainer = fishPond.rrlContainer
-            val llImagesContainer = fishPond.llImagesContainer
+            val simpleGridLayout = fishPond.simpleGridLayout
             val tvLabel = fishPond.tvFishPondLabel
             val llFishItemContainer = fishPond.llFishItemContainer
             val tvComment = fishPond.listMenuItem.tvComment
@@ -186,35 +182,8 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
             val topicName = item.topicName
             val images = item.images
             rrlContainer.visibility = if (images.isNullOrEmpty()) View.GONE else View.VISIBLE
-            llImagesContainer.layoutParams = RelativeLayout.LayoutParams(
-                (ScreenUtils.getScreenWidth() - 40.dp) / 3 * images.size,
-                (ScreenUtils.getScreenWidth() - 40.dp) / 3
-            )
-            val imageUrls = arrayListOf<String>()
-            repeat(llImagesContainer.childCount) { index ->
-                // childView 只能是 ImageView 或其子类，否则会强转异常
-                val imageView = llImagesContainer.getChildAt(index) as ImageView
-                imageView.layoutParams = LinearLayout.LayoutParams(
-                    (ScreenUtils.getScreenWidth() - 40.dp) / 3,
-                    LinearLayout.LayoutParams.MATCH_PARENT
-                )
-                val imageUrl = images.getOrNull(index)
-                imageView.visibility = if (imageUrl != null) {
-                    // 如果是有效链接或者能获取到链接，则加载图片
-                    Glide.with(this).load(imageUrl).into(imageView)
-                    // 显示该位置的图片
-                    View.VISIBLE
-                } else {
-                    // 隐藏该位置的图片
-                    View.GONE
-                }
-                imageUrl?.let {
-                    imageUrls.add(imageUrl)
-                }
-                imageView.setFixOnClickListener {
-                    ImagePreviewActivity.start(this, imageUrls, index)
-                }
-            }
+            simpleGridLayout.setSpanCount(2)
+                .setData(images)
             tvLabel.visibility = if (TextUtils.isEmpty(topicName)) View.GONE else View.VISIBLE
             tvLabel.text = topicName
             tvComment.text = with(item.commentCount) {

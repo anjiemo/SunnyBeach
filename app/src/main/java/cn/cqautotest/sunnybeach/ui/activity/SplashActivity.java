@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.blankj.utilcode.util.DeviceUtils;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.http.EasyHttp;
@@ -49,6 +50,9 @@ public final class SplashActivity extends AppActivity {
         if (AppConfig.isDebug()) {
             HomeActivity.start(SplashActivity.this);
             return;
+        }
+        if (DeviceUtils.isDevelopmentSettingsEnabled() || DeviceUtils.isAdbEnabled()) {
+            toast("您的设备已开启调试模式，请注意安全");
         }
         // 设置动画监听
         mLottieView.addAnimatorListener(new AnimatorListenerAdapter() {

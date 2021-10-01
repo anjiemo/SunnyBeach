@@ -1,23 +1,21 @@
 package cn.cqautotest.sunnybeach.other;
 
-import android.widget.Toast;
+import com.hjq.toast.ToastUtils;
+import com.hjq.toast.config.IToastInterceptor;
 
 import cn.cqautotest.sunnybeach.action.ToastAction;
-import com.hjq.toast.IToastInterceptor;
-import com.hjq.toast.ToastUtils;
-
 import timber.log.Timber;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2020/11/04
- *    desc   : 自定义 Toast 拦截器（用于追踪 Toast 调用的位置）
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2020/11/04
+ * desc   : 自定义 Toast 拦截器（用于追踪 Toast 调用的位置）
  */
-public final class ToastInterceptor implements IToastInterceptor {
+public final class ToastLogInterceptor implements IToastInterceptor {
 
     @Override
-    public boolean intercept(Toast toast, CharSequence text) {
+    public boolean intercept(CharSequence text) {
         if (AppConfig.isLogEnable()) {
             // 获取调用的堆栈信息
             StackTraceElement[] stackTrace = new Throwable().getStackTrace();

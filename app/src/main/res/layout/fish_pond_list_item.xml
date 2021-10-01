@@ -78,35 +78,10 @@
         app:rlClipBackground="true"
         app:rlRadius="@dimen/dp_10">
 
-        <LinearLayout
-            android:id="@+id/ll_images_container"
+        <cn.cqautotest.sunnybeach.widget.SimpleGridLayout
+            android:id="@+id/simple_grid_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:contentDescription="图片1"
-                android:scaleType="centerCrop"
-                tools:src="@mipmap/ic_no_photo" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:contentDescription="图片2"
-                android:scaleType="centerCrop"
-                tools:src="@mipmap/ic_no_photo" />
-
-            <ImageView
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:contentDescription="图片3"
-                android:scaleType="centerCrop"
-                tools:src="@mipmap/ic_no_photo" />
-
-        </LinearLayout>
+            android:layout_height="wrap_content" />
 
     </cn.cqautotest.sunnybeach.widget.RoundRelativeLayout>
 
