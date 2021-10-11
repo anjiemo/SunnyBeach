@@ -10,7 +10,9 @@ import android.graphics.drawable.LevelListDrawable
 import android.net.Uri
 import android.text.Html
 import android.text.TextUtils
+import android.view.GestureDetector
 import android.view.View
+import android.view.ViewConfiguration
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
@@ -27,6 +29,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondDetailCommendListAdapter
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
+import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.collectLatest
@@ -38,7 +41,8 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/07/11
  * desc   : 鱼塘详情页
  */
-class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter {
+class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
+    SimpleGesture.OnSlideListener, SimpleGridLayout.OnNineGridClickListener {
 
     private val mBinding: FishPondDetailActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
@@ -125,6 +129,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter {
             val images = item.images
             rrlContainer.visibility = if (images.isNullOrEmpty()) View.GONE else View.VISIBLE
             simpleGridLayout.setSpanCount(2)
+                .setOnNineGridClickListener(this)
                 .setData(images)
             tvLabel.visibility = if (TextUtils.isEmpty(topicName)) View.GONE else View.VISIBLE
             tvLabel.text = topicName
@@ -147,8 +152,19 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter {
             }
             // 如果要使用 GestureDetector 手势检测器，则必须禁用点击事件，否则无法检测手势
             clReplyContainer.setOnClickListener(null)
-            // clReplyContainer.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
+            val minDistance = ViewConfiguration.get(this).scaledTouchSlop
+            val sg = SimpleGesture(minDistance, this)
+            val gestureDetector = GestureDetector(this, sg)
+            clReplyContainer.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
         }
+    }
+
+    override fun onNineGridClick(sources: List<String>, index: Int) {
+        ImagePreviewActivity.start(this, sources, index)
+    }
+
+    override fun onSwipeUp() {
+        goToPostComment()
     }
 
     override fun initEvent() {
@@ -161,16 +177,29 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter {
         mFishPondDetailCommendListAdapter.setOnVewMoreClickListener { item, _ ->
             FishCommendDetailActivity.start(this, item)
         }
+        mFishPondDetailCommendListAdapter.setOnCommentClickListener { item, _ ->
+            goToPostComment(item.id, item.userId)
+        }
         mBinding.tvFishPondSubmitComment.setFixOnClickListener {
             goToPostComment()
         }
     }
 
-    /**
-     * 去发表评论
-     */
     private fun goToPostComment() {
-        val intent = SubmitCommendActivity.getCommentIntent(this, mMomentId)
+        goToPostComment("", "")
+    }
+
+    /**
+     * 去发表评论/回复评论
+     */
+    private fun goToPostComment(commentId: String, targetUserId: String) {
+        val intent = SubmitCommendActivity.getCommentIntent(
+            this,
+            mMomentId,
+            commentId,
+            targetUserId,
+            isReply = true
+        )
         startActivityForResult(intent) { resultCode, _ ->
             if (resultCode == RESULT_OK) {
                 // 如果提交了评论且成功了，需要刷新界面

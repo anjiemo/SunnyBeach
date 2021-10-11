@@ -22,7 +22,8 @@ import java.io.File
  */
 class FishPondViewModel : ViewModel() {
 
-    fun postComment(momentComment: Map<String, Any?>) = Repository.postComment(momentComment)
+    fun postComment(momentComment: Map<String, Any?>, isReply: Boolean) =
+        Repository.postComment(momentComment, isReply)
 
     fun getFishCommendListById(momentId: String): Flow<PagingData<FishPondComment.FishPondCommentItem>> {
         return Pager(config = PagingConfig(30),

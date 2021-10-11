@@ -81,7 +81,10 @@
         <cn.cqautotest.sunnybeach.widget.SimpleGridLayout
             android:id="@+id/simple_grid_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:itemCount="4" />
 
     </cn.cqautotest.sunnybeach.widget.RoundRelativeLayout>
 

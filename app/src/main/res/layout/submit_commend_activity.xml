@@ -16,11 +16,23 @@
         android:background="@color/white"
         android:orientation="vertical">
 
+        <View
+            android:id="@+id/v_open_or_close"
+            android:layout_width="50dp"
+            android:layout_height="5dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/menu_top_bg"
+            android:padding="48dp" />
+
         <EditText
             android:id="@+id/et_input_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
             android:background="#F9FCF8"
             android:drawableTint="@color/blue"
             android:gravity="top"

@@ -9,11 +9,9 @@ import android.view.WindowManager
 import android.view.animation.AlphaAnimation
 import android.widget.LinearLayout
 import androidx.activity.viewModels
-import androidx.collection.arrayMapOf
 import androidx.core.widget.addTextChangedListener
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SubmitCommendActivityBinding
 import cn.cqautotest.sunnybeach.execption.ServiceException
@@ -72,6 +70,11 @@ class SubmitCommendActivity : AppActivity() {
      */
     private fun getTargetUserId() = intent.getStringExtra(TARGET_USER_ID)
 
+    /**
+     * 是否为评论回复
+     */
+    private fun isReply() = intent.getBooleanExtra(IS_REPLY, false)
+
     override fun initEvent() {
         val keyboardLayout = mBinding.keyboardLayout
         val etInputContent = mBinding.etInputContent
@@ -122,8 +125,14 @@ class SubmitCommendActivity : AppActivity() {
             val momentId = getMomentId()
             val commentId = getCommentId()
             val targetUserId = getTargetUserId()
+            val isReply = isReply()
             val content = etInputContent.textString
-            val momentComment = arrayMapOf("momentId" to momentId, "content" to content)
+            val momentComment = mapOf(
+                "momentId" to momentId,
+                "content" to content,
+                "commentId" to commentId,
+                "targetUserId" to targetUserId
+            )
             // 校验内容是否合法，发布信息
             val inputLength = mBinding.etInputContent.length()
             val textLengthIsOk = inputLength in 1..512
@@ -131,7 +140,7 @@ class SubmitCommendActivity : AppActivity() {
                 simpleToast("请输入[1, 512)个字符~")
                 return@setFixOnClickListener
             }
-            mFishPondViewModel.postComment(momentComment).observe(this) {
+            mFishPondViewModel.postComment(momentComment, isReply).observe(this) {
                 it.getOrElse { throwable ->
                     if (throwable is ServiceException) {
                         throwable.message?.let { msg ->
@@ -160,6 +169,9 @@ class SubmitCommendActivity : AppActivity() {
         // 被评论内容的用户Id
         private const val TARGET_USER_ID = "target_user_id"
 
+        // 是否为评论回复
+        private const val IS_REPLY = "is_reply"
+
         /**
          * 获取发表评论(评论动态)的意图
          */
@@ -167,28 +179,15 @@ class SubmitCommendActivity : AppActivity() {
             context: Context,
             momentId: String,
             commentId: String = "",
-            targetUserId: String = ""
+            targetUserId: String = "",
+            isReply: Boolean
         ): Intent {
             return Intent(context, SubmitCommendActivity::class.java).apply {
                 putExtra(MOMENT_ID, momentId)
                 putExtra(COMMENT_ID, commentId)
                 putExtra(TARGET_USER_ID, targetUserId)
+                putExtra(IS_REPLY, isReply)
             }
-        }
-
-        @JvmStatic
-        @DebugLog
-        fun start(
-            context: Context,
-            momentId: String,
-            commentId: String = "",
-            targetUserId: String = ""
-        ) {
-            val intent = getCommentIntent(context, momentId, commentId, targetUserId)
-            if (context !is Activity) {
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-            context.startActivity(intent)
         }
     }
 }
