@@ -8,18 +8,15 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LevelListDrawable
 import android.net.Uri
+import android.text.Html
 import android.text.TextUtils
-import android.view.GestureDetector
-import android.view.MotionEvent
 import android.view.View
-import android.view.ViewConfiguration
 import androidx.activity.viewModels
-import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewbinding.ViewBinding
+import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.DebugLog
@@ -33,7 +30,6 @@ import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.collectLatest
-import java.lang.ref.WeakReference
 
 
 /**
@@ -42,20 +38,15 @@ import java.lang.ref.WeakReference
  * time   : 2021/07/11
  * desc   : 鱼塘详情页
  */
-class FishPondDetailActivity : AppActivity(), StatusAction {
+class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter {
 
-    private lateinit var mBinding: FishPondDetailActivityBinding
+    private val mBinding: FishPondDetailActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
     private val mFishPondDetailCommendListAdapter =
         FishPondDetailCommendListAdapter(AdapterDelegate())
     private var mMomentId: String = ""
 
-    override fun getLayoutId(): Int = 0
-
-    override fun onBindingView(): ViewBinding {
-        mBinding = FishPondDetailActivityBinding.inflate(layoutInflater)
-        return mBinding
-    }
+    override fun getLayoutId(): Int = R.layout.fish_pond_detail_activity
 
     override fun initView() {
         mBinding.rvFishPondDetailComment.apply {
@@ -124,56 +115,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
                 item.content
                     .replace("<br>", "\n")
                     .replace("</br>", "\n"),
-                HtmlCompat.FROM_HTML_MODE_LEGACY,
-                { source ->
-                    // 1、加载本地的 emoji 表情图片（优点：理论上来说是比加载网络上的图片快的。
-                    // 缺点：无法做到及时更新，程序员需要重新打包apk发布更新，用户需要安装最新版本的app才可以享受最优的体验）
-                    // source ?: return null
-                    // if (source.contains("sunofbeaches.com/emoji/") && source.endsWith(".png")) {
-                    //     val emojiNum = Regex("\\d").find(source)?.value ?: ""
-                    //     val resId = context.resources.getIdentifier(
-                    //         "emoji_$emojiNum",
-                    //         "mipmap",
-                    //         context.packageName
-                    //     )
-                    //     val drawable = ContextCompat.getDrawable(context, resId)
-                    //     drawable?.let {
-                    //         val textSize = tvContent.textSize.toInt()
-                    //         it.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
-                    //     }
-                    //     return drawable
-                    // }
-                    // logByDebug(msg = "covert：===> image url is $source")
-                    // return null
-
-                    // 2、直接获取网络的图片（优点：不需要在本地内置图片，直接使用在线图片。
-                    // 缺点：理论上来讲会比加载本地的图片慢一些）
-                    val drawable = LevelListDrawable()
-                    val textSize = tvContent.textSize.toInt()
-                    (context as? ComponentActivity)?.lifecycleScope?.launchWhenCreated {
-                        val resource =
-                            DownloadHelper.getTypeByUri<Drawable>(
-                                llFishItemContainer,
-                                Uri.parse(source)
-                            )
-                        drawable.addLevel(1, 1, resource)
-                        // 判断是否为表情包
-                        if (source.contains("sunofbeaches.com/emoji/") && source.endsWith(".png")) {
-                            drawable.setBounds(6, 0, textSize + 6, textSize)
-                        } else {
-                            drawable.setBounds(
-                                0,
-                                0,
-                                drawable.intrinsicWidth,
-                                drawable.intrinsicHeight
-                            )
-                        }
-                        drawable.level = 1
-                        tvContent.invalidate()
-                        tvContent.text = tvContent.text
-                    }
-                    drawable
-                },
+                HtmlCompat.FROM_HTML_MODE_LEGACY, this,
                 null
             )
             tvContent.setOnCreateContextMenuListener { menu, v, menuInfo ->
@@ -200,16 +142,12 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
                     toString()
                 }
             }
-            val gestureDetector = GestureDetector(
-                this, PullUpGesture(this, open = {
-                    goToPostComment()
-                }, close = {
-                    // Nothing to do.
-                })
-            )
+            clReplyContainer.setSlidingUpListener {
+                goToPostComment()
+            }
             // 如果要使用 GestureDetector 手势检测器，则必须禁用点击事件，否则无法检测手势
             clReplyContainer.setOnClickListener(null)
-            clReplyContainer.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
+            // clReplyContainer.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
         }
     }
 
@@ -247,36 +185,52 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
 
     override fun isStatusBarDarkFont(): Boolean = false
 
-    companion object {
+    override fun getDrawable(source: String?): Drawable {
+        source ?: return LevelListDrawable()
+        // 1、加载本地的 emoji 表情图片（优点：理论上来说是比加载网络上的图片快的。
+        // 缺点：无法做到及时更新，程序员需要重新打包apk发布更新，用户需要安装最新版本的app才可以享受最优的体验）
+        // source ?: return null
+        // if (source.contains("sunofbeaches.com/emoji/") && source.endsWith(".png")) {
+        //     val emojiNum = Regex("\\d").find(source)?.value ?: ""
+        //     val resId = context.resources.getIdentifier(
+        //         "emoji_$emojiNum",
+        //         "mipmap",
+        //         context.packageName
+        //     )
+        //     val drawable = ContextCompat.getDrawable(context, resId)
+        //     drawable?.let {
+        //         val textSize = tvContent.textSize.toInt()
+        //         it.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+        //     }
+        //     return drawable
+        // }
+        // logByDebug(msg = "covert：===> image url is $source")
+        // return null
 
-        private class PullUpGesture(
-            context: Context,
-            private val open: () -> Unit,
-            private val close: () -> Unit
-        ) :
-            GestureDetector.SimpleOnGestureListener() {
-
-            private val mContext = WeakReference(context)
-
-            // 在我们认为用户正在滚动之前，触摸就可以移动以像素为单位的距离
-            val minDistance = ViewConfiguration.get(mContext.get()).scaledTouchSlop
-
-            override fun onFling(
-                e1: MotionEvent,
-                e2: MotionEvent,
-                velocityX: Float,
-                velocityY: Float
-            ): Boolean {
-                if (e1.y - e2.y > minDistance) {
-                    // 上滑，展开 View
-                    open.invoke()
-                } else if (e1.y - e2.y < minDistance) {
-                    // 下滑，收起 View
-                    close.invoke()
-                }
-                return true
+        // 2、直接获取网络的图片（优点：不需要在本地内置图片，直接使用在线图片。
+        // 缺点：理论上来讲会比加载本地的图片慢一些）
+        val drawable = LevelListDrawable()
+        val fishPond = mBinding.fishPond
+        val tvContent = fishPond.tvFishPondContent
+        val textSize = tvContent.textSize.toInt()
+        lifecycleScope.launchWhenCreated {
+            val uri = Uri.parse(source)
+            val resource = DownloadHelper.getTypeByUri<Drawable>(fishPond.llFishItemContainer, uri)
+            drawable.addLevel(1, 1, resource)
+            // 判断是否为表情包
+            if (source.contains("sunofbeaches.com/emoji/") && source.endsWith(".png")) {
+                drawable.setBounds(6, 0, textSize + 6, textSize)
+            } else {
+                drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
             }
+            drawable.level = 1
+            tvContent.invalidate()
+            tvContent.text = tvContent.text
         }
+        return drawable
+    }
+
+    companion object {
 
         @JvmStatic
         @DebugLog

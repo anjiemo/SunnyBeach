@@ -118,6 +118,12 @@ public abstract class AppActivity extends BaseActivity
     @Override
     protected void initLayout() {
         super.initLayout();
+        ViewBinding viewBinding = onBindingView();
+        // 优先使用 ViewBinding
+        if (viewBinding != null) {
+            setContentView(viewBinding.getRoot());
+            initSoftKeyboard();
+        }
         if (getTitleBar() != null) {
             getTitleBar().setOnTitleBarListener(this);
         }
@@ -131,15 +137,6 @@ public abstract class AppActivity extends BaseActivity
                 ImmersionBar.setTitleBar(this, getTitleBar());
             }
         }
-    }
-
-    @Override
-    protected View handleViewBinding() {
-        ViewBinding viewBinding = onBindingView();
-        if (viewBinding == null) {
-            return null;
-        }
-        return viewBinding.getRoot();
     }
 
     /**

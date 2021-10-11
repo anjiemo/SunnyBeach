@@ -4,9 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SunnyBeach.iml" filepath="$PROJECT_DIR$/.idea/modules/SunnyBeach.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SunnyBeach.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SunnyBeach.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/base/SunnyBeach.base.iml" filepath="$PROJECT_DIR$/.idea/modules/base/SunnyBeach.base.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/umeng/SunnyBeach.umeng.iml" filepath="$PROJECT_DIR$/.idea/modules/umeng/SunnyBeach.umeng.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/widget/SunnyBeach.widget.iml" filepath="$PROJECT_DIR$/.idea/modules/widget/SunnyBeach.widget.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/SunnyBeach.library.iml" filepath="$PROJECT_DIR$/.idea/modules/library/SunnyBeach.library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/base/SunnyBeach.library.base.iml" filepath="$PROJECT_DIR$/.idea/modules/library/base/SunnyBeach.library.base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/umeng/SunnyBeach.library.umeng.iml" filepath="$PROJECT_DIR$/.idea/modules/library/umeng/SunnyBeach.library.umeng.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/widget/SunnyBeach.library.widget.iml" filepath="$PROJECT_DIR$/.idea/modules/library/widget/SunnyBeach.library.widget.iml" />
     </modules>
   </component>
 </project>

@@ -11,7 +11,9 @@ import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.collection.arrayMapOf
 import androidx.core.widget.addTextChangedListener
-import androidx.viewbinding.ViewBinding
+import by.kirich1409.viewbindingdelegate.viewBinding
+import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SubmitCommendActivityBinding
 import cn.cqautotest.sunnybeach.execption.ServiceException
@@ -29,7 +31,7 @@ import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
  */
 class SubmitCommendActivity : AppActivity() {
 
-    private lateinit var mBinding: SubmitCommendActivityBinding
+    private val mBinding: SubmitCommendActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,12 +44,7 @@ class SubmitCommendActivity : AppActivity() {
         overridePendingTransition(0, 0)
     }
 
-    override fun getLayoutId(): Int = 0
-
-    override fun onBindingView(): ViewBinding {
-        mBinding = SubmitCommendActivityBinding.inflate(layoutInflater)
-        return mBinding
-    }
+    override fun getLayoutId(): Int = R.layout.submit_commend_activity
 
     override fun initView() {
         val contentContainer = mBinding.windowContainer
@@ -179,6 +176,8 @@ class SubmitCommendActivity : AppActivity() {
             }
         }
 
+        @JvmStatic
+        @DebugLog
         fun start(
             context: Context,
             momentId: String,

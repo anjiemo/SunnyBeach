@@ -3,14 +3,13 @@ package cn.cqautotest.sunnybeach.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.hjq.base.FragmentPagerAdapter;
 
 import cn.cqautotest.sunnybeach.R;
@@ -19,10 +18,10 @@ import cn.cqautotest.sunnybeach.app.AppFragment;
 import cn.cqautotest.sunnybeach.manager.ActivityManager;
 import cn.cqautotest.sunnybeach.other.DoubleClickHelper;
 import cn.cqautotest.sunnybeach.other.IntentKey;
+import cn.cqautotest.sunnybeach.ui.adapter.NavigationAdapter;
 import cn.cqautotest.sunnybeach.ui.fragment.ArticleListFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.DiscoverFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.FishListFragment;
-import cn.cqautotest.sunnybeach.ui.fragment.HomeFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
 
 /**
@@ -31,15 +30,19 @@ import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
  * time   : 2018/10/18
  * desc   : 首页界面
  */
-public final class HomeActivity extends AppActivity implements NavigationBarView.OnItemSelectedListener {
+public final class HomeActivity extends AppActivity implements NavigationAdapter.OnNavigationListener {
+
+    private static final String INTENT_KEY_IN_FRAGMENT_INDEX = "fragmentIndex";
+    private static final String INTENT_KEY_IN_FRAGMENT_CLASS = "fragmentClass";
 
     private ViewPager mViewPager;
-    private BottomNavigationView mBottomNavigationView;
+    private RecyclerView mNavigationView;
 
+    private NavigationAdapter mNavigationAdapter;
     private FragmentPagerAdapter<AppFragment<?>> mPagerAdapter;
 
     public static void start(Context context) {
-        start(context, HomeFragment.class);
+        start(context, MyMeFragment.class);
     }
 
     public static void start(Context context, Class<? extends AppFragment<?>> fragmentClass) {
@@ -59,18 +62,19 @@ public final class HomeActivity extends AppActivity implements NavigationBarView
     @Override
     protected void initView() {
         mViewPager = findViewById(R.id.vp_home_pager);
-        mBottomNavigationView = findViewById(R.id.bv_home_navigation);
+        mNavigationView = findViewById(R.id.rv_home_navigation);
 
-        // 不使用图标默认变色
-        mBottomNavigationView.setItemIconTintList(null);
-        // 设置导航栏条目点击事件
-        mBottomNavigationView.setOnItemSelectedListener(this);
-
-        // 屏蔽底部导航栏长按文本提示
-        Menu menu = mBottomNavigationView.getMenu();
-        for (int i = 0; i < menu.size(); i++) {
-            mBottomNavigationView.findViewById(menu.getItem(i).getItemId()).setOnLongClickListener(v -> true);
-        }
+        mNavigationAdapter = new NavigationAdapter(this);
+        mNavigationAdapter.addItem(new NavigationAdapter.MenuItem(getString(R.string.home_nav_index),
+                ContextCompat.getDrawable(this, R.drawable.home_home_selector)));
+        mNavigationAdapter.addItem(new NavigationAdapter.MenuItem(getString(R.string.home_nav_found),
+                ContextCompat.getDrawable(this, R.drawable.home_found_selector)));
+        mNavigationAdapter.addItem(new NavigationAdapter.MenuItem(getString(R.string.home_fish_pond_message),
+                ContextCompat.getDrawable(this, R.drawable.home_fish_pond_selector)));
+        mNavigationAdapter.addItem(new NavigationAdapter.MenuItem(getString(R.string.home_nav_me),
+                ContextCompat.getDrawable(this, R.drawable.home_me_selector)));
+        mNavigationAdapter.setOnNavigationListener(this);
+        mNavigationView.setAdapter(mNavigationAdapter);
     }
 
     @Override
@@ -79,90 +83,66 @@ public final class HomeActivity extends AppActivity implements NavigationBarView
         mPagerAdapter.addFragment(ArticleListFragment.newInstance());
         mPagerAdapter.addFragment(DiscoverFragment.newInstance());
         mPagerAdapter.addFragment(FishListFragment.newInstance());
-        // mPagerAdapter.addFragment(EmptyFragment.newInstance());
+        // mPagerAdapter.addFragment(new EmptyFragment());
         mPagerAdapter.addFragment(MyMeFragment.newInstance());
         mViewPager.setAdapter(mPagerAdapter);
 
-        // onNewIntent(getIntent());
+        onNewIntent(getIntent());
 
         toast("若发现BUG，可在意见反馈界面中反馈");
     }
 
-    @Override
-    public void initEvent() {
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                MenuItem menuItem = mBottomNavigationView.getMenu().getItem(position);
-                mBottomNavigationView.setSelectedItemId(menuItem.getItemId());
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-    }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int fragmentIndex = mPagerAdapter.getFragmentIndex(getSerializable(IntentKey.INDEX));
+        switchFragment(mPagerAdapter.getFragmentIndex(getSerializable(INTENT_KEY_IN_FRAGMENT_CLASS)));
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // 保存当前 Fragment 索引位置
+        outState.putInt(INTENT_KEY_IN_FRAGMENT_INDEX, mViewPager.getCurrentItem());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // 恢复当前 Fragment 索引位置
+        switchFragment(savedInstanceState.getInt(INTENT_KEY_IN_FRAGMENT_INDEX));
+    }
+
+    private void switchFragment(int fragmentIndex) {
         if (fragmentIndex == -1) {
             return;
         }
 
-        mViewPager.setCurrentItem(fragmentIndex);
         switch (fragmentIndex) {
             case 0:
-                mBottomNavigationView.setSelectedItemId(R.id.menu_home);
-                break;
             case 1:
-                mBottomNavigationView.setSelectedItemId(R.id.home_found);
-                break;
             case 2:
-                mBottomNavigationView.setSelectedItemId(R.id.home_fish_pond);
-                break;
             case 3:
-                mBottomNavigationView.setSelectedItemId(R.id.home_message);
-                break;
-            case 4:
-                mBottomNavigationView.setSelectedItemId(R.id.home_me);
+                mViewPager.setCurrentItem(fragmentIndex);
+                mNavigationAdapter.setSelectedPosition(fragmentIndex);
                 break;
             default:
                 break;
         }
     }
 
-    /**
-     * {@link BottomNavigationView.OnItemSelectedListener}
-     */
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.menu_home) {
-            mViewPager.setCurrentItem(0, false);
-            return true;
-        } else if (itemId == R.id.home_found) {
-            mViewPager.setCurrentItem(1, false);
-            return true;
-        } else if (itemId == R.id.home_fish_pond) {
-            mViewPager.setCurrentItem(2, false);
-            return true;
-            // } else if (itemId == R.id.home_message) {
-            //     mViewPager.setCurrentItem(3, false);
-            //     toast("该界面正在装修中...");
-            //     return true;
-        } else if (itemId == R.id.home_me) {
-            mViewPager.setCurrentItem(4, false);
-            return true;
+    public boolean onNavigationItemSelected(int position) {
+        switch (position) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+                mViewPager.setCurrentItem(position);
+                return true;
+            default:
+                return false;
         }
-        return false;
     }
 
     @Override
@@ -186,7 +166,8 @@ public final class HomeActivity extends AppActivity implements NavigationBarView
     protected void onDestroy() {
         super.onDestroy();
         mViewPager.setAdapter(null);
-        mBottomNavigationView.setOnNavigationItemSelectedListener(null);
+        mNavigationView.setAdapter(null);
+        mNavigationAdapter.setOnNavigationListener(null);
     }
 
     @Override

@@ -30,16 +30,17 @@ import java.io.InputStream;
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.db.CookieRoomDatabase;
-import cn.cqautotest.sunnybeach.http.ServiceCreator;
 import cn.cqautotest.sunnybeach.http.glide.GlideApp;
 import cn.cqautotest.sunnybeach.http.model.RequestHandler;
 import cn.cqautotest.sunnybeach.http.model.RequestServer;
 import cn.cqautotest.sunnybeach.manager.ActivityManager;
+import cn.cqautotest.sunnybeach.manager.CookieManager;
 import cn.cqautotest.sunnybeach.other.AppConfig;
 import cn.cqautotest.sunnybeach.other.CrashHandler;
 import cn.cqautotest.sunnybeach.other.DebugLoggerTree;
 import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter;
 import cn.cqautotest.sunnybeach.other.ToastLogInterceptor;
+import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
@@ -54,6 +55,7 @@ public final class AppApplication extends Application {
 
     private static AppApplication INSTANCE;
     private static CookieRoomDatabase sDatabase;
+    private static AppViewModel sAppViewModel;
 
     @DebugLog("启动耗时")
     @Override
@@ -116,7 +118,9 @@ public final class AppApplication extends Application {
         ActivityManager.getInstance().init(application);
 
         // 网络请求框架初始化
-        OkHttpClient okHttpClient = ServiceCreator.INSTANCE.getClient();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .cookieJar(CookieManager.get())
+                .build();
 
         EasyConfig.with(okHttpClient)
                 // 是否打印日志
@@ -155,7 +159,7 @@ public final class AppApplication extends Application {
                 }
             });
         }
-
+        sAppViewModel = new AppViewModel(application);
         // 初始化 Room 数据库
         sDatabase = CookieRoomDatabase.getDatabase(application);
         // 初始化 Glide 的 Cookie 管理
@@ -202,11 +206,6 @@ public final class AppApplication extends Application {
         GlideApp.get(this).onTrimMemory(level);
     }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-    }
-
     private static Call.Factory castOrNull(OkHttpClient okHttpClient) {
         if (okHttpClient instanceof Call.Factory) {
             return (Call.Factory) okHttpClient;
@@ -216,5 +215,9 @@ public final class AppApplication extends Application {
 
     public static CookieRoomDatabase getDatabase() {
         return sDatabase;
+    }
+
+    public static AppViewModel getAppViewModel() {
+        return sAppViewModel;
     }
 }

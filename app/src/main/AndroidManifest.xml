@@ -74,7 +74,8 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider> <!-- 闪屏页 -->
+        </provider>
+        <!-- 闪屏页 -->
         <activity
             android:name=".ui.activity.SplashActivity"
             android:launchMode="singleTop"

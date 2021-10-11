@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
@@ -8,9 +9,11 @@ import cn.cqautotest.sunnybeach.databinding.MyMeFragmentBinding
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.SettingActivity
 import cn.cqautotest.sunnybeach.util.MAKE_COMPLAINTS_URL
+import cn.cqautotest.sunnybeach.util.startActivity
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+
 
 /**
  * author : A Lonely Cat
@@ -20,15 +23,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
  */
 class MyMeFragment : TitleBarFragment<AppActivity>() {
 
-    private var _binding: MyMeFragmentBinding? = null
-    private val mBinding get() = _binding!!
-    private val mUserViewModel by viewModels<UserViewModel>()
+    private val mBinding: MyMeFragmentBinding by viewBinding()
+    private val mUserViewModel by activityViewModels<UserViewModel>()
 
     override fun getLayoutId(): Int = R.layout.my_me_fragment
-
-    override fun onBindingView() {
-        _binding = MyMeFragmentBinding.bind(view)
-    }
 
     override fun onFragmentResume(first: Boolean) {
         super.onFragmentResume(first)
@@ -50,10 +48,10 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     override fun initEvent() {
         val meContent = mBinding.meContent
         meContent.feedbackContainer.setOnClickListener {
-            BrowserActivity.start(context, MAKE_COMPLAINTS_URL)
+            BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
         }
         meContent.settingContainer.setOnClickListener {
-            startActivity(SettingActivity::class.java)
+            requireContext().startActivity(SettingActivity::class.java)
         }
     }
 
@@ -65,11 +63,6 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     override fun isStatusBarDarkFont(): Boolean = false
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun isStatusBarEnabled(): Boolean {
         // 使用沉浸式状态栏
         return !super.isStatusBarEnabled()
@@ -77,8 +70,6 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     companion object {
         @JvmStatic
-        fun newInstance(): MyMeFragment {
-            return MyMeFragment()
-        }
+        fun newInstance() = MyMeFragment()
     }
 }

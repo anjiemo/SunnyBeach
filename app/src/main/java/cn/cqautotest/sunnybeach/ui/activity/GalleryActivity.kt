@@ -15,8 +15,10 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
 import androidx.lifecycle.lifecycleScope
-import androidx.viewbinding.ViewBinding
 import androidx.viewpager2.widget.ViewPager2
+import by.kirich1409.viewbindingdelegate.viewBinding
+import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.GalleryActivityBinding
 import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
@@ -44,19 +46,14 @@ import kotlin.coroutines.suspendCoroutine
  */
 class GalleryActivity : AppActivity() {
 
-    private lateinit var mBinding: GalleryActivityBinding
+    private val mBinding: GalleryActivityBinding by viewBinding()
     private val mPhotoAdapter = PhotoAdapter(fillBox = true)
     private val mPhotoList = arrayListOf<WallpaperBean.Res.Vertical>()
     private val mDiscoverViewModel by viewModels<DiscoverViewModel>()
     private var mCurrentPageIndex = 0
     private var isShow = true
 
-    override fun getLayoutId(): Int = 0
-
-    override fun onBindingView(): ViewBinding {
-        mBinding = GalleryActivityBinding.inflate(layoutInflater)
-        return mBinding
-    }
+    override fun getLayoutId(): Int = R.layout.gallery_activity
 
     override fun initObserver() {
         val loadMoreModule = mPhotoAdapter.loadMoreModule
@@ -115,9 +112,10 @@ class GalleryActivity : AppActivity() {
             }
         }
         mBinding.settingWallpaperTv.setOnClickListener {
-            val wallpaperManager = WallpaperManager.getInstance(applicationContext)
+            val wallpaperManager = WallpaperManager.getInstance(this)
             lifecycleScope.launchWhenCreated {
-                val inputStream = DownloadHelper.getTypeByUri<InputStream>(activity, getImageUri())
+                val inputStream =
+                    DownloadHelper.getTypeByUri<InputStream>(this@GalleryActivity, getImageUri())
                 ThreadPoolManager.getInstance().execute {
                     wallpaperManager.setStream(inputStream)
                 }
@@ -157,8 +155,8 @@ class GalleryActivity : AppActivity() {
         val intent = intent
         val photoId = intent.getStringExtra(IntentKey.ID)
         logByDebug(msg = "initData：===>photoId is $photoId")
+        val cacheVerticalPhotoList = Repository.getPhotoList()
         mPhotoList.apply {
-            val cacheVerticalPhotoList = Repository.getPhotoList()
             logByDebug(msg = "initData：===> cacheVerticalPhotoList is $cacheVerticalPhotoList")
             addAll(cacheVerticalPhotoList)
         }
@@ -189,6 +187,7 @@ class GalleryActivity : AppActivity() {
     companion object {
 
         @JvmStatic
+        @DebugLog
         fun start(context: Context, id: String) {
             val intent = Intent(context, GalleryActivity::class.java)
             intent.putExtra(IntentKey.ID, id)

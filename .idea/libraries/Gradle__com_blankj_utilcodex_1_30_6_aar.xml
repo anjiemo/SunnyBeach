@@ -8,9 +8,7 @@
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/fc0dea9a04c4f0f6d2d15cdd41404fb3/transformed/jetified-utilcodex-1.30.6/res" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/fc0dea9a04c4f0f6d2d15cdd41404fb3/transformed/jetified-utilcodex-1.30.6/AndroidManifest.xml" />
     </CLASSES>
-    <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.blankj/utilcodex/1.30.6/aa8753ae95499047b3370d158610e0adf099af/utilcodex-1.30.6-javadoc.jar!/" />
-    </JAVADOC>
+    <JAVADOC />
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/modules-2/files-2.1/com.blankj/utilcodex/1.30.6/1e5ee4d0fdb35f0003c5d51913685983fcdb1f4b/utilcodex-1.30.6-sources.jar!/" />
     </SOURCES>

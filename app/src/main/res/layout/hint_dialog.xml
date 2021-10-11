@@ -25,7 +25,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
-            app:srcCompat="@drawable/warning_ic" />
+            app:srcCompat="@drawable/tips_warning_ic" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_hint_message"

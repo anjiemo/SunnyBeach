@@ -10,7 +10,7 @@ import cn.cqautotest.sunnybeach.manager.CookieStore
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/6/18
+ * time   : 2021/06/18
  * desc   : Cookie的 ViewModel
  */
 class CookiesViewModel(application: Application) :

@@ -4,10 +4,9 @@
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/2bd9c71710264f3ce86f311f4a7ad83d/transformed/exifinterface-1.2.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/a00007adc93a670f42ce0130ede1d05e/transformed/exifinterface-1.2.0/res" />
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/2bd9c71710264f3ce86f311f4a7ad83d/transformed/exifinterface-1.2.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/2bd9c71710264f3ce86f311f4a7ad83d/transformed/exifinterface-1.2.0/AndroidManifest.xml" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/2bd9c71710264f3ce86f311f4a7ad83d/transformed/exifinterface-1.2.0/res" />
+      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/2bd9c71710264f3ce86f311f4a7ad83d/transformed/exifinterface-1.2.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
