@@ -3,12 +3,12 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.graphics.Color
 import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
+import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.EmptyFragmentBinding
 import cn.cqautotest.sunnybeach.util.simpleToast
-
 
 /**
  * author : A Lonely Cat
@@ -18,14 +18,9 @@ import cn.cqautotest.sunnybeach.util.simpleToast
  */
 class EmptyFragment : AppFragment<AppActivity>() {
 
-    private var _binding: EmptyFragmentBinding? = null
-    private val mBinding get() = _binding!!
+    private val mBinding: EmptyFragmentBinding by viewBinding()
 
     override fun getLayoutId(): Int = R.layout.empty_fragment
-
-    override fun onBindingView() {
-        _binding = EmptyFragmentBinding.bind(view)
-    }
 
     override fun initView() {
         mBinding.emptyDescription.setOnItemClickListener { menuItem, position ->
@@ -89,17 +84,5 @@ class EmptyFragment : AppFragment<AppActivity>() {
 
             }
         })
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(): EmptyFragment {
-            return EmptyFragment()
-        }
     }
 }

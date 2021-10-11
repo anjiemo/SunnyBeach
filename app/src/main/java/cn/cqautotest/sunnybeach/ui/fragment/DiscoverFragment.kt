@@ -1,11 +1,12 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.graphics.Color
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -27,6 +28,7 @@ import com.youth.banner.holder.BannerImageHolder
 import com.youth.banner.indicator.CircleIndicator
 import kotlinx.coroutines.flow.collectLatest
 
+
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
@@ -35,9 +37,8 @@ import kotlinx.coroutines.flow.collectLatest
  */
 class DiscoverFragment : TitleBarFragment<AppActivity>(), StatusAction {
 
-    private var _binding: DiscoverFragmentBinding? = null
-    private val mBinding get() = _binding!!
-    private val mPhotoViewModel by viewModels<PhotoViewModel>()
+    private val mBinding: DiscoverFragmentBinding by viewBinding()
+    private val mPhotoViewModel by activityViewModels<PhotoViewModel>()
     private val mWallpaperBannerAdapter = BannerAdapter()
     private val mWallpaperListAdapter = WallpaperListAdapter(AdapterDelegate().apply {
         adapterAnimation = CustomAnimation()
@@ -58,10 +59,6 @@ class DiscoverFragment : TitleBarFragment<AppActivity>(), StatusAction {
     }
 
     override fun getLayoutId(): Int = R.layout.discover_fragment
-
-    override fun onBindingView() {
-        _binding = DiscoverFragmentBinding.bind(view)
-    }
 
     override fun initObserver() {
         loadWallpaperBannerList()
@@ -98,7 +95,7 @@ class DiscoverFragment : TitleBarFragment<AppActivity>(), StatusAction {
     }
 
     private fun loadPhotoList() {
-        lifecycleScope.launchWhenCreated {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             mPhotoViewModel.getWallpaperList().collectLatest {
                 mWallpaperListAdapter.submitData(it)
             }
@@ -120,12 +117,6 @@ class DiscoverFragment : TitleBarFragment<AppActivity>(), StatusAction {
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.slDiscoverHint
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        mWallpaperListAdapter.removeLoadStateListener(loadStateListener)
-        _binding = null
-    }
 
     override fun isStatusBarEnabled(): Boolean {
         // 使用沉浸式状态栏
@@ -149,8 +140,6 @@ class DiscoverFragment : TitleBarFragment<AppActivity>(), StatusAction {
         }
 
         @JvmStatic
-        fun newInstance(): DiscoverFragment {
-            return DiscoverFragment()
-        }
+        fun newInstance() = DiscoverFragment()
     }
 }

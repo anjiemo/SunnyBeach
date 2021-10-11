@@ -22,6 +22,21 @@ object Repository {
 
     private val cachePhotoIdList = arrayListOf<WallpaperBean.Res.Vertical>()
 
+    fun checkAppUpdate() = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = AppNetwork.checkAppUpdate()
+                logByDebug(tag = TAG, msg = "getFishCommendListById：===> result is $result")
+                if (result.success) Result.success(result.data)
+                else Result.failure(ServiceException(result.message))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
     fun setPhotoIdList(photoIdList: List<WallpaperBean.Res.Vertical>) {
         if (photoIdList !== cachePhotoIdList) {
             cachePhotoIdList.clear()

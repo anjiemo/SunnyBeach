@@ -5,23 +5,23 @@ import android.content.Intent
 import android.net.Uri
 import android.view.Gravity
 import android.view.View
-import androidx.activity.viewModels
-import androidx.viewbinding.ViewBinding
+import androidx.lifecycle.MutableLiveData
+import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.SettingActivityBinding
-import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.http.model.HttpData
 import cn.cqautotest.sunnybeach.http.request.LogoutApi
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.CacheDataManager
-import cn.cqautotest.sunnybeach.manager.ThreadPoolManager
+import cn.cqautotest.sunnybeach.model.AppUpdateInfo
 import cn.cqautotest.sunnybeach.ui.dialog.MenuDialog
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
 import cn.cqautotest.sunnybeach.ui.dialog.SafeDialog
 import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog
-import cn.cqautotest.sunnybeach.util.simpleToast
+import cn.cqautotest.sunnybeach.util.startActivity
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import com.hjq.base.BaseDialog
 import com.hjq.http.EasyHttp
@@ -29,40 +29,34 @@ import com.hjq.http.listener.HttpCallback
 import com.hjq.widget.view.SwitchButton
 
 /**
- * author : Android 轮子哥
+ * author : Android 轮子哥 & A Lonely Cat
  * github : https://github.com/getActivity/AndroidProject
  * time   : 2019/03/01
  * desc   : 设置界面
  */
 class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
 
-    private lateinit var mBinding: SettingActivityBinding
-    private val mAppViewModel by viewModels<AppViewModel>()
+    private val mBinding: SettingActivityBinding by viewBinding()
+    private var mAppLiveData = MutableLiveData<AppUpdateInfo?>()
+    private val mAppViewModel: AppViewModel = AppApplication.getAppViewModel()
 
-    override fun getLayoutId(): Int = 0
-
-    override fun onBindingView(): ViewBinding {
-        mBinding = SettingActivityBinding.inflate(layoutInflater)
-        return mBinding
-    }
+    override fun getLayoutId(): Int = R.layout.setting_activity
 
     override fun initObserver() {
-        mAppViewModel.appUpdateState.observe(this) {
-            if (it.isDataValid.not()) {
-                simpleToast("更新检查失败")
-                mBinding.tvSettingUpdate.visibility = View.GONE
-                return@observe
+        mAppLiveData.observe(this) {
+            hideUpdateIcon()
+            it?.let {
+                showUpdateIcon()
+                UpdateDialog.Builder(this)
+                    .setFileMd5(it.apkHash)
+                    .setDownloadUrl(it.url)
+                    .setForceUpdate(it.forceUpdate)
+                    .setUpdateLog(it.updateLog)
+                    .setVersionName(it.versionName)
+                    .show()
             }
-            mBinding.tvSettingUpdate.visibility = View.VISIBLE
-            val appUpdateInfo = it.appUpdateInfo
-            UpdateDialog.Builder(this)
-                .setFileMd5(appUpdateInfo?.apkHash)
-                .setDownloadUrl(appUpdateInfo?.url)
-                .setForceUpdate(appUpdateInfo?.forceUpdate ?: false)
-                .setUpdateLog(appUpdateInfo?.updateLog)
-                .setVersionName(appUpdateInfo?.versionName)
-                .show()
         }
+        mBinding.sbSettingCache.rightText = CacheDataManager.getTotalCacheSize(this)
     }
 
     override fun initView() {
@@ -89,6 +83,10 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
         mBinding.sbSettingPhone.rightText = "181****1413"
         mBinding.sbSettingPassword.rightText = "密码强度较低"
         mBinding.sbSettingSwitch.isChecked = true
+        // 检查更新
+        mAppViewModel.checkAppUpdate().observe(this) {
+            mAppLiveData.value = it.getOrNull()
+        }
     }
 
     @SingleClick
@@ -112,7 +110,9 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
             }
             R.id.sb_setting_update -> {
                 // 检查更新
-                mAppViewModel.checkAppVersionUpdate()
+                mAppViewModel.checkAppUpdate().observe(this) {
+                    mAppLiveData.value = it.getOrNull()
+                }
             }
             R.id.sb_setting_phone -> {
                 SafeDialog.Builder(this)
@@ -162,7 +162,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                     .show()
             }
             R.id.sb_setting_about -> {
-                startActivity(AboutActivity::class.java)
+                startActivity<AboutActivity>()
             }
             R.id.sb_setting_auto -> {
                 // 自动登录
@@ -170,23 +170,15 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                 sbSettingSwitch.isChecked = !sbSettingSwitch.isChecked
             }
             R.id.sb_setting_cache -> {
-                // 清除内存缓存（必须在主线程）
-                GlideApp.get(activity).clearMemory()
-                ThreadPoolManager.getInstance().execute {
-                    CacheDataManager.clearAllCache(this)
-                    // 清除本地缓存（必须在子线程）
-                    GlideApp.get(activity).clearDiskCache()
-                    post {
-                        // 重新获取应用缓存大小
-                        mBinding.sbSettingCache.rightText =
-                            CacheDataManager.getTotalCacheSize(activity)
-                    }
+                mAppViewModel.clearCacheMemory().observe(this) {
+                    val totalCacheSize = it.getOrNull() ?: return@observe
+                    mBinding.sbSettingCache.rightText = totalCacheSize
                 }
             }
             R.id.sb_setting_exit -> {
                 if (true) {
                     // TODO: 退出账号并清除用户基本信息数据
-                    startActivity(LoginActivity::class.java)
+                    startActivity<LoginActivity>()
                     // 进行内存优化，销毁除登录页之外的所有界面
                     ActivityManager.getInstance().finishAllActivities(
                         LoginActivity::class.java
@@ -198,7 +190,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                     .api(LogoutApi())
                     .request(object : HttpCallback<HttpData<Void?>>(this) {
                         override fun onSucceed(data: HttpData<Void?>) {
-                            startActivity(LoginActivity::class.java)
+                            startActivity<LoginActivity>()
                             // 进行内存优化，销毁除登录页之外的所有界面
                             ActivityManager.getInstance().finishAllActivities(
                                 LoginActivity::class.java

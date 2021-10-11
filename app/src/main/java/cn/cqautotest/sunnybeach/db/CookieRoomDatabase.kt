@@ -16,7 +16,7 @@ abstract class CookieRoomDatabase : RoomDatabase() {
     abstract fun cookieDao(): CookieDao
 
     companion object {
-        // 单例可防止同时打开多个数据库实例。
+        // 单例可防止同时打开多个数据库实例（双重校验锁式（Double Check)单例）。
         @Volatile
         private var sINSTANCE: CookieRoomDatabase? = null
 

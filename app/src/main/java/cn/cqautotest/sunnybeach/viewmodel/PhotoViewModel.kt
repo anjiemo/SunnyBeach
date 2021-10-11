@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/6/18
+ * time   : 2021/06/18
  * desc   : 图片的 ViewModel
  */
 class PhotoViewModel : ViewModel() {

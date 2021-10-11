@@ -1,15 +1,16 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
-import cn.cqautotest.sunnybeach.databinding.FishPondFragmentBinding
+import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.PutFishActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
@@ -30,9 +31,8 @@ import kotlinx.coroutines.flow.collectLatest
  */
 class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction {
 
-    private var _binding: FishPondFragmentBinding? = null
-    private val mBinding get() = _binding!!
-    private val mFishPondViewModel by viewModels<FishPondViewModel>()
+    private val mBinding: FishListFragmentBinding by viewBinding()
+    private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
     private val mFishListAdapter = FishListAdapter(AdapterDelegate())
     private val loadStateListener = { cls: CombinedLoadStates ->
         if (cls.refresh is LoadState.NotLoading) {
@@ -49,11 +49,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction {
         }
     }
 
-    override fun getLayoutId(): Int = R.layout.fish_pond_fragment
-
-    override fun onBindingView() {
-        _binding = FishPondFragmentBinding.bind(view)
-    }
+    override fun getLayoutId(): Int = R.layout.fish_list_fragment
 
     override fun initObserver() {}
 
@@ -77,7 +73,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction {
     }
 
     private fun loadFishList() {
-        lifecycleScope.launchWhenCreated {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             mFishPondViewModel.getFishListByCategoryId("recommend").collectLatest {
                 mFishListAdapter.submitData(it)
             }
@@ -86,7 +82,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction {
 
     override fun initView() {
         mBinding.rvFishPondList.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(context)
             adapter = mFishListAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(4.dp))
         }
@@ -94,21 +90,13 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction {
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlFishPondHint
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun isStatusBarEnabled(): Boolean {
         // 使用沉浸式状态栏
         return !super.isStatusBarEnabled()
     }
 
     companion object {
-
         @JvmStatic
-        fun newInstance(): FishListFragment {
-            return FishListFragment()
-        }
+        fun newInstance() = FishListFragment()
     }
 }

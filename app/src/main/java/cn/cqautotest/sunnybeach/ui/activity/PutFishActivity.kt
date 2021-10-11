@@ -12,7 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
+import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.ImageChooseItemBinding
@@ -31,7 +31,7 @@ import java.io.File
  */
 class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener {
 
-    private lateinit var mBinding: PutFishActivityBinding
+    private val mBinding: PutFishActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
     private val mPreviewAdapter by lazy { ImagePreviewAdapter() }
     private val softKeyboardListener = getSoftKeyboardListener()
@@ -39,12 +39,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     private var mLinkUrl: String? = null
     private var mImages = arrayListOf<String>()
 
-    override fun getLayoutId(): Int = 0
-
-    override fun onBindingView(): ViewBinding {
-        mBinding = PutFishActivityBinding.inflate(layoutInflater)
-        return mBinding
-    }
+    override fun getLayoutId(): Int = R.layout.put_fish_activity
 
     override fun initSoftKeyboard() {
         super.initSoftKeyboard()

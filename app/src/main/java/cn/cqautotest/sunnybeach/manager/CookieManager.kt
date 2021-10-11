@@ -9,6 +9,12 @@ import okhttp3.Cookie
 import okhttp3.CookieJar
 import okhttp3.HttpUrl
 
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/10/02
+ * desc   : Cookie 管理器
+ */
 class CookieManager : CookieJar {
 
     private val cookiesViewModel by lazy {
@@ -33,6 +39,19 @@ class CookieManager : CookieJar {
         val cookiesSet = cookiesList.toMutableSet()
         cookiesSet.add(CookieStore(url.host, cookies))
         cookiesViewModel.save(cookiesSet.toList())
+    }
+
+    companion object {
+        private var INSTANCE: CookieManager? = null
+
+        @JvmStatic
+        fun get(): CookieManager {
+            return INSTANCE ?: synchronized(this) {
+                val instance = CookieManager()
+                INSTANCE = instance
+                instance
+            }
+        }
     }
 }
 

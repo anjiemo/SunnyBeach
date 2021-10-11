@@ -8,13 +8,23 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 
 import com.hjq.base.BaseDialog;
+import com.hjq.umeng.Platform;
+import com.hjq.umeng.UmengClient;
+import com.hjq.umeng.UmengShare;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
 import cn.cqautotest.sunnybeach.app.AppActivity;
 import cn.cqautotest.sunnybeach.manager.DialogManager;
 import cn.cqautotest.sunnybeach.ui.dialog.AddressDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.DateDialog;
-import cn.cqautotest.sunnybeach.ui.dialog.HintDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.MenuDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog;
@@ -23,18 +33,10 @@ import cn.cqautotest.sunnybeach.ui.dialog.SafeDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.SelectDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.TimeDialog;
+import cn.cqautotest.sunnybeach.ui.dialog.TipsDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog;
 import cn.cqautotest.sunnybeach.ui.dialog.WaitDialog;
 import cn.cqautotest.sunnybeach.ui.popup.ListPopup;
-import cn.cqautotest.sunnybeach.wxapi.WXEntryActivity;
-import com.hjq.umeng.Platform;
-import com.hjq.umeng.UmengClient;
-import com.hjq.umeng.UmengShare;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  *    author : Android 轮子哥
@@ -239,24 +241,24 @@ public final class DialogActivity extends AppActivity {
         } else if (viewId == R.id.btn_dialog_succeed_toast) {
 
             // 成功对话框
-            new HintDialog.Builder(this)
-                    .setIcon(HintDialog.ICON_FINISH)
+            new TipsDialog.Builder(this)
+                    .setIcon(TipsDialog.ICON_FINISH)
                     .setMessage("完成")
                     .show();
 
         } else if (viewId == R.id.btn_dialog_fail_toast) {
 
             // 失败对话框
-            new HintDialog.Builder(this)
-                    .setIcon(HintDialog.ICON_ERROR)
+            new TipsDialog.Builder(this)
+                    .setIcon(TipsDialog.ICON_ERROR)
                     .setMessage("错误")
                     .show();
 
         } else if (viewId == R.id.btn_dialog_warn_toast) {
 
             // 警告对话框
-            new HintDialog.Builder(this)
-                    .setIcon(HintDialog.ICON_WARNING)
+            new TipsDialog.Builder(this)
+                    .setIcon(TipsDialog.ICON_WARNING)
                     .setMessage("警告")
                     .show();
 
@@ -407,18 +409,16 @@ public final class DialogActivity extends AppActivity {
 
         } else if (viewId == R.id.btn_dialog_share) {
 
-            toast("记得改好第三方 AppID 和 AppKey，否则会调不起来哦");
-            toast("也别忘了改微信 " + WXEntryActivity.class.getSimpleName() + " 类所在的包名哦");
+            toast("记得改好第三方 AppID 和 Secret，否则会调不起来哦");
+
+            UMWeb content = new UMWeb("https://github.com/getActivity/AndroidProject");
+            content.setTitle("Github");
+            content.setThumb(new UMImage(this, R.mipmap.launcher_ic));
+            content.setDescription(getString(R.string.app_name));
+
             // 分享对话框
             new ShareDialog.Builder(this)
-                    // 分享标题
-                    .setShareTitle("Github")
-                    // 分享描述
-                    .setShareDescription("AndroidProject")
-                    // 分享缩略图
-                    .setShareLogo(R.mipmap.launcher_ic)
-                    // 分享链接
-                    .setShareUrl("https://github.com/getActivity/AndroidProject")
+                    .setShareLink(content)
                     .setListener(new UmengShare.OnShareListener() {
 
                         @Override
@@ -428,7 +428,7 @@ public final class DialogActivity extends AppActivity {
 
                         @Override
                         public void onError(Platform platform, Throwable t) {
-                            toast("分享出错");
+                            toast(t.getMessage());
                         }
 
                         @Override
@@ -447,11 +447,11 @@ public final class DialogActivity extends AppActivity {
                     // 是否强制更新
                     .setForceUpdate(false)
                     // 更新日志
-                    .setUpdateLog("到底更新了啥\n到底更新了啥\n到底更新了啥\n到底更新了啥\n到底更新了啥")
+                    .setUpdateLog("到底更新了啥\n到底更新了啥\n到底更新了啥\n到底更新了啥\n到底更新了啥\n到底更新了啥")
                     // 下载 URL
-                    .setDownloadUrl("https://dldir1.qq.com/weixin/android/weixin7014android1660.apk")
+                    .setDownloadUrl("https://dldir1.qq.com/weixin/android/weixin807android1920_arm64.apk")
                     // 文件 MD5
-                    .setFileMd5("6ec99cb762ffd9158e8b27dc33d9680d")
+                    .setFileMd5("df2f045dfa854d8461d9cefe08b813c8")
                     .show();
 
         } else if (viewId == R.id.btn_dialog_safe) {
@@ -512,13 +512,6 @@ public final class DialogActivity extends AppActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // 友盟分享回调
-        UmengClient.onActivityResult(this, requestCode, resultCode, data);
-    }
-
-    @Override
     public void onRightClick(View view) {
         // 菜单弹窗
         new ListPopup.Builder(this)
@@ -527,5 +520,12 @@ public final class DialogActivity extends AppActivity {
                 .addOnDismissListener(popupWindow -> toast("PopupWindow 销毁了"))
                 .setListener((ListPopup.OnListener<String>) (popupWindow, position, s) -> toast("点击了：" + s))
                 .showAsDropDown(view);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 友盟回调
+        UmengClient.onActivityResult(this, requestCode, resultCode, data);
     }
 }

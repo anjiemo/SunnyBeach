@@ -181,7 +181,6 @@ public final class ImageSelectActivity extends AppActivity
         if (mAlbumDialog == null) {
             mAlbumDialog = new AlbumDialog.Builder(this)
                     .setListener((dialog, position, bean) -> {
-
                         setRightTitle(bean.getName());
                         // 滚动回第一个位置
                         mRecyclerView.scrollToPosition(0);
@@ -191,7 +190,7 @@ public final class ImageSelectActivity extends AppActivity
                             mAdapter.setData(mAllAlbum.get(bean.getName()));
                         }
                         // 执行列表动画
-                        mRecyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.from_right_layout));
+                        mRecyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_from_right));
                         mRecyclerView.scheduleLayoutAnimation();
                     });
         }
@@ -424,7 +423,7 @@ public final class ImageSelectActivity extends AppActivity
             }
 
             // 执行列表动画
-            mRecyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.fall_down_layout));
+            mRecyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_fall_down));
             mRecyclerView.scheduleLayoutAnimation();
 
             if (mAllImage.isEmpty()) {

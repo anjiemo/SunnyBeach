@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-aspectjx'
-apply from: '../config.gradle'
+apply from: '../common.gradle'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
@@ -21,9 +21,17 @@ android {
 
         // 混淆配置
         proguardFiles 'proguard-sdk.pro', 'proguard-app.pro'
-        vectorDrawables {
-            useSupportLibrary true
-        }
+
+        // 日志打印开关
+        buildConfigField('boolean', 'LOG_ENABLE', '' + LOG_ENABLE + '')
+        // 测试包下的 BuglyId
+        buildConfigField('String', 'BUGLY_ID', '"' + BUGLY_ID + '"')
+        // 测试服务器的主机地址
+        buildConfigField('String', 'HOST_URL', '"' + HOST_URL + '"')
+
+        // vectorDrawables {
+        //     useSupportLibrary true
+        // }
     }
 
     // Apk 签名的那些事：https://www.jianshu.com/p/a1f8e5896aa2
@@ -47,8 +55,9 @@ android {
     }
 
     // 避免编译不能用于在编译类路径中发现的注解处理器，因为它们中的任何更改都需要运行注解处理任务
-    kapt.includeCompileClasspath = false
+    // kapt.includeCompileClasspath = false
 
+    // 构建配置：https://developer.android.google.cn/studio/build/build-variants
     buildTypes {
 
         debug {
@@ -71,8 +80,10 @@ android {
             buildConfigField('String', 'BUGLY_ID', '"6ce2807170"')
             // 测试服务器的主机地址
             buildConfigField('String', 'HOST_URL', '"https://www.test.baidu.com/"')
-            // 设置清单占位符
-            manifestPlaceholders = ['app_name': '阳光沙滩 Debug 版']
+            // 添加清单占位符
+            addManifestPlaceholders([
+                    'app_name': '阳光沙滩 Debug 版'
+            ])
             // 调试模式下只保留一种架构的 so 库，提升打包速度
             ndk {
                 abiFilters 'armeabi-v7a'
@@ -82,8 +93,10 @@ android {
         preview.initWith(debug)
         preview {
             applicationIdSuffix ''
-            // 设置清单占位符
-            manifestPlaceholders = ['app_name': '阳光沙滩 Preview 版']
+            // 添加清单占位符
+            addManifestPlaceholders([
+                    'app_name': '阳光沙滩 Preview 版'
+            ])
         }
 
         release {
@@ -104,8 +117,10 @@ android {
             buildConfigField('String', 'BUGLY_ID', '"6ce2807170"')
             // 正式服务器的主机地址
             buildConfigField('String', 'HOST_URL', '"https://www.baidu.com/"')
-            // 设置清单占位符
-            manifestPlaceholders = ['app_name': '@string/app_name']
+            // 添加清单占位符
+            addManifestPlaceholders([
+                    'app_name': '@string/app_name'
+            ])
             // 仅保留两种架构的 so 库，根据 Bugly 统计得出
             ndk {
                 // armeabi：万金油架构平台（占用率：0%）
@@ -125,14 +140,24 @@ android {
     // AOP 配置（exclude 和 include 二选一）
     aspectjx {
         // 排除一些第三方库的包名（Gson、 LeakCanary 和 AOP 有冲突）
-        exclude 'androidx', 'com.google', 'com.squareup', 'org.apache', 'com.alipay', 'com.taobao', 'versions.9'
+        // exclude 'androidx', 'com.google', 'com.squareup', 'org.apache', 'com.alipay', 'com.taobao', 'versions.9'
         // 只对以下包名做 AOP 处理
-        // include 'cn.cqautotest.sunnybeach'
         include android.defaultConfig.applicationId
         // 否则就会引发冲突，具体表现为：
         // 编译不过去，报错：java.util.zip.ZipException：Cause: zip file is empty
         // 编译能过去，但运行时报错：ClassNotFoundException: Didn't find class on path: DexPathList
     }
+
+    // // AOP 配置（exclude 和 include 二选一）
+    // // 需要进行配置，否则就会引发冲突，具体表现为：
+    // // 第一种：编译不过去，报错：java.util.zip.ZipException：Cause: zip file is empty
+    // // 第二种：编译能过去，但运行时报错：ClassNotFoundException: Didn't find class on path: DexPathList
+    // aspectjx {
+    //     // 排除一些第三方库的包名（Gson、 LeakCanary 和 AOP 有冲突）
+    //     // exclude 'androidx', 'com.google', 'com.squareup', 'org.apache', 'com.alipay', 'com.taobao', 'versions.9'
+    //     // 只对以下包名做 AOP 处理
+    //     include android.defaultConfig.applicationId
+    // }
 
     applicationVariants.all { variant ->
 
@@ -148,27 +173,27 @@ android {
 
     // 排除重复的 org.jetbrains 注解：https://stackoverflow.com/questions/58903820/java-lang-runtimeexception-duplicate-class-org-intellij-lang-annotations-flow-f
     // Gradle依赖排除 参考：https://www.zhyea.com/2018/02/08/gradle-exclude-dependencies.html
-    configurations {
-        // cleanedAnnotations
-        // compile.exclude group: 'org.jetbrains', module: 'annotations'
-    }
+    // configurations {
+    //     cleanedAnnotations
+    //     compile.exclude group: 'org.jetbrains', module: 'annotations'
+    // }
 }
 
 // 添加构建依赖项：https://developer.android.google.cn/studio/build/dependencies
 // api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
 dependencies {
-    final def kotlin_version = "1.5.10"
-    final def paging_version = "3.0.1"
-    final def nav_version = "2.3.5"
-    final def room_version = "2.3.0"
-    final def markwon_version = "4.6.2"
-    final def prism_version = "2.0.0"
+    def kotlin_version = "1.5.10"
+    def paging_version = "3.0.1"
+    def nav_version = "2.3.5"
+    def room_version = "2.3.0"
+    def markwon_version = "4.6.2"
+    def prism_version = "2.0.0"
     // 基类封装
-    implementation project(':base')
+    implementation project(':library:base')
     // 控件封装
-    implementation project(':widget')
+    implementation project(':library:widget')
     // 友盟封装
-    implementation project(':umeng')
+    implementation project(':library:umeng')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
@@ -296,4 +321,7 @@ dependencies {
     // annotationProcessor "io.noties:prism4j-bundler:${prism_version}"
     // 支持动画展开和折叠其子视图的 Android 布局类：https://github.com/cachapa/ExpandableLayout
     implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
+
+    // 使用 Android ViewBinding 更简单：https://github.com/androidbroadcast/ViewBindingPropertyDelegate
+    implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.0-beta01'
 }
