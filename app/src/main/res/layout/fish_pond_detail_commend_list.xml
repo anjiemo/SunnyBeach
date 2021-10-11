@@ -24,30 +24,47 @@
 
     </FrameLayout>
 
-    <CheckBox
-        android:id="@+id/cb_fish_pond_nick_name"
+    <LinearLayout
+        android:id="@+id/ll_top_container"
         android:layout_width="0px"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:background="@null"
-        android:button="@null"
-        android:clickable="false"
-        android:ellipsize="end"
-        android:enabled="false"
-        android:focusable="false"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:textColor="@color/black"
-        android:textSize="18sp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/fl_avatar_container"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <CheckBox
+            android:id="@+id/cb_fish_pond_nick_name"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:clickable="false"
+            android:ellipsize="end"
+            android:enabled="false"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/iv_fish_pond_comment"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="-6dp"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/ic_pond_comment" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_fish_pond_desc"
         android:layout_width="0px"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cb_fish_pond_nick_name"
+        android:layout_below="@id/ll_top_container"
         android:layout_marginStart="10dp"
         android:ellipsize="end"
         android:gravity="center_vertical"
@@ -56,7 +73,7 @@
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/fl_avatar_container"
-        app:layout_constraintTop_toBottomOf="@id/cb_fish_pond_nick_name" />
+        app:layout_constraintTop_toBottomOf="@id/ll_top_container" />
 
     <TextView
         android:id="@+id/tv_reply_msg"

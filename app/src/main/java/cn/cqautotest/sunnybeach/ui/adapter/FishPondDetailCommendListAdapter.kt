@@ -48,12 +48,18 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
         { _, _ -> }
     private var mViewMoreClickListener: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit =
         { _, _ -> }
+    private var mCommentClickListener: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit =
+        { _, _ -> }
 
     fun setOnItemClickListener(block: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit) {
         mItemClickListener = block
     }
 
     fun setOnVewMoreClickListener(block: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit) {
+        mViewMoreClickListener = block
+    }
+
+    fun setOnCommentClickListener(block: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit) {
         mViewMoreClickListener = block
     }
 
@@ -70,6 +76,7 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
         val flAvatarContainer = binding.flAvatarContainer
         val ivAvatar = binding.ivFishPondAvatar
         val tvNickname = binding.cbFishPondNickName
+        val ivPondComment = binding.ivFishPondComment
         val tvDesc = binding.tvFishPondDesc
         val tvReply = binding.tvReplyMsg
         val tvBuildReplyMsgContainer = binding.tvBuildReplyMsgContainer
@@ -87,6 +94,9 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
             .error(R.mipmap.ic_default_avatar)
             .circleCrop()
             .into(ivAvatar)
+        ivPondComment.setFixOnClickListener {
+            mViewMoreClickListener.invoke(item, position)
+        }
         tvNickname.setTextColor(
             ContextCompat.getColor(
                 context, if (item.vip) {
