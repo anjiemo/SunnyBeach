@@ -1,11 +1,12 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.annotation.SuppressLint
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
@@ -27,9 +28,8 @@ import kotlinx.coroutines.flow.collectLatest
  */
 class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction {
 
-    private var _binding: ArticleListFragmentBinding? = null
-    private val mBinding get() = _binding!!
-    private val mArticleViewModel by viewModels<ArticleViewModel>()
+    private val mBinding: ArticleListFragmentBinding by viewBinding()
+    private val mArticleViewModel by activityViewModels<ArticleViewModel>()
     private val mArticleAdapter = ArticleAdapter(AdapterDelegate())
     private val loadStateListener = { cls: CombinedLoadStates ->
         if (cls.refresh is LoadState.NotLoading) {
@@ -47,10 +47,6 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction {
     }
 
     override fun getLayoutId(): Int = R.layout.article_list_fragment
-
-    override fun onBindingView() {
-        _binding = ArticleListFragmentBinding.bind(view)
-    }
 
     override fun initObserver() {
 
@@ -73,7 +69,7 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction {
     }
 
     private fun loadArticleList() {
-        lifecycleScope.launchWhenCreated {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             mArticleViewModel.getArticleListByCategoryId("recommend").collectLatest {
                 mArticleAdapter.submitData(it)
             }
@@ -82,7 +78,7 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction {
 
     override fun initView() {
         mBinding.rvArticleList.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(context)
             adapter = mArticleAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(4.dp))
         }
@@ -90,22 +86,13 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction {
 
     override fun getStatusLayout(): StatusLayout = mBinding.slArticleLayout
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        mArticleAdapter.removeLoadStateListener(loadStateListener)
-        _binding = null
-    }
-
     override fun isStatusBarEnabled(): Boolean {
         // 使用沉浸式状态栏
         return !super.isStatusBarEnabled()
     }
 
     companion object {
-
         @JvmStatic
-        fun newInstance(): ArticleListFragment {
-            return ArticleListFragment()
-        }
+        fun newInstance() = ArticleListFragment()
     }
 }

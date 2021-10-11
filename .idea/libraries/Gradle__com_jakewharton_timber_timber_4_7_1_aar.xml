@@ -1,7 +1,6 @@
 <component name="libraryTable">
   <library name="Gradle: com.jakewharton.timber:timber:4.7.1@aar">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/b85c9c1f2b7845ef01cf07fb1b029184/transformed/jetified-timber-4.7.1/res" />
       <root url="jar://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/4ef2695c0ec8991186f47811dfebe68d/transformed/jetified-timber-4.7.1/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/4ef2695c0ec8991186f47811dfebe68d/transformed/jetified-timber-4.7.1/res" />
       <root url="file://$PROJECT_DIR$/../../GradleWorkSpace/caches/transforms-3/4ef2695c0ec8991186f47811dfebe68d/transformed/jetified-timber-4.7.1/AndroidManifest.xml" />

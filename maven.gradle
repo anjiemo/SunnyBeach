@@ -10,7 +10,7 @@ static def addCommonMaven(RepositoryHandler handler) {
     handler.mavenCentral()
     handler.google()
     // noinspection JcenterRepositoryObsolete
-    // handler.jcenter()
+    handler.jcenter()
 }
 
 ext.addCommonMaven = this.&addCommonMaven

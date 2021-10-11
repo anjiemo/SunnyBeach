@@ -9,6 +9,12 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/10/02
+ * desc   : 网络请求服务创建者
+ */
 object ServiceCreator {
 
     private val loggingInterceptor by lazy {
@@ -19,9 +25,9 @@ object ServiceCreator {
         }
     }
 
-    private val cookieManager by lazy { CookieManager() }
+    private var cookieManager = CookieManager.get()
 
-    val client by lazy {
+    private val client by lazy {
         OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .cookieJar(cookieManager)

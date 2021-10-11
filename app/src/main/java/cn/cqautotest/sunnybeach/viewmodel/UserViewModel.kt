@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppApplication
+import cn.cqautotest.sunnybeach.execption.LoginFailedException
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.request.api.UserApi
 import cn.cqautotest.sunnybeach.model.BaseResponse
@@ -19,7 +20,6 @@ import cn.cqautotest.sunnybeach.viewmodel.login.LoginFormState
 import cn.cqautotest.sunnybeach.viewmodel.login.LoginResult
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.RegexUtils
-import com.example.blogsystem.execption.LoginFailedException
 import com.hjq.http.EasyConfig
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.Dispatchers

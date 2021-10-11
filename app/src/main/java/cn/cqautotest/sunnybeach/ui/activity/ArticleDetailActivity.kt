@@ -8,7 +8,8 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import androidx.lifecycle.lifecycleScope
-import androidx.viewbinding.ViewBinding
+import by.kirich1409.viewbindingdelegate.viewBinding
+import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.CheckNet
 import cn.cqautotest.sunnybeach.aop.DebugLog
@@ -31,16 +32,11 @@ import java.lang.ref.WeakReference
  */
 class ArticleDetailActivity : AppActivity(), StatusAction, OnRefreshListener {
 
-    private lateinit var mBinding: ArticleDetailActivityBinding
+    private val mBinding: ArticleDetailActivityBinding by viewBinding()
     private var mArticleId = ""
     private var mArticleTitle = ""
 
-    override fun getLayoutId(): Int = 0
-
-    override fun onBindingView(): ViewBinding {
-        mBinding = ArticleDetailActivityBinding.inflate(layoutInflater)
-        return mBinding
-    }
+    override fun getLayoutId(): Int = R.layout.article_detail_activity
 
     override fun initObserver() {}
 

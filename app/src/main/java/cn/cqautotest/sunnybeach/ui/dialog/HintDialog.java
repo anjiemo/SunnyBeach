@@ -9,6 +9,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
 
 import com.hjq.base.BaseDialog;
+
 import cn.cqautotest.sunnybeach.R;
 
 /**
@@ -19,9 +20,9 @@ import cn.cqautotest.sunnybeach.R;
  */
 public final class HintDialog {
 
-    public final static int ICON_FINISH = R.drawable.finish_ic;
+    public final static int ICON_FINISH = R.drawable.tips_finish_ic;
     public final static int ICON_ERROR = R.drawable.error_ic;
-    public final static int ICON_WARNING = R.drawable.warning_ic;
+    public final static int ICON_WARNING = R.drawable.tips_warning_ic;
 
     public static final class Builder
             extends BaseDialog.Builder<Builder>

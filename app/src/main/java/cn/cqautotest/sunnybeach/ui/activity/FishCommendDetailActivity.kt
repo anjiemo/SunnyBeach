@@ -7,8 +7,9 @@ import android.content.Intent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewbinding.ViewBinding
+import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.FishCommendDetailActivityBinding
 import cn.cqautotest.sunnybeach.model.FishPondComment
@@ -25,15 +26,10 @@ import com.bumptech.glide.Glide
  */
 class FishCommendDetailActivity : AppActivity() {
 
-    private lateinit var mBinding: FishCommendDetailActivityBinding
+    private val mBinding: FishCommendDetailActivityBinding by viewBinding()
     private val mFishCommendDetailListAdapter = FishCommendDetailListAdapter()
 
-    override fun getLayoutId(): Int = 0
-
-    override fun onBindingView(): ViewBinding {
-        mBinding = FishCommendDetailActivityBinding.inflate(layoutInflater)
-        return mBinding
-    }
+    override fun getLayoutId(): Int = R.layout.fish_commend_detail_activity
 
     override fun initView() {
         mBinding.rvFishCommendDetailList.apply {
@@ -85,6 +81,8 @@ class FishCommendDetailActivity : AppActivity() {
     }
 
     companion object {
+        @DebugLog
+        @JvmStatic
         fun start(context: Context, fishPondCommentItem: FishPondComment.FishPondCommentItem) {
             val intent = Intent(context, FishCommendDetailActivity::class.java)
             if (context !is Activity) {
