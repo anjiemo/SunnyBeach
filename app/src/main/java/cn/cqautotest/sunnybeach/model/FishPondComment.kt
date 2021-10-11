@@ -70,7 +70,7 @@ data class FishPondComment(
             @SerializedName("position")
             val position: String,
             @SerializedName("targetUserId")
-            val targetUserId: Any,
+            val targetUserId: String,
             @SerializedName("targetUserIsVip")
             val targetUserIsVip: Boolean,
             @SerializedName("targetUserNickname")

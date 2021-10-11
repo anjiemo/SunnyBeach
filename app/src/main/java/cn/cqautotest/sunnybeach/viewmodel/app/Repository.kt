@@ -133,11 +133,12 @@ object Repository {
         emit(result)
     }
 
-    fun postComment(momentComment: Map<String, Any?>) = liveData(Dispatchers.IO) {
+    fun postComment(momentComment: Map<String, Any?>, isReply: Boolean) = liveData(Dispatchers.IO) {
         val result = try {
             coroutineScope {
-                val result = FishNetwork.postComment(momentComment)
-                logByDebug(tag = TAG, msg = "submitComment：===> result is $result")
+                val result = if (isReply) FishNetwork.replyComment(momentComment)
+                else FishNetwork.submitComment(momentComment)
+                logByDebug(tag = TAG, msg = "postComment：===> result is $result")
                 if (result.success) Result.success(result.data)
                 else Result.failure(ServiceException(result.message))
             }

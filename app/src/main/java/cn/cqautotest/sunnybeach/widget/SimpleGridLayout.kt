@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.util.dp
+import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.bumptech.glide.Glide
 
 /**
@@ -47,9 +48,24 @@ class SimpleGridLayout @JvmOverloads constructor(
         }
     }
 
+    fun setOnNineGridClickListener(listener: OnNineGridClickListener): SimpleGridLayout {
+        mAdapter.setOnNineGridClickListener(listener)
+        return this
+    }
+
+    interface OnNineGridClickListener {
+        fun onNineGridClick(sources: List<String>, index: Int)
+    }
+
     companion object {
         class GridLayoutAdapter(private val mData: MutableList<String> = arrayListOf()) :
             RecyclerView.Adapter<GridViewHolder>() {
+
+            private lateinit var mListener: OnNineGridClickListener
+
+            fun setOnNineGridClickListener(listener: OnNineGridClickListener) {
+                mListener = listener
+            }
 
             fun setData(data: List<String>?) {
                 mData.clear()
@@ -77,6 +93,11 @@ class SimpleGridLayout @JvmOverloads constructor(
             override fun onBindViewHolder(holder: GridViewHolder, position: Int) {
                 val item = getItem(position)
                 val imageView = holder.imageView
+                holder.itemView.setFixOnClickListener {
+                    if (::mListener.isInitialized) {
+                        mListener.onNineGridClick(mData, position)
+                    }
+                }
                 Glide.with(imageView)
                     .load(item)
                     .into(imageView)

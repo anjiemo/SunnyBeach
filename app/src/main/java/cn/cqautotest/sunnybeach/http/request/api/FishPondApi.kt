@@ -65,5 +65,11 @@ interface FishPondApi {
      * 发表评论(评论动态)
      */
     @POST("${SUNNY_BEACH_BASE_URL}ct/moyu/comment")
-    suspend fun postComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): BaseResponse<String>
+    suspend fun submitComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): BaseResponse<String>
+
+    /**
+     * 回复评论（回复动态列表下的评论）
+     */
+    @POST("${SUNNY_BEACH_BASE_URL}ct/moyu/sub-comment")
+    suspend fun replyComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): BaseResponse<String>
 }
