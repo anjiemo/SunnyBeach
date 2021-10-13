@@ -34,7 +34,7 @@ fun View.setFixOnClickListener(block: (v: View) -> Unit) {
 fun View.setSlidingUpListener(block: (v: View) -> Unit) {
     object : TouchUtils.OnTouchUtilsListener() {
         override fun onDown(view: View?, x: Int, y: Int, event: MotionEvent?): Boolean {
-            return false
+            return true
         }
 
         override fun onMove(

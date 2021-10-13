@@ -103,7 +103,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
             val ivGreat = fishPond.listMenuItem.ivGreat
             val tvGreat = fishPond.listMenuItem.tvGreat
             val ivShare = fishPond.listMenuItem.ivShare
-            val clReplyContainer = mBinding.clReplyContainer
+            val clReplyContainer = mBinding.commentContainer.clReplyContainer
             llFishItemContainer.setRoundRectBg(color = Color.WHITE, cornerRadius = 10.dp)
             flAvatarContainer.background = if (item.vip) ContextCompat.getDrawable(
                 context,
@@ -167,15 +167,14 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
                     toString()
                 }
             }
-            clReplyContainer.setSlidingUpListener {
-                goToPostComment(item.nickname)
-            }
             // 如果要使用 GestureDetector 手势检测器，则必须禁用点击事件，否则无法检测手势
             clReplyContainer.setOnClickListener(null)
             val minDistance = ViewConfiguration.get(this).scaledTouchSlop
             val sg = SimpleGesture(minDistance, this)
             val gestureDetector = GestureDetector(this, sg)
             clReplyContainer.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
+            // 此处如果不隐藏键盘的话，有可能会弹出键盘
+            hideKeyboard()
         }
     }
 
@@ -214,12 +213,13 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
             mFishPondDetailCommendListAdapter.refresh()
         }
         mFishPondDetailCommendListAdapter.setOnVewMoreClickListener { item, _ ->
-            FishCommendDetailActivity.start(this, item)
+            val intent = FishCommendDetailActivity.getIntent(this, mMomentId, item)
+            startActivityForResult(intent, View.generateViewId())
         }
         mFishPondDetailCommendListAdapter.setOnCommentClickListener { item, _ ->
             goToPostComment(item.getId(), item.getNickName(), item.getUserId())
         }
-        mBinding.tvFishPondSubmitComment.setFixOnClickListener {
+        mBinding.commentContainer.tvFishPondSubmitComment.setFixOnClickListener {
             goToPostComment(mNickName)
         }
     }
@@ -229,7 +229,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
     }
 
     /**
-     * 去发表评论/回复评论
+     * 去发表评论（isReply：false）/回复评论（isReply：true）
      */
     private fun goToPostComment(
         commentId: String,
@@ -245,12 +245,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
             targetUserId,
             isReply
         )
-        startActivityForResult(intent) { resultCode, _ ->
-            if (resultCode == RESULT_OK) {
-                // 如果提交了评论且成功了，需要刷新界面
-                initData()
-            }
-        }
+        startActivity(intent)
     }
 
     override fun initObserver() {}

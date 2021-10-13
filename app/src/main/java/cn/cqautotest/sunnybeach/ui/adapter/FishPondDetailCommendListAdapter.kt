@@ -152,7 +152,7 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
     ): Spanned {
         val whoReplied =
             subComment.getNickName() + if (subComment.getId() == item.getId()) "(作者)" else ""
-        val wasReplied = subComment.targetUserNickname
+        val wasReplied = subComment.getTargetUserNickname()
         val content = whoReplied + "回复" + wasReplied + "：" + subComment.content
         val spannableString = SpannableString(content)
         val color = Color.parseColor("#045FB2")

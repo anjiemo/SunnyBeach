@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
 import cn.cqautotest.sunnybeach.model.FishPondComment
+import cn.cqautotest.sunnybeach.model.UserComment
 import cn.cqautotest.sunnybeach.util.DateHelper
+import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.bumptech.glide.Glide
 
 /**
@@ -25,6 +27,13 @@ import com.bumptech.glide.Glide
 class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListViewHolder>() {
 
     private lateinit var mData: FishPondComment.FishPondCommentItem
+
+    private var mCommentClickListener: (item: UserComment, position: Int) -> Unit =
+        { _, _ -> }
+
+    fun setOnCommentClickListener(block: (item: UserComment, position: Int) -> Unit) {
+        mCommentClickListener = block
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(data: FishPondComment.FishPondCommentItem) {
@@ -49,6 +58,7 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
         val flAvatarContainer = binding.flAvatarContainer
         val ivAvatar = binding.ivFishPondAvatar
         val tvNickname = binding.cbFishPondNickName
+        val ivPondComment = binding.ivFishPondComment
         val tvDesc = binding.tvFishPondDesc
         val tvReply = binding.tvReplyMsg
         val tvBuildReplyMsgContainer = binding.tvBuildReplyMsgContainer
@@ -73,6 +83,9 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
             )
         )
         tvNickname.text = item.getNickName()
+        ivPondComment.setFixOnClickListener {
+            mCommentClickListener.invoke(item, position)
+        }
         // 摸鱼详情列表的时间没有精确到秒
         tvDesc.text = "${item.position} · " +
                 DateHelper.transform2FriendlyTimeSpanByNow("${item.createTime}:00")
@@ -85,7 +98,7 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
         item: FishPondComment.FishPondCommentItem
     ): Spanned {
         val whoReplied = ""
-        val wasReplied = subComment.targetUserNickname
+        val wasReplied = subComment.getTargetUserNickname()
         val content = whoReplied + "回复" + wasReplied + "：" + subComment.content
         val spannableString = SpannableString(content)
         val color = Color.parseColor("#045FB2")
