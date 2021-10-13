@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.hjq.base.BaseFragment;
 import com.hjq.http.listener.OnHttpListener;
 
@@ -121,5 +122,10 @@ public abstract class AppFragment<A extends AppActivity> extends BaseFragment<A>
     @Override
     public void onEnd(Call call) {
         hideDialog();
+    }
+
+    @Override
+    public void hideKeyboard(View view) {
+        KeyboardUtils.hideSoftInput(view);
     }
 }
