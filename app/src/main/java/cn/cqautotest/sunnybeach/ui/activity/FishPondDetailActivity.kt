@@ -8,6 +8,9 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LevelListDrawable
 import android.net.Uri
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.text.Html
 import android.text.TextUtils
 import android.view.GestureDetector
@@ -15,6 +18,7 @@ import android.view.View
 import android.view.ViewConfiguration
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +35,7 @@ import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.blankj.utilcode.util.KeyboardUtils
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.collectLatest
 
@@ -49,6 +54,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
     private val mFishPondDetailCommendListAdapter =
         FishPondDetailCommendListAdapter(AdapterDelegate())
     private var mMomentId: String = ""
+    private var mNickName: String = ""
 
     override fun getLayoutId(): Int = R.layout.fish_pond_detail_activity
 
@@ -80,6 +86,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
                 }
                 return@observe
             }
+            mNickName = item.nickname
             showComplete()
             val fishPond = mBinding.fishPond
             val flAvatarContainer = fishPond.flAvatarContainer
@@ -92,6 +99,8 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
             val tvLabel = fishPond.tvFishPondLabel
             val llFishItemContainer = fishPond.llFishItemContainer
             val tvComment = fishPond.listMenuItem.tvComment
+            val llGreat = fishPond.listMenuItem.llGreat
+            val ivGreat = fishPond.listMenuItem.ivGreat
             val tvGreat = fishPond.listMenuItem.tvGreat
             val ivShare = fishPond.listMenuItem.ivShare
             val clReplyContainer = mBinding.clReplyContainer
@@ -127,10 +136,18 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
             }
             val topicName = item.topicName
             val images = item.images
+            val imageCount = images.size
             rrlContainer.visibility = if (images.isNullOrEmpty()) View.GONE else View.VISIBLE
-            simpleGridLayout.setSpanCount(2)
-                .setOnNineGridClickListener(this)
+            simpleGridLayout.setSpanCount(
+                when (imageCount) {
+                    // 规避 0 ，避免导致：IllegalArgumentException，Span count should be at least 1. Provided 0.
+                    in 1..3 -> imageCount
+                    4 -> 2
+                    else -> 3
+                }
+            ).setOnNineGridClickListener(this)
                 .setData(images)
+            simpleGridLayout.visibility = if (imageCount == 0) View.GONE else View.VISIBLE
             tvLabel.visibility = if (TextUtils.isEmpty(topicName)) View.GONE else View.VISIBLE
             tvLabel.text = topicName
             tvComment.text = with(item.commentCount) {
@@ -140,6 +157,9 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
                     toString()
                 }
             }
+            llGreat.setFixOnClickListener {
+                dynamicLikes()
+            }
             tvGreat.text = with(item.thumbUpCount) {
                 if (this == 0) {
                     "点赞"
@@ -148,7 +168,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
                 }
             }
             clReplyContainer.setSlidingUpListener {
-                goToPostComment()
+                goToPostComment(item.nickname)
             }
             // 如果要使用 GestureDetector 手势检测器，则必须禁用点击事件，否则无法检测手势
             clReplyContainer.setOnClickListener(null)
@@ -159,12 +179,31 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
         }
     }
 
+    private fun dynamicLikes() {
+        lifecycleScope.launchWhenCreated {
+            mFishPondViewModel.dynamicLikes(mMomentId)
+                .observe(this@FishPondDetailActivity) { _ ->
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        getSystemService<Vibrator>()?.let { vibrator ->
+                            if (vibrator.hasVibrator()) {
+                                val ve = VibrationEffect.createOneShot(
+                                    80,
+                                    VibrationEffect.DEFAULT_AMPLITUDE
+                                )
+                                vibrator.vibrate(ve)
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
     override fun onNineGridClick(sources: List<String>, index: Int) {
         ImagePreviewActivity.start(this, sources, index)
     }
 
     override fun onSwipeUp() {
-        goToPostComment()
+        goToPostComment(mNickName)
     }
 
     override fun initEvent() {
@@ -178,27 +217,33 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
             FishCommendDetailActivity.start(this, item)
         }
         mFishPondDetailCommendListAdapter.setOnCommentClickListener { item, _ ->
-            goToPostComment(item.id, item.userId)
+            goToPostComment(item.getId(), item.getNickName(), item.getUserId())
         }
         mBinding.tvFishPondSubmitComment.setFixOnClickListener {
-            goToPostComment()
+            goToPostComment(mNickName)
         }
     }
 
-    private fun goToPostComment() {
-        goToPostComment("", "")
+    private fun goToPostComment(targetUserName: String) {
+        goToPostComment("", targetUserName, "", false)
     }
 
     /**
      * 去发表评论/回复评论
      */
-    private fun goToPostComment(commentId: String, targetUserId: String) {
+    private fun goToPostComment(
+        commentId: String,
+        targetUserName: String,
+        targetUserId: String,
+        isReply: Boolean = true
+    ) {
         val intent = SubmitCommendActivity.getCommentIntent(
             this,
+            targetUserName,
             mMomentId,
             commentId,
             targetUserId,
-            isReply = true
+            isReply
         )
         startActivityForResult(intent) { resultCode, _ ->
             if (resultCode == RESULT_OK) {
@@ -240,6 +285,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
         // 缺点：理论上来讲会比加载本地的图片慢一些）
         val drawable = LevelListDrawable()
         val fishPond = mBinding.fishPond
+        KeyboardUtils.showSoftInput()
         val tvContent = fishPond.tvFishPondContent
         val textSize = tvContent.textSize.toInt()
         lifecycleScope.launchWhenCreated {

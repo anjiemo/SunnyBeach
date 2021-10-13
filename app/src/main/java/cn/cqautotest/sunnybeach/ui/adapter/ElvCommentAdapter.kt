@@ -131,7 +131,7 @@ class ElvCommentAdapter : BaseExpandableListAdapter() {
                     }
                 )
             )
-            cbNickname.text = group.nickname
+            cbNickname.text = group.getNickName()
             tvDesc.text = HtmlCompat.fromHtml(
                 "${group.position} <font color=\"#0084ff\">@${group.company}</font> · "
                         + DateHelper.transform2FriendlyTimeSpanByNow("${group.createTime}:00"),
@@ -178,7 +178,7 @@ class ElvCommentAdapter : BaseExpandableListAdapter() {
                 )
             )
             cbNickname.clearArrowsCompoundDrawablesWithIntrinsicBounds()
-            cbNickname.text = child.nickname
+            cbNickname.text = child.getNickName()
             tvDesc.text = HtmlCompat.fromHtml(
                 "${child.position}<font color=\"#0084ff\">@${child.company}</font> · "
                         + DateHelper.transform2FriendlyTimeSpanByNow("${child.createTime}:00"),

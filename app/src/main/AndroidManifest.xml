@@ -49,7 +49,8 @@
             <action android:name="android.intent.action.VIEW" />
         </intent>
     </queries>
-
+    <!--震动权限-->
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:name=".app.AppApplication"
         android:allowBackup="false"
