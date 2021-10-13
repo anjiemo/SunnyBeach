@@ -15,11 +15,10 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SubmitCommendActivityBinding
 import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import cn.cqautotest.sunnybeach.util.simpleToast
-import cn.cqautotest.sunnybeach.util.textString
+import cn.cqautotest.sunnybeach.manager.ActivityManager
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
+import com.blankj.utilcode.util.KeyboardUtils
 
 /**
  * author : A Lonely Cat
@@ -87,12 +86,7 @@ class SubmitCommendActivity : AppActivity() {
         val keyboardLayout = mBinding.keyboardLayout
         val etInputContent = mBinding.etInputContent
         mBinding.windowContainer.setFixOnClickListener {
-            // KeyboardUtils.hideSoftInput(mBinding.etInputContent)
-            hideKeyboard(mBinding.etInputContent)
             finish()
-        }
-        mBinding.contentContainer.setFixOnClickListener {
-            // Nothing to do.
         }
         etInputContent.setFixOnClickListener {
             keyboardLayout.postDelayed({
@@ -162,8 +156,11 @@ class SubmitCommendActivity : AppActivity() {
                     simpleToast("评论失败，请稍后重试")
                     return@observe
                 }
-                setResult(Activity.RESULT_OK)
-                finish()
+                val am = ActivityManager.getInstance()
+                am.finishActivity(javaClass)
+                am.finishActivity(FishCommendDetailActivity::class.java)
+                am.finishActivity(FishPondDetailActivity::class.java)
+                FishPondDetailActivity.start(this, momentId ?: "")
             }
         }
     }

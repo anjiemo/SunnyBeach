@@ -11,6 +11,7 @@ import androidx.annotation.StringRes;
 import androidx.viewbinding.ViewBinding;
 
 import com.blankj.utilcode.util.DeviceUtils;
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.TitleBar;
 import com.hjq.base.BaseActivity;
@@ -227,7 +228,17 @@ public abstract class AppActivity extends BaseActivity
     @Override
     public void finish() {
         super.finish();
+        hideKeyboard();
         overridePendingTransition(R.anim.left_in_activity, R.anim.left_out_activity);
+    }
+
+    @Override
+    public void hideKeyboard(View view) {
+        KeyboardUtils.hideSoftInput(this);
+    }
+
+    public void hideKeyboard() {
+        KeyboardUtils.hideSoftInput(this);
     }
 
     /**

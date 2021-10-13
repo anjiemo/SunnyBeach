@@ -187,7 +187,7 @@ class ElvCommentAdapter : BaseExpandableListAdapter() {
             tvReply.setRoundRectBg(color = replyBgColor, cornerRadius = 4.dp)
             tvReply.text =
                 HtmlCompat.fromHtml(
-                    "回复 <font color=\"#0084ff\">@${child.targetUserNickname}</font> ：${child.content}",
+                    "回复 <font color=\"#0084ff\">@${child.getTargetUserNickname()}</font> ：${child.content}",
                     HtmlCompat.FROM_HTML_MODE_LEGACY
                 )
         }

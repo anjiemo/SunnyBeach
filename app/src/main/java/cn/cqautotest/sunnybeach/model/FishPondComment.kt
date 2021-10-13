@@ -26,74 +26,92 @@ data class FishPondComment(
 ) {
     data class FishPondCommentItem(
         @SerializedName("avatar")
-        val avatar: String,
+        val avatar: String = "",
         @SerializedName("company")
-        val company: String,
+        val company: String = "",
         @SerializedName("content")
-        val content: String,
+        val content: String = "",
         @SerializedName("createTime")
-        val createTime: String,
+        val createTime: String = "",
         @SerializedName("id")
-        private val id: String,
+        private val id: String = "",
         @SerializedName("momentId")
-        val momentId: String,
+        private val momentId: String = "",
         @SerializedName("nickname")
-        private val nickname: String,
+        private val nickname: String = "",
         @SerializedName("position")
-        val position: String,
+        val position: String = "",
         @SerializedName("subComments")
-        val subComments: List<SubComment>,
+        val subComments: List<SubComment> = arrayListOf(),
         @SerializedName("thumbUp")
-        val thumbUp: Int,
+        val thumbUp: Int = 0,
         @SerializedName("thumbUpList")
-        val thumbUpList: List<Any>,
+        val thumbUpList: List<Any> = arrayListOf(),
         @SerializedName("userId")
-        private val userId: String,
+        private val userId: String = "",
         @SerializedName("vip")
-        val vip: Boolean
+        val vip: Boolean = false
     ) : UserComment {
         data class SubComment(
             @SerializedName("avatar")
-            val avatar: String,
+            val avatar: String = "",
             @SerializedName("commentId")
-            val commentId: String,
+            private val commentId: String = "",
             @SerializedName("company")
-            val company: String,
+            val company: String = "",
             @SerializedName("content")
-            val content: String,
+            val content: String = "",
             @SerializedName("createTime")
-            val createTime: String,
+            val createTime: String = "",
             @SerializedName("id")
-            private val id: String,
+            private val id: String = "",
             @SerializedName("nickname")
-            private val nickname: String,
+            private val nickname: String = "",
             @SerializedName("position")
-            val position: String,
+            val position: String = "",
             @SerializedName("targetUserId")
-            val targetUserId: String,
+            private val targetUserId: String = "",
             @SerializedName("targetUserIsVip")
-            val targetUserIsVip: Boolean,
+            val targetUserIsVip: Boolean = false,
             @SerializedName("targetUserNickname")
-            val targetUserNickname: String,
+            private val targetUserNickname: String = "",
             @SerializedName("thumbUpList")
-            val thumbUpList: List<Any>,
+            val thumbUpList: List<Any> = arrayListOf(),
             @SerializedName("userId")
-            private val userId: String,
+            private val userId: String = "",
             @SerializedName("vip")
-            val vip: Boolean
+            val vip: Boolean = false
         ) : UserComment {
 
             override fun getId(): String = id
 
+            override fun getCommentId(): String = commentId
+
             override fun getNickName(): String = nickname
 
             override fun getUserId(): String = userId
+
+            override fun getTargetUserId(): String = targetUserId
+
+            override fun getTargetUserNickname(): String = targetUserNickname
         }
 
         override fun getId(): String = id
 
+        override fun getCommentId(): String {
+            throw IllegalStateException("Cannot get commentId because there is no such parameter.")
+        }
+
         override fun getNickName(): String = nickname
 
         override fun getUserId(): String = userId
+
+        override fun getTargetUserId(): String {
+            throw IllegalStateException("Cannot get targetUserId because there is no such parameter.")
+        }
+
+        override fun getTargetUserNickname(): String {
+            throw IllegalStateException("Cannot get targetUserNickname because there is no such parameter.")
+        }
     }
 }

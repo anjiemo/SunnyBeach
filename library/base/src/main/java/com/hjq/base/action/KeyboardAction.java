@@ -39,7 +39,7 @@ public interface KeyboardAction {
         if (manager == null) {
             return;
         }
-        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        manager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     /**
