@@ -20,6 +20,7 @@ import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.DownloadHelper
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import cn.cqautotest.sunnybeach.util.simpleToast
+import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
 import com.bumptech.glide.Glide
 
 
@@ -45,7 +46,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
         ): Boolean {
             return oldItem == newItem
         }
-    }) {
+    }), SimpleGridLayout.OnNineGridClickListener {
 
     private var mItemClickListener: (item: Fish.FishItem, position: Int) -> Unit = { _, _ -> }
 
@@ -183,9 +184,12 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
             when (imageCount) {
                 // 规避 0 ，避免导致：IllegalArgumentException，Span count should be at least 1. Provided 0.
                 in 1..3 -> imageCount
-                else -> 2
+                4 -> 2
+                else -> 3
             }
-        ).setData(images)
+        ).setOnNineGridClickListener(this)
+            .setData(images)
+        simpleGridLayout.visibility = if (imageCount == 0) View.GONE else View.VISIBLE
         tvLabel.visibility = if (TextUtils.isEmpty(topicName)) View.GONE else View.VISIBLE
         tvLabel.text = topicName
         tvComment.text = with(item.commentCount) {
@@ -211,5 +215,25 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
         val inflater = LayoutInflater.from(parent.context)
         val binding = FishPondListItemBinding.inflate(inflater, parent, false)
         return FishListViewHolder(binding)
+    }
+
+    private lateinit var mOnNineGridClickListener: SimpleGridLayout.OnNineGridClickListener
+
+    fun setOnNineGridClickListener(listener: SimpleGridLayout.OnNineGridClickListener) {
+        mOnNineGridClickListener = listener
+    }
+
+    fun setOnNineGridClickListener(block: (sources: List<String>, index: Int) -> Unit) {
+        mOnNineGridClickListener = object : SimpleGridLayout.OnNineGridClickListener {
+            override fun onNineGridClick(sources: List<String>, index: Int) {
+                block.invoke(sources, index)
+            }
+        }
+    }
+
+    override fun onNineGridClick(sources: List<String>, index: Int) {
+        if (::mOnNineGridClickListener.isInitialized) {
+            mOnNineGridClickListener.onNineGridClick(sources, index)
+        }
     }
 }

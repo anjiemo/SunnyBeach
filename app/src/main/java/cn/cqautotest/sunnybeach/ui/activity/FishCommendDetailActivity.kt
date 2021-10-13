@@ -71,7 +71,7 @@ class FishCommendDetailActivity : AppActivity() {
                 }
             )
         )
-        tvNickname.text = item.nickname
+        tvNickname.text = item.getNickName()
         // 摸鱼详情列表的时间没有精确到秒
         tvDesc.text = "${item.position} · " +
                 DateHelper.transform2FriendlyTimeSpanByNow("${item.createTime}:00")

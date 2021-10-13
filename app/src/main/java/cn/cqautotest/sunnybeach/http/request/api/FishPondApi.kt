@@ -72,4 +72,7 @@ interface FishPondApi {
      */
     @POST("${SUNNY_BEACH_BASE_URL}ct/moyu/sub-comment")
     suspend fun replyComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): BaseResponse<String>
+
+    @PUT("${SUNNY_BEACH_BASE_URL}ct/moyu/thumb-up/{momentId}")
+    suspend fun dynamicLikes(@Path("momentId") momentId: String): BaseResponse<String>
 }

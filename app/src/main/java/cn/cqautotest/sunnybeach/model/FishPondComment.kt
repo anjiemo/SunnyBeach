@@ -34,11 +34,11 @@ data class FishPondComment(
         @SerializedName("createTime")
         val createTime: String,
         @SerializedName("id")
-        val id: String,
+        private val id: String,
         @SerializedName("momentId")
         val momentId: String,
         @SerializedName("nickname")
-        val nickname: String,
+        private val nickname: String,
         @SerializedName("position")
         val position: String,
         @SerializedName("subComments")
@@ -48,10 +48,10 @@ data class FishPondComment(
         @SerializedName("thumbUpList")
         val thumbUpList: List<Any>,
         @SerializedName("userId")
-        val userId: String,
+        private val userId: String,
         @SerializedName("vip")
         val vip: Boolean
-    ) {
+    ) : UserComment {
         data class SubComment(
             @SerializedName("avatar")
             val avatar: String,
@@ -64,9 +64,9 @@ data class FishPondComment(
             @SerializedName("createTime")
             val createTime: String,
             @SerializedName("id")
-            val id: String,
+            private val id: String,
             @SerializedName("nickname")
-            val nickname: String,
+            private val nickname: String,
             @SerializedName("position")
             val position: String,
             @SerializedName("targetUserId")
@@ -78,9 +78,22 @@ data class FishPondComment(
             @SerializedName("thumbUpList")
             val thumbUpList: List<Any>,
             @SerializedName("userId")
-            val userId: String,
+            private val userId: String,
             @SerializedName("vip")
             val vip: Boolean
-        )
+        ) : UserComment {
+
+            override fun getId(): String = id
+
+            override fun getNickName(): String = nickname
+
+            override fun getUserId(): String = userId
+        }
+
+        override fun getId(): String = id
+
+        override fun getNickName(): String = nickname
+
+        override fun getUserId(): String = userId
     }
 }

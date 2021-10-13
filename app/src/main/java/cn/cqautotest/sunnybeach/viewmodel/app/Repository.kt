@@ -148,4 +148,19 @@ object Repository {
         }
         emit(result)
     }
+
+    fun dynamicLikes(momentId: String) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = FishNetwork.dynamicLikes(momentId)
+                logByDebug(tag = TAG, msg = "dynamicLikes：===> result is $result")
+                if (result.success) Result.success(result.data)
+                else Result.failure(ServiceException(result.message))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
 }
