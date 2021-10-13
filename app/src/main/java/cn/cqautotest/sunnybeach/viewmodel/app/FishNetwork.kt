@@ -28,4 +28,6 @@ object FishNetwork {
 
     suspend fun replyComment(momentComment: Map<String, Any?>) =
         fishPondApi.replyComment(momentComment)
+
+    suspend fun dynamicLikes(momentId: String) = fishPondApi.dynamicLikes(momentId)
 }

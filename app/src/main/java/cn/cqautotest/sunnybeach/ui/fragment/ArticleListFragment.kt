@@ -48,10 +48,6 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction {
 
     override fun getLayoutId(): Int = R.layout.article_list_fragment
 
-    override fun initObserver() {
-
-    }
-
     @SuppressLint("InflateParams")
     override fun initEvent() {
         mBinding.topLayout.setOnClickListener {
@@ -82,6 +78,11 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction {
             adapter = mArticleAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(4.dp))
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mArticleAdapter.removeLoadStateListener(loadStateListener)
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.slArticleLayout

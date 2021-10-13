@@ -22,6 +22,8 @@ import java.io.File
  */
 class FishPondViewModel : ViewModel() {
 
+    fun dynamicLikes(momentId: String) = Repository.dynamicLikes(momentId)
+
     fun postComment(momentComment: Map<String, Any?>, isReply: Boolean) =
         Repository.postComment(momentComment, isReply)
 

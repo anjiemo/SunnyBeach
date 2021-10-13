@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
 import cn.cqautotest.sunnybeach.model.FishPondComment
+import cn.cqautotest.sunnybeach.model.UserComment
 import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.bumptech.glide.Glide
@@ -33,7 +34,7 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
                 oldItem: FishPondComment.FishPondCommentItem,
                 newItem: FishPondComment.FishPondCommentItem
             ): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem.getId() == newItem.getId()
             }
 
             override fun areContentsTheSame(
@@ -48,7 +49,7 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
         { _, _ -> }
     private var mViewMoreClickListener: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit =
         { _, _ -> }
-    private var mCommentClickListener: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit =
+    private var mCommentClickListener: (item: UserComment, position: Int) -> Unit =
         { _, _ -> }
 
     fun setOnItemClickListener(block: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit) {
@@ -59,8 +60,8 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
         mViewMoreClickListener = block
     }
 
-    fun setOnCommentClickListener(block: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit) {
-        mViewMoreClickListener = block
+    fun setOnCommentClickListener(block: (item: UserComment, position: Int) -> Unit) {
+        mCommentClickListener = block
     }
 
     override fun onViewAttachedToWindow(holder: FishDetailCommendListViewHolder) {
@@ -95,7 +96,7 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
             .circleCrop()
             .into(ivAvatar)
         ivPondComment.setFixOnClickListener {
-            mViewMoreClickListener.invoke(item, position)
+            mCommentClickListener.invoke(item, position)
         }
         tvNickname.setTextColor(
             ContextCompat.getColor(
@@ -106,7 +107,7 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
                 }
             )
         )
-        tvNickname.text = item.nickname
+        tvNickname.text = item.getNickName()
         // 摸鱼详情列表的时间没有精确到秒
         tvDesc.text = "${item.position} · " +
                 DateHelper.transform2FriendlyTimeSpanByNow("${item.createTime}:00")
@@ -120,10 +121,20 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
             tvChildReplyMsg.text = getBeautifiedFormat(it, item)
             tvChildReplyMsg.visibility = View.VISIBLE
         }
+        tvChildReplyMsg.setFixOnClickListener {
+            subComments.getOrNull(0)?.let {
+                mCommentClickListener.invoke(it, position)
+            }
+        }
         tvChildReplyMsg1.visibility = View.GONE
         subComments.getOrNull(1)?.let {
             tvChildReplyMsg1.text = getBeautifiedFormat(it, item)
             tvChildReplyMsg1.visibility = View.VISIBLE
+        }
+        tvChildReplyMsg1.setFixOnClickListener {
+            subComments.getOrNull(1)?.let {
+                mCommentClickListener.invoke(it, position)
+            }
         }
         // 如果是指示器，且该评论下盖楼的高度大于2则显示，否则隐藏
         tvChildReplyMsgAll.apply {
@@ -139,7 +150,8 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
         subComment: FishPondComment.FishPondCommentItem.SubComment,
         item: FishPondComment.FishPondCommentItem
     ): Spanned {
-        val whoReplied = subComment.nickname + if (subComment.id == item.id) "(作者)" else ""
+        val whoReplied =
+            subComment.getNickName() + if (subComment.getId() == item.getId()) "(作者)" else ""
         val wasReplied = subComment.targetUserNickname
         val content = whoReplied + "回复" + wasReplied + "：" + subComment.content
         val spannableString = SpannableString(content)

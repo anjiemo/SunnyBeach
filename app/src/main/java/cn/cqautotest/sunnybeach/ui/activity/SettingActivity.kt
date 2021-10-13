@@ -17,6 +17,7 @@ import cn.cqautotest.sunnybeach.http.request.LogoutApi
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.CacheDataManager
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
+import cn.cqautotest.sunnybeach.other.AppConfig
 import cn.cqautotest.sunnybeach.ui.dialog.MenuDialog
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
 import cn.cqautotest.sunnybeach.ui.dialog.SafeDialog
@@ -43,18 +44,20 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
     override fun getLayoutId(): Int = R.layout.setting_activity
 
     override fun initObserver() {
-        mAppLiveData.observe(this) {
+        mAppLiveData.observe(this) { appUpdateInfo ->
             hideUpdateIcon()
-            it?.let {
-                showUpdateIcon()
-                UpdateDialog.Builder(this)
-                    .setFileMd5(it.apkHash)
-                    .setDownloadUrl(it.url)
-                    .setForceUpdate(it.forceUpdate)
-                    .setUpdateLog(it.updateLog)
-                    .setVersionName(it.versionName)
-                    .show()
+            appUpdateInfo ?: return@observe
+            if (appUpdateInfo.versionCode <= AppConfig.getVersionCode()) {
+                return@observe
             }
+            showUpdateIcon()
+            UpdateDialog.Builder(this)
+                .setFileMd5(appUpdateInfo.apkHash)
+                .setDownloadUrl(appUpdateInfo.url)
+                .setForceUpdate(appUpdateInfo.forceUpdate)
+                .setUpdateLog(appUpdateInfo.updateLog)
+                .setVersionName(appUpdateInfo.versionName)
+                .show()
         }
         mBinding.sbSettingCache.rightText = CacheDataManager.getTotalCacheSize(this)
     }

@@ -49,11 +49,19 @@ class SubmitCommendActivity : AppActivity() {
         val animation = AlphaAnimation(0.2f, 0.53f)
         animation.duration = 100
         contentContainer.startAnimation(animation)
+        postDelayed({
+            showKeyboard(mBinding.etInputContent)
+        }, 100)
     }
 
     override fun initData() {
-
+        mBinding.etInputContent.hint = "回复 " + getTargetUserName()
     }
+
+    /**
+     * 获取被评论的用户名称
+     */
+    private fun getTargetUserName() = intent.getStringExtra(TARGET_USER_NAME)
 
     /**
      * 获取动态Id
@@ -79,6 +87,8 @@ class SubmitCommendActivity : AppActivity() {
         val keyboardLayout = mBinding.keyboardLayout
         val etInputContent = mBinding.etInputContent
         mBinding.windowContainer.setFixOnClickListener {
+            // KeyboardUtils.hideSoftInput(mBinding.etInputContent)
+            hideKeyboard(mBinding.etInputContent)
             finish()
         }
         mBinding.contentContainer.setFixOnClickListener {
@@ -169,6 +179,9 @@ class SubmitCommendActivity : AppActivity() {
         // 被评论内容的用户Id
         private const val TARGET_USER_ID = "target_user_id"
 
+        // 被评论内容的用户名称
+        private const val TARGET_USER_NAME = "target_user_name"
+
         // 是否为评论回复
         private const val IS_REPLY = "is_reply"
 
@@ -177,12 +190,14 @@ class SubmitCommendActivity : AppActivity() {
          */
         fun getCommentIntent(
             context: Context,
+            targetUserName: String = "",
             momentId: String,
             commentId: String = "",
             targetUserId: String = "",
             isReply: Boolean
         ): Intent {
             return Intent(context, SubmitCommendActivity::class.java).apply {
+                putExtra(TARGET_USER_NAME, targetUserName)
                 putExtra(MOMENT_ID, momentId)
                 putExtra(COMMENT_ID, commentId)
                 putExtra(TARGET_USER_ID, targetUserId)

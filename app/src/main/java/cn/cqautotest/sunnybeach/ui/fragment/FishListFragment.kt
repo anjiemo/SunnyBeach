@@ -12,6 +12,7 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
+import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.activity.PutFishActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
@@ -66,6 +67,9 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction {
         mBinding.ivPublishContent.setFixOnClickListener {
             requireContext().startActivity<PutFishActivity>()
         }
+        mFishListAdapter.setOnNineGridClickListener { sources, index ->
+            ImagePreviewActivity.start(requireContext(), sources, index)
+        }
     }
 
     override fun initData() {
@@ -93,6 +97,11 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction {
     override fun isStatusBarEnabled(): Boolean {
         // 使用沉浸式状态栏
         return !super.isStatusBarEnabled()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mFishListAdapter.removeLoadStateListener(loadStateListener)
     }
 
     companion object {
