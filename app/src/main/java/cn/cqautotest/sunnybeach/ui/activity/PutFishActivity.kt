@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -17,9 +18,12 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.ImageChooseItemBinding
 import cn.cqautotest.sunnybeach.databinding.PutFishActivityBinding
+import cn.cqautotest.sunnybeach.model.FishPondTopicList
+import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
+import com.blankj.utilcode.util.KeyboardUtils
 import com.bumptech.glide.Glide
 import java.io.File
 
@@ -63,15 +67,47 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initEvent() {
+        postDelayed({
+            showKeyboard(mBinding.etInputContent)
+        }, 200)
         mBinding.rlChooseFishPond.setFixOnClickListener {
-            // TODO: 2021/9/12 暂不支持选择鱼塘
-            mTopicId = null
-            simpleToast("暂不支持选择鱼塘")
+            // 选择鱼塘
+            startActivityForResult(FishPondSelectionActivity::class.java) { resultCode, data ->
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data != null) {
+                        val fishPondTopicListItem =
+                            fromJson<FishPondTopicList.TopicItem>(data.getStringExtra(IntentKey.OTHER))
+                        mTopicId = fishPondTopicListItem?.id
+                        val tvChooseFishPondDesc = mBinding.tvChooseFishPondDesc
+                        mBinding.tvChooseFishPond.text = "#${fishPondTopicListItem.topicName}#"
+                        tvChooseFishPondDesc.text = ""
+                    } else {
+                        resetTopic()
+                    }
+                }
+            }
         }
         mBinding.ivEmoji.setFixOnClickListener {
-            // TODO: 2021/9/11 选择表情，弹出表情选择对话框
-            simpleToast("暂不支持选择表情，但可以输入法输入")
+            // 选择表情，弹出表情选择列表
+            val keyboardIsShowing = KeyboardUtils.isSoftInputVisible(this)
+            if (keyboardIsShowing) {
+                postDelayed({
+                    mBinding.rvEmojiList.visibility = View.VISIBLE
+                    mBinding.rvEmojiList.layoutParams =
+                        LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 310.dp)
+                }, 200)
+                hideKeyboard()
+            } else {
+                mBinding.rvEmojiList.visibility = View.GONE
+                showKeyboard(mBinding.etInputContent)
+            }
+        }
+        mBinding.rvEmojiList.setOnEmojiClickListener { emoji, _ ->
+            val etInputContent = mBinding.etInputContent
+            val cursor = etInputContent.selectionStart
+            etInputContent.text.insert(cursor, emoji)
         }
         mBinding.ivImage.setFixOnClickListener {
             // TODO: 2021/9/11 选择图片，跳转至图片选择界面
@@ -102,6 +138,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         val clMenuContainer = mBinding.clMenuContainer
         mBinding.keyboardLayout.setKeyboardListener { isActive, keyboardHeight ->
             val height = if (isActive) {
+                mBinding.rvEmojiList.visibility = View.GONE
                 keyboardHeight
             } else {
                 -(clMenuContainer.height + 10.dp)
@@ -110,7 +147,8 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
-            layoutParams.bottomMargin = height + clMenuContainer.height + 10.dp
+            val realHeight = height + clMenuContainer.height + 10.dp
+            layoutParams.bottomMargin = realHeight
             clMenuContainer.layoutParams = layoutParams
         }
         val normalColor = Color.parseColor("#CBD0D3")
@@ -133,6 +171,12 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         }
     }
 
+    private fun resetTopic() {
+        mBinding.tvChooseFishPond.text = "选择鱼塘"
+        val tvChooseFishPondDesc = mBinding.tvChooseFishPondDesc
+        tvChooseFishPondDesc.text = "放到合适的鱼塘会被更多的摸鱼人看见哟~"
+    }
+
     override fun onRightClick(view: View?) {
         // 校验内容是否合法，发布信息
         val inputLength = mBinding.etInputContent.length()
@@ -143,7 +187,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         }
         // 提交
         val content = mBinding.etInputContent.textString
-        // TODO: 2021/9/12 填充 “话题”，“链接”，
+        // 2021/9/12 填充 “链接”（客户端暂不支持），
         val map = mapOf(
             "content" to content,
             "topicId" to mTopicId,
@@ -151,9 +195,6 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             "images" to mImages,
         )
         showDialog()
-        if (true) {
-            return
-        }
         // 如果选中的图片个数等于上传成功的图片个数，则图片全部上传成功
         mFishPondViewModel.putFish(map).observe(this@PutFishActivity) {
             hideDialog()
@@ -166,7 +207,10 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             mLinkUrl = null
             mImages.clear()
             mBinding.etInputContent.clearText()
+            resetTopic()
             simpleToast("发布非常成功😃")
+            setResult(Activity.RESULT_OK)
+            finish()
         }
     }
 
@@ -185,6 +229,11 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             }
             simpleToast("图片上传完成")
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        hideKeyboard()
     }
 
     companion object {

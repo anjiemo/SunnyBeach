@@ -8,6 +8,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.ArticleListFragmentBinding
@@ -26,7 +27,7 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/6/20
  * desc   : 首页 Fragment
  */
-class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction {
+class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction, OnBack2TopListener {
 
     private val mBinding: ArticleListFragmentBinding by viewBinding()
     private val mArticleViewModel by activityViewModels<ArticleViewModel>()
@@ -90,6 +91,16 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction {
     override fun isStatusBarEnabled(): Boolean {
         // 使用沉浸式状态栏
         return !super.isStatusBarEnabled()
+    }
+
+    override fun onBack2Top() {
+        // 双击标题栏回到顶部，先滚动到第10条，然后平滑滚动到顶部
+        if (mArticleAdapter.itemCount > 10) {
+            mBinding.rvArticleList.scrollToPosition(10)
+        }
+        postDelayed({
+            mBinding.rvArticleList.smoothScrollToPosition(0)
+        }, 100)
     }
 
     companion object {

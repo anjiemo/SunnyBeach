@@ -5,7 +5,7 @@
     android:id="@+id/ll_fish_item_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/item_selector_ic"
     android:orientation="vertical">
 
     <LinearLayout
@@ -39,6 +39,7 @@
                 android:id="@+id/tv_fish_pond_nick_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:maxLines="1"
                 android:textSize="18sp"
                 tools:text="A Lonely Cat"

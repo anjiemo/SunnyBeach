@@ -47,7 +47,9 @@
 
                             <include
                                 android:id="@+id/fish_pond"
-                                layout="@layout/fish_pond_list_item" />
+                                layout="@layout/fish_pond_list_item"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
 
                         </cn.cqautotest.sunnybeach.widget.XCollapsingToolbarLayout>
 
@@ -84,8 +86,8 @@
                         android:id="@+id/rv_fish_pond_detail_comment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/white"
                         android:fadingEdge="none"
+                        android:layout_marginTop="1px"
                         android:orientation="vertical"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"

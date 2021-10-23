@@ -15,6 +15,7 @@
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/button_round_selector.xml" value="0.1305" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/checkbox_disable_ic.xml" value="0.171" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/checkbox_selector.xml" value="0.1305" />
+        <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/close_icon.xml" value="0.137" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/comment_divider.xml" value="0.132" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/elv_arrows_selector.xml" value="0.1305" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/example_bg.xml" value="0.176" />
@@ -29,6 +30,7 @@
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/home_nav_top_radius_white_bg.xml" value="0.176" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/home_navigation_color_selector.xml" value="0.132" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/home_search_bar_gray_bg.xml" value="0.1305" />
+        <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/item_selector_ic.xml" value="0.137" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/keyboard_layout.xml" value="0.171" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/recommend_top_line_ic.xml" value="0.171" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/drawable/reply_divider.xml" value="0.132" />
@@ -59,6 +61,8 @@
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/fish_pond_fragment.xml" value="0.176" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/fish_pond_list_fragment.xml" value="0.12335359675785208" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/fish_pond_list_item.xml" value="0.176" />
+        <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/fish_pond_selection_activity.xml" value="0.2546875" />
+        <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/fish_pond_selection_item.xml" value="0.2546875" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/fish_pond_setting_activity.xml" value="0.1" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/fish_pond_topic_list_item.xml" value="0.13489583333333333" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/gallery_activity.xml" value="0.2" />
@@ -88,6 +92,8 @@
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/photo_list_item.xml" value="0.2546875" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/put_fish_activity.xml" value="0.176" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/register_activity.xml" value="0.1" />
+        <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/rich_list_activity.xml" value="0.2546875" />
+        <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/rich_list_item.xml" value="0.2546875" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/setting_activity.xml" value="0.25364583333333335" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/submit_commend_activity.xml" value="0.15416666666666667" />
         <entry key="..\:/ProgramFiles/Android/SunnyBeach/app/src/main/res/layout/tips_dialog.xml" value="0.2546875" />

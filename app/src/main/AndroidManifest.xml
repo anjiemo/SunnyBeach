@@ -102,6 +102,12 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <!-- 富豪榜列表页 -->
+        <activity
+            android:name=".ui.activity.RichListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <!-- 摸鱼详情页 -->
         <activity
             android:name=".ui.activity.FishPondDetailActivity"
@@ -111,6 +117,12 @@
         <!-- 摸鱼设置页 -->
         <activity
             android:name=".ui.activity.FishPondSettingActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 鱼塘列表选择页 -->
+        <activity
+            android:name=".ui.activity.FishPondSelectionActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />

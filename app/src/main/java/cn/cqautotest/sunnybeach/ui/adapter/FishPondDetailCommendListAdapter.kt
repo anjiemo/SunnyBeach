@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
 import cn.cqautotest.sunnybeach.model.FishPondComment
-import cn.cqautotest.sunnybeach.model.UserComment
 import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.bumptech.glide.Glide
@@ -49,7 +48,7 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
         { _, _ -> }
     private var mViewMoreClickListener: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit =
         { _, _ -> }
-    private var mCommentClickListener: (item: UserComment, position: Int) -> Unit =
+    private var mCommentClickListener: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit =
         { _, _ -> }
 
     fun setOnItemClickListener(block: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit) {
@@ -60,7 +59,7 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
         mViewMoreClickListener = block
     }
 
-    fun setOnCommentClickListener(block: (item: UserComment, position: Int) -> Unit) {
+    fun setOnCommentClickListener(block: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit) {
         mCommentClickListener = block
     }
 
@@ -121,27 +120,17 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
             tvChildReplyMsg.text = getBeautifiedFormat(it, item)
             tvChildReplyMsg.visibility = View.VISIBLE
         }
-        tvChildReplyMsg.setFixOnClickListener {
-            subComments.getOrNull(0)?.let {
-                mCommentClickListener.invoke(it, position)
-            }
-        }
         tvChildReplyMsg1.visibility = View.GONE
         subComments.getOrNull(1)?.let {
             tvChildReplyMsg1.text = getBeautifiedFormat(it, item)
             tvChildReplyMsg1.visibility = View.VISIBLE
-        }
-        tvChildReplyMsg1.setFixOnClickListener {
-            subComments.getOrNull(1)?.let {
-                mCommentClickListener.invoke(it, position)
-            }
         }
         // 如果是指示器，且该评论下盖楼的高度大于2则显示，否则隐藏
         tvChildReplyMsgAll.apply {
             text = "查看全部${buildHeight}条回复"
             visibility = if (buildHeight > 2) View.VISIBLE else View.GONE
         }
-        tvChildReplyMsgAll.setFixOnClickListener {
+        itemView.setFixOnClickListener {
             mViewMoreClickListener.invoke(item, position)
         }
     }
@@ -150,8 +139,10 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
         subComment: FishPondComment.FishPondCommentItem.SubComment,
         item: FishPondComment.FishPondCommentItem
     ): Spanned {
+        // 谁回复的
         val whoReplied =
             subComment.getNickName() + if (subComment.getId() == item.getId()) "(作者)" else ""
+        // 被回复的人
         val wasReplied = subComment.getTargetUserNickname()
         val content = whoReplied + "回复" + wasReplied + "：" + subComment.content
         val spannableString = SpannableString(content)
@@ -162,10 +153,11 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
             content.indexOf("回复"),
             SpannableString.SPAN_INCLUSIVE_INCLUSIVE
         )
+        val startIndex = whoReplied.length + 2
         spannableString.setSpan(
             ForegroundColorSpan(color),
-            content.indexOf(wasReplied),
-            content.indexOf(wasReplied) + wasReplied.length,
+            startIndex,
+            startIndex + wasReplied.length,
             SpannableString.SPAN_INCLUSIVE_INCLUSIVE
         )
         return spannableString

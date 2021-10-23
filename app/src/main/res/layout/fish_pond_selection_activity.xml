@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.FishPondSelectionActivity">
+
+    <com.hjq.bar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rightBackground="@color/transparent"
+        app:rightTitle="不选择鱼塘"
+        app:title="选择鱼塘" />
+
+    <cn.cqautotest.sunnybeach.widget.StatusLayout
+        android:id="@+id/sl_fish_pond_selection_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlEnableLoadMore="false">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_fish_pond_labels_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="20"
+                tools:listitem="@layout/fish_pond_selection_item" />
+
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    </cn.cqautotest.sunnybeach.widget.StatusLayout>
+
+</LinearLayout>
