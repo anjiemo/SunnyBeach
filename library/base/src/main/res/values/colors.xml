@@ -69,4 +69,7 @@
     <!-- 橙色 -->
     <color name="orange">#FFFFA500</color>
 
+    <!-- item 选中的灰色 -->
+    <color name="item_selector">#F0F0F0</color>
+
 </resources>

@@ -8,7 +8,7 @@ import cn.cqautotest.sunnybeach.util.APP_INFO_URL
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2021/10/01
- * desc   : 图片的 ViewModel
+ * desc   : App信息获取
  */
 object AppNetwork {
 

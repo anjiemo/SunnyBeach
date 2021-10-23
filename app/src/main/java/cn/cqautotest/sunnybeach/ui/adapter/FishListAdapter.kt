@@ -27,7 +27,7 @@ import com.bumptech.glide.Glide
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/9/6
+ * time   : 2021/09/06
  * desc   : 摸鱼动态列表的适配器
  */
 class FishListAdapter(private val adapterDelegate: AdapterDelegate) :

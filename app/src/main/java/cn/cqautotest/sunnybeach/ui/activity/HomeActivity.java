@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -13,6 +14,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.hjq.base.FragmentPagerAdapter;
 
 import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.action.OnBack2TopListener;
+import cn.cqautotest.sunnybeach.action.OnDoubleClickListener;
 import cn.cqautotest.sunnybeach.app.AppActivity;
 import cn.cqautotest.sunnybeach.app.AppFragment;
 import cn.cqautotest.sunnybeach.manager.ActivityManager;
@@ -30,7 +33,7 @@ import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
  * time   : 2018/10/18
  * desc   : 首页界面
  */
-public final class HomeActivity extends AppActivity implements NavigationAdapter.OnNavigationListener {
+public final class HomeActivity extends AppActivity implements NavigationAdapter.OnNavigationListener, OnDoubleClickListener {
 
     private static final String INTENT_KEY_IN_FRAGMENT_INDEX = "fragmentIndex";
     private static final String INTENT_KEY_IN_FRAGMENT_CLASS = "fragmentClass";
@@ -65,12 +68,12 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
         mNavigationView = findViewById(R.id.rv_home_navigation);
 
         mNavigationAdapter = new NavigationAdapter(this);
-        mNavigationAdapter.addItem(new NavigationAdapter.MenuItem(getString(R.string.home_nav_index),
-                ContextCompat.getDrawable(this, R.drawable.home_home_selector)));
-        mNavigationAdapter.addItem(new NavigationAdapter.MenuItem(getString(R.string.home_nav_found),
-                ContextCompat.getDrawable(this, R.drawable.home_found_selector)));
         mNavigationAdapter.addItem(new NavigationAdapter.MenuItem(getString(R.string.home_fish_pond_message),
                 ContextCompat.getDrawable(this, R.drawable.home_fish_pond_selector)));
+        mNavigationAdapter.addItem(new NavigationAdapter.MenuItem(getString(R.string.home_nav_found),
+                ContextCompat.getDrawable(this, R.drawable.home_found_selector)));
+        mNavigationAdapter.addItem(new NavigationAdapter.MenuItem(getString(R.string.home_nav_index),
+                ContextCompat.getDrawable(this, R.drawable.home_home_selector)));
         mNavigationAdapter.addItem(new NavigationAdapter.MenuItem(getString(R.string.home_nav_me),
                 ContextCompat.getDrawable(this, R.drawable.home_me_selector)));
         mNavigationAdapter.setOnNavigationListener(this);
@@ -80,9 +83,9 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
     @Override
     protected void initData() {
         mPagerAdapter = new FragmentPagerAdapter<>(this);
-        mPagerAdapter.addFragment(ArticleListFragment.newInstance());
-        mPagerAdapter.addFragment(DiscoverFragment.newInstance());
         mPagerAdapter.addFragment(FishListFragment.newInstance());
+        mPagerAdapter.addFragment(DiscoverFragment.newInstance());
+        mPagerAdapter.addFragment(ArticleListFragment.newInstance());
         // mPagerAdapter.addFragment(new EmptyFragment());
         mPagerAdapter.addFragment(MyMeFragment.newInstance());
         mViewPager.setAdapter(mPagerAdapter);
@@ -92,6 +95,16 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
         toast("若发现BUG，可在意见反馈界面中反馈");
     }
 
+    @Override
+    public void initEvent() {
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                mNavigationAdapter.setSelectedPosition(position);
+            }
+        });
+        mNavigationAdapter.setOnDoubleClickListener(this);
+    }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -128,6 +141,15 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void onDoubleClick(@NonNull View v, int position) {
+        AppFragment<?> fragment = mPagerAdapter.getItem(position);
+        // 如果当前显示的 Fragment 是可以回到顶部的，则调用回到顶部的方法
+        if (fragment instanceof OnBack2TopListener) {
+            ((OnBack2TopListener) fragment).onBack2Top();
         }
     }
 

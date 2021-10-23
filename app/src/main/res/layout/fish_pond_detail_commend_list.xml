@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/item_selector_ic"
     android:orientation="horizontal"
     android:padding="10dp">
 
@@ -54,8 +55,8 @@
             android:id="@+id/iv_fish_pond_comment"
             android:layout_width="46dp"
             android:layout_height="46dp"
-            android:layout_marginTop="-6dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="-6dp"
             android:src="@mipmap/ic_pond_comment" />
 
     </LinearLayout>
@@ -93,7 +94,7 @@
         android:id="@+id/tv_build_reply_msg_container"
         android:layout_width="0px"
         android:layout_height="wrap_content"
-        android:background="#F4F8F9"
+        android:background="#F4F4F4"
         android:orientation="vertical"
         android:padding="4dp"
         android:visibility="visible"
@@ -107,22 +108,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="tv_reply_msg"
-            android:text="A Lonely Cat" />
+            tools:text="A Lonely Cat" />
 
         <TextView
             android:id="@+id/tv_child_reply_msg1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="tv_reply_msg"
-            android:text="A Lonely Cat" />
+            tools:text="A Lonely Cat" />
 
         <TextView
             android:id="@+id/tv_child_reply_msg_all"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="tv_reply_msg_indicator"
-            android:text="查看全部0条回复>"
-            android:textColor="#045FB2" />
+            android:textColor="#045FB2"
+            tools:text="查看全部0条回复>" />
 
     </LinearLayout>
 

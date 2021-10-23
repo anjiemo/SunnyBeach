@@ -30,4 +30,6 @@ object FishNetwork {
         fishPondApi.replyComment(momentComment)
 
     suspend fun dynamicLikes(momentId: String) = fishPondApi.dynamicLikes(momentId)
+
+    suspend fun loadTopicList() = fishPondApi.loadTopicList()
 }

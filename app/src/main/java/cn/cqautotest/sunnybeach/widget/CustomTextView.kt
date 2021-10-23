@@ -38,12 +38,12 @@ class CustomTextView @JvmOverloads constructor(
     }
 
     override fun showContextMenu(x: Float, y: Float): Boolean {
-        createContextMenuAndShow()
+        // createContextMenuAndShow()
         return true
     }
 
     override fun showContextMenu(): Boolean {
-        createContextMenuAndShow()
+        // createContextMenuAndShow()
         return true
     }
 

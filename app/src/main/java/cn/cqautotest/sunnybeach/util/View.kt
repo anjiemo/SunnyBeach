@@ -31,6 +31,17 @@ fun View.setFixOnClickListener(block: (v: View) -> Unit) {
     }
 }
 
+fun View.setDoubleClickListener(block: (v: View) -> Unit) {
+    setOnClickListener {
+        val currentClickTime = System.currentTimeMillis()
+        val diffTime = currentClickTime - lastClickTime
+        if (diffTime < jumpTapTimeout) {
+            block.invoke(this)
+        }
+        lastClickTime = currentClickTime
+    }
+}
+
 fun View.setSlidingUpListener(block: (v: View) -> Unit) {
     object : TouchUtils.OnTouchUtilsListener() {
         override fun onDown(view: View?, x: Int, y: Int, event: MotionEvent?): Boolean {

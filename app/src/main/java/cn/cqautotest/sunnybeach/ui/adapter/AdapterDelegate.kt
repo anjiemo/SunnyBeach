@@ -14,19 +14,19 @@ import com.chad.library.adapter.base.animation.BaseAnimation
 class AdapterDelegate {
 
     var adapterAnimation: BaseAnimation? = null
-    private var mLastPositon = -1
+    private var mLastPosition = -1
 
     fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
         addAnimation(holder)
     }
 
     private fun addAnimation(holder: RecyclerView.ViewHolder) {
-        if (holder.layoutPosition <= mLastPositon) return
+        if (holder.layoutPosition <= mLastPosition) return
         val animation: BaseAnimation = adapterAnimation ?: AlphaInAnimation()
         animation.animators(holder.itemView).forEach {
             startAnim(it)
         }
-        mLastPositon = holder.layoutPosition
+        mLastPosition = holder.layoutPosition
     }
 
     private fun startAnim(anim: Animator) {

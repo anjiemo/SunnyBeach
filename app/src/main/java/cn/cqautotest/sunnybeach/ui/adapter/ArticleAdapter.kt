@@ -41,7 +41,6 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         ): Boolean {
             return oldItem == newItem
         }
-
     }) {
 
     inner class ArticleViewHolder(val binding: ArticleListItemBinding) :
@@ -71,7 +70,8 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
             context,
             R.drawable.avatar_circle_vip_ic
         ) else null
-        Glide.with(itemView).load(item.avatar)
+        Glide.with(itemView)
+            .load(item.avatar)
             .placeholder(R.mipmap.ic_default_avatar)
             .error(R.mipmap.ic_default_avatar)
             .circleCrop()
