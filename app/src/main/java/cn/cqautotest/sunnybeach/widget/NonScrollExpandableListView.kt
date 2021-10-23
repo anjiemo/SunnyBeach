@@ -7,7 +7,7 @@ import android.widget.ExpandableListView
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/7/11
+ * time   : 2021/07/11
  * desc   : 解决 NestedScrollView 嵌套 ExpandableListView 时显示不正常的自定义控件
  */
 class NonScrollExpandableListView @JvmOverloads constructor(
