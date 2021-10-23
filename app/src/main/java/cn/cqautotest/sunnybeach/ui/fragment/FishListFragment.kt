@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
+import android.app.Activity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
@@ -7,6 +8,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
@@ -18,8 +20,8 @@ import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.util.dp
+import cn.cqautotest.sunnybeach.util.setDoubleClickListener
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import cn.cqautotest.sunnybeach.util.startActivity
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import kotlinx.coroutines.flow.collectLatest
@@ -30,7 +32,7 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/07/07
  * desc   : 摸鱼列表管理 Fragment
  */
-class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction {
+class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener {
 
     private val mBinding: FishListFragmentBinding by viewBinding()
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
@@ -55,6 +57,9 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction {
     override fun initObserver() {}
 
     override fun initEvent() {
+        titleBar?.setDoubleClickListener {
+            onBack2Top()
+        }
         mBinding.refreshLayout.setOnRefreshListener {
             mFishListAdapter.refresh()
         }
@@ -65,7 +70,11 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction {
             FishPondDetailActivity.start(requireContext(), momentId)
         }
         mBinding.ivPublishContent.setFixOnClickListener {
-            requireContext().startActivity<PutFishActivity>()
+            startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
+                if (resultCode == Activity.RESULT_OK) {
+                    initData()
+                }
+            }
         }
         mFishListAdapter.setOnNineGridClickListener { sources, index ->
             ImagePreviewActivity.start(requireContext(), sources, index)
@@ -102,6 +111,16 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction {
     override fun onDestroyView() {
         super.onDestroyView()
         mFishListAdapter.removeLoadStateListener(loadStateListener)
+    }
+
+    override fun onBack2Top() {
+        // 双击标题栏回到顶部，先滚动到第10条，然后平滑滚动到顶部
+        if (mFishListAdapter.itemCount > 10) {
+            mBinding.rvFishPondList.scrollToPosition(10)
+        }
+        postDelayed({
+            mBinding.rvFishPondList.smoothScrollToPosition(0)
+        }, 100)
     }
 
     companion object {

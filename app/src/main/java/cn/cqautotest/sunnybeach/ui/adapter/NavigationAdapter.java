@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -14,8 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hjq.base.BaseAdapter;
 
+import java.util.List;
+
 import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.action.OnDoubleClickListener;
 import cn.cqautotest.sunnybeach.app.AppAdapter;
+import cn.cqautotest.sunnybeach.other.DoubleClickHelper;
 
 /**
  * author : Android 轮子哥
@@ -37,6 +42,12 @@ public final class NavigationAdapter extends AppAdapter<NavigationAdapter.MenuIt
     @Nullable
     private OnNavigationListener mListener;
 
+    /**
+     * 导航栏双击监听
+     */
+    @Nullable
+    private OnDoubleClickListener mOnDoubleClickListener;
+
     public NavigationAdapter(Context context) {
         super(context);
         setOnItemClickListener(this);
@@ -46,6 +57,21 @@ public final class NavigationAdapter extends AppAdapter<NavigationAdapter.MenuIt
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder();
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public void onBindViewHolder(@NonNull BaseAdapter<?>.ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+        final int finalPosition = position;
+        View itemView = holder.itemView;
+        itemView.setOnTouchListener((v, event) -> {
+            if (getSelectedPosition() == finalPosition && mOnDoubleClickListener != null
+                    && DoubleClickHelper.isOnDoubleClick()) {
+                mOnDoubleClickListener.onDoubleClick(v, finalPosition);
+            }
+            return false;
+        });
     }
 
     @Override
@@ -60,6 +86,15 @@ public final class NavigationAdapter extends AppAdapter<NavigationAdapter.MenuIt
     public void setSelectedPosition(int position) {
         mSelectedPosition = position;
         notifyDataSetChanged();
+    }
+
+    /**
+     * 设置导航栏双击监听
+     *
+     * @param listener {@link OnDoubleClickListener}
+     */
+    public void setOnDoubleClickListener(@Nullable OnDoubleClickListener listener) {
+        mOnDoubleClickListener = listener;
     }
 
     /**

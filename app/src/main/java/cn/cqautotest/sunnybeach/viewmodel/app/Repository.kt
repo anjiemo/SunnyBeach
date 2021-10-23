@@ -163,4 +163,34 @@ object Repository {
         }
         emit(result)
     }
+
+    fun loadTopicList() = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = FishNetwork.loadTopicList()
+                logByDebug(tag = TAG, msg = "loadTopicList：===> result is $result")
+                if (result.success) Result.success(result.data)
+                else Result.failure(ServiceException(result.message))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    fun getRichList() = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.getRichList()
+                logByDebug(tag = TAG, msg = "getRichList：===> result is $result")
+                if (result.success) Result.success(result.data)
+                else Result.failure(ServiceException(result.message))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
 }

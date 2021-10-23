@@ -15,6 +15,7 @@ import cn.cqautotest.sunnybeach.model.User
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.viewmodel.login.LoggedInUserView
 import cn.cqautotest.sunnybeach.viewmodel.login.LoginFormState
 import cn.cqautotest.sunnybeach.viewmodel.login.LoginResult
@@ -51,6 +52,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     // userApi
     private val userApi by lazy { ServiceCreator.create<UserApi>() }
+
+    /**
+     * 获取富豪榜
+     */
+    fun getRichList() = Repository.getRichList()
 
     /**
      * 用户账号登录

@@ -184,6 +184,7 @@ android {
 dependencies {
     def kotlin_version = "1.5.10"
     def paging_version = "3.0.1"
+    def emoji2_version = "1.0.0-beta01"
     def nav_version = "2.3.5"
     def room_version = "2.3.0"
     def markwon_version = "4.6.2"
@@ -215,6 +216,10 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     // Feature module Support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+    // Emoji2：https://developer.android.google.cn/jetpack/androidx/releases/emoji2
+    // implementation("androidx.emoji2:emoji2:$emoji2_version")
+    // implementation("androidx.emoji2:emoji2-views:$emoji2_version")
+    // implementation("androidx.emoji2:emoji2-views-helper:$emoji2_version")
 
     // 权限请求框架：https://github.com/getActivity/XXPermissions
     implementation 'com.github.getActivity:XXPermissions:12.3'
@@ -286,6 +291,7 @@ dependencies {
     // 多语种：https://github.com/getActivity/MultiLanguages
     // 悬浮窗：https://github.com/getActivity/XToast
     // 日志输出：https://github.com/getActivity/Logcat
+    debugImplementation 'com.github.getActivity:Logcat:9.9'
     // 工具类：https://github.com/Blankj/AndroidUtilCode
     implementation 'com.blankj:utilcodex:1.30.6'
     // 轮播图：https://github.com/bingoogolapple/BGABanner-Android

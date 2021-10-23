@@ -22,13 +22,16 @@ import java.io.File
  */
 class FishPondViewModel : ViewModel() {
 
+    fun loadTopicList() = Repository.loadTopicList()
+
     fun dynamicLikes(momentId: String) = Repository.dynamicLikes(momentId)
 
     fun postComment(momentComment: Map<String, Any?>, isReply: Boolean) =
         Repository.postComment(momentComment, isReply)
 
     fun getFishCommendListById(momentId: String): Flow<PagingData<FishPondComment.FishPondCommentItem>> {
-        return Pager(config = PagingConfig(30),
+        return Pager(
+            config = PagingConfig(30),
             pagingSourceFactory = {
                 FishDetailCommendListPagingSource(momentId)
             }).flow.cachedIn(viewModelScope)

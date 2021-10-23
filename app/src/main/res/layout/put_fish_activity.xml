@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:rightTitle="发布"
-        app:title="发布摸 🐟" />
+        app:title="发布摸鱼" />
 
     <RelativeLayout
         android:id="@+id/rl_choose_fish_pond"
@@ -25,6 +25,7 @@
         android:paddingBottom="10dp">
 
         <TextView
+            android:id="@+id/tv_choose_fish_pond"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -33,6 +34,7 @@
             android:textColor="#247FF3" />
 
         <TextView
+            android:id="@+id/tv_choose_fish_pond_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -88,7 +90,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_menu_container"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="40dp">
 
         <ImageView
             android:id="@+id/iv_emoji"
@@ -136,6 +138,13 @@
             app:layout_constraintTop_toTopOf="@+id/iv_link" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <cn.cqautotest.sunnybeach.widget.EmojiListView
+        android:id="@+id/rv_emoji_list"
+        android:layout_width="match_parent"
+        android:layout_height="310dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/iv_emoji" />
 
     <cn.cqautotest.sunnybeach.widget.KeyboardLayout
         android:id="@+id/keyboardLayout"

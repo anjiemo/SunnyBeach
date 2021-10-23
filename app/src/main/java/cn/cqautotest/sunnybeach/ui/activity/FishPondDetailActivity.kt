@@ -62,6 +62,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
         mBinding.rvFishPondDetailComment.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = mFishPondDetailCommendListAdapter
+            addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
         }
     }
 
@@ -214,10 +215,11 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
         }
         mFishPondDetailCommendListAdapter.setOnVewMoreClickListener { item, _ ->
             val intent = FishCommendDetailActivity.getIntent(this, mMomentId, item)
-            startActivityForResult(intent, View.generateViewId())
+            startActivity(intent)
         }
         mFishPondDetailCommendListAdapter.setOnCommentClickListener { item, _ ->
-            goToPostComment(item.getId(), item.getNickName(), item.getUserId())
+            val intent = FishCommendDetailActivity.getIntent(this, mMomentId, item)
+            startActivity(intent)
         }
         mBinding.commentContainer.tvFishPondSubmitComment.setFixOnClickListener {
             goToPostComment(mNickName)

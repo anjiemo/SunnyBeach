@@ -7,8 +7,10 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.MyMeFragmentBinding
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
+import cn.cqautotest.sunnybeach.ui.activity.RichListActivity
 import cn.cqautotest.sunnybeach.ui.activity.SettingActivity
 import cn.cqautotest.sunnybeach.util.MAKE_COMPLAINTS_URL
+import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import cn.cqautotest.sunnybeach.util.startActivity
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
@@ -47,11 +49,14 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     override fun initEvent() {
         val meContent = mBinding.meContent
-        meContent.feedbackContainer.setOnClickListener {
+        meContent.richListContainer.setFixOnClickListener {
+            requireContext().startActivity<RichListActivity>()
+        }
+        meContent.feedbackContainer.setFixOnClickListener {
             BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
         }
-        meContent.settingContainer.setOnClickListener {
-            requireContext().startActivity(SettingActivity::class.java)
+        meContent.settingContainer.setFixOnClickListener {
+            requireContext().startActivity<SettingActivity>()
         }
     }
 
