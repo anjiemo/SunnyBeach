@@ -151,6 +151,42 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <!-- 消息中心页 -->
+        <activity
+            android:name=".ui.activity.MessageCenterActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 文章消息列表页 -->
+        <activity
+            android:name=".ui.activity.msg.ArticleMsgListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 点赞消息列表页 -->
+        <activity
+            android:name=".ui.activity.msg.LikeMsgListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 摸鱼消息列表页 -->
+        <activity
+            android:name=".ui.activity.msg.FishMsgListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!-- At我 消息列表页 -->
+        <activity
+            android:name=".ui.activity.msg.AtMeMsgListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 系统消息列表页 -->
+        <activity
+            android:name=".ui.activity.msg.SystemMsgListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <!-- 登录页 -->
         <activity
             android:name=".ui.activity.LoginActivity"

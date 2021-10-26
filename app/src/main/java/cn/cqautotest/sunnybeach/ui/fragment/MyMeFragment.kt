@@ -7,6 +7,7 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.MyMeFragmentBinding
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
+import cn.cqautotest.sunnybeach.ui.activity.MessageCenterActivity
 import cn.cqautotest.sunnybeach.ui.activity.RichListActivity
 import cn.cqautotest.sunnybeach.ui.activity.SettingActivity
 import cn.cqautotest.sunnybeach.util.MAKE_COMPLAINTS_URL
@@ -15,7 +16,6 @@ import cn.cqautotest.sunnybeach.util.startActivity
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-
 
 /**
  * author : A Lonely Cat
@@ -51,6 +51,9 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         val meContent = mBinding.meContent
         meContent.richListContainer.setFixOnClickListener {
             requireContext().startActivity<RichListActivity>()
+        }
+        meContent.messageCenterContainer.setFixOnClickListener {
+            requireContext().startActivity<MessageCenterActivity>()
         }
         meContent.feedbackContainer.setFixOnClickListener {
             BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)

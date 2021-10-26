@@ -114,13 +114,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     override fun onBack2Top() {
-        // 双击标题栏回到顶部，先滚动到第10条，然后平滑滚动到顶部
-        if (mFishListAdapter.itemCount > 10) {
-            mBinding.rvFishPondList.scrollToPosition(10)
-        }
-        postDelayed({
-            mBinding.rvFishPondList.smoothScrollToPosition(0)
-        }, 100)
+        mBinding.rvFishPondList.scrollToPosition(0)
     }
 
     companion object {

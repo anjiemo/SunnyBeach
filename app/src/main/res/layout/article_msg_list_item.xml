@@ -1,0 +1,106 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_selector_ic"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <FrameLayout
+        android:id="@+id/fl_avatar_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="用户的头像"
+            android:src="@mipmap/ic_default_avatar" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_top_container"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fl_avatar_container"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <CheckBox
+            android:id="@+id/cb_nick_name"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:clickable="false"
+            android:ellipsize="end"
+            android:enabled="false"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_top_container"
+        android:layout_marginStart="10dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textColor="@color/default_font_color"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fl_avatar_container"
+        app:layout_constraintTop_toBottomOf="@id/ll_top_container" />
+
+    <TextView
+        android:id="@+id/tv_reply_msg"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_desc"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:lineSpacingMultiplier="1.2"
+        app:layout_constraintBottom_toTopOf="@+id/tv_build_reply_msg_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fl_avatar_container"
+        app:layout_constraintTop_toBottomOf="@id/tv_desc" />
+
+    <LinearLayout
+        android:id="@+id/tv_build_reply_msg_container"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:background="#F4F4F4"
+        android:orientation="vertical"
+        android:padding="4dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/tv_reply_msg"
+        app:layout_constraintStart_toStartOf="@id/tv_reply_msg"
+        app:layout_constraintTop_toBottomOf="@id/tv_reply_msg">
+
+        <TextView
+            android:id="@+id/tv_child_reply_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="tv_reply_msg"
+            tools:text="A Lonely Cat" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
