@@ -1,70 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.activity.MessageCenterActivity">
 
-    <LinearLayout
+    <com.hjq.bar.TitleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/image_avatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="30dp"
-            android:src="@mipmap/ic_default_avatar" />
-
-        <LinearLayout
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/text_nick_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:hint="账号未登录"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:textSize="18sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:ellipsize="end"
-                android:hint="你还没有填写简介"
-                android:singleLine="true" />
-
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:padding="10dp"
-            android:src="@mipmap/ic_right" />
-
-    </LinearLayout>
+        app:rightTitle="一键已读"
+        app:title="消息中心" />
 
     <LinearLayout
-        android:id="@+id/richListContainer"
+        android:id="@+id/articleContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -79,21 +29,99 @@
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:padding="6dp"
-            android:src="@mipmap/ic_rich_list" />
+            android:src="@mipmap/ic_article" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="富豪榜" />
+            android:text="文章" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/messageCenterContainer"
+        android:id="@+id/likeContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
+        android:background="@drawable/item_selector_ic"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        tools:ignore="RtlSymmetry">
+
+        <ImageView
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:padding="6dp"
+            android:src="@mipmap/ic_great_checked" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="点赞" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fishContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/item_selector_ic"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        tools:ignore="RtlSymmetry">
+
+        <ImageView
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:padding="10dp"
+            android:src="@mipmap/ic_fish" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="摸鱼" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/atMeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/item_selector_ic"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        tools:ignore="RtlSymmetry">
+
+        <ImageView
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:padding="10dp"
+            android:src="@mipmap/ic_at" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="\@我" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/systemContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:background="@drawable/item_selector_ic"
         android:gravity="center_vertical"
         android:paddingStart="16dp"
@@ -111,86 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="消息中心" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/likeContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/item_selector_ic"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        android:visibility="gone"
-        tools:ignore="RtlSymmetry">
-
-        <ImageView
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:padding="6dp"
-            android:src="@mipmap/ic_great_checked" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="我赞过的" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/feedbackContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/item_selector_ic"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        tools:ignore="RtlSymmetry">
-
-        <ImageView
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:padding="11dp"
-            android:src="@mipmap/ic_feedback" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="意见反馈" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/settingContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/item_selector_ic"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        tools:ignore="RtlSymmetry">
-
-        <ImageView
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:padding="11dp"
-            android:src="@mipmap/ic_setting" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="设置" />
+            android:text="系统" />
 
     </LinearLayout>
 
