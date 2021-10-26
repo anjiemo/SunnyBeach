@@ -12,62 +12,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="098b0370-0c7c-4314-9bc4-6bd136db13e4" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/http/request/api/MsgApi.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/model/msg/ArticleMsg.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/model/msg/AtMeMsg.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/model/msg/LikeMsg.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/model/msg/MomentMsg.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/model/msg/QAMsg.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/model/msg/SystemMsg.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/paging/source/msg/ArticleMsgPagingSource.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/paging/source/msg/AtMeMsgPagingSource.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/paging/source/msg/LikeMsgPagingSource.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/paging/source/msg/MomentMsgPagingSource.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/paging/source/msg/QAMsgPagingSource.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/paging/source/msg/SystemMsgPagingSource.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/activity/MessageCenterActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/activity/msg/ArticleMsgListActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/activity/msg/AtMeMsgListActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/activity/msg/FishMsgListActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/activity/msg/LikeMsgListActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/activity/msg/SystemMsgListActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/adapter/msg/ArticleMsgAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/adapter/msg/AtMeMsgAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/adapter/msg/LikeMsgAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/adapter/msg/MomentMsgAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/adapter/msg/QAMsgAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/adapter/msg/SystemMsgAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/viewmodel/MsgViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/viewmodel/app/MsgNetwork.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/article_msg_list_activity.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/article_msg_list_item.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/at_me_msg_list_activity.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/at_me_msg_list_item.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fish_msg_list_activity.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/like_msg_list_activity.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/like_msg_list_item.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/message_center_activity.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/moment_msg_list_item.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/qa_msg_list_item.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/system_msg_list_activity.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/system_msg_list_item.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_article.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_at.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_fish.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_gold.png" afterDir="false" />
+    <list default="true" id="098b0370-0c7c-4314-9bc4-6bd136db13e4" name="更改" comment="实现获取消息列表（文章消息、点赞消息、摸鱼消息、@我消息、系统消息）并分页查询，实现消息中心一键已读功能。">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/activity/SubmitCommendActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/activity/SubmitCommendActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/fragment/ArticleListFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/fragment/ArticleListFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/fragment/FishListFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/fragment/FishListFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/fragment/MyMeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/ui/fragment/MyMeFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/viewmodel/app/Repository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cn/cqautotest/sunnybeach/viewmodel/app/Repository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/me_content.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/me_content.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/submit_commend_activity.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/submit_commend_activity.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,6 +40,12 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitSEFilterConfiguration">
@@ -206,6 +159,14 @@
       <option name="presentableId" value="Default" />
       <updated>1635081720238</updated>
     </task>
+    <task id="LOCAL-00001" summary="实现获取消息列表（文章消息、点赞消息、摸鱼消息、@我消息、系统消息）并分页查询，实现消息中心一键已读功能。">
+      <created>1635218409264</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1635218409264</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -219,5 +180,12 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="实现获取文章消息、点赞消息、摸鱼消息、@我消息、系统消息，并分页查询。" />
+    <MESSAGE value="实现获取消息列表（文章消息、点赞消息、摸鱼消息、@我消息、系统消息）并分页查询，实现消息中心一键已读功能。" />
+    <option name="LAST_COMMIT_MESSAGE" value="实现获取消息列表（文章消息、点赞消息、摸鱼消息、@我消息、系统消息）并分页查询，实现消息中心一键已读功能。" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>
