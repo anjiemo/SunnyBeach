@@ -193,4 +193,94 @@ object Repository {
         }
         emit(result)
     }
+
+    fun readAllMsg() = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = MsgNetwork.readAllMsg()
+                logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
+                if (result.success) Result.success(result.message)
+                else Result.failure(ServiceException(result.message))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    fun getArticleMsgList(page: Int) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = MsgNetwork.getArticleMsgList(page)
+                logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
+                if (result.success) Result.success(result.data)
+                else Result.failure(ServiceException(result.message))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    fun getMomentMsgList(page: Int) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = MsgNetwork.getMomentMsgList(page)
+                logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
+                if (result.success) Result.success(result.message)
+                else Result.failure(ServiceException(result.message))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    fun getQAMsgList(page: Int) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = MsgNetwork.getQAMsgList(page)
+                logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
+                if (result.success) Result.success(result.message)
+                else Result.failure(ServiceException(result.message))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    fun getLikeMsgList(page: Int) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = MsgNetwork.getLikeMsgList(page)
+                logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
+                if (result.success) Result.success(result.message)
+                else Result.failure(ServiceException(result.message))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    fun getSystemMsgList(page: Int) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = MsgNetwork.getSystemMsgList(page)
+                logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
+                if (result.success) Result.success(result.message)
+                else Result.failure(ServiceException(result.message))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
 }

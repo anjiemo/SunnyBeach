@@ -1,10 +1,10 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import android.view.animation.AlphaAnimation
 import android.widget.LinearLayout
@@ -48,9 +48,6 @@ class SubmitCommendActivity : AppActivity() {
         val animation = AlphaAnimation(0.2f, 0.53f)
         animation.duration = 100
         contentContainer.startAnimation(animation)
-        postDelayed({
-            showKeyboard(mBinding.etInputContent)
-        }, 100)
     }
 
     override fun initData() {
@@ -83,10 +80,32 @@ class SubmitCommendActivity : AppActivity() {
     private fun isReply() = intent.getBooleanExtra(IS_REPLY, false)
 
     override fun initEvent() {
+        postDelayed({
+            showKeyboard(mBinding.etInputContent)
+        }, 200)
         val keyboardLayout = mBinding.keyboardLayout
         val etInputContent = mBinding.etInputContent
         mBinding.windowContainer.setFixOnClickListener {
             finish()
+        }
+        mBinding.ivEmoji.setFixOnClickListener {
+            // 选择表情，弹出表情选择列表
+            val keyboardIsShowing = KeyboardUtils.isSoftInputVisible(this)
+            if (keyboardIsShowing) {
+                postDelayed({
+                    mBinding.rvEmojiList.visibility = View.VISIBLE
+                    mBinding.rvEmojiList.layoutParams =
+                        LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 310.dp)
+                }, 200)
+                hideKeyboard()
+            } else {
+                mBinding.rvEmojiList.visibility = View.GONE
+                showKeyboard(mBinding.etInputContent)
+            }
+        }
+        mBinding.rvEmojiList.setOnEmojiClickListener { emoji, _ ->
+            val cursor = etInputContent.selectionStart
+            etInputContent.text.insert(cursor, emoji)
         }
         etInputContent.setFixOnClickListener {
             keyboardLayout.postDelayed({
