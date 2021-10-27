@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.FishPondListItemBinding
 import cn.cqautotest.sunnybeach.model.Fish
+import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.DownloadHelper
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
@@ -75,6 +76,10 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
         val rrlContainer = binding.rrlContainer
         val simpleGridLayout = binding.simpleGridLayout
         val tvLabel = binding.tvFishPondLabel
+        val llLinkContainer = binding.llLinkContainer
+        val ivLinkCover = binding.ivLinkCover
+        val tvLinkTitle = binding.tvLinkTitle
+        val tvLinkUrl = binding.tvLinkUrl
         val tvComment = binding.listMenuItem.tvComment
         val tvGreat = binding.listMenuItem.tvGreat
         val ivShare = binding.listMenuItem.ivShare
@@ -192,6 +197,20 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
         simpleGridLayout.visibility = if (imageCount == 0) View.GONE else View.VISIBLE
         tvLabel.visibility = if (TextUtils.isEmpty(topicName)) View.GONE else View.VISIBLE
         tvLabel.text = topicName
+        val linkUrl = item.linkUrl
+        val hasLink = TextUtils.isEmpty(linkUrl).not()
+        val hasLinkCover = TextUtils.isEmpty(item.linkCover).not()
+        val linkCover = if (hasLinkCover) item.linkCover
+        else R.mipmap.ic_link_default
+        llLinkContainer.visibility = if (hasLink) View.VISIBLE else View.GONE
+        llLinkContainer.setFixOnClickListener {
+            BrowserActivity.start(context, linkUrl)
+        }
+        Glide.with(context)
+            .load(linkCover)
+            .into(ivLinkCover)
+        tvLinkTitle.text = item.linkTitle
+        tvLinkUrl.text = linkUrl
         tvComment.text = with(item.commentCount) {
             if (this == 0) {
                 "评论"

@@ -11,13 +11,13 @@ interface FishPondApi {
      * 上传图片（摸鱼动态）
      */
     @POST("${SUNNY_BEACH_BASE_URL}ct/image/mo_yu")
-    suspend fun uploadFishImage(@Part body: MultipartBody.Part): BaseResponse<String>
+    suspend fun uploadFishImage(@Part body: MultipartBody.Part): ApiResponse<String>
 
     /**
      * 发布动态
      */
     @POST("${SUNNY_BEACH_BASE_URL}ct/moyu")
-    suspend fun putFish(@Body moment: @JvmSuppressWildcards Map<String, Any?>): BaseResponse<Any>
+    suspend fun putFish(@Body moment: @JvmSuppressWildcards Map<String, Any?>): ApiResponse<Any>
 
     /**
      * 获取动态评论
@@ -26,13 +26,13 @@ interface FishPondApi {
     suspend fun getFishCommendListById(
         @Path("momentId") momentId: String,
         @Path("page") page: Int
-    ): BaseResponse<FishPondComment>
+    ): ApiResponse<FishPondComment>
 
     /**
      * 获取动态详情
      */
     @GET("${SUNNY_BEACH_BASE_URL}ct/moyu/{momentId}")
-    suspend fun loadFishDetailById(@Path("momentId") momentId: String): BaseResponse<Fish.FishItem>
+    suspend fun loadFishDetailById(@Path("momentId") momentId: String): ApiResponse<Fish.FishItem>
 
     /**
      * 获取动态列表
@@ -41,38 +41,38 @@ interface FishPondApi {
     suspend fun loadFishListById(
         @Path("topicId") topicId: String,
         @Path("page") page: Int
-    ): BaseResponse<Fish>
+    ): ApiResponse<Fish>
 
     /**
      * 获取首页话题（类似于摸鱼首页侧栏）
      */
     @GET("${SUNNY_BEACH_BASE_URL}ct/moyu/topic/index")
-    suspend fun loadTopicListByIndex(): BaseResponse<FishPondTopicIndex>
+    suspend fun loadTopicListByIndex(): ApiResponse<FishPondTopicIndex>
 
     /**
      * 获取热门动态列表
      */
     @GET("${SUNNY_BEACH_BASE_URL}ct/moyu/hot/{size}")
-    suspend fun loadHotFish(@Path("size") size: Int): BaseResponse<Fish>
+    suspend fun loadHotFish(@Path("size") size: Int): ApiResponse<Fish>
 
     /**
      * 获取话题列表
      */
     @GET("${SUNNY_BEACH_BASE_URL}ct/moyu/topic")
-    suspend fun loadTopicList(): BaseResponse<FishPondTopicList>
+    suspend fun loadTopicList(): ApiResponse<FishPondTopicList>
 
     /**
      * 发表评论(评论动态)
      */
     @POST("${SUNNY_BEACH_BASE_URL}ct/moyu/comment")
-    suspend fun submitComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): BaseResponse<String>
+    suspend fun submitComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): ApiResponse<String>
 
     /**
      * 回复评论（回复动态列表下的评论）
      */
     @POST("${SUNNY_BEACH_BASE_URL}ct/moyu/sub-comment")
-    suspend fun replyComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): BaseResponse<String>
+    suspend fun replyComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): ApiResponse<String>
 
     @PUT("${SUNNY_BEACH_BASE_URL}ct/moyu/thumb-up/{momentId}")
-    suspend fun dynamicLikes(@Path("momentId") momentId: String): BaseResponse<String>
+    suspend fun dynamicLikes(@Path("momentId") momentId: String): ApiResponse<String>
 }

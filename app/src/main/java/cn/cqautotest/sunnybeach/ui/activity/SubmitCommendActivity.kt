@@ -19,6 +19,7 @@ import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.blankj.utilcode.util.KeyboardUtils
+import com.bumptech.glide.Glide
 
 /**
  * author : A Lonely Cat
@@ -102,6 +103,14 @@ class SubmitCommendActivity : AppActivity() {
                 mBinding.rvEmojiList.visibility = View.GONE
                 showKeyboard(mBinding.etInputContent)
             }
+            val emojiIcon = if (keyboardIsShowing) {
+                R.mipmap.ic_keyboard
+            } else {
+                R.mipmap.ic_emoji_normal
+            }
+            Glide.with(this)
+                .load(emojiIcon)
+                .into(mBinding.ivEmoji)
         }
         mBinding.rvEmojiList.setOnEmojiClickListener { emoji, _ ->
             val cursor = etInputContent.selectionStart

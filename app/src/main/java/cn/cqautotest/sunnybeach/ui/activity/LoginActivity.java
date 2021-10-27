@@ -32,6 +32,7 @@ import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
 import cn.cqautotest.sunnybeach.app.AppActivity;
 import cn.cqautotest.sunnybeach.http.glide.GlideApp;
+import cn.cqautotest.sunnybeach.manager.ActivityManager;
 import cn.cqautotest.sunnybeach.manager.InputTextManager;
 import cn.cqautotest.sunnybeach.other.IntentKey;
 import cn.cqautotest.sunnybeach.other.KeyboardWatcher;
@@ -113,7 +114,11 @@ public final class LoginActivity extends AppActivity
             }
             mCommitView.showSucceed();
             postDelayed(() -> {
-                HomeActivity.start(this, MyMeFragment.class);
+                ActivityManager am = ActivityManager.getInstance();
+                Activity topActivity = am.getTopActivity();
+                if (topActivity instanceof LoginActivity) {
+                    HomeActivity.start(this, MyMeFragment.class);
+                }
                 finish();
             }, 1000);
         });

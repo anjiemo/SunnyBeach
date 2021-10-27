@@ -1,5 +1,7 @@
 package cn.cqautotest.sunnybeach.model.msg
 
+import cn.cqautotest.sunnybeach.paging.source.msg.impl.IMsgContent
+import cn.cqautotest.sunnybeach.paging.source.msg.impl.IMsgPageData
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -29,7 +31,7 @@ data class AtMeMsg(
     val totalElements: Int,
     @SerializedName("totalPages")
     val totalPages: Int
-) {
+) : IMsgPageData {
     data class Content(
         @SerializedName("avatar")
         val avatar: String,
@@ -57,7 +59,7 @@ data class AtMeMsg(
         val uid: String,
         @SerializedName("url")
         val url: String
-    )
+    ) : IMsgContent
 
     data class Pageable(
         @SerializedName("offset")
@@ -87,4 +89,10 @@ data class AtMeMsg(
         @SerializedName("unsorted")
         val unsorted: Boolean
     )
+
+    override fun isFirst(): Boolean = first
+
+    override fun isLast(): Boolean = last
+
+    override fun getMsgContentList(): List<IMsgContent> = content
 }
