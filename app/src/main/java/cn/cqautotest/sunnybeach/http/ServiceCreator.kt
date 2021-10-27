@@ -24,12 +24,14 @@ object ServiceCreator {
             it.setLevel(HttpLoggingInterceptor.Level.BODY)
         }
     }
+    private val loginInterceptor by lazy { LoginInterceptor() }
 
     private var cookieManager = CookieManager.get()
 
     private val client by lazy {
         OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(loginInterceptor)
             .cookieJar(cookieManager)
             .build()
     }

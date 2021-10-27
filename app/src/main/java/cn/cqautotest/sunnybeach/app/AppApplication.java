@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -56,6 +58,7 @@ public final class AppApplication extends Application {
     private static AppApplication INSTANCE;
     private static CookieRoomDatabase sDatabase;
     private static AppViewModel sAppViewModel;
+    private static Handler sHandler = new Handler(Looper.getMainLooper());
 
     @DebugLog("启动耗时")
     @Override
@@ -219,5 +222,9 @@ public final class AppApplication extends Application {
 
     public static AppViewModel getAppViewModel() {
         return sAppViewModel;
+    }
+
+    public static Handler getMainHandler() {
+        return sHandler;
     }
 }
