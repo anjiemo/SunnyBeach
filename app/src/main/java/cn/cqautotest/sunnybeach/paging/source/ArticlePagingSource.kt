@@ -34,11 +34,11 @@ class ArticlePagingSource(private val categoryId: String) :
             } else {
                 homeApi.getArticleListByCategoryId(categoryId = categoryId, page = page)
             }
-            val responseData = response.data
+            val responseData = response.getData()
             val currentPage = responseData.currentPage
             val prevKey = if (responseData.hasPre) currentPage - 1 else null
             val nextKey = if (responseData.hasNext) currentPage + 1 else null
-            if (response.success) LoadResult.Page(
+            if (response.isSuccess()) LoadResult.Page(
                 data = responseData.list,
                 prevKey = prevKey,
                 nextKey = nextKey

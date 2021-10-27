@@ -29,11 +29,11 @@ class FishPagingSource(private val topicId: String) :
             val page = params.key ?: FIRST_PAGE_INDEX
             logByDebug(msg = "$TAG load：===> topicId is $topicId page is $page")
             val response = fishPondApi.loadFishListById(topicId = topicId, page = page)
-            val responseData = response.data
+            val responseData = response.getData()
             val currentPage = responseData.currentPage
             val prevKey = if (responseData.hasPre) currentPage - 1 else null
             val nextKey = if (responseData.hasNext) currentPage + 1 else null
-            if (response.success) LoadResult.Page(
+            if (response.isSuccess()) LoadResult.Page(
                 data = responseData.list,
                 prevKey = prevKey,
                 nextKey = nextKey

@@ -27,8 +27,8 @@ object Repository {
             coroutineScope {
                 val result = AppNetwork.checkAppUpdate()
                 logByDebug(tag = TAG, msg = "getFishCommendListById：===> result is $result")
-                if (result.success) Result.success(result.data)
-                else Result.failure(ServiceException(result.message))
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
             }
         } catch (t: Throwable) {
             t.printStackTrace()
@@ -61,8 +61,8 @@ object Repository {
             coroutineScope {
                 val result = FishNetwork.getFishCommendListById(momentId, page)
                 logByDebug(tag = TAG, msg = "getFishCommendListById：===> result is $result")
-                if (result.success) Result.success(result.data)
-                else Result.failure(ServiceException(result.message))
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
             }
         } catch (t: Throwable) {
             t.printStackTrace()
@@ -78,8 +78,8 @@ object Repository {
                 val requestBody = image.asRequestBody()
                 val body = MultipartBody.Part.createFormData("image", fileName, requestBody)
                 val result = FishNetwork.uploadFishImage(body)
-                if (result.success) Result.success(result.data)
-                else Result.failure(ServiceException(result.message))
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
             }
         } catch (t: Throwable) {
             t.printStackTrace()
@@ -93,8 +93,8 @@ object Repository {
             coroutineScope {
                 val result = FishNetwork.putFish(moment)
                 logByDebug(tag = TAG, msg = "putFish：===> result is $result")
-                if (result.success) Result.success(result.data)
-                else Result.failure(ServiceException(result.message))
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
             }
         } catch (t: Throwable) {
             t.printStackTrace()
@@ -108,7 +108,7 @@ object Repository {
             coroutineScope {
                 val result = FishNetwork.loadFishDetailById(momentId)
                 logByDebug(tag = TAG, msg = "loadFishDetailById：===> result is $result")
-                if (result.success) Result.success(result.data)
+                if (result.isSuccess()) Result.success(result.getData())
                 else Result.failure(ServiceException())
             }
         } catch (t: Throwable) {
@@ -139,8 +139,8 @@ object Repository {
                 val result = if (isReply) FishNetwork.replyComment(momentComment)
                 else FishNetwork.submitComment(momentComment)
                 logByDebug(tag = TAG, msg = "postComment：===> result is $result")
-                if (result.success) Result.success(result.data)
-                else Result.failure(ServiceException(result.message))
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
             }
         } catch (t: Throwable) {
             t.printStackTrace()
@@ -154,8 +154,8 @@ object Repository {
             coroutineScope {
                 val result = FishNetwork.dynamicLikes(momentId)
                 logByDebug(tag = TAG, msg = "dynamicLikes：===> result is $result")
-                if (result.success) Result.success(result.data)
-                else Result.failure(ServiceException(result.message))
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
             }
         } catch (t: Throwable) {
             t.printStackTrace()
@@ -169,8 +169,8 @@ object Repository {
             coroutineScope {
                 val result = FishNetwork.loadTopicList()
                 logByDebug(tag = TAG, msg = "loadTopicList：===> result is $result")
-                if (result.success) Result.success(result.data)
-                else Result.failure(ServiceException(result.message))
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
             }
         } catch (t: Throwable) {
             t.printStackTrace()
@@ -184,8 +184,8 @@ object Repository {
             coroutineScope {
                 val result = UserNetwork.getRichList()
                 logByDebug(tag = TAG, msg = "getRichList：===> result is $result")
-                if (result.success) Result.success(result.data)
-                else Result.failure(ServiceException(result.message))
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
             }
         } catch (t: Throwable) {
             t.printStackTrace()
@@ -199,8 +199,8 @@ object Repository {
             coroutineScope {
                 val result = MsgNetwork.readAllMsg()
                 logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
-                if (result.success) Result.success(result.message)
-                else Result.failure(ServiceException(result.message))
+                if (result.isSuccess()) Result.success(result.getMessage())
+                else Result.failure(ServiceException(result.getMessage()))
             }
         } catch (t: Throwable) {
             t.printStackTrace()
@@ -214,8 +214,8 @@ object Repository {
             coroutineScope {
                 val result = MsgNetwork.getArticleMsgList(page)
                 logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
-                if (result.success) Result.success(result.data)
-                else Result.failure(ServiceException(result.message))
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
             }
         } catch (t: Throwable) {
             t.printStackTrace()
@@ -229,8 +229,8 @@ object Repository {
             coroutineScope {
                 val result = MsgNetwork.getMomentMsgList(page)
                 logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
-                if (result.success) Result.success(result.message)
-                else Result.failure(ServiceException(result.message))
+                if (result.isSuccess()) Result.success(result.getMessage())
+                else Result.failure(ServiceException(result.getMessage()))
             }
         } catch (t: Throwable) {
             t.printStackTrace()
@@ -244,8 +244,8 @@ object Repository {
             coroutineScope {
                 val result = MsgNetwork.getQAMsgList(page)
                 logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
-                if (result.success) Result.success(result.message)
-                else Result.failure(ServiceException(result.message))
+                if (result.isSuccess()) Result.success(result.getMessage())
+                else Result.failure(ServiceException(result.getMessage()))
             }
         } catch (t: Throwable) {
             t.printStackTrace()
@@ -259,8 +259,8 @@ object Repository {
             coroutineScope {
                 val result = MsgNetwork.getLikeMsgList(page)
                 logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
-                if (result.success) Result.success(result.message)
-                else Result.failure(ServiceException(result.message))
+                if (result.isSuccess()) Result.success(result.getMessage())
+                else Result.failure(ServiceException(result.getMessage()))
             }
         } catch (t: Throwable) {
             t.printStackTrace()
@@ -274,8 +274,8 @@ object Repository {
             coroutineScope {
                 val result = MsgNetwork.getSystemMsgList(page)
                 logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
-                if (result.success) Result.success(result.message)
-                else Result.failure(ServiceException(result.message))
+                if (result.isSuccess()) Result.success(result.getMessage())
+                else Result.failure(ServiceException(result.getMessage()))
             }
         } catch (t: Throwable) {
             t.printStackTrace()

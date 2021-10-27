@@ -6,10 +6,7 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.MyMeFragmentBinding
-import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
-import cn.cqautotest.sunnybeach.ui.activity.MessageCenterActivity
-import cn.cqautotest.sunnybeach.ui.activity.RichListActivity
-import cn.cqautotest.sunnybeach.ui.activity.SettingActivity
+import cn.cqautotest.sunnybeach.ui.activity.*
 import cn.cqautotest.sunnybeach.util.MAKE_COMPLAINTS_URL
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import cn.cqautotest.sunnybeach.util.startActivity
@@ -20,7 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/6/20
+ * time   : 2021/06/20
  * desc   : 个人中心界面
  */
 class MyMeFragment : TitleBarFragment<AppActivity>() {
@@ -54,6 +51,9 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         }
         meContent.messageCenterContainer.setFixOnClickListener {
             requireContext().startActivity<MessageCenterActivity>()
+        }
+        meContent.creationCenterContainer.setFixOnClickListener {
+            requireContext().startActivity<UserCenterActivity>()
         }
         meContent.feedbackContainer.setFixOnClickListener {
             BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)

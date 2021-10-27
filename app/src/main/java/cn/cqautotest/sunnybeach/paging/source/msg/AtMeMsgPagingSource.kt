@@ -28,10 +28,10 @@ class AtMeMsgPagingSource : PagingSource<Int, AtMeMsg.Content>() {
             val page = params.key ?: FIRST_PAGE_INDEX
             logByDebug(msg = "$TAG load：===> page is $page")
             val response = msgApi.getAtMeMsgList(page)
-            val responseData = response.data
+            val responseData = response.getData()
             val prevKey = if (responseData.first) null else page - 1
             val nextKey = if (responseData.last) null else page + 1
-            if (response.success) LoadResult.Page(
+            if (response.isSuccess()) LoadResult.Page(
                 data = responseData.content,
                 prevKey = prevKey,
                 nextKey = nextKey

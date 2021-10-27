@@ -94,7 +94,7 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction, OnBa
     }
 
     override fun onBack2Top() {
-        mBinding.rvArticleList.scrollToPosition(10)
+        mBinding.rvArticleList.scrollToPosition(0)
     }
 
     companion object {

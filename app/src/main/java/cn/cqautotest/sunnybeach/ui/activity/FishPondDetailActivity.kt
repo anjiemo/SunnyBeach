@@ -99,6 +99,10 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
             val simpleGridLayout = fishPond.simpleGridLayout
             val tvLabel = fishPond.tvFishPondLabel
             val llFishItemContainer = fishPond.llFishItemContainer
+            val llLinkContainer = fishPond.llLinkContainer
+            val ivLinkCover = fishPond.ivLinkCover
+            val tvLinkTitle = fishPond.tvLinkTitle
+            val tvLinkUrl = fishPond.tvLinkUrl
             val tvComment = fishPond.listMenuItem.tvComment
             val llGreat = fishPond.listMenuItem.llGreat
             val ivGreat = fishPond.listMenuItem.ivGreat
@@ -151,6 +155,20 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
             simpleGridLayout.visibility = if (imageCount == 0) View.GONE else View.VISIBLE
             tvLabel.visibility = if (TextUtils.isEmpty(topicName)) View.GONE else View.VISIBLE
             tvLabel.text = topicName
+            val linkUrl = item.linkUrl
+            val hasLink = TextUtils.isEmpty(linkUrl).not()
+            val hasLinkCover = TextUtils.isEmpty(item.linkCover).not()
+            val linkCover = if (hasLinkCover) item.linkCover
+            else R.mipmap.ic_link_default
+            llLinkContainer.visibility = if (hasLink) View.VISIBLE else View.GONE
+            llLinkContainer.setFixOnClickListener {
+                BrowserActivity.start(context, linkUrl)
+            }
+            Glide.with(context)
+                .load(linkCover)
+                .into(ivLinkCover)
+            tvLinkTitle.text = item.linkTitle
+            tvLinkUrl.text = linkUrl
             tvComment.text = with(item.commentCount) {
                 if (this == 0) {
                     "评论"

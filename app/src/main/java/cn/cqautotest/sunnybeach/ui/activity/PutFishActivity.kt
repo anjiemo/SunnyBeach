@@ -103,6 +103,14 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                 mBinding.rvEmojiList.visibility = View.GONE
                 showKeyboard(mBinding.etInputContent)
             }
+            val emojiIcon = if (keyboardIsShowing) {
+                R.mipmap.ic_keyboard
+            } else {
+                R.mipmap.ic_emoji_normal
+            }
+            Glide.with(this)
+                .load(emojiIcon)
+                .into(mBinding.ivEmoji)
         }
         mBinding.rvEmojiList.setOnEmojiClickListener { emoji, _ ->
             val etInputContent = mBinding.etInputContent

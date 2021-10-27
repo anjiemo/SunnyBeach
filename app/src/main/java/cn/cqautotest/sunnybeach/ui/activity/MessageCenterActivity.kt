@@ -11,6 +11,7 @@ import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import cn.cqautotest.sunnybeach.util.simpleToast
 import cn.cqautotest.sunnybeach.util.startActivity
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
+import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 
 /**
  * author : A Lonely Cat
@@ -21,6 +22,7 @@ import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 class MessageCenterActivity : AppActivity() {
 
     private val mBinding by viewBinding<MessageCenterActivityBinding>()
+    private val mUserViewModel by viewModels<UserViewModel>()
     private val mMsgViewModel by viewModels<MsgViewModel>()
 
     override fun getLayoutId(): Int = R.layout.message_center_activity
@@ -49,7 +51,9 @@ class MessageCenterActivity : AppActivity() {
     }
 
     override fun initData() {
-
+        if (mUserViewModel.isLogin().not()) {
+            LoginActivity.start(this, "", "")
+        }
     }
 
     override fun onRightClick(view: View?) {
