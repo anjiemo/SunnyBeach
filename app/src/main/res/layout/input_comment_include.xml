@@ -33,7 +33,7 @@
         android:layout_marginEnd="10dp"
         android:background="@drawable/home_search_bar_gray_bg"
         android:gravity="center_vertical"
-        android:hint="写回复..."
+        android:hint="写下神评..."
         android:textColor="#A4A4A4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

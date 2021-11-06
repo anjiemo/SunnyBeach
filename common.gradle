@@ -2,7 +2,7 @@
 android {
 
     // 编译源码版本
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         // 最低安装版本
         minSdkVersion 21

@@ -102,6 +102,12 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+        <!-- 查看用户信息页 -->
+        <activity
+            android:name=".ui.activity.ViewUserActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <!-- 用户中心页 -->
         <activity
             android:name=".ui.activity.UserCenterActivity"
@@ -148,15 +154,9 @@
         <activity
             android:name=".ui.activity.SubmitCommendActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTranslucentNoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!-- 文章详情 -->
-        <activity
-            android:name=".ui.activity.ArticleDetailActivity"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <!-- 消息中心页 -->
         <activity
             android:name=".ui.activity.MessageCenterActivity"
@@ -184,6 +184,12 @@
         <!-- At我 消息列表页 -->
         <activity
             android:name=".ui.activity.msg.AtMeMsgListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 问答消息列表页 -->
+        <activity
+            android:name=".ui.activity.msg.QaMsgListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />

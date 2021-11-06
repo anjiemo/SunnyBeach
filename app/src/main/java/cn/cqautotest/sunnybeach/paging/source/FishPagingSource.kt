@@ -6,8 +6,7 @@ import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.request.api.FishPondApi
 import cn.cqautotest.sunnybeach.model.Fish
-import cn.cqautotest.sunnybeach.util.TAG
-import cn.cqautotest.sunnybeach.util.logByDebug
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -27,7 +26,7 @@ class FishPagingSource(private val topicId: String) :
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Fish.FishItem> {
         return try {
             val page = params.key ?: FIRST_PAGE_INDEX
-            logByDebug(msg = "$TAG load：===> topicId is $topicId page is $page")
+            Timber.d("load：===> topicId is $topicId page is $page")
             val response = fishPondApi.loadFishListById(topicId = topicId, page = page)
             val responseData = response.getData()
             val currentPage = responseData.currentPage

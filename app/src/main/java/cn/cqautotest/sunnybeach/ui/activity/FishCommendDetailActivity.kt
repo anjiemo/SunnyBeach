@@ -4,22 +4,23 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.text.TextUtils
 import android.view.GestureDetector
-import android.view.View
 import android.view.ViewConfiguration
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.FishCommendDetailActivityBinding
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.FishCommendDetailListAdapter
 import cn.cqautotest.sunnybeach.util.*
 import com.bumptech.glide.Glide
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -50,47 +51,43 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener {
         val fishPondDetailComment = mBinding.fishPondDetailComment
         val flAvatarContainer = fishPondDetailComment.flAvatarContainer
         val ivAvatar = fishPondDetailComment.ivFishPondAvatar
-        val tvNickname = fishPondDetailComment.cbFishPondNickName
-        fishPondDetailComment.ivFishPondComment.visibility = View.GONE
-        val ivPondComment = fishPondDetailComment.ivFishPondComment
+        val tvNickName = fishPondDetailComment.cbFishPondNickName
+        fishPondDetailComment.ivFishPondComment.isVisible = false
         val tvDesc = fishPondDetailComment.tvFishPondDesc
         val tvReply = fishPondDetailComment.tvReplyMsg
         val tvBuildReplyMsgContainer = fishPondDetailComment.tvBuildReplyMsgContainer
-        flAvatarContainer.background = if (item.vip) ContextCompat.getDrawable(
-            context,
-            R.drawable.avatar_circle_vip_ic
-        ) else null
+        val userId = item.getUserId()
+        flAvatarContainer.setFixOnClickListener {
+            if (TextUtils.isEmpty(userId)) {
+                return@setFixOnClickListener
+            }
+            ViewUserActivity.start(context, userId)
+        }
+        flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
         Glide.with(this)
             .load(item.avatar)
             .placeholder(R.mipmap.ic_default_avatar)
             .error(R.mipmap.ic_default_avatar)
             .circleCrop()
             .into(ivAvatar)
-        tvNickname.setTextColor(
-            ContextCompat.getColor(
-                context, if (item.vip) {
-                    R.color.pink
-                } else {
-                    R.color.black
-                }
-            )
-        )
-        tvNickname.text = item.getNickName()
-        ivPondComment.setFixOnClickListener {
-            goToPostComment(item.getNickName())
-        }
+        tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
+        tvNickName.text = item.getNickName()
         // 摸鱼详情列表的时间没有精确到秒
-        tvDesc.text = "${item.position} · " +
-                DateHelper.transform2FriendlyTimeSpanByNow("${item.createTime}:00")
+        val time = "${item.createTime}:00"
+        tvDesc.text = "${item.position} · " + DateHelper.getFriendlyTimeSpanByNow(time)
         tvReply.text = item.content
-        tvBuildReplyMsgContainer.visibility = View.GONE
+        tvBuildReplyMsgContainer.isVisible = false
         mFishCommendDetailListAdapter.setData(item)
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun initEvent() {
         mFishCommendDetailListAdapter.setOnCommentClickListener { item, _ ->
-            goToPostComment(item.getCommentId(), item.getNickName(), item.getUserId())
+            val commendId = item.getCommentId()
+            val nickName = item.getNickName()
+            val userId = item.getUserId()
+            Timber.d("commendId is $commendId nickName is $nickName userId is $userId")
+            goToReplyComment(commendId, nickName, userId)
         }
         val clReplyContainer = mBinding.commentContainer.clReplyContainer
         // 如果要使用 GestureDetector 手势检测器，则必须禁用点击事件，否则无法检测手势
@@ -100,12 +97,20 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener {
         val gestureDetector = GestureDetector(this, sg)
         clReplyContainer.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
         mBinding.commentContainer.tvFishPondSubmitComment.setFixOnClickListener {
-            goToPostComment(getFishPondCommentItem().getNickName())
+            val item = getFishPondCommentItem()
+            val commendId = item.getCommentId()
+            val nickName = item.getNickName()
+            val userId = item.getUserId()
+            goToReplyComment(commendId, nickName, userId)
         }
     }
 
     override fun onSwipeUp() {
-        goToPostComment(getFishPondCommentItem().getNickName())
+        val item = getFishPondCommentItem()
+        val commendId = item.getCommentId()
+        val nickName = item.getNickName()
+        val userId = item.getUserId()
+        goToReplyComment(commendId, nickName, userId)
     }
 
     private fun getMomentId(): String = intent.getStringExtra(IntentKey.ID) ?: ""
@@ -113,26 +118,21 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener {
     private fun getFishPondCommentItem(): FishPondComment.FishPondCommentItem =
         fromJson(intent.getStringExtra(IntentKey.OTHER))
 
-    private fun goToPostComment(targetUserName: String) {
-        goToPostComment("", targetUserName, "", false)
-    }
-
     /**
-     * 去发表评论（isReply：false）/回复评论（isReply：true）
+     * 去回复评论
      */
-    private fun goToPostComment(
+    private fun goToReplyComment(
         commentId: String,
         targetUserName: String,
-        targetUserId: String,
-        isReply: Boolean = true
+        targetUserId: String
     ) {
         val intent = SubmitCommendActivity.getCommentIntent(
             this,
-            targetUserName,
-            getMomentId(),
-            commentId,
-            targetUserId,
-            isReply
+            targetUserName = targetUserName,
+            momentId = getMomentId(),
+            commentId = commentId,
+            targetUserId = targetUserId,
+            isReply = true
         )
         startActivity(intent)
     }

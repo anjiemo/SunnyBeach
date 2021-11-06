@@ -14,8 +14,8 @@ import androidx.collection.arrayMapOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.util.logByDebug
 import net.cachapa.expandablelayout.ExpandableLayout
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -86,8 +86,7 @@ class CollapsibleCommentList @JvmOverloads constructor(
             position: Int,
             isExpanded: Boolean
         ) {
-
-            logByDebug(msg = "onBindChildViewHolder：====> child position is $position")
+            Timber.d("child position is $position")
         }
 
         override fun onBindGroupViewHolder(
@@ -97,7 +96,7 @@ class CollapsibleCommentList @JvmOverloads constructor(
         ) {
             if (isExpanded) holder.expandableLayout.collapse() else holder.expandableLayout.expand()
             holder.itemView.background = ColorDrawable(if (isExpanded) Color.RED else Color.GREEN)
-            holder.expandableLayout.logByDebug(msg = "onBindGroupViewHolder：====> group position is $position isExpanded is $isExpanded")
+            Timber.d("group position is $position isExpanded is $isExpanded")
         }
     }
 
@@ -136,9 +135,9 @@ class CollapsibleCommentList @JvmOverloads constructor(
                     index++
                 }
             }
-            logByDebug(msg = "setData：===> mItemMetadata size is ${mItemMetadata.size}")
-            logByDebug(msg = "setData：===> mGroupData size is ${mGroupData.size}")
-            logByDebug(msg = "setData：===> mChildData size is ${mChildData.size}")
+            Timber.d("mItemMetadata size is ${mItemMetadata.size}")
+            Timber.d("mGroupData size is ${mGroupData.size}")
+            Timber.d("mChildData size is ${mChildData.size}")
             notifyDataSetChanged()
         }
 
@@ -153,7 +152,7 @@ class CollapsibleCommentList @JvmOverloads constructor(
 
         final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
             val context = parent.context
-            logByDebug(msg = "onCreateViewHolder：===> viewType is $viewType")
+            Timber.d("viewType is $viewType")
             return when (viewType) {
                 CollapsibleCommentListType.GROUP.type -> onCreateGroupViewHolder(context, parent)
                 CollapsibleCommentListType.CHILD.type -> onCreateChildViewHolder(context, parent)

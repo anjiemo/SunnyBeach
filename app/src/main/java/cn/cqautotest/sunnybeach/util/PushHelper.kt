@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.util
 import android.app.Application
 import com.umeng.message.IUmengRegisterCallback
 import com.umeng.message.PushAgent
+import timber.log.Timber
 
 object PushHelper {
 
@@ -14,11 +15,11 @@ object PushHelper {
         pushAgent.register(object : IUmengRegisterCallback {
             override fun onSuccess(deviceToken: String) {
                 //注册成功会返回deviceToken deviceToken是推送消息的唯一标志
-                logByDebug(msg = "注册成功：deviceToken：===> $deviceToken")
+                Timber.d("注册成功：deviceToken：===> $deviceToken")
             }
 
             override fun onFailure(errCode: String, errDesc: String) {
-                logByDebug(msg = "注册失败：===> code:$errCode, desc:$errDesc")
+                Timber.d("注册失败：===> code:$errCode, desc:$errDesc")
             }
         })
     }

@@ -5,6 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.view.Gravity
 import android.view.View
+import android.webkit.CookieManager
+import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -16,6 +18,8 @@ import cn.cqautotest.sunnybeach.http.model.HttpData
 import cn.cqautotest.sunnybeach.http.request.LogoutApi
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.CacheDataManager
+import cn.cqautotest.sunnybeach.manager.ThreadPoolManager
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
 import cn.cqautotest.sunnybeach.other.AppConfig
 import cn.cqautotest.sunnybeach.ui.dialog.MenuDialog
@@ -179,6 +183,17 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                 }
             }
             R.id.sb_setting_exit -> {
+                // 清除用户信息
+                UserManager.exitUserAccount()
+                // 清除 WebView 的 Cookie
+                val cookieManager = CookieManager.getInstance()
+                cookieManager.removeAllCookies(null)
+                val database = AppApplication.getDatabase()
+                val cookieDao = database.cookieDao()
+                ThreadPoolManager.getInstance().execute {
+                    // 清除App本地缓存的 Cookie（必须在非主线程操作）
+                    cookieDao.clearCookies()
+                }
                 if (true) {
                     // TODO: 退出账号并清除用户基本信息数据
                     startActivity<LoginActivity>()
@@ -208,14 +223,14 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
      * 隐藏更新提示图标
      */
     private fun hideUpdateIcon() {
-        mBinding.tvSettingUpdate.visibility = View.GONE
+        mBinding.tvSettingUpdate.isVisible = false
     }
 
     /**
      * 显示更新提示图标
      */
     private fun showUpdateIcon() {
-        mBinding.tvSettingUpdate.visibility = View.VISIBLE
+        mBinding.tvSettingUpdate.isVisible = true
     }
 
     /**

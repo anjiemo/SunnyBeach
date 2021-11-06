@@ -10,9 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isVisible
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.dp
@@ -28,7 +29,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/7/11
+ * time   : 2021/07/11
  * desc   : 摸鱼话题列表适配器
  */
 class FishPondListAdapter :
@@ -40,35 +41,24 @@ class FishPondListAdapter :
         holder.run {
             val flAvatarContainer = getView<View>(R.id.fl_avatar_container)
             val ivAvatar = getView<ImageView>(R.id.iv_fish_pond_avatar)
-            val tvNickname = getView<TextView>(R.id.tv_fish_pond_nick_name)
+            val tvNickName = getView<TextView>(R.id.tv_fish_pond_nick_name)
             val tvDesc = getView<TextView>(R.id.tv_fish_pond_desc)
             val tvContent = getView<TextView>(R.id.tv_fish_pond_content)
             val llImagesContainer = getView<ViewGroup>(R.id.ll_images_container)
             val tvLabel = getView<TextView>(R.id.tv_fish_pond_label)
             itemView.setRoundRectBg(color = Color.WHITE, cornerRadius = 10.dp)
-            flAvatarContainer.background = if (item.vip) ContextCompat.getDrawable(
-                context,
-                R.drawable.avatar_circle_vip_ic
-            ) else null
+            flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
             Glide.with(holder.itemView)
                 .load(item.avatar)
                 .placeholder(R.mipmap.ic_default_avatar)
                 .error(R.mipmap.ic_default_avatar)
                 .circleCrop()
                 .into(ivAvatar)
-            tvNickname.setTextColor(
-                ContextCompat.getColor(
-                    context, if (item.vip) {
-                        R.color.pink
-                    } else {
-                        R.color.black
-                    }
-                )
-            )
-            tvNickname.text = item.nickname
+            tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
+            tvNickName.text = item.nickname
             tvDesc.text =
                 "${item.position} · " +
-                        DateHelper.transform2FriendlyTimeSpanByNow("${item.createTime}:00")
+                        DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
             tvContent.text = HtmlCompat.fromHtml(
                 item.content,
                 HtmlCompat.FROM_HTML_MODE_LEGACY,
@@ -133,17 +123,17 @@ class FishPondListAdapter :
                 // childView 只能是 ImageView 或其子类，否则会强转异常
                 val imageView = llImagesContainer.getChildAt(it) as ImageView
                 val imageUrl = images.getOrNull(it)
-                imageView.visibility = if (imageUrl != null) {
+                imageView.isVisible = if (imageUrl != null) {
                     // 如果是有效链接或者能获取到链接，则加载图片
                     Glide.with(itemView).load(imageUrl).into(imageView)
                     // 显示该位置的图片
-                    View.VISIBLE
+                    true
                 } else {
                     // 隐藏该位置的图片
-                    View.GONE
+                    false
                 }
             }
-            tvLabel.visibility = if (TextUtils.isEmpty(topicName)) View.GONE else View.VISIBLE
+            tvLabel.isVisible = TextUtils.isEmpty(topicName).not()
             tvLabel.text = topicName
         }
     }

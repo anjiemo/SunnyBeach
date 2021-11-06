@@ -2,20 +2,21 @@ package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.ArticleListItemBinding
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.ArticleInfo
 import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.dp
+import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.blankj.utilcode.util.ScreenUtils
 import com.bumptech.glide.Glide
 
@@ -26,8 +27,9 @@ import com.bumptech.glide.Glide
  * desc   : 文章列表的适配器
  */
 class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<ArticleInfo.ArticleItem, ArticleAdapter.ArticleViewHolder>(object :
-        DiffUtil.ItemCallback<ArticleInfo.ArticleItem>() {
+    PagingDataAdapter<ArticleInfo.ArticleItem, ArticleAdapter.ArticleViewHolder>(ArticleDiffCallback()) {
+
+    class ArticleDiffCallback : DiffUtil.ItemCallback<ArticleInfo.ArticleItem>() {
         override fun areItemsTheSame(
             oldItem: ArticleInfo.ArticleItem,
             newItem: ArticleInfo.ArticleItem
@@ -41,7 +43,7 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         ): Boolean {
             return oldItem == newItem
         }
-    }) {
+    }
 
     inner class ArticleViewHolder(val binding: ArticleListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -66,10 +68,10 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         val ivShare = binding.listMenuItem.ivShare
         val context = itemView.context
         val item = getItem(position) ?: return
-        flAvatarContainer.background = if (item.vip) ContextCompat.getDrawable(
-            context,
-            R.drawable.avatar_circle_vip_ic
-        ) else null
+        itemView.setFixOnClickListener {
+            adapterDelegate.onItemClick(it, position)
+        }
+        flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
         Glide.with(itemView)
             .load(item.avatar)
             .placeholder(R.mipmap.ic_default_avatar)
@@ -78,18 +80,10 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
             .into(ivAvatar)
         tvArticleTitle.text = item.title
         tvNickName.text =
-            "${item.nickName} · ${DateHelper.transform2FriendlyTimeSpanByNow(item.createTime)}"
-        tvNickName.setTextColor(
-            ContextCompat.getColor(
-                context, if (item.vip) {
-                    R.color.pink
-                } else {
-                    R.color.default_font_color
-                }
-            )
-        )
+            "${item.nickName} · ${DateHelper.getFriendlyTimeSpanByNow(item.createTime)}"
+        tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
         val covers = item.covers
-        rrlContainer.visibility = if (covers.isNullOrEmpty()) View.GONE else View.VISIBLE
+        rrlContainer.isVisible = covers.isNotEmpty()
         llImagesContainer.layoutParams = RelativeLayout.LayoutParams(
             (ScreenUtils.getScreenWidth() - 40.dp) / 3 * covers.size,
             (ScreenUtils.getScreenWidth() - 40.dp) / 3
@@ -102,14 +96,14 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
                 (ScreenUtils.getScreenWidth() - 40.dp) / 3,
                 LinearLayout.LayoutParams.MATCH_PARENT
             )
-            imageView.visibility = if (imageUrl != null) {
+            imageView.isVisible = if (imageUrl != null) {
                 // 如果是有效链接或者能获取到链接，则加载图片
                 Glide.with(itemView).load(imageUrl).into(imageView)
                 // 显示该位置的图片
-                View.VISIBLE
+                true
             } else {
                 // 隐藏该位置的图片
-                View.GONE
+                false
             }
         }
         // tvCreateTime.text = item.createTime

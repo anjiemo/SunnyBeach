@@ -6,8 +6,7 @@ import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.request.api.PhotoApi
 import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
-import cn.cqautotest.sunnybeach.util.TAG
-import cn.cqautotest.sunnybeach.util.logByDebug
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -26,7 +25,7 @@ class WallpaperPagingSource : PagingSource<Int, WallpaperBean.Res.Vertical>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, WallpaperBean.Res.Vertical> {
         return try {
             val page = params.key ?: FIRST_PAGE_INDEX
-            logByDebug(msg = "$TAG load：===> page is $page")
+            Timber.d("load：===> page is $page")
             val limit = 60
             val skip = page * limit
             val response = photoApi.loadWallpaperList(limit = limit, skip = skip)

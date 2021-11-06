@@ -45,7 +45,7 @@
 
     </cn.cqautotest.sunnybeach.widget.StatusLayout>
 
-    <ImageView
+    <com.hjq.widget.view.FloatActionButton
         android:layout_width="58dp"
         android:id="@+id/iv_publish_content"
         android:layout_height="58dp"

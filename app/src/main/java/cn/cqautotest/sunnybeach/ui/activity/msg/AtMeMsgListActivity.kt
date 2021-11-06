@@ -15,6 +15,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.AtMeMsgAdapter
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.util.dp
+import cn.cqautotest.sunnybeach.util.isEmpty
 import cn.cqautotest.sunnybeach.util.setDoubleClickListener
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -32,21 +33,17 @@ class AtMeMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
     private val mMsgViewModel by viewModels<MsgViewModel>()
     private val mAtMeMsgAdapter = AtMeMsgAdapter(AdapterDelegate())
     private val loadStateListener = { cls: CombinedLoadStates ->
-        if (cls.refresh is LoadState.NotLoading) {
-            if (mAtMeMsgAdapter.itemCount == 0) {
-                showEmpty()
-            } else {
-                showComplete()
+        when (cls.refresh) {
+            is LoadState.NotLoading -> {
+                mBinding.refreshLayout.finishRefresh()
+                if (mAtMeMsgAdapter.isEmpty()) {
+                    showEmpty()
+                } else {
+                    showComplete()
+                }
             }
-            mBinding.refreshLayout.finishRefresh()
-        }
-        if (cls.refresh is LoadState.Loading) {
-            showLoading()
-        }
-        if (cls.refresh is LoadState.Error) {
-            showError {
-                mAtMeMsgAdapter.refresh()
-            }
+            is LoadState.Loading -> showLoading()
+            is LoadState.Error -> showError { mAtMeMsgAdapter.refresh() }
         }
     }
 
@@ -62,7 +59,7 @@ class AtMeMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
 
     override fun initData() {
         lifecycleScope.launchWhenCreated {
-            mMsgViewModel.getArticleMsgList().collectLatest {
+            mMsgViewModel.getAtMeMsgList().collectLatest {
                 mAtMeMsgAdapter.submitData(it)
             }
         }

@@ -1,33 +1,30 @@
-package cn.cqautotest.sunnybeach.paging.source.msg
+package cn.cqautotest.sunnybeach.paging.source
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.request.api.MsgApi
-import cn.cqautotest.sunnybeach.model.msg.QAMsg
-import cn.cqautotest.sunnybeach.util.TAG
-import cn.cqautotest.sunnybeach.util.logByDebug
+import cn.cqautotest.sunnybeach.model.UserQa
+import cn.cqautotest.sunnybeach.viewmodel.app.UserNetwork
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/10/25
- * desc   : 问答评论列表消息 PagingSource
+ * time   : 2021/10/31
+ * desc   : 指定用户的问答 PagingSource
  */
-class QAMsgPagingSource : PagingSource<Int, QAMsg.Content>() {
+class UserQaPagingSource(private val userId: String) :
+    PagingSource<Int, UserQa.Content>() {
 
-    private val msgApi = ServiceCreator.create<MsgApi>()
-
-    override fun getRefreshKey(state: PagingState<Int, QAMsg.Content>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, UserQa.Content>): Int? {
         return null
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, QAMsg.Content> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UserQa.Content> {
         return try {
             val page = params.key ?: FIRST_PAGE_INDEX
-            logByDebug(msg = "$TAG load：===> page is $page")
-            val response = msgApi.getQAMsgList(page)
+            Timber.d("load：===> userId is $userId page is $page")
+            val response = UserNetwork.getUserQaList(userId = userId, page = page)
             val responseData = response.getData()
             val prevKey = if (responseData.first) null else page - 1
             val nextKey = if (responseData.last) null else page + 1

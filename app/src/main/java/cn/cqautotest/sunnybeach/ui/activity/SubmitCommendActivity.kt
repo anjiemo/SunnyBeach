@@ -4,14 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.View
+import android.view.Gravity
 import android.view.WindowManager
-import android.view.animation.AlphaAnimation
 import android.widget.LinearLayout
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
+import androidx.core.view.setPadding
 import androidx.core.widget.addTextChangedListener
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SubmitCommendActivityBinding
 import cn.cqautotest.sunnybeach.execption.ServiceException
@@ -35,6 +37,13 @@ class SubmitCommendActivity : AppActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         overridePendingTransition(0, 0)
         super.onCreate(savedInstanceState)
+        val decorView = window.decorView
+        decorView.setPadding(0)
+        window.attributes.apply {
+            width = WindowManager.LayoutParams.MATCH_PARENT
+            height = WindowManager.LayoutParams.MATCH_PARENT
+            gravity = Gravity.BOTTOM
+        }
     }
 
     override fun finish() {
@@ -45,14 +54,10 @@ class SubmitCommendActivity : AppActivity() {
     override fun getLayoutId(): Int = R.layout.submit_commend_activity
 
     override fun initView() {
-        val contentContainer = mBinding.windowContainer
-        val animation = AlphaAnimation(0.2f, 0.53f)
-        animation.duration = 100
-        contentContainer.startAnimation(animation)
     }
 
     override fun initData() {
-        mBinding.etInputContent.hint = "回复 " + getTargetUserName()
+        mBinding.etInputContent.hint = "回复 ${getTargetUserName()}"
     }
 
     /**
@@ -63,7 +68,7 @@ class SubmitCommendActivity : AppActivity() {
     /**
      * 获取动态Id
      */
-    private fun getMomentId() = intent.getStringExtra(MOMENT_ID)
+    private fun getMomentId() = intent.getStringExtra(MOMENT_ID) ?: ""
 
     /**
      * 获取被评论内容的Id
@@ -94,13 +99,13 @@ class SubmitCommendActivity : AppActivity() {
             val keyboardIsShowing = KeyboardUtils.isSoftInputVisible(this)
             if (keyboardIsShowing) {
                 postDelayed({
-                    mBinding.rvEmojiList.visibility = View.VISIBLE
+                    mBinding.rvEmojiList.isVisible = true
                     mBinding.rvEmojiList.layoutParams =
                         LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 310.dp)
                 }, 200)
                 hideKeyboard()
             } else {
-                mBinding.rvEmojiList.visibility = View.GONE
+                mBinding.rvEmojiList.isVisible = false
                 showKeyboard(mBinding.etInputContent)
             }
             val emojiIcon = if (keyboardIsShowing) {
@@ -153,7 +158,7 @@ class SubmitCommendActivity : AppActivity() {
             // 判断输入的字符串长度是否超过最大长度
             mBinding.tvInputLength.setTextColor(if (isOverflow) overflowColor else normalColor)
         }
-        mBinding.tvSend.setFixOnClickListener {
+        mBinding.tvSend.setFixOnClickListener { v ->
             val momentId = getMomentId()
             val commentId = getCommentId()
             val targetUserId = getTargetUserId()
@@ -172,9 +177,14 @@ class SubmitCommendActivity : AppActivity() {
                 simpleToast("请输入[1, 512)个字符~")
                 return@setFixOnClickListener
             }
+            takeIf { v.isEnabled.not() }?.let {
+                return@setFixOnClickListener
+            }
+            v.isEnabled = false
             mFishPondViewModel.postComment(momentComment, isReply).observe(this) {
+                v.isEnabled = true
                 it.getOrElse { throwable ->
-                    if (throwable is ServiceException) {
+                    takeIf { throwable is ServiceException }?.let {
                         throwable.message?.let { msg ->
                             LoginActivity.start(this, "", "")
                             simpleToast(msg)
@@ -188,7 +198,7 @@ class SubmitCommendActivity : AppActivity() {
                 am.finishActivity(javaClass)
                 am.finishActivity(FishCommendDetailActivity::class.java)
                 am.finishActivity(FishPondDetailActivity::class.java)
-                FishPondDetailActivity.start(this, momentId ?: "")
+                FishPondDetailActivity.start(this, momentId)
             }
         }
     }
@@ -213,6 +223,7 @@ class SubmitCommendActivity : AppActivity() {
         /**
          * 获取发表评论(评论动态)的意图
          */
+        @DebugLog
         fun getCommentIntent(
             context: Context,
             targetUserName: String = "",

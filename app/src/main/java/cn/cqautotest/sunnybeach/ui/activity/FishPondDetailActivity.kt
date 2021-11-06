@@ -14,12 +14,11 @@ import android.os.Vibrator
 import android.text.Html
 import android.text.TextUtils
 import android.view.GestureDetector
-import android.view.View
 import android.view.ViewConfiguration
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -28,6 +27,7 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailActivityBinding
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondDetailCommendListAdapter
@@ -37,6 +37,7 @@ import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.blankj.utilcode.util.KeyboardUtils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.coroutines.flow.collectLatest
 
 
@@ -54,6 +55,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
     private val mFishPondDetailCommendListAdapter =
         FishPondDetailCommendListAdapter(AdapterDelegate())
     private var mMomentId: String = ""
+    private var mUserId: String = ""
     private var mNickName: String = ""
 
     override fun getLayoutId(): Int = R.layout.fish_pond_detail_activity
@@ -110,25 +112,17 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
             val ivShare = fishPond.listMenuItem.ivShare
             val clReplyContainer = mBinding.commentContainer.clReplyContainer
             llFishItemContainer.setRoundRectBg(color = Color.WHITE, cornerRadius = 10.dp)
-            flAvatarContainer.background = if (item.vip) ContextCompat.getDrawable(
-                context,
-                R.drawable.avatar_circle_vip_ic
-            ) else null
+            flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
             Glide.with(this)
                 .load(item.avatar)
                 .placeholder(R.mipmap.ic_default_avatar)
                 .error(R.mipmap.ic_default_avatar)
                 .circleCrop()
                 .into(ivAvatar)
-            val nickNameColor = if (item.vip) {
-                R.color.pink
-            } else {
-                R.color.black
-            }
-            tvNickname.setTextColor(ContextCompat.getColor(context, nickNameColor))
+            tvNickname.setTextColor(UserManager.getNickNameColor(item.vip))
             tvNickname.text = item.nickname
             tvDesc.text = "${item.position} · " +
-                    DateHelper.transform2FriendlyTimeSpanByNow("${item.createTime}:00")
+                    DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
             tvContent.text = HtmlCompat.fromHtml(
                 item.content
                     .replace("<br>", "\n")
@@ -139,10 +133,11 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
             tvContent.setOnCreateContextMenuListener { menu, v, menuInfo ->
 
             }
+            mUserId = item.userId
             val topicName = item.topicName
             val images = item.images
             val imageCount = images.size
-            rrlContainer.visibility = if (images.isNullOrEmpty()) View.GONE else View.VISIBLE
+            rrlContainer.isVisible = images.isNotEmpty()
             simpleGridLayout.setSpanCount(
                 when (imageCount) {
                     // 规避 0 ，避免导致：IllegalArgumentException，Span count should be at least 1. Provided 0.
@@ -152,20 +147,24 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
                 }
             ).setOnNineGridClickListener(this)
                 .setData(images)
-            simpleGridLayout.visibility = if (imageCount == 0) View.GONE else View.VISIBLE
-            tvLabel.visibility = if (TextUtils.isEmpty(topicName)) View.GONE else View.VISIBLE
+            simpleGridLayout.isVisible = imageCount != 0
+            tvLabel.isVisible = TextUtils.isEmpty(topicName).not()
             tvLabel.text = topicName
             val linkUrl = item.linkUrl
             val hasLink = TextUtils.isEmpty(linkUrl).not()
             val hasLinkCover = TextUtils.isEmpty(item.linkCover).not()
             val linkCover = if (hasLinkCover) item.linkCover
             else R.mipmap.ic_link_default
-            llLinkContainer.visibility = if (hasLink) View.VISIBLE else View.GONE
+            llLinkContainer.setRoundRectBg(color = Color.parseColor("#F5F5F8"), cornerRadius = 4.dp)
+            llLinkContainer.isVisible = hasLink
             llLinkContainer.setFixOnClickListener {
                 BrowserActivity.start(context, linkUrl)
             }
             Glide.with(context)
                 .load(linkCover)
+                .placeholder(R.mipmap.ic_link_default)
+                .error(R.mipmap.ic_link_default)
+                .transform(RoundedCorners(3.dp))
                 .into(ivLinkCover)
             tvLinkTitle.text = item.linkTitle
             tvLinkUrl.text = linkUrl
@@ -225,6 +224,12 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
     }
 
     override fun initEvent() {
+        mBinding.fishPond.llUserInfoContainer.setFixOnClickListener {
+            if (TextUtils.isEmpty(mUserId)) {
+                return@setFixOnClickListener
+            }
+            ViewUserActivity.start(this, mUserId)
+        }
         mBinding.slFishDetailRefresh.setOnRefreshListener {
             // 加载摸鱼动态详情和摸鱼动态评论列表
             loadFishDetail()
@@ -245,25 +250,13 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
     }
 
     private fun goToPostComment(targetUserName: String) {
-        goToPostComment("", targetUserName, "", false)
-    }
-
-    /**
-     * 去发表评论（isReply：false）/回复评论（isReply：true）
-     */
-    private fun goToPostComment(
-        commentId: String,
-        targetUserName: String,
-        targetUserId: String,
-        isReply: Boolean = true
-    ) {
         val intent = SubmitCommendActivity.getCommentIntent(
             this,
             targetUserName,
             mMomentId,
-            commentId,
-            targetUserId,
-            isReply
+            "",
+            "",
+            false
         )
         startActivity(intent)
     }

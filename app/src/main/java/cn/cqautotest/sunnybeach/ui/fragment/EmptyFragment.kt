@@ -85,4 +85,9 @@ class EmptyFragment : AppFragment<AppActivity>() {
             }
         })
     }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() = EmptyFragment()
+    }
 }

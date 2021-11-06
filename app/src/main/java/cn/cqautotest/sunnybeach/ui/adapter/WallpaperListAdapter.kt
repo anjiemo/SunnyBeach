@@ -15,15 +15,18 @@ import com.bumptech.glide.Glide
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/9/6
+ * time   : 2021/09/06
  * desc   : 图片列表的适配器
  */
 class WallpaperListAdapter(
     private val adapterDelegate: AdapterDelegate,
     private val fillBox: Boolean = false
 ) :
-    PagingDataAdapter<WallpaperBean.Res.Vertical, WallpaperListAdapter.PhotoListViewHolder>(object :
-        DiffUtil.ItemCallback<WallpaperBean.Res.Vertical>() {
+    PagingDataAdapter<WallpaperBean.Res.Vertical, WallpaperListAdapter.PhotoListViewHolder>(
+        WallDiffCallback()
+    ) {
+
+    class WallDiffCallback : DiffUtil.ItemCallback<WallpaperBean.Res.Vertical>() {
         override fun areItemsTheSame(
             oldItem: WallpaperBean.Res.Vertical,
             newItem: WallpaperBean.Res.Vertical
@@ -37,7 +40,7 @@ class WallpaperListAdapter(
         ): Boolean {
             return oldItem == newItem
         }
-    }) {
+    }
 
     inner class PhotoListViewHolder(binding: PhotoListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {

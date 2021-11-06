@@ -4,17 +4,19 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.text.SpannableString
 import android.text.Spanned
+import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
+import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.bumptech.glide.Glide
@@ -27,22 +29,24 @@ import com.bumptech.glide.Glide
  */
 class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<FishPondComment.FishPondCommentItem, FishDetailCommendListViewHolder>(
-        object :
-            DiffUtil.ItemCallback<FishPondComment.FishPondCommentItem>() {
-            override fun areItemsTheSame(
-                oldItem: FishPondComment.FishPondCommentItem,
-                newItem: FishPondComment.FishPondCommentItem
-            ): Boolean {
-                return oldItem.getId() == newItem.getId()
-            }
+        FishCommendDiffCallback()
+    ) {
 
-            override fun areContentsTheSame(
-                oldItem: FishPondComment.FishPondCommentItem,
-                newItem: FishPondComment.FishPondCommentItem
-            ): Boolean {
-                return oldItem == newItem
-            }
-        }) {
+    class FishCommendDiffCallback : DiffUtil.ItemCallback<FishPondComment.FishPondCommentItem>() {
+        override fun areItemsTheSame(
+            oldItem: FishPondComment.FishPondCommentItem,
+            newItem: FishPondComment.FishPondCommentItem
+        ): Boolean {
+            return oldItem.getId() == newItem.getId()
+        }
+
+        override fun areContentsTheSame(
+            oldItem: FishPondComment.FishPondCommentItem,
+            newItem: FishPondComment.FishPondCommentItem
+        ): Boolean {
+            return oldItem == newItem
+        }
+    }
 
     private var mItemClickListener: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit =
         { _, _ -> }
@@ -75,7 +79,7 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
         val binding = holder.binding
         val flAvatarContainer = binding.flAvatarContainer
         val ivAvatar = binding.ivFishPondAvatar
-        val tvNickname = binding.cbFishPondNickName
+        val tvNickName = binding.cbFishPondNickName
         val ivPondComment = binding.ivFishPondComment
         val tvDesc = binding.tvFishPondDesc
         val tvReply = binding.tvReplyMsg
@@ -84,10 +88,14 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
         val tvChildReplyMsg1 = binding.tvChildReplyMsg1
         val tvChildReplyMsgAll = binding.tvChildReplyMsgAll
         val context = itemView.context
-        flAvatarContainer.background = if (item.vip) ContextCompat.getDrawable(
-            context,
-            R.drawable.avatar_circle_vip_ic
-        ) else null
+        val userId = item.getUserId()
+        flAvatarContainer.setFixOnClickListener {
+            if (TextUtils.isEmpty(userId)) {
+                return@setFixOnClickListener
+            }
+            ViewUserActivity.start(context, userId)
+        }
+        flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
         Glide.with(holder.itemView)
             .load(item.avatar)
             .placeholder(R.mipmap.ic_default_avatar)
@@ -97,38 +105,29 @@ class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDeleg
         ivPondComment.setFixOnClickListener {
             mCommentClickListener.invoke(item, position)
         }
-        tvNickname.setTextColor(
-            ContextCompat.getColor(
-                context, if (item.vip) {
-                    R.color.pink
-                } else {
-                    R.color.black
-                }
-            )
-        )
-        tvNickname.text = item.getNickName()
+        tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
+        tvNickName.text = item.getNickName()
         // 摸鱼详情列表的时间没有精确到秒
         tvDesc.text = "${item.position} · " +
-                DateHelper.transform2FriendlyTimeSpanByNow("${item.createTime}:00")
+                DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
         tvReply.text = item.content
         val subComments = item.subComments
         val buildHeight = subComments.size
-        tvBuildReplyMsgContainer.visibility =
-            if (subComments.isNotEmpty()) View.VISIBLE else View.GONE
-        tvChildReplyMsg.visibility = View.GONE
+        tvBuildReplyMsgContainer.isVisible = subComments.isNotEmpty()
+        tvChildReplyMsg.isVisible = false
         subComments.getOrNull(0)?.let {
             tvChildReplyMsg.text = getBeautifiedFormat(it, item)
-            tvChildReplyMsg.visibility = View.VISIBLE
+            tvChildReplyMsg.isVisible = true
         }
-        tvChildReplyMsg1.visibility = View.GONE
+        tvChildReplyMsg1.isVisible = false
         subComments.getOrNull(1)?.let {
             tvChildReplyMsg1.text = getBeautifiedFormat(it, item)
-            tvChildReplyMsg1.visibility = View.VISIBLE
+            tvChildReplyMsg1.isVisible = true
         }
         // 如果是指示器，且该评论下盖楼的高度大于2则显示，否则隐藏
         tvChildReplyMsgAll.apply {
             text = "查看全部${buildHeight}条回复"
-            visibility = if (buildHeight > 2) View.VISIBLE else View.GONE
+            isVisible = buildHeight > 2
         }
         itemView.setFixOnClickListener {
             mViewMoreClickListener.invoke(item, position)

@@ -10,10 +10,10 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
-import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -32,6 +32,7 @@ import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 import com.blankj.utilcode.util.IntentUtils
 import com.google.gson.Gson
 import com.hjq.permissions.XXPermissions
+import timber.log.Timber
 import java.io.File
 import java.io.InputStream
 import kotlin.coroutines.Continuation
@@ -58,7 +59,7 @@ class GalleryActivity : AppActivity() {
     override fun initObserver() {
         val loadMoreModule = mPhotoAdapter.loadMoreModule
         mDiscoverViewModel.verticalPhotoList.observe(this) { verticalPhotoList ->
-            logByDebug(msg = "initEvent：===> " + verticalPhotoList.toJson())
+            Timber.d(verticalPhotoList.toJson())
             loadMoreModule.apply {
                 mPhotoAdapter.addData(verticalPhotoList.toList())
                 isEnableLoadMore = true
@@ -144,7 +145,7 @@ class GalleryActivity : AppActivity() {
 
     private fun getImageUri(): Uri {
         val verticalPhotoBean = getCurrentVerticalPhotoBean()
-        logByDebug(msg = "hasPermission: ===>${Gson().toJson(verticalPhotoBean)}")
+        Timber.d(Gson().toJson(verticalPhotoBean))
         val previewUrl = verticalPhotoBean.preview
         return Uri.parse(previewUrl)
     }
@@ -154,10 +155,10 @@ class GalleryActivity : AppActivity() {
     override fun initData() {
         val intent = intent
         val photoId = intent.getStringExtra(IntentKey.ID)
-        logByDebug(msg = "initData：===>photoId is $photoId")
+        Timber.d("photoId is $photoId")
         val cacheVerticalPhotoList = Repository.getPhotoList()
         mPhotoList.apply {
-            logByDebug(msg = "initData：===> cacheVerticalPhotoList is $cacheVerticalPhotoList")
+            Timber.d("cacheVerticalPhotoList is $cacheVerticalPhotoList")
             addAll(cacheVerticalPhotoList)
         }
         mCurrentPageIndex = mPhotoList.indexOfFirst { photoId == it.id }
@@ -181,7 +182,7 @@ class GalleryActivity : AppActivity() {
     }
 
     private fun switchUIStatus() {
-        mBinding.toolMenuGroup.visibility = if (isShow) View.VISIBLE else View.GONE
+        mBinding.toolMenuGroup.isVisible = isShow
     }
 
     companion object {
