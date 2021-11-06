@@ -98,20 +98,14 @@ data class FishPondComment(
 
         override fun getId(): String = id
 
-        override fun getCommentId(): String {
-            throw IllegalStateException("Cannot get commentId because there is no such parameter.")
-        }
+        override fun getCommentId(): String = id
 
         override fun getNickName(): String = nickname
 
         override fun getUserId(): String = userId
 
-        override fun getTargetUserId(): String {
-            throw IllegalStateException("Cannot get targetUserId because there is no such parameter.")
-        }
+        override fun getTargetUserId(): String = userId
 
-        override fun getTargetUserNickname(): String {
-            throw IllegalStateException("Cannot get targetUserNickname because there is no such parameter.")
-        }
+        override fun getTargetUserNickname(): String = nickname
     }
 }

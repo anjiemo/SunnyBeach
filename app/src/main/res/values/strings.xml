@@ -266,5 +266,6 @@
 
     <!--发布摸鱼界面-->
     <string name="title_activity_release_fish">摸鱼发布</string>
+    <string name="not_sign_text_tips">这个人很懒，连签名都不写.</string>
 
 </resources>

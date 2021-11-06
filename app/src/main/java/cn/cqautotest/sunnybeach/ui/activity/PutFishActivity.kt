@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -94,13 +95,13 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             val keyboardIsShowing = KeyboardUtils.isSoftInputVisible(this)
             if (keyboardIsShowing) {
                 postDelayed({
-                    mBinding.rvEmojiList.visibility = View.VISIBLE
+                    mBinding.rvEmojiList.isVisible = true
                     mBinding.rvEmojiList.layoutParams =
                         LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 310.dp)
                 }, 200)
                 hideKeyboard()
             } else {
-                mBinding.rvEmojiList.visibility = View.GONE
+                mBinding.rvEmojiList.isVisible = false
                 showKeyboard(mBinding.etInputContent)
             }
             val emojiIcon = if (keyboardIsShowing) {
@@ -146,7 +147,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         val clMenuContainer = mBinding.clMenuContainer
         mBinding.keyboardLayout.setKeyboardListener { isActive, keyboardHeight ->
             val height = if (isActive) {
-                mBinding.rvEmojiList.visibility = View.GONE
+                mBinding.rvEmojiList.isVisible = false
                 keyboardHeight
             } else {
                 -(clMenuContainer.height + 10.dp)

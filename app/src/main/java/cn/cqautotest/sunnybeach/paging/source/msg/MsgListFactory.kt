@@ -15,7 +15,7 @@ object MsgListFactory {
         return when (msgType) {
             MsgType.ARTICLE -> ArticleMsgListFactory()
             MsgType.FISH -> FishMsgListFactory()
-            MsgType.QA -> QAMsgListFactory()
+            MsgType.QA -> QaMsgListFactory()
             MsgType.LIKE -> LikeMsgListFactory()
             MsgType.SYSTEM -> SystemMsgListFactory()
             MsgType.AT -> AtMeMsgListFactory()

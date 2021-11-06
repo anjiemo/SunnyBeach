@@ -1,16 +1,11 @@
-package cn.cqautotest.sunnybeach.model.msg
+package cn.cqautotest.sunnybeach.model
 
-import cn.cqautotest.sunnybeach.paging.source.msg.impl.IMsgContent
-import cn.cqautotest.sunnybeach.paging.source.msg.impl.IMsgPageData
 import com.google.gson.annotations.SerializedName
 
 /**
- * author : A Lonely Cat
- * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/10/24
- * desc   : 问答评论消息
+ * 用户问答列表
  */
-data class QAMsg(
+data class UserQa(
     @SerializedName("content")
     val content: List<Content>,
     @SerializedName("first")
@@ -31,29 +26,44 @@ data class QAMsg(
     val totalElements: Int,
     @SerializedName("totalPages")
     val totalPages: Int
-) : IMsgPageData {
+) {
     data class Content(
-        @SerializedName("avatar")
-        val avatar: String,
-        @SerializedName("bUid")
-        val bUid: String,
-        @SerializedName("createTime")
-        val createTime: String,
-        @SerializedName("hasRead")
-        val hasRead: String,
-        @SerializedName("_id")
-        val id: String,
-        @SerializedName("nickname")
-        val nickname: String,
-        @SerializedName("timeText")
-        val timeText: String,
-        @SerializedName("title")
-        val title: String,
-        @SerializedName("uid")
-        val uid: String,
-        @SerializedName("wendaId")
-        val wendaId: String
-    ) : IMsgContent
+        @SerializedName("wendaComment")
+        val wendaComment: WendaComment,
+        @SerializedName("wendaTitle")
+        val wendaTitle: String
+    ) {
+        data class WendaComment(
+            @SerializedName("avatar")
+            val avatar: String,
+            @SerializedName("bestAs")
+            val bestAs: String,
+            @SerializedName("content")
+            val content: String,
+            @SerializedName("_id")
+            val id: String,
+            @SerializedName("nickname")
+            val nickname: String,
+            @SerializedName("publishTime")
+            val publishTime: String,
+            @SerializedName("publishTimeText")
+            val publishTimeText: Any?,
+            @SerializedName("subCommentCount")
+            val subCommentCount: Int,
+            @SerializedName("thumbUp")
+            val thumbUp: Int,
+            @SerializedName("thumbUps")
+            val thumbUps: List<String>,
+            @SerializedName("uid")
+            val uid: String,
+            @SerializedName("vip")
+            val vip: Boolean,
+            @SerializedName("wendaId")
+            val wendaId: String,
+            @SerializedName("wendaSubComments")
+            val wendaSubComments: List<Any>
+        )
+    }
 
     data class Pageable(
         @SerializedName("offset")
@@ -83,10 +93,4 @@ data class QAMsg(
         @SerializedName("unsorted")
         val unsorted: Boolean
     )
-
-    override fun isFirst(): Boolean = first
-
-    override fun isLast(): Boolean = last
-
-    override fun getMsgContentList(): List<IMsgContent> = content
 }

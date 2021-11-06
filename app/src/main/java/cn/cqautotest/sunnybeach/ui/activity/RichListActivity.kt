@@ -1,6 +1,9 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -8,8 +11,10 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.RichListActivityBinding
 import cn.cqautotest.sunnybeach.ui.adapter.RichListAdapter
+import cn.cqautotest.sunnybeach.util.isEmpty
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import kotlinx.coroutines.flow.collectLatest
 
 /**
  * author : A Lonely Cat
@@ -22,6 +27,20 @@ class RichListActivity : AppActivity(), StatusAction {
     private val mBinding by viewBinding<RichListActivityBinding>()
     private val mUserViewModel by viewModels<UserViewModel>()
     private val mRichListAdapter = RichListAdapter()
+    private val loadStateListener = { cls: CombinedLoadStates ->
+        when (cls.refresh) {
+            is LoadState.NotLoading -> {
+                mBinding.refreshLayout.finishRefresh()
+                if (mRichListAdapter.isEmpty()) {
+                    showEmpty()
+                } else {
+                    showComplete()
+                }
+            }
+            is LoadState.Loading -> showLoading()
+            is LoadState.Error -> showError { mRichListAdapter.refresh() }
+        }
+    }
 
     override fun getLayoutId(): Int = R.layout.rich_list_activity
 
@@ -33,29 +52,23 @@ class RichListActivity : AppActivity(), StatusAction {
     }
 
     override fun initData() {
-        showLoading()
-        val refreshLayout = mBinding.refreshLayout
-        mUserViewModel.getRichList().observe(this) {
-            refreshLayout.finishRefresh()
-            val data = it.getOrElse {
-                showError {
-                    initData()
-                }
-                return@observe
+        loadRichList()
+    }
+
+    private fun loadRichList() {
+        lifecycleScope.launchWhenCreated {
+            mUserViewModel.getRichList().collectLatest {
+                mRichListAdapter.submitData(it)
             }
-            if (data.isEmpty()) {
-                showEmpty()
-            } else {
-                showComplete()
-            }
-            mRichListAdapter.setData(data)
         }
     }
 
     override fun initEvent() {
         mBinding.refreshLayout.setOnRefreshListener {
-            initData()
+            mRichListAdapter.refresh()
         }
+        // 需要在 View 销毁的时候移除 listener
+        mRichListAdapter.addLoadStateListener(loadStateListener)
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.slRichListLayout

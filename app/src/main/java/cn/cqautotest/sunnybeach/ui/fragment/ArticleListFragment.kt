@@ -12,11 +12,14 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.ArticleListFragmentBinding
+import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.ArticleAdapter
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.util.dp
+import cn.cqautotest.sunnybeach.util.isEmpty
 import cn.cqautotest.sunnybeach.viewmodel.ArticleViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import kotlinx.coroutines.flow.collectLatest
@@ -31,19 +34,20 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction, OnBa
 
     private val mBinding: ArticleListFragmentBinding by viewBinding()
     private val mArticleViewModel by activityViewModels<ArticleViewModel>()
-    private val mArticleAdapter = ArticleAdapter(AdapterDelegate())
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mArticleAdapter = ArticleAdapter(mAdapterDelegate)
     private val loadStateListener = { cls: CombinedLoadStates ->
-        if (cls.refresh is LoadState.NotLoading) {
-            showComplete()
-            mBinding.refreshLayout.finishRefresh()
-        }
-        if (cls.refresh is LoadState.Loading) {
-            showLoading()
-        }
-        if (cls.refresh is LoadState.Error) {
-            showError {
-                mArticleAdapter.refresh()
+        when (cls.refresh) {
+            is LoadState.NotLoading -> {
+                mBinding.refreshLayout.finishRefresh()
+                if (mArticleAdapter.isEmpty()) {
+                    showEmpty()
+                } else {
+                    showComplete()
+                }
             }
+            is LoadState.Loading -> showLoading()
+            is LoadState.Error -> showError { mArticleAdapter.refresh() }
         }
     }
 
@@ -59,6 +63,11 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction, OnBa
         }
         // 需要在 View 销毁的时候移除 listener
         mArticleAdapter.addLoadStateListener(loadStateListener)
+        mAdapterDelegate.setOnItemClickListener { _, position ->
+            val item = mArticleAdapter.snapshot()[position] ?: return@setOnItemClickListener
+            val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${item.id}"
+            BrowserActivity.start(requireContext(), url)
+        }
     }
 
     override fun initData() {

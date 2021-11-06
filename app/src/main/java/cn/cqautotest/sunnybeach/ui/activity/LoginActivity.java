@@ -20,6 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.RegexUtils;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.hjq.umeng.Platform;
@@ -39,10 +41,10 @@ import cn.cqautotest.sunnybeach.other.KeyboardWatcher;
 import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
 import cn.cqautotest.sunnybeach.util.Constants;
 import cn.cqautotest.sunnybeach.util.EditTextUtils;
-import cn.cqautotest.sunnybeach.util.LogUtils;
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel;
 import cn.cqautotest.sunnybeach.viewmodel.login.LoggedInUserView;
 import cn.cqautotest.sunnybeach.wxapi.WXEntryActivity;
+import timber.log.Timber;
 
 /**
  * author : Android 轮子哥 & A Lonely Cat
@@ -99,13 +101,20 @@ public final class LoginActivity extends AppActivity
 
     @Override
     public void initObserver() {
+        mUserViewModel.getUserAvatarLiveData().observe(this,
+                avatarUrl -> Glide.with(this)
+                        .load(avatarUrl)
+                        .placeholder(R.mipmap.ic_default_avatar)
+                        .error(R.mipmap.ic_default_avatar)
+                        .circleCrop()
+                        .into(mLogoView));
         mUserViewModel.getLoginResult().observe(this, loginResult -> {
             // 如果是未登录状态，则重置登录按钮
             if (loginResult == null) {
                 mCommitView.reset();
                 return;
             }
-            LogUtils.logByDebug(this, "initObserver：===>" + GsonUtils.toJson(loginResult));
+            Timber.d(GsonUtils.toJson(loginResult));
             LoggedInUserView loggedInUserView = loginResult.getSuccess();
             if (loginResult.getError() != null || loggedInUserView == null) {
                 loadVerifyCode();
@@ -129,6 +138,13 @@ public final class LoginActivity extends AppActivity
         EditTextUtils.afterTextChanged(mPhoneView, result -> {
             if (TextUtils.isEmpty(result)) {
                 mCommitView.reset();
+            }
+            if (RegexUtils.isMobileExact(result)) {
+                mUserViewModel.queryUserAvatar(result);
+            } else {
+                Glide.with(this)
+                        .load(R.mipmap.ic_default_avatar)
+                        .into(mLogoView);
             }
             return null;
         });

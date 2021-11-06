@@ -3,13 +3,12 @@ package cn.cqautotest.sunnybeach.viewmodel.app
 import androidx.lifecycle.liveData
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
-import cn.cqautotest.sunnybeach.util.TAG
-import cn.cqautotest.sunnybeach.util.logByDebug
 import com.blankj.utilcode.util.FileUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import timber.log.Timber
 import java.io.File
 
 /**
@@ -22,11 +21,150 @@ object Repository {
 
     private val cachePhotoIdList = arrayListOf<WallpaperBean.Res.Vertical>()
 
+    fun getAllowance() = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.getAllowance()
+                Timber.d("result is $result")
+                when (result.getCode()) {
+                    // 未领取VIP津贴
+                    11129 -> Result.success(false)
+                    // 已经领取了VIP津贴
+                    11128 -> Result.success(true)
+                    else -> Result.failure(ServiceException(result.getMessage()))
+                }
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    fun checkAllowance() = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.checkAllowance()
+                Timber.d("result is $result")
+                when (result.getCode()) {
+                    // 未领取VIP津贴
+                    11129 -> Result.success(false)
+                    // 已经领取了VIP津贴
+                    11128 -> Result.success(true)
+                    else -> Result.failure(ServiceException(result.getMessage()))
+                }
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    fun unfollowUser(userId: String) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.unfollowUser(userId)
+                Timber.d("result is $result")
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    fun followUser(userId: String) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.followUser(userId)
+                Timber.d("result is $result")
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    fun followState(userId: String) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.followState(userId)
+                Timber.d("result is $result")
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    fun getUserInfo(userId: String) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.getUserInfo(userId)
+                Timber.d("result is $result")
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    fun getAchievement(userId: String) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.getAchievement(userId)
+                Timber.d("result is $result")
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    suspend fun checkToken() = try {
+        val result = UserNetwork.checkToken()
+        if (result.isSuccess()) result.getData()
+        else throw ServiceException()
+    } catch (t: Throwable) {
+        t.printStackTrace()
+        null
+    }
+
+    fun queryUserAvatar(account: String) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.queryUserAvatar(account)
+                Timber.d("result is $result")
+                if (result.isSuccess()) result.getData()
+                else ""
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            ""
+        }
+        emit(result)
+    }
+
     fun checkAppUpdate() = liveData(Dispatchers.IO) {
         val result = try {
             coroutineScope {
                 val result = AppNetwork.checkAppUpdate()
-                logByDebug(tag = TAG, msg = "getFishCommendListById：===> result is $result")
+                Timber.d("result is $result")
                 if (result.isSuccess()) Result.success(result.getData())
                 else Result.failure(ServiceException(result.getMessage()))
             }
@@ -60,7 +198,7 @@ object Repository {
         val result = try {
             coroutineScope {
                 val result = FishNetwork.getFishCommendListById(momentId, page)
-                logByDebug(tag = TAG, msg = "getFishCommendListById：===> result is $result")
+                Timber.d("result is $result")
                 if (result.isSuccess()) Result.success(result.getData())
                 else Result.failure(ServiceException(result.getMessage()))
             }
@@ -92,7 +230,7 @@ object Repository {
         val result = try {
             coroutineScope {
                 val result = FishNetwork.putFish(moment)
-                logByDebug(tag = TAG, msg = "putFish：===> result is $result")
+                Timber.d("result is $result")
                 if (result.isSuccess()) Result.success(result.getData())
                 else Result.failure(ServiceException(result.getMessage()))
             }
@@ -107,7 +245,7 @@ object Repository {
         val result = try {
             coroutineScope {
                 val result = FishNetwork.loadFishDetailById(momentId)
-                logByDebug(tag = TAG, msg = "loadFishDetailById：===> result is $result")
+                Timber.d("result is $result")
                 if (result.isSuccess()) Result.success(result.getData())
                 else Result.failure(ServiceException())
             }
@@ -122,7 +260,7 @@ object Repository {
         val result = try {
             coroutineScope {
                 val result = PhotoNetwork.loadWallpaperBannerList()
-                logByDebug(tag = TAG, msg = "loadWallpaperBannerList：===> result is $result")
+                Timber.d("result is $result")
                 if ("0" == result.errno) Result.success(result.data)
                 else Result.failure(ServiceException())
             }
@@ -137,8 +275,8 @@ object Repository {
         val result = try {
             coroutineScope {
                 val result = if (isReply) FishNetwork.replyComment(momentComment)
-                else FishNetwork.submitComment(momentComment)
-                logByDebug(tag = TAG, msg = "postComment：===> result is $result")
+                else FishNetwork.postComment(momentComment)
+                Timber.d("result is $result")
                 if (result.isSuccess()) Result.success(result.getData())
                 else Result.failure(ServiceException(result.getMessage()))
             }
@@ -153,7 +291,7 @@ object Repository {
         val result = try {
             coroutineScope {
                 val result = FishNetwork.dynamicLikes(momentId)
-                logByDebug(tag = TAG, msg = "dynamicLikes：===> result is $result")
+                Timber.d("result is $result")
                 if (result.isSuccess()) Result.success(result.getData())
                 else Result.failure(ServiceException(result.getMessage()))
             }
@@ -168,7 +306,7 @@ object Repository {
         val result = try {
             coroutineScope {
                 val result = FishNetwork.loadTopicList()
-                logByDebug(tag = TAG, msg = "loadTopicList：===> result is $result")
+                Timber.d("result is $result")
                 if (result.isSuccess()) Result.success(result.getData())
                 else Result.failure(ServiceException(result.getMessage()))
             }
@@ -183,7 +321,7 @@ object Repository {
         val result = try {
             coroutineScope {
                 val result = UserNetwork.getRichList()
-                logByDebug(tag = TAG, msg = "getRichList：===> result is $result")
+                Timber.d("result is $result")
                 if (result.isSuccess()) Result.success(result.getData())
                 else Result.failure(ServiceException(result.getMessage()))
             }
@@ -198,82 +336,7 @@ object Repository {
         val result = try {
             coroutineScope {
                 val result = MsgNetwork.readAllMsg()
-                logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
-                if (result.isSuccess()) Result.success(result.getMessage())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
-    }
-
-    fun getArticleMsgList(page: Int) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = MsgNetwork.getArticleMsgList(page)
-                logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
-    }
-
-    fun getMomentMsgList(page: Int) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = MsgNetwork.getMomentMsgList(page)
-                logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
-                if (result.isSuccess()) Result.success(result.getMessage())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
-    }
-
-    fun getQAMsgList(page: Int) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = MsgNetwork.getQAMsgList(page)
-                logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
-                if (result.isSuccess()) Result.success(result.getMessage())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
-    }
-
-    fun getLikeMsgList(page: Int) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = MsgNetwork.getLikeMsgList(page)
-                logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
-                if (result.isSuccess()) Result.success(result.getMessage())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
-    }
-
-    fun getSystemMsgList(page: Int) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = MsgNetwork.getSystemMsgList(page)
-                logByDebug(tag = TAG, msg = "readAllMsg：===> result is $result")
+                Timber.d("result is $result")
                 if (result.isSuccess()) Result.success(result.getMessage())
                 else Result.failure(ServiceException(result.getMessage()))
             }

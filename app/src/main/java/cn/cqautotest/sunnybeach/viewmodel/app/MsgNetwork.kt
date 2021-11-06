@@ -19,7 +19,7 @@ object MsgNetwork {
 
     suspend fun getMomentMsgList(page: Int) = msgApi.getMomentMsgList(page)
 
-    suspend fun getQAMsgList(page: Int) = msgApi.getQAMsgList(page)
+    suspend fun getQAMsgList(page: Int) = msgApi.getQaMsgList(page)
 
     suspend fun getLikeMsgList(page: Int) = msgApi.getLikeMsgList(page)
 

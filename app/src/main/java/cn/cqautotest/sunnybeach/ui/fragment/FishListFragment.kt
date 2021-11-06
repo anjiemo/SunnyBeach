@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
@@ -18,10 +19,7 @@ import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.activity.PutFishActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.setDoubleClickListener
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import kotlinx.coroutines.flow.collectLatest
@@ -30,7 +28,7 @@ import kotlinx.coroutines.flow.collectLatest
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2021/07/07
- * desc   : 摸鱼列表管理 Fragment
+ * desc   : 摸鱼动态列表 Fragment
  */
 class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener {
 
@@ -38,17 +36,17 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
     private val mFishListAdapter = FishListAdapter(AdapterDelegate())
     private val loadStateListener = { cls: CombinedLoadStates ->
-        if (cls.refresh is LoadState.NotLoading) {
-            showComplete()
-            mBinding.refreshLayout.finishRefresh()
-        }
-        if (cls.refresh is LoadState.Loading) {
-            showLoading()
-        }
-        if (cls.refresh is LoadState.Error) {
-            showError {
-                mFishListAdapter.refresh()
+        when (cls.refresh) {
+            is LoadState.NotLoading -> {
+                mBinding.refreshLayout.finishRefresh()
+                if (mFishListAdapter.isEmpty()) {
+                    showEmpty()
+                } else {
+                    showComplete()
+                }
             }
+            is LoadState.Loading -> showLoading()
+            is LoadState.Error -> showError { mFishListAdapter.refresh() }
         }
     }
 
@@ -57,6 +55,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     override fun initObserver() {}
 
     override fun initEvent() {
+        val ivPublishContent = mBinding.ivPublishContent
         titleBar?.setDoubleClickListener {
             onBack2Top()
         }
@@ -69,7 +68,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             val momentId = item.id
             FishPondDetailActivity.start(requireContext(), momentId)
         }
-        mBinding.ivPublishContent.setFixOnClickListener {
+        ivPublishContent.setFixOnClickListener {
             startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
                 if (resultCode == Activity.RESULT_OK) {
                     initData()
@@ -79,6 +78,45 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mFishListAdapter.setOnNineGridClickListener { sources, index ->
             ImagePreviewActivity.start(requireContext(), sources, index)
         }
+        mBinding.rvFishPondList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            /**
+             * 当前是否显示
+             */
+            private var mIsShowing = true
+
+            /**
+             * 当前是否向上滑动
+             */
+            private var mIsUp = false
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                when (newState) {
+                    // RecyclerView 当前未滚动
+                    RecyclerView.SCROLL_STATE_IDLE -> {
+                        // 如果手指是向下滑动且当前没有显示 --> 显示悬浮按钮
+                        if (mIsUp.not() && mIsShowing.not()) {
+                            ivPublishContent.show()
+                            mIsShowing = true
+                        }
+                    }
+                    // 1、RecyclerView 当前正被外部输入（例如用户触摸输入）拖动
+                    // 2、RecyclerView 当前正在动画到最终位置，而不受外部控制
+                    RecyclerView.SCROLL_STATE_DRAGGING, RecyclerView.SCROLL_STATE_SETTLING -> {
+                        // 如果当前已经显示了悬浮按钮 --> 隐藏
+                        if (mIsShowing) {
+                            ivPublishContent.hide()
+                        }
+                        mIsShowing = false
+                    }
+                }
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                // Timber.d("onScrolled：===> dy is $dy")
+                mIsUp = dy > 0
+            }
+        })
     }
 
     override fun initData() {

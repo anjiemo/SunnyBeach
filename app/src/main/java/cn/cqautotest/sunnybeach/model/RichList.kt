@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.model
 
 import com.google.gson.annotations.SerializedName
 
-
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach

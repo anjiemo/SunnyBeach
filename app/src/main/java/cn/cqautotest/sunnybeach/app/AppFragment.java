@@ -6,7 +6,6 @@ import android.view.View;
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.viewbinding.ViewBinding;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.hjq.base.BaseFragment;
@@ -32,14 +31,6 @@ public abstract class AppFragment<A extends AppActivity> extends BaseFragment<A>
         super.onFragmentResume(first);
     }
 
-    private ViewBinding mViewBinding = null;
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mViewBinding = null;
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -49,11 +40,7 @@ public abstract class AppFragment<A extends AppActivity> extends BaseFragment<A>
 
     @Override
     protected void initView() {
-        mViewBinding = onBindingView();
-    }
 
-    protected ViewBinding onBindingView() {
-        return null;
     }
 
     @Override

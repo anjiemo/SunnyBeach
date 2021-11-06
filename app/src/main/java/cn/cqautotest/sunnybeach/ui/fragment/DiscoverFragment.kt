@@ -19,6 +19,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.WallpaperListAdapter
 import cn.cqautotest.sunnybeach.util.CustomAnimation
 import cn.cqautotest.sunnybeach.util.GridSpaceItemDecoration
 import cn.cqautotest.sunnybeach.util.dp
+import cn.cqautotest.sunnybeach.util.isEmpty
 import cn.cqautotest.sunnybeach.viewmodel.PhotoViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -44,17 +45,17 @@ class DiscoverFragment : TitleBarFragment<AppActivity>(), StatusAction {
         adapterAnimation = CustomAnimation()
     })
     private val loadStateListener = { cls: CombinedLoadStates ->
-        if (cls.refresh is LoadState.NotLoading) {
-            showComplete()
-            mBinding.refreshLayout.finishRefresh()
-        }
-        if (cls.refresh is LoadState.Loading) {
-            showLoading()
-        }
-        if (cls.refresh is LoadState.Error) {
-            showError {
-                mWallpaperListAdapter.refresh()
+        when (cls.refresh) {
+            is LoadState.NotLoading -> {
+                mBinding.refreshLayout.finishRefresh()
+                if (mWallpaperListAdapter.isEmpty()) {
+                    showEmpty()
+                } else {
+                    showComplete()
+                }
             }
+            is LoadState.Loading -> showLoading()
+            is LoadState.Error -> showError { mWallpaperListAdapter.refresh() }
         }
     }
 

@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.MenuSimpleTextItemBinding
-import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.util.dp
+import cn.cqautotest.sunnybeach.util.setFixOnClickListener
+import cn.cqautotest.sunnybeach.util.setRoundRectBg
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -60,7 +63,7 @@ class FakeWeChatPopupMenu private constructor(context: Context) : PopupWindow(co
         }
 
         fun menuActionList(menus: List<MenuItem>): Builder {
-            logByDebug(msg = "$TAG menuActionList：===> menus size is ${menus.size}")
+            Timber.d("menus size is ${menus.size}")
             mMenuActionList.clear()
             mMenuActionList.addAll(menus)
             return this

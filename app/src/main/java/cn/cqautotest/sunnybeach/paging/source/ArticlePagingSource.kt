@@ -7,8 +7,7 @@ import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.request.api.HomeApi
 import cn.cqautotest.sunnybeach.model.ArticleInfo
-import cn.cqautotest.sunnybeach.util.TAG
-import cn.cqautotest.sunnybeach.util.logByDebug
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -28,7 +27,7 @@ class ArticlePagingSource(private val categoryId: String) :
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ArticleInfo.ArticleItem> {
         return try {
             val page = params.key ?: FIRST_PAGE_INDEX
-            logByDebug(msg = "$TAG load：===> categoryId is $categoryId page is $page")
+            Timber.d("load：===> categoryId is $categoryId page is $page")
             val response = if (categoryId.isEmpty() || categoryId.isDigitsOnly().not()) {
                 homeApi.getRecommendContent(page = page)
             } else {

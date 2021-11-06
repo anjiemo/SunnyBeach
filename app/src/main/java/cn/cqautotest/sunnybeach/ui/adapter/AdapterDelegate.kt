@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.animation.Animator
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.animation.AlphaInAnimation
 import com.chad.library.adapter.base.animation.BaseAnimation
@@ -8,11 +9,12 @@ import com.chad.library.adapter.base.animation.BaseAnimation
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/9/6
+ * time   : 2021/09/06
  * desc   : 适配器代理
  */
 class AdapterDelegate {
 
+    private var mOnItemClickListener: (View, Int) -> Unit = { _, _ -> }
     var adapterAnimation: BaseAnimation? = null
     private var mLastPosition = -1
 
@@ -31,5 +33,13 @@ class AdapterDelegate {
 
     private fun startAnim(anim: Animator) {
         anim.start()
+    }
+
+    fun onItemClick(v: View, position: Int) {
+        mOnItemClickListener.invoke(v, position)
+    }
+
+    fun setOnItemClickListener(block: (v: View, position: Int) -> Unit) {
+        mOnItemClickListener = block
     }
 }

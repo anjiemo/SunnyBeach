@@ -7,13 +7,16 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.work.BackoffPolicy;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
@@ -28,6 +31,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
@@ -36,13 +40,15 @@ import cn.cqautotest.sunnybeach.http.glide.GlideApp;
 import cn.cqautotest.sunnybeach.http.model.RequestHandler;
 import cn.cqautotest.sunnybeach.http.model.RequestServer;
 import cn.cqautotest.sunnybeach.manager.ActivityManager;
-import cn.cqautotest.sunnybeach.manager.CookieManager;
+import cn.cqautotest.sunnybeach.manager.LocalCookieManager;
 import cn.cqautotest.sunnybeach.other.AppConfig;
 import cn.cqautotest.sunnybeach.other.CrashHandler;
 import cn.cqautotest.sunnybeach.other.DebugLoggerTree;
 import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter;
 import cn.cqautotest.sunnybeach.other.ToastLogInterceptor;
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel;
+import cn.cqautotest.sunnybeach.work.CacheCleanWorker;
+import cn.cqautotest.sunnybeach.work.CheckTokenWork;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
@@ -58,7 +64,6 @@ public final class AppApplication extends Application {
     private static AppApplication INSTANCE;
     private static CookieRoomDatabase sDatabase;
     private static AppViewModel sAppViewModel;
-    private static Handler sHandler = new Handler(Looper.getMainLooper());
 
     @DebugLog("启动耗时")
     @Override
@@ -122,7 +127,7 @@ public final class AppApplication extends Application {
 
         // 网络请求框架初始化
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .cookieJar(CookieManager.get())
+                .cookieJar(LocalCookieManager.get())
                 .build();
 
         EasyConfig.with(okHttpClient)
@@ -173,7 +178,7 @@ public final class AppApplication extends Application {
                         InputStream.class,
                         new OkHttpUrlLoader.Factory(castOrNull(okHttpClient))
                 );
-        // UMConfigure.setLogEnabled(AppConfig.isDebug())
+        // UMConfigure.setLogEnabled(AppConfig.isDebug());
         // // 客户端用户同意隐私政策后，正式初始化友盟+SDK
         // UMConfigure.init(
         //     getApplication(),
@@ -189,6 +194,59 @@ public final class AppApplication extends Application {
         // Push注册
         // PushHelper.init(application);
         // 在此初始化其它依赖库
+
+        // initCheckTokenWork(application);
+        initCacheCleanWork(application);
+    }
+
+    /**
+     * 初始化 缓存清理工作
+     *
+     * @param application Application
+     */
+    private static void initCacheCleanWork(Application application) {
+        // 构造工作执行的约束条件
+        Constraints constraints = new Constraints.Builder()
+                // 电池电量不低
+                .setRequiresBatteryNotLow(true)
+                .build();
+        // 定期工作请求（间隔一天工作一次）
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(CacheCleanWorker.class,
+                1, TimeUnit.HOURS)
+                // 设置约束条件
+                .setConstraints(constraints)
+                // 符合约束条件后，延迟1分钟执行
+                .setInitialDelay(1, TimeUnit.MINUTES)
+                .build();
+        WorkManager wm = WorkManager.getInstance(application);
+        // 将工作加入队列中
+        wm.enqueue(workRequest);
+    }
+
+    /**
+     * 初始化 Token 解析工作
+     *
+     * @param application Application
+     */
+    private static void initCheckTokenWork(Application application) {
+        // 构造工作执行的约束条件
+        Constraints constraints = new Constraints.Builder()
+                // 当使用有效的网络连接时
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+        // 定期工作请求
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(CheckTokenWork.class,
+                15, TimeUnit.MINUTES)
+                // 设置约束条件
+                .setConstraints(constraints)
+                // 符合约束条件后，延迟10秒执行
+                .setInitialDelay(10, TimeUnit.MILLISECONDS)
+                // 设置指数退避算法
+                .setBackoffCriteria(BackoffPolicy.LINEAR, PeriodicWorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
+                .build();
+        WorkManager wm = WorkManager.getInstance(application);
+        // 将工作加入队列中
+        wm.enqueue(workRequest);
     }
 
     public static AppApplication getInstance() {
@@ -222,9 +280,5 @@ public final class AppApplication extends Application {
 
     public static AppViewModel getAppViewModel() {
         return sAppViewModel;
-    }
-
-    public static Handler getMainHandler() {
-        return sHandler;
     }
 }

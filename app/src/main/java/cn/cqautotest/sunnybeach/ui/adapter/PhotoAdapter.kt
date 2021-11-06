@@ -4,10 +4,10 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.isVisible
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
 import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.logByDebug
 import cn.cqautotest.sunnybeach.widget.RoundRelativeLayout
 import com.blankj.utilcode.util.ScreenUtils
 import com.bumptech.glide.Glide
@@ -17,11 +17,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.hjq.widget.layout.RatioFrameLayout
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/9/7
+ * time   : 2021/09/07
  * desc   : 图片浏览适配器
  */
 class PhotoAdapter(val fillBox: Boolean = false) :
@@ -54,7 +55,7 @@ class PhotoAdapter(val fillBox: Boolean = false) :
             if (fillBox.not()) {
                 roundLayout.setRadius(8.dp.toFloat())
                 // 加载非全屏的图片列表
-                logByDebug(msg = "convert：==> width is ${photoIv.width}")
+                Timber.d("width is ${photoIv.width} height is ${photoIv.height}")
                 Glide.with(itemView)
                     .load(item.thumb)
                     .placeholder(R.mipmap.ic_bg)
@@ -113,6 +114,6 @@ class PhotoAdapter(val fillBox: Boolean = false) :
     }
 
     private fun showLoading(loadingView: View, show: Boolean) {
-        loadingView.visibility = if (show) View.VISIBLE else View.GONE
+        loadingView.isVisible = show
     }
 }
