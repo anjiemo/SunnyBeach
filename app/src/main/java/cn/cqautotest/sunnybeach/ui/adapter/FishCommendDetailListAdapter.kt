@@ -4,16 +4,18 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.text.SpannableString
 import android.text.Spanned
+import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.model.UserComment
+import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.bumptech.glide.Glide
@@ -57,40 +59,36 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
         val binding = holder.binding
         val flAvatarContainer = binding.flAvatarContainer
         val ivAvatar = binding.ivFishPondAvatar
-        val tvNickname = binding.cbFishPondNickName
+        val tvNickName = binding.cbFishPondNickName
         val ivPondComment = binding.ivFishPondComment
         val tvDesc = binding.tvFishPondDesc
         val tvReply = binding.tvReplyMsg
         val tvBuildReplyMsgContainer = binding.tvBuildReplyMsgContainer
         val context = itemView.context
-        flAvatarContainer.background = if (item.vip) ContextCompat.getDrawable(
-            context,
-            R.drawable.avatar_circle_vip_ic
-        ) else null
+        val userId = item.getUserId()
+        flAvatarContainer.setFixOnClickListener {
+            if (TextUtils.isEmpty(userId)) {
+                return@setFixOnClickListener
+            }
+            ViewUserActivity.start(context, userId)
+        }
+        flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
         Glide.with(holder.itemView)
             .load(item.avatar)
             .placeholder(R.mipmap.ic_default_avatar)
             .error(R.mipmap.ic_default_avatar)
             .circleCrop()
             .into(ivAvatar)
-        tvNickname.setTextColor(
-            ContextCompat.getColor(
-                context, if (item.vip) {
-                    R.color.pink
-                } else {
-                    R.color.black
-                }
-            )
-        )
-        tvNickname.text = item.getNickName()
+        tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
+        tvNickName.text = item.getNickName()
         ivPondComment.setFixOnClickListener {
             mCommentClickListener.invoke(item, position)
         }
         // 摸鱼详情列表的时间没有精确到秒
         tvDesc.text = "${item.position} · " +
-                DateHelper.transform2FriendlyTimeSpanByNow("${item.createTime}:00")
+                DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
         tvReply.text = getBeautifiedFormat(item, mData)
-        tvBuildReplyMsgContainer.visibility = View.GONE
+        tvBuildReplyMsgContainer.isVisible = false
     }
 
     private fun getBeautifiedFormat(

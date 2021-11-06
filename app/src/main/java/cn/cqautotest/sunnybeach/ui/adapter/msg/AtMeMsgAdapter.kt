@@ -2,12 +2,13 @@ package cn.cqautotest.sunnybeach.ui.adapter.msg
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.text.HtmlCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.AtMeMsgListItemBinding
-import cn.cqautotest.sunnybeach.model.msg.ArticleMsg
+import cn.cqautotest.sunnybeach.model.msg.AtMeMsg
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import com.blankj.utilcode.util.TimeUtils
 import com.bumptech.glide.Glide
@@ -19,18 +20,18 @@ import com.bumptech.glide.Glide
  * desc   : @我 列表消息适配器
  */
 class AtMeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<ArticleMsg.Content, AtMeMsgAdapter.AtMeMsgViewHolder>(object :
-        DiffUtil.ItemCallback<ArticleMsg.Content>() {
+    PagingDataAdapter<AtMeMsg.Content, AtMeMsgAdapter.AtMeMsgViewHolder>(object :
+        DiffUtil.ItemCallback<AtMeMsg.Content>() {
         override fun areItemsTheSame(
-            oldItem: ArticleMsg.Content,
-            newItem: ArticleMsg.Content
+            oldItem: AtMeMsg.Content,
+            newItem: AtMeMsg.Content
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: ArticleMsg.Content,
-            newItem: ArticleMsg.Content
+            oldItem: AtMeMsg.Content,
+            newItem: AtMeMsg.Content
         ): Boolean {
             return oldItem == newItem
         }
@@ -55,10 +56,7 @@ class AtMeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvChildReplyMsg = binding.tvChildReplyMsg
         val context = itemView.context
         val item = getItem(position) ?: return
-        // flAvatarContainer.background = if (item.vip) ContextCompat.getDrawable(
-        //     context,
-        //     R.drawable.avatar_circle_vip_ic
-        // ) else null
+        // flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
         Glide.with(itemView)
             .load(item.avatar)
             .placeholder(R.mipmap.ic_default_avatar)
@@ -67,9 +65,9 @@ class AtMeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
             .into(ivAvatar)
         cbNickName.text = item.nickname
         val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
-        tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.createTime, sdf)
+        tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.publishTime, sdf)
         tvReplyMsg.height = 0
-        tvChildReplyMsg.text = item.content
+        tvChildReplyMsg.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AtMeMsgViewHolder {

@@ -10,6 +10,7 @@ import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.paging.source.FishDetailCommendListPagingSource
 import cn.cqautotest.sunnybeach.paging.source.FishPagingSource
+import cn.cqautotest.sunnybeach.paging.source.UserFishPagingSource
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import kotlinx.coroutines.flow.Flow
 import java.io.File
@@ -47,6 +48,13 @@ class FishPondViewModel : ViewModel() {
         return Pager(config = PagingConfig(30),
             pagingSourceFactory = {
                 FishPagingSource(topicId)
+            }).flow.cachedIn(viewModelScope)
+    }
+
+    fun getUserFishList(userId: String): Flow<PagingData<Fish.FishItem>> {
+        return Pager(config = PagingConfig(30),
+            pagingSourceFactory = {
+                UserFishPagingSource(userId)
             }).flow.cachedIn(viewModelScope)
     }
 }

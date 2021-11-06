@@ -9,6 +9,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_user_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -111,8 +112,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="#F5F5F8"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -144,7 +145,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="#1D7DFA" />
 
         </LinearLayout>
 

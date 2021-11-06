@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.ui.adapter.msg
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.text.HtmlCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -55,10 +56,7 @@ class MomentMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvChildReplyMsg = binding.tvChildReplyMsg
         val context = itemView.context
         val item = getItem(position) ?: return
-        // flAvatarContainer.background = if (item.vip) ContextCompat.getDrawable(
-        //     context,
-        //     R.drawable.avatar_circle_vip_ic
-        // ) else null
+        // flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
         Glide.with(itemView)
             .load(item.avatar)
             .placeholder(R.mipmap.ic_default_avatar)
@@ -70,7 +68,7 @@ class MomentMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
         tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.createTime, sdf)
         tvReplyMsg.text = item.content
-        tvChildReplyMsg.text = item.title
+        tvChildReplyMsg.text = HtmlCompat.fromHtml(item.title, HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MomentMsgViewHolder {

@@ -36,10 +36,10 @@ class MsgViewModel : ViewModel() {
             }).flow.cachedIn(viewModelScope)
     }
 
-    fun getQAMsgList(): Flow<PagingData<QAMsg.Content>> {
+    fun getQaMsgList(): Flow<PagingData<QaMsg.Content>> {
         return Pager(config = PagingConfig(DEFAULT_PAGE_SIZE),
             pagingSourceFactory = {
-                MsgPagingSourceImpl<QAMsg.Content>(QAMsgListFactory())
+                MsgPagingSourceImpl<QaMsg.Content>(QaMsgListFactory())
             }).flow.cachedIn(viewModelScope)
     }
 

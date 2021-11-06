@@ -4,8 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.paging.source.msg.factory.AbstractMsgListFactory
-import cn.cqautotest.sunnybeach.util.TAG
-import cn.cqautotest.sunnybeach.util.logByDebug
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -24,7 +23,7 @@ class MsgPagingSourceImpl<T : IMsgContent>(private val msgListFactory: AbstractM
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {
         return try {
             val page = params.key ?: FIRST_PAGE_INDEX
-            logByDebug(msg = "$TAG load：===> page is $page")
+            Timber.d("load：===> page is $page")
             val response = try {
                 msgListFactory.createMsgListByType(page)
             } catch (e: ClassCastException) {

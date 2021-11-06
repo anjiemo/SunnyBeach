@@ -15,6 +15,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.LikeMsgAdapter
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.util.dp
+import cn.cqautotest.sunnybeach.util.isEmpty
 import cn.cqautotest.sunnybeach.util.setDoubleClickListener
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -32,21 +33,17 @@ class LikeMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
     private val mMsgViewModel by viewModels<MsgViewModel>()
     private val mLikeMsgAdapter = LikeMsgAdapter(AdapterDelegate())
     private val loadStateListener = { cls: CombinedLoadStates ->
-        if (cls.refresh is LoadState.NotLoading) {
-            if (mLikeMsgAdapter.itemCount == 0) {
-                showEmpty()
-            } else {
-                showComplete()
+        when (cls.refresh) {
+            is LoadState.NotLoading -> {
+                mBinding.refreshLayout.finishRefresh()
+                if (mLikeMsgAdapter.isEmpty()) {
+                    showEmpty()
+                } else {
+                    showComplete()
+                }
             }
-            mBinding.refreshLayout.finishRefresh()
-        }
-        if (cls.refresh is LoadState.Loading) {
-            showLoading()
-        }
-        if (cls.refresh is LoadState.Error) {
-            showError {
-                mLikeMsgAdapter.refresh()
-            }
+            is LoadState.Loading -> showLoading()
+            is LoadState.Error -> showError { mLikeMsgAdapter.refresh() }
         }
     }
 

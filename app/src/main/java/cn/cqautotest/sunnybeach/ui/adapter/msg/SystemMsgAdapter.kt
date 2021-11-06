@@ -56,10 +56,7 @@ class SystemMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvChildReplyMsg = binding.tvChildReplyMsg
         val context = itemView.context
         val item = getItem(position) ?: return
-        // flAvatarContainer.background = if (item.vip) ContextCompat.getDrawable(
-        //     context,
-        //     R.drawable.avatar_circle_vip_ic
-        // ) else null
+        // flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
         Glide.with(itemView)
             .load(R.mipmap.ic_gold)
             .placeholder(R.mipmap.ic_gold)

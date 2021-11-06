@@ -1,28 +1,29 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LevelListDrawable
 import android.net.Uri
 import android.text.TextUtils
 import android.view.*
 import androidx.core.app.ComponentActivity
-import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.FishPondListItemBinding
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
-import cn.cqautotest.sunnybeach.util.DateHelper
-import cn.cqautotest.sunnybeach.util.DownloadHelper
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import cn.cqautotest.sunnybeach.util.simpleToast
+import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
 
 /**
@@ -32,8 +33,10 @@ import com.bumptech.glide.Glide
  * desc   : 摸鱼动态列表的适配器
  */
 class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<Fish.FishItem, FishListAdapter.FishListViewHolder>(object :
-        DiffUtil.ItemCallback<Fish.FishItem>() {
+    PagingDataAdapter<Fish.FishItem, FishListAdapter.FishListViewHolder>(FishDiffCallback()),
+    SimpleGridLayout.OnNineGridClickListener {
+
+    class FishDiffCallback : DiffUtil.ItemCallback<Fish.FishItem>() {
         override fun areItemsTheSame(
             oldItem: Fish.FishItem,
             newItem: Fish.FishItem
@@ -47,7 +50,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
         ): Boolean {
             return oldItem == newItem
         }
-    }), SimpleGridLayout.OnNineGridClickListener {
+    }
 
     private var mItemClickListener: (item: Fish.FishItem, position: Int) -> Unit = { _, _ -> }
 
@@ -70,7 +73,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
         val binding = holder.binding
         val flAvatarContainer = binding.flAvatarContainer
         val ivAvatar = binding.ivFishPondAvatar
-        val tvNickname = binding.tvFishPondNickName
+        val tvNickName = binding.tvFishPondNickName
         val tvDesc = binding.tvFishPondDesc
         val tvContent = binding.tvFishPondContent
         val rrlContainer = binding.rrlContainer
@@ -87,26 +90,25 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
         itemView.setFixOnClickListener {
             mItemClickListener.invoke(item, position)
         }
-        flAvatarContainer.background = if (item.vip) ContextCompat.getDrawable(
-            context,
-            R.drawable.avatar_circle_vip_ic
-        ) else null
+        val userId = item.userId
+        flAvatarContainer.setFixOnClickListener {
+            if (TextUtils.isEmpty(userId)) {
+                return@setFixOnClickListener
+            }
+            ViewUserActivity.start(context, userId)
+        }
+        flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
         Glide.with(holder.itemView)
             .load(item.avatar)
             .placeholder(R.mipmap.ic_default_avatar)
             .error(R.mipmap.ic_default_avatar)
             .circleCrop()
             .into(ivAvatar)
-        val nickNameColor = if (item.vip) {
-            R.color.pink
-        } else {
-            R.color.black
-        }
-        tvNickname.setTextColor(ContextCompat.getColor(context, nickNameColor))
-        tvNickname.text = item.nickname
+        tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
+        tvNickName.text = item.nickname
         tvDesc.text =
             "${item.position} · " +
-                    DateHelper.transform2FriendlyTimeSpanByNow("${item.createTime}:00")
+                    DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
         tvContent.setTextIsSelectable(false)
         tvContent.text = HtmlCompat.fromHtml(
             item.content
@@ -194,21 +196,26 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
             }
         ).setOnNineGridClickListener(this)
             .setData(images)
-        simpleGridLayout.visibility = if (imageCount == 0) View.GONE else View.VISIBLE
-        tvLabel.visibility = if (TextUtils.isEmpty(topicName)) View.GONE else View.VISIBLE
+        simpleGridLayout.isVisible = imageCount != 0
+        tvLabel.isVisible = TextUtils.isEmpty(topicName).not()
         tvLabel.text = topicName
         val linkUrl = item.linkUrl
         val hasLink = TextUtils.isEmpty(linkUrl).not()
         val hasLinkCover = TextUtils.isEmpty(item.linkCover).not()
         val linkCover = if (hasLinkCover) item.linkCover
         else R.mipmap.ic_link_default
-        llLinkContainer.visibility = if (hasLink) View.VISIBLE else View.GONE
+        llLinkContainer.setRoundRectBg(color = Color.parseColor("#F5F5F8"), cornerRadius = 4.dp)
+        llLinkContainer.isVisible = hasLink
         llLinkContainer.setFixOnClickListener {
             BrowserActivity.start(context, linkUrl)
         }
         Glide.with(context)
             .load(linkCover)
+            .placeholder(R.mipmap.ic_link_default)
+            .error(R.mipmap.ic_link_default)
+            .transform(RoundedCorners(3.dp))
             .into(ivLinkCover)
+        ivLinkCover.setRoundRectBg(cornerRadius = 3.dp)
         tvLinkTitle.text = item.linkTitle
         tvLinkUrl.text = linkUrl
         tvComment.text = with(item.commentCount) {

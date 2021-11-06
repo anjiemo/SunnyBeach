@@ -7,6 +7,9 @@ import retrofit2.http.Query
 
 interface PhotoApi {
 
+    /**
+     * 获取壁纸列表
+     */
     @GET(
         "http://service.picasso.adesk.com/v1/vertical/vertical?" +
                 "disorder=true&adult=false&" +
@@ -16,6 +19,9 @@ interface PhotoApi {
         @Query("limit") limit: Int, @Query("skip") skip: Int
     ): WallpaperBean
 
+    /**
+     * 获取壁纸轮播图列表
+     */
     @GET("http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&count=5&from=360chrome")
     suspend fun loadWallpaperBannerList(@Query("start") start: Int): WallpaperBannerBean
 }

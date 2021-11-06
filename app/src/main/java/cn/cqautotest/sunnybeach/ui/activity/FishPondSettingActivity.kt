@@ -21,6 +21,7 @@ import com.chad.library.adapter.base.module.BaseDraggableModule
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -51,7 +52,7 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
             return
         }
         showComplete()
-        logByDebug(msg = "initObserver：===> topic is $fishFishPondTopicList")
+        Timber.d("topic is $fishFishPondTopicList")
         mFishPondAdapter.setList(fishFishPondTopicList)
     }
 

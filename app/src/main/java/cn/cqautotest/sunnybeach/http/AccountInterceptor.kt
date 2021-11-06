@@ -23,9 +23,9 @@ import java.nio.charset.StandardCharsets
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2021/10/26
- * desc   : 登录拦截器，如果检测到账号未登录，则弹出提示并跳转至登录界面
+ * desc   : 账号拦截器，如果检测到账号未登录，则弹出提示并跳转至登录界面
  */
-class LoginInterceptor : Interceptor {
+class AccountInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
         val response = try {
@@ -61,6 +61,7 @@ class LoginInterceptor : Interceptor {
                 when (apiResponse.getCode()) {
                     // 账号未登录时的状态码
                     11126 -> interceptUserAction()
+                    // 可以在此处拓展拦截更多的 case
                 }
             } catch (e: Exception) {
                 // Do nothing.
@@ -70,12 +71,12 @@ class LoginInterceptor : Interceptor {
     }
 
     private fun interceptUserAction() {
-        val am = ActivityManager.getInstance()
-        val topActivity = am.topActivity
-        if (topActivity is HomeActivity) {
-            return
-        }
         ThreadUtils.getMainHandler().post {
+            val am = ActivityManager.getInstance()
+            val topActivity = am.topActivity
+            if (topActivity is HomeActivity || topActivity is LoginActivity) {
+                return@post
+            }
             simpleToast(R.string.http_token_error)
             LoginActivity.start(topActivity, "", "")
         }

@@ -6,6 +6,7 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.MyMeFragmentBinding
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.activity.*
 import cn.cqautotest.sunnybeach.util.MAKE_COMPLAINTS_URL
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
@@ -29,10 +30,14 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     override fun onFragmentResume(first: Boolean) {
         super.onFragmentResume(first)
-        val userBasicInfo = mUserViewModel.loadUserBasicInfo()
+        val userBasicInfo = UserManager.loadUserBasicInfo()
         val meContent = mBinding.meContent
+        val flAvatarContainer = meContent.flAvatarContainer
+        flAvatarContainer.background = UserManager.getAvatarPendant(UserManager.currUserIsVip())
         Glide.with(this)
             .load(userBasicInfo?.avatar)
+            .placeholder(R.mipmap.ic_default_avatar)
+            .error(R.mipmap.ic_default_avatar)
             .circleCrop()
             .skipMemoryCache(true)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -46,15 +51,18 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     override fun initEvent() {
         val meContent = mBinding.meContent
+        meContent.llUserInfoContainer.setFixOnClickListener {
+            requireContext().startActivity<UserCenterActivity>()
+        }
         meContent.richListContainer.setFixOnClickListener {
             requireContext().startActivity<RichListActivity>()
         }
         meContent.messageCenterContainer.setFixOnClickListener {
             requireContext().startActivity<MessageCenterActivity>()
         }
-        meContent.creationCenterContainer.setFixOnClickListener {
-            requireContext().startActivity<UserCenterActivity>()
-        }
+        // meContent.creationCenterContainer.setFixOnClickListener {
+        //
+        // }
         meContent.feedbackContainer.setFixOnClickListener {
             BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
         }

@@ -8,6 +8,15 @@ import retrofit2.http.*
 interface FishPondApi {
 
     /**
+     * 获取指定用户的摸鱼动态列表
+     */
+    @GET("${SUNNY_BEACH_BASE_URL}ct/moyu/list/user/{userId}/{page}")
+    suspend fun loadUserFishList(
+        @Path("userId") userId: String,
+        @Path("page") page: Int
+    ): ApiResponse<List<Fish.FishItem>>
+
+    /**
      * 上传图片（摸鱼动态）
      */
     @POST("${SUNNY_BEACH_BASE_URL}ct/image/mo_yu")
@@ -65,7 +74,7 @@ interface FishPondApi {
      * 发表评论(评论动态)
      */
     @POST("${SUNNY_BEACH_BASE_URL}ct/moyu/comment")
-    suspend fun submitComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): ApiResponse<String>
+    suspend fun postComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): ApiResponse<String>
 
     /**
      * 回复评论（回复动态列表下的评论）
@@ -73,6 +82,9 @@ interface FishPondApi {
     @POST("${SUNNY_BEACH_BASE_URL}ct/moyu/sub-comment")
     suspend fun replyComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): ApiResponse<String>
 
+    /**
+     * 动态点赞
+     */
     @PUT("${SUNNY_BEACH_BASE_URL}ct/moyu/thumb-up/{momentId}")
     suspend fun dynamicLikes(@Path("momentId") momentId: String): ApiResponse<String>
 }

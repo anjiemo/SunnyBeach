@@ -1,13 +1,13 @@
 package cn.cqautotest.sunnybeach.http
 
-import cn.cqautotest.sunnybeach.manager.CookieManager
+import cn.cqautotest.sunnybeach.manager.LocalCookieManager
 import cn.cqautotest.sunnybeach.util.BASE_URL
-import cn.cqautotest.sunnybeach.util.logByDebug
 import cn.cqautotest.sunnybeach.util.unicodeToString
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -19,14 +19,14 @@ object ServiceCreator {
 
     private val loggingInterceptor by lazy {
         HttpLoggingInterceptor {
-            logByDebug(msg = "===> result：${it.unicodeToString()}")
+            Timber.d("===> result：${it.unicodeToString()}")
         }.also {
             it.setLevel(HttpLoggingInterceptor.Level.BODY)
         }
     }
-    private val loginInterceptor by lazy { LoginInterceptor() }
+    private val loginInterceptor by lazy { AccountInterceptor() }
 
-    private var cookieManager = CookieManager.get()
+    private var cookieManager = LocalCookieManager.get()
 
     private val client by lazy {
         OkHttpClient.Builder()

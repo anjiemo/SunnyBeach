@@ -7,6 +7,7 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.MessageCenterActivityBinding
 import cn.cqautotest.sunnybeach.ui.activity.msg.*
+import cn.cqautotest.sunnybeach.util.checkUserLoginState
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import cn.cqautotest.sunnybeach.util.simpleToast
 import cn.cqautotest.sunnybeach.util.startActivity
@@ -44,6 +45,10 @@ class MessageCenterActivity : AppActivity() {
             // @我消息列表
             startActivity<AtMeMsgListActivity>()
         }
+        mBinding.qaContainer.setFixOnClickListener {
+            // 问答消息列表
+            startActivity<QaMsgListActivity>()
+        }
         mBinding.systemContainer.setFixOnClickListener {
             // 系统消息列表
             startActivity<SystemMsgListActivity>()
@@ -51,9 +56,7 @@ class MessageCenterActivity : AppActivity() {
     }
 
     override fun initData() {
-        if (mUserViewModel.isLogin().not()) {
-            LoginActivity.start(this, "", "")
-        }
+        checkUserLoginState()
     }
 
     override fun onRightClick(view: View?) {

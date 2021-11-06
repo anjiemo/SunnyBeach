@@ -8,10 +8,10 @@ import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.request.api.PhotoApi
 import cn.cqautotest.sunnybeach.http.response.model.WallpaperBannerBean
 import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
-import cn.cqautotest.sunnybeach.util.logByDebug
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -51,7 +51,7 @@ class DiscoverViewModel : ViewModel() {
             val limit = 30
             // 设置本次请求需要跳过几张图片
             val skip = currentPage * 10
-            logByDebug(msg = "===> loadMorePhotoList： currentPage：$currentPage skip：$skip")
+            Timber.d("currentPage：$currentPage skip：$skip")
             runCatching {
                 // 查询多少条数据，跳过多少条数据
                 withContext(Dispatchers.IO) {
@@ -84,7 +84,7 @@ class DiscoverViewModel : ViewModel() {
             val currentPage = _currentPhotoPage.value ?: 0
             // 设置本次请求需要跳过几张图片
             val skip = currentPage * 10
-            logByDebug(msg = "===> loadMorePhotoList： currentPage：$currentPage skip：$skip")
+            Timber.d("currentPage：$currentPage skip：$skip")
             runCatching {
                 // 查询多少条数据，跳过多少条数据
                 withContext(Dispatchers.IO) {

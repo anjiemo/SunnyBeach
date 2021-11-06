@@ -23,8 +23,8 @@ object FishNetwork {
 
     suspend fun uploadFishImage(body: MultipartBody.Part) = fishPondApi.uploadFishImage(body)
 
-    suspend fun submitComment(momentComment: Map<String, Any?>) =
-        fishPondApi.submitComment(momentComment)
+    suspend fun postComment(momentComment: Map<String, Any?>) =
+        fishPondApi.postComment(momentComment)
 
     suspend fun replyComment(momentComment: Map<String, Any?>) =
         fishPondApi.replyComment(momentComment)
@@ -32,4 +32,7 @@ object FishNetwork {
     suspend fun dynamicLikes(momentId: String) = fishPondApi.dynamicLikes(momentId)
 
     suspend fun loadTopicList() = fishPondApi.loadTopicList()
+
+    suspend fun loadUserFishList(userId: String, page: Int) =
+        fishPondApi.loadUserFishList(userId, page)
 }

@@ -6,8 +6,7 @@ import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.request.api.MsgApi
 import cn.cqautotest.sunnybeach.model.msg.MomentMsg
-import cn.cqautotest.sunnybeach.util.TAG
-import cn.cqautotest.sunnybeach.util.logByDebug
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -26,7 +25,7 @@ class MomentMsgPagingSource : PagingSource<Int, MomentMsg.Content>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MomentMsg.Content> {
         return try {
             val page = params.key ?: FIRST_PAGE_INDEX
-            logByDebug(msg = "$TAG load：===> page is $page")
+            Timber.d("load：===> page is $page")
             val response = msgApi.getMomentMsgList(page)
             val responseData = response.getData()
             val prevKey = if (responseData.first) null else page - 1
