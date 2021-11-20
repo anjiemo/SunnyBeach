@@ -42,6 +42,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 if (mFishListAdapter.isEmpty()) {
                     showEmpty()
                 } else {
+                    onBack2Top()
                     showComplete()
                 }
             }

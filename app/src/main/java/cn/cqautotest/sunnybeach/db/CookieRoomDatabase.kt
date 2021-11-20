@@ -9,7 +9,7 @@ import cn.cqautotest.sunnybeach.db.dao.CookieDao
 import cn.cqautotest.sunnybeach.manager.CookieStore
 
 // 将类注释为带有 CookieStore 类的表（实体）的 Room 数据库
-@Database(entities = [CookieStore::class], version = 1, exportSchema = false)
+@Database(entities = [CookieStore::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class CookieRoomDatabase : RoomDatabase() {
 
@@ -28,7 +28,8 @@ abstract class CookieRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     CookieRoomDatabase::class.java,
                     "cookie_database"
-                ).build()
+                )
+                    .build()
                 sINSTANCE = instance
                 // 返回实例
                 instance

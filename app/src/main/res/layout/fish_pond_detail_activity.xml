@@ -43,7 +43,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:contentScrim="@color/transparent"
-                            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+                            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                             <include
                                 android:id="@+id/fish_pond"

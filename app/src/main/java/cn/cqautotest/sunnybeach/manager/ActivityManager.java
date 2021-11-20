@@ -174,6 +174,7 @@ public final class ActivityManager implements Application.ActivityLifecycleCallb
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+        Timber.d("onActivityCreated：===>");
         Timber.i("%s - onCreate", activity.getClass().getSimpleName());
         if (mActivitySet.size() == 0) {
             for (ApplicationLifecycleCallback callback : mLifecycleCallbacks) {

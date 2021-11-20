@@ -29,13 +29,15 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailActivityBinding
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.other.IntentKey
+import cn.cqautotest.sunnybeach.other.KeyboardWatcher
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
-import cn.cqautotest.sunnybeach.ui.adapter.FishPondDetailCommendListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.FishPondDetailCommentListAdapter
+import cn.cqautotest.sunnybeach.ui.fragment.SubmitCommentFragment
 import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.viewmodel.KeyboardViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import com.blankj.utilcode.util.KeyboardUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.coroutines.flow.collectLatest
@@ -48,12 +50,15 @@ import kotlinx.coroutines.flow.collectLatest
  * desc   : 鱼塘详情页
  */
 class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
-    SimpleGesture.OnSlideListener, SimpleGridLayout.OnNineGridClickListener {
+    SimpleGesture.OnSlideListener, SimpleGridLayout.OnNineGridClickListener,
+    KeyboardWatcher.SoftKeyboardStateListener {
 
     private val mBinding: FishPondDetailActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
+    private val mKeyboardViewModel by viewModels<KeyboardViewModel>()
+    private val mAdapterDelegate = AdapterDelegate()
     private val mFishPondDetailCommendListAdapter =
-        FishPondDetailCommendListAdapter(AdapterDelegate())
+        FishPondDetailCommentListAdapter(mAdapterDelegate)
     private var mMomentId: String = ""
     private var mUserId: String = ""
     private var mNickName: String = ""
@@ -66,6 +71,32 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
             adapter = mFishPondDetailCommendListAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
         }
+        postDelayed({
+            KeyboardWatcher.with(this)
+                .setListener(this)
+        }, 500)
+    }
+
+    override fun onSoftKeyboardOpened(keyboardHeight: Int) {
+        mKeyboardViewModel.showKeyboard()
+        mKeyboardViewModel.setKeyboardHeight(keyboardHeight)
+    }
+
+    override fun onSoftKeyboardClosed() {
+        mKeyboardViewModel.hideKeyboard()
+    }
+
+    private fun safeShowFragment(targetUserName: String) {
+        val args = SubmitCommentFragment.getCommentArgs(
+            targetUserName,
+            mMomentId,
+            "",
+            "",
+            false
+        )
+        val dialogFragment = SubmitCommentFragment()
+        dialogFragment.arguments = args
+        dialogFragment.show(supportFragmentManager, dialogFragment.tag)
     }
 
     override fun initData() {
@@ -107,9 +138,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
             val tvLinkUrl = fishPond.tvLinkUrl
             val tvComment = fishPond.listMenuItem.tvComment
             val llGreat = fishPond.listMenuItem.llGreat
-            val ivGreat = fishPond.listMenuItem.ivGreat
             val tvGreat = fishPond.listMenuItem.tvGreat
-            val ivShare = fishPond.listMenuItem.ivShare
             val clReplyContainer = mBinding.commentContainer.clReplyContainer
             llFishItemContainer.setRoundRectBg(color = Color.WHITE, cornerRadius = 10.dp)
             flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
@@ -123,14 +152,16 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
             tvNickname.text = item.nickname
             tvDesc.text = "${item.position} · " +
                     DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
-            tvContent.text = HtmlCompat.fromHtml(
+            val content = HtmlCompat.fromHtml(
                 item.content
                     .replace("<br>", "\n")
                     .replace("</br>", "\n"),
                 HtmlCompat.FROM_HTML_MODE_LEGACY, this,
                 null
             )
-            tvContent.setOnCreateContextMenuListener { menu, v, menuInfo ->
+            tvContent.maxLines = Int.MAX_VALUE
+            tvContent.text = content
+            tvContent.setOnCreateContextMenuListener { _, _, _ ->
 
             }
             mUserId = item.userId
@@ -191,11 +222,10 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
             val sg = SimpleGesture(minDistance, this)
             val gestureDetector = GestureDetector(this, sg)
             clReplyContainer.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
-            // 此处如果不隐藏键盘的话，有可能会弹出键盘
-            hideKeyboard()
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun dynamicLikes() {
         lifecycleScope.launchWhenCreated {
             mFishPondViewModel.dynamicLikes(mMomentId)
@@ -250,18 +280,8 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
     }
 
     private fun goToPostComment(targetUserName: String) {
-        val intent = SubmitCommendActivity.getCommentIntent(
-            this,
-            targetUserName,
-            mMomentId,
-            "",
-            "",
-            false
-        )
-        startActivity(intent)
+        safeShowFragment(targetUserName)
     }
-
-    override fun initObserver() {}
 
     override fun getStatusLayout(): StatusLayout = mBinding.slFishDetailHint
 
@@ -293,12 +313,11 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
         // 缺点：理论上来讲会比加载本地的图片慢一些）
         val drawable = LevelListDrawable()
         val fishPond = mBinding.fishPond
-        KeyboardUtils.showSoftInput()
         val tvContent = fishPond.tvFishPondContent
         val textSize = tvContent.textSize.toInt()
         lifecycleScope.launchWhenCreated {
             val uri = Uri.parse(source)
-            val resource = DownloadHelper.getTypeByUri<Drawable>(fishPond.llFishItemContainer, uri)
+            val resource = DownloadHelper.ofType<Drawable>(fishPond.llFishItemContainer, uri)
             drawable.addLevel(1, 1, resource)
             // 判断是否为表情包
             if (source.contains("sunofbeaches.com/emoji/") && source.endsWith(".png")) {

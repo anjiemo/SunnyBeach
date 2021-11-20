@@ -14,25 +14,25 @@ import kotlin.coroutines.suspendCoroutine
 
 object DownloadHelper {
 
-    suspend inline fun <reified T> getTypeByUri(fragment: Fragment, uri: Uri) =
-        getTypeByUri(fragment, uri, T::class.java)
+    suspend inline fun <reified T> ofType(fragment: Fragment, uri: Uri) =
+        ofType(fragment, uri, T::class.java)
 
-    suspend fun <T> getTypeByUri(fragment: Fragment, uri: Uri, resourceClass: Class<T>) =
-        getTypeByUri(fragment.requireContext(), uri, resourceClass)
+    suspend fun <T> ofType(fragment: Fragment, uri: Uri, resourceClass: Class<T>) =
+        ofType(fragment.requireContext(), uri, resourceClass)
 
-    suspend inline fun <reified T> getTypeByUri(view: View, uri: Uri) =
-        getTypeByUri(view, uri, T::class.java)
+    suspend inline fun <reified T> ofType(view: View, uri: Uri) =
+        ofType(view, uri, T::class.java)
 
-    suspend fun <T> getTypeByUri(view: View, uri: Uri, resourceClass: Class<T>) =
-        getTypeByUri(view.context, uri, resourceClass)
+    suspend fun <T> ofType(view: View, uri: Uri, resourceClass: Class<T>) =
+        ofType(view.context, uri, resourceClass)
 
-    suspend inline fun <reified T> getTypeByUri(context: Context, uri: Uri) =
-        getTypeByUri(context, uri, T::class.java)
+    suspend inline fun <reified T> ofType(context: Context, uri: Uri) =
+        ofType(context, uri, T::class.java)
 
     /**
      * 根据类型获取下载的 uri
      */
-    suspend fun <T> getTypeByUri(context: Context, uri: Uri, resourceClass: Class<T>) =
+    suspend fun <T> ofType(context: Context, uri: Uri, resourceClass: Class<T>) =
         suspendCoroutine { cont: Continuation<T?> ->
             var isResume = false
             Glide.with(context)

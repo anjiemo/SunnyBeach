@@ -10,7 +10,8 @@
     <com.hjq.bar.TitleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:drawableSize="20dp"
+        app:rightIconHeight="@dimen/dp_20"
+        app:rightIcon="@mipmap/ic_more"
         app:title="@string/web_title" />
 
     <ProgressBar

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.text.TextUtils
 import android.view.GestureDetector
 import android.view.ViewConfiguration
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -17,8 +18,11 @@ import cn.cqautotest.sunnybeach.databinding.FishCommendDetailActivityBinding
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.other.IntentKey
+import cn.cqautotest.sunnybeach.other.KeyboardWatcher
 import cn.cqautotest.sunnybeach.ui.adapter.FishCommendDetailListAdapter
+import cn.cqautotest.sunnybeach.ui.fragment.SubmitCommentFragment
 import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.viewmodel.KeyboardViewModel
 import com.bumptech.glide.Glide
 import timber.log.Timber
 
@@ -28,9 +32,11 @@ import timber.log.Timber
  * time   : 2021/09/18
  * desc   : 摸鱼评论列表页
  */
-class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener {
+class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener,
+    KeyboardWatcher.SoftKeyboardStateListener {
 
     private val mBinding: FishCommendDetailActivityBinding by viewBinding()
+    private val mKeyboardViewModel by viewModels<KeyboardViewModel>()
     private val mFishCommendDetailListAdapter = FishCommendDetailListAdapter()
 
     override fun getLayoutId(): Int = R.layout.fish_commend_detail_activity
@@ -41,6 +47,19 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener {
             adapter = mFishCommendDetailListAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
         }
+        postDelayed({
+            KeyboardWatcher.with(this)
+                .setListener(this)
+        }, 500)
+    }
+
+    override fun onSoftKeyboardOpened(keyboardHeight: Int) {
+        mKeyboardViewModel.showKeyboard()
+        mKeyboardViewModel.setKeyboardHeight(keyboardHeight)
+    }
+
+    override fun onSoftKeyboardClosed() {
+        mKeyboardViewModel.hideKeyboard()
     }
 
     @SuppressLint("SetTextI18n")
@@ -75,6 +94,7 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener {
         // 摸鱼详情列表的时间没有精确到秒
         val time = "${item.createTime}:00"
         tvDesc.text = "${item.position} · " + DateHelper.getFriendlyTimeSpanByNow(time)
+        tvDesc.maxLines = Int.MAX_VALUE
         tvReply.text = item.content
         tvBuildReplyMsgContainer.isVisible = false
         mFishCommendDetailListAdapter.setData(item)
@@ -121,20 +141,21 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener {
     /**
      * 去回复评论
      */
-    private fun goToReplyComment(
-        commentId: String,
-        targetUserName: String,
-        targetUserId: String
-    ) {
-        val intent = SubmitCommendActivity.getCommentIntent(
-            this,
-            targetUserName = targetUserName,
-            momentId = getMomentId(),
-            commentId = commentId,
-            targetUserId = targetUserId,
-            isReply = true
+    private fun goToReplyComment(commentId: String, targetUserName: String, targetUserId: String) {
+        safeShowFragment(targetUserName, commentId, targetUserId)
+    }
+
+    private fun safeShowFragment(targetUserName: String, commentId: String, targetUserId: String) {
+        val args = SubmitCommentFragment.getCommentArgs(
+            targetUserName,
+            getMomentId(),
+            commentId,
+            targetUserId,
+            true
         )
-        startActivity(intent)
+        val dialogFragment = SubmitCommentFragment()
+        dialogFragment.arguments = args
+        dialogFragment.show(supportFragmentManager, dialogFragment.tag)
     }
 
     companion object {

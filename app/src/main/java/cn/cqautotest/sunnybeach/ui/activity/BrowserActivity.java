@@ -14,9 +14,13 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 
+import com.hjq.umeng.Platform;
+import com.hjq.umeng.UmengShare;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.util.List;
 
@@ -32,6 +36,7 @@ import cn.cqautotest.sunnybeach.manager.CookieStore;
 import cn.cqautotest.sunnybeach.manager.ThreadPoolManager;
 import cn.cqautotest.sunnybeach.other.FitScreen;
 import cn.cqautotest.sunnybeach.other.IntentKey;
+import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog;
 import cn.cqautotest.sunnybeach.util.Constants;
 import cn.cqautotest.sunnybeach.util.StringUtil;
 import cn.cqautotest.sunnybeach.widget.BrowserView;
@@ -110,8 +115,8 @@ public final class BrowserActivity extends AppActivity
     protected void initData() {
         showLoading();
 
-        mBrowserView.setBrowserViewClient(new MyBrowserViewClient());
-        mBrowserView.setBrowserChromeClient(new MyBrowserChromeClient(mBrowserView));
+        mBrowserView.setBrowserViewClient(new AppBrowserViewClient());
+        mBrowserView.setBrowserChromeClient(new AppBrowserChromeClient(mBrowserView));
         boolean feedback = getBoolean(IntentKey.OTHER);
         if (feedback) {
             String openId = getString(IntentKey.ID);
@@ -137,6 +142,35 @@ public final class BrowserActivity extends AppActivity
     @Override
     public void onLeftClick(View view) {
         finish();
+    }
+
+    @Override
+    public void onRightClick(View view) {
+        UMWeb content = new UMWeb(mBrowserView.getUrl());
+        content.setTitle(mBrowserView.getTitle());
+        content.setThumb(new UMImage(this, R.mipmap.launcher_ic));
+        content.setDescription(getString(R.string.app_name));
+        // 分享
+        new ShareDialog.Builder(this)
+                .setShareLink(content)
+                .setListener(new UmengShare.OnShareListener() {
+
+                    @Override
+                    public void onSucceed(Platform platform) {
+                        toast("分享成功");
+                    }
+
+                    @Override
+                    public void onError(Platform platform, Throwable t) {
+                        toast(t.getMessage());
+                    }
+
+                    @Override
+                    public void onCancel(Platform platform) {
+                        toast("分享取消");
+                    }
+                })
+                .show();
     }
 
     @Override
@@ -171,7 +205,7 @@ public final class BrowserActivity extends AppActivity
         return false;
     }
 
-    private class MyBrowserViewClient extends BrowserView.BrowserViewClient {
+    private class AppBrowserViewClient extends BrowserView.BrowserViewClient {
 
         private final CookieRoomDatabase mDatabase = AppApplication.getDatabase();
         private final CookieDao mCookieDao = mDatabase.cookieDao();
@@ -236,9 +270,9 @@ public final class BrowserActivity extends AppActivity
         }
     }
 
-    private class MyBrowserChromeClient extends BrowserView.BrowserChromeClient {
+    private class AppBrowserChromeClient extends BrowserView.BrowserChromeClient {
 
-        private MyBrowserChromeClient(BrowserView view) {
+        private AppBrowserChromeClient(BrowserView view) {
             super(view);
         }
 
@@ -247,16 +281,18 @@ public final class BrowserActivity extends AppActivity
          */
         @Override
         public void onReceivedTitle(WebView view, String title) {
-            if (title != null) {
-                setTitle(title);
+            if (title == null) {
+                return;
             }
+            setTitle(title);
         }
 
         @Override
         public void onReceivedIcon(WebView view, Bitmap icon) {
-            if (icon != null) {
-                setRightIcon(new BitmapDrawable(getResources(), icon));
+            if (icon == null) {
+                return;
             }
+            setRightIcon(new BitmapDrawable(getResources(), icon));
         }
 
         /**

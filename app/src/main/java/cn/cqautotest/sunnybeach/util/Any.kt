@@ -1,10 +1,11 @@
 package cn.cqautotest.sunnybeach.util
 
-import com.blankj.utilcode.util.GsonUtils
+import com.hjq.gson.factory.GsonFactory
 
 val Any.TAG
     get() = javaClass.simpleName
 
-fun Any.toJson() = GsonUtils.toJson(this)
+fun Any.toJson() = GsonFactory.getSingletonGson().toJson(this)
 
-inline fun <reified T> Any.fromJson(json: String?) = GsonUtils.fromJson(json, T::class.java)
+inline fun <reified T> Any.fromJson(json: String?) =
+    GsonFactory.getSingletonGson().fromJson(json, T::class.java)

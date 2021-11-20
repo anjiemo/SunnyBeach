@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.http
 import cn.cqautotest.sunnybeach.manager.LocalCookieManager
 import cn.cqautotest.sunnybeach.util.BASE_URL
 import cn.cqautotest.sunnybeach.util.unicodeToString
+import com.hjq.gson.factory.GsonFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -39,7 +40,7 @@ object ServiceCreator {
     val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(GsonFactory.getSingletonGson()))
             .client(client)
             .build()
     }

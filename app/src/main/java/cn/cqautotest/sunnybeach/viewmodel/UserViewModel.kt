@@ -21,7 +21,6 @@ import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.viewmodel.login.LoggedInUserView
 import cn.cqautotest.sunnybeach.viewmodel.login.LoginFormState
 import cn.cqautotest.sunnybeach.viewmodel.login.LoginResult
-import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.RegexUtils
 import com.hjq.http.EasyConfig
 import com.tencent.mmkv.MMKV
@@ -283,7 +282,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         val mmkv = MMKV.defaultMMKV() ?: return null
         return runCatching {
             val jsonByUserBasicInfo = mmkv.getString(SUNNY_BEACH_USER_BASIC_INFO, null)
-            GsonUtils.fromJson(jsonByUserBasicInfo, UserBasicInfo::class.java)
+            fromJson<UserBasicInfo>(jsonByUserBasicInfo)
         }.getOrNull()
     }
 

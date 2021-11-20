@@ -4,6 +4,13 @@ import com.blankj.utilcode.util.EncryptUtils
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
+fun String.notContains(other: CharSequence, ignoreCase: Boolean = false) =
+    !contains(other, ignoreCase)
+
+fun String.notContains(char: Char, ignoreCase: Boolean = false) = !contains(char, ignoreCase)
+
+fun String.notContains(regex: Regex) = !contains(regex)
+
 val String.md5: String
     get() = EncryptUtils.encryptMD5ToString(this)
 

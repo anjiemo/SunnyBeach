@@ -27,7 +27,7 @@ import com.bumptech.glide.Glide
  * time   : 2021/07/11
  * desc   : 摸鱼话题评论列表适配器
  */
-class FishPondDetailCommendListAdapter(private val adapterDelegate: AdapterDelegate) :
+class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<FishPondComment.FishPondCommentItem, FishDetailCommendListViewHolder>(
         FishCommendDiffCallback()
     ) {

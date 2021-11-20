@@ -14,6 +14,8 @@ const val DEFAULT_URL =
 const val DEFAULT_BANNER_URL =
     "http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&start=55&count=5&from=360chrome"
 
+const val CAI_YUN_BASE_URL = "https://api.caiyunapp.com/"
+
 const val SUNNY_BEACH_ARTICLE_URL_PRE = "https://www.sunofbeach.net/a/"
 
 const val SUNNY_BEACH_BASE_URL = "https://api.sunofbeach.net/"
