@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.util
 
 import com.blankj.utilcode.util.TimeUtils
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -29,7 +30,7 @@ object DateHelper {
      * <li>时间不合法的情况全部日期和时间信息，如星期六 十月 27 14:21:20 CST 2007</li>
      * </ul>
      */
-    fun transform2FriendlyTimeSpanByNow(time: String): String {
+    fun getFriendlyTimeSpanByNow(time: String): String {
         val transformTime = transform2LocalDateTime(time)
         return try {
             TimeUtils.getFriendlyTimeSpanByNow(transformTime)
@@ -49,8 +50,8 @@ object DateHelper {
         return try {
             date.replaceRange(lastIndexOf, date.length, "")
         } catch (e: IndexOutOfBoundsException) {
-            logByError(msg = "传入的参数不是 yyyy-MM-dd HH:mm:ss.0 格式")
-            e.printStackTrace()
+            Timber.d("传入的参数不是 yyyy-MM-dd HH:mm:ss.0 格式")
+            // e.printStackTrace()
             date
         }
     }

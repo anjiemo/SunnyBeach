@@ -1,29 +1,38 @@
 package cn.cqautotest.sunnybeach.http
 
-import cn.cqautotest.sunnybeach.manager.CookieManager
+import cn.cqautotest.sunnybeach.manager.LocalCookieManager
 import cn.cqautotest.sunnybeach.util.BASE_URL
-import cn.cqautotest.sunnybeach.util.logByDebug
 import cn.cqautotest.sunnybeach.util.unicodeToString
+import com.hjq.gson.factory.GsonFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/10/02
+ * desc   : 网络请求服务创建者
+ */
 object ServiceCreator {
 
     private val loggingInterceptor by lazy {
         HttpLoggingInterceptor {
-            logByDebug(msg = "===> result：${it.unicodeToString()}")
+            Timber.d("===> result：${it.unicodeToString()}")
         }.also {
             it.setLevel(HttpLoggingInterceptor.Level.BODY)
         }
     }
+    private val loginInterceptor by lazy { AccountInterceptor() }
 
-    private val cookieManager by lazy { CookieManager() }
+    private var cookieManager = LocalCookieManager.get()
 
-    val client by lazy {
+    private val client by lazy {
         OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(loginInterceptor)
             .cookieJar(cookieManager)
             .build()
     }
@@ -31,7 +40,7 @@ object ServiceCreator {
     val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(GsonFactory.getSingletonGson()))
             .client(client)
             .build()
     }

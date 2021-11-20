@@ -14,21 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hjq.base.BaseAdapter;
 import com.hjq.base.BaseDialog;
-import cn.cqautotest.sunnybeach.R;
-import cn.cqautotest.sunnybeach.aop.SingleClick;
-import cn.cqautotest.sunnybeach.app.AppAdapter;
-import com.hjq.toast.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.aop.SingleClick;
+import cn.cqautotest.sunnybeach.app.AppAdapter;
+
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/10/09
- *    desc   : 单选或者多选对话框
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/10/09
+ * desc   : 单选或者多选对话框
  */
 public final class SelectDialog {
 
@@ -123,7 +123,7 @@ public final class SelectDialog {
                         mListener.onSelected(getDialog(), data);
                     }
                 } else {
-                    ToastUtils.show(String.format(getString(R.string.select_min_hint), mAdapter.getMinSelect()));
+                    // ToastUtils.show(String.format(getString(R.string.select_min_hint), mAdapter.getMinSelect()));
                 }
             } else if (viewId == R.id.tv_ui_cancel) {
                 autoDismiss();
@@ -247,7 +247,7 @@ public final class SelectDialog {
                     mSelectSet.put(position, getItem(position));
                     notifyItemChanged(position);
                 } else {
-                    ToastUtils.show(String.format(getString(R.string.select_max_hint), mMaxSelect));
+                    // ToastUtils.show(String.format(getString(R.string.select_max_hint), mMaxSelect));
                 }
             }
         }

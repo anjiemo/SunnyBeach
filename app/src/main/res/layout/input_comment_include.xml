@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_reply_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal|bottom"
+    android:layout_marginTop="1px"
+    android:background="@drawable/recommend_top_line_ic"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    tools:showIn="@layout/fish_pond_detail_activity">
+
+    <TextView
+        android:id="@+id/tv_fish_pond_submit_comment"
+        style="@style/ButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/home_search_bar_gray_bg"
+        android:gravity="center_vertical"
+        android:hint="写下神评..."
+        android:textColor="#A4A4A4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</LinearLayout>

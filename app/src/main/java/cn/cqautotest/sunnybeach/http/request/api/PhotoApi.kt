@@ -1,22 +1,27 @@
 package cn.cqautotest.sunnybeach.http.request.api
 
-import cn.cqautotest.sunnybeach.http.response.model.HomeBannerBean
-import cn.cqautotest.sunnybeach.http.response.model.HomePhotoBean
-import cn.cqautotest.sunnybeach.util.DEFAULT_BANNER_URL
+import cn.cqautotest.sunnybeach.http.response.model.WallpaperBannerBean
+import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
 import retrofit2.http.GET
 import retrofit2.http.Query
-import retrofit2.http.Url
 
 interface PhotoApi {
 
-    @GET
-    suspend fun loadPhotoList(
-        @Url url: String = "http://service.picasso.adesk.com/v1/vertical/vertical?" +
+    /**
+     * 获取壁纸列表
+     */
+    @GET(
+        "http://service.picasso.adesk.com/v1/vertical/vertical?" +
                 "disorder=true&adult=false&" +
-                "first=1&url=http%3A%2F%2Fservice.picasso.adesk.com%2Fv1%2Fvertical%2Fvertical&order=hot",
+                "first=1&url=http%3A%2F%2Fservice.picasso.adesk.com%2Fv1%2Fvertical%2Fvertical&order=hot"
+    )
+    suspend fun loadWallpaperList(
         @Query("limit") limit: Int, @Query("skip") skip: Int
-    ): HomePhotoBean
+    ): WallpaperBean
 
-    @GET
-    suspend fun listsHomeBannerList(@Url url: String = DEFAULT_BANNER_URL): HomeBannerBean
+    /**
+     * 获取壁纸轮播图列表
+     */
+    @GET("http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&count=5&from=360chrome")
+    suspend fun loadWallpaperBannerList(@Query("start") start: Int): WallpaperBannerBean
 }

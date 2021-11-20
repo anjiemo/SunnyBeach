@@ -10,12 +10,6 @@ import android.provider.MediaStore;
 import androidx.core.content.FileProvider;
 
 import com.hjq.base.BaseActivity;
-import cn.cqautotest.sunnybeach.R;
-import cn.cqautotest.sunnybeach.aop.DebugLog;
-import cn.cqautotest.sunnybeach.aop.Permissions;
-import cn.cqautotest.sunnybeach.app.AppActivity;
-import cn.cqautotest.sunnybeach.other.AppConfig;
-import cn.cqautotest.sunnybeach.other.IntentKey;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 
@@ -24,11 +18,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.aop.DebugLog;
+import cn.cqautotest.sunnybeach.aop.Permissions;
+import cn.cqautotest.sunnybeach.app.AppActivity;
+import cn.cqautotest.sunnybeach.other.AppConfig;
+import cn.cqautotest.sunnybeach.other.IntentKey;
+
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/12/18
- *    desc   : 拍摄图片、视频
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/12/18
+ * desc   : 拍摄图片、视频
  */
 public final class CameraActivity extends AppActivity {
 
@@ -78,7 +79,7 @@ public final class CameraActivity extends AppActivity {
             // 拍摄照片
             intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         }
-        if (XXPermissions.isGrantedPermission(this, new String[]{Permission.MANAGE_EXTERNAL_STORAGE, Permission.CAMERA})
+        if (XXPermissions.isGranted(this, Permission.MANAGE_EXTERNAL_STORAGE, Permission.CAMERA)
                 && intent.resolveActivity(getPackageManager()) != null) {
             File file = getSerializable(IntentKey.FILE);
             if (file == null) {

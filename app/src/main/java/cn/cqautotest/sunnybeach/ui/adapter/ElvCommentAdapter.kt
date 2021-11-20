@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppApplication
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.dp
@@ -23,14 +24,13 @@ import com.bumptech.glide.Glide
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/7/11
+ * time   : 2021/07/11
  * desc   : 鱼塘详情评论列表的适配器
  */
 class ElvCommentAdapter : BaseExpandableListAdapter() {
 
     private var mInflater: LayoutInflater =
-        AppApplication.getInstance()
-            .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        AppApplication.getInstance().applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     private val replyBgColor = Color.parseColor("#F5F5F5")
     private val mGroupData: MutableList<FishPondComment.FishPondCommentItem> = arrayListOf()
     private val mChildData: MutableList<List<FishPondComment.FishPondCommentItem.SubComment>> =
@@ -104,44 +104,35 @@ class ElvCommentAdapter : BaseExpandableListAdapter() {
         v.run {
             val flAvatarContainer = findViewById<View>(R.id.fl_avatar_container)
             val ivAvatar = findViewById<ImageView>(R.id.iv_fish_pond_avatar)
-            val cbNickname = findViewById<CheckBox>(R.id.cb_fish_pond_nick_name)
+            val cbNickName = findViewById<CheckBox>(R.id.cb_fish_pond_nick_name)
             val tvDesc = findViewById<TextView>(R.id.tv_fish_pond_desc)
             val tvReply = findViewById<TextView>(R.id.tv_reply_msg)
-            flAvatarContainer.background = if (group.vip) ContextCompat.getDrawable(
-                context,
-                R.drawable.avatar_circle_vip_ic
-            ) else null
+            flAvatarContainer.background = UserManager.getAvatarPendant(group.vip)
             Glide.with(v)
                 .load(group.avatar)
                 .placeholder(R.mipmap.ic_default_avatar)
                 .error(R.mipmap.ic_default_avatar)
                 .circleCrop()
                 .into(ivAvatar)
-            cbNickname.isChecked = isExpanded
+            cbNickName.isChecked = isExpanded
             if (group.subComments.isNullOrEmpty()) {
-                cbNickname.clearArrowsCompoundDrawablesWithIntrinsicBounds()
+                cbNickName.clearArrowsCompoundDrawablesWithIntrinsicBounds()
             } else {
-                cbNickname.setArrowsCompoundDrawablesWithIntrinsicBounds()
+                cbNickName.setArrowsCompoundDrawablesWithIntrinsicBounds()
             }
-            cbNickname.setTextColor(
-                ContextCompat.getColor(
-                    context, if (group.vip) {
-                        R.color.pink
-                    } else {
-                        R.color.black
-                    }
-                )
-            )
-            cbNickname.text = group.nickname
+            cbNickName.setTextColor(UserManager.getNickNameColor(group.vip))
+            cbNickName.text = group.getNickName()
+            val time = "${group.createTime}:00"
+            val flags = HtmlCompat.FROM_HTML_MODE_LEGACY
             tvDesc.text = HtmlCompat.fromHtml(
                 "${group.position} <font color=\"#0084ff\">@${group.company}</font> · "
-                        + DateHelper.transform2FriendlyTimeSpanByNow("${group.createTime}:00"),
-                HtmlCompat.FROM_HTML_MODE_LEGACY
+                        + DateHelper.getFriendlyTimeSpanByNow(time),
+                flags
             )
             tvReply.setRoundRectBg(color = replyBgColor, cornerRadius = 4.dp)
             tvReply.text = HtmlCompat.fromHtml(
                 "回复 <font color=\"#0084ff\">@楼主</font> ：${group.content}",
-                HtmlCompat.FROM_HTML_MODE_LEGACY
+                flags
             )
         }
     }
@@ -156,39 +147,28 @@ class ElvCommentAdapter : BaseExpandableListAdapter() {
             setPadding(50.dp, 0, 0, 0)
             val flAvatarContainer = findViewById<View>(R.id.fl_avatar_container)
             val ivAvatar = findViewById<ImageView>(R.id.iv_fish_pond_avatar)
-            val cbNickname = findViewById<TextView>(R.id.cb_fish_pond_nick_name)
+            val cbNickName = findViewById<TextView>(R.id.cb_fish_pond_nick_name)
             val tvDesc = findViewById<TextView>(R.id.tv_fish_pond_desc)
             val tvReply = findViewById<TextView>(R.id.tv_reply_msg)
-            flAvatarContainer.background = if (child.vip) ContextCompat.getDrawable(
-                context,
-                R.drawable.avatar_circle_vip_ic
-            ) else null
+            flAvatarContainer.background = UserManager.getAvatarPendant(child.vip)
             Glide.with(v)
                 .load(child.avatar)
                 .placeholder(R.mipmap.ic_default_avatar)
                 .error(R.mipmap.ic_default_avatar)
                 .circleCrop()
                 .into(ivAvatar)
-            cbNickname.setTextColor(
-                ContextCompat.getColor(
-                    context, if (child.vip) {
-                        R.color.pink
-                    } else {
-                        R.color.black
-                    }
-                )
-            )
-            cbNickname.clearArrowsCompoundDrawablesWithIntrinsicBounds()
-            cbNickname.text = child.nickname
+            cbNickName.setTextColor(UserManager.getNickNameColor(child.vip))
+            cbNickName.clearArrowsCompoundDrawablesWithIntrinsicBounds()
+            cbNickName.text = child.getNickName()
             tvDesc.text = HtmlCompat.fromHtml(
                 "${child.position}<font color=\"#0084ff\">@${child.company}</font> · "
-                        + DateHelper.transform2FriendlyTimeSpanByNow("${child.createTime}:00"),
+                        + DateHelper.getFriendlyTimeSpanByNow("${child.createTime}:00"),
                 HtmlCompat.FROM_HTML_MODE_LEGACY
             )
             tvReply.setRoundRectBg(color = replyBgColor, cornerRadius = 4.dp)
             tvReply.text =
                 HtmlCompat.fromHtml(
-                    "回复 <font color=\"#0084ff\">@${child.targetUserNickname}</font> ：${child.content}",
+                    "回复 <font color=\"#0084ff\">@${child.getTargetUserNickname()}</font> ：${child.content}",
                     HtmlCompat.FROM_HTML_MODE_LEGACY
                 )
         }

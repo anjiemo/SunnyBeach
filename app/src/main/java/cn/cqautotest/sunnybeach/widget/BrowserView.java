@@ -31,18 +31,18 @@ import androidx.lifecycle.LifecycleOwner;
 import com.hjq.base.BaseActivity;
 import com.hjq.base.BaseDialog;
 import com.hjq.base.action.ActivityAction;
-import cn.cqautotest.sunnybeach.R;
-import cn.cqautotest.sunnybeach.other.AppConfig;
-import cn.cqautotest.sunnybeach.other.PermissionCallback;
-import cn.cqautotest.sunnybeach.ui.dialog.HintDialog;
-import cn.cqautotest.sunnybeach.ui.dialog.InputDialog;
-import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.hjq.widget.layout.NestedScrollWebView;
 
 import java.util.List;
 
+import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.other.AppConfig;
+import cn.cqautotest.sunnybeach.other.PermissionCallback;
+import cn.cqautotest.sunnybeach.ui.dialog.HintDialog;
+import cn.cqautotest.sunnybeach.ui.dialog.InputDialog;
+import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog;
 import timber.log.Timber;
 
 /**
@@ -128,10 +128,10 @@ public final class BrowserView extends NestedScrollWebView
     public String getUrl() {
         String originalUrl = super.getOriginalUrl();
         // 避免开始时同时加载两个地址而导致的崩溃
-        if (originalUrl != null) {
-            return originalUrl;
+        if (originalUrl == null) {
+            return super.getUrl();
         }
-        return super.getUrl();
+        return originalUrl;
     }
 
     /**

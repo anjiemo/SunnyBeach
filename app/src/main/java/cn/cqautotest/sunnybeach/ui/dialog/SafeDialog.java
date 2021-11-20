@@ -6,15 +6,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hjq.base.BaseDialog;
+import com.hjq.http.EasyHttp;
+import com.hjq.http.listener.OnHttpListener;
+import com.hjq.widget.view.CountdownView;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
 import cn.cqautotest.sunnybeach.http.model.HttpData;
 import cn.cqautotest.sunnybeach.http.request.GetCodeApi;
 import cn.cqautotest.sunnybeach.http.request.VerifyCodeApi;
-import com.hjq.http.EasyHttp;
-import com.hjq.http.listener.OnHttpListener;
-import com.hjq.toast.ToastUtils;
-import com.hjq.widget.view.CountdownView;
 
 /**
  *    author : Android 轮子哥
@@ -66,7 +66,7 @@ public final class SafeDialog {
             int viewId = view.getId();
             if (viewId == R.id.cv_safe_countdown) {
                 if (true) {
-                    ToastUtils.show(R.string.common_code_send_hint);
+                    // ToastUtils.show(R.string.common_code_send_hint);
                     mCountdownView.start();
                     setCancelable(false);
                     return;
@@ -80,19 +80,19 @@ public final class SafeDialog {
 
                             @Override
                             public void onSucceed(HttpData<Void> data) {
-                                ToastUtils.show(R.string.common_code_send_hint);
+                                // ToastUtils.show(R.string.common_code_send_hint);
                                 mCountdownView.start();
                                 setCancelable(false);
                             }
 
                             @Override
                             public void onFail(Exception e) {
-                                ToastUtils.show(e.getMessage());
+                                // ToastUtils.show(e.getMessage());
                             }
                         });
             } else if (viewId == R.id.tv_ui_confirm) {
                 if (mCodeView.getText().toString().length() != getResources().getInteger(R.integer.sms_code_length)) {
-                    ToastUtils.show(R.string.common_code_error_hint);
+                    // ToastUtils.show(R.string.common_code_error_hint);
                     return;
                 }
 
@@ -121,7 +121,7 @@ public final class SafeDialog {
 
                             @Override
                             public void onFail(Exception e) {
-                                ToastUtils.show(e.getMessage());
+                                // ToastUtils.show(e.getMessage());
                             }
                         });
             } else if (viewId == R.id.tv_ui_cancel) {

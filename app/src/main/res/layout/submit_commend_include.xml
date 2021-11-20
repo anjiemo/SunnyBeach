@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_dialog_bg"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/v_open_or_close"
+        android:layout_width="50dp"
+        android:layout_height="5dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/menu_top_bg"
+        android:padding="48dp" />
+
+    <EditText
+        android:id="@+id/et_input_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="#F7F7F7"
+        android:drawableTint="@color/blue"
+        android:gravity="top"
+        android:hint="请友善评论..."
+        android:inputType="textMultiLine"
+        android:maxLines="8"
+        android:minLines="4"
+        android:padding="16dp"
+        android:textSize="14sp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_menu_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"
+        android:background="@color/white"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
+
+        <ImageView
+            android:id="@+id/iv_emoji"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            app:srcCompat="@mipmap/ic_emoji_normal" />
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/iv_emoji"
+            android:padding="8dp"
+            app:srcCompat="@mipmap/ic_select_image" />
+
+        <ImageView
+            android:id="@+id/iv_link"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/iv_image"
+            android:padding="8dp"
+            android:visibility="gone"
+            app:srcCompat="@mipmap/ic_link_normal" />
+
+        <TextView
+            android:id="@+id/tv_input_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:layout_toStartOf="@id/tv_send"
+            android:text="512"
+            android:textColor="#CBD0D3" />
+
+        <Button
+            android:id="@+id/tv_send"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:padding="4dp"
+            android:text="发送"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_panel_container"
+        android:layout_width="match_parent"
+        android:layout_height="310dp">
+
+        <cn.cqautotest.sunnybeach.widget.EmojiListView
+            android:id="@+id/rv_emoji_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+</LinearLayout>

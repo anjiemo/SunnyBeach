@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_fish_item_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical"
-    android:paddingBottom="10dp">
+    android:background="@drawable/item_selector_ic"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_user_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -38,21 +40,25 @@
                 android:id="@+id/tv_fish_pond_nick_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:maxLines="1"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                tools:text="A Lonely Cat"
+                tools:textColor="@color/pink" />
 
             <TextView
                 android:id="@+id/tv_fish_pond_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="2"
-                android:textColor="@color/default_font_color" />
+                android:textColor="@color/default_font_color"
+                android:textSize="11sp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <TextView
+    <cn.cqautotest.sunnybeach.widget.CustomTextView
         android:id="@+id/tv_fish_pond_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,8 +66,29 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="6dp"
         android:ellipsize="end"
-        android:lineSpacingMultiplier="1.5"
-        android:maxLines="5" />
+        android:maxLines="5"
+        android:textIsSelectable="true"
+        tools:text="我是摸鱼列表的正文内容啦" />
+
+    <cn.cqautotest.sunnybeach.widget.RoundRelativeLayout
+        android:id="@+id/rrl_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="6dp"
+        app:rlClipBackground="true"
+        app:rlRadius="@dimen/dp_10">
+
+        <cn.cqautotest.sunnybeach.widget.SimpleGridLayout
+            android:id="@+id/simple_grid_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:itemCount="4" />
+
+    </cn.cqautotest.sunnybeach.widget.RoundRelativeLayout>
 
     <TextView
         android:id="@+id/tv_fish_pond_label"
@@ -69,15 +96,65 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/topic_label_selector"
         android:contentDescription="话题标签"
-        android:paddingStart="10dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="6dp"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
         android:textColor="@color/common_confirm_text_color"
         android:textSize="12sp"
         tools:text="上班摸鱼" />
+
+    <LinearLayout
+        android:id="@+id/ll_link_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#F5F5F8"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_link_cover"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/ic_link_default" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_link_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/tv_link_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="#1D7DFA" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <cn.cqautotest.sunnybeach.widget.ListMenuItemContainer
+        android:id="@+id/list_menu_item"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
 
 </LinearLayout>
