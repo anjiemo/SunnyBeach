@@ -37,4 +37,14 @@
     <color name="follow_btn_bg_normal_color">#E8F3FF</color>
     <!-- 按钮禁用时的背景颜色 -->
     <color name="btn_bg_disable_color">#F7F8FA</color>
+
+
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <color name="skin_white">#FFFFFFFF</color>
+    <color name="skin_black">#FF000000</color>
+    <color name="skin_red">#FFFF0000</color>
+    <color name="skin_green">#FF00FF00</color>
 </resources>

@@ -30,7 +30,6 @@ import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 import com.blankj.utilcode.util.IntentUtils
-import com.google.gson.Gson
 import com.hjq.permissions.XXPermissions
 import timber.log.Timber
 import java.io.File
@@ -116,7 +115,7 @@ class GalleryActivity : AppActivity() {
             val wallpaperManager = WallpaperManager.getInstance(this)
             lifecycleScope.launchWhenCreated {
                 val inputStream =
-                    DownloadHelper.getTypeByUri<InputStream>(this@GalleryActivity, getImageUri())
+                    DownloadHelper.ofType<InputStream>(this@GalleryActivity, getImageUri())
                 ThreadPoolManager.getInstance().execute {
                     wallpaperManager.setStream(inputStream)
                 }
@@ -145,7 +144,7 @@ class GalleryActivity : AppActivity() {
 
     private fun getImageUri(): Uri {
         val verticalPhotoBean = getCurrentVerticalPhotoBean()
-        Timber.d(Gson().toJson(verticalPhotoBean))
+        Timber.d(verticalPhotoBean.toJson())
         val previewUrl = verticalPhotoBean.preview
         return Uri.parse(previewUrl)
     }

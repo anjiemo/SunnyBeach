@@ -23,8 +23,10 @@ import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.hjq.bar.TitleBar;
 import com.hjq.bar.style.RippleBarStyle;
+import com.hjq.gson.factory.GsonFactory;
 import com.hjq.http.EasyConfig;
 import com.hjq.toast.ToastUtils;
+import com.hjq.umeng.UmengClient;
 import com.scwang.smart.refresh.header.MaterialHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -33,6 +35,7 @@ import com.tencent.mmkv.MMKV;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
+import cn.android52.sunnybeach.skin.manager.SkinManager;
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.db.CookieRoomDatabase;
@@ -64,6 +67,11 @@ public final class AppApplication extends Application {
     private static AppApplication INSTANCE;
     private static CookieRoomDatabase sDatabase;
     private static AppViewModel sAppViewModel;
+    private static final String sWeatherApiToken = "7xoSm4k7GIK8X8E1";
+
+    public static String getWeatherApiToken() {
+        return sWeatherApiToken;
+    }
 
     @DebugLog("启动耗时")
     @Override
@@ -71,6 +79,8 @@ public final class AppApplication extends Application {
         super.onCreate();
         INSTANCE = this;
         initSdk(this);
+        //初始化换肤管理器
+        SkinManager.getInstance().init(this);
     }
 
     /**
@@ -98,7 +108,7 @@ public final class AppApplication extends Application {
         });
 
         // 友盟统计、登录、分享 SDK
-        // UmengClient.init(application);
+        UmengClient.init(application, AppConfig.isLogEnable());
 
         // Bugly 异常捕捉
         CrashReport.initCrashReport(application, AppConfig.getBuglyId(), AppConfig.isDebug());
@@ -145,6 +155,13 @@ public final class AppApplication extends Application {
                 //.addHeader("time", "20191030")
                 // 启用配置
                 .into();
+
+        // 设置 Json 解析容错监听
+        GsonFactory.setJsonCallback((typeToken, fieldName, jsonToken) -> {
+            // 上报到 Bugly 错误列表
+            CrashReport.postCatchedException(new IllegalArgumentException(
+                    "类型解析异常：" + typeToken + "#" + fieldName + "，后台返回的类型为：" + jsonToken));
+        });
 
         // 初始化日志打印
         if (AppConfig.isLogEnable()) {
@@ -196,7 +213,7 @@ public final class AppApplication extends Application {
         // 在此初始化其它依赖库
 
         // initCheckTokenWork(application);
-        initCacheCleanWork(application);
+        // initCacheCleanWork(application);
     }
 
     /**

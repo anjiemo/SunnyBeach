@@ -54,6 +54,7 @@ class SubmitCommendActivity : AppActivity() {
     override fun getLayoutId(): Int = R.layout.submit_commend_activity
 
     override fun initView() {
+
     }
 
     override fun initData() {
@@ -63,7 +64,7 @@ class SubmitCommendActivity : AppActivity() {
     /**
      * 获取被评论的用户名称
      */
-    private fun getTargetUserName() = intent.getStringExtra(TARGET_USER_NAME)
+    private fun getTargetUserName() = intent.getStringExtra(TARGET_USER_NAME) ?: ""
 
     /**
      * 获取动态Id
@@ -73,12 +74,12 @@ class SubmitCommendActivity : AppActivity() {
     /**
      * 获取被评论内容的Id
      */
-    private fun getCommentId() = intent.getStringExtra(COMMENT_ID)
+    private fun getCommentId() = intent.getStringExtra(COMMENT_ID) ?: ""
 
     /**
      * 被评论内容的用户Id
      */
-    private fun getTargetUserId() = intent.getStringExtra(TARGET_USER_ID)
+    private fun getTargetUserId() = intent.getStringExtra(TARGET_USER_ID) ?: ""
 
     /**
      * 是否为评论回复
@@ -89,7 +90,7 @@ class SubmitCommendActivity : AppActivity() {
         postDelayed({
             showKeyboard(mBinding.etInputContent)
         }, 200)
-        val keyboardLayout = mBinding.keyboardLayout
+        // val keyboardLayout = mBinding.keyboardLayout
         val etInputContent = mBinding.etInputContent
         mBinding.windowContainer.setFixOnClickListener {
             finish()
@@ -122,24 +123,24 @@ class SubmitCommendActivity : AppActivity() {
             etInputContent.text.insert(cursor, emoji)
         }
         etInputContent.setFixOnClickListener {
-            keyboardLayout.postDelayed({
-                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-            }, 200)
+            // keyboardLayout.postDelayed({
+            //     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+            // }, 200)
         }
         val rlMenuContainer = mBinding.rlMenuContainer
-        keyboardLayout.setKeyboardListener { isActive, keyboardHeight ->
-            val height = if (isActive) {
-                keyboardHeight
-            } else {
-                -rlMenuContainer.height
-            }
-            val layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            layoutParams.bottomMargin = height + rlMenuContainer.height + 10.dp
-            rlMenuContainer.layoutParams = layoutParams
-        }
+        // keyboardLayout.setKeyboardListener { isActive, keyboardHeight ->
+        //     val height = if (isActive) {
+        //         keyboardHeight
+        //     } else {
+        //         -rlMenuContainer.height
+        //     }
+        //     val layoutParams = LinearLayout.LayoutParams(
+        //         LinearLayout.LayoutParams.MATCH_PARENT,
+        //         LinearLayout.LayoutParams.WRAP_CONTENT
+        //     )
+        //     layoutParams.bottomMargin = height + rlMenuContainer.height + 10.dp
+        //     rlMenuContainer.layoutParams = layoutParams
+        // }
         val normalColor = Color.parseColor("#CBD0D3")
         val overflowColor = Color.RED
         mBinding.etInputContent.addTextChangedListener {

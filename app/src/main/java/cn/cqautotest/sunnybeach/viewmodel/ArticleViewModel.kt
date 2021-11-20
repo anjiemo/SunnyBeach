@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.Flow
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/9/27
+ * time   : 2021/09/27
  * desc   : 文章 ViewModel
  */
 class ArticleViewModel : ViewModel() {

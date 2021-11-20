@@ -8,7 +8,7 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_USER_BASIC_INFO
-import com.blankj.utilcode.util.GsonUtils
+import cn.cqautotest.sunnybeach.util.fromJson
 import com.tencent.mmkv.MMKV
 
 /**
@@ -36,7 +36,7 @@ object UserManager {
         val mmkv = MMKV.defaultMMKV() ?: return null
         return runCatching {
             val jsonByUserBasicInfo = mmkv.getString(SUNNY_BEACH_USER_BASIC_INFO, null)
-            GsonUtils.fromJson(jsonByUserBasicInfo, UserBasicInfo::class.java)
+            fromJson<UserBasicInfo>(jsonByUserBasicInfo)
         }.getOrNull()
     }
 

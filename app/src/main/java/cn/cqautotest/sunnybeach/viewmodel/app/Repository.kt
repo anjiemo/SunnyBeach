@@ -1,10 +1,14 @@
 package cn.cqautotest.sunnybeach.viewmodel.app
 
 import androidx.lifecycle.liveData
+import cn.cqautotest.sunnybeach.db.dao.PlaceDao
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
+import cn.cqautotest.sunnybeach.model.weather.Place
+import cn.cqautotest.sunnyweather.logic.model.Weather
 import com.blankj.utilcode.util.FileUtils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -346,4 +350,58 @@ object Repository {
         }
         emit(result)
     }
+
+    fun searchPlaces(query: String) = liveData(Dispatchers.IO) {
+        Timber.d(query)
+        val result = try {
+            val placeResponse = WeatherNetwork.searchPlace(query)
+            Timber.d("${placeResponse.status}|${placeResponse.places[0].name}")
+            if (placeResponse.status == "ok") {
+                Timber.d(placeResponse.status)
+                val places = placeResponse.places
+                Result.success(places)
+            } else {
+                Result.failure(RuntimeException("response status is ${placeResponse.status}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+        emit(result)
+    }
+
+    fun refreshWeather(lng: String, lat: String) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val deferredRealtime = async {
+                    WeatherNetwork.getRealtimeWeather(lng, lat)
+                }
+                val deferredDaily = async {
+                    WeatherNetwork.getDailyWeather(lng, lat)
+                }
+                val realtimeResponse = deferredRealtime.await()
+                val dailyResponse = deferredDaily.await()
+                if (realtimeResponse.status == "ok" && dailyResponse.status == "ok") {
+                    val weather =
+                        Weather(realtimeResponse.result.realtime, dailyResponse.result.daily)
+                    Result.success(weather)
+                } else {
+                    Result.failure(
+                        RuntimeException(
+                            "realtimeWeather status is ${realtimeResponse.status}\n" +
+                                    "dailyWeather status is ${dailyResponse.status}"
+                        )
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+        emit(result)
+    }
+
+    fun savePlace(place: Place) = PlaceDao.savePlace(place)
+
+    fun getSavedPlace() = PlaceDao.getSavedPlace()
+
+    fun isSaved() = PlaceDao.isSaved()
 }

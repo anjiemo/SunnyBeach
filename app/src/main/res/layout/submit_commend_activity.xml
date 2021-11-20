@@ -5,6 +5,7 @@
     android:id="@+id/window_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#88000000"
     tools:context=".ui.activity.SubmitCommendActivity">
 
     <LinearLayout
@@ -13,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:showIn="@layout/submit_commend_activity">
 
         <View
             android:id="@+id/v_open_or_close"
@@ -114,10 +116,10 @@
 
     </LinearLayout>
 
-    <cn.cqautotest.sunnybeach.widget.KeyboardLayout
-        android:id="@+id/keyboardLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
+    <!--<cn.cqautotest.sunnybeach.widget.KeyboardLayout-->
+    <!--    android:id="@+id/keyboardLayout"-->
+    <!--    android:layout_width="wrap_content"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:visibility="gone" />-->
 
 </FrameLayout>

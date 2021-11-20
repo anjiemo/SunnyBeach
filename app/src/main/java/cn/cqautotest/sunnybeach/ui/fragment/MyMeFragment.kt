@@ -8,8 +8,10 @@ import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.MyMeFragmentBinding
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.activity.*
+import cn.cqautotest.sunnybeach.ui.activity.weather.MainActivity
 import cn.cqautotest.sunnybeach.util.MAKE_COMPLAINTS_URL
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
+import cn.cqautotest.sunnybeach.util.simpleToast
 import cn.cqautotest.sunnybeach.util.startActivity
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
@@ -45,10 +47,6 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         meContent.textNickName.text = userBasicInfo?.nickname
     }
 
-    override fun initObserver() {
-
-    }
-
     override fun initEvent() {
         val meContent = mBinding.meContent
         meContent.llUserInfoContainer.setFixOnClickListener {
@@ -60,9 +58,13 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         meContent.messageCenterContainer.setFixOnClickListener {
             requireContext().startActivity<MessageCenterActivity>()
         }
-        // meContent.creationCenterContainer.setFixOnClickListener {
-        //
-        // }
+        meContent.creationCenterContainer.setFixOnClickListener {
+            simpleToast("暂未开放")
+            // requireContext().startActivity<TestActivity>()
+        }
+        meContent.weatherContainer.setFixOnClickListener {
+            requireContext().startActivity<MainActivity>()
+        }
         meContent.feedbackContainer.setFixOnClickListener {
             BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
         }
