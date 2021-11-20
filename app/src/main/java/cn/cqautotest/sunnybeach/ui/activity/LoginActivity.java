@@ -19,11 +19,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.hjq.gson.factory.GsonFactory;
 import com.hjq.umeng.Platform;
 import com.hjq.umeng.UmengClient;
 import com.hjq.umeng.UmengLogin;
@@ -114,7 +114,7 @@ public final class LoginActivity extends AppActivity
                 mCommitView.reset();
                 return;
             }
-            Timber.d(GsonUtils.toJson(loginResult));
+            Timber.d(GsonFactory.getSingletonGson().toJson(loginResult));
             LoggedInUserView loggedInUserView = loginResult.getSuccess();
             if (loginResult.getError() != null || loggedInUserView == null) {
                 loadVerifyCode();

@@ -141,6 +141,7 @@ android {
     aspectjx {
         // 排除一些第三方库的包名（Gson、 LeakCanary 和 AOP 有冲突）
         // exclude 'androidx', 'com.google', 'com.squareup', 'org.apache', 'com.alipay', 'com.taobao', 'versions.9'
+        exclude 'cn.android52.sunnybeach.skin'
         // 只对以下包名做 AOP 处理
         include android.defaultConfig.applicationId
         // 否则就会引发冲突，具体表现为：
@@ -182,8 +183,8 @@ android {
 // 添加构建依赖项：https://developer.android.google.cn/studio/build/dependencies
 // api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
 dependencies {
-    def kotlin_version = "1.5.10"
-    def paging_version = "3.0.1"
+    def kotlin_version = "1.5.30"
+    def paging_version = "3.1.0-rc01"
     def nav_version = "2.3.5"
     def emoji2_version = "1.0.0-beta01"
     def work_version = "2.7.0"
@@ -196,14 +197,18 @@ dependencies {
     implementation project(':library:widget')
     // 友盟封装
     implementation project(':library:umeng')
+    // 插件式换肤
+    implementation project(':library:skin')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.activity:activity-ktx:1.3.1'
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.activity:activity-ktx:1.4.0'
     implementation 'androidx.fragment:fragment-ktx:1.3.6'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
 
-    // Room 数据库
+
+    // Room 数据库：https://developer.android.com/jetpack/androidx/releases/room
+    // CodeLab：https://developer.android.com/codelabs/android-room-with-a-view-kotlin#0
     implementation "androidx.room:room-runtime:$room_version"
     // 使用 Kotlin 注解处理工具 (kapt)
     kapt "androidx.room:room-compiler:$room_version"
@@ -339,4 +344,17 @@ dependencies {
     implementation 'com.github.DylanCaiCoding.Longan:longan-design:1.0.0'
     // 一个简单而友好的Android数据库调试库：https://github.com/guolindev/Glance/
     debugImplementation 'com.guolindev.glance:glance:1.1.0'
+    // 一个帮助键盘平滑过渡到功能面板的框架：https://github.com/YummyLau/PanelSwitchHelper
+    // implementation 'com.github.YummyLau:PanelSwitchHelper:1.4.0'
+
+    // skin-support
+    implementation 'skin.support:skin-support:4.0.5'
+    // skin-support 基础控件支持
+    implementation 'skin.support:skin-support-appcompat:4.0.5'
+    // skin-support-design material design 控件支持[可选]
+    implementation 'skin.support:skin-support-design:4.0.5'
+    // skin-support-cardview CardView 控件支持[可选]
+    implementation 'skin.support:skin-support-cardview:4.0.5'
+    // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
+    implementation 'skin.support:skin-support-constraint-layout:4.0.5'
 }

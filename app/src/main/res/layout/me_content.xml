@@ -150,10 +150,36 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/feedbackContainer"
+        android:id="@+id/weatherContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
+        android:background="@drawable/item_selector_ic"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        tools:ignore="RtlSymmetry">
+
+        <ImageView
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:padding="11dp"
+            android:src="@mipmap/ic_weather" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="天气预报" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/feedbackContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
         android:background="@drawable/item_selector_ic"
         android:gravity="center_vertical"
         android:paddingStart="16dp"

@@ -1,0 +1,26 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+apply from : '../../common.gradle'
+
+android {
+
+    defaultConfig {
+        // 模块混淆配置
+        consumerProguardFiles 'proguard-skin.pro'
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.activity:activity-ktx:1.4.0'
+    implementation 'androidx.fragment:fragment-ktx:1.3.6'
+    // 日志打印框架：https://github.com/JakeWharton/timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+}

@@ -29,4 +29,5 @@
         <!-- 无标题 有的手机设置这行代码-->
         <item name="windowNoTitle">true</item>
     </style>
+
 </resources>

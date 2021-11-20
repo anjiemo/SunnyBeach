@@ -123,6 +123,7 @@ public abstract class AppActivity extends BaseActivity
         // 优先使用 ViewBinding
         if (viewBinding != null) {
             setContentView(viewBinding.getRoot());
+            KeyboardUtils.fixAndroidBug5497(this);
             initSoftKeyboard();
         }
         if (getTitleBar() != null) {
@@ -289,5 +290,6 @@ public abstract class AppActivity extends BaseActivity
             hideDialog();
         }
         mDialog = null;
+        KeyboardUtils.fixSoftInputLeaks(this);
     }
 }

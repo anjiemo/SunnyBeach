@@ -36,6 +36,17 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<Fish.FishItem, FishListAdapter.FishListViewHolder>(FishDiffCallback()),
     SimpleGridLayout.OnNineGridClickListener {
 
+    private val mStateList = arrayListOf<Boolean>()
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        addOnPagesUpdatedListener {
+            mStateList.clear()
+            val itemCount = snapshot().size
+            mStateList.addAll(Array(itemCount) { false })
+        }
+    }
+
     class FishDiffCallback : DiffUtil.ItemCallback<Fish.FishItem>() {
         override fun areItemsTheSame(
             oldItem: Fish.FishItem,
@@ -141,19 +152,15 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
                 val drawable = LevelListDrawable()
                 val textSize = tvContent.textSize.toInt()
                 (context as? ComponentActivity)?.lifecycleScope?.launchWhenCreated {
-                    val resource =
-                        DownloadHelper.getTypeByUri<Drawable>(itemView, Uri.parse(source))
+                    val resource = DownloadHelper.ofType<Drawable>(itemView, Uri.parse(source))
                     drawable.addLevel(1, 1, resource)
                     // 判断是否为表情包
                     if (source.contains("sunofbeaches.com/emoji/") && source.endsWith(".png")) {
                         drawable.setBounds(6, 0, textSize + 6, textSize)
                     } else {
-                        drawable.setBounds(
-                            0,
-                            0,
-                            drawable.intrinsicWidth,
-                            drawable.intrinsicHeight
-                        )
+                        val drawableWidth = drawable.intrinsicWidth
+                        val drawableHeight = drawable.intrinsicHeight
+                        drawable.setBounds(0, 0, drawableWidth, drawableHeight)
                     }
                     drawable.level = 1
                     tvContent.invalidate()
