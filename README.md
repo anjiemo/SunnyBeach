@@ -1,4 +1,4 @@
-# 阳光沙滩App
+1# 阳光沙滩App
 
 #### 阳光沙滩社区：[<font color="#FA7299">A Lonely Cat</font>](https://www.sunofbeach.net/u/1204736502274318336)
 

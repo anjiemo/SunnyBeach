@@ -28,8 +28,8 @@
                 android:layout_marginTop="15dp"
                 android:visibility="gone"
                 app:bar_leftText="@string/setting_language_switchover"
-                app:bar_rightIcon="@drawable/arrows_right_ic"
-                tools:bar_rightHint="@string/setting_language_simple" />
+                app:bar_rightDrawable="@drawable/arrows_right_ic"
+                tools:bar_rightTextHint="@string/setting_language_simple" />
 
             <com.hjq.widget.layout.SettingBar
                 android:id="@+id/sb_setting_update"
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 app:bar_leftText="@string/setting_phone"
-                app:bar_rightIcon="@drawable/arrows_right_ic"
+                app:bar_rightDrawable="@drawable/arrows_right_ic"
                 tools:bar_rightText="181****1413" />
 
             <com.hjq.widget.layout.SettingBar
@@ -67,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:bar_leftText="@string/setting_password"
-                app:bar_rightIcon="@drawable/arrows_right_ic"
+                app:bar_rightDrawable="@drawable/arrows_right_ic"
                 tools:bar_rightText="密码强度较低" />
 
             <com.hjq.widget.layout.SettingBar
@@ -76,14 +76,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 app:bar_leftText="@string/setting_agreement"
-                app:bar_rightIcon="@drawable/arrows_right_ic" />
+                app:bar_rightDrawable="@drawable/arrows_right_ic" />
+
+            <com.hjq.widget.layout.SettingBar
+                android:id="@+id/sb_setting_me_pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:bar_leftText="@string/setting_me_pay"
+                app:bar_rightDrawable="@drawable/arrows_right_ic" />
 
             <com.hjq.widget.layout.SettingBar
                 android:id="@+id/sb_setting_about"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:bar_leftText="@string/setting_about"
-                app:bar_rightIcon="@drawable/arrows_right_ic" />
+                app:bar_rightDrawable="@drawable/arrows_right_ic" />
 
             <com.hjq.widget.layout.SettingBar
                 android:id="@+id/sb_setting_auto"
@@ -106,14 +113,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:bar_leftText="@string/setting_cache"
-                app:bar_rightIcon="@drawable/arrows_right_ic" />
+                app:bar_rightDrawable="@drawable/arrows_right_ic" />
 
             <com.hjq.widget.layout.SettingBar
                 android:id="@+id/sb_setting_exit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                app:bar_leftColor="@color/red"
+                app:bar_leftTextColor="@color/red"
                 app:bar_leftText="@string/setting_exit" />
 
         </LinearLayout>

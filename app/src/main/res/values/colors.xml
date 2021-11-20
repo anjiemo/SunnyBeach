@@ -4,7 +4,7 @@
     <color name="common_primary_color">@color/white</color>
     <color name="common_primary_dark_color">@color/black</color>
     <color name="common_accent_color">#5A8DDF</color>
-    <color name="common_window_background_color">#F4F4F4</color>
+    <color name="common_window_background_color">#F5F5F6</color>
     <color name="common_text_color">#333333</color>
     <color name="common_text_hint_color">@color/panda</color>
 
@@ -27,4 +27,24 @@
     <color name="default_font_color">#8A000000</color>
     <!--markdown代码块的背景颜色-->
     <string name="markdown_bg_code_color">#263238</string>
+
+    <!-- 关注按钮的文字默认颜色 -->
+    <color name="follow_btn_text_normal_color">#2D88FF</color>
+    <!-- 按钮禁用时的文字颜色 -->
+    <color name="btn_text_disable_color">#8C93A0</color>
+
+    <!-- 按钮的默认背景颜色 -->
+    <color name="follow_btn_bg_normal_color">#E8F3FF</color>
+    <!-- 按钮禁用时的背景颜色 -->
+    <color name="btn_bg_disable_color">#F7F8FA</color>
+
+
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <color name="skin_white">#FFFFFFFF</color>
+    <color name="skin_black">#FF000000</color>
+    <color name="skin_red">#FFFF0000</color>
+    <color name="skin_green">#FF00FF00</color>
 </resources>

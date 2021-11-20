@@ -8,13 +8,21 @@ interface CookieDao {
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun save(cookieStoreSet: List<CookieStore>)
+    fun save(cookieStoreSet: List<CookieStore>)
 
     @Transaction
     @Query("SELECT * FROM tb_cookies WHERE host = :host")
     fun getCookiesByHost(host: String): CookieStore?
 
     @Transaction
+    @Query("SELECT * FROM tb_cookies WHERE domain = :domain")
+    fun getCookiesByDomain(domain: String): CookieStore?
+
+    @Transaction
     @Query("SELECT * FROM tb_cookies")
     fun getCookies(): List<CookieStore>
+
+    @Transaction
+    @Query("DELETE FROM tb_cookies")
+    fun clearCookies()
 }

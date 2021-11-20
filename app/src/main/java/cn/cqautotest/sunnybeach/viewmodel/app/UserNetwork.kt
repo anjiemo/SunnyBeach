@@ -1,0 +1,44 @@
+package cn.cqautotest.sunnybeach.viewmodel.app
+
+import cn.cqautotest.sunnybeach.http.ServiceCreator
+import cn.cqautotest.sunnybeach.http.request.api.QaApi
+import cn.cqautotest.sunnybeach.http.request.api.UserApi
+
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/10/23
+ * desc   : 用户信息获取
+ */
+object UserNetwork {
+
+    private val userApi = ServiceCreator.create<UserApi>()
+    private val qaApi = ServiceCreator.create<QaApi>()
+
+    suspend fun getRichList(count: Int = 100) = userApi.getRichList(count)
+
+    suspend fun queryUserAvatar(account: String) = userApi.queryUserAvatar(account)
+
+    suspend fun checkToken() = userApi.checkToken()
+
+    suspend fun getAchievement(userId: String) = userApi.getAchievement(userId)
+
+    suspend fun getUserInfo(userId: String) = userApi.getUserInfo(userId)
+
+    suspend fun followState(userId: String) = userApi.followState(userId)
+
+    suspend fun followUser(userId: String) = userApi.followUser(userId)
+
+    suspend fun unfollowUser(userId: String) = userApi.unfollowUser(userId)
+
+    suspend fun checkAllowance() = userApi.checkAllowance()
+
+    suspend fun getAllowance() = userApi.getAllowance()
+
+    suspend fun getUserQaList(userId: String, page: Int) = qaApi.getUserQaList(userId, page)
+
+    suspend fun getUserFollowList(userId: String, page: Int) =
+        userApi.getUserFollowList(userId, page)
+
+    suspend fun getUserFansList(userId: String, page: Int) = userApi.getUserFansList(userId, page)
+}

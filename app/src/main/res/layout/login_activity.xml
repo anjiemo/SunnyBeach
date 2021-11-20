@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:gravity="center_horizontal"
-    android:layoutAnimation="@anim/from_bottom_layout"
+    android:layoutAnimation="@anim/layout_from_bottom"
     android:orientation="vertical"
     tools:context=".ui.activity.LoginActivity"
     tools:layoutAnimation="@null">
@@ -14,12 +14,12 @@
     <com.hjq.bar.TitleBar
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:backButton="false"
         app:barStyle="transparent"
-        app:leftColor="@color/common_accent_color"
+        app:leftIcon="@null"
         app:leftTitle="跳过"
-        app:rightColor="@color/common_accent_color"
+        app:leftTitleColor="@color/common_accent_color"
         app:rightTitle="@string/login_register"
+        app:rightTitleColor="@color/common_accent_color"
         app:title="" />
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -126,7 +126,7 @@
     <View
         android:layout_width="wrap_content"
         android:layout_height="0px"
-        android:layout_weight="5" />
+        android:layout_weight="1" />
 
     <LinearLayout
         android:id="@+id/ll_login_other"
@@ -152,6 +152,7 @@
             style="@style/HorizontalLineStyle"
             android:layout_width="60dp"
             android:layout_weight="1" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -178,6 +179,7 @@
             android:layout_weight="1"
             app:scaleRatio="1.2"
             app:srcCompat="@drawable/login_wechat_ic" />
+
     </LinearLayout>
 
 </LinearLayout>

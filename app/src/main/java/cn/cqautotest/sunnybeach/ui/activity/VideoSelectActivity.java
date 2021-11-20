@@ -20,6 +20,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hjq.base.BaseActivity;
 import com.hjq.base.BaseAdapter;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.action.StatusAction;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
@@ -32,15 +42,6 @@ import cn.cqautotest.sunnybeach.other.IntentKey;
 import cn.cqautotest.sunnybeach.ui.adapter.VideoSelectAdapter;
 import cn.cqautotest.sunnybeach.ui.dialog.AlbumDialog;
 import cn.cqautotest.sunnybeach.widget.StatusLayout;
-import com.hjq.permissions.Permission;
-import com.hjq.permissions.XXPermissions;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
 /**
  *    author : Android 轮子哥
@@ -186,7 +187,7 @@ public final class VideoSelectActivity extends AppActivity
                             mAdapter.setData(mAllAlbum.get(bean.getName()));
                         }
                         // 执行列表动画
-                        mRecyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.from_right_layout));
+                        mRecyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_from_right));
                         mRecyclerView.scheduleLayoutAnimation();
                     });
         }
@@ -361,7 +362,7 @@ public final class VideoSelectActivity extends AppActivity
                 MediaStore.MediaColumns.HEIGHT, MediaStore.MediaColumns.SIZE, MediaStore.Video.Media.DURATION};
 
         Cursor cursor = null;
-        if (XXPermissions.isGrantedPermission(this, Permission.MANAGE_EXTERNAL_STORAGE)) {
+        if (XXPermissions.isGranted(this, Permission.MANAGE_EXTERNAL_STORAGE)) {
             cursor = contentResolver.query(contentUri, projections, selection, new String[]{String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)}, sortOrder);
         }
         if (cursor != null && cursor.moveToFirst()) {
@@ -428,7 +429,7 @@ public final class VideoSelectActivity extends AppActivity
             }
 
             // 执行列表动画
-            mRecyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.fall_down_layout));
+            mRecyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_fall_down));
             mRecyclerView.scheduleLayoutAnimation();
 
             if (mAllVideo.isEmpty()) {

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.blankj.utilcode.util.DeviceUtils;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.http.EasyHttp;
@@ -41,9 +42,18 @@ public final class SplashActivity extends AppActivity {
 
     @Override
     protected void initView() {
-        UserViewModel userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        UserViewModel userViewModel = ViewModelProvider.AndroidViewModelFactory
+                .getInstance(getApplication())
+                .create(UserViewModel.class);
         mLottieView = findViewById(R.id.lav_splash_lottie);
         mDebugView = findViewById(R.id.iv_splash_debug);
+        if (AppConfig.isDebug()) {
+            HomeActivity.start(SplashActivity.this);
+            return;
+        }
+        if (DeviceUtils.isDevelopmentSettingsEnabled() || DeviceUtils.isAdbEnabled()) {
+            toast("您的设备已开启调试模式，请注意安全");
+        }
         // 设置动画监听
         mLottieView.addAnimatorListener(new AnimatorListenerAdapter() {
 

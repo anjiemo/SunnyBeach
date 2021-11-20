@@ -16,7 +16,7 @@
         android:layout_marginBottom="40dp"
         app:lottie_autoPlay="true"
         app:lottie_loop="false"
-        app:lottie_rawRes="@raw/welcome" />
+        app:lottie_rawRes="@raw/splash" />
 
     <com.hjq.widget.view.SlantedTextView
         android:id="@+id/iv_splash_debug"

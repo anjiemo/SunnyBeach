@@ -101,7 +101,8 @@ public final class MeFragment extends TitleBarFragment<HomeActivity> {
 
         } else if (viewId == R.id.btn_message_setting) {
 
-            startActivity(SettingActivity.class);
+            // startActivity(SettingActivity.class);
+            startActivity(new Intent(requireContext(), SettingActivity.class));
 
         } else if (viewId == R.id.btn_me_about) {
 
