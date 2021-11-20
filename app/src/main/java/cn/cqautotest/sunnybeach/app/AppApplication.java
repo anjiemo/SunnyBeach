@@ -12,36 +12,46 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.work.BackoffPolicy;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.hjq.bar.TitleBar;
-import com.hjq.bar.initializer.TransparentBarInitializer;
+import com.hjq.bar.style.RippleBarStyle;
+import com.hjq.gson.factory.GsonFactory;
 import com.hjq.http.EasyConfig;
-import com.hjq.permissions.XXPermissions;
 import com.hjq.toast.ToastUtils;
-import com.hjq.toast.style.ToastBlackStyle;
+import com.hjq.umeng.UmengClient;
 import com.scwang.smart.refresh.header.MaterialHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
+import cn.android52.sunnybeach.skin.manager.SkinManager;
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.db.CookieRoomDatabase;
-import cn.cqautotest.sunnybeach.http.ServiceCreator;
 import cn.cqautotest.sunnybeach.http.glide.GlideApp;
 import cn.cqautotest.sunnybeach.http.model.RequestHandler;
 import cn.cqautotest.sunnybeach.http.model.RequestServer;
 import cn.cqautotest.sunnybeach.manager.ActivityManager;
+import cn.cqautotest.sunnybeach.manager.LocalCookieManager;
 import cn.cqautotest.sunnybeach.other.AppConfig;
 import cn.cqautotest.sunnybeach.other.CrashHandler;
 import cn.cqautotest.sunnybeach.other.DebugLoggerTree;
 import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter;
-import cn.cqautotest.sunnybeach.other.ToastInterceptor;
+import cn.cqautotest.sunnybeach.other.ToastLogInterceptor;
+import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel;
+import cn.cqautotest.sunnybeach.work.CacheCleanWorker;
+import cn.cqautotest.sunnybeach.work.CheckTokenWork;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
@@ -56,6 +66,12 @@ public final class AppApplication extends Application {
 
     private static AppApplication INSTANCE;
     private static CookieRoomDatabase sDatabase;
+    private static AppViewModel sAppViewModel;
+    private static final String sWeatherApiToken = "7xoSm4k7GIK8X8E1";
+
+    public static String getWeatherApiToken() {
+        return sWeatherApiToken;
+    }
 
     @DebugLog("启动耗时")
     @Override
@@ -63,58 +79,36 @@ public final class AppApplication extends Application {
         super.onCreate();
         INSTANCE = this;
         initSdk(this);
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        // 清理所有图片内存缓存
-        GlideApp.get(this).onLowMemory();
-    }
-
-    @Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-        // 根据手机内存剩余情况清理图片内存缓存
-        GlideApp.get(this).onTrimMemory(level);
-    }
-
-    public static AppApplication getInstance() {
-        return INSTANCE;
+        //初始化换肤管理器
+        SkinManager.getInstance().init(this);
     }
 
     /**
      * 初始化一些第三方框架
      */
     public static void initSdk(Application application) {
-        // 设置调试模式
-        XXPermissions.setDebugMode(AppConfig.isDebug());
-
-        // 初始化吐司
-        ToastUtils.init(application, new ToastBlackStyle(application) {
-
-            @Override
-            public int getCornerRadius() {
-                return (int) application.getResources().getDimension(R.dimen.button_round_size);
-            }
-        });
-
-        // 设置 Toast 拦截器
-        ToastUtils.setToastInterceptor(new ToastInterceptor());
-
-        // 设置标题栏初始化器
-        TitleBar.setDefaultInitializer(new TransparentBarInitializer() {
-            @Override
-            public Drawable getBackgroundDrawable(Context context) {
-                return getDrawableResources(context, R.drawable.shape_gradient);
-            }
-        });
-
         // 本地异常捕捉
         CrashHandler.register(application);
+        // MMKV初始化
+        MMKV.initialize(application);
+
+        // 初始化吐司
+        ToastUtils.init(application);
+        // 设置调试模式
+
+        // 设置 Toast 拦截器
+        ToastUtils.setInterceptor(new ToastLogInterceptor());
+
+        // 设置标题栏初始化器
+        TitleBar.setDefaultStyle(new RippleBarStyle() {
+            @Override
+            public Drawable getTitleBarBackground(Context context) {
+                return ContextCompat.getDrawable(context, R.drawable.shape_gradient);
+            }
+        });
 
         // 友盟统计、登录、分享 SDK
-        // UmengClient.init(application);
+        UmengClient.init(application, AppConfig.isLogEnable());
 
         // Bugly 异常捕捉
         CrashReport.initCrashReport(application, AppConfig.getBuglyId(), AppConfig.isDebug());
@@ -142,7 +136,9 @@ public final class AppApplication extends Application {
         ActivityManager.getInstance().init(application);
 
         // 网络请求框架初始化
-        OkHttpClient okHttpClient = ServiceCreator.INSTANCE.getClient();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .cookieJar(LocalCookieManager.get())
+                .build();
 
         EasyConfig.with(okHttpClient)
                 // 是否打印日志
@@ -159,6 +155,13 @@ public final class AppApplication extends Application {
                 //.addHeader("time", "20191030")
                 // 启用配置
                 .into();
+
+        // 设置 Json 解析容错监听
+        GsonFactory.setJsonCallback((typeToken, fieldName, jsonToken) -> {
+            // 上报到 Bugly 错误列表
+            CrashReport.postCatchedException(new IllegalArgumentException(
+                    "类型解析异常：" + typeToken + "#" + fieldName + "，后台返回的类型为：" + jsonToken));
+        });
 
         // 初始化日志打印
         if (AppConfig.isLogEnable()) {
@@ -181,11 +184,9 @@ public final class AppApplication extends Application {
                 }
             });
         }
-
+        sAppViewModel = new AppViewModel(application);
         // 初始化 Room 数据库
         sDatabase = CookieRoomDatabase.getDatabase(application);
-        // MMKV初始化
-        MMKV.initialize(application);
         // 初始化 Glide 的 Cookie 管理
         Glide.get(application)
                 .getRegistry()
@@ -194,7 +195,7 @@ public final class AppApplication extends Application {
                         InputStream.class,
                         new OkHttpUrlLoader.Factory(castOrNull(okHttpClient))
                 );
-        // UMConfigure.setLogEnabled(AppConfig.isDebug())
+        // UMConfigure.setLogEnabled(AppConfig.isDebug());
         // // 客户端用户同意隐私政策后，正式初始化友盟+SDK
         // UMConfigure.init(
         //     getApplication(),
@@ -210,6 +211,77 @@ public final class AppApplication extends Application {
         // Push注册
         // PushHelper.init(application);
         // 在此初始化其它依赖库
+
+        // initCheckTokenWork(application);
+        // initCacheCleanWork(application);
+    }
+
+    /**
+     * 初始化 缓存清理工作
+     *
+     * @param application Application
+     */
+    private static void initCacheCleanWork(Application application) {
+        // 构造工作执行的约束条件
+        Constraints constraints = new Constraints.Builder()
+                // 电池电量不低
+                .setRequiresBatteryNotLow(true)
+                .build();
+        // 定期工作请求（间隔一天工作一次）
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(CacheCleanWorker.class,
+                1, TimeUnit.HOURS)
+                // 设置约束条件
+                .setConstraints(constraints)
+                // 符合约束条件后，延迟1分钟执行
+                .setInitialDelay(1, TimeUnit.MINUTES)
+                .build();
+        WorkManager wm = WorkManager.getInstance(application);
+        // 将工作加入队列中
+        wm.enqueue(workRequest);
+    }
+
+    /**
+     * 初始化 Token 解析工作
+     *
+     * @param application Application
+     */
+    private static void initCheckTokenWork(Application application) {
+        // 构造工作执行的约束条件
+        Constraints constraints = new Constraints.Builder()
+                // 当使用有效的网络连接时
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+        // 定期工作请求
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(CheckTokenWork.class,
+                15, TimeUnit.MINUTES)
+                // 设置约束条件
+                .setConstraints(constraints)
+                // 符合约束条件后，延迟10秒执行
+                .setInitialDelay(10, TimeUnit.MILLISECONDS)
+                // 设置指数退避算法
+                .setBackoffCriteria(BackoffPolicy.LINEAR, PeriodicWorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
+                .build();
+        WorkManager wm = WorkManager.getInstance(application);
+        // 将工作加入队列中
+        wm.enqueue(workRequest);
+    }
+
+    public static AppApplication getInstance() {
+        return INSTANCE;
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        // 清理所有图片内存缓存
+        GlideApp.get(this).onLowMemory();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        // 根据手机内存剩余情况清理图片内存缓存
+        GlideApp.get(this).onTrimMemory(level);
     }
 
     private static Call.Factory castOrNull(OkHttpClient okHttpClient) {
@@ -221,5 +293,9 @@ public final class AppApplication extends Application {
 
     public static CookieRoomDatabase getDatabase() {
         return sDatabase;
+    }
+
+    public static AppViewModel getAppViewModel() {
+        return sAppViewModel;
     }
 }

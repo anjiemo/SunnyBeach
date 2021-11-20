@@ -14,12 +14,15 @@ const val DEFAULT_URL =
 const val DEFAULT_BANNER_URL =
     "http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&start=55&count=5&from=360chrome"
 
+const val CAI_YUN_BASE_URL = "https://api.caiyunapp.com/"
+
+const val SUNNY_BEACH_ARTICLE_URL_PRE = "https://www.sunofbeach.net/a/"
+
 const val SUNNY_BEACH_BASE_URL = "https://api.sunofbeach.net/"
 
 const val DEFAULT_AVATAR_URL = "https://cdn.sunofbeaches.com/images/default_avatar.png"
 
-const val VERIFY_CODE_URL =
-    "${SUNNY_BEACH_BASE_URL}uc/ut/captcha?code=1204736502274318336"
+const val VERIFY_CODE_URL = "${SUNNY_BEACH_BASE_URL}uc/ut/captcha?code=1204736502274318336"
 
 const val DEFAULT_HTTP_OK_CODE = 200
 
@@ -49,4 +52,5 @@ const val ADDRESS = "address"
 //反馈者的QQ号码
 const val QQ = "qq_number"
 
+// 自动登录
 const val AUTO_LOGIN = "auto_login"

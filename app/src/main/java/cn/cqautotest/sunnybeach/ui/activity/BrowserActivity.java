@@ -8,23 +8,41 @@ import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 
+import com.hjq.umeng.Platform;
+import com.hjq.umeng.UmengShare;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+
+import java.util.List;
 
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.action.StatusAction;
 import cn.cqautotest.sunnybeach.aop.CheckNet;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.app.AppActivity;
+import cn.cqautotest.sunnybeach.app.AppApplication;
+import cn.cqautotest.sunnybeach.db.CookieRoomDatabase;
+import cn.cqautotest.sunnybeach.db.dao.CookieDao;
+import cn.cqautotest.sunnybeach.manager.CookieStore;
+import cn.cqautotest.sunnybeach.manager.ThreadPoolManager;
+import cn.cqautotest.sunnybeach.other.FitScreen;
 import cn.cqautotest.sunnybeach.other.IntentKey;
+import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog;
+import cn.cqautotest.sunnybeach.util.Constants;
+import cn.cqautotest.sunnybeach.util.StringUtil;
 import cn.cqautotest.sunnybeach.widget.BrowserView;
 import cn.cqautotest.sunnybeach.widget.StatusLayout;
+import okhttp3.Cookie;
+import timber.log.Timber;
 
 /**
  * author : Android 轮子哥
@@ -43,6 +61,27 @@ public final class BrowserActivity extends AppActivity
         }
         Intent intent = new Intent(context, BrowserActivity.class);
         intent.putExtra(IntentKey.URL, url);
+        // 加载非反馈界面
+        intent.putExtra(IntentKey.OTHER, false);
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        context.startActivity(intent);
+    }
+
+    @CheckNet
+    @DebugLog
+    public static void start(Context context, String url, String openId, String nickName, String avatar) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Intent intent = new Intent(context, BrowserActivity.class);
+        intent.putExtra(IntentKey.URL, url);
+        intent.putExtra(IntentKey.ID, openId);
+        intent.putExtra(IntentKey.NAME, nickName);
+        intent.putExtra(IntentKey.AVATAR_URL, avatar);
+        // 加载反馈界面
+        intent.putExtra(IntentKey.OTHER, true);
         if (!(context instanceof Activity)) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
@@ -76,9 +115,23 @@ public final class BrowserActivity extends AppActivity
     protected void initData() {
         showLoading();
 
-        mBrowserView.setBrowserViewClient(new MyBrowserViewClient());
-        mBrowserView.setBrowserChromeClient(new MyBrowserChromeClient(mBrowserView));
-        mBrowserView.loadUrl(getString(IntentKey.URL));
+        mBrowserView.setBrowserViewClient(new AppBrowserViewClient());
+        mBrowserView.setBrowserChromeClient(new AppBrowserChromeClient(mBrowserView));
+        boolean feedback = getBoolean(IntentKey.OTHER);
+        if (feedback) {
+            String openId = getString(IntentKey.ID);
+            String nickName = getString(IntentKey.NAME);
+            String avatar = getString(IntentKey.AVATAR_URL);
+            Timber.d("initData：===> openId is " + openId + " nickName is " + nickName + " avatar is " + avatar);
+            mBrowserView.postUrl(getString(IntentKey.URL), ("nickName=" +
+                    nickName +
+                    "&avatar=" +
+                    avatar +
+                    "&openid=" +
+                    openId).getBytes());
+        } else {
+            mBrowserView.loadUrl(getString(IntentKey.URL));
+        }
     }
 
     @Override
@@ -89,6 +142,35 @@ public final class BrowserActivity extends AppActivity
     @Override
     public void onLeftClick(View view) {
         finish();
+    }
+
+    @Override
+    public void onRightClick(View view) {
+        UMWeb content = new UMWeb(mBrowserView.getUrl());
+        content.setTitle(mBrowserView.getTitle());
+        content.setThumb(new UMImage(this, R.mipmap.launcher_ic));
+        content.setDescription(getString(R.string.app_name));
+        // 分享
+        new ShareDialog.Builder(this)
+                .setShareLink(content)
+                .setListener(new UmengShare.OnShareListener() {
+
+                    @Override
+                    public void onSucceed(Platform platform) {
+                        toast("分享成功");
+                    }
+
+                    @Override
+                    public void onError(Platform platform, Throwable t) {
+                        toast(t.getMessage());
+                    }
+
+                    @Override
+                    public void onCancel(Platform platform) {
+                        toast("分享取消");
+                    }
+                })
+                .show();
     }
 
     @Override
@@ -118,7 +200,43 @@ public final class BrowserActivity extends AppActivity
         reload();
     }
 
-    private class MyBrowserViewClient extends BrowserView.BrowserViewClient {
+    @Override
+    protected boolean isStatusBarDarkFont() {
+        return false;
+    }
+
+    private class AppBrowserViewClient extends BrowserView.BrowserViewClient {
+
+        private final CookieRoomDatabase mDatabase = AppApplication.getDatabase();
+        private final CookieDao mCookieDao = mDatabase.cookieDao();
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            ThreadPoolManager manager = ThreadPoolManager.getInstance();
+            manager.execute(() -> {
+                String domain = StringUtil.getTopDomain(Constants.SUNNY_BEACH_BASE_URL);
+                Timber.d("===> domain is $domain");
+                CookieManager cookieManager = CookieManager.getInstance();
+                CookieStore cookieStore = mCookieDao.getCookiesByDomain(domain);
+                if (cookieStore != null) {
+                    List<Cookie> cookieStoreList = cookieStore.getCookies();
+                    for (Cookie cookie : cookieStoreList) {
+                        String cookieName = cookie.name();
+                        String cookieValue = cookie.value();
+                        String cookieDomain = cookie.domain();
+                        String cookieStr = cookieName + "=" + cookieValue + "; path=/; domain=." + cookieDomain;
+                        Timber.d("===> Set-Cookie is %s", cookieStr);
+                        cookieManager.setCookie(url, cookieStr);
+                    }
+                }
+                String newCookie = cookieManager.getCookie(url);
+                if (newCookie != null) {
+                    Timber.d("===> newCookie is %s", newCookie);
+                }
+                Timber.d("===> CookieManager is finish");
+            });
+            return super.shouldOverrideUrlLoading(view, url);
+        }
 
         /**
          * 网页加载错误时回调，这个方法会在 onPageFinished 之前调用
@@ -143,14 +261,18 @@ public final class BrowserActivity extends AppActivity
         @Override
         public void onPageFinished(WebView view, String url) {
             mProgressBar.setVisibility(View.GONE);
+            if (url.contains(Constants.SUNNY_BEACH_ARTICLE_URL_PRE)) {
+                FitScreen fitScreen = new FitScreen(view);
+                fitScreen.run();
+            }
             mRefreshLayout.finishRefresh();
             showComplete();
         }
     }
 
-    private class MyBrowserChromeClient extends BrowserView.BrowserChromeClient {
+    private class AppBrowserChromeClient extends BrowserView.BrowserChromeClient {
 
-        private MyBrowserChromeClient(BrowserView view) {
+        private AppBrowserChromeClient(BrowserView view) {
             super(view);
         }
 
@@ -159,16 +281,18 @@ public final class BrowserActivity extends AppActivity
          */
         @Override
         public void onReceivedTitle(WebView view, String title) {
-            if (title != null) {
-                setTitle(title);
+            if (title == null) {
+                return;
             }
+            setTitle(title);
         }
 
         @Override
         public void onReceivedIcon(WebView view, Bitmap icon) {
-            if (icon != null) {
-                setRightIcon(new BitmapDrawable(getResources(), icon));
+            if (icon == null) {
+                return;
             }
+            setRightIcon(new BitmapDrawable(getResources(), icon));
         }
 
         /**

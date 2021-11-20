@@ -22,7 +22,7 @@
         android:id="@+id/rv_share_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layoutAnimation="@anim/from_bottom_layout"
+        android:layoutAnimation="@anim/layout_from_bottom"
         tools:itemCount="5"
         tools:layoutAnimation="@null"
         tools:layoutManager="GridLayoutManager"

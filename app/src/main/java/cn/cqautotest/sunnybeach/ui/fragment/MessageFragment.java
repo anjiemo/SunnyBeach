@@ -91,7 +91,7 @@ public final class MessageFragment extends TitleBarFragment<HomeActivity> {
 
         } else if (viewId == R.id.btn_message_setting) {
 
-            XXPermissions.startApplicationDetails(this);
+            XXPermissions.startPermissionActivity(this);
 
         } else if (viewId == R.id.btn_message_black) {
 

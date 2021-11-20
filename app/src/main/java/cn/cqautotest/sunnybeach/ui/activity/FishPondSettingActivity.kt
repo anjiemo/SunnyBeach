@@ -3,12 +3,10 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Rect
-import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
+import by.kirich1409.viewbindingdelegate.viewBinding
+import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.DebugLog
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -23,7 +21,7 @@ import com.chad.library.adapter.base.module.BaseDraggableModule
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
-import io.noties.markwon.syntax.*
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -33,23 +31,18 @@ import io.noties.markwon.syntax.*
  */
 class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
 
-    private lateinit var mBinding: FishPondSettingActivityBinding
+    private val mBinding: FishPondSettingActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
     private lateinit var mStatusLayout: StatusLayout
     private lateinit var mRefreshLayout: SmartRefreshLayout
     private val mFishPondAdapter = FishPondAdapter()
 
-    override fun getLayoutId(): Int = 0
-
-    override fun onBindingView(): ViewBinding {
-        mBinding = FishPondSettingActivityBinding.inflate(layoutInflater)
-        return mBinding
-    }
+    override fun getLayoutId(): Int = R.layout.fish_pond_setting_activity
 
     override fun initObserver() {
-        mFishPondViewModel.fishFishPondTopicList.observe(this) { fishTopic ->
-            setupTopicUI(fishTopic)
-        }
+        // mFishPondViewModel.fishFishPondTopicList.observe(this) { fishTopic ->
+        //     setupTopicUI(fishTopic)
+        // }
     }
 
     private fun setupTopicUI(fishFishPondTopicList: FishPondTopicList?) {
@@ -59,7 +52,7 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
             return
         }
         showComplete()
-        logByDebug(msg = "initObserver：===> topic is $fishFishPondTopicList")
+        Timber.d("topic is $fishFishPondTopicList")
         mFishPondAdapter.setList(fishFishPondTopicList)
     }
 
@@ -77,7 +70,7 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
     }
 
     private fun loadTopic() {
-        mFishPondViewModel.loadTopicList()
+        // mFishPondViewModel.loadTopicList()
     }
 
     override fun initView() {
@@ -91,22 +84,7 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
             val draggableModule = BaseDraggableModule(mFishPondAdapter)
             draggableModule.attachToRecyclerView(this)
             draggableModule.isDragEnabled = true
-            addItemDecoration(object : RecyclerView.ItemDecoration() {
-
-                // 单位间距（实际间距的一半）
-                private val unit = 4.dp
-
-                override fun getItemOffsets(
-                    outRect: Rect,
-                    view: View,
-                    parent: RecyclerView,
-                    state: RecyclerView.State
-                ) {
-                    super.getItemOffsets(outRect, view, parent, state)
-                    equilibriumAssignmentOfGrid(unit, outRect, view, parent)
-                    view.setRoundRectBg(cornerRadius = 16.dp)
-                }
-            })
+            addItemDecoration(GridSpaceItemDecoration(4.dp))
         }
     }
 
@@ -114,12 +92,9 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
         return mStatusLayout
     }
 
-    override fun onLeftClick(view: View?) {
-        finish()
-    }
-
     companion object {
 
+        @JvmStatic
         @DebugLog
         fun start(context: Context) {
             val intent = Intent(context, FishPondSettingActivity::class.java)

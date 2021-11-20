@@ -10,7 +10,7 @@
     <com.hjq.bar.TitleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:backButton="false"
+        app:leftIcon="@null"
         app:title="@string/home_nav_found" />
 
     <androidx.core.widget.NestedScrollView
@@ -62,7 +62,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 app:bar_leftText="左文本"
-                app:bar_rightIcon="@drawable/arrows_right_ic"
+                app:bar_rightDrawable="@drawable/arrows_right_ic"
                 app:bar_rightText="右文本" />
 
             <LinearLayout

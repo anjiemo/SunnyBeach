@@ -1,74 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@drawable/item_selector_ic"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <FrameLayout
+        android:id="@+id/fl_avatar_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_fish_pond_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="评论用户的头像"
+            android:src="@mipmap/ic_default_avatar" />
+
+    </FrameLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/ll_top_container"
+        android:layout_width="0px"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="50dp"
         android:orientation="horizontal"
-        android:padding="10dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fl_avatar_container"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <FrameLayout
-            android:id="@+id/fl_avatar_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iv_fish_pond_avatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="评论用户的头像"
-                android:src="@mipmap/ic_default_avatar" />
-
-        </FrameLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/cb_fish_pond_nick_name"
+            android:layout_width="0px"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:orientation="vertical">
-
-            <CheckBox
-                android:id="@+id/cb_fish_pond_nick_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:button="@null"
-                android:clickable="false"
-                android:drawableEnd="@drawable/elv_arrows_selector"
-                android:ellipsize="end"
-                android:enabled="false"
-                android:focusable="false"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/tv_fish_pond_desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/cb_fish_pond_nick_name"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:textColor="@color/default_font_color" />
-
-            <TextView
-                android:id="@+id/tv_reply_msg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_fish_pond_desc"
-                android:layout_marginTop="10dp"
-                android:lineSpacingMultiplier="1.5"
-                android:padding="4dp"
-                android:text="回复：" />
-
-        </RelativeLayout>
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:clickable="false"
+            android:ellipsize="end"
+            android:enabled="false"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/iv_fish_pond_comment"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center_vertical"
+        android:src="@mipmap/ic_pond_comment"
+        app:layout_constraintBottom_toBottomOf="@id/ll_top_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ll_top_container" />
+
+    <TextView
+        android:id="@+id/tv_fish_pond_desc"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_top_container"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="50dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textColor="@color/default_font_color"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fl_avatar_container"
+        app:layout_constraintTop_toBottomOf="@id/ll_top_container" />
+
+    <TextView
+        android:id="@+id/tv_reply_msg"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_fish_pond_desc"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:lineSpacingMultiplier="1.2"
+        app:layout_constraintBottom_toTopOf="@+id/tv_build_reply_msg_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fl_avatar_container"
+        app:layout_constraintTop_toBottomOf="@id/tv_fish_pond_desc" />
+
+    <LinearLayout
+        android:id="@+id/tv_build_reply_msg_container"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:background="#F4F4F4"
+        android:orientation="vertical"
+        android:padding="4dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/tv_reply_msg"
+        app:layout_constraintStart_toStartOf="@id/tv_reply_msg"
+        app:layout_constraintTop_toBottomOf="@id/tv_reply_msg">
+
+        <TextView
+            android:id="@+id/tv_child_reply_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="tv_reply_msg"
+            tools:text="A Lonely Cat" />
+
+        <TextView
+            android:id="@+id/tv_child_reply_msg1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="tv_reply_msg"
+            tools:text="A Lonely Cat" />
+
+        <TextView
+            android:id="@+id/tv_child_reply_msg_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="tv_reply_msg_indicator"
+            android:textColor="#045FB2"
+            tools:text="查看全部0条回复>" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

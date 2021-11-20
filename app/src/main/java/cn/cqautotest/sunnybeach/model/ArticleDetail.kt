@@ -18,7 +18,7 @@ data class ArticleDetail(
     @SerializedName("categoryName")
     val categoryName: String,
     @SerializedName("content")
-    val content: String?,
+    val content: String,
     @SerializedName("contentType")
     val contentType: String,
     @SerializedName("covers")

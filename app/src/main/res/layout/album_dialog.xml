@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
     android:background="@drawable/dialog_rounded_corner_bg"
-    android:layoutAnimation="@anim/from_bottom_layout"
+    android:layoutAnimation="@anim/layout_from_bottom"
     android:orientation="horizontal"
     tools:context=".ui.dialog.AlbumDialog"
     tools:itemCount="4"

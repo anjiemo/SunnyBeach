@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.viewbinding.ViewBinding;
 
+import com.blankj.utilcode.util.DeviceUtils;
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.TitleBar;
 import com.hjq.base.BaseActivity;
@@ -20,6 +23,8 @@ import cn.cqautotest.sunnybeach.action.Init;
 import cn.cqautotest.sunnybeach.action.TitleBarAction;
 import cn.cqautotest.sunnybeach.action.ToastAction;
 import cn.cqautotest.sunnybeach.http.model.HttpData;
+import cn.cqautotest.sunnybeach.manager.ActivityManager;
+import cn.cqautotest.sunnybeach.other.AppConfig;
 import cn.cqautotest.sunnybeach.ui.dialog.WaitDialog;
 import okhttp3.Call;
 
@@ -114,6 +119,13 @@ public abstract class AppActivity extends BaseActivity
     @Override
     protected void initLayout() {
         super.initLayout();
+        ViewBinding viewBinding = onBindingView();
+        // 优先使用 ViewBinding
+        if (viewBinding != null) {
+            setContentView(viewBinding.getRoot());
+            KeyboardUtils.fixAndroidBug5497(this);
+            initSoftKeyboard();
+        }
         if (getTitleBar() != null) {
             getTitleBar().setOnTitleBarListener(this);
         }
@@ -127,15 +139,6 @@ public abstract class AppActivity extends BaseActivity
                 ImmersionBar.setTitleBar(this, getTitleBar());
             }
         }
-    }
-
-    @Override
-    protected View handleViewBinding() {
-        ViewBinding viewBinding = onBindingView();
-        if (viewBinding == null) {
-            return null;
-        }
-        return viewBinding.getRoot();
     }
 
     /**
@@ -156,7 +159,7 @@ public abstract class AppActivity extends BaseActivity
      * 状态栏字体深色模式
      */
     protected boolean isStatusBarDarkFont() {
-        return true;
+        return false;
     }
 
     /**
@@ -226,7 +229,17 @@ public abstract class AppActivity extends BaseActivity
     @Override
     public void finish() {
         super.finish();
+        hideKeyboard();
         overridePendingTransition(R.anim.left_in_activity, R.anim.left_out_activity);
+    }
+
+    @Override
+    public void hideKeyboard(View view) {
+        KeyboardUtils.hideSoftInput(this);
+    }
+
+    public void hideKeyboard() {
+        KeyboardUtils.hideSoftInput(this);
     }
 
     /**
@@ -255,6 +268,21 @@ public abstract class AppActivity extends BaseActivity
         hideDialog();
     }
 
+    @CallSuper
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!AppConfig.isDebug() && DeviceUtils.isDeviceRooted()) {
+            toast("请勿在root设备使用本App");
+            ActivityManager.getInstance().finishAllActivities();
+            return;
+        }
+        if (!AppConfig.isDebug() && DeviceUtils.isEmulator()) {
+            toast("请勿在模拟器上使用本App");
+            ActivityManager.getInstance().finishAllActivities();
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -262,5 +290,6 @@ public abstract class AppActivity extends BaseActivity
             hideDialog();
         }
         mDialog = null;
+        KeyboardUtils.fixSoftInputLeaks(this);
     }
 }
