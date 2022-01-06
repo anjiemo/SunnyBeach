@@ -62,6 +62,16 @@
         <package android:name="cn.android52.sunnybeach.skin" />
     </queries>
 
+    <!-- 悬浮窗入口 -->
+    <meta-data
+        android:name="LogcatWindowEntrance"
+        android:value="false" />
+
+    <!-- 通知栏入口 -->
+    <meta-data
+        android:name="LogcatNotifyEntrance"
+        android:value="true" />
+
     <application
         android:name=".app.AppApplication"
         android:allowBackup="false"

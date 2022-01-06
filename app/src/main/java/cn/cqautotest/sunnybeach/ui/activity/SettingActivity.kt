@@ -6,6 +6,7 @@ import android.net.Uri
 import android.view.Gravity
 import android.view.View
 import android.webkit.CookieManager
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -14,6 +15,7 @@ import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.SettingActivityBinding
+import cn.cqautotest.sunnybeach.db.SobCacheManager
 import cn.cqautotest.sunnybeach.http.model.HttpData
 import cn.cqautotest.sunnybeach.http.request.LogoutApi
 import cn.cqautotest.sunnybeach.manager.ActivityManager
@@ -27,6 +29,7 @@ import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
 import cn.cqautotest.sunnybeach.ui.dialog.SafeDialog
 import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog
 import cn.cqautotest.sunnybeach.util.startActivity
+import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import com.hjq.base.BaseDialog
 import com.hjq.http.EasyHttp
@@ -44,6 +47,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
     private val mBinding: SettingActivityBinding by viewBinding()
     private var mAppLiveData = MutableLiveData<AppUpdateInfo?>()
     private val mAppViewModel: AppViewModel = AppApplication.getAppViewModel()
+    private val mUserViewModel by viewModels<UserViewModel>()
 
     override fun getLayoutId(): Int = R.layout.setting_activity
 
@@ -194,13 +198,16 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                     // 清除App本地缓存的 Cookie（必须在非主线程操作）
                     cookieDao.clearCookies()
                 }
-                if (true) {
-                    // TODO: 退出账号并清除用户基本信息数据
-                    startActivity<LoginActivity>()
+                // 退出账号并清除用户基本信息数据
+                mUserViewModel.logout().observe(this) {
+                    SobCacheManager.onAccountLoginOut()
+                    LoginActivity.start(this, "", "")
                     // 进行内存优化，销毁除登录页之外的所有界面
                     ActivityManager.getInstance().finishAllActivities(
                         LoginActivity::class.java
                     )
+                }
+                if (true) {
                     return
                 }
                 // 退出登录
@@ -208,7 +215,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                     .api(LogoutApi())
                     .request(object : HttpCallback<HttpData<Void?>>(this) {
                         override fun onSucceed(data: HttpData<Void?>) {
-                            startActivity<LoginActivity>()
+                            LoginActivity.start(context, "", "")
                             // 进行内存优化，销毁除登录页之外的所有界面
                             ActivityManager.getInstance().finishAllActivities(
                                 LoginActivity::class.java

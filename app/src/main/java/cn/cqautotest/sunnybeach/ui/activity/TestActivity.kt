@@ -39,7 +39,9 @@ class TestActivity : SupportSkinActivity(), Init, ISkinChangingCallback {
 
     private fun initView() {}
 
-    private fun initData() {}
+    private fun initData() {
+
+    }
 
     override fun initEvent() {
         mBinding.btnChange.setOnClickListener {

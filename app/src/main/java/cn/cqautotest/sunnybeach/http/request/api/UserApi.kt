@@ -19,6 +19,12 @@ interface UserApi {
     suspend fun getRichList(@Path("count") count: Int): ApiResponse<RichList>
 
     /**
+     * 退出登录
+     */
+    @GET("${SUNNY_BEACH_BASE_URL}uc/user/logout")
+    suspend fun logout(): ApiResponse<Any>
+
+    /**
      * 登录账号
      */
     @POST("${SUNNY_BEACH_BASE_URL}uc/user/login/{captcha}")
@@ -26,6 +32,7 @@ interface UserApi {
 
     /**
      * 解析当前用户的 Token
+     * Token 的有效期为 7天
      */
     @GET("${SUNNY_BEACH_BASE_URL}uc/user/checkToken")
     suspend fun checkToken(): ApiResponse<UserBasicInfo>

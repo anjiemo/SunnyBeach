@@ -21,7 +21,7 @@ object FishNetwork {
 
     suspend fun putFish(moment: Map<String, Any?>) = fishPondApi.putFish(moment)
 
-    suspend fun uploadFishImage(body: MultipartBody.Part) = fishPondApi.uploadFishImage(body)
+    suspend fun uploadFishImage(part: MultipartBody.Part) = fishPondApi.uploadFishImage(part)
 
     suspend fun postComment(momentComment: Map<String, Any?>) =
         fishPondApi.postComment(momentComment)

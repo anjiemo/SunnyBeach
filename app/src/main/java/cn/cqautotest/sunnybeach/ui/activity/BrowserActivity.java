@@ -31,6 +31,7 @@ import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.app.AppActivity;
 import cn.cqautotest.sunnybeach.app.AppApplication;
 import cn.cqautotest.sunnybeach.db.CookieRoomDatabase;
+import cn.cqautotest.sunnybeach.db.SobCacheManager;
 import cn.cqautotest.sunnybeach.db.dao.CookieDao;
 import cn.cqautotest.sunnybeach.manager.CookieStore;
 import cn.cqautotest.sunnybeach.manager.ThreadPoolManager;
@@ -212,10 +213,10 @@ public final class BrowserActivity extends AppActivity
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            String domain = StringUtil.getTopDomain(Constants.SUNNY_BEACH_BASE_URL);
             ThreadPoolManager manager = ThreadPoolManager.getInstance();
             manager.execute(() -> {
-                String domain = StringUtil.getTopDomain(Constants.SUNNY_BEACH_BASE_URL);
-                Timber.d("===> domain is $domain");
+                Timber.d("===> domain is %s", domain);
                 CookieManager cookieManager = CookieManager.getInstance();
                 CookieStore cookieStore = mCookieDao.getCookiesByDomain(domain);
                 if (cookieStore != null) {
@@ -232,6 +233,14 @@ public final class BrowserActivity extends AppActivity
                 String newCookie = cookieManager.getCookie(url);
                 if (newCookie != null) {
                     Timber.d("===> newCookie is %s", newCookie);
+                }
+                String curTopDomain = StringUtil.getTopDomain(url);
+                if (domain.equals(curTopDomain)) {
+                    String cookieName = SobCacheManager.SOB_TOKEN_NAME;
+                    String cookieValue = SobCacheManager.INSTANCE.getSobToken();
+                    String cookieStr = cookieName + "=" + cookieValue + "; path=/; domain=." + domain;
+                    Timber.d("===> Set-Cookie is %s", cookieStr);
+                    cookieManager.setCookie(url, cookieStr);
                 }
                 Timber.d("===> CookieManager is finish");
             });

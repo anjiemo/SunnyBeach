@@ -1,12 +1,11 @@
 package cn.cqautotest.sunnybeach.http
 
-import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.db.SobCacheManager
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 import cn.cqautotest.sunnybeach.util.fromJson
-import cn.cqautotest.sunnybeach.util.simpleToast
 import cn.cqautotest.sunnybeach.util.unicodeToString
 import com.blankj.utilcode.util.ThreadUtils
 import okhttp3.Headers
@@ -27,16 +26,21 @@ import java.nio.charset.StandardCharsets
  */
 class AccountInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request().newBuilder()
-        val response = try {
-            chain.proceed(request.build())
-        } catch (e: Exception) {
-            throw e
-        }
+        val request = chain.request()
+        val requestBuilder = request.newBuilder()
+
+        // 按需要添加请求头
+        SobCacheManager.addHeadersByNeed(request, requestBuilder)
+
+        val response = chain.proceed(requestBuilder.build())
         val headers = response.headers
         val responseBody = response.body!!
         val contentLength = responseBody.contentLength()
-        if (response.promisesBody().not() || bodyHasUnknownEncoding(response.headers)) {
+
+        // 根据需要保存请求头
+        SobCacheManager.saveHeadersByNeed(request, headers)
+
+        if (response.promisesBody().not() || bodyHasUnknownEncoding(headers)) {
             return response
         }
         val source = responseBody.source()
@@ -77,8 +81,8 @@ class AccountInterceptor : Interceptor {
             if (topActivity is HomeActivity || topActivity is LoginActivity) {
                 return@post
             }
-            simpleToast(R.string.http_token_error)
-            LoginActivity.start(topActivity, "", "")
+            // simpleToast(R.string.http_token_error)
+            // LoginActivity.start(topActivity, "", "")
         }
     }
 
