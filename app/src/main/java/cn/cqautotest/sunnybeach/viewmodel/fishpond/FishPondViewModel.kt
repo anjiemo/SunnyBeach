@@ -13,7 +13,6 @@ import cn.cqautotest.sunnybeach.paging.source.FishPagingSource
 import cn.cqautotest.sunnybeach.paging.source.UserFishPagingSource
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import kotlinx.coroutines.flow.Flow
-import java.io.File
 
 /**
  * author : A Lonely Cat
@@ -37,8 +36,6 @@ class FishPondViewModel : ViewModel() {
                 FishDetailCommendListPagingSource(momentId)
             }).flow.cachedIn(viewModelScope)
     }
-
-    suspend fun uploadFishImage(image: File) = Repository.uploadFishImage(image)
 
     fun putFish(moment: Map<String, Any?>) = Repository.putFish(moment)
 

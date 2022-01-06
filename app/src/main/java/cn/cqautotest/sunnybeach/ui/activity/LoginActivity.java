@@ -240,13 +240,17 @@ public final class LoginActivity extends AppActivity
         });
     }
 
-    @SingleClick
     @Override
     public void onClick(View view) {
         if (view == mVerifyCodeView) {
             loadVerifyCode();
             return;
         }
+        onSingleClick(view);
+    }
+
+    @SingleClick
+    private void onSingleClick(View view) {
         if (view == mForgetView) {
             startActivity(PasswordForgetActivity.class);
             return;

@@ -39,6 +39,7 @@ import cn.android52.sunnybeach.skin.manager.SkinManager;
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.db.CookieRoomDatabase;
+import cn.cqautotest.sunnybeach.http.ServiceCreator;
 import cn.cqautotest.sunnybeach.http.glide.GlideApp;
 import cn.cqautotest.sunnybeach.http.model.RequestHandler;
 import cn.cqautotest.sunnybeach.http.model.RequestServer;
@@ -62,7 +63,7 @@ import timber.log.Timber;
  * time   : 2018/10/18
  * desc   : 应用入口
  */
-public final class AppApplication extends Application {
+public class AppApplication extends Application {
 
     private static AppApplication INSTANCE;
     private static CookieRoomDatabase sDatabase;
@@ -138,6 +139,7 @@ public final class AppApplication extends Application {
         // 网络请求框架初始化
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .cookieJar(LocalCookieManager.get())
+                .addInterceptor(ServiceCreator.INSTANCE.getAccountInterceptor())
                 .build();
 
         EasyConfig.with(okHttpClient)
@@ -285,7 +287,7 @@ public final class AppApplication extends Application {
     }
 
     private static Call.Factory castOrNull(OkHttpClient okHttpClient) {
-        if (okHttpClient instanceof Call.Factory) {
+        if (okHttpClient != null) {
             return (Call.Factory) okHttpClient;
         }
         return null;

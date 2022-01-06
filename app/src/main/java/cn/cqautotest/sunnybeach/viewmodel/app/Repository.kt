@@ -5,13 +5,14 @@ import cn.cqautotest.sunnybeach.db.dao.PlaceDao
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
 import cn.cqautotest.sunnybeach.model.weather.Place
+import cn.cqautotest.sunnybeach.util.toJson
 import cn.cqautotest.sunnyweather.logic.model.Weather
-import com.blankj.utilcode.util.FileUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody
 import timber.log.Timber
 import java.io.File
 
@@ -140,6 +141,20 @@ object Repository {
         emit(result)
     }
 
+    fun logout() = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.logout()
+                Timber.d("result is $result")
+                System.currentTimeMillis()
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            System.currentTimeMillis()
+        }
+        emit(result)
+    }
+
     suspend fun checkToken() = try {
         val result = UserNetwork.checkToken()
         if (result.isSuccess()) result.getData()
@@ -213,21 +228,22 @@ object Repository {
         emit(result)
     }
 
-    suspend fun uploadFishImage(image: File) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val fileName = FileUtils.getFileMD5ToString(image)
-                val requestBody = image.asRequestBody()
-                val body = MultipartBody.Part.createFormData("image", fileName, requestBody)
-                val result = FishNetwork.uploadFishImage(body)
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
+    suspend fun uploadFishImage(imageFile: File): String? {
+        return try {
+            val fileName = imageFile.name
+            Timber.d("===> fileName is $fileName")
+            val requestBody = RequestBody.create("image/png".toMediaType(), imageFile)
+            val part = MultipartBody.Part.createFormData("image", fileName, requestBody)
+            val result = FishNetwork.uploadFishImage(part)
+            Timber.d("result is ${result.toJson()}")
+            // 此处不能返回 Result<T> ，详见：https://github.com/mockk/mockk/issues/443
+            // Result getOrNull give ClassCastException：https://stackoverflow.com/questions/68016267/result-getornull-give-classcastexception
+            if (result.isSuccess()) result.getData()
+            else null
         } catch (t: Throwable) {
             t.printStackTrace()
-            Result.failure(t)
+            null
         }
-        emit(result)
     }
 
     fun putFish(moment: Map<String, Any?>) = liveData(Dispatchers.IO) {

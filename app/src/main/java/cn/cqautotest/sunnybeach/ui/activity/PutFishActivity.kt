@@ -23,9 +23,13 @@ import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog
 import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.blankj.utilcode.util.KeyboardUtils
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 
 /**
@@ -42,7 +46,6 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     private val softKeyboardListener = getSoftKeyboardListener()
     private var mTopicId: String? = null
     private var mLinkUrl: String? = null
-    private var mImages = arrayListOf<String>()
 
     override fun getLayoutId(): Int = R.layout.put_fish_activity
 
@@ -120,12 +123,9 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         }
         mBinding.ivImage.setFixOnClickListener {
             // TODO: 2021/9/11 选择图片，跳转至图片选择界面
-            simpleToast("暂不支持选择图片")
-            if (true) {
-                return@setFixOnClickListener
-            }
+            // simpleToast("暂不支持选择图片")
             // 选择图片，跳转到图片选择界面
-            ImageSelectActivity.start(this, 4, this)
+            ImageSelectActivity.start(this, 9, this)
         }
         mBinding.ivLink.setFixOnClickListener {
             // 弹出链接输入对话框，添加 url 链接
@@ -170,13 +170,9 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             val inputLength = mBinding.etInputContent.length()
             // 判断输入的字符长度是否溢出
             val isOverflow = (maxInputTextLength - inputLength) < 0
-            // 如果输入的字符长度溢出了，则为 -number 样式，否则为 number / maxInputTextLength 的样式
-            val inputLengthTips =
-                if (inputLength < minInputTextLength || isOverflow) (maxInputTextLength - inputLength).toString()
-                else "${inputLength}/$maxInputTextLength"
-            mBinding.tvInputLength.text = inputLengthTips
+            mBinding.tvInputLength.text = "${inputLength}/$maxInputTextLength"
             // 判断输入的字符串长度是否超过最大长度
-            mBinding.tvInputLength.setTextColor(if (isOverflow) overflowColor else normalColor)
+            mBinding.tvInputLength.setTextColor(if (inputLength < minInputTextLength || isOverflow) overflowColor else normalColor)
         }
     }
 
@@ -194,50 +190,63 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             simpleToast("请输入[5, 512)个字符~")
             return
         }
-        // 提交
+        // 摸鱼内容
         val content = mBinding.etInputContent.textString
-        // 2021/9/12 填充 “链接”（客户端暂不支持），
-        val map = mapOf(
-            "content" to content,
-            "topicId" to mTopicId,
-            "linkUrl" to mLinkUrl,
-            "images" to mImages,
-        )
+        val images = arrayListOf<String>()
+        images.addAll(mPreviewAdapter.getData())
         showDialog()
-        // 如果选中的图片个数等于上传成功的图片个数，则图片全部上传成功
-        mFishPondViewModel.putFish(map).observe(this@PutFishActivity) {
-            hideDialog()
-            it.getOrElse { throwable ->
-                simpleToast("发布失败😭 $throwable")
-                return@observe
+        // 上传图片，此处的 path 为客户端本地的路径，需要上传到服务器上，获取网络 url 路径
+        lifecycleScope.launchWhenCreated {
+            val successImages = arrayListOf<String>()
+            withContext(Dispatchers.IO) {
+                run {
+                    images.forEach {
+                        val imageUrl = withContext(Dispatchers.Default) {
+                            Repository.uploadFishImage(File(it))
+                            // 直接 return 只有 continue 的效果，此处需要使用 lambda 进行 return （相当于 break）
+                        } ?: return@run
+                        successImages.add(imageUrl)
+                        Timber.d("===> imageUrl is $imageUrl")
+                    }
+                }
             }
-            // 重置界面状态
-            mTopicId = null
-            mLinkUrl = null
-            mImages.clear()
-            mBinding.etInputContent.clearText()
-            resetTopic()
-            simpleToast("发布非常成功😃")
-            setResult(Activity.RESULT_OK)
-            finish()
+            Timber.d("===> successImages is $successImages")
+            if (successImages.size != images.size) {
+                simpleToast("图片上传失败，请稍后重试")
+                hideDialog()
+                return@launchWhenCreated
+            }
+            // 2021/9/12 填充 “链接”（客户端暂不支持），
+            val map = mapOf(
+                "content" to content,
+                "topicId" to mTopicId,
+                "linkUrl" to mLinkUrl,
+                "images" to successImages,
+            )
+
+            // 图片上传完成，可以发布摸鱼
+            mFishPondViewModel.putFish(map).observe(this@PutFishActivity) {
+                hideDialog()
+                it.getOrElse { throwable ->
+                    simpleToast("发布失败😭 $throwable")
+                    return@observe
+                }
+                // 重置界面状态
+                mTopicId = null
+                mLinkUrl = null
+                mPreviewAdapter.setData(arrayListOf())
+                mBinding.etInputContent.clearText()
+                resetTopic()
+                simpleToast("发布非常成功😃")
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
         }
     }
 
-    override fun onSelected(data: MutableList<String>?) {
-        mImages.clear()
-        data ?: return
-        // 此处的 path 为客户端本地的路径，需要上传到服务器上，获取 url 路径
-        lifecycleScope.launchWhenCreated {
-            val successImages = arrayListOf<String?>()
-            mImages.forEach {
-                mFishPondViewModel.uploadFishImage(File(it))
-                    .observe(this@PutFishActivity) { result ->
-                        successImages.add(result.getOrNull())
-                        mPreviewAdapter.setData(successImages)
-                    }
-            }
-            simpleToast("图片上传完成")
-        }
+    override fun onSelected(data: MutableList<String>) {
+        mPreviewAdapter.setData(data.toMutableList())
+        Timber.d("===> images path is $data")
     }
 
     override fun onPause() {
@@ -247,18 +256,16 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
 
     companion object {
 
-        private class ImagePreviewAdapter(private val mData: MutableList<String?> = arrayListOf()) :
+        private class ImagePreviewAdapter(private val mData: MutableList<String> = arrayListOf()) :
             RecyclerView.Adapter<ImagePreviewViewHolder>() {
 
             private var previewImageListener: (view: View, position: Int) -> Unit = { _, _ -> }
             private var clearImageListener: (view: View, position: Int) -> Unit = { _, _ -> }
 
             @SuppressLint("NotifyDataSetChanged")
-            fun setData(data: MutableList<String?>) {
+            fun setData(data: MutableList<String>) {
                 mData.clear()
-                data.let {
-                    mData.addAll(it)
-                }
+                mData.addAll(data)
                 notifyDataSetChanged()
             }
 

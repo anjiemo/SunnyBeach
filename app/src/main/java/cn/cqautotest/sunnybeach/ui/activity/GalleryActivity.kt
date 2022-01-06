@@ -10,8 +10,11 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.getSystemService
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -30,6 +33,7 @@ import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 import com.blankj.utilcode.util.IntentUtils
+import com.gyf.immersionbar.ImmersionBar
 import com.hjq.permissions.XXPermissions
 import timber.log.Timber
 import java.io.File
@@ -166,6 +170,8 @@ class GalleryActivity : AppActivity() {
     }
 
     override fun initView() {
+        // 隐藏状态栏，全屏浏览壁纸
+        ImmersionBar.hideStatusBar(window)
         mBinding.galleryViewPager2.apply {
             orientation = ViewPager2.ORIENTATION_VERTICAL
             adapter = mPhotoAdapter
@@ -186,6 +192,8 @@ class GalleryActivity : AppActivity() {
 
     companion object {
 
+        private const val SHARE_ELEMENT_NAME = "photo"
+
         @JvmStatic
         @DebugLog
         fun start(context: Context, id: String) {
@@ -195,6 +203,19 @@ class GalleryActivity : AppActivity() {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)
+        }
+
+        @JvmStatic
+        @DebugLog
+        fun smoothEntry(activity: Activity, id: String, shareElement: View) {
+            val aos = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity,
+                shareElement,
+                SHARE_ELEMENT_NAME
+            )
+            val intent = Intent(activity, GalleryActivity::class.java)
+            intent.putExtra(IntentKey.ID, id)
+            ActivityCompat.startActivity(activity, intent, aos.toBundle())
         }
     }
 }

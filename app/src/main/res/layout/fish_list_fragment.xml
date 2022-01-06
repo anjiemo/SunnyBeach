@@ -10,11 +10,11 @@
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:leftIcon="@null"
         app:barStyle="light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:leftIcon="@null"
         app:title="鱼塘" />
 
     <cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -46,13 +46,13 @@
     </cn.cqautotest.sunnybeach.widget.StatusLayout>
 
     <com.hjq.widget.view.FloatActionButton
-        android:layout_width="58dp"
         android:id="@+id/iv_publish_content"
+        android:layout_width="58dp"
         android:layout_height="58dp"
-        android:padding="4dp"
-        android:contentDescription="发布摸鱼"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="40dp"
+        android:contentDescription="发布摸鱼"
+        android:padding="4dp"
         android:src="@mipmap/ic_publish_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

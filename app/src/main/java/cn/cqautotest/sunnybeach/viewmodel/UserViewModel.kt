@@ -133,6 +133,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
+     * 退出登录
+     */
+    fun logout() = Repository.logout()
+
+    /**
      * 用户账号登录
      */
     fun login(userAccount: String, password: String, captcha: String) {
