@@ -26,6 +26,7 @@ import cn.cqautotest.sunnybeach.http.model.HttpData;
 import cn.cqautotest.sunnybeach.manager.ActivityManager;
 import cn.cqautotest.sunnybeach.other.AppConfig;
 import cn.cqautotest.sunnybeach.ui.dialog.WaitDialog;
+import cn.cqautotest.sunnybeach.util.FragmentActivityKt;
 import okhttp3.Call;
 
 /**
@@ -280,7 +281,9 @@ public abstract class AppActivity extends BaseActivity
         if (!AppConfig.isDebug() && DeviceUtils.isEmulator()) {
             toast("请勿在模拟器上使用本App");
             ActivityManager.getInstance().finishAllActivities();
+            return;
         }
+        FragmentActivityKt.checkToken(this, (result, continuation) -> null);
     }
 
     @Override

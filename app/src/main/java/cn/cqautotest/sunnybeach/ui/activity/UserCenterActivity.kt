@@ -1,7 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import android.annotation.SuppressLint
-import android.text.TextUtils
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -58,7 +57,6 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
     override fun initData() {
         val userBasicInfo = UserManager.loadUserBasicInfo()
         userBasicInfo?.let { mUserBasicInfo = it }
-        checkUserLoginState()
     }
 
     override fun onResume() {
@@ -77,14 +75,14 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
     override fun initEvent() {
         val tvGetAllowance = mBinding.tvGetAllowance
         mBinding.llUserInfoContainer.setFixOnClickListener {
-            val userId = mUserViewModel.loadUserBasicInfo()?.id ?: ""
-            if (TextUtils.isEmpty(userId)) {
-                return@setFixOnClickListener
+            takeIfLogin { userBasicInfo ->
+                val userId = userBasicInfo.id
+                ViewUserActivity.start(context, userId)
             }
-            ViewUserActivity.start(context, userId)
         }
         mBinding.ivAvatar.setFixOnClickListener {
-            CameraActivity.start(this, this)
+            simpleToast("此功能暂未开放")
+            // CameraActivity.start(this, this)
         }
         mBinding.ivBecomeVip.setFixOnClickListener {
             BrowserActivity.start(this, "https://www.sunofbeach.net/vip")

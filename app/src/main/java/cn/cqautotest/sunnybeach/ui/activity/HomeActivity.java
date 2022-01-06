@@ -26,6 +26,7 @@ import cn.cqautotest.sunnybeach.ui.fragment.ArticleListFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.DiscoverFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.FishListFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
+import cn.cqautotest.sunnybeach.util.FragmentActivityKt;
 
 /**
  * author : Android 轮子哥
@@ -165,6 +166,12 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
             default:
                 return false;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FragmentActivityKt.checkToken(this, (result, continuation) -> null);
     }
 
     @Override

@@ -18,7 +18,7 @@ const val CAI_YUN_BASE_URL = "https://api.caiyunapp.com/"
 
 const val SUNNY_BEACH_ARTICLE_URL_PRE = "https://www.sunofbeach.net/a/"
 
-const val SUNNY_BEACH_BASE_URL = "https://api.sunofbeach.net/"
+const val SUNNY_BEACH_BASE_URL = "https://api.sunofbeaches.com/"
 
 const val DEFAULT_AVATAR_URL = "https://cdn.sunofbeaches.com/images/default_avatar.png"
 

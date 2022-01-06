@@ -17,6 +17,7 @@
         <ImageView
             android:id="@+id/photoIv"
             android:layout_width="match_parent"
+            android:transitionName="photo"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
 

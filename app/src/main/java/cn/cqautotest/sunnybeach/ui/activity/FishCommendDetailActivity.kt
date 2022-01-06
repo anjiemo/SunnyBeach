@@ -142,7 +142,9 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener,
      * 去回复评论
      */
     private fun goToReplyComment(commentId: String, targetUserName: String, targetUserId: String) {
-        safeShowFragment(targetUserName, commentId, targetUserId)
+        checkUserLoginState {
+            safeShowFragment(targetUserName, commentId, targetUserId)
+        }
     }
 
     private fun safeShowFragment(targetUserName: String, commentId: String, targetUserId: String) {

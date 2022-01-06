@@ -9,10 +9,7 @@ import cn.cqautotest.sunnybeach.databinding.MyMeFragmentBinding
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.activity.*
 import cn.cqautotest.sunnybeach.ui.activity.weather.MainActivity
-import cn.cqautotest.sunnybeach.util.MAKE_COMPLAINTS_URL
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import cn.cqautotest.sunnybeach.util.simpleToast
-import cn.cqautotest.sunnybeach.util.startActivity
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -50,13 +47,17 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     override fun initEvent() {
         val meContent = mBinding.meContent
         meContent.llUserInfoContainer.setFixOnClickListener {
-            requireContext().startActivity<UserCenterActivity>()
+            takeIfLogin {
+                requireContext().startActivity<UserCenterActivity>()
+            }
         }
         meContent.richListContainer.setFixOnClickListener {
             requireContext().startActivity<RichListActivity>()
         }
         meContent.messageCenterContainer.setFixOnClickListener {
-            requireContext().startActivity<MessageCenterActivity>()
+            takeIfLogin {
+                requireContext().startActivity<MessageCenterActivity>()
+            }
         }
         meContent.creationCenterContainer.setFixOnClickListener {
             simpleToast("暂未开放")

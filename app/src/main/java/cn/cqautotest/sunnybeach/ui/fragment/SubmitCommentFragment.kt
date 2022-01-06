@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
+import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
@@ -18,6 +19,7 @@ import cn.cqautotest.sunnybeach.action.CommendAction.Companion.TARGET_USER_NAME
 import cn.cqautotest.sunnybeach.action.Init
 import cn.cqautotest.sunnybeach.databinding.SubmitCommendIncludeBinding
 import cn.cqautotest.sunnybeach.execption.ServiceException
+import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.KeyboardViewModel
@@ -132,10 +134,18 @@ class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction,
                             return@getOrElse
                         }
                     }
-                    simpleToast("评论失败，请稍后重试")
+                    simpleToast("评论失败，请稍后重试\uD83D\uDE2D")
                     return@observe
                 }
+                simpleToast("评论成功\uD83D\uDE03")
                 dismissAllowingStateLoss()
+                val activity = requireActivity()
+                activity.setResult(Activity.RESULT_OK)
+                if (activity is FishPondDetailActivity) {
+                    activity.refreshFishPondDetailCommendList()
+                } else {
+                    activity.finish()
+                }
             }
         }
     }

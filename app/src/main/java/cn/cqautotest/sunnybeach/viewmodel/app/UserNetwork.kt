@@ -19,6 +19,8 @@ object UserNetwork {
 
     suspend fun queryUserAvatar(account: String) = userApi.queryUserAvatar(account)
 
+    suspend fun logout() = userApi.logout()
+
     suspend fun checkToken() = userApi.checkToken()
 
     suspend fun getAchievement(userId: String) = userApi.getAchievement(userId)

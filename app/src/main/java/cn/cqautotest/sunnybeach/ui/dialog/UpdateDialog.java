@@ -18,11 +18,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.FileProvider;
 
 import com.hjq.base.BaseDialog;
-import cn.cqautotest.sunnybeach.R;
-import cn.cqautotest.sunnybeach.aop.CheckNet;
-import cn.cqautotest.sunnybeach.aop.Permissions;
-import cn.cqautotest.sunnybeach.aop.SingleClick;
-import cn.cqautotest.sunnybeach.other.AppConfig;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.OnDownloadListener;
 import com.hjq.http.model.HttpMethod;
@@ -30,11 +25,17 @@ import com.hjq.permissions.Permission;
 
 import java.io.File;
 
+import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.aop.CheckNet;
+import cn.cqautotest.sunnybeach.aop.Permissions;
+import cn.cqautotest.sunnybeach.aop.SingleClick;
+import cn.cqautotest.sunnybeach.other.AppConfig;
+
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/03/20
- *    desc   : 升级对话框
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/03/20
+ * desc   : 升级对话框
  */
 public final class UpdateDialog {
 
@@ -77,7 +78,7 @@ public final class UpdateDialog {
             setOnClickListener(mUpdateView, mCloseView);
 
             // 让 TextView 支持滚动
-            mContentView.setMovementMethod(new ScrollingMovementMethod());
+            mContentView.setMovementMethod(ScrollingMovementMethod.getInstance());
         }
 
         /**

@@ -42,7 +42,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 if (mFishListAdapter.isEmpty()) {
                     showEmpty()
                 } else {
-                    onBack2Top()
                     showComplete()
                 }
             }
@@ -70,9 +69,11 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             FishPondDetailActivity.start(requireContext(), momentId)
         }
         ivPublishContent.setFixOnClickListener {
-            startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
-                if (resultCode == Activity.RESULT_OK) {
-                    initData()
+            takeIfLogin {
+                startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
+                    if (resultCode == Activity.RESULT_OK) {
+                        mFishListAdapter.refresh()
+                    }
                 }
             }
         }

@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -53,14 +54,14 @@ class WallpaperListAdapter(
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
-    private var mItemClickListener: (verticalPhoto: WallpaperBean.Res.Vertical, position: Int) -> Unit =
-        { _, _ -> }
+    private var mItemClickListener: (view: View, verticalPhoto: WallpaperBean.Res.Vertical, position: Int) -> Unit =
+        { _, _, _ -> }
 
 
     private var mItemLongClickListener: (verticalPhoto: WallpaperBean.Res.Vertical, position: Int) -> Unit =
         { _, _ -> }
 
-    fun setOnItemClickListener(block: (verticalPhoto: WallpaperBean.Res.Vertical, position: Int) -> Unit) {
+    fun setOnItemClickListener(block: (view: View, verticalPhoto: WallpaperBean.Res.Vertical, position: Int) -> Unit) {
         mItemClickListener = block
     }
 
@@ -95,8 +96,9 @@ class WallpaperListAdapter(
                 .placeholder(R.mipmap.ic_bg)
                 .into(photoIv)
         }
+        photoIv.transitionName = item.id
         itemView.setFixOnClickListener {
-            mItemClickListener.invoke(item, position)
+            mItemClickListener.invoke(photoIv, item, position)
         }
         itemView.setOnLongClickListener {
             mItemLongClickListener.invoke(item, position)

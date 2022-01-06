@@ -85,9 +85,9 @@ class DiscoverFragment : TitleBarFragment<AppActivity>(), StatusAction {
         }
         // 需要在 View 销毁的时候移除 listener
         mWallpaperListAdapter.addLoadStateListener(loadStateListener)
-        mWallpaperListAdapter.setOnItemClickListener { verticalPhoto, _ ->
+        mWallpaperListAdapter.setOnItemClickListener { view, verticalPhoto, _ ->
             Repository.setPhotoIdList(mWallpaperListAdapter.snapshot().items.toList())
-            GalleryActivity.start(requireContext(), verticalPhoto.id)
+            GalleryActivity.smoothEntry(requireActivity(), verticalPhoto.id, view)
         }
     }
 

@@ -110,6 +110,10 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
         }
     }
 
+    fun refreshFishPondDetailCommendList() {
+        mFishPondDetailCommendListAdapter.refresh()
+    }
+
     @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     private fun loadFishDetail() {
         mFishPondViewModel.getFishDetailById(mMomentId).observe(this) {
@@ -268,11 +272,19 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
         }
         mFishPondDetailCommendListAdapter.setOnVewMoreClickListener { item, _ ->
             val intent = FishCommendDetailActivity.getIntent(this, mMomentId, item)
-            startActivity(intent)
+            startActivityForResult(intent) { resultCode, _ ->
+                if (resultCode == Activity.RESULT_OK) {
+                    mFishPondDetailCommendListAdapter.refresh()
+                }
+            }
         }
         mFishPondDetailCommendListAdapter.setOnCommentClickListener { item, _ ->
             val intent = FishCommendDetailActivity.getIntent(this, mMomentId, item)
-            startActivity(intent)
+            startActivityForResult(intent) { resultCode, _ ->
+                if (resultCode == Activity.RESULT_OK) {
+                    mFishPondDetailCommendListAdapter.refresh()
+                }
+            }
         }
         mBinding.commentContainer.tvFishPondSubmitComment.setFixOnClickListener {
             goToPostComment(mNickName)
@@ -280,7 +292,9 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
     }
 
     private fun goToPostComment(targetUserName: String) {
-        safeShowFragment(targetUserName)
+        takeIfLogin {
+            safeShowFragment(targetUserName)
+        }
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.slFishDetailHint
