@@ -67,7 +67,14 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
             requireContext().startActivity<MainActivity>()
         }
         meContent.feedbackContainer.setFixOnClickListener {
-            BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
+            checkToken {
+                val userBasicInfo = UserManager.loadUserBasicInfo() ?: run {
+                    BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
+                    return@checkToken
+                }
+                val (avatar, _, _, id, _, _, nickname, _, _) = userBasicInfo
+                BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL, id, nickname, avatar)
+            }
         }
         meContent.settingContainer.setFixOnClickListener {
             requireContext().startActivity<SettingActivity>()
