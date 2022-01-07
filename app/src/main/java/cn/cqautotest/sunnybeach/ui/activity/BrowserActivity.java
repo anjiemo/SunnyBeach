@@ -124,12 +124,8 @@ public final class BrowserActivity extends AppActivity
             String nickName = getString(IntentKey.NAME);
             String avatar = getString(IntentKey.AVATAR_URL);
             Timber.d("initData：===> openId is " + openId + " nickName is " + nickName + " avatar is " + avatar);
-            mBrowserView.postUrl(getString(IntentKey.URL), ("nickName=" +
-                    nickName +
-                    "&avatar=" +
-                    avatar +
-                    "&openid=" +
-                    openId).getBytes());
+            String postData = "nickname=" + nickName + "&avatar=" + avatar + "&openid=" + openId;
+            mBrowserView.postUrl(getString(IntentKey.URL), postData.getBytes());
         } else {
             mBrowserView.loadUrl(getString(IntentKey.URL));
         }

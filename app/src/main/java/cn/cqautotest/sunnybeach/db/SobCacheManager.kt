@@ -53,6 +53,13 @@ object SobCacheManager {
                 Timber.d("saveSobCaptchaKeyByNeed：===> sobToken is $sobToken")
                 saveHeader(SOB_TOKEN_NAME, sobToken)
             }
+            url.contains("uc/user/checkToken") -> {
+                val sobToken = headers[SOB_TOKEN_NAME] ?: ""
+                if (sobToken.isNotBlank()) {
+                    Timber.d("saveSobCaptchaKeyByNeed：===> sobToken is $sobToken")
+                    saveHeader(SOB_TOKEN_NAME, sobToken)
+                }
+            }
             else -> {
                 // Nothing to do.
             }
