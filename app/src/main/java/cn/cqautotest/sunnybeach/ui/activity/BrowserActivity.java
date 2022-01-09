@@ -46,13 +46,12 @@ import okhttp3.Cookie;
 import timber.log.Timber;
 
 /**
- * author : Android 轮子哥
+ * author : Android 轮子哥 & A Lonely Cat
  * github : https://github.com/getActivity/AndroidProject
  * time   : 2018/10/18
  * desc   : 浏览器界面
  */
-public final class BrowserActivity extends AppActivity
-        implements StatusAction, OnRefreshListener {
+public final class BrowserActivity extends AppActivity implements StatusAction, OnRefreshListener {
 
     @CheckNet
     @DebugLog
@@ -229,7 +228,7 @@ public final class BrowserActivity extends AppActivity
             String domain = StringUtil.getTopDomain(Constants.SUNNY_BEACH_API_BASE_URL);
             ThreadPoolManager manager = ThreadPoolManager.getInstance();
             manager.execute(() -> {
-                Timber.d("shouldOverrideUrlLoading：===> domain is %s", domain);
+                Timber.d("hookUrlLoad：===> domain is %s", domain);
                 CookieManager cookieManager = CookieManager.getInstance();
                 CookieStore cookieStore = mCookieDao.getCookiesByDomain(domain);
                 if (cookieStore != null) {
@@ -238,14 +237,20 @@ public final class BrowserActivity extends AppActivity
                         String cookieName = cookie.name();
                         String cookieValue = cookie.value();
                         String cookieDomain = cookie.domain();
-                        String cookieStr = cookieName + "=" + cookieValue + "; path=/; domain=." + cookieDomain;
-                        Timber.d("shouldOverrideUrlLoading：===> Set-Cookie is %s", cookieStr);
+                        String cookieStr = new Cookie.Builder()
+                                .name(cookieName)
+                                .value(cookieValue)
+                                .domain(cookieDomain)
+                                .path("/")
+                                .build()
+                                .toString();
+                        Timber.d("hookUrlLoad：===> Set-Cookie is %s", cookieStr);
                         cookieManager.setCookie(url, cookieStr);
                     }
                 }
                 String newCookie = cookieManager.getCookie(url);
                 if (newCookie != null) {
-                    Timber.d("===> newCookie is %s", newCookie);
+                    Timber.d("hookUrlLoad：===> newCookie is %s", newCookie);
                 }
                 String currUrlTopDomain = StringUtil.getTopDomain(url);
                 String apiTopDomain = StringUtil.getTopDomain(Constants.SUNNY_BEACH_API_BASE_URL);
@@ -253,8 +258,20 @@ public final class BrowserActivity extends AppActivity
                 if (currUrlTopDomain.equals(apiTopDomain) || currUrlTopDomain.equals(siteTopDomain)) {
                     String cookieName = SobCacheManager.SOB_TOKEN_NAME;
                     String cookieValue = SobCacheManager.INSTANCE.getSobToken();
-                    String apiCookie = cookieName + "=" + cookieValue + "; path=/; domain=." + apiTopDomain;
-                    String siteCookie = cookieName + "=" + cookieValue + "; path=/; domain=." + siteTopDomain;
+                    String apiCookie = new Cookie.Builder()
+                            .name(cookieName)
+                            .value(cookieValue)
+                            .domain(apiTopDomain)
+                            .path("/")
+                            .build()
+                            .toString();
+                    String siteCookie = new Cookie.Builder()
+                            .name(cookieName)
+                            .value(cookieValue)
+                            .domain(siteTopDomain)
+                            .path("/")
+                            .build()
+                            .toString();
                     Timber.d("===> Set-Cookie：apiCookie is %s", apiCookie);
                     Timber.d("===> Set-Cookie：siteCookie is %s", siteCookie);
                     cookieManager.setCookie(url, apiCookie);
