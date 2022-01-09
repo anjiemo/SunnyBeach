@@ -16,13 +16,15 @@ const val DEFAULT_BANNER_URL =
 
 const val CAI_YUN_BASE_URL = "https://api.caiyunapp.com/"
 
-const val SUNNY_BEACH_ARTICLE_URL_PRE = "https://www.sunofbeach.net/a/"
+const val SUNNY_BEACH_SITE_BASE_URL = "https://www.sunofbeach.net/"
 
-const val SUNNY_BEACH_BASE_URL = "https://api.sunofbeaches.com/"
+const val SUNNY_BEACH_ARTICLE_URL_PRE = "${SUNNY_BEACH_SITE_BASE_URL}a/"
+
+const val SUNNY_BEACH_API_BASE_URL = "https://api.sunofbeaches.com/"
 
 const val DEFAULT_AVATAR_URL = "https://cdn.sunofbeaches.com/images/default_avatar.png"
 
-const val VERIFY_CODE_URL = "${SUNNY_BEACH_BASE_URL}uc/ut/captcha?code=1204736502274318336"
+const val VERIFY_CODE_URL = "${SUNNY_BEACH_API_BASE_URL}uc/ut/captcha?code=1204736502274318336"
 
 const val DEFAULT_HTTP_OK_CODE = 200
 

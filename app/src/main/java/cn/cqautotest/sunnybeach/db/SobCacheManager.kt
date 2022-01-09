@@ -1,6 +1,6 @@
 package cn.cqautotest.sunnybeach.db
 
-import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_BASE_URL
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_API_BASE_URL
 import cn.cqautotest.sunnybeach.util.StringUtil
 import com.tencent.mmkv.MMKV
 import okhttp3.Headers
@@ -23,7 +23,7 @@ object SobCacheManager {
 
     fun addHeadersByNeed(request: Request, requestBuilder: Request.Builder) {
         val url = request.url.toString()
-        val topDomain = StringUtil.getTopDomain(SUNNY_BEACH_BASE_URL)
+        val topDomain = StringUtil.getTopDomain(SUNNY_BEACH_API_BASE_URL)
         when {
             url.contains("uc/user/login") -> {
                 Timber.d("addHeadersByNeed：===> sobCaptchaKey is $sobCaptchaKey")
