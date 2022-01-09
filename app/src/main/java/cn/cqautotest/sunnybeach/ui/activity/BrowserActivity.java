@@ -207,42 +207,6 @@ public final class BrowserActivity extends AppActivity
         private final CookieRoomDatabase mDatabase = AppApplication.getDatabase();
         private final CookieDao mCookieDao = mDatabase.cookieDao();
 
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            String domain = StringUtil.getTopDomain(Constants.SUNNY_BEACH_BASE_URL);
-            ThreadPoolManager manager = ThreadPoolManager.getInstance();
-            manager.execute(() -> {
-                Timber.d("===> domain is %s", domain);
-                CookieManager cookieManager = CookieManager.getInstance();
-                CookieStore cookieStore = mCookieDao.getCookiesByDomain(domain);
-                if (cookieStore != null) {
-                    List<Cookie> cookieStoreList = cookieStore.getCookies();
-                    for (Cookie cookie : cookieStoreList) {
-                        String cookieName = cookie.name();
-                        String cookieValue = cookie.value();
-                        String cookieDomain = cookie.domain();
-                        String cookieStr = cookieName + "=" + cookieValue + "; path=/; domain=." + cookieDomain;
-                        Timber.d("===> Set-Cookie is %s", cookieStr);
-                        cookieManager.setCookie(url, cookieStr);
-                    }
-                }
-                String newCookie = cookieManager.getCookie(url);
-                if (newCookie != null) {
-                    Timber.d("===> newCookie is %s", newCookie);
-                }
-                String curTopDomain = StringUtil.getTopDomain(url);
-                if (domain.equals(curTopDomain)) {
-                    String cookieName = SobCacheManager.SOB_TOKEN_NAME;
-                    String cookieValue = SobCacheManager.INSTANCE.getSobToken();
-                    String cookieStr = cookieName + "=" + cookieValue + "; path=/; domain=." + domain;
-                    Timber.d("===> Set-Cookie is %s", cookieStr);
-                    cookieManager.setCookie(url, cookieStr);
-                }
-                Timber.d("===> CookieManager is finish");
-            });
-            return super.shouldOverrideUrlLoading(view, url);
-        }
-
         /**
          * 网页加载错误时回调，这个方法会在 onPageFinished 之前调用
          */
@@ -258,6 +222,46 @@ public final class BrowserActivity extends AppActivity
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             mProgressBar.setVisibility(View.VISIBLE);
+            hookUrlLoad(url);
+        }
+
+        private void hookUrlLoad(String url) {
+            String domain = StringUtil.getTopDomain(Constants.SUNNY_BEACH_API_BASE_URL);
+            ThreadPoolManager manager = ThreadPoolManager.getInstance();
+            manager.execute(() -> {
+                Timber.d("shouldOverrideUrlLoading：===> domain is %s", domain);
+                CookieManager cookieManager = CookieManager.getInstance();
+                CookieStore cookieStore = mCookieDao.getCookiesByDomain(domain);
+                if (cookieStore != null) {
+                    List<Cookie> cookieStoreList = cookieStore.getCookies();
+                    for (Cookie cookie : cookieStoreList) {
+                        String cookieName = cookie.name();
+                        String cookieValue = cookie.value();
+                        String cookieDomain = cookie.domain();
+                        String cookieStr = cookieName + "=" + cookieValue + "; path=/; domain=." + cookieDomain;
+                        Timber.d("shouldOverrideUrlLoading：===> Set-Cookie is %s", cookieStr);
+                        cookieManager.setCookie(url, cookieStr);
+                    }
+                }
+                String newCookie = cookieManager.getCookie(url);
+                if (newCookie != null) {
+                    Timber.d("===> newCookie is %s", newCookie);
+                }
+                String currUrlTopDomain = StringUtil.getTopDomain(url);
+                String apiTopDomain = StringUtil.getTopDomain(Constants.SUNNY_BEACH_API_BASE_URL);
+                String siteTopDomain = StringUtil.getTopDomain(Constants.SUNNY_BEACH_SITE_BASE_URL);
+                if (currUrlTopDomain.equals(apiTopDomain) || currUrlTopDomain.equals(siteTopDomain)) {
+                    String cookieName = SobCacheManager.SOB_TOKEN_NAME;
+                    String cookieValue = SobCacheManager.INSTANCE.getSobToken();
+                    String apiCookie = cookieName + "=" + cookieValue + "; path=/; domain=." + apiTopDomain;
+                    String siteCookie = cookieName + "=" + cookieValue + "; path=/; domain=." + siteTopDomain;
+                    Timber.d("===> Set-Cookie：apiCookie is %s", apiCookie);
+                    Timber.d("===> Set-Cookie：siteCookie is %s", siteCookie);
+                    cookieManager.setCookie(url, apiCookie);
+                    cookieManager.setCookie(url, siteCookie);
+                }
+                Timber.d("===> CookieManager is finish");
+            });
         }
 
         /**

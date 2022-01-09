@@ -29,7 +29,7 @@ object ServiceCreator {
 
     private var cookieManager = LocalCookieManager.get()
 
-    private val client by lazy {
+    val client by lazy {
         OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(accountInterceptor)
