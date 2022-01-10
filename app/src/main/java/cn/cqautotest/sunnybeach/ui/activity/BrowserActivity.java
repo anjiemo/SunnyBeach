@@ -221,10 +221,10 @@ public final class BrowserActivity extends AppActivity implements StatusAction, 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             mProgressBar.setVisibility(View.VISIBLE);
-            hookUrlLoad(url);
+            injectCookie(url);
         }
 
-        private void hookUrlLoad(String url) {
+        private void injectCookie(String url) {
             String domain = StringUtil.getTopDomain(Constants.SUNNY_BEACH_API_BASE_URL);
             ThreadPoolManager manager = ThreadPoolManager.getInstance();
             manager.execute(() -> {
