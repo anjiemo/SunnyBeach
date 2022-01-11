@@ -3,8 +3,6 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.app.Activity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.CombinedLoadStates
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -35,19 +33,8 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     private val mBinding: FishListFragmentBinding by viewBinding()
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
     private val mFishListAdapter = FishListAdapter(AdapterDelegate())
-    private val loadStateListener = { cls: CombinedLoadStates ->
-        when (cls.refresh) {
-            is LoadState.NotLoading -> {
-                mBinding.refreshLayout.finishRefresh()
-                if (mFishListAdapter.isEmpty()) {
-                    showEmpty()
-                } else {
-                    showComplete()
-                }
-            }
-            is LoadState.Loading -> showLoading()
-            is LoadState.Error -> showError { mFishListAdapter.refresh() }
-        }
+    private val loadStateListener = loadStateListener(mFishListAdapter) {
+        mBinding.refreshLayout.finishRefresh()
     }
 
     override fun getLayoutId(): Int = R.layout.fish_list_fragment

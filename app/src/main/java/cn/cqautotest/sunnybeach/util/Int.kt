@@ -20,6 +20,6 @@ fun Int.forr(action: (Int) -> Unit) = repeat(this) {
 val Int.dp
     get() = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
-        this.toFloat(),
+        toFloat(),
         Resources.getSystem().displayMetrics
     ).toInt()

@@ -3,8 +3,6 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.graphics.Color
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.CombinedLoadStates
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -16,10 +14,7 @@ import cn.cqautotest.sunnybeach.http.response.model.WallpaperBannerBean
 import cn.cqautotest.sunnybeach.ui.activity.GalleryActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.WallpaperListAdapter
-import cn.cqautotest.sunnybeach.util.CustomAnimation
-import cn.cqautotest.sunnybeach.util.GridSpaceItemDecoration
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.isEmpty
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.PhotoViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -44,19 +39,8 @@ class DiscoverFragment : TitleBarFragment<AppActivity>(), StatusAction {
     private val mWallpaperListAdapter = WallpaperListAdapter(AdapterDelegate().apply {
         adapterAnimation = CustomAnimation()
     })
-    private val loadStateListener = { cls: CombinedLoadStates ->
-        when (cls.refresh) {
-            is LoadState.NotLoading -> {
-                mBinding.refreshLayout.finishRefresh()
-                if (mWallpaperListAdapter.isEmpty()) {
-                    showEmpty()
-                } else {
-                    showComplete()
-                }
-            }
-            is LoadState.Loading -> showLoading()
-            is LoadState.Error -> showError { mWallpaperListAdapter.refresh() }
-        }
+    private val loadStateListener = loadStateListener(mWallpaperListAdapter) {
+        mBinding.refreshLayout.finishRefresh()
     }
 
     override fun getLayoutId(): Int = R.layout.discover_fragment

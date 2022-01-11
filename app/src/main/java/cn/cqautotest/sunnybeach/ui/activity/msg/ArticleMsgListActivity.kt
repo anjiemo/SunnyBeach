@@ -2,8 +2,6 @@ package cn.cqautotest.sunnybeach.ui.activity.msg
 
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.CombinedLoadStates
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -15,7 +13,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.ArticleMsgAdapter
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.isEmpty
+import cn.cqautotest.sunnybeach.util.loadStateListener
 import cn.cqautotest.sunnybeach.util.setDoubleClickListener
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -32,19 +30,8 @@ class ArticleMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
     private val mBinding by viewBinding<ArticleMsgListActivityBinding>()
     private val mMsgViewModel by viewModels<MsgViewModel>()
     private val mArticleMsgAdapter = ArticleMsgAdapter(AdapterDelegate())
-    private val loadStateListener = { cls: CombinedLoadStates ->
-        when (cls.refresh) {
-            is LoadState.NotLoading -> {
-                mBinding.refreshLayout.finishRefresh()
-                if (mArticleMsgAdapter.isEmpty()) {
-                    showEmpty()
-                } else {
-                    showComplete()
-                }
-            }
-            is LoadState.Loading -> showLoading()
-            is LoadState.Error -> showError { mArticleMsgAdapter.refresh() }
-        }
+    private val loadStateListener = loadStateListener(mArticleMsgAdapter) {
+        mBinding.refreshLayout.finishRefresh()
     }
 
     override fun getLayoutId(): Int = R.layout.article_msg_list_activity

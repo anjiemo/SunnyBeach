@@ -3,8 +3,6 @@ package cn.cqautotest.sunnybeach.ui.fragment.user.media
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.CombinedLoadStates
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -17,7 +15,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.QaListAdapter
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.isEmpty
+import cn.cqautotest.sunnybeach.util.loadStateListener
 import cn.cqautotest.sunnybeach.viewmodel.QaViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import kotlinx.coroutines.flow.collectLatest
@@ -33,19 +31,8 @@ class UserQaListFragment : AppFragment<AppActivity>(), StatusAction {
     private val mBinding by viewBinding<UserFishListFragmentBinding>()
     private val mQaListAdapter = QaListAdapter(AdapterDelegate())
     private val mQaViewModel by activityViewModels<QaViewModel>()
-    private val loadStateListener = { cls: CombinedLoadStates ->
-        when (cls.refresh) {
-            is LoadState.NotLoading -> {
-                mBinding.refreshLayout.finishRefresh()
-                if (mQaListAdapter.isEmpty()) {
-                    showEmpty()
-                } else {
-                    showComplete()
-                }
-            }
-            is LoadState.Loading -> showLoading()
-            is LoadState.Error -> showError { mQaListAdapter.refresh() }
-        }
+    private val loadStateListener = loadStateListener(mQaListAdapter) {
+        mBinding.refreshLayout.finishRefresh()
     }
 
     override fun getLayoutId(): Int = R.layout.user_fish_list_fragment
