@@ -3,8 +3,6 @@ package cn.cqautotest.sunnybeach.ui.fragment.user.media
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.CombinedLoadStates
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -33,19 +31,8 @@ class UserFollowListFragment : AppFragment<AppActivity>(), StatusAction {
     private val mBinding by viewBinding<UserFollowListFragmentBinding>()
     private val mUserFollowListAdapter = UserFollowListAdapter(AdapterDelegate())
     private val mUserViewModel by viewModels<UserViewModel>()
-    private val loadStateListener = { cls: CombinedLoadStates ->
-        when (cls.refresh) {
-            is LoadState.NotLoading -> {
-                mBinding.refreshLayout.finishRefresh()
-                if (mUserFollowListAdapter.isEmpty()) {
-                    showEmpty()
-                } else {
-                    showComplete()
-                }
-            }
-            is LoadState.Loading -> showLoading()
-            is LoadState.Error -> showError { mUserFollowListAdapter.refresh() }
-        }
+    private val loadStateListener = loadStateListener(mUserFollowListAdapter) {
+        mBinding.refreshLayout.finishRefresh()
     }
 
     override fun getLayoutId(): Int = R.layout.user_follow_list_fragment

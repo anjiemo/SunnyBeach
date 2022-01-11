@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.util
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import cn.cqautotest.sunnybeach.manager.UserManager
@@ -7,7 +8,12 @@ import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 
 fun Context.startActivity(clazz: Class<*>) {
-    startActivity(Intent(this, clazz))
+    val intent = Intent(this, clazz).apply {
+        if (this !is Activity) {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+    }
+    startActivity(intent)
 }
 
 inline fun <reified T> Context.startActivity() {
