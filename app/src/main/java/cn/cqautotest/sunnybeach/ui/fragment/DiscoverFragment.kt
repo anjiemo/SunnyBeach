@@ -108,6 +108,11 @@ class DiscoverFragment : TitleBarFragment<AppActivity>(), StatusAction {
         return !super.isStatusBarEnabled()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mWallpaperListAdapter.removeLoadStateListener(loadStateListener)
+    }
+
     companion object {
 
         private class BannerAdapter : BannerImageAdapter<WallpaperBannerBean.Data>(null) {
