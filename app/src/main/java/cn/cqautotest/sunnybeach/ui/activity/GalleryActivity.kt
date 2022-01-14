@@ -38,9 +38,11 @@ import com.hjq.permissions.XXPermissions
 import timber.log.Timber
 import java.io.File
 import java.io.InputStream
+import java.util.*
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import kotlin.math.pow
 
 /**
  * author : A Lonely Cat
@@ -176,9 +178,7 @@ class GalleryActivity : AppActivity() {
             orientation = ViewPager2.ORIENTATION_VERTICAL
             adapter = mPhotoAdapter
         }
-        mBinding.settingWallpaperTv.apply {
-            setRoundRectBg(color = Color.parseColor("#66393939"), cornerRadius = 8.dp)
-        }
+        mBinding.settingWallpaperTv.setRoundRectBg(Color.parseColor("#66393939"), 8.dp)
     }
 
     private fun toggleStatus() {
@@ -215,7 +215,9 @@ class GalleryActivity : AppActivity() {
             )
             val intent = Intent(activity, GalleryActivity::class.java)
             intent.putExtra(IntentKey.ID, id)
-            ActivityCompat.startActivity(activity, intent, aos.toBundle())
+            // 请求码必须在 2 的 16 次方以内
+            val requestCode = Random().nextInt(2.0.pow(16.0).toInt())
+            ActivityCompat.startActivityForResult(activity, intent, requestCode, aos.toBundle())
         }
     }
 }
