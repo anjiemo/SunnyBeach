@@ -216,7 +216,7 @@ dependencies {
     // 对 Room 的 Kotlin 扩展和协程支持
     implementation "androidx.room:room-ktx:$room_version"
 
-    // Paging 分页
+    // Paging 分页库：https://developer.android.google.cn/jetpack/androidx/releases/paging
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
     // Navigation 导航
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"

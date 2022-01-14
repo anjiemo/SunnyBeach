@@ -96,8 +96,8 @@ class WallpaperListAdapter(
                 .placeholder(R.mipmap.ic_bg)
                 .into(photoIv)
         }
-        photoIv.transitionName = item.id
         itemView.setFixOnClickListener {
+            photoIv.transitionName = item.id
             mItemClickListener.invoke(photoIv, item, position)
         }
         itemView.setOnLongClickListener {
