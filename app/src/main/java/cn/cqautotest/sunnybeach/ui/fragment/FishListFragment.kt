@@ -59,7 +59,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             takeIfLogin {
                 startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
                     if (resultCode == Activity.RESULT_OK) {
-                        mFishListAdapter.refresh()
+                        loadFishList()
                     }
                 }
             }

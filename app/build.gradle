@@ -29,9 +29,9 @@ android {
         // 测试服务器的主机地址
         buildConfigField('String', 'HOST_URL', '"' + HOST_URL + '"')
 
-        // vectorDrawables {
-        //     useSupportLibrary true
-        // }
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
 
     // Apk 签名的那些事：https://www.jianshu.com/p/a1f8e5896aa2
