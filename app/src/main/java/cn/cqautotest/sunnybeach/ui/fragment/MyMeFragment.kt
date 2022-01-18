@@ -1,6 +1,5 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
-import androidx.fragment.app.activityViewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -10,7 +9,6 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.activity.*
 import cn.cqautotest.sunnybeach.ui.activity.weather.MainActivity
 import cn.cqautotest.sunnybeach.util.*
-import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
@@ -23,25 +21,26 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     private val mBinding: MyMeFragmentBinding by viewBinding()
-    private val mUserViewModel by activityViewModels<UserViewModel>()
 
     override fun getLayoutId(): Int = R.layout.my_me_fragment
 
     override fun onFragmentResume(first: Boolean) {
         super.onFragmentResume(first)
-        val userBasicInfo = UserManager.loadUserBasicInfo()
-        val meContent = mBinding.meContent
-        val flAvatarContainer = meContent.flAvatarContainer
-        flAvatarContainer.background = UserManager.getAvatarPendant(UserManager.currUserIsVip())
-        Glide.with(this)
-            .load(userBasicInfo?.avatar)
-            .placeholder(R.mipmap.ic_default_avatar)
-            .error(R.mipmap.ic_default_avatar)
-            .circleCrop()
-            .skipMemoryCache(true)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .into(meContent.imageAvatar)
-        meContent.textNickName.text = userBasicInfo?.nickname
+        checkToken {
+            val userBasicInfo = it.getOrNull()
+            val meContent = mBinding.meContent
+            val flAvatarContainer = meContent.flAvatarContainer
+            flAvatarContainer.background = UserManager.getAvatarPendant(UserManager.currUserIsVip())
+            Glide.with(this)
+                .load(userBasicInfo?.avatar)
+                .placeholder(R.mipmap.ic_default_avatar)
+                .error(R.mipmap.ic_default_avatar)
+                .circleCrop()
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(meContent.imageAvatar)
+            meContent.textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
+        }
     }
 
     override fun initEvent() {
@@ -81,9 +80,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         }
     }
 
-    override fun initData() {
-        mUserViewModel.checkUserToken()
-    }
+    override fun initData() {}
 
     override fun initView() {}
 

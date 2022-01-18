@@ -42,7 +42,6 @@ import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
 import cn.cqautotest.sunnybeach.util.Constants;
 import cn.cqautotest.sunnybeach.util.EditTextUtils;
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel;
-import cn.cqautotest.sunnybeach.viewmodel.login.LoggedInUserView;
 import cn.cqautotest.sunnybeach.wxapi.WXEntryActivity;
 import timber.log.Timber;
 
@@ -108,15 +107,10 @@ public final class LoginActivity extends AppActivity
                         .error(R.mipmap.ic_default_avatar)
                         .circleCrop()
                         .into(mLogoView));
-        mUserViewModel.getLoginResult().observe(this, loginResult -> {
+        mUserViewModel.getUserBasicInfo().observe(this, userBasicInfo -> {
+            Timber.d(GsonFactory.getSingletonGson().toJson(userBasicInfo));
             // 如果是未登录状态，则重置登录按钮
-            if (loginResult == null) {
-                mCommitView.reset();
-                return;
-            }
-            Timber.d(GsonFactory.getSingletonGson().toJson(loginResult));
-            LoggedInUserView loggedInUserView = loginResult.getSuccess();
-            if (loginResult.getError() != null || loggedInUserView == null) {
+            if (userBasicInfo == null) {
                 loadVerifyCode();
                 mCommitView.showError();
                 return;
