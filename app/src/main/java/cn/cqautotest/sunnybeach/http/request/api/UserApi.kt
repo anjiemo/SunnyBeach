@@ -28,7 +28,7 @@ interface UserApi {
      * 登录账号
      */
     @POST("${SUNNY_BEACH_API_BASE_URL}uc/user/login/{captcha}")
-    suspend fun login(@Path("captcha") captcha: String, @Body user: User): ApiResponse<String>
+    suspend fun login(@Path("captcha") captcha: String, @Body user: User): ApiResponse<Any?>
 
     /**
      * 解析当前用户的 Token

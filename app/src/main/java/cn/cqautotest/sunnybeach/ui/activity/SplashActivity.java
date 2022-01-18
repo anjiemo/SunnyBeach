@@ -21,6 +21,7 @@ import cn.cqautotest.sunnybeach.app.AppActivity;
 import cn.cqautotest.sunnybeach.http.model.HttpData;
 import cn.cqautotest.sunnybeach.http.request.UserInfoApi;
 import cn.cqautotest.sunnybeach.http.response.UserInfoBean;
+import cn.cqautotest.sunnybeach.manager.UserManager;
 import cn.cqautotest.sunnybeach.other.AppConfig;
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel;
 
@@ -60,7 +61,8 @@ public final class SplashActivity extends AppActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 mLottieView.removeAnimatorListener(this);
-                if (userViewModel.isAutoLogin() && userViewModel.isLogin()) {
+                UserManager userManager = UserManager.INSTANCE;
+                if (userManager.isAutoLogin() && userManager.isLogin()) {
                     HomeActivity.start(SplashActivity.this);
                 } else {
                     LoginActivity.start(SplashActivity.this, "", "");

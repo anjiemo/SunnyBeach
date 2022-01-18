@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.viewmodel.app
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.request.api.QaApi
 import cn.cqautotest.sunnybeach.http.request.api.UserApi
+import cn.cqautotest.sunnybeach.model.User
 
 /**
  * author : A Lonely Cat
@@ -22,6 +23,8 @@ object UserNetwork {
     suspend fun logout() = userApi.logout()
 
     suspend fun checkToken() = userApi.checkToken()
+
+    suspend fun login(captcha: String, user: User) = userApi.login(captcha, user)
 
     suspend fun getAchievement(userId: String) = userApi.getAchievement(userId)
 
