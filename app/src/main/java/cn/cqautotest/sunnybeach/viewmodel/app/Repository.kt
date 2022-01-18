@@ -2,9 +2,13 @@ package cn.cqautotest.sunnybeach.viewmodel.app
 
 import androidx.lifecycle.liveData
 import cn.cqautotest.sunnybeach.db.dao.PlaceDao
+import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
+import cn.cqautotest.sunnybeach.manager.UserManager
+import cn.cqautotest.sunnybeach.model.User
 import cn.cqautotest.sunnybeach.model.weather.Place
+import cn.cqautotest.sunnybeach.util.md5
 import cn.cqautotest.sunnybeach.util.toJson
 import cn.cqautotest.sunnyweather.logic.model.Weather
 import kotlinx.coroutines.Dispatchers
@@ -157,10 +161,31 @@ object Repository {
 
     suspend fun checkToken() = try {
         val result = UserNetwork.checkToken()
-        if (result.isSuccess()) result.getData()
-        else throw ServiceException()
+        if (result.isSuccess()) {
+            val userBasicInfo = result.getData()
+            UserManager.saveUserBasicInfo(userBasicInfo)
+            UserManager.setupAutoLogin(true)
+            userBasicInfo
+        } else throw ServiceException()
     } catch (t: Throwable) {
         t.printStackTrace()
+        UserManager.setupAutoLogin(false)
+        null
+    }
+
+    suspend fun login(userAccount: String, password: String, captcha: String) = try {
+        val user = User(userAccount, password.md5.lowercase())
+        val result = UserNetwork.login(captcha, user)
+        if (result.isSuccess()) {
+            val userBasicInfo = checkToken()
+            // 将基本信息缓存到本地
+            UserManager.saveUserBasicInfo(userBasicInfo)
+            UserManager.setupAutoLogin(userBasicInfo != null)
+            userBasicInfo ?: throw NotLoginException()
+        } else throw ServiceException()
+    } catch (t: Throwable) {
+        t.printStackTrace()
+        UserManager.setupAutoLogin(false)
         null
     }
 

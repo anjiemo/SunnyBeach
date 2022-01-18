@@ -76,7 +76,7 @@ class ViewUserActivity : AppActivity() {
 
     private fun checkFollowState(userId: String) {
         mBinding.tvFollow.setRoundRectBg(mFriendsStatus.color, 3.dp)
-        val currUserId = mUserViewModel.loadUserBasicInfo()?.id ?: ""
+        val currUserId = UserManager.loadUserBasicInfo()?.id ?: ""
         if (userId == currUserId) {
             mBinding.tvFollow.text = "编辑"
             mBinding.tvFollow.setTextColor(Color.parseColor("#1D7DFA"))

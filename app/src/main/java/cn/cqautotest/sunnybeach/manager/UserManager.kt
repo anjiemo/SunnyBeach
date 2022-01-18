@@ -7,8 +7,10 @@ import androidx.core.content.ContextCompat
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
+import cn.cqautotest.sunnybeach.util.AUTO_LOGIN
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_USER_BASIC_INFO
 import cn.cqautotest.sunnybeach.util.fromJson
+import cn.cqautotest.sunnybeach.util.toJson
 import com.tencent.mmkv.MMKV
 
 /**
@@ -30,13 +32,42 @@ object UserManager {
     }
 
     /**
+     * 用户是否已经成功登录过一次了
+     */
+    fun isLogin() = loadUserBasicInfo() != null
+
+    /**
+     * 获取是否自动登录
+     */
+    fun isAutoLogin(): Boolean {
+        val mmkv = MMKV.defaultMMKV() ?: return false
+        return mmkv.getBoolean(AUTO_LOGIN, false)
+    }
+
+    /**
+     * 设置用户是否自动登录
+     */
+    fun setupAutoLogin(autoLogin: Boolean) {
+        val mmkv = MMKV.defaultMMKV() ?: return
+        mmkv.putBoolean(AUTO_LOGIN, autoLogin)
+    }
+
+    /**
+     * 保存用户基本信息
+     */
+    fun saveUserBasicInfo(userBasicInfo: UserBasicInfo?) {
+        val mmkv = MMKV.defaultMMKV() ?: return
+        mmkv.putString(SUNNY_BEACH_USER_BASIC_INFO, userBasicInfo?.toJson())
+    }
+
+    /**
      * 获取用户基本信息
      */
     fun loadUserBasicInfo(): UserBasicInfo? {
         val mmkv = MMKV.defaultMMKV() ?: return null
         return runCatching {
             val jsonByUserBasicInfo = mmkv.getString(SUNNY_BEACH_USER_BASIC_INFO, null)
-            fromJson<UserBasicInfo>(jsonByUserBasicInfo)
+            fromJson<UserBasicInfo?>(jsonByUserBasicInfo)
         }.getOrNull()
     }
 
