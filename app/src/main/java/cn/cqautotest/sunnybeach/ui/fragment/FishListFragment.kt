@@ -3,6 +3,8 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.app.Activity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -16,11 +18,15 @@ import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.activity.PutFishActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
+import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.dylanc.longan.download
 import kotlinx.coroutines.flow.collectLatest
+import timber.log.Timber
+import java.util.*
 
 /**
  * author : A Lonely Cat
@@ -59,7 +65,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             takeIfLogin {
                 startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
                     if (resultCode == Activity.RESULT_OK) {
-                        loadFishList()
+                        mFishListAdapter.refresh()
                     }
                 }
             }
@@ -115,15 +121,22 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     private fun loadFishList() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             mFishPondViewModel.getFishListByCategoryId("recommend").collectLatest {
+                onBack2Top()
                 mFishListAdapter.submitData(it)
             }
         }
     }
 
     override fun initView() {
+        // This emptyAdapter is like a hacker.
+        // Its existence allows the PagingAdapter to scroll to the top before being refreshed,
+        // avoiding the problem that the PagingAdapter cannot return to the top after being refreshed.
+        // But it needs to be used in conjunction with ConcatAdapter, and must appear before PagingAdapter.
+        val emptyAdapter = EmptyAdapter()
+        val concatAdapter = ConcatAdapter(emptyAdapter, mFishListAdapter)
         mBinding.rvFishPondList.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = mFishListAdapter
+            adapter = concatAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(4.dp))
         }
     }
