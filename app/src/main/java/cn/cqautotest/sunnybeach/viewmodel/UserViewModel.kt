@@ -36,6 +36,26 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
+     * 获取VIP列表
+     */
+    fun getVipUserList() = Repository.getVipUserList()
+
+    /**
+     * 个人中心获取成就
+     */
+    fun getAchievement() = Repository.getAchievement()
+
+    /**
+     * 个人中心获取自己的sob币总数
+     */
+    fun queryTotalSobCount() = Repository.queryTotalSobCount()
+
+    /**
+     * 个人中心获取账号信息
+     */
+    fun queryUserInfo() = Repository.queryUserInfo()
+
+    /**
      * 检查是否领取过津贴
      */
     fun checkAllowance() = Repository.checkAllowance()

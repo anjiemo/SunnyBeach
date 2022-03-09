@@ -30,6 +30,66 @@ object Repository {
 
     private val cachePhotoIdList = arrayListOf<WallpaperBean.Res.Vertical>()
 
+    fun getVipUserList() = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.getVipUserList()
+                Timber.d("result is $result")
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    fun getAchievement() = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.getAchievement()
+                Timber.d("result is $result")
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    fun queryTotalSobCount() = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.queryTotalSobCount()
+                Timber.d("result is $result")
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
+    fun queryUserInfo() = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.queryUserInfo()
+                Timber.d("result is $result")
+                if (result.isSuccess()) Result.success(result.getData())
+                else Result.failure(ServiceException(result.getMessage()))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
+
     fun getAllowance() = liveData(Dispatchers.IO) {
         val result = try {
             coroutineScope {

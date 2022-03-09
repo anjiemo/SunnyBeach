@@ -1,0 +1,47 @@
+{
+  "agcgw_all": {
+    "CN": "connect-drcn.dbankcloud.cn",
+    "CN_back": "connect-drcn.hispace.hicloud.com",
+    "DE": "connect-dre.dbankcloud.cn",
+    "DE_back": "connect-dre.hispace.hicloud.com",
+    "RU": "connect-drru.dbankcloud.cn",
+    "RU_back": "connect-drru.hispace.hicloud.com",
+    "SG": "connect-dra.dbankcloud.cn",
+    "SG_back": "connect-dra.hispace.hicloud.com"
+  },
+  "client": {
+    "cp_id": "2850086000442799038",
+    "product_id": "99536292102057782",
+    "client_id": "843337245913008896",
+    "client_secret": "BB65CFEA9C0E6E151D9A0E205B61C287CB373548A5AA742242E7A9805654941A",
+    "project_id": "99536292102057782",
+    "app_id": "105730247",
+    "api_key": "DAEDAFYqPunLjeRrWIto40cbMoR3haOJXktC/nI+4upSuTu8VKTm/+C2Ffij3eNqUQ9cDVAecqbPv1sFx/z5uyc4F1V0w3Zf7/8xPA==",
+    "package_name": "cn.cqautotest.sunnybeach"
+  },
+  "oauth_client": {
+    "client_id": "105730247",
+    "client_type": 1
+  },
+  "app_info": {
+    "app_id": "105730247",
+    "package_name": "cn.cqautotest.sunnybeach"
+  },
+  "configuration_version": "3.0",
+  "appInfos": [
+    {
+      "package_name": "cn.cqautotest.sunnybeach",
+      "client": {
+        "app_id": "105730247"
+      },
+      "app_info": {
+        "package_name": "cn.cqautotest.sunnybeach",
+        "app_id": "105730247"
+      },
+      "oauth_client": {
+        "client_type": 1,
+        "client_id": "105730247"
+      }
+    }
+  ]
+}

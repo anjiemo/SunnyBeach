@@ -16,6 +16,14 @@ object UserNetwork {
     private val userApi = ServiceCreator.create<UserApi>()
     private val qaApi = ServiceCreator.create<QaApi>()
 
+    suspend fun getVipUserList() = userApi.getVipUserList()
+
+    suspend fun getAchievement() = userApi.getAchievement()
+
+    suspend fun queryTotalSobCount() = userApi.queryTotalSobCount()
+
+    suspend fun queryUserInfo() = userApi.queryUserInfo()
+
     suspend fun getRichList(count: Int = 100) = userApi.getRichList(count)
 
     suspend fun queryUserAvatar(account: String) = userApi.queryUserAvatar(account)

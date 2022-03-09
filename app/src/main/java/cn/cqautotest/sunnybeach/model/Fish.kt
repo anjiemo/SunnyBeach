@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/7/7
+ * time   : 2021/07/07
  * desc   : 摸鱼的数据bean类
  */
 data class Fish(
