@@ -59,8 +59,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
             }
         }
         meContent.creationCenterContainer.setFixOnClickListener {
-            // simpleToast("暂未开放")
-            requireContext().startActivity<TestActivity>()
+            requireContext().startActivity<CreationCenterActivity>()
         }
         meContent.weatherContainer.setFixOnClickListener {
             requireContext().startActivity<MainActivity>()

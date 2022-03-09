@@ -54,23 +54,6 @@
             </com.hjq.widget.layout.SettingBar>
 
             <com.hjq.widget.layout.SettingBar
-                android:id="@+id/sb_setting_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                app:bar_leftText="@string/setting_phone"
-                app:bar_rightDrawable="@drawable/arrows_right_ic"
-                tools:bar_rightText="181****1413" />
-
-            <com.hjq.widget.layout.SettingBar
-                android:id="@+id/sb_setting_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:bar_leftText="@string/setting_password"
-                app:bar_rightDrawable="@drawable/arrows_right_ic"
-                tools:bar_rightText="密码强度较低" />
-
-            <com.hjq.widget.layout.SettingBar
                 android:id="@+id/sb_setting_agreement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

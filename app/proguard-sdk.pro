@@ -44,3 +44,14 @@
 #
 #-keep class com.qmuiteam.qmui.arch.scheme.SchemeMap {*;}
 #-keep class com.qmuiteam.qmui.arch.scheme.SchemeMapImpl {*;}
+
+# HMS Core SDK
+-ignorewarnings
+-keepattributes *Annotation*
+-keepattributes Exceptions
+-keepattributes InnerClasses
+-keepattributes Signature
+-keepattributes SourceFile,LineNumberTable
+-keep class com.huawei.hianalytics.**{*;}
+-keep class com.huawei.updatesdk.**{*;}
+-keep class com.huawei.hms.**{*;}

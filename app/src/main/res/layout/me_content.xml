@@ -61,6 +61,11 @@
         </LinearLayout>
 
         <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_qr_code" />
+
+        <ImageView
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_gravity="center_vertical"
