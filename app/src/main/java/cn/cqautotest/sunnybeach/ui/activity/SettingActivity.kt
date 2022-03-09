@@ -76,8 +76,6 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
         setOnClickListener(
             R.id.sb_setting_language,
             R.id.sb_setting_update,
-            R.id.sb_setting_phone,
-            R.id.sb_setting_password,
             R.id.sb_setting_agreement,
             R.id.sb_setting_me_pay,
             R.id.sb_setting_about,
@@ -91,8 +89,6 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
         // 获取应用缓存大小
         mBinding.sbSettingCache.rightText = CacheDataManager.getTotalCacheSize(this)
         mBinding.sbSettingLanguage.rightText = "简体中文"
-        mBinding.sbSettingPhone.rightText = "181****1413"
-        mBinding.sbSettingPassword.rightText = "密码强度较低"
         mBinding.sbSettingSwitch.isChecked = true
         // 检查更新
         mAppViewModel.checkAppUpdate().observe(this) {

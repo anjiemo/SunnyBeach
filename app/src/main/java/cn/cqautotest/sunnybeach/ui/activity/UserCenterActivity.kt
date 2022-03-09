@@ -1,6 +1,10 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -13,6 +17,13 @@ import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.huawei.hms.hmsscankit.ScanUtil
+import com.huawei.hms.hmsscankit.WriterException
+import com.huawei.hms.ml.scan.HmsBuildBitmapOption
+import com.huawei.hms.ml.scan.HmsScan
+import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
+import com.scwang.smart.refresh.layout.wrapper.RefreshHeaderWrapper
+import timber.log.Timber
 import java.io.File
 
 /**
@@ -23,7 +34,7 @@ import java.io.File
  */
 class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
 
-    private val mBinding by viewBinding<UserCenterActivityBinding>()
+    private val mBinding by viewBinding(UserCenterActivityBinding::bind)
     private val mUserViewModel by viewModels<UserViewModel>()
     private var mUserBasicInfo: UserBasicInfo? = null
 
@@ -34,6 +45,15 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
         tvGetAllowance.text = getDefaultAllowanceTips()
         tvGetAllowance.setRoundRectBg(ContextCompat.getColor(this, R.color.pink), 3.dp)
         checkAllowance()
+        mBinding.refreshLayout.apply {
+            val headerWrapper = RefreshHeaderWrapper(View(context))
+            setRefreshHeader(headerWrapper)
+            setEnableLoadMore(false)
+            setHeaderHeight(60f)
+            setOnRefreshListener {
+                finishRefresh(0)
+            }
+        }
     }
 
     private fun checkAllowance(block: (isGetAllowance: Boolean) -> Unit = {}) {
@@ -57,6 +77,20 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
     override fun initData() {
         val userBasicInfo = UserManager.loadUserBasicInfo()
         userBasicInfo?.let { mUserBasicInfo = it }
+        mUserViewModel.queryUserInfo().observe(this) {
+            val personCenterInfo = it.getOrNull() ?: return@observe
+            val userCenterContent = mBinding.userCenterContent
+            userCenterContent.sbSettingCompany.rightText = personCenterInfo.company
+            userCenterContent.sbSettingJob.rightText = personCenterInfo.position
+            userCenterContent.sbSettingSkill.rightText = personCenterInfo.goodAt
+            userCenterContent.sbSettingCoordinate.rightText = personCenterInfo.area
+            userCenterContent.sbSettingSign.rightText = personCenterInfo.sign
+
+            userCenterContent.sbSettingPhone.rightText = personCenterInfo.phoneNum
+            userCenterContent.sbSettingEmail.rightText = personCenterInfo.email
+
+            mBinding.ivSobQrCode.setImageBitmap(generateQRCode("sob://user/${personCenterInfo.userId}"))
+        }
     }
 
     override fun onResume() {
@@ -73,7 +107,6 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
     }
 
     override fun initEvent() {
-        val tvGetAllowance = mBinding.tvGetAllowance
         mBinding.llUserInfoContainer.setFixOnClickListener {
             takeIfLogin { userBasicInfo ->
                 val userId = userBasicInfo.id
@@ -85,22 +118,57 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             // CameraActivity.start(this, this)
         }
         mBinding.ivBecomeVip.setFixOnClickListener {
-            BrowserActivity.start(this, "https://www.sunofbeach.net/vip")
+            startActivity<VipActivity>()
+            // BrowserActivity.start(this, "https://www.sunofbeach.net/vip")
         }
-        tvGetAllowance.setFixOnClickListener {
-            mUserViewModel.getAllowance().observe(this) { result ->
-                result.getOrNull()?.let {
-                    tvGetAllowance.text = "已领取"
-                    tvGetAllowance.isEnabled = it.not()
-                    val disableTextColor =
-                        ContextCompat.getColor(this, R.color.btn_text_disable_color)
-                    tvGetAllowance.setTextColor(disableTextColor)
-                    val disableBgColor = ContextCompat.getColor(this, R.color.btn_bg_disable_color)
-                    tvGetAllowance.setRoundRectBg(disableBgColor, 3.dp)
-                    checkAllowance { isGetAllowance ->
-                        takeIf { isGetAllowance }?.let {
-                            simpleToast("当月津贴已领取")
-                        }
+        mBinding.tvGetAllowance.setFixOnClickListener {
+            getAllowance()
+        }
+        mBinding.clScanQrCode.setFixOnClickListener {
+            toast("hhh")
+            // “QRCODE_SCAN_TYPE”和“DATAMATRIX_SCAN_TYPE”表示只扫描QR和Data Matrix的码
+            val options = HmsScanAnalyzerOptions.Creator()
+                .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
+                .create()
+            ScanUtil.startScan(this, REQUEST_CODE_SCAN_ONE, options)
+        }
+    }
+
+    private fun generateQRCode(
+        content: String,
+        size: Int = 400,
+        bgColor: Int = Color.WHITE,
+        qrColor: Int = Color.BLACK,
+        margin: Int = 2
+    ): Bitmap? {
+        val type = HmsScan.QRCODE_SCAN_TYPE
+        val options = HmsBuildBitmapOption.Creator()
+            .setBitmapBackgroundColor(bgColor)
+            .setBitmapColor(qrColor)
+            .setBitmapMargin(margin)
+            .create()
+        return try {
+            // 如果未设置HmsBuildBitmapOption对象，生成二维码参数options置null。
+            ScanUtil.buildBitmap(content, type, size, size, options)
+        } catch (e: WriterException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    private fun getAllowance() {
+        mUserViewModel.getAllowance().observe(this) { result ->
+            result.getOrNull()?.let {
+                val tvGetAllowance = mBinding.tvGetAllowance
+                tvGetAllowance.text = "已领取"
+                tvGetAllowance.isEnabled = it.not()
+                val disableTextColor = ContextCompat.getColor(this, R.color.btn_text_disable_color)
+                tvGetAllowance.setTextColor(disableTextColor)
+                val disableBgColor = ContextCompat.getColor(this, R.color.btn_bg_disable_color)
+                tvGetAllowance.setRoundRectBg(disableBgColor, 3.dp)
+                checkAllowance { isGetAllowance ->
+                    takeIf { isGetAllowance }?.let {
+                        simpleToast("当月津贴已领取")
                     }
                 }
             }
@@ -134,5 +202,31 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             .circleCrop()
             .into(mBinding.ivAvatar)
         simpleToast("暂不支持更换头像")
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != RESULT_OK || data == null) {
+            return
+        }
+        if (requestCode == REQUEST_CODE_SCAN_ONE) {
+            // 导入图片扫描返回结果
+            val obj = data.getParcelableExtra(ScanUtil.RESULT) as HmsScan?
+            if (obj != null) {
+                // 展示解码结果
+                showResult(obj)
+            }
+        }
+    }
+
+    private fun showResult(result: HmsScan) {
+        val linkUrl = result.getLinkUrl()
+        val theme = linkUrl.theme
+        val linkValue = linkUrl.linkValue
+        Timber.d("showResult：===> theme is $theme linkValue is $linkValue")
+    }
+
+    companion object {
+        private const val REQUEST_CODE_SCAN_ONE = 0x0000
     }
 }

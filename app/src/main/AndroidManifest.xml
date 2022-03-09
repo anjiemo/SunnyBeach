@@ -97,6 +97,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <receiver
+            android:name="com.xiaomi.market.sdk.DownloadCompleteReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
         <!-- 闪屏页 -->
         <activity
             android:name=".ui.activity.SplashActivity"
@@ -330,6 +337,8 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".ui.activity.VipActivity" />
+        <activity android:name=".ui.activity.CreationCenterActivity" />
     </application>
 
 </manifest>

@@ -3,6 +3,10 @@ apply from : '../../common.gradle'
 
 android {
 
+
+    lint {
+        disable 'HardcodedText', 'ContentDescription'
+    }
     defaultConfig {
         // 模块混淆配置
         consumerProguardFiles 'proguard-base.pro'

@@ -188,8 +188,14 @@
     <string name="setting_language_complex">繁体中文</string>
     <string name="setting_update">检查更新</string>
 
-    <string name="setting_password">修改密码</string>
-    <string name="setting_phone">修改手机</string>
+    <string name="setting_phone">手机</string>
+    <string name="setting_email">邮箱</string>
+    <string name="setting_sign">签名</string>
+    <string name="setting_password">密码</string>
+    <string name="setting_company">公司</string>
+    <string name="setting_job">职位</string>
+    <string name="setting_skill">技能</string>
+    <string name="setting_coordinate">坐标</string>
 
     <string name="setting_auto">自动登录</string>
     <string name="setting_cache">清空缓存</string>

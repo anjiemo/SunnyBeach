@@ -66,6 +66,8 @@ public final class CrashHandler implements Thread.UncaughtExceptionHandler {
             mNextHandler.uncaughtException(thread, throwable);
         }
 
+        throwable.printStackTrace();
+
         // 杀死进程（这个事应该是系统干的，但是它会多弹出一个崩溃对话框，所以需要我们自己手动杀死进程）
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(10);

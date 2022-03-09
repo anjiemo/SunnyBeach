@@ -12,9 +12,7 @@ import cn.cqautotest.sunnybeach.ui.activity.CopyActivity
  */
 class CopyFragment : AppFragment<CopyActivity>() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.copy_fragment
-    }
+    override fun getLayoutId(): Int = R.layout.copy_fragment
 
     override fun initView() {}
 

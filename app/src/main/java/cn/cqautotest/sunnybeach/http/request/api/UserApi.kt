@@ -7,6 +7,30 @@ import retrofit2.http.*
 interface UserApi {
 
     /**
+     * 获取VIP列表
+     */
+    @GET("${SUNNY_BEACH_API_BASE_URL}uc/vip/list")
+    suspend fun getVipUserList(): ApiResponse<List<VipUserInfoSummary>>
+
+    /**
+     * 个人中心获取成就
+     */
+    @GET("${SUNNY_BEACH_API_BASE_URL}ast/ucenter/achievement")
+    suspend fun getAchievement(): ApiResponse<UserAchievement>
+
+    /**
+     * 个人中心获取自己的sob币总数
+     */
+    @GET("${SUNNY_BEACH_API_BASE_URL}ast/ucenter/total-sob")
+    suspend fun queryTotalSobCount(): ApiResponse<Int>
+
+    /**
+     * 个人中心获取账号信息
+     */
+    @GET("${SUNNY_BEACH_API_BASE_URL}uc/ucenter/user-info")
+    suspend fun queryUserInfo(): ApiResponse<PersonCenterInfo>
+
+    /**
      * 根据手机号查询用户头像
      */
     @GET("${SUNNY_BEACH_API_BASE_URL}uc/user/avatar/{phoneNum}")

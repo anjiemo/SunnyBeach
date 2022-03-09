@@ -3,6 +3,7 @@ apply plugin: 'android-aspectjx'
 apply from: '../common.gradle'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.huawei.agconnect'
 
 // Android 代码规范文档：https://github.com/getActivity/AndroidCodeStandard
 android {
@@ -12,12 +13,11 @@ android {
 
         // 无痛修改包名：https://www.jianshu.com/p/17327e191d2e
         applicationId 'cn.cqautotest.sunnybeach'
+        resConfigs 'zh', 'xxhdpi'
 
         // 仅保留中文语种的资源
-        resConfigs 'zh'
 
         // 仅保留 xxhdpi 图片资源（目前主流分辨率 1920 * 1080）
-        resConfig 'xxhdpi'
 
         // 混淆配置
         proguardFiles 'proguard-sdk.pro', 'proguard-app.pro'
@@ -52,6 +52,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
         useIR = true
+    }
+    packagingOptions {
+        jniLibs {
+            excludes += ['META-INF/*******']
+        }
+        resources {
+            excludes += ['META-INF/*******']
+        }
     }
 
     // 避免编译不能用于在编译类路径中发现的注解处理器，因为它们中的任何更改都需要运行注解处理任务
@@ -132,10 +140,6 @@ android {
         }
     }
 
-    packagingOptions {
-        // 剔除这个包下的所有文件（不会移除签名信息）
-        exclude 'META-INF/*******'
-    }
 
     // AOP 配置（exclude 和 include 二选一）
     aspectjx {
@@ -147,6 +151,9 @@ android {
         // 否则就会引发冲突，具体表现为：
         // 编译不过去，报错：java.util.zip.ZipException：Cause: zip file is empty
         // 编译能过去，但运行时报错：ClassNotFoundException: Didn't find class on path: DexPathList
+    }
+    lint {
+        disable 'HardcodedText', 'ContentDescription'
     }
 
     // // AOP 配置（exclude 和 include 二选一）
@@ -362,6 +369,8 @@ dependencies {
     // implementation "com.qmuiteam:qmui:$qmui_arch_version"
     // implementation "com.qmuiteam:arch:$qmui_arch_version"
     // kapt "com.qmuiteam:arch-compiler:$qmui_arch_version"
+    implementation 'com.huawei.agconnect:agconnect-core:1.5.2.300'
+    implementation 'com.huawei.hms:scan:2.4.0.301'
 }
 
 kapt {

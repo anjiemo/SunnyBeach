@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="238dp"
+    android:background="@color/common_window_background_color"
+    android:orientation="vertical"
+    tools:showIn="@layout/user_center_activity">
+
+    <com.hjq.widget.layout.SettingBar
+        android:id="@+id/sb_setting_company"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:bar_leftText="@string/setting_company"
+        app:bar_rightDrawable="@drawable/arrows_right_ic"
+        tools:bar_rightText="xxx科技有限公司" />
+
+    <com.hjq.widget.layout.SettingBar
+        android:id="@+id/sb_setting_job"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:bar_leftText="@string/setting_job"
+        app:bar_rightDrawable="@drawable/arrows_right_ic"
+        tools:bar_rightText="xxx工程师" />
+
+    <com.hjq.widget.layout.SettingBar
+        android:id="@+id/sb_setting_skill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:bar_leftText="@string/setting_skill"
+        app:bar_rightDrawable="@drawable/arrows_right_ic"
+        tools:bar_rightText="Android" />
+
+    <com.hjq.widget.layout.SettingBar
+        android:id="@+id/sb_setting_coordinate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:bar_leftText="@string/setting_coordinate"
+        app:bar_rightDrawable="@drawable/arrows_right_ic"
+        tools:bar_rightText="正在定位中..." />
+
+    <com.hjq.widget.layout.SettingBar
+        android:id="@+id/sb_setting_sign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:bar_leftText="@string/setting_sign"
+        app:bar_rightDrawable="@drawable/arrows_right_ic"
+        tools:bar_rightText="专业写BUG" />
+
+    <com.hjq.widget.layout.SettingBar
+        android:id="@+id/sb_setting_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        app:bar_leftText="@string/setting_phone"
+        app:bar_rightDrawable="@drawable/arrows_right_ic"
+        tools:bar_rightText="181****1413" />
+
+    <com.hjq.widget.layout.SettingBar
+        android:id="@+id/sb_setting_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:bar_leftText="@string/setting_email"
+        app:bar_rightDrawable="@drawable/arrows_right_ic"
+        tools:bar_rightText="xxx@xxx.com" />
+
+    <com.hjq.widget.layout.SettingBar
+        android:id="@+id/sb_setting_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:bar_leftText="@string/setting_password"
+        app:bar_rightDrawable="@drawable/arrows_right_ic"
+        app:bar_rightText="修改密码" />
+
+</LinearLayout>

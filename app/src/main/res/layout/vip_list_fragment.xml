@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.fragment.VipListFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:padding="10dp"
+        android:text="部分已开通VIP用户列表" />
+
+    <cn.cqautotest.sunnybeach.widget.StatusLayout
+        android:id="@+id/hl_vip_user_list_hint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_vip_user_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="GridLayoutManager"
+            app:spanCount="3"
+            tools:itemCount="30"
+            tools:listitem="@layout/vip_user_list_item" />
+
+    </cn.cqautotest.sunnybeach.widget.StatusLayout>
+
+</LinearLayout>
