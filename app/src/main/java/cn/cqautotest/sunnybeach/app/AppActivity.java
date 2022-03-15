@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.viewbinding.ViewBinding;
 
-import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.TitleBar;
@@ -23,8 +22,6 @@ import cn.cqautotest.sunnybeach.action.Init;
 import cn.cqautotest.sunnybeach.action.TitleBarAction;
 import cn.cqautotest.sunnybeach.action.ToastAction;
 import cn.cqautotest.sunnybeach.http.model.HttpData;
-import cn.cqautotest.sunnybeach.manager.ActivityManager;
-import cn.cqautotest.sunnybeach.other.AppConfig;
 import cn.cqautotest.sunnybeach.ui.dialog.WaitDialog;
 import cn.cqautotest.sunnybeach.util.FragmentActivityKt;
 import okhttp3.Call;
@@ -273,16 +270,16 @@ public abstract class AppActivity extends BaseActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if (!AppConfig.isDebug() && DeviceUtils.isDeviceRooted()) {
-            toast("请勿在root设备使用本App");
-            ActivityManager.getInstance().finishAllActivities();
-            return;
-        }
-        if (!AppConfig.isDebug() && DeviceUtils.isEmulator()) {
-            toast("请勿在模拟器上使用本App");
-            ActivityManager.getInstance().finishAllActivities();
-            return;
-        }
+        // if (!AppConfig.isDebug() && DeviceUtils.isDeviceRooted()) {
+        //     toast("请勿在root设备使用本App");
+        //     ActivityManager.getInstance().finishAllActivities();
+        //     return;
+        // }
+        // if (!AppConfig.isDebug() && DeviceUtils.isEmulator()) {
+        //     toast("请勿在模拟器上使用本App");
+        //     ActivityManager.getInstance().finishAllActivities();
+        //     return;
+        // }
         FragmentActivityKt.checkToken(this, (result, continuation) -> null);
     }
 

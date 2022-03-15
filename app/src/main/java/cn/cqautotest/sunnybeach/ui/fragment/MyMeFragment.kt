@@ -1,5 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
+import android.annotation.SuppressLint
+import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -9,8 +11,10 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.activity.*
 import cn.cqautotest.sunnybeach.ui.activity.weather.MainActivity
 import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.android.material.badge.BadgeUtils
 
 /**
  * author : A Lonely Cat
@@ -18,17 +22,25 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
  * time   : 2021/06/20
  * desc   : 个人中心界面
  */
+@SuppressLint("UnsafeOptInUsageError")
 class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     private val mBinding: MyMeFragmentBinding by viewBinding()
+    private val mMsgViewModel by viewModels<MsgViewModel>()
+    private val badgeDrawable by lazy {
+        createDefaultStyleBadge(requireContext(), 0).apply {
+            val meContent = mBinding.meContent
+            BadgeUtils.attachBadgeDrawable(this, meContent.ivMsgCenter)
+        }
+    }
 
     override fun getLayoutId(): Int = R.layout.my_me_fragment
 
     override fun onFragmentResume(first: Boolean) {
         super.onFragmentResume(first)
+        val meContent = mBinding.meContent
         checkToken {
             val userBasicInfo = it.getOrNull()
-            val meContent = mBinding.meContent
             val flAvatarContainer = meContent.flAvatarContainer
             flAvatarContainer.background = UserManager.getAvatarPendant(UserManager.currUserIsVip())
             Glide.with(this)
@@ -40,6 +52,10 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(meContent.imageAvatar)
             meContent.textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
+        }
+        mMsgViewModel.getUnReadMsgCount().observe(viewLifecycleOwner) {
+            val unReadMsgCount = it.getOrNull() ?: return@observe
+            badgeDrawable.isVisible = unReadMsgCount.hasUnReadMsg
         }
     }
 

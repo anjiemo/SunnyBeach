@@ -106,6 +106,7 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
         mBinding.tvNickName.text = mUserBasicInfo?.nickname ?: "游客"
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun initEvent() {
         mBinding.llUserInfoContainer.setFixOnClickListener {
             takeIfLogin { userBasicInfo ->
@@ -125,13 +126,46 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             getAllowance()
         }
         mBinding.clScanQrCode.setFixOnClickListener {
-            toast("hhh")
             // “QRCODE_SCAN_TYPE”和“DATAMATRIX_SCAN_TYPE”表示只扫描QR和Data Matrix的码
             val options = HmsScanAnalyzerOptions.Creator()
                 .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
                 .create()
             ScanUtil.startScan(this, REQUEST_CODE_SCAN_ONE, options)
         }
+
+        // mBinding.scrollView.setOnTouchListener(object : TouchUtils.OnTouchUtilsListener(){
+        //     override fun onDown(view: View?, x: Int, y: Int, event: MotionEvent?): Boolean {
+        //         return true
+        //     }
+        //
+        //     override fun onMove(
+        //         view: View?,
+        //         direction: Int,
+        //         x: Int,
+        //         y: Int,
+        //         dx: Int,
+        //         dy: Int,
+        //         totalX: Int,
+        //         totalY: Int,
+        //         event: MotionEvent?
+        //     ): Boolean {
+        //         return true
+        //     }
+        //
+        //     override fun onStop(
+        //         view: View?,
+        //         direction: Int,
+        //         x: Int,
+        //         y: Int,
+        //         totalX: Int,
+        //         totalY: Int,
+        //         vx: Int,
+        //         vy: Int,
+        //         event: MotionEvent?
+        //     ): Boolean {
+        //         return true
+        //     }
+        // })
     }
 
     private fun generateQRCode(

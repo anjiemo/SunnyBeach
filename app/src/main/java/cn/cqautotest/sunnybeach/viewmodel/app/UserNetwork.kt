@@ -16,6 +16,9 @@ object UserNetwork {
     private val userApi = ServiceCreator.create<UserApi>()
     private val qaApi = ServiceCreator.create<QaApi>()
 
+    suspend fun getSobIEDetailList(userId: String, page: Int) =
+        userApi.getSobIEDetailList(userId, page)
+
     suspend fun getVipUserList() = userApi.getVipUserList()
 
     suspend fun getAchievement() = userApi.getAchievement()

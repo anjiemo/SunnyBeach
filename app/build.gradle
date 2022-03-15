@@ -371,6 +371,7 @@ dependencies {
     // kapt "com.qmuiteam:arch-compiler:$qmui_arch_version"
     implementation 'com.huawei.agconnect:agconnect-core:1.5.2.300'
     implementation 'com.huawei.hms:scan:2.4.0.301'
+    implementation 'com.yinglan.scrolllayout:scrolllayout:1.0.2'
 }
 
 kapt {

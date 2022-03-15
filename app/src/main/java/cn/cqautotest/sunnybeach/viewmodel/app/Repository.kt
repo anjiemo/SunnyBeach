@@ -1,11 +1,13 @@
 package cn.cqautotest.sunnybeach.viewmodel.app
 
+import androidx.lifecycle.LiveDataScope
 import androidx.lifecycle.liveData
 import cn.cqautotest.sunnybeach.db.dao.PlaceDao
 import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
 import cn.cqautotest.sunnybeach.manager.UserManager
+import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.User
 import cn.cqautotest.sunnybeach.model.weather.Place
 import cn.cqautotest.sunnybeach.util.md5
@@ -31,63 +33,19 @@ object Repository {
     private val cachePhotoIdList = arrayListOf<WallpaperBean.Res.Vertical>()
 
     fun getVipUserList() = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.getVipUserList()
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { UserNetwork.getVipUserList() }
     }
 
     fun getAchievement() = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.getAchievement()
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { UserNetwork.getAchievement() }
     }
 
     fun queryTotalSobCount() = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.queryTotalSobCount()
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { UserNetwork.queryTotalSobCount() }
     }
 
     fun queryUserInfo() = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.queryUserInfo()
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { UserNetwork.queryUserInfo() }
     }
 
     fun getAllowance() = liveData(Dispatchers.IO) {
@@ -131,78 +89,23 @@ object Repository {
     }
 
     fun unfollowUser(userId: String) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.unfollowUser(userId)
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { UserNetwork.unfollowUser(userId) }
     }
 
     fun followUser(userId: String) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.followUser(userId)
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { UserNetwork.followUser(userId) }
     }
 
     fun followState(userId: String) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.followState(userId)
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { UserNetwork.followState(userId) }
     }
 
     fun getUserInfo(userId: String) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.getUserInfo(userId)
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { UserNetwork.getUserInfo(userId) }
     }
 
     fun getAchievement(userId: String) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.getAchievement(userId)
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { UserNetwork.getAchievement(userId) }
     }
 
     fun logout() = liveData(Dispatchers.IO) {
@@ -265,18 +168,7 @@ object Repository {
     }
 
     fun checkAppUpdate() = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = AppNetwork.checkAppUpdate()
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { AppNetwork.checkAppUpdate() }
     }
 
     fun setPhotoIdList(photoIdList: List<WallpaperBean.Res.Vertical>) {
@@ -299,18 +191,7 @@ object Repository {
     fun getPhotoList() = cachePhotoIdList.toList()
 
     fun getFishCommendListById(momentId: String, page: Int) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = FishNetwork.getFishCommendListById(momentId, page)
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { FishNetwork.getFishCommendListById(momentId, page) }
     }
 
     suspend fun uploadFishImage(imageFile: File): String? {
@@ -332,33 +213,11 @@ object Repository {
     }
 
     fun putFish(moment: Map<String, Any?>) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = FishNetwork.putFish(moment)
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { FishNetwork.putFish(moment) }
     }
 
     fun loadFishDetailById(momentId: String) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = FishNetwork.loadFishDetailById(momentId)
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException())
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { FishNetwork.loadFishDetailById(momentId) }
     }
 
     fun loadWallpaperBannerList() = liveData(Dispatchers.IO) {
@@ -377,79 +236,56 @@ object Repository {
     }
 
     fun postComment(momentComment: Map<String, Any?>, isReply: Boolean) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = if (isReply) FishNetwork.replyComment(momentComment)
-                else FishNetwork.postComment(momentComment)
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
+        launchAndGetData {
+            if (isReply) FishNetwork.replyComment(momentComment)
+            else FishNetwork.postComment(momentComment)
         }
-        emit(result)
     }
 
     fun dynamicLikes(momentId: String) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = FishNetwork.dynamicLikes(momentId)
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { FishNetwork.dynamicLikes(momentId) }
     }
 
     fun loadTopicList() = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = FishNetwork.loadTopicList()
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { FishNetwork.loadTopicList() }
     }
 
     fun getRichList() = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.getRichList()
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getData())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetData { UserNetwork.getRichList() }
+    }
+
+    fun readQaMsg(msgId: String) = liveData(Dispatchers.IO) {
+        launchAndGetMsg { MsgNetwork.readQaMsg(msgId) }
+    }
+
+    fun readAtMeMsg(msgId: String) = liveData(Dispatchers.IO) {
+        launchAndGetMsg { MsgNetwork.readAtMeMsg(msgId) }
+    }
+
+    fun readMomentMsg(msgId: String) = liveData(Dispatchers.IO) {
+        launchAndGetMsg { MsgNetwork.readMomentMsg(msgId) }
+    }
+
+    /**
+     * 更新文章消息为：已回复
+     */
+    fun replyArticleMsg(msgId: String) = liveData(Dispatchers.IO) {
+        launchAndGetMsg { MsgNetwork.readArticleMsg(msgId, 2) }
+    }
+
+    /**
+     * 更新文章消息为：已读
+     */
+    fun readArticleMsg(msgId: String) = liveData(Dispatchers.IO) {
+        launchAndGetMsg { MsgNetwork.readArticleMsg(msgId, 1) }
     }
 
     fun readAllMsg() = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = MsgNetwork.readAllMsg()
-                Timber.d("result is $result")
-                if (result.isSuccess()) Result.success(result.getMessage())
-                else Result.failure(ServiceException(result.getMessage()))
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+        launchAndGetMsg { MsgNetwork.readAllMsg() }
+    }
+
+    fun getUnReadMsgCount() = liveData(Dispatchers.IO) {
+        launchAndGetData { MsgNetwork.getUnReadMsgCount() }
     }
 
     fun searchPlaces(query: String) = liveData(Dispatchers.IO) {
@@ -505,4 +341,30 @@ object Repository {
     fun getSavedPlace() = PlaceDao.getSavedPlace()
 
     fun isSaved() = PlaceDao.isSaved()
+
+    private suspend inline fun <reified T> LiveDataScope<Result<T>>.launchAndGetData(crossinline action: suspend () -> ApiResponse<T>) {
+        launchAndGet(action = action, onSuccess = { it.getData() })
+    }
+
+    private suspend inline fun LiveDataScope<Result<Any>>.launchAndGetMsg(crossinline action: suspend () -> ApiResponse<Any>) {
+        launchAndGet(action = action, onSuccess = { it.getMessage() })
+    }
+
+    private suspend inline fun <reified T> LiveDataScope<Result<T>>.launchAndGet(
+        crossinline action: suspend () -> ApiResponse<T>,
+        crossinline onSuccess: (ApiResponse<T>) -> T
+    ) {
+        val result = try {
+            coroutineScope {
+                val result = action.invoke()
+                Timber.d("result is $result")
+                if (result.isSuccess()) Result.success(onSuccess.invoke(result))
+                else Result.failure(ServiceException(result.getMessage()))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            Result.failure(t)
+        }
+        emit(result)
+    }
 }
