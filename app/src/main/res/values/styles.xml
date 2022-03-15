@@ -108,10 +108,41 @@
     </style>
 
     <!-- 底部导航栏字体样式 -->
-    <style name="BottomTabTextStyle" >
+    <style name="BottomTabTextStyle">
         <item name="android:textSize">12sp</item>
     </style>
 
     <style name="Theme.SunnyBeach.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- 应用主题样式 -->
+    <style name="AppMaterialComponentsTheme" parent="Theme.MaterialComponents">
+        <!-- 窗口背景颜色 -->
+        <item name="android:windowBackground">@color/common_window_background_color</item>
+        <!-- 应用的主要色调，ActionBar Toolbar 默认使用该颜色 -->
+        <item name="colorPrimary">@color/common_primary_color</item>
+        <!-- 应用的主要暗色调，状态栏默认使用该颜色 -->
+        <item name="colorPrimaryDark">@color/common_primary_dark_color</item>
+        <!-- 应用的强调色，CheckBox RadioButton Switch 等一般控件的选中效果默认采用该颜色 -->
+        <item name="colorAccent">@color/common_accent_color</item>
+        <!-- 默认文本颜色，Button、TextView 的文字颜色 -->
+        <item name="android:textColor">@color/common_text_color</item>
+        <!-- 默认字体大小，Button、TextView 的字体大小 -->
+        <item name="android:textSize">14sp</item>
+        <!-- 默认提示颜色，Button、TextView 的提示文字颜色 -->
+        <item name="android:textColorHint">@color/common_text_hint_color</item>
+        <!-- ActionMode 覆盖 Actionbar 不被顶下来 -->
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- ActionMode 的颜色 -->
+        <item name="actionModeBackground">@color/common_primary_color</item>
+        <!-- 解决 Android 5.1 及以上版本 Button 英文字符串自动变大写的问题 -->
+        <item name="android:textAllCaps">false</item>
+        <!-- 解决 ImageView 不能自动等比拉伸图片的问题 -->
+        <item name="android:adjustViewBounds">true</item>
+        <!-- 默认隐藏输入法，开启这个选项后会导致输入对话框在关闭之后不能关闭软键盘 -->
+        <!--<item name="android:windowSoftInputMode">stateHidden</item>-->
+        <!-- 关闭 RecyclerView NestedScrollView ViewPager 水波纹效果 -->
+        <item name="android:overScrollMode">never</item>
+    </style>
 
 </resources>

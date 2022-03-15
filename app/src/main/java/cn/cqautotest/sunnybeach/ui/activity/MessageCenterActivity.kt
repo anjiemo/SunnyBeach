@@ -1,17 +1,23 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
+import android.annotation.SuppressLint
 import android.view.View
 import androidx.activity.viewModels
+import androidx.collection.SparseArrayCompat
+import androidx.collection.set
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.MessageCenterActivityBinding
+import cn.cqautotest.sunnybeach.model.msg.UnReadMsgCount
 import cn.cqautotest.sunnybeach.ui.activity.msg.*
+import cn.cqautotest.sunnybeach.util.createDefaultStyleBadge
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import cn.cqautotest.sunnybeach.util.simpleToast
 import cn.cqautotest.sunnybeach.util.startActivity
 import cn.cqautotest.sunnybeach.util.takeIfLogin
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
 
 /**
  * author : A Lonely Cat
@@ -23,10 +29,19 @@ class MessageCenterActivity : AppActivity() {
 
     private val mBinding by viewBinding<MessageCenterActivityBinding>()
     private val mMsgViewModel by viewModels<MsgViewModel>()
+    private val mDrawableCacheMap = SparseArrayCompat<BadgeDrawable>(4)
 
     override fun getLayoutId(): Int = R.layout.message_center_activity
 
     override fun initView() {
+        supportActionBar?.hide()
+    }
+
+    override fun initData() {
+
+    }
+
+    override fun initEvent() {
         mBinding.articleContainer.setFixOnClickListener {
             takeIfLogin {
                 // 文章评论消息列表
@@ -65,17 +80,57 @@ class MessageCenterActivity : AppActivity() {
         }
     }
 
-    override fun initData() {
+    override fun onResume() {
+        super.onResume()
+        mMsgViewModel.getUnReadMsgCount().observe(this) {
+            val unReadMsgCount = it.getOrNull() ?: return@observe
+            setUnReadCountByMenu(unReadMsgCount)
+        }
+    }
 
+    private fun setUnReadCountByMenu(unReadMsgCount: UnReadMsgCount) {
+        mBinding.ivArticle.setUnReadCount(unReadMsgCount.articleMsgCount)
+        mBinding.ivLike.setUnReadCount(unReadMsgCount.thumbUpMsgCount)
+        mBinding.ivFish.setUnReadCount(unReadMsgCount.momentCommentCount)
+        mBinding.ivAtMe.setUnReadCount(unReadMsgCount.atMsgCount)
+        mBinding.ivQa.setUnReadCount(unReadMsgCount.wendaMsgCount)
+        mBinding.ivSystem.setUnReadCount(unReadMsgCount.systemMsgCount)
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private fun View.setUnReadCount(unReadCount: Int) {
+        val anchor = this
+        val viewId = id
+        // 通过 View 的 id 从缓存里获取 BadgeDrawable
+        val drawable = mDrawableCacheMap[viewId]
+        if (drawable == null) {
+            // 如果缓存里没有，则创建 BadgeDrawable
+            createDefaultStyleBadge(context, unReadCount).apply {
+                BadgeUtils.attachBadgeDrawable(this, anchor)
+                mDrawableCacheMap[viewId] = this
+            }
+        } else {
+            // 否则更新 BadgeDrawable 的状态
+            drawable.isVisible = unReadCount > 0
+            drawable.number = unReadCount
+        }
     }
 
     override fun onRightClick(view: View?) {
         takeIfLogin {
+            // 先在 UI 上响应给用户，再去网络请求
+            setUnReadCountByMenu(UnReadMsgCount())
             // 设置消息全部已读
             mMsgViewModel.readAllMsg().observe(this) {
                 val tips = it.getOrNull() ?: return@observe
-                simpleToast(tips)
+                toast(tips)
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // BadgeDrawable 内部是弱引用持有 View，我们不关心 View 的释放问题
+        mDrawableCacheMap.clear()
     }
 }

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 清单文件合并指引：https://developer.android.google.cn/studio/build/manifest-merge?hl=zh-cn -->
+<?xml version="1.0" encoding="utf-8"?><!-- 清单文件合并指引：https://developer.android.google.cn/studio/build/manifest-merge?hl=zh-cn -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="cn.cqautotest.sunnybeach">
@@ -107,9 +106,9 @@
         <!-- 闪屏页 -->
         <activity
             android:name=".ui.activity.SplashActivity"
+            android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:exported="true"
             android:theme="@style/SplashTheme">
 
             <!-- 程序入口 -->
@@ -130,6 +129,7 @@
             android:name=".ui.activity.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:theme="@style/AppMaterialComponentsTheme"
             android:windowSoftInputMode="adjustPan" />
         <!-- 测试界面 -->
         <activity
@@ -196,7 +196,8 @@
         <!-- 消息中心页 -->
         <activity
             android:name=".ui.activity.MessageCenterActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppMaterialComponentsTheme" />
         <!-- 文章消息列表页 -->
         <activity
             android:name=".ui.activity.msg.ArticleMsgListActivity"

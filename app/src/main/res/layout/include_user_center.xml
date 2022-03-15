@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="238dp"
     android:background="@color/common_window_background_color"
     android:orientation="vertical"
     tools:showIn="@layout/user_center_activity">
@@ -73,5 +72,11 @@
         app:bar_leftText="@string/setting_password"
         app:bar_rightDrawable="@drawable/arrows_right_ic"
         app:bar_rightText="修改密码" />
+
+    <TextView
+        android:text="哈哈哈"
+        android:gravity="bottom|center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
 
 </LinearLayout>

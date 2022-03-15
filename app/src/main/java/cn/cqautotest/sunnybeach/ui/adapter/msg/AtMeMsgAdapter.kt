@@ -10,6 +10,7 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.AtMeMsgListItemBinding
 import cn.cqautotest.sunnybeach.model.msg.AtMeMsg
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
+import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.blankj.utilcode.util.TimeUtils
 import com.bumptech.glide.Glide
 
@@ -56,6 +57,9 @@ class AtMeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvChildReplyMsg = binding.tvChildReplyMsg
         val context = itemView.context
         val item = getItem(position) ?: return
+        itemView.setFixOnClickListener {
+            adapterDelegate.onItemClick(it, position)
+        }
         // flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
         Glide.with(itemView)
             .load(item.avatar)

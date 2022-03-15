@@ -9,12 +9,10 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.ArticleMsgListActivityBinding
+import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.ArticleMsgAdapter
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.loadStateListener
-import cn.cqautotest.sunnybeach.util.setDoubleClickListener
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import kotlinx.coroutines.flow.collectLatest
@@ -29,7 +27,8 @@ class ArticleMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
 
     private val mBinding by viewBinding<ArticleMsgListActivityBinding>()
     private val mMsgViewModel by viewModels<MsgViewModel>()
-    private val mArticleMsgAdapter = ArticleMsgAdapter(AdapterDelegate())
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mArticleMsgAdapter = ArticleMsgAdapter(mAdapterDelegate)
     private val loadStateListener = loadStateListener(mArticleMsgAdapter) {
         mBinding.refreshLayout.finishRefresh()
     }
@@ -61,6 +60,12 @@ class ArticleMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         }
         // 需要在 View 销毁的时候移除 listener
         mArticleMsgAdapter.addLoadStateListener(loadStateListener)
+        mAdapterDelegate.setOnItemClickListener { _, position ->
+            val item = mArticleMsgAdapter.snapshot()[position] ?: return@setOnItemClickListener
+            val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${item.articleId}"
+            mMsgViewModel.readArticleMsg(item.id).observe(this) {}
+            BrowserActivity.start(this, url)
+        }
     }
 
     override fun onBack2Top() {
