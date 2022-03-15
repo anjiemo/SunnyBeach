@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -65,6 +66,10 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
 
     @Override
     protected void initView() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
         mViewPager = findViewById(R.id.vp_home_pager);
         mNavigationView = findViewById(R.id.rv_home_navigation);
 

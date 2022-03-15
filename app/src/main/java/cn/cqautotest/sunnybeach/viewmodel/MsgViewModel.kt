@@ -20,7 +20,19 @@ import kotlinx.coroutines.flow.Flow
  */
 class MsgViewModel : ViewModel() {
 
+    fun readQaMsg(msgId: String) = Repository.readQaMsg(msgId)
+
+    fun readAtMeMsg(msgId: String) = Repository.readAtMeMsg(msgId)
+
+    fun readMomentMsg(msgId: String) = Repository.readMomentMsg(msgId)
+
+    fun replyArticleMsg(msgId: String) = Repository.replyArticleMsg(msgId)
+
+    fun readArticleMsg(msgId: String) = Repository.readArticleMsg(msgId)
+
     fun readAllMsg() = Repository.readAllMsg()
+
+    fun getUnReadMsgCount() = Repository.getUnReadMsgCount()
 
     fun getArticleMsgList(): Flow<PagingData<ArticleMsg.Content>> {
         return Pager(config = PagingConfig(DEFAULT_PAGE_SIZE),
@@ -30,7 +42,8 @@ class MsgViewModel : ViewModel() {
     }
 
     fun getMomentMsgList(): Flow<PagingData<MomentMsg.Content>> {
-        return Pager(config = PagingConfig(DEFAULT_PAGE_SIZE),
+        return Pager(
+            config = PagingConfig(DEFAULT_PAGE_SIZE),
             pagingSourceFactory = {
                 MsgPagingSourceImpl<MomentMsg.Content>(FishMsgListFactory())
             }).flow.cachedIn(viewModelScope)

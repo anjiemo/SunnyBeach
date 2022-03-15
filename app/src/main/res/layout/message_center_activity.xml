@@ -26,6 +26,7 @@
         tools:ignore="RtlSymmetry">
 
         <ImageView
+            android:id="@+id/ivArticle"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:padding="6dp"
@@ -35,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="文章" />
+            android:text="文章回复" />
 
     </LinearLayout>
 
@@ -52,6 +53,7 @@
         tools:ignore="RtlSymmetry">
 
         <ImageView
+            android:id="@+id/ivLike"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:padding="6dp"
@@ -61,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="点赞" />
+            android:text="给朕点赞" />
 
     </LinearLayout>
 
@@ -78,6 +80,7 @@
         tools:ignore="RtlSymmetry">
 
         <ImageView
+            android:id="@+id/ivFish"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:padding="10dp"
@@ -87,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="摸鱼" />
+            android:text="摸鱼评论" />
 
     </LinearLayout>
 
@@ -104,6 +107,7 @@
         tools:ignore="RtlSymmetry">
 
         <ImageView
+            android:id="@+id/ivAtMe"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:padding="10dp"
@@ -113,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="\@我" />
+            android:text="\摸鱼回复" />
 
     </LinearLayout>
 
@@ -130,6 +134,7 @@
         tools:ignore="RtlSymmetry">
 
         <ImageView
+            android:id="@+id/ivQa"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:padding="6dp"
@@ -139,7 +144,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="问答" />
+            android:text="问题回答" />
 
     </LinearLayout>
 
@@ -156,6 +161,7 @@
         tools:ignore="RtlSymmetry">
 
         <ImageView
+            android:id="@+id/ivSystem"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:padding="6dp"
@@ -165,7 +171,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="系统" />
+            android:text="系统通知" />
 
     </LinearLayout>
 

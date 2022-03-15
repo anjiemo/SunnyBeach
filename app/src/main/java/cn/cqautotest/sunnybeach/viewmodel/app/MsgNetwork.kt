@@ -13,7 +13,17 @@ object MsgNetwork {
 
     private val msgApi = ServiceCreator.create<MsgApi>()
 
+    suspend fun readQaMsg(msgId: String) = msgApi.readQaMsg(msgId)
+
+    suspend fun readAtMeMsg(msgId: String) = msgApi.readAtMeMsg(msgId)
+
+    suspend fun readMomentMsg(msgId: String) = msgApi.readMomentMsg(msgId)
+
+    suspend fun readArticleMsg(msgId: String, state: Int) = msgApi.readArticleMsg(msgId, state)
+
     suspend fun readAllMsg() = msgApi.readAllMsg()
+
+    suspend fun getUnReadMsgCount() = msgApi.getUnReadMsgCount()
 
     suspend fun getArticleMsgList(page: Int) = msgApi.getArticleMsgList(page)
 

@@ -1,10 +1,20 @@
 package cn.cqautotest.sunnybeach.http.request.api
 
 import cn.cqautotest.sunnybeach.model.*
+import cn.cqautotest.sunnybeach.model.msg.IEDetail
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_API_BASE_URL
 import retrofit2.http.*
 
 interface UserApi {
+
+    /**
+     * 获取用户 Sob 币的收支（Income & Expenditures）明细列表
+     */
+    @GET("${SUNNY_BEACH_API_BASE_URL}ast/ucenter/sob-trade/{userId}/{page}")
+    suspend fun getSobIEDetailList(
+        @Path("userId") userId: String,
+        @Path("page") page: Int
+    ): ApiResponse<IEDetail>
 
     /**
      * 获取VIP列表
