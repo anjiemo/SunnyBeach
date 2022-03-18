@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LevelListDrawable
@@ -8,6 +9,7 @@ import android.net.Uri
 import android.text.TextUtils
 import android.view.*
 import androidx.core.app.ComponentActivity
+import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -38,15 +40,6 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
 
     private val mStateList = arrayListOf<Boolean>()
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        addOnPagesUpdatedListener {
-            mStateList.clear()
-            val itemCount = snapshot().size
-            mStateList.addAll(Array(itemCount) { false })
-        }
-    }
-
     class FishDiffCallback : DiffUtil.ItemCallback<Fish.FishItem>() {
         override fun areItemsTheSame(
             oldItem: Fish.FishItem,
@@ -64,13 +57,28 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
     }
 
     private var mItemClickListener: (item: Fish.FishItem, position: Int) -> Unit = { _, _ -> }
+    private var mMenuItemClickListener: (view: View, item: Fish.FishItem, position: Int) -> Unit =
+        { _, _, _ -> }
 
     fun setOnItemClickListener(block: (item: Fish.FishItem, position: Int) -> Unit) {
         mItemClickListener = block
     }
 
+    fun setOnMenuItemClickListener(block: (view: View, item: Fish.FishItem, position: Int) -> Unit) {
+        mMenuItemClickListener = block
+    }
+
     inner class FishListViewHolder(val binding: FishPondListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        addOnPagesUpdatedListener {
+            mStateList.clear()
+            val itemCount = snapshot().size
+            mStateList.addAll(Array(itemCount) { false })
+        }
+    }
 
     override fun onViewAttachedToWindow(holder: FishListViewHolder) {
         super.onViewAttachedToWindow(holder)
@@ -95,11 +103,20 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvLinkTitle = binding.tvLinkTitle
         val tvLinkUrl = binding.tvLinkUrl
         val tvComment = binding.listMenuItem.tvComment
+        val llGreat = binding.listMenuItem.llGreat
+        val ivGreat = binding.listMenuItem.ivGreat
         val tvGreat = binding.listMenuItem.tvGreat
+        val llShare = binding.listMenuItem.llShare
         val ivShare = binding.listMenuItem.ivShare
         val context = itemView.context
         itemView.setFixOnClickListener {
             mItemClickListener.invoke(item, position)
+        }
+        llShare.setFixOnClickListener {
+            mMenuItemClickListener.invoke(it, item, position)
+        }
+        llGreat.setFixOnClickListener {
+            mMenuItemClickListener.invoke(it, item, position)
         }
         val userId = item.userId
         flAvatarContainer.setFixOnClickListener {
@@ -203,7 +220,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
             }
         ).setOnNineGridClickListener(this)
             .setData(images)
-        simpleGridLayout.isVisible = imageCount != 0
+        rrlContainer.isVisible = imageCount != 0
         tvLabel.isVisible = TextUtils.isEmpty(topicName).not()
         tvLabel.text = topicName
         val linkUrl = item.linkUrl
@@ -232,19 +249,21 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
                 toString()
             }
         }
-        tvGreat.text = with(item.thumbUpCount) {
+        tvGreat.text = with(item.thumbUpList.size) {
             if (this == 0) {
                 "点赞"
             } else {
                 toString()
             }
         }
+        val currUserId = UserManager.loadCurrUserId()
+        val like = item.thumbUpList.contains(currUserId)
+        val defaultColor = ContextCompat.getColor(context, R.color.menu_default_font_color)
+        val likeColor = ContextCompat.getColor(context, R.color.menu_like_font_color)
+        ivGreat.imageTintList = ColorStateList.valueOf((if (like) likeColor else defaultColor))
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): FishListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = FishPondListItemBinding.inflate(inflater, parent, false)
         return FishListViewHolder(binding)

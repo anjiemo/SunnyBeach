@@ -73,10 +73,4 @@
         app:bar_rightDrawable="@drawable/arrows_right_ic"
         app:bar_rightText="修改密码" />
 
-    <TextView
-        android:text="哈哈哈"
-        android:gravity="bottom|center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="300dp" />
-
 </LinearLayout>

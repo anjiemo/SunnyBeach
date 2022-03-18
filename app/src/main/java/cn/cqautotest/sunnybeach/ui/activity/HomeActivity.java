@@ -7,27 +7,38 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hjq.base.FragmentPagerAdapter;
+import com.hjq.gson.factory.GsonFactory;
 
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener;
 import cn.cqautotest.sunnybeach.action.OnDoubleClickListener;
 import cn.cqautotest.sunnybeach.app.AppActivity;
+import cn.cqautotest.sunnybeach.app.AppApplication;
 import cn.cqautotest.sunnybeach.app.AppFragment;
 import cn.cqautotest.sunnybeach.manager.ActivityManager;
+import cn.cqautotest.sunnybeach.model.AppUpdateInfo;
+import cn.cqautotest.sunnybeach.other.AppConfig;
 import cn.cqautotest.sunnybeach.other.DoubleClickHelper;
 import cn.cqautotest.sunnybeach.other.IntentKey;
 import cn.cqautotest.sunnybeach.ui.adapter.NavigationAdapter;
+import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog;
 import cn.cqautotest.sunnybeach.ui.fragment.ArticleListFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.DiscoverFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.FishListFragment;
 import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
 import cn.cqautotest.sunnybeach.util.FragmentActivityKt;
+import cn.cqautotest.sunnybeach.util.KotlinResult;
+import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel;
 
 /**
  * author : Android 轮子哥
@@ -45,6 +56,8 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
 
     private NavigationAdapter mNavigationAdapter;
     private FragmentPagerAdapter<AppFragment<?>> mPagerAdapter;
+    private final AppViewModel mAppViewModel = AppApplication.getAppViewModel();
+    private final MutableLiveData<AppUpdateInfo> mAppVersionLiveData = new MutableLiveData<>();
 
     public static void start(Context context) {
         start(context, MyMeFragment.class);
@@ -99,6 +112,15 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
         onNewIntent(getIntent());
 
         toast("若发现BUG，可在意见反馈界面中反馈");
+
+        // 检查更新
+        mAppViewModel.checkAppUpdate().observe(this, result -> {
+            Gson gson = GsonFactory.getSingletonGson();
+            String jsonValue = KotlinResult.INSTANCE.toJson(gson, result);
+            AppUpdateInfo appUpdateInfo = gson.fromJson(jsonValue, new TypeToken<AppUpdateInfo>() {
+            }.getType());
+            mAppVersionLiveData.setValue(appUpdateInfo);
+        });
     }
 
     @Override
@@ -110,6 +132,22 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
             }
         });
         mNavigationAdapter.setOnDoubleClickListener(this);
+    }
+
+    @Override
+    public void initObserver() {
+        mAppVersionLiveData.observe(this, appUpdateInfo -> {
+            if (appUpdateInfo.versionCode <= AppConfig.getVersionCode()) {
+                return;
+            }
+            new UpdateDialog.Builder(getContext())
+                    .setFileMd5(appUpdateInfo.apkHash)
+                    .setDownloadUrl(appUpdateInfo.url)
+                    .setForceUpdate(appUpdateInfo.forceUpdate)
+                    .setUpdateLog(appUpdateInfo.updateLog)
+                    .setVersionName(appUpdateInfo.versionName)
+                    .show();
+        });
     }
 
     @Override
@@ -142,7 +180,7 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
             case 1:
             case 2:
             case 3:
-                mViewPager.setCurrentItem(fragmentIndex);
+                mViewPager.setCurrentItem(fragmentIndex, false);
                 mNavigationAdapter.setSelectedPosition(fragmentIndex);
                 break;
             default:
@@ -166,7 +204,7 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
             case 1:
             case 2:
             case 3:
-                mViewPager.setCurrentItem(position);
+                mViewPager.setCurrentItem(position, false);
                 return true;
             default:
                 return false;
@@ -194,6 +232,12 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
             // 销毁进程（注意：调用此 API 可能导致当前 Activity onDestroy 方法无法正常回调）
             // System.exit(0);
         }, 300);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mPagerAdapter.getShowFragment().onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

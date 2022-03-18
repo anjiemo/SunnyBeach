@@ -11,7 +11,6 @@ import cn.cqautotest.sunnybeach.model.UserQa
 import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 
-
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
@@ -37,12 +36,6 @@ class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
         }
     }
 
-    private var mItemClickListener: (item: UserQa.Content, position: Int) -> Unit = { _, _ -> }
-
-    fun setOnItemClickListener(block: (item: UserQa.Content, position: Int) -> Unit) {
-        mItemClickListener = block
-    }
-
     inner class QaListViewHolder(val binding: QaListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -59,7 +52,7 @@ class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvQaTitle = binding.tvQaTitle
         val tvDesc = binding.tvDesc
         itemView.setFixOnClickListener {
-            mItemClickListener.invoke(item, position)
+            adapterDelegate.onItemClick(it, position)
         }
         tvQaTitle.text = item.wendaTitle
         tvDesc.text =

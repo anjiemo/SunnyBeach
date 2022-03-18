@@ -12,6 +12,11 @@ import androidx.annotation.NonNull;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.base.BaseActivity;
+import com.hjq.http.EasyHttp;
+import com.hjq.http.listener.HttpCallback;
+import com.hjq.widget.view.CountdownView;
+import com.hjq.widget.view.SubmitButton;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
@@ -22,11 +27,6 @@ import cn.cqautotest.sunnybeach.http.request.RegisterApi;
 import cn.cqautotest.sunnybeach.http.response.RegisterBean;
 import cn.cqautotest.sunnybeach.manager.InputTextManager;
 import cn.cqautotest.sunnybeach.other.IntentKey;
-import com.hjq.http.EasyHttp;
-import com.hjq.http.listener.HttpCallback;
-import com.hjq.widget.view.CountdownView;
-import com.hjq.widget.view.SubmitButton;
-
 import okhttp3.Call;
 
 /**
@@ -238,6 +238,11 @@ public final class RegisterActivity extends AppActivity
             return true;
         }
         return false;
+    }
+
+    @Override
+    protected boolean isStatusBarDarkFont() {
+        return true;
     }
 
     /**

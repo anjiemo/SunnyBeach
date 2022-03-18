@@ -9,12 +9,10 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SystemMsgListActivityBinding
+import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.SystemMsgAdapter
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.loadStateListener
-import cn.cqautotest.sunnybeach.util.setDoubleClickListener
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import kotlinx.coroutines.flow.collectLatest
@@ -29,7 +27,8 @@ class SystemMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
 
     private val mBinding by viewBinding<SystemMsgListActivityBinding>()
     private val mMsgViewModel by viewModels<MsgViewModel>()
-    private val mSystemMsgAdapter = SystemMsgAdapter(AdapterDelegate())
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mSystemMsgAdapter = SystemMsgAdapter(mAdapterDelegate)
     private val loadStateListener = loadStateListener(mSystemMsgAdapter) {
         mBinding.refreshLayout.finishRefresh()
     }
@@ -61,6 +60,22 @@ class SystemMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         }
         // 需要在 View 销毁的时候移除 listener
         mSystemMsgAdapter.addLoadStateListener(loadStateListener)
+        mAdapterDelegate.setOnItemClickListener { _, position ->
+            val item = mSystemMsgAdapter.snapshot()[position] ?: return@setOnItemClickListener
+            when (item.exType) {
+                "article" -> {
+                    val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${item.exId}"
+                    BrowserActivity.start(this, url)
+                }
+                "sobTrade" -> {
+                    // 登录奖励
+                }
+                "wendaComment" -> {
+                    val url = "$SUNNY_BEACH_QA_URL_PRE${item.exId}"
+                    BrowserActivity.start(this, url)
+                }
+            }
+        }
     }
 
     override fun onBack2Top() {

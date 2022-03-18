@@ -13,7 +13,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/7/10
+ * time   : 2021/07/10
  * desc   : 摸鱼话题分类适配器
  */
 class FishPondAdapter : BaseQuickAdapter<FishPondTopicList.TopicItem, BaseViewHolder>(R.layout.fish_pond_topic_list_item),

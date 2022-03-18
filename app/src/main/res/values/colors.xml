@@ -47,4 +47,9 @@
     <color name="skin_black">#FF000000</color>
     <color name="skin_red">#FFFF0000</color>
     <color name="skin_green">#FF00FF00</color>
+
+    <!-- 菜单列表默认字体的颜色 -->
+    <color name="menu_default_font_color">#969BA3</color>
+    <!-- 菜单列表点赞字体的颜色 -->
+    <color name="menu_like_font_color">#0084ff</color>
 </resources>

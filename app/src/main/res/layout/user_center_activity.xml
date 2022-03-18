@@ -306,9 +306,9 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
                         android:padding="2dp"
                         android:src="@drawable/arrows_right_ic"
+                        android:visibility="invisible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:tint="@color/white" />
@@ -318,11 +318,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="40dp"
                         android:text="沙滩ID"
                         android:textColor="@color/white"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/iv_arrows" />
+                        app:layout_constraintTop_toTopOf="@id/iv_sob_qr_code" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -354,7 +353,7 @@
             android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="230dp">
+            android:layout_marginTop="234dp">
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/scrollView"

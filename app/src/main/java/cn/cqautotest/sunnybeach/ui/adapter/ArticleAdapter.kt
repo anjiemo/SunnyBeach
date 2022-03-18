@@ -1,11 +1,8 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -15,9 +12,8 @@ import cn.cqautotest.sunnybeach.databinding.ArticleListItemBinding
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.ArticleInfo
 import cn.cqautotest.sunnybeach.util.DateHelper
-import cn.cqautotest.sunnybeach.util.dp
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import com.blankj.utilcode.util.ScreenUtils
+import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
 import com.bumptech.glide.Glide
 
 /**
@@ -27,7 +23,8 @@ import com.bumptech.glide.Glide
  * desc   : 文章列表的适配器
  */
 class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<ArticleInfo.ArticleItem, ArticleAdapter.ArticleViewHolder>(ArticleDiffCallback()) {
+    PagingDataAdapter<ArticleInfo.ArticleItem, ArticleAdapter.ArticleViewHolder>(ArticleDiffCallback()),
+    SimpleGridLayout.OnNineGridClickListener {
 
     class ArticleDiffCallback : DiffUtil.ItemCallback<ArticleInfo.ArticleItem>() {
         override fun areItemsTheSame(
@@ -45,6 +42,33 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         }
     }
 
+    private var mMenuItemClickListener: (view: View, item: ArticleInfo.ArticleItem, position: Int) -> Unit =
+        { _, _, _ -> }
+
+    fun setOnMenuItemClickListener(block: (view: View, item: ArticleInfo.ArticleItem, position: Int) -> Unit) {
+        mMenuItemClickListener = block
+    }
+
+    private lateinit var mOnNineGridClickListener: SimpleGridLayout.OnNineGridClickListener
+
+    fun setOnNineGridClickListener(listener: SimpleGridLayout.OnNineGridClickListener) {
+        mOnNineGridClickListener = listener
+    }
+
+    fun setOnNineGridClickListener(block: (sources: List<String>, index: Int) -> Unit) {
+        mOnNineGridClickListener = object : SimpleGridLayout.OnNineGridClickListener {
+            override fun onNineGridClick(sources: List<String>, index: Int) {
+                block.invoke(sources, index)
+            }
+        }
+    }
+
+    override fun onNineGridClick(sources: List<String>, index: Int) {
+        if (::mOnNineGridClickListener.isInitialized) {
+            mOnNineGridClickListener.onNineGridClick(sources, index)
+        }
+    }
+
     inner class ArticleViewHolder(val binding: ArticleListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -53,7 +77,6 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val itemView = holder.itemView
         val binding = holder.binding
@@ -62,14 +85,19 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvArticleTitle = binding.tvArticleTitle
         val tvNickName = binding.tvNickName
         val rrlContainer = binding.rrlContainer
-        val llImagesContainer = binding.llImagesContainer
+        val simpleGridLayout = binding.simpleGridLayout
         val tvViewCount = binding.listMenuItem.tvComment
         val tvGreat = binding.listMenuItem.tvGreat
+        val llShare = binding.listMenuItem.llShare
+        val llGreat = binding.listMenuItem.llGreat
         val ivShare = binding.listMenuItem.ivShare
         val context = itemView.context
         val item = getItem(position) ?: return
         itemView.setFixOnClickListener {
             adapterDelegate.onItemClick(it, position)
+        }
+        llShare.setFixOnClickListener {
+            mMenuItemClickListener.invoke(it, item, position)
         }
         flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
         Glide.with(itemView)
@@ -83,29 +111,17 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
             "${item.nickName} · ${DateHelper.getFriendlyTimeSpanByNow(item.createTime)}"
         tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
         val covers = item.covers
-        rrlContainer.isVisible = covers.isNotEmpty()
-        llImagesContainer.layoutParams = RelativeLayout.LayoutParams(
-            (ScreenUtils.getScreenWidth() - 40.dp) / 3 * covers.size,
-            (ScreenUtils.getScreenWidth() - 40.dp) / 3
-        )
-        repeat(llImagesContainer.childCount) {
-            // childView 只能是 ImageView 或其子类，否则会强转异常
-            val imageView = llImagesContainer.getChildAt(it) as ImageView
-            val imageUrl = covers.getOrNull(it)
-            imageView.layoutParams = LinearLayout.LayoutParams(
-                (ScreenUtils.getScreenWidth() - 40.dp) / 3,
-                LinearLayout.LayoutParams.MATCH_PARENT
-            )
-            imageView.isVisible = if (imageUrl != null) {
-                // 如果是有效链接或者能获取到链接，则加载图片
-                Glide.with(itemView).load(imageUrl).into(imageView)
-                // 显示该位置的图片
-                true
-            } else {
-                // 隐藏该位置的图片
-                false
+        val imageCount = covers.size
+        simpleGridLayout.setSpanCount(
+            when (imageCount) {
+                // 规避 0 ，避免导致：IllegalArgumentException，Span count should be at least 1. Provided 0.
+                in 1..3 -> imageCount
+                4 -> 2
+                else -> 3
             }
-        }
+        ).setOnNineGridClickListener(this)
+            .setData(covers)
+        rrlContainer.isVisible = imageCount != 0
         // tvCreateTime.text = item.createTime
         tvViewCount.text = item.viewCount.toString()
         tvGreat.text = with(item.thumbUp) {

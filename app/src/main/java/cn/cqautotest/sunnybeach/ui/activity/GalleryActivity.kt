@@ -37,6 +37,7 @@ import com.gyf.immersionbar.ImmersionBar
 import com.hjq.permissions.XXPermissions
 import timber.log.Timber
 import java.io.File
+import java.io.IOException
 import java.io.InputStream
 import java.util.*
 import kotlin.coroutines.Continuation
@@ -117,17 +118,33 @@ class GalleryActivity : AppActivity() {
                 }
             }
         }
+        val wallpaperManager = WallpaperManager.getInstance(this)
         mBinding.settingWallpaperTv.setOnClickListener {
-            val wallpaperManager = WallpaperManager.getInstance(this)
+            toast("开始准备壁纸...")
             lifecycleScope.launchWhenCreated {
-                val inputStream =
-                    DownloadHelper.ofType<InputStream>(this@GalleryActivity, getImageUri())
-                ThreadPoolManager.getInstance().execute {
-                    wallpaperManager.setStream(inputStream)
+                val imageFile = DownloadHelper.ofType<File>(this@GalleryActivity, getImageUri())
+                val success = if (imageFile == null) {
+                    false
+                } else {
+                    wallpaperManager.setWallpaper(imageFile.inputStream())
                 }
+                toast(if (success) "壁纸设置成功" else "壁纸设置失败")
             }
         }
     }
+
+    private suspend fun WallpaperManager.setWallpaper(inputStream: InputStream) =
+        suspendCoroutine<Boolean> {
+            ThreadPoolManager.getInstance().execute {
+                try {
+                    setStream(inputStream)
+                    it.resume(true)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    it.resume(false)
+                }
+            }
+        }
 
     /**
      * 请求权限
@@ -152,6 +169,7 @@ class GalleryActivity : AppActivity() {
         val verticalPhotoBean = getCurrentVerticalPhotoBean()
         Timber.d(verticalPhotoBean.toJson())
         val previewUrl = verticalPhotoBean.preview
+        Timber.d("getImageUri：===> previewUrl is $previewUrl")
         return Uri.parse(previewUrl)
     }
 
