@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import cn.cqautotest.sunnybeach.R
@@ -30,6 +31,7 @@ class ListMenuItemContainer @JvmOverloads constructor(
     val ivGreat: ImageView by lazy { viewContainer.findViewById(R.id.iv_great) }
     val tvGreat: TextView by lazy { viewContainer.findViewById(R.id.tv_great) }
 
+    val llShare: LinearLayout by lazy { viewContainer.findViewById(R.id.ll_share) }
     val ivShare: ImageView by lazy { viewContainer.findViewById(R.id.iv_share) }
 
     init {

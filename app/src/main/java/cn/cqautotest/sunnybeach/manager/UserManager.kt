@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.manager
 
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.text.TextUtils
 import androidx.core.content.ContextCompat
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppApplication
@@ -65,10 +64,13 @@ object UserManager {
      */
     fun loadUserBasicInfo(): UserBasicInfo? {
         val mmkv = MMKV.defaultMMKV() ?: return null
-        return runCatching {
+        return try {
             val jsonByUserBasicInfo = mmkv.getString(SUNNY_BEACH_USER_BASIC_INFO, null)
-            fromJson<UserBasicInfo?>(jsonByUserBasicInfo)
-        }.getOrNull()
+            fromJson(jsonByUserBasicInfo)
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            null
+        }
     }
 
     /**
@@ -93,8 +95,7 @@ object UserManager {
     /**
      * 当前用户是否为 vip
      */
-    fun currUserIsVip() = if (TextUtils.isEmpty(loadCurrUserId())) false
-    else loadUserBasicInfo()?.isVip == "1"
+    fun currUserIsVip() = loadUserBasicInfo()?.isVip.equals("1")
 
     /**
      * 获取用户头像挂件

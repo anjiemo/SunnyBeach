@@ -9,13 +9,11 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.AtMeMsgListActivityBinding
+import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.AtMeMsgAdapter
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.loadStateListener
-import cn.cqautotest.sunnybeach.util.setDoubleClickListener
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import kotlinx.coroutines.flow.collectLatest
@@ -66,7 +64,14 @@ class AtMeMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         mAdapterDelegate.setOnItemClickListener { _, position ->
             val item = mAtMeMsgAdapter.snapshot()[position] ?: return@setOnItemClickListener
             mMsgViewModel.readAtMeMsg(item.id).observe(this) {}
-            FishPondDetailActivity.start(this, item.exId)
+            when (item.type) {
+                "moment" -> FishPondDetailActivity.start(this, item.exId)
+                "wenda" -> {
+                    val url = "$SUNNY_BEACH_QA_URL_PRE${item.exId}"
+                    BrowserActivity.start(this, url)
+                }
+                else -> {}
+            }
         }
     }
 

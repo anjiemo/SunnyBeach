@@ -21,8 +21,9 @@ import com.bumptech.glide.Glide
  * desc   : 摸鱼评论列表消息适配器
  */
 class MomentMsgAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<MomentMsg.Content, MomentMsgAdapter.MomentMsgViewHolder>(object :
-        DiffUtil.ItemCallback<MomentMsg.Content>() {
+    PagingDataAdapter<MomentMsg.Content, MomentMsgAdapter.MomentMsgViewHolder>(MomentMsgDiffCallback()) {
+
+    class MomentMsgDiffCallback : DiffUtil.ItemCallback<MomentMsg.Content>() {
         override fun areItemsTheSame(
             oldItem: MomentMsg.Content,
             newItem: MomentMsg.Content
@@ -36,7 +37,7 @@ class MomentMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         ): Boolean {
             return oldItem == newItem
         }
-    }) {
+    }
 
     inner class MomentMsgViewHolder(val binding: MomentMsgListItemBinding) :
         RecyclerView.ViewHolder(binding.root)

@@ -1,18 +1,20 @@
 {
-  "version": 2,
+  "version": 3,
   "artifactType": {
     "type": "APK",
     "kind": "Directory"
   },
   "applicationId": "cn.cqautotest.sunnybeach",
-  "variantName": "processReleaseResources",
+  "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
+      "attributes": [],
       "versionCode": 10,
       "versionName": "5.2",
-      "outputFile": "SunnyBeach_v5.2_release_0106.apk"
+      "outputFile": "SunnyBeach_v5.2_release_0317.apk"
     }
-  ]
+  ],
+  "elementType": "File"
 }

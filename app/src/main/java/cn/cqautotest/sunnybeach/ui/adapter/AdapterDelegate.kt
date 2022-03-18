@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.ui.adapter
 import android.animation.Animator
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import cn.cqautotest.sunnybeach.util.OnItemClickListener
 import com.chad.library.adapter.base.animation.AlphaInAnimation
 import com.chad.library.adapter.base.animation.BaseAnimation
 
@@ -14,7 +15,7 @@ import com.chad.library.adapter.base.animation.BaseAnimation
  */
 class AdapterDelegate {
 
-    private var mOnItemClickListener: (View, Int) -> Unit = { _, _ -> }
+    private var mOnItemClickListener: OnItemClickListener = { _, _ -> }
     var adapterAnimation: BaseAnimation? = null
     private var mLastPosition = -1
 
@@ -39,7 +40,7 @@ class AdapterDelegate {
         mOnItemClickListener.invoke(v, position)
     }
 
-    fun setOnItemClickListener(block: (v: View, position: Int) -> Unit) {
+    fun setOnItemClickListener(block: OnItemClickListener) {
         mOnItemClickListener = block
     }
 }

@@ -1,10 +1,13 @@
 package cn.cqautotest.sunnybeach.util
 
+import android.view.View
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.action.StatusAction
+
+typealias OnItemClickListener = (View, Int) -> Unit
 
 /**
  * Take over the action of StatusAction, returns CombinedLoadStates instance,then execute the given lambda expression.

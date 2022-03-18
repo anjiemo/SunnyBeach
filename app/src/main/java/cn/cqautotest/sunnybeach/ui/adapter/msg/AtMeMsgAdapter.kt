@@ -21,8 +21,9 @@ import com.bumptech.glide.Glide
  * desc   : @我 列表消息适配器
  */
 class AtMeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<AtMeMsg.Content, AtMeMsgAdapter.AtMeMsgViewHolder>(object :
-        DiffUtil.ItemCallback<AtMeMsg.Content>() {
+    PagingDataAdapter<AtMeMsg.Content, AtMeMsgAdapter.AtMeMsgViewHolder>(AtMeMsgDiffCallback()) {
+
+    class AtMeMsgDiffCallback : DiffUtil.ItemCallback<AtMeMsg.Content>() {
         override fun areItemsTheSame(
             oldItem: AtMeMsg.Content,
             newItem: AtMeMsg.Content
@@ -36,7 +37,7 @@ class AtMeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         ): Boolean {
             return oldItem == newItem
         }
-    }) {
+    }
 
     inner class AtMeMsgViewHolder(val binding: AtMeMsgListItemBinding) :
         RecyclerView.ViewHolder(binding.root)

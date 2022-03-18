@@ -87,5 +87,5 @@ interface FishPondApi {
      * 动态点赞
      */
     @PUT("${SUNNY_BEACH_API_BASE_URL}ct/moyu/thumb-up/{momentId}")
-    suspend fun dynamicLikes(@Path("momentId") momentId: String): ApiResponse<String>
+    suspend fun dynamicLikes(@Path("momentId") momentId: String): ApiResponse<Any>
 }

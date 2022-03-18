@@ -29,7 +29,8 @@ class LikeMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
 
     private val mBinding by viewBinding<LikeMsgListActivityBinding>()
     private val mMsgViewModel by viewModels<MsgViewModel>()
-    private val mLikeMsgAdapter = LikeMsgAdapter(AdapterDelegate())
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mLikeMsgAdapter = LikeMsgAdapter(mAdapterDelegate)
     private val loadStateListener = loadStateListener(mLikeMsgAdapter) {
         mBinding.refreshLayout.finishRefresh()
     }
@@ -61,6 +62,9 @@ class LikeMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         }
         // 需要在 View 销毁的时候移除 listener
         mLikeMsgAdapter.addLoadStateListener(loadStateListener)
+        mAdapterDelegate.setOnItemClickListener { view, position ->
+
+        }
     }
 
     override fun onBack2Top() {

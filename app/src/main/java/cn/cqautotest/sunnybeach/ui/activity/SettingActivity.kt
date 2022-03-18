@@ -45,17 +45,26 @@ import com.hjq.widget.view.SwitchButton
 class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
 
     private val mBinding: SettingActivityBinding by viewBinding()
-    private var mAppLiveData = MutableLiveData<AppUpdateInfo?>()
+    private var isAutoCheckAppVersion = true
+    private var mAppVersionLiveData = MutableLiveData<AppUpdateInfo?>()
     private val mAppViewModel: AppViewModel = AppApplication.getAppViewModel()
     private val mUserViewModel by viewModels<UserViewModel>()
 
     override fun getLayoutId(): Int = R.layout.setting_activity
 
     override fun initObserver() {
-        mAppLiveData.observe(this) { appUpdateInfo ->
+        mAppVersionLiveData.observe(this) { appUpdateInfo ->
             hideUpdateIcon()
-            appUpdateInfo ?: return@observe
+            appUpdateInfo ?: run {
+                if (isAutoCheckAppVersion.not()) {
+                    toast(R.string.check_update_error)
+                }
+                return@observe
+            }
             if (appUpdateInfo.versionCode <= AppConfig.getVersionCode()) {
+                if (isAutoCheckAppVersion.not()) {
+                    toast(R.string.current_version_is_up_to_date)
+                }
                 return@observe
             }
             showUpdateIcon()
@@ -92,7 +101,8 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
         mBinding.sbSettingSwitch.isChecked = true
         // 检查更新
         mAppViewModel.checkAppUpdate().observe(this) {
-            mAppLiveData.value = it.getOrNull()
+            isAutoCheckAppVersion = true
+            mAppVersionLiveData.value = it.getOrNull()
         }
     }
 
@@ -118,7 +128,8 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
             R.id.sb_setting_update -> {
                 // 检查更新
                 mAppViewModel.checkAppUpdate().observe(this) {
-                    mAppLiveData.value = it.getOrNull()
+                    isAutoCheckAppVersion = false
+                    mAppVersionLiveData.value = it.getOrNull()
                 }
             }
             R.id.sb_setting_phone -> {

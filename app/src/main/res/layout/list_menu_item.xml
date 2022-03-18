@@ -6,20 +6,50 @@
     android:background="@drawable/recommend_top_line_ic">
 
     <LinearLayout
-        android:id="@+id/ll_comment"
+        android:id="@+id/ll_share"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/ll_great"
-        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_share"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="评论"
+            android:padding="10dp"
+            app:srcCompat="@drawable/share_ic"
+            app:tint="@color/menu_default_font_color" />
+
+        <TextView
+            android:id="@+id/tv_share"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="分享"
+            android:textColor="@color/menu_default_font_color" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_comment"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ll_great"
+        app:layout_constraintStart_toEndOf="@id/ll_share"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/iv_comment"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginStart="20dp"
             android:contentDescription="评论"
             android:padding="6dp"
             app:srcCompat="@mipmap/ic_moment_comment" />
@@ -28,29 +58,21 @@
             android:id="@+id/tv_comment"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_toEndOf="@id/iv_comment"
             android:gravity="center_vertical"
             android:text="评论"
-            android:textColor="#969BA3" />
+            android:textColor="@color/menu_default_font_color" />
 
-    </LinearLayout>
-
-    <View
-        android:id="@+id/v_one"
-        android:layout_width="1px"
-        android:layout_height="match_parent"
-        android:background="#F3F6F3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.3"
-        app:layout_constraintStart_toStartOf="parent" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll_great"
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -68,30 +90,8 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="点赞"
-            android:textColor="#969BA3" />
+            android:textColor="@color/menu_default_font_color" />
 
     </LinearLayout>
-
-    <View
-        android:id="@+id/v_two"
-        android:layout_width="1px"
-        android:layout_height="match_parent"
-        android:background="#F3F6F3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.7"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/iv_share"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:contentDescription="分享"
-        android:padding="9dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.7"
-        app:layout_constraintStart_toEndOf="@+id/ll_great"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_share" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

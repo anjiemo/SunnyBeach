@@ -1,7 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.view.View
@@ -21,9 +20,7 @@ import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.hmsscankit.WriterException
 import com.huawei.hms.ml.scan.HmsBuildBitmapOption
 import com.huawei.hms.ml.scan.HmsScan
-import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
 import com.scwang.smart.refresh.layout.wrapper.RefreshHeaderWrapper
-import timber.log.Timber
 import java.io.File
 
 /**
@@ -89,7 +86,7 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             userCenterContent.sbSettingPhone.rightText = personCenterInfo.phoneNum
             userCenterContent.sbSettingEmail.rightText = personCenterInfo.email
 
-            mBinding.ivSobQrCode.setImageBitmap(generateQRCode("sob://user/${personCenterInfo.userId}"))
+            mBinding.ivSobQrCode.setImageBitmap(generateQRCode("sob://u/${personCenterInfo.userId}"))
         }
     }
 
@@ -106,7 +103,6 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
         mBinding.tvNickName.text = mUserBasicInfo?.nickname ?: "游客"
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun initEvent() {
         mBinding.llUserInfoContainer.setFixOnClickListener {
             takeIfLogin { userBasicInfo ->
@@ -125,47 +121,6 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
         mBinding.tvGetAllowance.setFixOnClickListener {
             getAllowance()
         }
-        mBinding.clScanQrCode.setFixOnClickListener {
-            // “QRCODE_SCAN_TYPE”和“DATAMATRIX_SCAN_TYPE”表示只扫描QR和Data Matrix的码
-            val options = HmsScanAnalyzerOptions.Creator()
-                .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
-                .create()
-            ScanUtil.startScan(this, REQUEST_CODE_SCAN_ONE, options)
-        }
-
-        // mBinding.scrollView.setOnTouchListener(object : TouchUtils.OnTouchUtilsListener(){
-        //     override fun onDown(view: View?, x: Int, y: Int, event: MotionEvent?): Boolean {
-        //         return true
-        //     }
-        //
-        //     override fun onMove(
-        //         view: View?,
-        //         direction: Int,
-        //         x: Int,
-        //         y: Int,
-        //         dx: Int,
-        //         dy: Int,
-        //         totalX: Int,
-        //         totalY: Int,
-        //         event: MotionEvent?
-        //     ): Boolean {
-        //         return true
-        //     }
-        //
-        //     override fun onStop(
-        //         view: View?,
-        //         direction: Int,
-        //         x: Int,
-        //         y: Int,
-        //         totalX: Int,
-        //         totalY: Int,
-        //         vx: Int,
-        //         vy: Int,
-        //         event: MotionEvent?
-        //     ): Boolean {
-        //         return true
-        //     }
-        // })
     }
 
     private fun generateQRCode(
@@ -236,31 +191,5 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             .circleCrop()
             .into(mBinding.ivAvatar)
         simpleToast("暂不支持更换头像")
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != RESULT_OK || data == null) {
-            return
-        }
-        if (requestCode == REQUEST_CODE_SCAN_ONE) {
-            // 导入图片扫描返回结果
-            val obj = data.getParcelableExtra(ScanUtil.RESULT) as HmsScan?
-            if (obj != null) {
-                // 展示解码结果
-                showResult(obj)
-            }
-        }
-    }
-
-    private fun showResult(result: HmsScan) {
-        val linkUrl = result.getLinkUrl()
-        val theme = linkUrl.theme
-        val linkValue = linkUrl.linkValue
-        Timber.d("showResult：===> theme is $theme linkValue is $linkValue")
-    }
-
-    companion object {
-        private const val REQUEST_CODE_SCAN_ONE = 0x0000
     }
 }

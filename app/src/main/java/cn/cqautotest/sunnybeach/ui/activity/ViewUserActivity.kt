@@ -19,6 +19,7 @@ import cn.cqautotest.sunnybeach.ui.fragment.UserMediaFragment
 import cn.cqautotest.sunnybeach.util.dp
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import cn.cqautotest.sunnybeach.util.setRoundRectBg
+import cn.cqautotest.sunnybeach.util.takeIfLogin
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
 
@@ -98,16 +99,18 @@ class ViewUserActivity : AppActivity() {
     override fun initEvent() {
         val userId = getUserId()
         mBinding.tvFollow.setFixOnClickListener {
-            // 关注
-            if (mFriendsStatus.isNeedFollow) {
-                // 需要关注
-                mUserViewModel.followUser(userId).observe(this) {
-                    checkFollowState(userId)
-                }
-            } else {
-                // 取消关注
-                mUserViewModel.unfollowUser(userId).observe(this) {
-                    checkFollowState(userId)
+            takeIfLogin {
+                // 关注
+                if (mFriendsStatus.isNeedFollow) {
+                    // 需要关注
+                    mUserViewModel.followUser(userId).observe(this) {
+                        checkFollowState(userId)
+                    }
+                } else {
+                    // 取消关注
+                    mUserViewModel.unfollowUser(userId).observe(this) {
+                        checkFollowState(userId)
+                    }
                 }
             }
         }

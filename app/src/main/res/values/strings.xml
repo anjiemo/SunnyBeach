@@ -9,7 +9,7 @@
     <string name="login_failed">"登录失败"</string>
 
     <string name="check_update_error">检查更新失败</string>
-    <string name="current_version_is_up_to_date">检查更新失败</string>
+    <string name="current_version_is_up_to_date">当前已是最新版本</string>
     <string name="network_error">网络开小差啦~</string>
 
     <string name="install_now">立即安装</string>

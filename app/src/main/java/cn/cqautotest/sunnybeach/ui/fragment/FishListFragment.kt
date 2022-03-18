@@ -1,9 +1,15 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.view.View
+import androidx.core.content.getSystemService
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,22 +17,33 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
+import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
+import cn.cqautotest.sunnybeach.manager.UserManager
+import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.activity.PutFishActivity
+import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
+import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import com.dylanc.longan.download
+import com.hjq.permissions.Permission
+import com.hjq.umeng.Platform
+import com.hjq.umeng.UmengShare
+import com.huawei.hms.hmsscankit.ScanUtil
+import com.huawei.hms.ml.scan.HmsScan
+import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
+import com.umeng.socialize.media.UMImage
+import com.umeng.socialize.media.UMWeb
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
-import java.util.*
 
 /**
  * author : A Lonely Cat
@@ -49,7 +66,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     override fun initEvent() {
         val ivPublishContent = mBinding.ivPublishContent
-        titleBar?.setDoubleClickListener {
+        mBinding.titleBar.setDoubleClickListener {
             onBack2Top()
         }
         mBinding.refreshLayout.setOnRefreshListener {
@@ -60,6 +77,12 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mFishListAdapter.setOnItemClickListener { item, _ ->
             val momentId = item.id
             FishPondDetailActivity.start(requireContext(), momentId)
+        }
+        mFishListAdapter.setOnMenuItemClickListener { view, item, position ->
+            when (view.id) {
+                R.id.ll_share -> shareFish(item)
+                R.id.ll_great -> dynamicLikes(item, position)
+            }
         }
         ivPublishContent.setFixOnClickListener {
             takeIfLogin {
@@ -114,6 +137,55 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         })
     }
 
+    private fun dynamicLikes(item: Fish.FishItem, position: Int) {
+        val thumbUpList = item.thumbUpList
+        val currUserId = UserManager.loadCurrUserId()
+        if (thumbUpList.contains(currUserId)) {
+            toast("请不要重复点赞")
+            return
+        } else {
+            thumbUpList.add(currUserId)
+            mFishListAdapter.notifyItemChanged(position)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            requireContext().getSystemService<Vibrator>()?.let { vibrator ->
+                if (vibrator.hasVibrator()) {
+                    val ve = VibrationEffect.createOneShot(
+                        80,
+                        VibrationEffect.DEFAULT_AMPLITUDE
+                    )
+                    vibrator.vibrate(ve)
+                }
+            }
+        }
+        mFishPondViewModel.dynamicLikes(item.id).observe(viewLifecycleOwner) {}
+    }
+
+    private fun shareFish(item: Fish.FishItem) {
+        val momentId = item.id
+        val content = UMWeb(SUNNY_BEACH_FISH_URL_PRE + momentId)
+        content.title = "我发布了一条摸鱼动态，快来看看吧~"
+        content.setThumb(UMImage(requireContext(), R.mipmap.launcher_ic))
+        content.description = getString(R.string.app_name)
+        // 分享
+        ShareDialog.Builder(requireActivity())
+            .setShareLink(content)
+            .setListener(object : UmengShare.OnShareListener {
+                override fun onSucceed(platform: Platform) {
+                    toast("分享成功")
+                }
+
+                override fun onError(platform: Platform, t: Throwable) {
+                    toast(t.message)
+                }
+
+                override fun onCancel(platform: Platform) {
+                    toast("分享取消")
+                }
+            })
+            .show()
+    }
+
     override fun initData() {
         loadFishList()
     }
@@ -137,8 +209,17 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mBinding.rvFishPondList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = concatAdapter
-            addItemDecoration(SimpleLinearSpaceItemDecoration(4.dp))
+            addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
         }
+    }
+
+    @Permissions(Permission.CAMERA)
+    override fun onRightClick(view: View?) {
+        // “QRCODE_SCAN_TYPE”和“DATAMATRIX_SCAN_TYPE”表示只扫描QR和Data Matrix的码
+        val options = HmsScanAnalyzerOptions.Creator()
+            .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
+            .create()
+        ScanUtil.startScan(requireActivity(), REQUEST_CODE_SCAN_ONE, options)
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlFishPondHint
@@ -157,7 +238,44 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mBinding.rvFishPondList.scrollToPosition(0)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != AppActivity.RESULT_OK || data == null) {
+            return
+        }
+        if (requestCode == REQUEST_CODE_SCAN_ONE) {
+            // 导入图片扫描返回结果
+            val obj = data.getParcelableExtra(ScanUtil.RESULT) as HmsScan?
+            if (obj != null) {
+                // 展示解码结果
+                showResult(obj)
+            }
+        }
+    }
+
+    private fun showResult(hmsScan: HmsScan) {
+        val result = hmsScan.showResult ?: "null"
+        if (result.isBlank()) {
+            toast("什么内容也没有~")
+            return
+        }
+        val uri = Uri.parse(result)
+        val scheme = uri.scheme
+        val userId = uri.lastPathSegment
+        Timber.d("showResult：===> scheme is $scheme userId is $userId")
+        Timber.d("showResult：===> result is $result")
+        // toast(userId)
+        // sob site userId is long type, we need check.
+        if (scheme.equals("sob").not() || userId.isNullOrBlank() || userId.toLongOrNull() == null) {
+            return
+        }
+        ViewUserActivity.start(requireContext(), userId)
+    }
+
     companion object {
+
+        private val REQUEST_CODE_SCAN_ONE = hashCode()
+
         @JvmStatic
         fun newInstance() = FishListFragment()
     }

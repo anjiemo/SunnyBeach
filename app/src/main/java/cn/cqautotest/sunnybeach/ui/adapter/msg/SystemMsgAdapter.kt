@@ -10,6 +10,7 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.SystemMsgListItemBinding
 import cn.cqautotest.sunnybeach.model.msg.SystemMsg
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
+import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.blankj.utilcode.util.TimeUtils
 import com.bumptech.glide.Glide
 
@@ -20,8 +21,9 @@ import com.bumptech.glide.Glide
  * desc   : 系统列表消息适配器
  */
 class SystemMsgAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<SystemMsg.Content, SystemMsgAdapter.SystemMsgViewHolder>(object :
-        DiffUtil.ItemCallback<SystemMsg.Content>() {
+    PagingDataAdapter<SystemMsg.Content, SystemMsgAdapter.SystemMsgViewHolder>(SystemMsgDiffCallback()) {
+
+    class SystemMsgDiffCallback : DiffUtil.ItemCallback<SystemMsg.Content>() {
         override fun areItemsTheSame(
             oldItem: SystemMsg.Content,
             newItem: SystemMsg.Content
@@ -35,7 +37,7 @@ class SystemMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         ): Boolean {
             return oldItem == newItem
         }
-    }) {
+    }
 
     inner class SystemMsgViewHolder(val binding: SystemMsgListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -56,6 +58,9 @@ class SystemMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvChildReplyMsg = binding.tvChildReplyMsg
         val context = itemView.context
         val item = getItem(position) ?: return
+        itemView.setFixOnClickListener {
+            adapterDelegate.onItemClick(it, position)
+        }
         // flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
         Glide.with(itemView)
             .load(R.mipmap.ic_gold)

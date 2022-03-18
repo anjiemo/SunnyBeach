@@ -1,6 +1,5 @@
 package cn.cqautotest.sunnybeach.ui.adapter.msg
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.text.SpannableString
 import android.text.TextUtils
@@ -15,6 +14,7 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.QaMsgListItemBinding
 import cn.cqautotest.sunnybeach.model.msg.QaMsg
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
+import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.bumptech.glide.Glide
 
 /**
@@ -24,22 +24,17 @@ import com.bumptech.glide.Glide
  * desc   : 问答评论列表消息适配器
  */
 class QaMsgAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<QaMsg.Content, QaMsgAdapter.QAMsgViewHolder>(object :
-        DiffUtil.ItemCallback<QaMsg.Content>() {
-        override fun areItemsTheSame(
-            oldItem: QaMsg.Content,
-            newItem: QaMsg.Content
-        ): Boolean {
+    PagingDataAdapter<QaMsg.Content, QaMsgAdapter.QAMsgViewHolder>(QaMsgDiffCallback()) {
+
+    class QaMsgDiffCallback : DiffUtil.ItemCallback<QaMsg.Content>() {
+        override fun areItemsTheSame(oldItem: QaMsg.Content, newItem: QaMsg.Content): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(
-            oldItem: QaMsg.Content,
-            newItem: QaMsg.Content
-        ): Boolean {
+        override fun areContentsTheSame(oldItem: QaMsg.Content, newItem: QaMsg.Content): Boolean {
             return oldItem == newItem
         }
-    }) {
+    }
 
     inner class QAMsgViewHolder(val binding: QaMsgListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -49,7 +44,6 @@ class QaMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: QAMsgViewHolder, position: Int) {
         val itemView = holder.itemView
         val binding = holder.binding
@@ -61,6 +55,9 @@ class QaMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvChildReplyMsg = binding.tvChildReplyMsg
         val context = itemView.context
         val item = getItem(position) ?: return
+        itemView.setFixOnClickListener {
+            adapterDelegate.onItemClick(it, position)
+        }
         // flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
         Glide.with(itemView)
             .load(item.avatar)
