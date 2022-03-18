@@ -423,4 +423,9 @@ public final class LoginActivity extends AppActivity
         }
         return false;
     }
+
+    @Override
+    protected boolean isStatusBarDarkFont() {
+        return true;
+    }
 }

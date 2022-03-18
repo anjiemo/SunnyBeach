@@ -13,7 +13,6 @@ import cn.cqautotest.sunnybeach.ui.activity.weather.MainActivity
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.badge.BadgeUtils
 
 /**
@@ -48,8 +47,6 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
                 .placeholder(R.mipmap.ic_default_avatar)
                 .error(R.mipmap.ic_default_avatar)
                 .circleCrop()
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(meContent.imageAvatar)
             meContent.textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
         }
@@ -82,6 +79,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         }
         meContent.feedbackContainer.setFixOnClickListener {
             checkToken {
+                // check userBasicInfo is null, anonymous feedback if empty.
                 val userBasicInfo = UserManager.loadUserBasicInfo() ?: run {
                     BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
                     return@checkToken

@@ -10,6 +10,7 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.LikeMsgListItemBinding
 import cn.cqautotest.sunnybeach.model.msg.LikeMsg
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
+import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.bumptech.glide.Glide
 
 /**
@@ -19,7 +20,9 @@ import com.bumptech.glide.Glide
  * desc   : 点赞列表消息适配器
  */
 class LikeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<LikeMsg.Content, LikeMsgAdapter.LikeMsgViewHolder>(object :
+    PagingDataAdapter<LikeMsg.Content, LikeMsgAdapter.LikeMsgViewHolder>(LikeMsgCallback()) {
+
+    class LikeMsgCallback :
         DiffUtil.ItemCallback<LikeMsg.Content>() {
         override fun areItemsTheSame(
             oldItem: LikeMsg.Content,
@@ -34,7 +37,7 @@ class LikeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         ): Boolean {
             return oldItem == newItem
         }
-    }) {
+    }
 
     inner class LikeMsgViewHolder(val binding: LikeMsgListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -55,6 +58,9 @@ class LikeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvChildReplyMsg = binding.tvChildReplyMsg
         val context = itemView.context
         val item = getItem(position) ?: return
+        itemView.setFixOnClickListener {
+            adapterDelegate.onItemClick(it, position)
+        }
         // flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
         Glide.with(itemView)
             .load(item.avatar)

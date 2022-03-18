@@ -10,13 +10,23 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.ArticleListFragmentBinding
+import cn.cqautotest.sunnybeach.model.ArticleInfo
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity
+import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.ArticleAdapter
-import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
+import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
+import cn.cqautotest.sunnybeach.util.dp
+import cn.cqautotest.sunnybeach.util.loadStateListener
 import cn.cqautotest.sunnybeach.viewmodel.ArticleViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.hjq.umeng.Platform
+import com.hjq.umeng.UmengShare
+import com.umeng.socialize.media.UMImage
+import com.umeng.socialize.media.UMWeb
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -52,6 +62,39 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction, OnBa
             val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${item.id}"
             BrowserActivity.start(requireContext(), url)
         }
+        mArticleAdapter.setOnMenuItemClickListener { view, item, _ ->
+            when (view.id) {
+                R.id.ll_share -> shareArticle(item)
+            }
+        }
+        mArticleAdapter.setOnNineGridClickListener { sources, index ->
+            ImagePreviewActivity.start(requireContext(), sources, index)
+        }
+    }
+
+    private fun shareArticle(item: ArticleInfo.ArticleItem) {
+        val articleId = item.id
+        val content = UMWeb(SUNNY_BEACH_ARTICLE_URL_PRE + articleId)
+        content.title = item.title
+        content.setThumb(UMImage(requireContext(), R.mipmap.launcher_ic))
+        content.description = getString(R.string.app_name)
+        // 分享
+        ShareDialog.Builder(requireActivity())
+            .setShareLink(content)
+            .setListener(object : UmengShare.OnShareListener {
+                override fun onSucceed(platform: Platform) {
+                    toast("分享成功")
+                }
+
+                override fun onError(platform: Platform, t: Throwable) {
+                    toast(t.message)
+                }
+
+                override fun onCancel(platform: Platform) {
+                    toast("分享取消")
+                }
+            })
+            .show()
     }
 
     override fun initData() {

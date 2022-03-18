@@ -75,13 +75,6 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener,
         val tvDesc = fishPondDetailComment.tvFishPondDesc
         val tvReply = fishPondDetailComment.tvReplyMsg
         val tvBuildReplyMsgContainer = fishPondDetailComment.tvBuildReplyMsgContainer
-        val userId = item.getUserId()
-        flAvatarContainer.setFixOnClickListener {
-            if (TextUtils.isEmpty(userId)) {
-                return@setFixOnClickListener
-            }
-            ViewUserActivity.start(context, userId)
-        }
         flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
         Glide.with(this)
             .load(item.avatar)
@@ -102,6 +95,16 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener,
 
     @SuppressLint("ClickableViewAccessibility")
     override fun initEvent() {
+        val fishPondDetailComment = mBinding.fishPondDetailComment
+        val flAvatarContainer = fishPondDetailComment.flAvatarContainer
+        flAvatarContainer.setFixOnClickListener {
+            val item: FishPondComment.FishPondCommentItem = getFishPondCommentItem()
+            val userId = item.getUserId()
+            if (TextUtils.isEmpty(userId)) {
+                return@setFixOnClickListener
+            }
+            ViewUserActivity.start(context, userId)
+        }
         mFishCommendDetailListAdapter.setOnCommentClickListener { item, _ ->
             val commendId = item.getCommentId()
             val nickName = item.getNickName()

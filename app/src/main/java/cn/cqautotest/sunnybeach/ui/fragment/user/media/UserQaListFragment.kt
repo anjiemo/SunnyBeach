@@ -11,8 +11,10 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.UserFishListFragmentBinding
 import cn.cqautotest.sunnybeach.other.IntentKey
+import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.QaListAdapter
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.util.dp
 import cn.cqautotest.sunnybeach.util.loadStateListener
@@ -29,7 +31,8 @@ import kotlinx.coroutines.flow.collectLatest
 class UserQaListFragment : AppFragment<AppActivity>(), StatusAction {
 
     private val mBinding by viewBinding<UserFishListFragmentBinding>()
-    private val mQaListAdapter = QaListAdapter(AdapterDelegate())
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mQaListAdapter = QaListAdapter(mAdapterDelegate)
     private val mQaViewModel by activityViewModels<QaViewModel>()
     private val loadStateListener = loadStateListener(mQaListAdapter) {
         mBinding.refreshLayout.finishRefresh()
@@ -64,8 +67,11 @@ class UserQaListFragment : AppFragment<AppActivity>(), StatusAction {
         }
         // 需要在 View 销毁的时候移除 listener
         mQaListAdapter.addLoadStateListener(loadStateListener)
-        mQaListAdapter.setOnItemClickListener { item, _ ->
+        mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到问答详情界面
+            val item = mQaListAdapter.snapshot()[position] ?: return@setOnItemClickListener
+            val url = "$SUNNY_BEACH_QA_URL_PRE${item.wendaComment.wendaId}"
+            BrowserActivity.start(requireContext(), url)
         }
     }
 

@@ -21,8 +21,11 @@ import com.bumptech.glide.Glide
  * desc   : 文章评论列表消息适配器
  */
 class ArticleMsgAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<ArticleMsg.Content, ArticleMsgAdapter.ArticleMsgViewHolder>(object :
-        DiffUtil.ItemCallback<ArticleMsg.Content>() {
+    PagingDataAdapter<ArticleMsg.Content, ArticleMsgAdapter.ArticleMsgViewHolder>(
+        ArticleMsgDiffCallback()
+    ) {
+
+    class ArticleMsgDiffCallback : DiffUtil.ItemCallback<ArticleMsg.Content>() {
         override fun areItemsTheSame(
             oldItem: ArticleMsg.Content,
             newItem: ArticleMsg.Content
@@ -36,7 +39,7 @@ class ArticleMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         ): Boolean {
             return oldItem == newItem
         }
-    }) {
+    }
 
     inner class ArticleMsgViewHolder(val binding: ArticleMsgListItemBinding) :
         RecyclerView.ViewHolder(binding.root)

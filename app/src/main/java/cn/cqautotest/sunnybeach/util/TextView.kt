@@ -9,7 +9,6 @@ import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TextView
 
-
 fun TextView.clearText() {
     text = null
 }

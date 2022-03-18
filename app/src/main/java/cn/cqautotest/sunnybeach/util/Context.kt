@@ -7,17 +7,14 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 
-fun Context.startActivity(clazz: Class<*>) {
-    val intent = Intent(this, clazz).apply {
-        if (this !is Activity) {
+inline fun <reified T> Context.startActivity(block: Intent.() -> Unit = {}) {
+    val context = this
+    Intent(this, T::class.java).apply(block).run {
+        if (context !is Activity) {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
+        startActivity(this)
     }
-    startActivity(intent)
-}
-
-inline fun <reified T> Context.startActivity() {
-    startActivity(T::class.java)
 }
 
 /**

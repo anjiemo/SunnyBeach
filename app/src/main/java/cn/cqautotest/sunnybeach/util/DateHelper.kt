@@ -6,7 +6,7 @@ import timber.log.Timber
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/7/24
+ * time   : 2021/07/24
  * desc   : 日期格式化工具类
  */
 object DateHelper {

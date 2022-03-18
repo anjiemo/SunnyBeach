@@ -51,7 +51,7 @@ data class Fish(
         @SerializedName("thumbUpCount")
         val thumbUpCount: Int,
         @SerializedName("thumbUpList")
-        val thumbUpList: List<String>,
+        val thumbUpList: MutableList<String>,
         @SerializedName("topicId")
         val topicId: String,
         @SerializedName("topicName")

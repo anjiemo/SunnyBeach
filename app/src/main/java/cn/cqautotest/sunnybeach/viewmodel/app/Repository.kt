@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.viewmodel.app
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataScope
 import androidx.lifecycle.liveData
 import cn.cqautotest.sunnybeach.db.dao.PlaceDao
@@ -8,6 +9,7 @@ import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.ApiResponse
+import cn.cqautotest.sunnybeach.model.AppUpdateInfo
 import cn.cqautotest.sunnybeach.model.User
 import cn.cqautotest.sunnybeach.model.weather.Place
 import cn.cqautotest.sunnybeach.util.md5
@@ -132,6 +134,7 @@ object Repository {
         } else throw ServiceException()
     } catch (t: Throwable) {
         t.printStackTrace()
+        UserManager.saveUserBasicInfo(null)
         UserManager.setupAutoLogin(false)
         null
     }
@@ -167,7 +170,7 @@ object Repository {
         emit(result)
     }
 
-    fun checkAppUpdate() = liveData(Dispatchers.IO) {
+    fun checkAppUpdate(): LiveData<Result<AppUpdateInfo>> = liveData(Dispatchers.IO) {
         launchAndGetData { AppNetwork.checkAppUpdate() }
     }
 
@@ -243,7 +246,7 @@ object Repository {
     }
 
     fun dynamicLikes(momentId: String) = liveData(Dispatchers.IO) {
-        launchAndGetData { FishNetwork.dynamicLikes(momentId) }
+        launchAndGetMsg { FishNetwork.dynamicLikes(momentId) }
     }
 
     fun loadTopicList() = liveData(Dispatchers.IO) {

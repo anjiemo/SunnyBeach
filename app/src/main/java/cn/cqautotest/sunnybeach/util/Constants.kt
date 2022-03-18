@@ -20,6 +20,10 @@ const val SUNNY_BEACH_SITE_BASE_URL = "https://www.sunofbeach.net/"
 
 const val SUNNY_BEACH_ARTICLE_URL_PRE = "${SUNNY_BEACH_SITE_BASE_URL}a/"
 
+const val SUNNY_BEACH_FISH_URL_PRE = "${SUNNY_BEACH_SITE_BASE_URL}m/"
+
+const val SUNNY_BEACH_QA_URL_PRE = "${SUNNY_BEACH_SITE_BASE_URL}qa/"
+
 const val SUNNY_BEACH_API_BASE_URL = "https://api.sunofbeaches.com/"
 
 const val DEFAULT_AVATAR_URL = "https://cdn.sunofbeaches.com/images/default_avatar.png"
@@ -36,8 +40,7 @@ const val SUNNY_BEACH_USER_BASIC_INFO = "sunny_beach_user_basic_info"
 
 //==================反馈相关==================
 //反馈Url地址
-const val MAKE_COMPLAINTS_URL =
-    "https://support.qq.com/product/333302"
+const val MAKE_COMPLAINTS_URL = "https://support.qq.com/product/333302"
 
 //反馈者的Id
 const val OPEN_ID = "open_id"
