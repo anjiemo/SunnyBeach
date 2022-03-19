@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.util
 
 import androidx.core.app.ComponentActivity
 import androidx.lifecycle.lifecycleScope
+import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
@@ -24,6 +25,7 @@ fun ComponentActivity.checkToken(block: suspend (userBasicInfo: Result<UserBasic
  * 检查是否用户登录
  * 如果没有登录则跳转至登录界面，否则执行 block Lambda 中的代码
  */
+@SingleClick
 fun ComponentActivity.takeIfLogin(block: suspend (userBasicInfo: UserBasicInfo) -> Unit) {
     checkToken {
         when (val userBasicInfo = it.getOrNull()) {
