@@ -77,4 +77,6 @@ class CreationCenterActivity : AppActivity() {
             mAchievementAdapter.setData(data)
         }
     }
+
+    override fun isStatusBarDarkFont(): Boolean = true
 }

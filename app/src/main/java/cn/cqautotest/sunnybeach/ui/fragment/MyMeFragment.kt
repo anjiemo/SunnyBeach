@@ -72,7 +72,9 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
             }
         }
         meContent.creationCenterContainer.setFixOnClickListener {
-            requireContext().startActivity<CreationCenterActivity>()
+            takeIfLogin {
+                requireContext().startActivity<CreationCenterActivity>()
+            }
         }
         meContent.weatherContainer.setFixOnClickListener {
             requireContext().startActivity<MainActivity>()
