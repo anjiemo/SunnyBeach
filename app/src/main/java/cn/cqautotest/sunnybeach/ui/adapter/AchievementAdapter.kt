@@ -1,10 +1,13 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.CreationCenterAchievementItemBinding
+import cn.cqautotest.sunnybeach.util.setRoundRectBg
+import java.text.DecimalFormat
 
 /**
  * author : A Lonely Cat
@@ -34,9 +37,17 @@ class AchievementAdapter : RecyclerView.Adapter<AchievementAdapter.ViewHolder>()
 
         @SuppressLint("SetTextI18n")
         fun binding(item: Pair<Int, Int>, position: Int) {
+            itemView.setRoundRectBg(getColor(position))
             binding.tvAchievementTitle.text = position.getTitle()
-            binding.tvTotalNum.text = item.first.toString()
+            binding.tvTotalNum.text = DecimalFormat.getInstance().format(item.first)
             binding.tvChanges.text = "较前日 ${if (item.second == 0) "--" else " ▲ " + item.second}"
+        }
+
+        private fun getColor(position: Int) = when (position) {
+            0 -> Color.parseColor("#B0D7F8")
+            1 -> Color.parseColor("#C9B3E1")
+            2 -> Color.parseColor("#E7C9E1")
+            else -> Color.parseColor("#F4E5BA")
         }
 
         private fun Int.getTitle() = when (this) {

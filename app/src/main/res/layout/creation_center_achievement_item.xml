@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.hjq.shape.layout.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sll_container"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="#fff000"
+    android:layout_height="210dp"
     android:orientation="vertical"
-    android:padding="10dp"
-    app:shape_radius="6dp"
-    app:shape_solidColor="@color/white"
-    app:shape_strokeColor="@color/common_line_color"
-    app:shape_strokeWidth="2px"
+    android:padding="16dp"
     tools:ignore="PxUsage">
 
     <TextView
@@ -26,7 +21,9 @@
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1"
-        android:textSize="33sp"
+        android:gravity="center_vertical"
+        android:textSize="38sp"
+        android:textStyle="bold"
         tools:text="123,632" />
 
     <TextView
