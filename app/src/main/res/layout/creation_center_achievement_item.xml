@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hjq.shape.layout.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:background="#fff000"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="10dp"
+    app:shape_radius="6dp"
+    app:shape_solidColor="@color/white"
+    app:shape_strokeColor="@color/common_line_color"
+    app:shape_strokeWidth="2px"
+    tools:ignore="PxUsage">
 
     <TextView
         android:id="@+id/tv_achievement_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/default_font_color"
         android:textSize="18sp"
         tools:text="阅读总量" />
 
@@ -19,7 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1"
-        android:gravity="center"
         android:textSize="33sp"
         tools:text="123,632" />
 
@@ -27,7 +33,8 @@
         android:id="@+id/tv_changes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/default_font_color"
         android:textSize="12sp"
         tools:text="较前日 ▲ 363" />
 
-</LinearLayout>
+</com.hjq.shape.layout.ShapeLinearLayout>

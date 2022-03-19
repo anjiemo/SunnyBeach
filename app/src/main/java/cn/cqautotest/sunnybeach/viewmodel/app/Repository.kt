@@ -8,9 +8,7 @@ import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
 import cn.cqautotest.sunnybeach.manager.UserManager
-import cn.cqautotest.sunnybeach.model.ApiResponse
-import cn.cqautotest.sunnybeach.model.AppUpdateInfo
-import cn.cqautotest.sunnybeach.model.User
+import cn.cqautotest.sunnybeach.model.*
 import cn.cqautotest.sunnybeach.model.weather.Place
 import cn.cqautotest.sunnybeach.util.md5
 import cn.cqautotest.sunnybeach.util.toJson
@@ -33,6 +31,85 @@ import java.io.File
 object Repository {
 
     private val cachePhotoIdList = arrayListOf<WallpaperBean.Res.Vertical>()
+
+    fun modifyPassword(modifyPwd: ModifyPwd) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.modifyPassword(modifyPwd)
+                Timber.d("result is $result")
+                if (result.isSuccess()) JavaResult.success(result.getMessage())
+                else JavaResult.failure(result.getMessage())
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            JavaResult.failure(ServiceException(t))
+        }
+        emit(result)
+    }
+
+    fun checkSmsCode(phoneNumber: String, smsCode: String) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.checkSmsCode(phoneNumber, smsCode)
+                Timber.d("result is $result")
+                if (result.isSuccess()) JavaResult.success(result.getMessage())
+                else JavaResult.failure(result.getMessage())
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            JavaResult.failure(ServiceException(t))
+        }
+        emit(result)
+    }
+
+    fun sendForgetSmsVerifyCode(smsInfo: SmsInfo) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.sendForgetSmsVerifyCode(smsInfo)
+                Timber.d("result is $result")
+                if (result.isSuccess()) JavaResult.success(result.getMessage())
+                else JavaResult.failure(result.getMessage())
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            JavaResult.failure(ServiceException(t))
+        }
+        emit(result)
+    }
+
+    fun registerAccount(user: User) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.registerAccount(user)
+                Timber.d("result is $result")
+                if (result.isSuccess()) JavaResult.success(result.getMessage())
+                else JavaResult.failure(result.getMessage())
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            JavaResult.failure(ServiceException(t))
+        }
+        emit(result)
+    }
+
+    fun sendRegisterSmsVerifyCode(smsInfo: SmsInfo) = liveData(Dispatchers.IO) {
+        val result = try {
+            coroutineScope {
+                val result = UserNetwork.sendRegisterSmsVerifyCode(smsInfo)
+                Timber.d("result is $result")
+                if (result.isSuccess()) JavaResult.success(result.getMessage())
+                else JavaResult.failure(result.getMessage())
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            JavaResult.failure(ServiceException(t))
+        }
+        emit(result)
+    }
+
+    fun getSobIEDetailList(userId: String, page: Int) = liveData(Dispatchers.IO) {
+        launchAndGetData { UserNetwork.getSobIEDetailList(userId, page) }
+    }
 
     fun getVipUserList() = liveData(Dispatchers.IO) {
         launchAndGetData { UserNetwork.getVipUserList() }

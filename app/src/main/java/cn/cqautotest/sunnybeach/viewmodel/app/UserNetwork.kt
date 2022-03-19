@@ -3,6 +3,8 @@ package cn.cqautotest.sunnybeach.viewmodel.app
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.request.api.QaApi
 import cn.cqautotest.sunnybeach.http.request.api.UserApi
+import cn.cqautotest.sunnybeach.model.ModifyPwd
+import cn.cqautotest.sunnybeach.model.SmsInfo
 import cn.cqautotest.sunnybeach.model.User
 
 /**
@@ -15,6 +17,18 @@ object UserNetwork {
 
     private val userApi = ServiceCreator.create<UserApi>()
     private val qaApi = ServiceCreator.create<QaApi>()
+
+    suspend fun modifyPassword(modifyPwd: ModifyPwd) = userApi.modifyPassword(modifyPwd)
+
+    suspend fun checkSmsCode(phoneNumber: String, smsCode: String) =
+        userApi.checkSmsCode(phoneNumber, smsCode)
+
+    suspend fun sendForgetSmsVerifyCode(smsInfo: SmsInfo) = userApi.sendForgetSmsVerifyCode(smsInfo)
+
+    suspend fun registerAccount(user: User) = userApi.registerAccount(user)
+
+    suspend fun sendRegisterSmsVerifyCode(smsInfo: SmsInfo) =
+        userApi.sendRegisterSmsVerifyCode(smsInfo)
 
     suspend fun getSobIEDetailList(userId: String, page: Int) =
         userApi.getSobIEDetailList(userId, page)

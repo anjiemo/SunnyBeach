@@ -12,11 +12,22 @@ public final class GetCodeApi implements IRequestApi {
 
     @Override
     public String getApi() {
-        return "code/get";
+        return "uc/ut/join/send-sms";
     }
 
-    /** 手机号 */
+    /**
+     * 图灵验证码
+     */
+    private String verifyCode;
+    /**
+     * 手机号
+     */
     private String phone;
+
+    public GetCodeApi setVerifyCode(String verifyCode) {
+        this.verifyCode = verifyCode;
+        return this;
+    }
 
     public GetCodeApi setPhone(String phone) {
         this.phone = phone;

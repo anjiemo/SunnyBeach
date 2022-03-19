@@ -6,9 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import cn.cqautotest.sunnybeach.model.RichList
-import cn.cqautotest.sunnybeach.model.UserBasicInfo
-import cn.cqautotest.sunnybeach.model.UserFollow
+import cn.cqautotest.sunnybeach.model.*
 import cn.cqautotest.sunnybeach.other.FollowState
 import cn.cqautotest.sunnybeach.paging.source.RichPagingSource
 import cn.cqautotest.sunnybeach.paging.source.UserFollowPagingSource
@@ -34,6 +32,37 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     val userAvatarLiveData = Transformations.switchMap(phoneLiveData) { account ->
         Repository.queryUserAvatar(account)
     }
+
+    /**
+     * 修改密码（通过旧密码修改）
+     */
+    fun modifyPassword(modifyPwd: ModifyPwd) = Repository.modifyPassword(modifyPwd)
+
+    /**
+     * 检查手机验证码是否正确
+     */
+    fun checkSmsCode(phoneNumber: String, smsCode: String) =
+        Repository.checkSmsCode(phoneNumber, smsCode)
+
+    /**
+     * 获取找回密码的手机验证码（找回密码）
+     */
+    fun sendForgetSmsVerifyCode(smsInfo: SmsInfo) = Repository.sendForgetSmsVerifyCode(smsInfo)
+
+    /**
+     * 注册账号
+     */
+    fun registerAccount(user: User) = Repository.registerAccount(user)
+
+    /**
+     * 获取注册的手机验证码（注册）
+     */
+    fun sendRegisterSmsVerifyCode(smsInfo: SmsInfo) = Repository.sendRegisterSmsVerifyCode(smsInfo)
+
+    /**
+     * 获取用户 Sob 币的收支（Income & Expenditures）明细列表
+     */
+    fun getSobIEDetailList(userId: String, page: Int) = Repository.getSobIEDetailList(userId, page)
 
     /**
      * 获取VIP列表
