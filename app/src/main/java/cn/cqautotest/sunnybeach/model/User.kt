@@ -3,4 +3,8 @@ package cn.cqautotest.sunnybeach.model
 /**
  * 用户账号信息
  */
-data class User constructor(private val phoneNum: String, private val password: String)
+data class User(
+    private val phoneNum: String,
+    private val password: String,
+    private val nickname: String = ""
+)

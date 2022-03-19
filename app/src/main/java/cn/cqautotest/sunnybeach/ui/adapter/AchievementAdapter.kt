@@ -36,7 +36,7 @@ class AchievementAdapter : RecyclerView.Adapter<AchievementAdapter.ViewHolder>()
         fun binding(item: Pair<Int, Int>, position: Int) {
             binding.tvAchievementTitle.text = position.getTitle()
             binding.tvTotalNum.text = item.first.toString()
-            binding.tvChanges.text = "较前日 ▲ ${item.second}"
+            binding.tvChanges.text = "较前日 ${if (item.second == 0) "--" else " ▲ " + item.second}"
         }
 
         private fun Int.getTitle() = when (this) {
