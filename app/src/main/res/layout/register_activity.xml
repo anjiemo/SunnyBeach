@@ -46,6 +46,45 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
+                <com.hjq.widget.view.ClearEditText
+                    android:id="@+id/et_register_verify_code"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/common_verify_code_input_hint"
+                    android:inputType="text"
+                    android:maxLength="@integer/verify_code_length"
+                    android:singleLine="true" />
+
+                <View
+                    style="@style/HorizontalLineStyle"
+                    android:layout_gravity="bottom" />
+
+            </FrameLayout>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/siv_register_verify_code"
+                android:layout_width="90dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/refresh_ic" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
                 <com.hjq.widget.view.RegexEditText
                     android:id="@+id/et_register_phone"
                     style="@style/EditTextStyle"
@@ -59,11 +98,13 @@
                 <View
                     style="@style/HorizontalLineStyle"
                     android:layout_gravity="bottom" />
+
             </FrameLayout>
 
             <com.hjq.widget.view.CountdownView
                 android:id="@+id/cv_register_countdown"
                 style="@style/CountdownViewStyle" />
+
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatEditText
@@ -75,6 +116,18 @@
             android:hint="@string/common_code_input_hint"
             android:inputType="number"
             android:maxLength="@integer/sms_code_length"
+            android:singleLine="true" />
+
+        <View style="@style/HorizontalLineStyle" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_register_nick_name"
+            style="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="@string/common_nick_name_input_hint"
+            android:maxLength="@integer/nick_name_length"
             android:singleLine="true" />
 
         <View style="@style/HorizontalLineStyle" />

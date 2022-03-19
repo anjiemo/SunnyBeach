@@ -36,6 +36,7 @@
 
     <string name="common_network_error">当前网络不可用，请检查网络设置</string>
 
+    <string name="common_verify_code_input_hint">请输入图灵验证码</string>
     <string name="common_phone_input_hint">请输入手机号码</string>
     <string name="common_phone_input_error">手机号输入不正确</string>
 
@@ -43,6 +44,7 @@
     <string name="common_password_input_unlike">两次密码输入不一致，请重新输入</string>
 
     <string name="common_code_input_hint">请输入验证码</string>
+    <string name="common_nick_name_input_hint">请输入独一无二的花名</string>
     <string name="common_code_send">发送验证码</string>
     <string name="common_code_send_hint">验证码已发送，请注意查收</string>
     <string name="common_code_error_hint">验证码错误，请检查输入</string>
@@ -217,6 +219,7 @@
 
     <!-- 重置密码 -->
     <string name="password_reset_title">设置登录密码</string>
+    <string name="password_reset_phone_old_password_hint">请输入旧密码</string>
     <string name="password_reset_phone_hint1">设置6&#8211;18位登录密码</string>
     <string name="password_reset_phone_hint2">重新输入一次密码</string>
     <string name="password_reset_input_error">两次密码输入不一致，请重新输入</string>

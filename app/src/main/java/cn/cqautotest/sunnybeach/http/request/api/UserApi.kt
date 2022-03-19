@@ -8,6 +8,39 @@ import retrofit2.http.*
 interface UserApi {
 
     /**
+     * 修改密码（通过旧密码修改）
+     */
+    @PUT("${SUNNY_BEACH_API_BASE_URL}uc/user/modify-pwd")
+    suspend fun modifyPassword(@Body modifyPwd: ModifyPwd): ApiResponse<Any>
+
+    /**
+     * 检查手机验证码是否正确
+     */
+    @GET("${SUNNY_BEACH_API_BASE_URL}uc/ut/check-sms-code/{phoneNumber}/{smsCode}")
+    suspend fun checkSmsCode(
+        @Path("phoneNumber") phoneNumber: String,
+        @Path("smsCode") smsCode: String
+    ): ApiResponse<Any>
+
+    /**
+     * 获取找回密码的手机验证码（找回密码）
+     */
+    @POST("${SUNNY_BEACH_API_BASE_URL}uc/ut/forget/send-sms")
+    suspend fun sendForgetSmsVerifyCode(@Body smsInfo: SmsInfo): ApiResponse<Any>
+
+    /**
+     * 注册账号
+     */
+    @POST("${SUNNY_BEACH_API_BASE_URL}uc/user/register/{smsCode}")
+    suspend fun registerAccount(@Body user: User): ApiResponse<Any>
+
+    /**
+     * 获取注册的手机验证码（注册）
+     */
+    @POST("${SUNNY_BEACH_API_BASE_URL}uc/ut/join/send-sms")
+    suspend fun sendRegisterSmsVerifyCode(@Body smsInfo: SmsInfo): ApiResponse<Any>
+
+    /**
      * 获取用户 Sob 币的收支（Income & Expenditures）明细列表
      */
     @GET("${SUNNY_BEACH_API_BASE_URL}ast/ucenter/sob-trade/{userId}/{page}")
