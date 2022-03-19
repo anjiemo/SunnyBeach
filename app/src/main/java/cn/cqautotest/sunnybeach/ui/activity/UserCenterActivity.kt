@@ -192,4 +192,6 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             .into(mBinding.ivAvatar)
         simpleToast("暂不支持更换头像")
     }
+
+    override fun isStatusBarDarkFont(): Boolean = true
 }
