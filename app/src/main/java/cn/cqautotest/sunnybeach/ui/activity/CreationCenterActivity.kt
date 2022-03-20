@@ -49,11 +49,6 @@ class CreationCenterActivity : AppActivity() {
     }
 
     override fun initObserver() {
-
-    }
-
-    override fun onResume() {
-        super.onResume()
         checkToken {
             val userBasicInfo = it.getOrNull()
             val flAvatarContainer = mBinding.flAvatarContainer
