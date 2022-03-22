@@ -147,17 +147,27 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
     @Override
     public void initObserver() {
         mAppVersionLiveData.observe(this, appUpdateInfo -> {
-            if (appUpdateInfo.versionCode <= AppConfig.getVersionCode()) {
+            // 是否需要强制更新（当前版本低于最低版本，强制更新）
+            boolean needForceUpdate = AppConfig.getVersionCode() < appUpdateInfo.minVersionCode;
+            if (needForceUpdate) {
+                showAppUpdateDialog(appUpdateInfo, true);
                 return;
             }
-            new UpdateDialog.Builder(getContext())
-                    .setFileMd5(appUpdateInfo.apkHash)
-                    .setDownloadUrl(appUpdateInfo.url)
-                    .setForceUpdate(appUpdateInfo.forceUpdate)
-                    .setUpdateLog(appUpdateInfo.updateLog)
-                    .setVersionName(appUpdateInfo.versionName)
-                    .show();
+            // 当前版本是否低于最新版本
+            if (AppConfig.getVersionCode() < appUpdateInfo.versionCode) {
+                showAppUpdateDialog(appUpdateInfo, appUpdateInfo.forceUpdate);
+            }
         });
+    }
+
+    private void showAppUpdateDialog(AppUpdateInfo appUpdateInfo, boolean forceUpdateApp) {
+        new UpdateDialog.Builder(getContext())
+                .setFileMd5(appUpdateInfo.apkHash)
+                .setDownloadUrl(appUpdateInfo.url)
+                .setForceUpdate(forceUpdateApp)
+                .setUpdateLog(appUpdateInfo.updateLog)
+                .setVersionName(appUpdateInfo.versionName)
+                .show();
     }
 
     @Override
