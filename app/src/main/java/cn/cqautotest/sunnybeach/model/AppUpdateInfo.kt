@@ -10,6 +10,8 @@ data class AppUpdateInfo(
     @JvmField
     val versionCode: Int = 1,
     @JvmField
+    val minVersionCode: Int = 1,
+    @JvmField
     val url: String?,
     @JvmField
     val apkSize: Long,

@@ -61,23 +61,36 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                 }
                 return@observe
             }
-            if (appUpdateInfo.versionCode <= AppConfig.getVersionCode()) {
+            // 是否需要强制更新（当前版本低于最低版本，强制更新）
+            val needForceUpdate = AppConfig.getVersionCode() < appUpdateInfo.minVersionCode
+            if (needForceUpdate) {
+                showUpdateIcon()
+                showAppUpdateDialog(appUpdateInfo, true)
+                return@observe
+            }
+            // 当前版本是否低于最新版本
+            if (AppConfig.getVersionCode() < appUpdateInfo.versionCode) {
+                showUpdateIcon()
+                showAppUpdateDialog(appUpdateInfo, appUpdateInfo.forceUpdate)
+            } else {
                 if (isAutoCheckAppVersion.not()) {
                     toast(R.string.current_version_is_up_to_date)
                 }
-                return@observe
             }
-            showUpdateIcon()
-            UpdateDialog.Builder(this)
-                .setFileMd5(appUpdateInfo.apkHash)
-                .setDownloadUrl(appUpdateInfo.url)
-                .setForceUpdate(appUpdateInfo.forceUpdate)
-                .setUpdateLog(appUpdateInfo.updateLog)
-                .setVersionName(appUpdateInfo.versionName)
-                .show()
         }
         mBinding.sbSettingCache.rightText = CacheDataManager.getTotalCacheSize(this)
     }
+
+    private fun showAppUpdateDialog(appUpdateInfo: AppUpdateInfo, forceUpdateApp: Boolean) {
+        UpdateDialog.Builder(this)
+            .setFileMd5(appUpdateInfo.apkHash)
+            .setDownloadUrl(appUpdateInfo.url)
+            .setForceUpdate(forceUpdateApp)
+            .setUpdateLog(appUpdateInfo.updateLog)
+            .setVersionName(appUpdateInfo.versionName)
+            .show()
+    }
+
 
     override fun initView() {
         // 设置切换按钮的监听
