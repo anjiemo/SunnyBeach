@@ -1,8 +1,10 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +14,10 @@ import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.blankj.utilcode.util.ScreenUtils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
 /**
  * author : A Lonely Cat
@@ -43,10 +49,63 @@ class WallpaperListAdapter(
         }
     }
 
-    inner class PhotoListViewHolder(binding: PhotoListItemBinding) :
+    inner class PhotoListViewHolder(private val binding: PhotoListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        val photoIv = binding.photoIv
-        val ratioFrameLayout = binding.ratioFrameLayout
+
+        fun binding(position: Int) {
+            val photoIv = binding.photoIv
+            val loadingLav = binding.loadingLav
+            val ratioFrameLayout = binding.ratioFrameLayout
+            val item = getItem(position) ?: return
+            // 设置比例布局全屏
+            if (fillBox) {
+                ratioFrameLayout.setSizeRatio(
+                    ScreenUtils.getScreenWidth().toFloat(),
+                    ScreenUtils.getScreenHeight().toFloat()
+                )
+            } else {
+                itemView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+                itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            }
+            val imageUrl = if (fillBox) item.preview else item.thumb
+            loadingLav.isVisible = true
+            // 加载全屏的图片
+            Glide.with(itemView)
+                .load(imageUrl)
+                .placeholder(R.mipmap.ic_bg)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        loadingLav.isVisible = false
+                        return e != null
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        photoIv.setImageDrawable(resource)
+                        loadingLav.isVisible = false
+                        return resource != null
+                    }
+                })
+                .into(photoIv)
+            itemView.setFixOnClickListener {
+                photoIv.transitionName = item.id
+                mItemClickListener.invoke(photoIv, item, position)
+            }
+            itemView.setOnLongClickListener {
+                mItemLongClickListener.invoke(item, position)
+                true
+            }
+        }
     }
 
     override fun onViewAttachedToWindow(holder: PhotoListViewHolder) {
@@ -70,40 +129,7 @@ class WallpaperListAdapter(
     }
 
     override fun onBindViewHolder(holder: PhotoListViewHolder, position: Int) {
-        val itemView = holder.itemView
-        // 设置比例布局全屏
-        val ratioFrameLayout = holder.ratioFrameLayout
-        val photoIv = holder.photoIv
-        val item = getItem(position) ?: return
-        if (fillBox) {
-            itemView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-            itemView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-        }
-        if (fillBox.not()) {
-            // 加载非全屏的图片列表
-            Glide.with(itemView)
-                .load(item.thumb)
-                .placeholder(R.mipmap.ic_bg)
-                .into(photoIv)
-        } else {
-            ratioFrameLayout.setSizeRatio(
-                ScreenUtils.getScreenWidth().toFloat(),
-                ScreenUtils.getScreenHeight().toFloat()
-            )
-            // 加载全屏的图片
-            Glide.with(itemView)
-                .load(item.preview)
-                .placeholder(R.mipmap.ic_bg)
-                .into(photoIv)
-        }
-        itemView.setFixOnClickListener {
-            photoIv.transitionName = item.id
-            mItemClickListener.invoke(photoIv, item, position)
-        }
-        itemView.setOnLongClickListener {
-            mItemLongClickListener.invoke(item, position)
-            true
-        }
+        holder.binding(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoListViewHolder {
