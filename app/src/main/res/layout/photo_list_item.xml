@@ -21,16 +21,6 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/loading_lav"
-            android:layout_gravity="center"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:visibility="gone"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/progress" />
-
     </com.hjq.widget.layout.RatioFrameLayout>
 
 </cn.cqautotest.sunnybeach.widget.RoundRelativeLayout>
