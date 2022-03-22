@@ -1,10 +1,8 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -14,10 +12,6 @@ import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.blankj.utilcode.util.ScreenUtils
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 
 /**
  * author : A Lonely Cat
@@ -54,7 +48,6 @@ class WallpaperListAdapter(
 
         fun binding(position: Int) {
             val photoIv = binding.photoIv
-            val loadingLav = binding.loadingLav
             val ratioFrameLayout = binding.ratioFrameLayout
             val item = getItem(position) ?: return
             // 设置比例布局全屏
@@ -68,34 +61,10 @@ class WallpaperListAdapter(
                 itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
             }
             val imageUrl = if (fillBox) item.preview else item.thumb
-            loadingLav.isVisible = true
             // 加载全屏的图片
             Glide.with(itemView)
                 .load(imageUrl)
                 .placeholder(R.mipmap.ic_bg)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        loadingLav.isVisible = false
-                        return e != null
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        photoIv.setImageDrawable(resource)
-                        loadingLav.isVisible = false
-                        return resource != null
-                    }
-                })
                 .into(photoIv)
             itemView.setFixOnClickListener {
                 photoIv.transitionName = item.id
