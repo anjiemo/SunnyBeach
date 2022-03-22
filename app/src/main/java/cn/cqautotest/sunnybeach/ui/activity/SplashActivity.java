@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.blankj.utilcode.util.DeviceUtils;
@@ -23,7 +22,6 @@ import cn.cqautotest.sunnybeach.http.request.UserInfoApi;
 import cn.cqautotest.sunnybeach.http.response.UserInfoBean;
 import cn.cqautotest.sunnybeach.manager.UserManager;
 import cn.cqautotest.sunnybeach.other.AppConfig;
-import cn.cqautotest.sunnybeach.viewmodel.UserViewModel;
 
 /**
  * author : Android 轮子哥
@@ -43,9 +41,6 @@ public final class SplashActivity extends AppActivity {
 
     @Override
     protected void initView() {
-        UserViewModel userViewModel = ViewModelProvider.AndroidViewModelFactory
-                .getInstance(getApplication())
-                .create(UserViewModel.class);
         mLottieView = findViewById(R.id.lav_splash_lottie);
         mDebugView = findViewById(R.id.iv_splash_debug);
         if (AppConfig.isDebug()) {
