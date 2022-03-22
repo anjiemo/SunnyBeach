@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.core.app.SharedElementCallback;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hjq.base.FragmentPagerAdapter;
 import com.hjq.gson.factory.GsonFactory;
+
+import java.util.List;
+import java.util.Map;
 
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener;
@@ -125,6 +129,12 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
 
     @Override
     public void initEvent() {
+        setExitSharedElementCallback(new SharedElementCallback() {
+            @Override
+            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                mNavigationView.setVisibility(View.GONE);
+            }
+        });
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -238,6 +248,9 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mPagerAdapter.getShowFragment().onActivityResult(requestCode, resultCode, data);
+        if (mNavigationView.getVisibility() != View.VISIBLE) {
+            mNavigationView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
