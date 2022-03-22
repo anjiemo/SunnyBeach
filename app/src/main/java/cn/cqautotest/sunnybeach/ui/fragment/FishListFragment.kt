@@ -254,19 +254,25 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     private fun showResult(hmsScan: HmsScan) {
-        val result = hmsScan.showResult ?: "null"
+        val result = hmsScan.showResult ?: ""
         if (result.isBlank()) {
             toast("什么内容也没有~")
             return
         }
+        // result can never be null.
         val uri = Uri.parse(result)
         val scheme = uri.scheme
-        val userId = uri.lastPathSegment
-        Timber.d("showResult：===> scheme is $scheme userId is $userId")
+        val authority = uri.authority ?: ""
+        val userId = uri.lastPathSegment ?: ""
+        Timber.d("showResult：===> scheme is $scheme authority is $authority userId is $userId")
         Timber.d("showResult：===> result is $result")
         // toast(userId)
+        val siteTopDomain = StringUtil.getTopDomain(SUNNY_BEACH_SITE_BASE_URL)
         // sob site userId is long type, we need check.
-        if (scheme.equals("sob").not() || userId.isNullOrBlank() || userId.toLongOrNull() == null) {
+        if (!(scheme.equals("sob") || authority == siteTopDomain ||
+                    authority == siteTopDomain.replace("www", ""))
+            && (userId.isNotBlank() && userId.toLongOrNull() != null)
+        ) {
             return
         }
         ViewUserActivity.start(requireContext(), userId)
