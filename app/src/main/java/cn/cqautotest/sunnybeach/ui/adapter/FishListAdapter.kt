@@ -27,7 +27,6 @@ import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach

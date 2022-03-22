@@ -1,9 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.view.isVisible
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
 import cn.cqautotest.sunnybeach.util.dp
@@ -74,9 +72,5 @@ class PhotoAdapter(val fillBox: Boolean = false) :
                 true
             }
         }
-    }
-
-    private fun showLoading(loadingView: View, show: Boolean) {
-        loadingView.isVisible = show
     }
 }

@@ -170,8 +170,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 _userBasicInfo.value = null
                 return@launch
             }
-            val userBasicINfo = Repository.login(userAccount, password, captcha)
-            _userBasicInfo.value = userBasicINfo
+            val userBasicInfo = Repository.login(userAccount, password, captcha)
+            _userBasicInfo.value = userBasicInfo
         }
     }
 
