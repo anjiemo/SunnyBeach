@@ -60,7 +60,7 @@ class UserFollowListAdapter(private val adapterDelegate: AdapterDelegate) :
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
-    @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: UserFollowListAdapter.QaListViewHolder, position: Int) {
         val item = getItem(position) ?: return
         val itemView = holder.itemView
