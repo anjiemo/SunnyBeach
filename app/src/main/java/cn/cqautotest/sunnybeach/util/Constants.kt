@@ -16,6 +16,8 @@ const val DEFAULT_BANNER_URL =
 
 const val CAI_YUN_BASE_URL = "https://api.caiyunapp.com/"
 
+const val I_LOVE_ANDROID_SITE_BASE_URL = "http://www.52android.cn/"
+
 const val SUNNY_BEACH_SITE_BASE_URL = "https://www.sunofbeach.net/"
 
 const val SUNNY_BEACH_ARTICLE_URL_PRE = "${SUNNY_BEACH_SITE_BASE_URL}a/"
