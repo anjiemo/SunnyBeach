@@ -86,7 +86,7 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             userCenterContent.sbSettingPhone.rightText = personCenterInfo.phoneNum
             userCenterContent.sbSettingEmail.rightText = personCenterInfo.email
 
-            mBinding.ivSobQrCode.setImageBitmap(generateQRCode("sob://u/${personCenterInfo.userId}"))
+            mBinding.ivSobQrCode.setImageBitmap(generateQRCode("${SUNNY_BEACH_VIEW_USER_URL_PRE}${personCenterInfo.userId}"))
         }
     }
 
