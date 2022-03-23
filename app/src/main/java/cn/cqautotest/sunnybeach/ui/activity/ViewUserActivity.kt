@@ -16,12 +16,10 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.other.FriendsStatus
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.fragment.UserMediaFragment
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import cn.cqautotest.sunnybeach.util.setRoundRectBg
-import cn.cqautotest.sunnybeach.util.takeIfLogin
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -49,7 +47,43 @@ class ViewUserActivity : AppActivity() {
         }
     }
 
-    private fun getUserId() = intent.getStringExtra(IntentKey.ID) ?: ""
+    private fun getUserId(): String {
+        val uri = intent?.data
+        val scheme = uri?.scheme ?: ""
+        val authority = uri?.authority ?: ""
+        val lastPathSegment = uri?.lastPathSegment ?: ""
+        val userId = intent.getStringExtra(IntentKey.ID) ?: ""
+
+        if (checkScheme(scheme).not()) return userId
+        if (checkAuthority(authority).not()) return userId
+        if (checkUserId(lastPathSegment).not()) return userId
+
+        Timber.d("showResult：===> scheme is $scheme authority is $authority userId is $userId lastPathSegment is $lastPathSegment")
+        return lastPathSegment
+    }
+
+    /**
+     * We only support http and https protocols.
+     */
+    private fun checkScheme(scheme: String) = scheme == "http" || scheme == "https"
+
+    private fun checkAuthority(authority: String): Boolean {
+        val sobSiteTopDomain = StringUtil.getTopDomain(SUNNY_BEACH_SITE_BASE_URL)
+        val loveSiteTopDomain = StringUtil.getTopDomain(I_LOVE_ANDROID_SITE_BASE_URL)
+
+        Timber.d("checkAuthority：===> authority is $authority")
+        Timber.d("checkAuthority：===> sobSiteTopDomain is $sobSiteTopDomain")
+        Timber.d("checkAuthority：===> loveSiteTopDomain is $loveSiteTopDomain")
+
+        val sobAuthority = authority.replace("www.", "") == sobSiteTopDomain
+        val loveAuthority = authority.replace("www.", "") == loveSiteTopDomain
+        return sobAuthority || loveAuthority
+    }
+
+    /**
+     * Sob site userId is long type, we need check.
+     */
+    private fun checkUserId(userId: String) = userId.isNotBlank() && userId.toLongOrNull() != null
 
     @SuppressLint("SetTextI18n")
     private fun setUpUserInfo(userId: String) {

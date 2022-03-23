@@ -240,9 +240,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != AppActivity.RESULT_OK || data == null) {
-            return
-        }
+        if (resultCode != AppActivity.RESULT_OK || data == null) return
         if (requestCode == REQUEST_CODE_SCAN_ONE) {
             // 导入图片扫描返回结果
             val obj = data.getParcelableExtra(ScanUtil.RESULT) as HmsScan?
@@ -259,24 +257,46 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             toast("什么内容也没有~")
             return
         }
+
         // result can never be null.
         val uri = Uri.parse(result)
-        val scheme = uri.scheme
+        val scheme = uri.scheme ?: ""
         val authority = uri.authority ?: ""
         val userId = uri.lastPathSegment ?: ""
+
         Timber.d("showResult：===> scheme is $scheme authority is $authority userId is $userId")
         Timber.d("showResult：===> result is $result")
         // toast(userId)
-        val siteTopDomain = StringUtil.getTopDomain(SUNNY_BEACH_SITE_BASE_URL)
-        // sob site userId is long type, we need check.
-        if (!(scheme.equals("sob") || authority == siteTopDomain ||
-                    authority == siteTopDomain.replace("www", ""))
-            && (userId.isNotBlank() && userId.toLongOrNull() != null)
-        ) {
-            return
-        }
+
+        if (checkScheme(scheme).not()) return
+        if (checkAuthority(authority).not()) return
+        if (checkUserId(userId).not()) return
+
         ViewUserActivity.start(requireContext(), userId)
     }
+
+    /**
+     * We only support http and https protocols.
+     */
+    private fun checkScheme(scheme: String) = scheme == "http" || scheme == "https"
+
+    private fun checkAuthority(authority: String): Boolean {
+        val sobSiteTopDomain = StringUtil.getTopDomain(SUNNY_BEACH_SITE_BASE_URL)
+        val loveSiteTopDomain = StringUtil.getTopDomain(I_LOVE_ANDROID_SITE_BASE_URL)
+
+        Timber.d("checkAuthority：===> authority is $authority")
+        Timber.d("checkAuthority：===> sobSiteTopDomain is $sobSiteTopDomain")
+        Timber.d("checkAuthority：===> loveSiteTopDomain is $loveSiteTopDomain")
+
+        val sobAuthority = authority.replace("www.", "") == sobSiteTopDomain
+        val loveAuthority = authority.replace("www.", "") == loveSiteTopDomain
+        return sobAuthority || loveAuthority
+    }
+
+    /**
+     * Sob site userId is long type, we need check.
+     */
+    private fun checkUserId(userId: String) = userId.isNotBlank() && userId.toLongOrNull() != null
 
     companion object {
 
