@@ -26,6 +26,8 @@ const val SUNNY_BEACH_FISH_URL_PRE = "${SUNNY_BEACH_SITE_BASE_URL}m/"
 
 const val SUNNY_BEACH_QA_URL_PRE = "${SUNNY_BEACH_SITE_BASE_URL}qa/"
 
+const val SUNNY_BEACH_VIEW_USER_URL_PRE = "${SUNNY_BEACH_SITE_BASE_URL}u/"
+
 const val SUNNY_BEACH_API_BASE_URL = "https://api.sunofbeaches.com/"
 
 const val DEFAULT_AVATAR_URL = "https://cdn.sunofbeaches.com/images/default_avatar.png"
