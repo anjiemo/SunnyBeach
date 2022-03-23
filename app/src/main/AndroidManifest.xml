@@ -163,7 +163,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://www.52android.cn//sob/u” -->
+                <!-- Accepts URIs that begin with "http://www.52android.cn/sob/u” -->
                 <data
                     android:host="www.52android.cn"
                     android:pathPrefix="/sob/u"
