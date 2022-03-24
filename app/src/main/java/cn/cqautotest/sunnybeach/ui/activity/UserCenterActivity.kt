@@ -21,7 +21,9 @@ import com.huawei.hms.hmsscankit.WriterException
 import com.huawei.hms.ml.scan.HmsBuildBitmapOption
 import com.huawei.hms.ml.scan.HmsScan
 import com.scwang.smart.refresh.layout.wrapper.RefreshHeaderWrapper
+import timber.log.Timber
 import java.io.File
+import java.util.regex.Pattern
 
 /**
  * author : A Lonely Cat
@@ -76,6 +78,11 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
         userBasicInfo?.let { mUserBasicInfo = it }
         mUserViewModel.queryUserInfo().observe(this) {
             val personCenterInfo = it.getOrNull() ?: return@observe
+
+            val userId = personCenterInfo.userId
+            Timber.d("initData：===> formatted userId is $userId")
+            mBinding.tvSobId.text = userId.manicured()
+
             val userCenterContent = mBinding.userCenterContent
             userCenterContent.sbSettingCompany.rightText = personCenterInfo.company
             userCenterContent.sbSettingJob.rightText = personCenterInfo.position
@@ -88,6 +95,11 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
 
             mBinding.ivSobQrCode.setImageBitmap(generateQRCode("${SUNNY_BEACH_VIEW_USER_URL_PRE}${personCenterInfo.userId}"))
         }
+    }
+
+    private fun String.manicured(): String {
+        val matcher = pattern.matcher(this)
+        return matcher.replaceAll("$1    $2    $3    $4    $5    $6")
     }
 
     override fun onResume() {
@@ -194,4 +206,11 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
     }
 
     override fun isStatusBarDarkFont(): Boolean = true
+
+    companion object {
+
+        // 分隔规则
+        private const val regex = "(\\w{4})(\\w{3})(\\w{3})(\\w{3})(\\w{3})(\\w{3})"
+        private val pattern = Pattern.compile(regex)
+    }
 }

@@ -314,7 +314,7 @@
                         app:tint="@color/white" />
 
                     <TextView
-                        android:id="@+id/tv_sob_id"
+                        android:id="@+id/tv_sob_id_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
@@ -324,13 +324,14 @@
                         app:layout_constraintTop_toTopOf="@id/iv_sob_qr_code" />
 
                     <TextView
+                        android:id="@+id/tv_sob_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="1204    736    502    274    318    336"
                         android:textColor="@color/white"
-                        app:layout_constraintStart_toStartOf="@id/tv_sob_id"
-                        app:layout_constraintTop_toBottomOf="@id/tv_sob_id" />
+                        app:layout_constraintStart_toStartOf="@id/tv_sob_id_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_sob_id_title"
+                        tools:text="1204    736    502    274    318    336" />
 
                     <ImageView
                         android:id="@+id/iv_sob_qr_code"
