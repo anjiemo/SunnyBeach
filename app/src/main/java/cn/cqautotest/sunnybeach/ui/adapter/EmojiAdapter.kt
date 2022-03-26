@@ -8,6 +8,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.util.dp
+import cn.cqautotest.sunnybeach.util.setDefaultEmojiParser
 
 /**
  * author : A Lonely Cat
@@ -43,6 +44,7 @@ class EmojiAdapter : RecyclerView.Adapter<EmojiAdapter.EmojiViewHolder>() {
             gravity = Gravity.CENTER
             textSize = 22f
         }
+        tvEmoji.setDefaultEmojiParser()
         itemView.addView(tvEmoji)
         return EmojiViewHolder(itemView)
     }
@@ -59,6 +61,6 @@ class EmojiAdapter : RecyclerView.Adapter<EmojiAdapter.EmojiViewHolder>() {
     override fun getItemCount(): Int = mData.size
 
     companion object {
-        private const val EMOJI_TAG = "emoji"
+        private const val EMOJI_TAG = "EMOJI"
     }
 }

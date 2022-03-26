@@ -59,7 +59,12 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         unRegisterSoftKeyboardListener(softKeyboardListener)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initView() {
+        mBinding.tvInputLength.apply {
+            text = "0/$INPUT_MAX_LENGTH"
+            setDefaultEmojiParser()
+        }
         val rvPreviewImage = mBinding.rvPreviewImage
         rvPreviewImage.apply {
             layoutManager = GridLayoutManager(context, 2)
@@ -86,7 +91,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                         mTopicId = fishPondTopicListItem?.id
                         val tvChooseFishPondDesc = mBinding.tvChooseFishPondDesc
                         mBinding.tvChooseFishPond.text = "#${fishPondTopicListItem.topicName}#"
-                        tvChooseFishPondDesc.text = ""
+                        tvChooseFishPondDesc.clearText()
                     } else {
                         resetTopic()
                     }
@@ -164,7 +169,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         val overflowColor = Color.RED
         mBinding.etInputContent.addTextChangedListener {
             // 最大字符输入长度
-            val maxInputTextLength = 512
+            val maxInputTextLength = INPUT_MAX_LENGTH
             // 最小字符输入长度
             val minInputTextLength = 5
             val inputLength = mBinding.etInputContent.length()
@@ -185,11 +190,12 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     override fun onRightClick(view: View?) {
         // 校验内容是否合法，发布信息
         val inputLength = mBinding.etInputContent.length()
-        val textLengthIsOk = inputLength in 5..512
+        val textLengthIsOk = inputLength in 5..INPUT_MAX_LENGTH
         takeIf { textLengthIsOk.not() }?.let {
-            simpleToast("请输入[5, 512)个字符~")
+            simpleToast("请输入[5, $INPUT_MAX_LENGTH]个字符~")
             return
         }
+
         // 摸鱼内容
         val content = mBinding.etInputContent.textString
         val images = arrayListOf<String>()
@@ -255,6 +261,8 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     }
 
     companion object {
+
+        private const val INPUT_MAX_LENGTH = 1024
 
         private class ImagePreviewAdapter(private val mData: MutableList<String> = arrayListOf()) :
             RecyclerView.Adapter<ImagePreviewViewHolder>() {

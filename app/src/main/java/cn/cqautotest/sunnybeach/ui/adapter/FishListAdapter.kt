@@ -2,17 +2,14 @@ package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.LevelListDrawable
-import android.net.Uri
 import android.text.TextUtils
 import android.view.*
-import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
-import androidx.core.text.HtmlCompat
+import androidx.core.text.parseAsHtml
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +21,7 @@ import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
+import com.blankj.utilcode.util.ResourceUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
@@ -137,55 +135,11 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
             "${item.position} · " +
                     DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
         tvContent.setTextIsSelectable(false)
-        tvContent.text = HtmlCompat.fromHtml(
-            item.content
-                .replace("<br>", "\n")
-                .replace("</br>", "\n"),
-            HtmlCompat.FROM_HTML_MODE_LEGACY,
-            { source ->
-                // 1、加载本地的 emoji 表情图片（优点：理论上来说是比加载网络上的图片快的。
-                // 缺点：无法做到及时更新，程序员需要重新打包apk发布更新，用户需要安装最新版本的app才可以享受最优的体验）
-                // source ?: return null
-                // if (source.contains("sunofbeaches.com/emoji/") && source.endsWith(".png")) {
-                //     val emojiNum = Regex("\\d").find(source)?.value ?: ""
-                //     val resId = context.resources.getIdentifier(
-                //         "emoji_$emojiNum",
-                //         "mipmap",
-                //         context.packageName
-                //     )
-                //     val drawable = ContextCompat.getDrawable(context, resId)
-                //     drawable?.let {
-                //         val textSize = tvContent.textSize.toInt()
-                //         it.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
-                //     }
-                //     return drawable
-                // }
-                // logByDebug(msg = "covert：===> image url is $source")
-                // return null
-
-                // 2、直接获取网络的图片（优点：不需要在本地内置图片，直接使用在线图片。
-                // 缺点：理论上来讲会比加载本地的图片慢一些）
-                val drawable = LevelListDrawable()
-                val textSize = tvContent.textSize.toInt()
-                (context as? ComponentActivity)?.lifecycleScope?.launchWhenCreated {
-                    val resource = DownloadHelper.ofType<Drawable>(itemView, Uri.parse(source))
-                    drawable.addLevel(1, 1, resource)
-                    // 判断是否为表情包
-                    if (source.contains("sunofbeaches.com/emoji/") && source.endsWith(".png")) {
-                        drawable.setBounds(6, 0, textSize + 6, textSize)
-                    } else {
-                        val drawableWidth = drawable.intrinsicWidth
-                        val drawableHeight = drawable.intrinsicHeight
-                        drawable.setBounds(0, 0, drawableWidth, drawableHeight)
-                    }
-                    drawable.level = 1
-                    tvContent.invalidate()
-                    tvContent.text = tvContent.text
-                }
-                drawable
-            },
-            null
-        )
+        val content = item.content
+        // 设置默认表情符号解析器
+        tvContent.setDefaultEmojiParser()
+        tvContent.text =
+            content.parseAsHtml(imageGetter = EmojiImageGetter(tvContent.textSize.toInt()))
         tvContent.customSelectionActionModeCallback = object : ActionMode.Callback {
             override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 menu?.clear()
@@ -262,6 +216,17 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
         ivGreat.imageTintList = ColorStateList.valueOf((if (like) likeColor else defaultColor))
     }
 
+    private fun String?.loadLocalDrawableOrNull(): Drawable? {
+        if (this == null) return null
+        val resId = ResourceUtils.getMipmapIdByName(this)
+        return try {
+            ResourceUtils.getDrawable(resId)
+        } catch (e: Resources.NotFoundException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = FishPondListItemBinding.inflate(inflater, parent, false)
@@ -286,5 +251,10 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
         if (::mOnNineGridClickListener.isInitialized) {
             mOnNineGridClickListener.onNineGridClick(sources, index)
         }
+    }
+
+    companion object {
+
+        private const val EMOJI_PREFIX = "emoji_"
     }
 }

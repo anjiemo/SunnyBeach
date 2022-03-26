@@ -18,6 +18,7 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.util.DateHelper
+import cn.cqautotest.sunnybeach.util.setDefaultEmojiParser
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.bumptech.glide.Glide
 
@@ -110,17 +111,20 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
         // 摸鱼详情列表的时间没有精确到秒
         tvDesc.text = "${item.position} · " +
                 DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
+        tvReply.setDefaultEmojiParser()
         tvReply.text = item.content
         val subComments = item.subComments
         val buildHeight = subComments.size
         tvBuildReplyMsgContainer.isVisible = subComments.isNotEmpty()
         tvChildReplyMsg.isVisible = false
         subComments.getOrNull(0)?.let {
+            tvChildReplyMsg1.setDefaultEmojiParser()
             tvChildReplyMsg.text = getBeautifiedFormat(it, item)
             tvChildReplyMsg.isVisible = true
         }
         tvChildReplyMsg1.isVisible = false
         subComments.getOrNull(1)?.let {
+            tvChildReplyMsg1.setDefaultEmojiParser()
             tvChildReplyMsg1.text = getBeautifiedFormat(it, item)
             tvChildReplyMsg1.isVisible = true
         }
