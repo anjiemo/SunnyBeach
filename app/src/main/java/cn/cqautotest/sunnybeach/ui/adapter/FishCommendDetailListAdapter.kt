@@ -17,6 +17,7 @@ import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.model.UserComment
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.util.DateHelper
+import cn.cqautotest.sunnybeach.util.setDefaultEmojiParser
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.bumptech.glide.Glide
 
@@ -30,8 +31,7 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
 
     private lateinit var mData: FishPondComment.FishPondCommentItem
 
-    private var mCommentClickListener: (item: UserComment, position: Int) -> Unit =
-        { _, _ -> }
+    private var mCommentClickListener: (item: UserComment, position: Int) -> Unit = { _, _ -> }
 
     fun setOnCommentClickListener(block: (item: UserComment, position: Int) -> Unit) {
         mCommentClickListener = block
@@ -87,6 +87,7 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
         // 摸鱼详情列表的时间没有精确到秒
         tvDesc.text = "${item.position} · " +
                 DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
+        tvReply.setDefaultEmojiParser()
         tvReply.text = getBeautifiedFormat(item, mData)
         tvBuildReplyMsgContainer.isVisible = false
     }

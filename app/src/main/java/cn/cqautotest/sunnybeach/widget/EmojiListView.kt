@@ -1,15 +1,14 @@
 package cn.cqautotest.sunnybeach.widget
 
 import android.content.Context
-import android.text.TextUtils
 import android.util.AttributeSet
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.ui.adapter.EmojiAdapter
+import cn.cqautotest.sunnybeach.util.EmojiMapHelper
 import cn.cqautotest.sunnybeach.util.GridSpaceItemDecoration
 import cn.cqautotest.sunnybeach.util.dp
-import com.blankj.utilcode.util.ResourceUtils
-import org.json.JSONObject
 
 /**
  * author : A Lonely Cat
@@ -21,33 +20,26 @@ class EmojiListView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : RecyclerView(context, attrs) {
 
-    private val mAdapter = EmojiAdapter()
+    private val mBilibiliAdapter = EmojiAdapter()
 
     init {
         layoutManager = GridLayoutManager(context, 7)
-        adapter = mAdapter
+        val concatAdapter = ConcatAdapter(mBilibiliAdapter)
+        adapter = concatAdapter
         addItemDecoration(GridSpaceItemDecoration(5.dp))
-        mAdapter.setData(loadDefaultEmojiList())
+        mBilibiliAdapter.setData(loadBilibiliEmojiList())
     }
 
-    private fun loadDefaultEmojiList(): List<String> {
+    private fun loadBilibiliEmojiList(): List<String> {
         val emojiList = arrayListOf<String>()
-        val json = ResourceUtils.readAssets2String("emoji/emoji.json")
-        val jsonObject = JSONObject(json)
-        jsonObject.keys().forEach { key ->
-            jsonObject.optJSONArray(key)?.let { jsonArray ->
-                for (index in 0..jsonArray.length()) {
-                    val emoji = jsonArray.optString(index)
-                    if (TextUtils.isEmpty(emoji).not()) {
-                        emojiList.add(emoji)
-                    }
-                }
-            }
+        EmojiMapHelper.bilibiliEmojiMap.onEach {
+            val emoji = it.key
+            emojiList.add(emoji)
         }
         return emojiList
     }
 
     fun setOnEmojiClickListener(listener: (emoji: String, position: Int) -> Unit) {
-        mAdapter.setOnItemClickListener(listener)
+        mBilibiliAdapter.setOnItemClickListener(listener)
     }
 }

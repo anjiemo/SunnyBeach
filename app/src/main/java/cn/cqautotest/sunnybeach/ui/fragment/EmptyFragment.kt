@@ -8,6 +8,8 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.EmptyFragmentBinding
+import cn.cqautotest.sunnybeach.util.EmojiMapHelper
+import cn.cqautotest.sunnybeach.util.setDefaultEmojiParser
 import cn.cqautotest.sunnybeach.util.simpleToast
 
 /**
@@ -29,7 +31,13 @@ class EmptyFragment : AppFragment<AppActivity>() {
     }
 
     override fun initData() {
-
+        mBinding.emptyDescription.setDefaultEmojiParser()
+        val sb = buildString {
+            EmojiMapHelper.emojiMap.keys.onEach {
+                append(it)
+            }
+        }
+        mBinding.emptyDescription.text = sb
     }
 
     override fun initEvent() {

@@ -88,6 +88,7 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener,
         val time = "${item.createTime}:00"
         tvDesc.text = "${item.position} · " + DateHelper.getFriendlyTimeSpanByNow(time)
         tvDesc.maxLines = Int.MAX_VALUE
+        tvReply.setDefaultEmojiParser()
         tvReply.text = item.content
         tvBuildReplyMsgContainer.isVisible = false
         mFishCommendDetailListAdapter.setData(item)
