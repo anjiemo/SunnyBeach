@@ -6,20 +6,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.LevelListDrawable
-import android.net.Uri
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.text.Html
 import android.text.TextUtils
 import android.view.GestureDetector
 import android.view.ViewConfiguration
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
-import androidx.core.text.HtmlCompat
+import androidx.core.text.parseAsHtml
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,9 +53,8 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/07/11
  * desc   : 鱼塘详情页
  */
-class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
-    SimpleGesture.OnSlideListener, SimpleGridLayout.OnNineGridClickListener,
-    KeyboardWatcher.SoftKeyboardStateListener {
+class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGesture.OnSlideListener,
+    SimpleGridLayout.OnNineGridClickListener, KeyboardWatcher.SoftKeyboardStateListener {
 
     private val mBinding: FishPondDetailActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
@@ -165,18 +160,12 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
             tvNickname.text = item.nickname
             tvDesc.text = "${item.position} · " +
                     DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
-            val content = HtmlCompat.fromHtml(
-                item.content
-                    .replace("<br>", "\n")
-                    .replace("</br>", "\n"),
-                HtmlCompat.FROM_HTML_MODE_LEGACY, this,
-                null
-            )
             tvContent.maxLines = Int.MAX_VALUE
-            tvContent.text = content
-            tvContent.setOnCreateContextMenuListener { _, _, _ ->
-
-            }
+            val content = item.content
+            // 设置默认表情符号解析器
+            tvContent.setDefaultEmojiParser()
+            tvContent.text =
+                content.parseAsHtml(imageGetter = EmojiImageGetter(tvContent.textSize.toInt()))
             mUserId = item.userId
             val topicName = item.topicName
             val images = item.images
@@ -345,51 +334,6 @@ class FishPondDetailActivity : AppActivity(), StatusAction, Html.ImageGetter,
     override fun getStatusLayout(): StatusLayout = mBinding.slFishDetailHint
 
     override fun isStatusBarDarkFont(): Boolean = false
-
-    override fun getDrawable(source: String?): Drawable {
-        source ?: return LevelListDrawable()
-        // 1、加载本地的 emoji 表情图片（优点：理论上来说是比加载网络上的图片快的。
-        // 缺点：无法做到及时更新，程序员需要重新打包apk发布更新，用户需要安装最新版本的app才可以享受最优的体验）
-        // source ?: return null
-        // if (source.contains("sunofbeaches.com/emoji/") && source.endsWith(".png")) {
-        //     val emojiNum = Regex("\\d").find(source)?.value ?: ""
-        //     val resId = context.resources.getIdentifier(
-        //         "emoji_$emojiNum",
-        //         "mipmap",
-        //         context.packageName
-        //     )
-        //     val drawable = ContextCompat.getDrawable(context, resId)
-        //     drawable?.let {
-        //         val textSize = tvContent.textSize.toInt()
-        //         it.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
-        //     }
-        //     return drawable
-        // }
-        // logByDebug(msg = "covert：===> image url is $source")
-        // return null
-
-        // 2、直接获取网络的图片（优点：不需要在本地内置图片，直接使用在线图片。
-        // 缺点：理论上来讲会比加载本地的图片慢一些）
-        val drawable = LevelListDrawable()
-        val fishPond = mBinding.fishPond
-        val tvContent = fishPond.tvFishPondContent
-        val textSize = tvContent.textSize.toInt()
-        lifecycleScope.launchWhenCreated {
-            val uri = Uri.parse(source)
-            val resource = DownloadHelper.ofType<Drawable>(fishPond.llFishItemContainer, uri)
-            drawable.addLevel(1, 1, resource)
-            // 判断是否为表情包
-            if (source.contains("sunofbeaches.com/emoji/") && source.endsWith(".png")) {
-                drawable.setBounds(6, 0, textSize + 6, textSize)
-            } else {
-                drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
-            }
-            drawable.level = 1
-            tvContent.invalidate()
-            tvContent.text = tvContent.text
-        }
-        return drawable
-    }
 
     companion object {
 
