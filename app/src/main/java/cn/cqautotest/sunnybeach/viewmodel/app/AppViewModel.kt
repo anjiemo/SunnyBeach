@@ -43,6 +43,8 @@ class AppViewModel(private val application: Application) : Utils.ActivityLifecyc
 
     fun checkAppUpdate() = Repository.checkAppUpdate()
 
+    fun getMourningCalendar() = Repository.getMourningCalendar()
+
     fun clearCacheMemory() = liveData(Dispatchers.Main) {
         val result = try {
             // 清除内存缓存（必须在主线程）
