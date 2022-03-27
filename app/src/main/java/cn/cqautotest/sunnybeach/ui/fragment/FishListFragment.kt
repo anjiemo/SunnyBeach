@@ -19,6 +19,7 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
 import cn.cqautotest.sunnybeach.manager.UserManager
@@ -32,6 +33,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.hjq.permissions.Permission
@@ -44,6 +46,8 @@ import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * author : A Lonely Cat
@@ -54,6 +58,7 @@ import timber.log.Timber
 class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener {
 
     private val mBinding: FishListFragmentBinding by viewBinding()
+    private val mAppViewModel: AppViewModel = AppApplication.getAppViewModel()
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
     private val mFishListAdapter = FishListAdapter(AdapterDelegate())
     private val loadStateListener = loadStateListener(mFishListAdapter) {
@@ -188,6 +193,19 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     override fun initData() {
         loadFishList()
+        mAppViewModel.getMourningCalendar().observe(viewLifecycleOwner) {
+            val result = it.getOrNull() ?: return@observe
+            val sdf = SimpleDateFormat("MM月dd日", Locale.getDefault())
+            val formatDate = sdf.format(System.currentTimeMillis())
+            val rootView = requireView()
+            result.onEach { mourningCalendar ->
+                val date = mourningCalendar.date
+                if (date == formatDate) {
+                    rootView.setMourningStyle()
+                }
+                // Timber.d("initData：===> day is $date formatDate is $formatDate")
+            }
+        }
     }
 
     private fun loadFishList() {

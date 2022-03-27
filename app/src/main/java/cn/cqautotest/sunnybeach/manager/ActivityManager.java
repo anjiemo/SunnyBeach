@@ -3,12 +3,7 @@ package cn.cqautotest.sunnybeach.manager;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -254,33 +249,6 @@ public final class ActivityManager implements Application.ActivityLifecycleCallb
     private static String getObjectTag(Object object) {
         // 对象所在的包名 + 对象的内存地址
         return object.getClass().getName() + Integer.toHexString(object.hashCode());
-    }
-
-    /**
-     * 创建并添加哀悼风格
-     *
-     * @param activity Activity
-     */
-    public void createMourningStyle(@NonNull Activity activity) {
-        Window window = activity.getWindow();
-        View decorView = window.getDecorView();
-        Paint paint = new Paint();
-        ColorMatrix cm = new ColorMatrix();
-        cm.setSaturation(0);
-        paint.setColorFilter(new ColorMatrixColorFilter(cm));
-        decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
-    }
-
-    /**
-     * 清除哀悼风格
-     *
-     * @param activity Activity
-     */
-    public void removeMourningStyle(@NonNull Activity activity) {
-        Window window = activity.getWindow();
-        View decorView = window.getDecorView();
-        Paint paint = new Paint();
-        decorView.setLayerType(View.LAYER_TYPE_NONE, paint);
     }
 
     /**

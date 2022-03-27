@@ -251,6 +251,10 @@ object Repository {
         launchAndGetData { AppNetwork.checkAppUpdate() }
     }
 
+    fun getMourningCalendar(): LiveData<Result<List<MourningCalendar>>> = liveData(Dispatchers.IO) {
+        launchAndGetData { AppNetwork.getMourningCalendar() }
+    }
+
     fun setPhotoIdList(photoIdList: List<WallpaperBean.Res.Vertical>) {
         if (photoIdList !== cachePhotoIdList) {
             cachePhotoIdList.clear()
