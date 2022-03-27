@@ -3,11 +3,32 @@
 package cn.cqautotest.sunnybeach.util
 
 import android.graphics.Color
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import com.blankj.utilcode.util.TouchUtils
+
+/**
+ * 设置哀悼风格
+ */
+fun View.setMourningStyle() {
+    val paint = Paint()
+    val cm = ColorMatrix()
+    cm.setSaturation(0f)
+    paint.colorFilter = ColorMatrixColorFilter(cm)
+    setLayerType(View.LAYER_TYPE_HARDWARE, paint)
+}
+
+/**
+ * 清除哀悼风格
+ */
+fun View.removeMourningStyle() {
+    setLayerType(View.LAYER_TYPE_NONE, Paint())
+}
 
 @JvmOverloads
 fun View.setRoundRectBg(color: Int = Color.WHITE, cornerRadius: Int = 15.dp) {
