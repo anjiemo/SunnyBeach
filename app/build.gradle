@@ -306,6 +306,7 @@ dependencies {
 
     // 多语种：https://github.com/getActivity/MultiLanguages
     // 悬浮窗：https://github.com/getActivity/XToast
+    implementation 'com.github.getActivity:XToast:8.5'
     // 日志输出：https://github.com/getActivity/Logcat
     debugImplementation 'com.github.getActivity:Logcat:10.0'
     // 工具类：https://github.com/Blankj/AndroidUtilCode

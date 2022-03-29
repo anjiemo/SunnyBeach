@@ -52,7 +52,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * 注册账号
      */
-    fun registerAccount(user: User) = Repository.registerAccount(user)
+    fun registerAccount(smsCode: String, user: User) = Repository.registerAccount(smsCode, user)
 
     /**
      * 获取注册的手机验证码（注册）

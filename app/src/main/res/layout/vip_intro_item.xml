@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hjq.shape.layout.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="8dp"
+    app:shape_radius="10dp"
+    app:shape_solidColor="@color/white">
 
     <ImageView
         android:id="@+id/iv_icon"
@@ -35,4 +37,4 @@
         android:textColor="@color/default_font_color"
         android:textSize="18sp" />
 
-</LinearLayout>
+</com.hjq.shape.layout.ShapeLinearLayout>
