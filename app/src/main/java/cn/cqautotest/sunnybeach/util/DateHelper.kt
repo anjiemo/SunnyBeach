@@ -1,7 +1,6 @@
 package cn.cqautotest.sunnybeach.util
 
 import com.blankj.utilcode.util.TimeUtils
-import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -50,7 +49,7 @@ object DateHelper {
         return try {
             date.replaceRange(lastIndexOf, date.length, "")
         } catch (e: IndexOutOfBoundsException) {
-            Timber.d("传入的参数不是 yyyy-MM-dd HH:mm:ss.0 格式")
+            // Timber.d("传入的参数不是 yyyy-MM-dd HH:mm:ss.0 格式")
             // e.printStackTrace()
             date
         }

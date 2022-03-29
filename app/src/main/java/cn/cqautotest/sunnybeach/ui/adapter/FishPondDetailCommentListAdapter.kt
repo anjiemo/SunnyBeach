@@ -73,7 +73,7 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
-    @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: FishDetailCommendListViewHolder, position: Int) {
         val item = getItem(position) ?: return
         val itemView = holder.itemView

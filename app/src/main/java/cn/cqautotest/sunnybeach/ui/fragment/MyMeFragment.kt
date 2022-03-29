@@ -57,6 +57,11 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     }
 
     override fun initEvent() {
+        checkToken { }
+        checkToken { }
+        checkToken { }
+        checkToken { }
+        checkToken { }
         val meContent = mBinding.meContent
         meContent.llUserInfoContainer.setFixOnClickListener {
             takeIfLogin {

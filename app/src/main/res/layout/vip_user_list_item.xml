@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hjq.shape.layout.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingVertical="18dp"
+    app:shape_radius="10dp"
+    app:shape_solidColor="@color/white">
 
     <FrameLayout
         android:id="@+id/fl_avatar_container"
@@ -26,8 +30,10 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
         android:layout_marginVertical="4dp"
+        android:ellipsize="end"
         android:gravity="center_horizontal"
+        android:maxLines="1"
         android:textColor="@color/pink"
         tools:text="A Lonely Cat" />
 
-</LinearLayout>
+</com.hjq.shape.layout.ShapeLinearLayout>

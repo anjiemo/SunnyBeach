@@ -13,6 +13,8 @@ import cn.cqautotest.sunnybeach.util.dp
 import cn.cqautotest.sunnybeach.util.isEmpty
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 
 /**
  *    author : A Lonely Cat
@@ -20,7 +22,7 @@ import cn.cqautotest.sunnybeach.widget.StatusLayout
  *    time   : 2022/02/04
  *    desc   : 贵宾列界面
  */
-class VipListFragment : AppFragment<CopyActivity>(), StatusAction {
+class VipListFragment : AppFragment<CopyActivity>(), StatusAction, OnRefreshListener {
 
     private val mBinding: VipListFragmentBinding by viewBinding()
     private val mUserViewModel by viewModels<UserViewModel>()
@@ -42,6 +44,7 @@ class VipListFragment : AppFragment<CopyActivity>(), StatusAction {
     private fun loadVipUserList() {
         showLoading()
         mUserViewModel.getVipUserList().observe(viewLifecycleOwner) {
+            mBinding.refreshLayout.finishRefresh()
             val vipUserSummaryList = it.getOrElse {
                 showError {
                     loadVipUserList()
@@ -55,6 +58,14 @@ class VipListFragment : AppFragment<CopyActivity>(), StatusAction {
                 showComplete()
             }
         }
+    }
+
+    override fun initEvent() {
+        mBinding.refreshLayout.setOnRefreshListener(this)
+    }
+
+    override fun onRefresh(refreshLayout: RefreshLayout) {
+        loadVipUserList()
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlVipUserListHint

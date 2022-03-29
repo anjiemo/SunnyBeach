@@ -19,14 +19,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_vip_user_list"
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="GridLayoutManager"
-            app:spanCount="3"
-            tools:itemCount="30"
-            tools:listitem="@layout/vip_user_list_item" />
+            app:srlEnableLoadMore="false">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_vip_user_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="GridLayoutManager"
+                app:spanCount="3"
+                tools:itemCount="30"
+                tools:listitem="@layout/vip_user_list_item" />
+
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
     </cn.cqautotest.sunnybeach.widget.StatusLayout>
 

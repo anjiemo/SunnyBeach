@@ -32,7 +32,10 @@ interface UserApi {
      * 注册账号
      */
     @POST("${SUNNY_BEACH_API_BASE_URL}uc/user/register/{smsCode}")
-    suspend fun registerAccount(@Body user: User): ApiResponse<Any>
+    suspend fun registerAccount(
+        @Path("smsCode") smsCode: String,
+        @Body user: User
+    ): ApiResponse<Any>
 
     /**
      * 获取注册的手机验证码（注册）

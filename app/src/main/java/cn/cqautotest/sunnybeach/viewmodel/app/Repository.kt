@@ -77,10 +77,10 @@ object Repository {
         emit(result)
     }
 
-    fun registerAccount(user: User) = liveData(Dispatchers.IO) {
+    fun registerAccount(smsCode: String, user: User) = liveData(Dispatchers.IO) {
         val result = try {
             coroutineScope {
-                val result = UserNetwork.registerAccount(user)
+                val result = UserNetwork.registerAccount(smsCode, user)
                 Timber.d("result is $result")
                 if (result.isSuccess()) JavaResult.success(result.getMessage())
                 else JavaResult.failure(result.getMessage())

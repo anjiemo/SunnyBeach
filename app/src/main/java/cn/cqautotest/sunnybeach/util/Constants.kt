@@ -44,6 +44,8 @@ const val MOURNING_CALENDAR_URL = "http://hm03097.h37.hmie.cn/blog/app/mourning_
 
 const val SUNNY_BEACH_USER_BASIC_INFO = "sunny_beach_user_basic_info"
 
+const val SUNNY_BEACH_USER_ACCOUNT_ENCRYPT_INFO = "sunny_beach_user_account_encrypt_info"
+
 // ==================反馈相关==================
 // 反馈Url地址
 const val MAKE_COMPLAINTS_URL = "https://support.qq.com/product/333302"
