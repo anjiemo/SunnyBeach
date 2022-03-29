@@ -25,7 +25,8 @@ object UserNetwork {
 
     suspend fun sendForgetSmsVerifyCode(smsInfo: SmsInfo) = userApi.sendForgetSmsVerifyCode(smsInfo)
 
-    suspend fun registerAccount(user: User) = userApi.registerAccount(user)
+    suspend fun registerAccount(smsCode: String, user: User) =
+        userApi.registerAccount(smsCode, user)
 
     suspend fun sendRegisterSmsVerifyCode(smsInfo: SmsInfo) =
         userApi.sendRegisterSmsVerifyCode(smsInfo)

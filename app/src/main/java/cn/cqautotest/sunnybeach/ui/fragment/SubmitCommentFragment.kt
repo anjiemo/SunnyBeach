@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
-import android.view.*
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.addTextChangedListener
@@ -66,6 +65,7 @@ class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction,
     private fun initView() {
         val etInputContent = mBinding.etInputContent
         etInputContent.setRoundRectBg(Color.parseColor("#F7F7F7"), 4.dp)
+        etInputContent.setDefaultEmojiParser()
         etInputContent.post {
             showKeyboard(etInputContent)
         }
@@ -106,7 +106,8 @@ class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction,
             // 判断输入的字符串长度是否超过最大长度
             mBinding.tvInputLength.setTextColor(if (isOverflow) overflowColor else normalColor)
         }
-        mBinding.tvSend.setFixOnClickListener { _ ->
+        mBinding.tvSend.setFixOnClickListener { view ->
+            view.isEnabled = false
             val momentId = getMomentId()
             val commentId = getCommentId()
             val targetUserId = getTargetUserId()
@@ -123,9 +124,11 @@ class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction,
             val textLengthIsOk = inputLength in 1..512
             takeIf { textLengthIsOk.not() }?.let {
                 simpleToast("请输入[1, 512)个字符~")
+                view.isEnabled = true
                 return@setFixOnClickListener
             }
             mFishPondViewModel.postComment(momentComment, isReply).observe(this) {
+                view.isEnabled = true
                 it.getOrElse { throwable ->
                     takeIf { throwable is ServiceException }?.let {
                         throwable.message?.let { msg ->

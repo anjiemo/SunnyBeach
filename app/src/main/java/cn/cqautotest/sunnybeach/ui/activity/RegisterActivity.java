@@ -29,6 +29,7 @@ import cn.cqautotest.sunnybeach.model.SmsInfo;
 import cn.cqautotest.sunnybeach.model.User;
 import cn.cqautotest.sunnybeach.other.IntentKey;
 import cn.cqautotest.sunnybeach.util.Constants;
+import cn.cqautotest.sunnybeach.util.StringKt;
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel;
 
 /**
@@ -191,12 +192,13 @@ public final class RegisterActivity extends AppActivity
             mCommitView.showProgress();
 
             String phoneNum = mPhoneView.getText().toString();
-            String password = mFirstPassword.getText().toString();
+            String verifyCode = mCodeView.getText().toString();
             String nickName = mNickNameView.getText().toString();
+            String password = mFirstPassword.getText().toString();
 
-            User user = new User(phoneNum, password, nickName);
+            User user = new User(phoneNum, StringKt.getMd5(password).toLowerCase(), nickName);
 
-            mUserViewModel.registerAccount(user).observe(this, result -> postDelayed(() -> {
+            mUserViewModel.registerAccount(verifyCode, user).observe(this, result -> postDelayed(() -> {
                 toast(result.getMessage());
                 if (result.isSuccess()) {
                     mCommitView.showSucceed();

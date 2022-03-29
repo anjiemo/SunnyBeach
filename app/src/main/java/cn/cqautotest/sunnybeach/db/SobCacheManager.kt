@@ -27,6 +27,7 @@ object SobCacheManager {
         when {
             url.contains("uc/user/login") ||
                     url.contains("uc/ut/join/send-sms") ||
+                    url.contains("uc/user/register") ||
                     url.contains("uc/ut/forget/send-sms") -> {
                 Timber.d("addHeadersByNeed：===> sobCaptchaKey is $sobCaptchaKey")
                 requestBuilder.addHeader(SOB_CAPTCHA_KEY_NAME, sobCaptchaKey)

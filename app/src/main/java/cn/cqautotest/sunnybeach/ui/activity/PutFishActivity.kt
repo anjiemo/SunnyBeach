@@ -61,10 +61,8 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
 
     @SuppressLint("SetTextI18n")
     override fun initView() {
-        mBinding.tvInputLength.apply {
-            text = "0/$INPUT_MAX_LENGTH"
-            setDefaultEmojiParser()
-        }
+        mBinding.etInputContent.setDefaultEmojiParser()
+        mBinding.tvInputLength.text = "0/$INPUT_MAX_LENGTH"
         val rvPreviewImage = mBinding.rvPreviewImage
         rvPreviewImage.apply {
             layoutManager = GridLayoutManager(context, 2)
@@ -188,11 +186,13 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     }
 
     override fun onRightClick(view: View?) {
+        view?.isEnabled = false
         // 校验内容是否合法，发布信息
         val inputLength = mBinding.etInputContent.length()
         val textLengthIsOk = inputLength in 5..INPUT_MAX_LENGTH
         takeIf { textLengthIsOk.not() }?.let {
             simpleToast("请输入[5, $INPUT_MAX_LENGTH]个字符~")
+            view?.isEnabled = true
             return
         }
 
@@ -220,6 +220,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             if (successImages.size != images.size) {
                 simpleToast("图片上传失败，请稍后重试")
                 hideDialog()
+                view?.isEnabled = true
                 return@launchWhenCreated
             }
             // 2021/9/12 填充 “链接”（客户端暂不支持），
@@ -233,6 +234,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             // 图片上传完成，可以发布摸鱼
             mFishPondViewModel.putFish(map).observe(this@PutFishActivity) {
                 hideDialog()
+                view?.isEnabled = true
                 it.getOrElse { throwable ->
                     simpleToast("发布失败😭 $throwable")
                     return@observe
