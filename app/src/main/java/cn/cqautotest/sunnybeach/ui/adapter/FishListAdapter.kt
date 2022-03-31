@@ -87,7 +87,6 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
         val item = getItem(position) ?: return
         val itemView = holder.itemView
         val binding = holder.binding
-        val flAvatarContainer = binding.flAvatarContainer
         val ivAvatar = binding.ivFishPondAvatar
         val tvNickName = binding.tvFishPondNickName
         val tvDesc = binding.tvFishPondDesc
@@ -116,19 +115,13 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
             mMenuItemClickListener.invoke(it, item, position)
         }
         val userId = item.userId
-        flAvatarContainer.setFixOnClickListener {
+        ivAvatar.setFixOnClickListener {
             if (TextUtils.isEmpty(userId)) {
                 return@setFixOnClickListener
             }
             ViewUserActivity.start(context, userId)
         }
-        flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
-        Glide.with(holder.itemView)
-            .load(item.avatar)
-            .placeholder(R.mipmap.ic_default_avatar)
-            .error(R.mipmap.ic_default_avatar)
-            .circleCrop()
-            .into(ivAvatar)
+        ivAvatar.loadAvatar(item.vip, item.avatar)
         tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
         tvNickName.text = item.nickname
         tvDesc.text =

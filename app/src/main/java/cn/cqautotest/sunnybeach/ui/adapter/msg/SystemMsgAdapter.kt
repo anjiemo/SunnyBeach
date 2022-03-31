@@ -50,7 +50,6 @@ class SystemMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     override fun onBindViewHolder(holder: SystemMsgViewHolder, position: Int) {
         val itemView = holder.itemView
         val binding = holder.binding
-        val flAvatarContainer = binding.flAvatarContainer
         val ivAvatar = binding.ivAvatar
         val cbNickName = binding.cbNickName
         val tvDesc = binding.tvDesc
@@ -61,7 +60,6 @@ class SystemMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         itemView.setFixOnClickListener {
             adapterDelegate.onItemClick(it, position)
         }
-        // flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
         Glide.with(itemView)
             .load(R.mipmap.ic_gold)
             .placeholder(R.mipmap.ic_gold)

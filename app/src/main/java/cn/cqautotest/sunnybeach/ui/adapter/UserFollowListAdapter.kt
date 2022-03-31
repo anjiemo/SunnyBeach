@@ -16,7 +16,6 @@ import cn.cqautotest.sunnybeach.other.FriendsStatus
 import cn.cqautotest.sunnybeach.util.dp
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import cn.cqautotest.sunnybeach.util.setRoundRectBg
-import com.bumptech.glide.Glide
 
 /**
  * author : A Lonely Cat
@@ -65,7 +64,6 @@ class UserFollowListAdapter(private val adapterDelegate: AdapterDelegate) :
         val item = getItem(position) ?: return
         val itemView = holder.itemView
         val binding = holder.binding
-        val flAvatarContainer = binding.flAvatarContainer
         val ivAvatar = binding.ivAvatar
         val tvNickName = binding.tvNickName
         val tvDesc = binding.tvDesc
@@ -74,13 +72,7 @@ class UserFollowListAdapter(private val adapterDelegate: AdapterDelegate) :
         itemView.setFixOnClickListener {
             mItemClickListener.invoke(item, position)
         }
-        flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
-        Glide.with(context)
-            .load(item.avatar)
-            .placeholder(R.mipmap.ic_default_avatar)
-            .error(R.mipmap.ic_default_avatar)
-            .circleCrop()
-            .into(ivAvatar)
+        ivAvatar.loadAvatar(item.vip, item.avatar)
         tvNickName.text = item.nickname
         val nickNameColor = if (item.vip) ContextCompat.getColor(context, R.color.pink)
         else Color.BLACK

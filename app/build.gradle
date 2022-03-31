@@ -366,10 +366,10 @@ dependencies {
     implementation 'skin.support:skin-support-cardview:4.0.5'
     // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
     implementation 'skin.support:skin-support-constraint-layout:4.0.5'
-    // // 提高 Android UI 开发效率的 UI 库：https://github.com/Tencent/QMUI_Android
-    // implementation "com.qmuiteam:qmui:$qmui_arch_version"
-    // implementation "com.qmuiteam:arch:$qmui_arch_version"
-    // kapt "com.qmuiteam:arch-compiler:$qmui_arch_version"
+    // 提高 Android UI 开发效率的 UI 库：https://github.com/Tencent/QMUI_Android
+    implementation "com.qmuiteam:qmui:$qmui_arch_version"
+    implementation "com.qmuiteam:arch:$qmui_arch_version"
+    kapt "com.qmuiteam:arch-compiler:$qmui_arch_version"
     // 华为统一扫码服务：https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/service-introduction-0000001050041994
     implementation 'com.huawei.agconnect:agconnect-core:1.5.2.300'
     implementation 'com.huawei.hms:scan:2.4.0.301'

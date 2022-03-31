@@ -6,24 +6,17 @@
     android:layout_height="wrap_content"
     android:background="@drawable/item_selector_ic">
 
-    <FrameLayout
-        android:id="@+id/fl_avatar_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <cn.cqautotest.sunnybeach.widget.AvatarDecorView
+        android:id="@+id/iv_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/iv_avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            tools:src="@mipmap/ic_avatar" />
-
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@mipmap/ic_avatar" />
 
     <TextView
         android:id="@+id/tv_nick_name"
@@ -39,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tv_follow"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/fl_avatar_container"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -52,7 +45,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tv_follow"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/fl_avatar_container"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
         app:layout_constraintTop_toBottomOf="@id/tv_nick_name" />
 
     <TextView

@@ -6,13 +6,11 @@ import androidx.core.text.HtmlCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.AtMeMsgListItemBinding
 import cn.cqautotest.sunnybeach.model.msg.AtMeMsg
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.blankj.utilcode.util.TimeUtils
-import com.bumptech.glide.Glide
 
 /**
  * author : A Lonely Cat
@@ -50,7 +48,6 @@ class AtMeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     override fun onBindViewHolder(holder: AtMeMsgViewHolder, position: Int) {
         val itemView = holder.itemView
         val binding = holder.binding
-        val flAvatarContainer = binding.flAvatarContainer
         val ivAvatar = binding.ivAvatar
         val cbNickName = binding.cbNickName
         val tvDesc = binding.tvDesc
@@ -61,13 +58,7 @@ class AtMeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         itemView.setFixOnClickListener {
             adapterDelegate.onItemClick(it, position)
         }
-        // flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
-        Glide.with(itemView)
-            .load(item.avatar)
-            .placeholder(R.mipmap.ic_default_avatar)
-            .error(R.mipmap.ic_default_avatar)
-            .circleCrop()
-            .into(ivAvatar)
+        ivAvatar.loadAvatar(false, item.avatar)
         cbNickName.text = item.nickname
         val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
         tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.publishTime, sdf)

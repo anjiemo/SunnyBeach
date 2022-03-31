@@ -12,7 +12,6 @@ import cn.cqautotest.sunnybeach.ui.activity.*
 import cn.cqautotest.sunnybeach.ui.activity.weather.MainActivity
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
-import com.bumptech.glide.Glide
 import com.google.android.material.badge.BadgeUtils
 
 /**
@@ -40,14 +39,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         val meContent = mBinding.meContent
         checkToken {
             val userBasicInfo = it.getOrNull()
-            val flAvatarContainer = meContent.flAvatarContainer
-            flAvatarContainer.background = UserManager.getAvatarPendant(UserManager.currUserIsVip())
-            Glide.with(this)
-                .load(userBasicInfo?.avatar)
-                .placeholder(R.mipmap.ic_default_avatar)
-                .error(R.mipmap.ic_default_avatar)
-                .circleCrop()
-                .into(meContent.imageAvatar)
+            meContent.imageAvatar.loadAvatar(UserManager.currUserIsVip(), userBasicInfo?.avatar)
             meContent.textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
         }
         mMsgViewModel.getUnReadMsgCount().observe(viewLifecycleOwner) {
@@ -57,11 +49,6 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     }
 
     override fun initEvent() {
-        checkToken { }
-        checkToken { }
-        checkToken { }
-        checkToken { }
-        checkToken { }
         val meContent = mBinding.meContent
         meContent.llUserInfoContainer.setFixOnClickListener {
             takeIfLogin {

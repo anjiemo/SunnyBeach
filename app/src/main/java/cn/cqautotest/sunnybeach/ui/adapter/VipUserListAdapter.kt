@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.VipUserListItemBinding
-import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.VipUserInfoSummary
-import com.bumptech.glide.Glide
 
 /**
  * author : A Lonely Cat
@@ -35,11 +33,7 @@ class VipUserListAdapter : RecyclerView.Adapter<VipUserListAdapter.ViewHolder>()
         RecyclerView.ViewHolder(binding.root) {
 
         fun binding(item: VipUserInfoSummary, position: Int) {
-            binding.flAvatarContainer.background = UserManager.getAvatarPendant(true)
-            Glide.with(itemView)
-                .load(item.avatar)
-                .circleCrop()
-                .into(binding.ivAvatar)
+            binding.ivAvatar.loadAvatar(true, item.avatar)
             binding.tvNickName.text = item.nickname
             itemView.setOnClickListener {
                 mListener.invoke(item, position)

@@ -18,7 +18,6 @@ import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.fragment.UserMediaFragment
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
-import com.bumptech.glide.Glide
 import timber.log.Timber
 
 /**
@@ -89,13 +88,7 @@ class ViewUserActivity : AppActivity() {
     private fun setUpUserInfo(userId: String) {
         mUserViewModel.getUserInfo(userId).observe(this) {
             val userInfo = it.getOrNull() ?: return@observe
-            mBinding.flAvatarContainer.background = UserManager.getAvatarPendant(userInfo.vip)
-            Glide.with(this)
-                .load(userInfo.avatar)
-                .placeholder(R.mipmap.ic_default_avatar)
-                .error(R.mipmap.ic_default_avatar)
-                .circleCrop()
-                .into(mBinding.ivAvatar)
+            mBinding.ivAvatar.loadAvatar(userInfo.vip, userInfo.avatar)
             mBinding.tvNickName.text = userInfo.nickname
             mBinding.tvNickName.setTextColor(UserManager.getNickNameColor(userInfo.vip))
             mBinding.tvDesc.text = "${userInfo.position}@${userInfo.company}"

@@ -22,20 +22,13 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <FrameLayout
-            android:id="@+id/fl_avatar_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <cn.cqautotest.sunnybeach.widget.AvatarDecorView
+            android:id="@+id/image_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="10dp">
-
-            <ImageView
-                android:id="@+id/image_avatar"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@mipmap/ic_default_avatar" />
-
-        </FrameLayout>
+            android:layout_marginVertical="10dp"
+            android:src="@mipmap/ic_default_avatar" />
 
         <LinearLayout
             android:layout_width="0px"

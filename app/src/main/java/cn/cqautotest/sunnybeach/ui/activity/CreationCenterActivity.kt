@@ -10,7 +10,6 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.adapter.AchievementAdapter
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
-import com.bumptech.glide.Glide
 
 /**
  * author : A Lonely Cat
@@ -51,14 +50,7 @@ class CreationCenterActivity : AppActivity() {
     override fun initObserver() {
         checkToken {
             val userBasicInfo = it.getOrNull()
-            val flAvatarContainer = mBinding.flAvatarContainer
-            flAvatarContainer.background = UserManager.getAvatarPendant(UserManager.currUserIsVip())
-            Glide.with(this)
-                .load(userBasicInfo?.avatar)
-                .placeholder(R.mipmap.ic_default_avatar)
-                .error(R.mipmap.ic_default_avatar)
-                .circleCrop()
-                .into(mBinding.imageAvatar)
+            mBinding.imageAvatar.loadAvatar(UserManager.currUserIsVip(), userBasicInfo?.avatar)
             mBinding.textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
         }
         mUserViewModel.getAchievement().observe(this) {
