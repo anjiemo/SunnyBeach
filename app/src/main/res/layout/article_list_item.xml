@@ -19,21 +19,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <FrameLayout
-            android:id="@+id/fl_avatar_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <cn.cqautotest.sunnybeach.widget.AvatarDecorView
+            android:id="@+id/iv_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp">
-
-            <ImageView
-                android:id="@+id/iv_avatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                tools:src="@mipmap/ic_avatar" />
-
-        </FrameLayout>
+            android:layout_marginBottom="10dp"
+            tools:src="@mipmap/ic_avatar" />
 
         <RelativeLayout
             android:layout_width="match_parent"

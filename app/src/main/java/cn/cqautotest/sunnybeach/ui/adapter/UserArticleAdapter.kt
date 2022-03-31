@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,14 +8,12 @@ import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.ArticleListItemBinding
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserArticle
 import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
-import com.bumptech.glide.Glide
 
 /**
  * author : A Lonely Cat
@@ -78,10 +77,10 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val itemView = holder.itemView
         val binding = holder.binding
-        val flAvatarContainer = binding.flAvatarContainer
         val ivAvatar = binding.ivAvatar
         val tvArticleTitle = binding.tvArticleTitle
         val tvNickName = binding.tvNickName
@@ -100,13 +99,7 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         llShare.setFixOnClickListener {
             mMenuItemClickListener.invoke(it, item, position)
         }
-        flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
-        Glide.with(itemView)
-            .load(item.avatar)
-            .placeholder(R.mipmap.ic_default_avatar)
-            .error(R.mipmap.ic_default_avatar)
-            .circleCrop()
-            .into(ivAvatar)
+        ivAvatar.loadAvatar(item.vip, item.avatar)
         tvArticleTitle.text = item.title
         tvNickName.text =
             "${item.nickname} · ${DateHelper.getFriendlyTimeSpanByNow(item.createTime)}"

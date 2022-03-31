@@ -13,7 +13,7 @@ fun TextView.setDefaultEmojiParser() {
     filters = Array(1) { EmojiInputFilter() }
 }
 
-fun TextView.addDefaultEmojiParser(): EmojiInputFilter {
+fun TextView.addDefaultEmojiParser() {
     val emojiInputFilter = EmojiInputFilter()
     filters = if (filters.isEmpty()) {
         // 如果没有表情输入过滤器，则添加一个
@@ -24,7 +24,6 @@ fun TextView.addDefaultEmojiParser(): EmojiInputFilter {
         filterList.add(emojiInputFilter)
         filterList.toTypedArray()
     }
-    return emojiInputFilter
 }
 
 fun TextView.clearText() {

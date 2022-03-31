@@ -28,6 +28,7 @@ class EmptyFragment : AppFragment<AppActivity>() {
         mBinding.emptyDescription.setOnItemClickListener { menuItem, position ->
             simpleToast("我是${menuItem.title}操作菜单，index：$position")
         }
+        mBinding.ivAvatarDecorView.loadAvatar(resource = R.drawable.login_qq_ic, vip = true)
     }
 
     override fun initData() {

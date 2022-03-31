@@ -12,7 +12,6 @@ import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
@@ -20,7 +19,6 @@ import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.setDefaultEmojiParser
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import com.bumptech.glide.Glide
 
 /**
  * author : A Lonely Cat
@@ -78,7 +76,6 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
         val item = getItem(position) ?: return
         val itemView = holder.itemView
         val binding = holder.binding
-        val flAvatarContainer = binding.flAvatarContainer
         val ivAvatar = binding.ivFishPondAvatar
         val tvNickName = binding.cbFishPondNickName
         val ivPondComment = binding.ivFishPondComment
@@ -90,19 +87,13 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
         val tvChildReplyMsgAll = binding.tvChildReplyMsgAll
         val context = itemView.context
         val userId = item.getUserId()
-        flAvatarContainer.setFixOnClickListener {
+        ivAvatar.setFixOnClickListener {
             if (TextUtils.isEmpty(userId)) {
                 return@setFixOnClickListener
             }
             ViewUserActivity.start(context, userId)
         }
-        flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
-        Glide.with(holder.itemView)
-            .load(item.avatar)
-            .placeholder(R.mipmap.ic_default_avatar)
-            .error(R.mipmap.ic_default_avatar)
-            .circleCrop()
-            .into(ivAvatar)
+        ivAvatar.loadAvatar(item.vip, item.avatar)
         ivPondComment.setFixOnClickListener {
             mCommentClickListener.invoke(item, position)
         }
