@@ -7,23 +7,16 @@
     android:orientation="horizontal"
     android:padding="10dp">
 
-    <FrameLayout
-        android:id="@+id/fl_avatar_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="消息图标"
+        android:padding="4dp"
+        android:src="@mipmap/ic_gold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/iv_avatar"
-            android:layout_width="40dp"
-            android:padding="4dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="消息图标"
-            android:src="@mipmap/ic_gold" />
-
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/ll_top_container"
@@ -32,7 +25,7 @@
         android:layout_marginStart="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/fl_avatar_container"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
         app:layout_constraintTop_toTopOf="parent">
 
         <CheckBox
@@ -65,7 +58,7 @@
         android:textColor="@color/default_font_color"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/fl_avatar_container"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
         app:layout_constraintTop_toBottomOf="@id/ll_top_container" />
 
     <TextView
@@ -79,7 +72,7 @@
         android:lineSpacingMultiplier="1.2"
         app:layout_constraintBottom_toTopOf="@+id/tv_build_reply_msg_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/fl_avatar_container"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
         app:layout_constraintTop_toBottomOf="@id/tv_desc" />
 
     <LinearLayout

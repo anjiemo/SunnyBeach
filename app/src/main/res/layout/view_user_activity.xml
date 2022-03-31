@@ -15,24 +15,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <FrameLayout
-        android:id="@+id/fl_avatar_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <cn.cqautotest.sunnybeach.widget.AvatarDecorView
+        android:id="@+id/iv_avatar"
+        android:layout_width="76dp"
+        android:layout_height="76dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="10dp"
         android:elevation="1dp"
+        android:src="@mipmap/ic_default_avatar"
         app:layout_constraintBottom_toBottomOf="@id/title_bar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_bar">
-
-        <ImageView
-            android:id="@+id/iv_avatar"
-            android:layout_width="76dp"
-            android:layout_height="76dp"
-            android:src="@mipmap/ic_default_avatar" />
-
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@id/title_bar" />
 
     <LinearLayout
         android:id="@+id/ll_user_introduction"
@@ -55,8 +48,8 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toStartOf="@id/tv_follow"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@id/fl_avatar_container"
-        app:layout_constraintTop_toBottomOf="@id/fl_avatar_container">
+        app:layout_constraintStart_toStartOf="@id/iv_avatar"
+        app:layout_constraintTop_toBottomOf="@id/iv_avatar">
 
         <TextView
             android:id="@+id/tv_nick_name"
@@ -92,7 +85,7 @@
         android:text="+ 关注"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fl_avatar_container" />
+        app:layout_constraintTop_toBottomOf="@id/iv_avatar" />
 
     <LinearLayout
         android:id="@+id/ll_achievement_container"

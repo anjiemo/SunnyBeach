@@ -10,19 +10,12 @@
     app:shape_radius="10dp"
     app:shape_solidColor="@color/white">
 
-    <FrameLayout
-        android:id="@+id/fl_avatar_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="4dp">
-
-        <ImageView
-            android:id="@+id/iv_avatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            tools:src="@mipmap/ic_default_avatar" />
-
-    </FrameLayout>
+    <cn.cqautotest.sunnybeach.widget.AvatarDecorView
+        android:id="@+id/iv_avatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginVertical="4dp"
+        tools:src="@mipmap/ic_default_avatar" />
 
     <TextView
         android:id="@+id/tv_nick_name"

@@ -10,12 +10,10 @@ import androidx.core.text.HtmlCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.QaMsgListItemBinding
 import cn.cqautotest.sunnybeach.model.msg.QaMsg
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import com.bumptech.glide.Glide
 
 /**
  * author : A Lonely Cat
@@ -47,7 +45,6 @@ class QaMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     override fun onBindViewHolder(holder: QAMsgViewHolder, position: Int) {
         val itemView = holder.itemView
         val binding = holder.binding
-        val flAvatarContainer = binding.flAvatarContainer
         val ivAvatar = binding.ivAvatar
         val cbNickName = binding.cbNickName
         val tvDesc = binding.tvDesc
@@ -58,14 +55,8 @@ class QaMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         itemView.setFixOnClickListener {
             adapterDelegate.onItemClick(it, position)
         }
-        // flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
-        Glide.with(itemView)
-            .load(item.avatar)
-            .placeholder(R.mipmap.ic_default_avatar)
-            .error(R.mipmap.ic_default_avatar)
-            .circleCrop()
-            .into(ivAvatar)
         cbNickName.text = item.nickname
+        ivAvatar.loadAvatar(false, item.avatar)
         tvDesc.text = item.timeText
         tvReplyMsg.height = 0
         val preText = "回答了朕的提问：「"

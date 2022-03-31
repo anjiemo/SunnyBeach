@@ -23,7 +23,6 @@ import cn.cqautotest.sunnybeach.ui.adapter.FishCommendDetailListAdapter
 import cn.cqautotest.sunnybeach.ui.fragment.SubmitCommentFragment
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.KeyboardViewModel
-import com.bumptech.glide.Glide
 import timber.log.Timber
 
 /**
@@ -68,20 +67,13 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener,
         val tvReplyAndGreat = mBinding.tvReplyAndGreat
         tvReplyAndGreat.text = "${item.subComments.size} 回复  |  ${item.thumbUp} 赞"
         val fishPondDetailComment = mBinding.fishPondDetailComment
-        val flAvatarContainer = fishPondDetailComment.flAvatarContainer
         val ivAvatar = fishPondDetailComment.ivFishPondAvatar
         val tvNickName = fishPondDetailComment.cbFishPondNickName
         fishPondDetailComment.ivFishPondComment.isVisible = false
         val tvDesc = fishPondDetailComment.tvFishPondDesc
         val tvReply = fishPondDetailComment.tvReplyMsg
         val tvBuildReplyMsgContainer = fishPondDetailComment.tvBuildReplyMsgContainer
-        flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
-        Glide.with(this)
-            .load(item.avatar)
-            .placeholder(R.mipmap.ic_default_avatar)
-            .error(R.mipmap.ic_default_avatar)
-            .circleCrop()
-            .into(ivAvatar)
+        ivAvatar.loadAvatar(item.vip, item.avatar)
         tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
         tvNickName.text = item.getNickName()
         // 摸鱼详情列表的时间没有精确到秒
@@ -97,8 +89,8 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener,
     @SuppressLint("ClickableViewAccessibility")
     override fun initEvent() {
         val fishPondDetailComment = mBinding.fishPondDetailComment
-        val flAvatarContainer = fishPondDetailComment.flAvatarContainer
-        flAvatarContainer.setFixOnClickListener {
+        val ivFishPondAvatar = fishPondDetailComment.ivFishPondAvatar
+        ivFishPondAvatar.setFixOnClickListener {
             val item: FishPondComment.FishPondCommentItem = getFishPondCommentItem()
             val userId = item.getUserId()
             if (TextUtils.isEmpty(userId)) {

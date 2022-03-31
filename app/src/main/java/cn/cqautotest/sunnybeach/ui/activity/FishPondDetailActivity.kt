@@ -130,7 +130,6 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGesture.OnSlid
             mNickName = item.nickname
             showComplete()
             val fishPond = mBinding.fishPond
-            val flAvatarContainer = fishPond.flAvatarContainer
             val ivAvatar = fishPond.ivFishPondAvatar
             val tvNickname = fishPond.tvFishPondNickName
             val tvDesc = fishPond.tvFishPondDesc
@@ -149,13 +148,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGesture.OnSlid
             val tvGreat = fishPond.listMenuItem.tvGreat
             val clReplyContainer = mBinding.commentContainer.clReplyContainer
             llFishItemContainer.setRoundRectBg(color = Color.WHITE, cornerRadius = 10.dp)
-            flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
-            Glide.with(this)
-                .load(item.avatar)
-                .placeholder(R.mipmap.ic_default_avatar)
-                .error(R.mipmap.ic_default_avatar)
-                .circleCrop()
-                .into(ivAvatar)
+            ivAvatar.loadAvatar(item.vip, item.avatar)
             tvNickname.setTextColor(UserManager.getNickNameColor(item.vip))
             tvNickname.text = item.nickname
             tvDesc.text = "${item.position} · " +

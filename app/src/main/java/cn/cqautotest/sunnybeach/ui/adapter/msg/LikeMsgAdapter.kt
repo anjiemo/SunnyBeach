@@ -6,12 +6,10 @@ import androidx.core.text.HtmlCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.LikeMsgListItemBinding
 import cn.cqautotest.sunnybeach.model.msg.LikeMsg
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import com.bumptech.glide.Glide
 
 /**
  * author : A Lonely Cat
@@ -50,7 +48,6 @@ class LikeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     override fun onBindViewHolder(holder: LikeMsgViewHolder, position: Int) {
         val itemView = holder.itemView
         val binding = holder.binding
-        val flAvatarContainer = binding.flAvatarContainer
         val ivAvatar = binding.ivAvatar
         val cbNickName = binding.cbNickName
         val tvDesc = binding.tvDesc
@@ -61,13 +58,7 @@ class LikeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         itemView.setFixOnClickListener {
             adapterDelegate.onItemClick(it, position)
         }
-        // flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
-        Glide.with(itemView)
-            .load(item.avatar)
-            .placeholder(R.mipmap.ic_default_avatar)
-            .error(R.mipmap.ic_default_avatar)
-            .circleCrop()
-            .into(ivAvatar)
+        ivAvatar.loadAvatar(false, item.avatar)
         cbNickName.text = item.nickname
         tvDesc.text = item.timeText
         tvReplyMsg.height = 0
