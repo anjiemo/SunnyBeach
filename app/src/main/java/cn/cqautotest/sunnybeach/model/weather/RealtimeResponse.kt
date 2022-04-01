@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnyweather.logic.model
+package cn.cqautotest.sunnybeach.model.weather
 
 import com.google.gson.annotations.SerializedName
 

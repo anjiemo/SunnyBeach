@@ -238,13 +238,13 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:$work_version")
 
     // 权限请求框架：https://github.com/getActivity/XXPermissions
-    implementation 'com.github.getActivity:XXPermissions:12.3'
+    implementation 'com.github.getActivity:XXPermissions:13.2'
 
     // 标题栏框架：https://github.com/getActivity/TitleBar
-    implementation 'com.github.getActivity:TitleBar:9.2'
+    implementation 'com.github.getActivity:TitleBar:9.3'
 
     // 吐司框架：https://github.com/getActivity/ToastUtils
-    implementation 'com.github.getActivity:ToastUtils:9.5'
+    implementation 'com.github.getActivity:ToastUtils:10.0'
 
     // 网络请求框架：https://github.com/getActivity/EasyHttp
     implementation 'com.github.getActivity:EasyHttp:10.2'
@@ -262,14 +262,14 @@ dependencies {
     implementation 'com.github.getActivity:GsonFactory:5.2'
 
     // Shape 框架：https://github.com/getActivity/ShapeView
-    implementation 'com.github.getActivity:ShapeView:6.0'
+    // implementation 'com.github.getActivity:ShapeView:6.0'
 
     // AOP 插件库：https://mvnrepository.com/artifact/org.aspectj/aspectjrt
     implementation 'org.aspectj:aspectjrt:1.9.6'
 
     // 图片加载框架：https://github.com/bumptech/glide
     // 官方使用文档：https://muyangmin.github.io/glide-docs-cn/
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.github.bumptech.glide:glide:4.13.0'
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.12.0'
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
