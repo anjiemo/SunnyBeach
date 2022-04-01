@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity.weather
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,11 +16,11 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.WeatherActivityBinding
 import cn.cqautotest.sunnybeach.model.weather.DailyResponse
+import cn.cqautotest.sunnybeach.model.weather.Weather
 import cn.cqautotest.sunnybeach.model.weather.getSky
 import cn.cqautotest.sunnybeach.util.simpleToast
 import cn.cqautotest.sunnybeach.util.toJson
 import cn.cqautotest.sunnybeach.viewmodel.weather.WeatherViewModel
-import cn.cqautotest.sunnyweather.logic.model.Weather
 
 class WeatherActivity : AppCompatActivity() {
 
@@ -136,5 +137,15 @@ class WeatherActivity : AppCompatActivity() {
         binding.life.carWashingText.text = lifeIndex.carWashing[0].desc
 
         binding.weatherLayout.visibility = View.VISIBLE
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        overridePendingTransition(R.anim.left_in_activity, R.anim.left_out_activity)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.left_in_activity, R.anim.left_out_activity)
     }
 }

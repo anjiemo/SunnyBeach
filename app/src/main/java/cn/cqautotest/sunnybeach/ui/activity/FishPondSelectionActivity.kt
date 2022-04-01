@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.app.Activity
 import android.content.Intent
-import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -15,6 +14,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.FishPondSelectionAdapter
 import cn.cqautotest.sunnybeach.util.toJson
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.hjq.bar.TitleBar
 
 /**
  * author : A Lonely Cat
@@ -70,7 +70,7 @@ class FishPondSelectionActivity : AppActivity(), StatusAction {
         }
     }
 
-    override fun onRightClick(view: View?) {
+    override fun onRightClick(titleBar: TitleBar?) {
         setResult(Activity.RESULT_OK, null)
         finish()
     }
