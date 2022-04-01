@@ -10,9 +10,9 @@ import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.*
 import cn.cqautotest.sunnybeach.model.weather.Place
+import cn.cqautotest.sunnybeach.model.weather.Weather
 import cn.cqautotest.sunnybeach.util.md5
 import cn.cqautotest.sunnybeach.util.toJson
-import cn.cqautotest.sunnyweather.logic.model.Weather
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope

@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.hjq.bar.TitleBar;
 import com.hjq.base.BaseActivity;
 import com.hjq.base.BaseAdapter;
 import com.hjq.permissions.Permission;
@@ -160,7 +161,7 @@ public final class ImageSelectActivity extends AppActivity
 
     @SingleClick
     @Override
-    public void onRightClick(View view) {
+    public void onRightClick(TitleBar titleBar) {
         if (mAllImage.isEmpty()) {
             return;
         }

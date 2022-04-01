@@ -108,14 +108,14 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
         val buildHeight = subComments.size
         tvBuildReplyMsgContainer.isVisible = subComments.isNotEmpty()
         tvChildReplyMsg.isVisible = false
+        tvChildReplyMsg.setDefaultEmojiParser()
         subComments.getOrNull(0)?.let {
-            tvChildReplyMsg1.setDefaultEmojiParser()
             tvChildReplyMsg.text = getBeautifiedFormat(it, item)
             tvChildReplyMsg.isVisible = true
         }
         tvChildReplyMsg1.isVisible = false
+        tvChildReplyMsg1.setDefaultEmojiParser()
         subComments.getOrNull(1)?.let {
-            tvChildReplyMsg1.setDefaultEmojiParser()
             tvChildReplyMsg1.text = getBeautifiedFormat(it, item)
             tvChildReplyMsg1.isVisible = true
         }
