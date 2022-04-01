@@ -25,25 +25,45 @@ class AvatarDecorView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : AppCompatImageView(context, attrs) {
 
-    private val defaultAvatar = ContextCompat.getDrawable(context, R.mipmap.ic_default_avatar)
-    var borderDrawable = GradientDrawable().apply {
+    // 默认头像 drawable
+    private val defAvatarDrawable = ContextCompat.getDrawable(context, R.mipmap.ic_default_avatar)
+
+    // 边框 drawable
+    private val decorDrawable = GradientDrawable().apply {
         shape = GradientDrawable.OVAL
         setStroke(1.dp, ContextCompat.getColor(context, R.color.pink))
     }
-    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val bitmap = ImageUtils.getBitmap(R.drawable.ic_flash)
+
+    // 前景徽章图标的画笔
+    private val badgePaint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+    // 小徽章 bitmap
+    private val badgeBitmap = ImageUtils.getBitmap(R.drawable.ic_flash)
+
+    // 缩放因子
     private val scaleFactor = 0.22f
+
+    // 缩放矩阵
     private val scaleMatrix = scaleMatrix(scaleFactor, scaleFactor)
 
+    // 是否为 VIP
     var isVip: Boolean = false
 
     init {
-        if (drawable == null) setImageDrawable(defaultAvatar)
+        // 如果 xml 里没有设置资源图片，则设置默认的头像 drawable
+        if (drawable == null) setImageDrawable(defAvatarDrawable)
     }
 
+    /**
+     * 加载头像（剪裁成圆形）
+     * 参数：
+     * 1、是否为 VIP
+     * 2、资源
+     * 3、边框的自定义配置
+     */
     fun loadAvatar(vip: Boolean = false, resource: Any?, block: GradientDrawable.() -> Unit = {}) {
         isVip = vip
-        block.invoke(borderDrawable)
+        block.invoke(decorDrawable)
         GlideApp.with(this)
             .load(resource)
             .placeholder(R.mipmap.ic_default_avatar)
@@ -52,25 +72,34 @@ class AvatarDecorView @JvmOverloads constructor(
             .into(this)
     }
 
+    /**
+     * 使用 Glide 加载 ImageView 图片时会调用此方法，我们可以在这里对设置的 drawable 资源进行修饰。
+     */
     override fun setImageDrawable(drawable: Drawable?) {
         val decorDrawable = if (isVip && drawable != null) {
-            LayerDrawable(arrayOf(drawable, borderDrawable))
+            // 如果是 VIP 且 drawable 资源不为空，则添加 decorDrawable
+            LayerDrawable(arrayOf(drawable, decorDrawable))
         } else {
-            drawable ?: defaultAvatar
+            // 如果设置的头像 drawable 为空，则设置默认头像 drawable
+            drawable ?: defAvatarDrawable
         }
         super.setImageDrawable(decorDrawable)
     }
 
+    /**
+     * 绘制前景徽章图标
+     */
     override fun onDrawForeground(canvas: Canvas?) {
         super.onDrawForeground(canvas)
         canvas ?: return
         if (isVip) {
             // Timber.d("onDrawForeground：===> width is $width measuredWidth is $measuredWidth")
+            val dx = width - badgeBitmap.width * scaleFactor
+            val dy = height - badgeBitmap.height * scaleFactor
             // 画布默认是在左上角，需要先调整画布的位置
-            val dx = width - bitmap.width * scaleFactor
-            val dy = height - bitmap.height * scaleFactor
             canvas.translate(dx, dy)
-            canvas.drawBitmap(bitmap, scaleMatrix, paint)
+            // 绘制小徽章
+            canvas.drawBitmap(badgeBitmap, scaleMatrix, badgePaint)
         }
     }
 }

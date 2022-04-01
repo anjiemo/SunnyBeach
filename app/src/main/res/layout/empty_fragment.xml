@@ -23,7 +23,8 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="120dp" />
+        android:layout_marginTop="120dp"
+        android:src="@mipmap/ic_default_avatar" />
 
     <cn.cqautotest.sunnybeach.widget.CustomTextView
         android:id="@+id/empty_description"
