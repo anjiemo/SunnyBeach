@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 
+import com.hjq.bar.TitleBar;
 import com.hjq.umeng.Platform;
 import com.hjq.umeng.UmengShare;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -136,12 +137,12 @@ public final class BrowserActivity extends AppActivity implements StatusAction, 
     }
 
     @Override
-    public void onLeftClick(View view) {
+    public void onLeftClick(TitleBar titleBar) {
         finish();
     }
 
     @Override
-    public void onRightClick(View view) {
+    public void onRightClick(TitleBar titleBar) {
         UMWeb content = new UMWeb(mBrowserView.getUrl());
         content.setTitle(mBrowserView.getTitle());
         content.setThumb(new UMImage(this, R.mipmap.launcher_ic));

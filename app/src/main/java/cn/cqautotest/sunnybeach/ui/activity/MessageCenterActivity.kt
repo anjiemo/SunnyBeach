@@ -18,6 +18,7 @@ import cn.cqautotest.sunnybeach.util.takeIfLogin
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
+import com.hjq.bar.TitleBar
 
 /**
  * author : A Lonely Cat
@@ -116,7 +117,7 @@ class MessageCenterActivity : AppActivity() {
         }
     }
 
-    override fun onRightClick(view: View?) {
+    override fun onRightClick(titleBar: TitleBar?) {
         takeIfLogin {
             // 先在 UI 上响应给用户，再去网络请求
             setUnReadCountByMenu(UnReadMsgCount())

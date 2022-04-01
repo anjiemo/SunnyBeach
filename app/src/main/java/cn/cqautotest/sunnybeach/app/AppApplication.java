@@ -12,9 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.work.BackoffPolicy;
 import androidx.work.Constraints;
-import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
@@ -52,7 +50,6 @@ import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter;
 import cn.cqautotest.sunnybeach.other.ToastLogInterceptor;
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel;
 import cn.cqautotest.sunnybeach.work.CacheCleanWorker;
-import cn.cqautotest.sunnybeach.work.CheckTokenWork;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
@@ -166,7 +163,7 @@ public class AppApplication extends Application {
         });
 
         // 初始化日志打印
-        if (AppConfig.isLogEnable()) {
+        if (!AppConfig.isLogEnable()) {
             Timber.plant(new DebugLoggerTree());
         }
 
@@ -214,8 +211,7 @@ public class AppApplication extends Application {
         // PushHelper.init(application);
         // 在此初始化其它依赖库
 
-        // initCheckTokenWork(application);
-        // initCacheCleanWork(application);
+        initCacheCleanWork(application);
     }
 
     /**
@@ -236,32 +232,6 @@ public class AppApplication extends Application {
                 .setConstraints(constraints)
                 // 符合约束条件后，延迟1分钟执行
                 .setInitialDelay(1, TimeUnit.MINUTES)
-                .build();
-        WorkManager wm = WorkManager.getInstance(application);
-        // 将工作加入队列中
-        wm.enqueue(workRequest);
-    }
-
-    /**
-     * 初始化 Token 解析工作
-     *
-     * @param application Application
-     */
-    private static void initCheckTokenWork(Application application) {
-        // 构造工作执行的约束条件
-        Constraints constraints = new Constraints.Builder()
-                // 当使用有效的网络连接时
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
-        // 定期工作请求
-        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(CheckTokenWork.class,
-                15, TimeUnit.MINUTES)
-                // 设置约束条件
-                .setConstraints(constraints)
-                // 符合约束条件后，延迟10秒执行
-                .setInitialDelay(10, TimeUnit.MILLISECONDS)
-                // 设置指数退避算法
-                .setBackoffCriteria(BackoffPolicy.LINEAR, PeriodicWorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
                 .build();
         WorkManager wm = WorkManager.getInstance(application);
         // 将工作加入队列中

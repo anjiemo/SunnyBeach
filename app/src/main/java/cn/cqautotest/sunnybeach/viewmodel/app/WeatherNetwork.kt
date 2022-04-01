@@ -36,6 +36,7 @@ object WeatherNetwork {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {
                 override fun onFailure(call: Call<T>, t: Throwable) {
+                    t.printStackTrace()
                     continuation.resumeWithException(t)
                 }
 

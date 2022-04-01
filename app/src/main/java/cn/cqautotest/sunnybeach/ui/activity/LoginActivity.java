@@ -23,6 +23,7 @@ import com.blankj.utilcode.util.RegexUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.hjq.bar.TitleBar;
 import com.hjq.gson.factory.GsonFactory;
 import com.hjq.umeng.Platform;
 import com.hjq.umeng.UmengClient;
@@ -215,14 +216,14 @@ public final class LoginActivity extends AppActivity
     }
 
     @Override
-    public void onLeftClick(View view) {
+    public void onLeftClick(TitleBar titleBar) {
         // 用户点击了跳过按钮
         HomeActivity.start(this, MyMeFragment.class);
         finish();
     }
 
     @Override
-    public void onRightClick(View view) {
+    public void onRightClick(TitleBar titleBar) {
         // 跳转到注册界面
         RegisterActivity.start(this, mPhoneView.getText().toString(), mPasswordView.getText().toString(), (phone, password) -> {
             // 如果已经注册成功，就执行登录操作（需要用户先输入验证码）

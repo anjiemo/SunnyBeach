@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.view.View
 import androidx.core.content.getSystemService
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -36,6 +35,7 @@ import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.hjq.bar.TitleBar
 import com.hjq.permissions.Permission
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
@@ -232,7 +232,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     @Permissions(Permission.CAMERA)
-    override fun onRightClick(view: View?) {
+    override fun onRightClick(titleBar: TitleBar?) {
         // “QRCODE_SCAN_TYPE”和“DATAMATRIX_SCAN_TYPE”表示只扫描QR和Data Matrix的码
         val options = HmsScanAnalyzerOptions.Creator()
             .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
