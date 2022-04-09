@@ -284,6 +284,12 @@
             android:label="@string/password_forget_title"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+        <!-- 修改密码 -->
+        <activity
+            android:name=".ui.activity.PasswordModifyActivity"
+            android:label="@string/password_modify_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
         <!-- 重置密码 -->
         <activity
             android:name=".ui.activity.PasswordResetActivity"

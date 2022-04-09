@@ -9,11 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.app.AppAdapter;
 import cn.cqautotest.sunnybeach.http.glide.GlideApp;
-
-import java.util.List;
 
 /**
  *    author : Android 轮子哥

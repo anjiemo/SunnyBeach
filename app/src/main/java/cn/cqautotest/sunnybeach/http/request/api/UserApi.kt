@@ -8,10 +8,19 @@ import retrofit2.http.*
 interface UserApi {
 
     /**
+     * 找回密码（通过短信找回）
+     */
+    @PUT("${SUNNY_BEACH_API_BASE_URL}uc/user/forget/{smsCode}")
+    suspend fun modifyPasswordBySms(
+        @Path("smsCode") smsCode: String,
+        @Body user: User
+    ): ApiResponse<Any>
+
+    /**
      * 修改密码（通过旧密码修改）
      */
     @PUT("${SUNNY_BEACH_API_BASE_URL}uc/user/modify-pwd")
-    suspend fun modifyPassword(@Body modifyPwd: ModifyPwd): ApiResponse<Any>
+    suspend fun modifyPasswordByOldPwd(@Body modifyPwd: ModifyPwd): ApiResponse<Any>
 
     /**
      * 检查手机验证码是否正确

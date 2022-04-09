@@ -19,10 +19,12 @@ class CacheCleanWorker(appContext: Context, workerParams: WorkerParameters) :
 
     override suspend fun doWork(): Result {
         try {
-            // 清除内存缓存（必须在主线程）
-            GlideApp.get(applicationContext).clearMemory()
-            CacheDataManager.clearAllCache(applicationContext)
+            withContext(Dispatchers.Main) {
+                // 清除内存缓存（必须在主线程）
+                GlideApp.get(applicationContext).clearMemory()
+            }
             withContext(Dispatchers.IO) {
+                CacheDataManager.clearAllCache(applicationContext)
                 // 清除本地缓存（必须在子线程）
                 GlideApp.get(applicationContext).clearDiskCache()
             }

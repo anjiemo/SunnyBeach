@@ -146,8 +146,8 @@ public final class PasswordForgetActivity extends AppActivity
             // 验证码校验
             mUserViewModel.checkSmsCode(phoneNumber, smsCode).observe(this, result -> {
                 toast(result.getMessage());
-                if (!result.isSuccess()) {
-                    PasswordResetActivity.start(getContext(), phoneNumber, smsCode);
+                if (result.isSuccess()) {
+                    PasswordModifyActivity.start(getContext(), phoneNumber, smsCode);
                     finish();
                 }
             });

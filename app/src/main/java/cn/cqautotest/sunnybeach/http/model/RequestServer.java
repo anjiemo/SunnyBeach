@@ -1,14 +1,15 @@
 package cn.cqautotest.sunnybeach.http.model;
 
-import cn.cqautotest.sunnybeach.other.AppConfig;
 import com.hjq.http.config.IRequestServer;
 import com.hjq.http.model.BodyType;
 
+import cn.cqautotest.sunnybeach.other.AppConfig;
+
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2020/10/02
- *    desc   : 服务器配置
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2020/10/02
+ * desc   : 服务器配置
  */
 public class RequestServer implements IRequestServer {
 

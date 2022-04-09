@@ -18,7 +18,11 @@ object UserNetwork {
     private val userApi = ServiceCreator.create<UserApi>()
     private val qaApi = ServiceCreator.create<QaApi>()
 
-    suspend fun modifyPassword(modifyPwd: ModifyPwd) = userApi.modifyPassword(modifyPwd)
+    suspend fun modifyPasswordBySms(smsCode: String, user: User) =
+        userApi.modifyPasswordBySms(smsCode, user)
+
+    suspend fun modifyPasswordByOldPwd(modifyPwd: ModifyPwd) =
+        userApi.modifyPasswordByOldPwd(modifyPwd)
 
     suspend fun checkSmsCode(phoneNumber: String, smsCode: String) =
         userApi.checkSmsCode(phoneNumber, smsCode)

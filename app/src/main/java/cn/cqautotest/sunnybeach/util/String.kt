@@ -11,6 +11,9 @@ fun String.notContains(char: Char, ignoreCase: Boolean = false) = !contains(char
 
 fun String.notContains(regex: Regex) = !contains(regex)
 
+val String.lowercaseMd5: String
+    get() = md5.lowercase()
+
 val String.md5: String
     get() = EncryptUtils.encryptMD5ToString(this)
 

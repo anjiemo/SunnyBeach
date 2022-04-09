@@ -10,12 +10,13 @@ import androidx.annotation.NonNull;
 
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
+
+import java.io.File;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.app.AppActivity;
 import cn.cqautotest.sunnybeach.other.IntentKey;
 import cn.cqautotest.sunnybeach.widget.PlayerView;
-
-import java.io.File;
 
 /**
  *    author : Android 轮子哥

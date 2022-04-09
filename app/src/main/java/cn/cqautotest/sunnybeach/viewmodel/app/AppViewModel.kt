@@ -49,8 +49,8 @@ class AppViewModel(private val application: Application) : Utils.ActivityLifecyc
         val result = try {
             // 清除内存缓存（必须在主线程）
             GlideApp.get(getApplication()).clearMemory()
-            CacheDataManager.clearAllCache(getApplication())
             withContext(Dispatchers.IO) {
+                CacheDataManager.clearAllCache(getApplication())
                 // 清除本地缓存（必须在子线程）
                 GlideApp.get(getApplication()).clearDiskCache()
             }

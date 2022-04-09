@@ -13,11 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hjq.base.BaseAdapter;
 import com.hjq.base.BaseDialog;
 import com.hjq.base.BottomSheetDialog;
+
+import java.util.List;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.app.AppAdapter;
 import cn.cqautotest.sunnybeach.http.glide.GlideApp;
-
-import java.util.List;
 
 /**
  *    author : Android 轮子哥

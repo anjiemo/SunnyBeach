@@ -3,7 +3,7 @@
     android:shape="oval">
 
     <stroke
-        android:width="2dp"
+        android:width="20dp"
         android:color="@color/pink" />
 
     <padding

@@ -11,7 +11,7 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.*
 import cn.cqautotest.sunnybeach.model.weather.Place
 import cn.cqautotest.sunnybeach.model.weather.Weather
-import cn.cqautotest.sunnybeach.util.md5
+import cn.cqautotest.sunnybeach.util.lowercaseMd5
 import cn.cqautotest.sunnybeach.util.toJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -32,10 +32,23 @@ object Repository {
 
     private val cachePhotoIdList = arrayListOf<WallpaperBean.Res.Vertical>()
 
-    fun modifyPassword(modifyPwd: ModifyPwd) = liveData(Dispatchers.IO) {
+    fun modifyPasswordBySms(smsCode: String, user: User) = liveData(Dispatchers.IO) {
+        val result = try {
+            val result = UserNetwork.modifyPasswordBySms(smsCode, user)
+            Timber.d("result is $result")
+            if (result.isSuccess()) JavaResult.success(result.getMessage())
+            else JavaResult.failure(result.getMessage())
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            JavaResult.failure(ServiceException(t))
+        }
+        emit(result)
+    }
+
+    fun modifyPasswordByOldPwd(modifyPwd: ModifyPwd) = liveData(Dispatchers.IO) {
         val result = try {
             coroutineScope {
-                val result = UserNetwork.modifyPassword(modifyPwd)
+                val result = UserNetwork.modifyPasswordByOldPwd(modifyPwd)
                 Timber.d("result is $result")
                 if (result.isSuccess()) JavaResult.success(result.getMessage())
                 else JavaResult.failure(result.getMessage())
@@ -217,7 +230,7 @@ object Repository {
     }
 
     suspend fun login(userAccount: String, password: String, captcha: String) = try {
-        val user = User(userAccount, password.md5.lowercase())
+        val user = User(userAccount, password.lowercaseMd5)
         val result = UserNetwork.login(captcha, user)
         if (result.isSuccess()) {
             val userBasicInfo = checkToken()

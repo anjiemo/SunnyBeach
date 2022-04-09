@@ -8,13 +8,14 @@ import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.hjq.widget.view.CountdownView;
+import com.hjq.widget.view.SwitchButton;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
 import cn.cqautotest.sunnybeach.app.TitleBarFragment;
 import cn.cqautotest.sunnybeach.http.glide.GlideApp;
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity;
-import com.hjq.widget.view.CountdownView;
-import com.hjq.widget.view.SwitchButton;
 
 /**
  *    author : Android 轮子哥

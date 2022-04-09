@@ -10,14 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.app.AppAdapter;
 import cn.cqautotest.sunnybeach.http.glide.GlideApp;
 import cn.cqautotest.sunnybeach.manager.CacheDataManager;
 import cn.cqautotest.sunnybeach.ui.activity.VideoSelectActivity;
 import cn.cqautotest.sunnybeach.widget.PlayerView;
-
-import java.util.List;
 
 /**
  *    author : Android 轮子哥

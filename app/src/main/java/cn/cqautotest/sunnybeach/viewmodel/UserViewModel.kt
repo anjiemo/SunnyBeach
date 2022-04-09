@@ -34,9 +34,15 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
+     * 找回密码（通过短信找回）
+     */
+    fun modifyPasswordBySms(smsCode: String, user: User) =
+        Repository.modifyPasswordBySms(smsCode, user)
+
+    /**
      * 修改密码（通过旧密码修改）
      */
-    fun modifyPassword(modifyPwd: ModifyPwd) = Repository.modifyPassword(modifyPwd)
+    fun modifyPasswordByOldPwd(modifyPwd: ModifyPwd) = Repository.modifyPasswordByOldPwd(modifyPwd)
 
     /**
      * 检查手机验证码是否正确
