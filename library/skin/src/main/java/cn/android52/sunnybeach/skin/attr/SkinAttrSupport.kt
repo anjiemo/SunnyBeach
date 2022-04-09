@@ -4,7 +4,6 @@ import android.content.res.Resources
 import android.util.AttributeSet
 import cn.android52.sunnybeach.skin.factory.SkinConfigFactory
 import timber.log.Timber
-import java.util.*
 
 /**
  *    author : A Lonely Cat

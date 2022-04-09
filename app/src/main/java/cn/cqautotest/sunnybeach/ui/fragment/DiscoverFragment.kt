@@ -14,7 +14,10 @@ import cn.cqautotest.sunnybeach.http.response.model.WallpaperBannerBean
 import cn.cqautotest.sunnybeach.ui.activity.GalleryActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.WallpaperListAdapter
-import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.util.CustomAnimation
+import cn.cqautotest.sunnybeach.util.GridSpaceItemDecoration
+import cn.cqautotest.sunnybeach.util.dp
+import cn.cqautotest.sunnybeach.util.loadStateListener
 import cn.cqautotest.sunnybeach.viewmodel.PhotoViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.widget.StatusLayout

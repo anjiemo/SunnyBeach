@@ -123,6 +123,9 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
             String jsonValue = KotlinResult.INSTANCE.toJson(gson, result);
             AppUpdateInfo appUpdateInfo = gson.fromJson(jsonValue, new TypeToken<AppUpdateInfo>() {
             }.getType());
+            if (appUpdateInfo == null) {
+                return;
+            }
             mAppVersionLiveData.setValue(appUpdateInfo);
         });
     }

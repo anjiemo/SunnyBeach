@@ -18,6 +18,7 @@ import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
+
 import cn.cqautotest.sunnybeach.R;
 
 /**

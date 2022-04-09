@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.TitleBar;
+
 import cn.cqautotest.sunnybeach.action.TitleBarAction;
 
 /**

@@ -33,18 +33,19 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.hjq.base.action.ActivityAction;
-import cn.cqautotest.sunnybeach.R;
 import com.hjq.widget.layout.SimpleLayout;
 
 import java.io.File;
 import java.util.Formatter;
 import java.util.Locale;
 
+import cn.cqautotest.sunnybeach.R;
+
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/02/16
- *    desc   : 视频播放控件
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/02/16
+ * desc   : 视频播放控件
  */
 public final class PlayerView extends SimpleLayout
         implements LifecycleEventObserver,

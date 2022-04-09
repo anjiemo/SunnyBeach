@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.github.chrisbanes.photoview.PhotoView;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.app.AppAdapter;
 import cn.cqautotest.sunnybeach.http.glide.GlideApp;

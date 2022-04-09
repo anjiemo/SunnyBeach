@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.StringRes;
 
 import com.hjq.base.BaseDialog;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
 

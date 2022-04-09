@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:contentScrim="@color/transparent"
+            app:layout_collapseMode="pin"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <!--默认设置黄金分割比例反比显示-->
@@ -38,12 +39,6 @@
                 </cn.cqautotest.sunnybeach.widget.StatusContainer>
 
             </com.hjq.widget.layout.RatioFrameLayout>
-
-            <cn.cqautotest.sunnybeach.widget.XCollapsingToolbarLayout
-                android:id="@+id/toolBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
 
         </cn.cqautotest.sunnybeach.widget.XCollapsingToolbarLayout>
 
