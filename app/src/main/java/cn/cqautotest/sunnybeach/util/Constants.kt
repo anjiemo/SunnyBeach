@@ -38,9 +38,9 @@ const val DEFAULT_HTTP_OK_CODE = 200
 
 const val SUNNY_BEACH_HTTP_OK_CODE = 10000
 
-const val APP_INFO_URL = "http://hm03097.h37.hmie.cn/blog/app/appconfig.json"
+const val APP_INFO_URL = "https://gitee.com/anjiemo/sunny-beach-data/raw/master/appconfig.json"
 
-const val MOURNING_CALENDAR_URL = "http://hm03097.h37.hmie.cn/blog/app/mourning_calendar.json"
+const val MOURNING_CALENDAR_URL = "https://gitee.com/anjiemo/sunny-beach-data/raw/master/mourning_calendar.json"
 
 const val SUNNY_BEACH_USER_BASIC_INFO = "sunny_beach_user_basic_info"
 

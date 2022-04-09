@@ -196,7 +196,7 @@ public final class RegisterActivity extends AppActivity
             String nickName = mNickNameView.getText().toString();
             String password = mFirstPassword.getText().toString();
 
-            User user = new User(phoneNum, StringKt.getMd5(password).toLowerCase(), nickName);
+            User user = new User(phoneNum, StringKt.getLowercaseMd5(password), nickName);
 
             mUserViewModel.registerAccount(verifyCode, user).observe(this, result -> postDelayed(() -> {
                 toast(result.getMessage());

@@ -15,17 +15,18 @@ import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.module.AppGlideModule;
 import com.bumptech.glide.request.RequestOptions;
-import cn.cqautotest.sunnybeach.R;
 import com.hjq.http.EasyConfig;
 
 import java.io.File;
 import java.io.InputStream;
 
+import cn.cqautotest.sunnybeach.R;
+
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/12/15
- *    desc   : Glide 全局配置
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/12/15
+ * desc   : Glide 全局配置
  */
 @GlideModule
 public final class GlideConfig extends AppGlideModule {

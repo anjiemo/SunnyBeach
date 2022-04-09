@@ -7,11 +7,13 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.work.Configuration;
 import androidx.work.Constraints;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
@@ -60,7 +62,7 @@ import timber.log.Timber;
  * time   : 2018/10/18
  * desc   : 应用入口
  */
-public class AppApplication extends Application {
+public class AppApplication extends Application implements Configuration.Provider {
 
     private static AppApplication INSTANCE;
     private static CookieRoomDatabase sDatabase;
@@ -163,7 +165,7 @@ public class AppApplication extends Application {
         });
 
         // 初始化日志打印
-        if (!AppConfig.isLogEnable()) {
+        if (AppConfig.isLogEnable()) {
             Timber.plant(new DebugLoggerTree());
         }
 
@@ -269,5 +271,19 @@ public class AppApplication extends Application {
 
     public static AppViewModel getAppViewModel() {
         return sAppViewModel;
+    }
+
+    @NonNull
+    @Override
+    public Configuration getWorkManagerConfiguration() {
+        Configuration.Builder builder = new Configuration.Builder();
+        Configuration configuration;
+        if (AppConfig.isDebug()) {
+            configuration = builder.setMinimumLoggingLevel(Log.DEBUG)
+                    .build();
+        } else {
+            configuration = builder.build();
+        }
+        return configuration;
     }
 }

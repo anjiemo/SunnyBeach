@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hjq.base.BaseAdapter;
 import com.hjq.base.BaseDialog;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.SingleClick;
 import cn.cqautotest.sunnybeach.app.AppAdapter;
 import cn.cqautotest.sunnybeach.widget.PasswordView;
-
-import java.util.Arrays;
-import java.util.LinkedList;
 
 /**
  *    author : Android 轮子哥

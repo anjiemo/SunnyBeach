@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.base.FragmentPagerAdapter;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.app.AppFragment;
 import cn.cqautotest.sunnybeach.app.TitleBarFragment;

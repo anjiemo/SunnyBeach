@@ -217,6 +217,9 @@
     <!-- 忘记密码 -->
     <string name="password_forget_title">忘记密码</string>
 
+    <!-- 修改密码 -->
+    <string name="password_modify_title">修改密码</string>
+
     <!-- 重置密码 -->
     <string name="password_reset_title">设置登录密码</string>
     <string name="password_reset_phone_old_password_hint">请输入旧密码</string>

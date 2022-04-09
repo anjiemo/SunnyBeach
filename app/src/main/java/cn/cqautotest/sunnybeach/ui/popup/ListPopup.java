@@ -13,19 +13,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hjq.base.BaseAdapter;
 import com.hjq.base.BasePopupWindow;
 import com.hjq.base.action.AnimAction;
-import cn.cqautotest.sunnybeach.R;
-import cn.cqautotest.sunnybeach.app.AppAdapter;
-import cn.cqautotest.sunnybeach.other.ArrowDrawable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.app.AppAdapter;
+import cn.cqautotest.sunnybeach.other.ArrowDrawable;
+
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/10/18
- *    desc   : 列表弹窗
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/10/18
+ * desc   : 列表弹窗
  */
 public final class ListPopup {
 

@@ -7,10 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hjq.base.BaseAdapter;
-import cn.cqautotest.sunnybeach.R;
-import cn.cqautotest.sunnybeach.app.AppActivity;
-import cn.cqautotest.sunnybeach.app.TitleBarFragment;
-import cn.cqautotest.sunnybeach.ui.adapter.StatusAdapter;
 import com.hjq.widget.layout.WrapRecyclerView;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
@@ -19,11 +15,16 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.app.AppActivity;
+import cn.cqautotest.sunnybeach.app.TitleBarFragment;
+import cn.cqautotest.sunnybeach.ui.adapter.StatusAdapter;
+
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2020/07/10
- *    desc   : 加载案例 Fragment
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2020/07/10
+ * desc   : 加载案例 Fragment
  */
 public final class StatusFragment extends TitleBarFragment<AppActivity>
         implements OnRefreshLoadMoreListener,

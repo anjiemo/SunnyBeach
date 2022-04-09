@@ -9,10 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hjq.base.BaseDialog;
-import cn.cqautotest.sunnybeach.R;
-import cn.cqautotest.sunnybeach.aop.SingleClick;
-import cn.cqautotest.sunnybeach.app.AppAdapter;
-import cn.cqautotest.sunnybeach.manager.PickerLayoutManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,11 +16,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.aop.SingleClick;
+import cn.cqautotest.sunnybeach.app.AppAdapter;
+import cn.cqautotest.sunnybeach.manager.PickerLayoutManager;
+
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2018/12/17
- *    desc   : 日期选择对话框
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2018/12/17
+ * desc   : 日期选择对话框
  */
 public final class DateDialog {
 

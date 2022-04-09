@@ -14,7 +14,6 @@ import cn.android52.sunnybeach.skin.callback.ISkinChangedListener
 import cn.android52.sunnybeach.skin.manager.SkinManager
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method
-import java.util.*
 
 /**
  *    author : A Lonely Cat

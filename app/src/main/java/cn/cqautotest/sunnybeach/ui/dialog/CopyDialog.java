@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.Gravity;
 
 import com.hjq.base.BaseDialog;
+
 import cn.cqautotest.sunnybeach.R;
 
 /**

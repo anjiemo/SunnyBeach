@@ -1,5 +1,9 @@
 package cn.cqautotest.sunnybeach.ui.dialog;
 
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_DRAGGING;
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_IDLE;
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_SETTLING;
+
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -16,9 +20,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.hjq.base.BaseDialog;
-import cn.cqautotest.sunnybeach.R;
-import cn.cqautotest.sunnybeach.aop.SingleClick;
-import cn.cqautotest.sunnybeach.app.AppAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,9 +31,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_DRAGGING;
-import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_IDLE;
-import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_SETTLING;
+import cn.cqautotest.sunnybeach.R;
+import cn.cqautotest.sunnybeach.aop.SingleClick;
+import cn.cqautotest.sunnybeach.app.AppAdapter;
 
 /**
  *    author : Android 轮子哥

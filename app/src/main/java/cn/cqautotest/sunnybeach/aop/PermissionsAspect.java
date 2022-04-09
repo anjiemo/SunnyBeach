@@ -2,8 +2,6 @@ package cn.cqautotest.sunnybeach.aop;
 
 import android.app.Activity;
 
-import cn.cqautotest.sunnybeach.manager.ActivityManager;
-import cn.cqautotest.sunnybeach.other.PermissionCallback;
 import com.hjq.permissions.XXPermissions;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -13,11 +11,14 @@ import org.aspectj.lang.annotation.Pointcut;
 
 import java.util.List;
 
+import cn.cqautotest.sunnybeach.manager.ActivityManager;
+import cn.cqautotest.sunnybeach.other.PermissionCallback;
+
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/12/06
- *    desc   : 权限申请切面
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/12/06
+ * desc   : 权限申请切面
  */
 @Aspect
 public class PermissionsAspect {

@@ -14,18 +14,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.ColorUtils;
 
-import cn.cqautotest.sunnybeach.R;
 import com.scwang.smart.refresh.layout.api.RefreshFooter;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
 import com.scwang.smart.refresh.layout.simple.SimpleComponent;
 import com.scwang.smart.refresh.layout.util.SmartUtil;
 
+import cn.cqautotest.sunnybeach.R;
+
 /**
- *    author : 树朾 & Android 轮子哥
- *    github : https://github.com/scwang90/SmartRefreshLayout/tree/master/refresh-footer-ball
- *    time   : 2020/08/01
- *    desc   : 球脉冲底部加载组件
+ * author : 树朾 & Android 轮子哥
+ * github : https://github.com/scwang90/SmartRefreshLayout/tree/master/refresh-footer-ball
+ * time   : 2020/08/01
+ * desc   : 球脉冲底部加载组件
  */
 public final class SmartBallPulseFooter extends SimpleComponent implements RefreshFooter {
 
