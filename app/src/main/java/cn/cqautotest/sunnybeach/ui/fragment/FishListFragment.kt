@@ -152,6 +152,11 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             thumbUpList.add(currUserId)
             mFishListAdapter.notifyItemChanged(position)
         }
+        tryVibrate()
+        mFishPondViewModel.dynamicLikes(item.id).observe(viewLifecycleOwner) {}
+    }
+
+    private fun tryVibrate() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             requireContext().getSystemService<Vibrator>()?.let { vibrator ->
                 if (vibrator.hasVibrator()) {
@@ -163,7 +168,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 }
             }
         }
-        mFishPondViewModel.dynamicLikes(item.id).observe(viewLifecycleOwner) {}
     }
 
     private fun shareFish(item: Fish.FishItem) {
