@@ -7,6 +7,7 @@ import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.manager.CacheDataManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -18,6 +19,7 @@ class CacheCleanWorker(appContext: Context, workerParams: WorkerParameters) :
     CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
+        Timber.d("doWork:===> start clean cache...")
         try {
             withContext(Dispatchers.Main) {
                 // 清除内存缓存（必须在主线程）
@@ -31,6 +33,7 @@ class CacheCleanWorker(appContext: Context, workerParams: WorkerParameters) :
         } catch (t: Throwable) {
             t.printStackTrace()
         }
+        Timber.d("doWork:===> end clean cache...")
         return Result.success()
     }
 }
