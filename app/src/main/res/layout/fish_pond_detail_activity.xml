@@ -24,78 +24,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_fish_pond_detail_comment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <androidx.coordinatorlayout.widget.CoordinatorLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <com.google.android.material.appbar.AppBarLayout
-                        android:id="@+id/app_bar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:popupTheme="@style/Theme.SunnyBeach.PopupOverlay">
-
-                        <cn.cqautotest.sunnybeach.widget.XCollapsingToolbarLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:contentScrim="@color/transparent"
-                            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-                            <include
-                                android:id="@+id/fish_pond"
-                                layout="@layout/fish_pond_list_item"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-
-                        </cn.cqautotest.sunnybeach.widget.XCollapsingToolbarLayout>
-
-                    </com.google.android.material.appbar.AppBarLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:layout_marginBottom="6dp"
-                        android:background="@color/white"
-                        android:orientation="horizontal"
-                        android:padding="10dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical"
-                            android:text="相关推荐"
-                            android:textStyle="bold"
-                            app:drawableEndCompat="@drawable/arrows_right_ic" />
-
-                    </LinearLayout>
-
-                    <com.hjq.widget.layout.NestedViewPager
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:contentDescription="相关推荐列表"
-                        android:visibility="gone" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_fish_pond_detail_comment"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="1px"
-                        android:fadingEdge="none"
-                        android:orientation="vertical"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-                        tools:listitem="@layout/fish_pond_detail_commend_list" />
-
-                </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-            </LinearLayout>
+                android:layout_marginTop="1px"
+                android:fadingEdge="none"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                tools:listitem="@layout/fish_pond_detail_commend_list" />
 
         </cn.cqautotest.sunnybeach.widget.StatusLayout>
 

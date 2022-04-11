@@ -1,23 +1,16 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.text.TextUtils
-import android.view.GestureDetector
-import android.view.ViewConfiguration
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
-import androidx.core.text.parseAsHtml
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -27,9 +20,12 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailActivityBinding
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
+import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.other.KeyboardWatcher
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
+import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondDetailCommentListAdapter
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.ui.fragment.SubmitCommentFragment
@@ -38,10 +34,8 @@ import cn.cqautotest.sunnybeach.viewmodel.KeyboardViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.hjq.umeng.Platform
-import com.hjq.umeng.UmengShare.OnShareListener
+import com.hjq.umeng.UmengShare
 import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
 import kotlinx.coroutines.flow.collectLatest
@@ -53,25 +47,31 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/07/11
  * desc   : 鱼塘详情页
  */
-class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGesture.OnSlideListener,
-    SimpleGridLayout.OnNineGridClickListener, KeyboardWatcher.SoftKeyboardStateListener {
+class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGridLayout.OnNineGridClickListener,
+    KeyboardWatcher.SoftKeyboardStateListener {
 
     private val mBinding: FishPondDetailActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
     private val mKeyboardViewModel by viewModels<KeyboardViewModel>()
     private val mAdapterDelegate = AdapterDelegate()
+    private val mFishListAdapter = FishListAdapter(AdapterDelegate(), true)
     private val mFishPondDetailCommendListAdapter =
         FishPondDetailCommentListAdapter(mAdapterDelegate)
     private var mMomentId: String = ""
-    private var mUserId: String = ""
     private var mNickName: String = ""
 
     override fun getLayoutId(): Int = R.layout.fish_pond_detail_activity
 
     override fun initView() {
+        // This emptyAdapter is like a hacker.
+        // Its existence allows the PagingAdapter to scroll to the top before being refreshed,
+        // avoiding the problem that the PagingAdapter cannot return to the top after being refreshed.
+        // But it needs to be used in conjunction with ConcatAdapter, and must appear before PagingAdapter.
+        val emptyAdapter = EmptyAdapter()
+        val concatAdapter = ConcatAdapter(emptyAdapter, mFishListAdapter, mFishPondDetailCommendListAdapter)
         mBinding.rvFishPondDetailComment.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = mFishPondDetailCommendListAdapter
+            adapter = concatAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
         }
         postDelayed({
@@ -109,6 +109,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGesture.OnSlid
         lifecycleScope.launchWhenCreated {
             mFishPondViewModel.getFishCommendListById(mMomentId).collectLatest {
                 mFishPondDetailCommendListAdapter.submitData(it)
+                mBinding.rvFishPondDetailComment.scrollToPosition(0)
             }
         }
     }
@@ -117,7 +118,6 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGesture.OnSlid
         mFishPondDetailCommendListAdapter.refresh()
     }
 
-    @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     private fun loadFishDetail() {
         mFishPondViewModel.getFishDetailById(mMomentId).observe(this) {
             mBinding.slFishDetailRefresh.finishRefresh()
@@ -128,105 +128,15 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGesture.OnSlid
                 return@observe
             }
             mNickName = item.nickname
+            mFishListAdapter.submitData(lifecycle, PagingData.from(listOf(item)))
             showComplete()
-            val fishPond = mBinding.fishPond
-            val ivAvatar = fishPond.ivFishPondAvatar
-            val tvNickname = fishPond.tvFishPondNickName
-            val tvDesc = fishPond.tvFishPondDesc
-            val tvContent = fishPond.tvFishPondContent
-            val rrlContainer = fishPond.rrlContainer
-            val simpleGridLayout = fishPond.simpleGridLayout
-            val tvLabel = fishPond.tvFishPondLabel
-            val llFishItemContainer = fishPond.llFishItemContainer
-            val llLinkContainer = fishPond.llLinkContainer
-            val ivLinkCover = fishPond.ivLinkCover
-            val tvLinkTitle = fishPond.tvLinkTitle
-            val tvLinkUrl = fishPond.tvLinkUrl
-            val tvComment = fishPond.listMenuItem.tvComment
-            val llGreat = fishPond.listMenuItem.llGreat
-            val ivGreat = fishPond.listMenuItem.ivGreat
-            val tvGreat = fishPond.listMenuItem.tvGreat
-            val clReplyContainer = mBinding.commentContainer.clReplyContainer
-            llFishItemContainer.setRoundRectBg(color = Color.WHITE, cornerRadius = 10.dp)
-            ivAvatar.loadAvatar(item.vip, item.avatar)
-            tvNickname.setTextColor(UserManager.getNickNameColor(item.vip))
-            tvNickname.text = item.nickname
-            tvDesc.text = "${item.position} · " +
-                    DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
-            tvContent.maxLines = Int.MAX_VALUE
-            val content = item.content
-            // 设置默认表情符号解析器
-            tvContent.setDefaultEmojiParser()
-            tvContent.text =
-                content.parseAsHtml(imageGetter = EmojiImageGetter(tvContent.textSize.toInt()))
-            mUserId = item.userId
-            val topicName = item.topicName
-            val images = item.images
-            val imageCount = images.size
-            rrlContainer.isVisible = images.isNotEmpty()
-            simpleGridLayout.setSpanCount(
-                when (imageCount) {
-                    // 规避 0 ，避免导致：IllegalArgumentException，Span count should be at least 1. Provided 0.
-                    in 1..3 -> imageCount
-                    4 -> 2
-                    else -> 3
-                }
-            ).setOnNineGridClickListener(this)
-                .setData(images)
-            simpleGridLayout.isVisible = imageCount != 0
-            tvLabel.isVisible = TextUtils.isEmpty(topicName).not()
-            tvLabel.text = topicName
-            val linkUrl = item.linkUrl
-            val hasLink = TextUtils.isEmpty(linkUrl).not()
-            val hasLinkCover = TextUtils.isEmpty(item.linkCover).not()
-            val linkCover = if (hasLinkCover) item.linkCover
-            else R.mipmap.ic_link_default
-            llLinkContainer.setRoundRectBg(color = Color.parseColor("#F5F5F8"), cornerRadius = 4.dp)
-            llLinkContainer.isVisible = hasLink
-            llLinkContainer.setFixOnClickListener {
-                BrowserActivity.start(context, linkUrl)
+            mBinding.commentContainer.clReplyContainer.setFixOnClickListener {
+                goToPostComment(mNickName)
             }
-            Glide.with(context)
-                .load(linkCover)
-                .placeholder(R.mipmap.ic_link_default)
-                .error(R.mipmap.ic_link_default)
-                .transform(RoundedCorners(3.dp))
-                .into(ivLinkCover)
-            tvLinkTitle.text = item.linkTitle
-            tvLinkUrl.text = linkUrl
-            tvComment.text = with(item.commentCount) {
-                if (this == 0) {
-                    "评论"
-                } else {
-                    toString()
-                }
-            }
-            llGreat.setFixOnClickListener {
-                dynamicLikes(item)
-            }
-            tvGreat.text = with(item.thumbUpCount) {
-                if (this == 0) {
-                    "点赞"
-                } else {
-                    toString()
-                }
-            }
-            val currUserId = UserManager.loadCurrUserId()
-            val like = item.thumbUpList.contains(currUserId)
-            val defaultColor = ContextCompat.getColor(context, R.color.menu_default_font_color)
-            val likeColor = ContextCompat.getColor(context, R.color.menu_like_font_color)
-            ivGreat.imageTintList = ColorStateList.valueOf((if (like) likeColor else defaultColor))
-            // 如果要使用 GestureDetector 手势检测器，则必须禁用点击事件，否则无法检测手势
-            clReplyContainer.setOnClickListener(null)
-            val minDistance = ViewConfiguration.get(this).scaledTouchSlop
-            val sg = SimpleGesture(minDistance, this)
-            val gestureDetector = GestureDetector(this, sg)
-            clReplyContainer.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
         }
     }
 
-    @SuppressLint("MissingPermission")
-    private fun dynamicLikes(item: Fish.FishItem) {
+    private fun dynamicLikes(item: Fish.FishItem, position: Int) {
         val thumbUpList = item.thumbUpList
         val currUserId = UserManager.loadCurrUserId()
         if (thumbUpList.contains(currUserId)) {
@@ -234,10 +144,13 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGesture.OnSlid
             return
         } else {
             thumbUpList.add(currUserId)
+            mFishListAdapter.notifyItemChanged(position)
         }
-        val listMenuItem = mBinding.fishPond.listMenuItem
-        val likeColor = ContextCompat.getColor(context, R.color.menu_like_font_color)
-        listMenuItem.ivGreat.imageTintList = ColorStateList.valueOf(likeColor)
+        tryVibrate()
+        mFishPondViewModel.dynamicLikes(mMomentId).observe(this) {}
+    }
+
+    private fun tryVibrate() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getSystemService<Vibrator>()?.let { vibrator ->
                 if (vibrator.hasVibrator()) {
@@ -249,47 +162,43 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGesture.OnSlid
                 }
             }
         }
-        mFishPondViewModel.dynamicLikes(mMomentId).observe(this) {}
+    }
+
+    private fun shareFish(item: Fish.FishItem) {
+        val momentId = item.id
+        val content = UMWeb(SUNNY_BEACH_FISH_URL_PRE + momentId)
+        content.title = "我发布了一条摸鱼动态，快来看看吧~"
+        content.setThumb(UMImage(this, R.mipmap.launcher_ic))
+        content.description = getString(R.string.app_name)
+        // 分享
+        ShareDialog.Builder(this)
+            .setShareLink(content)
+            .setListener(object : UmengShare.OnShareListener {
+                override fun onSucceed(platform: Platform) {
+                    toast("分享成功")
+                }
+
+                override fun onError(platform: Platform, t: Throwable) {
+                    toast(t.message)
+                }
+
+                override fun onCancel(platform: Platform) {
+                    toast("分享取消")
+                }
+            })
+            .show()
     }
 
     override fun onNineGridClick(sources: List<String>, index: Int) {
         ImagePreviewActivity.start(this, sources, index)
     }
 
-    override fun onSwipeUp() {
-        goToPostComment(mNickName)
-    }
-
     override fun initEvent() {
-        val fishPond = mBinding.fishPond
-        fishPond.llUserInfoContainer.setFixOnClickListener {
-            if (TextUtils.isEmpty(mUserId)) {
-                return@setFixOnClickListener
+        mFishListAdapter.setOnMenuItemClickListener { view, item, position ->
+            when (view.id) {
+                R.id.ll_share -> shareFish(item)
+                R.id.ll_great -> dynamicLikes(item, position)
             }
-            ViewUserActivity.start(this, mUserId)
-        }
-        fishPond.listMenuItem.llShare.setFixOnClickListener {
-            val content = UMWeb(SUNNY_BEACH_FISH_URL_PRE + mMomentId)
-            content.title = "我发布了一条摸鱼动态，快来看看吧~"
-            content.setThumb(UMImage(this, R.mipmap.launcher_ic))
-            content.description = getString(R.string.app_name)
-            // 分享
-            ShareDialog.Builder(this)
-                .setShareLink(content)
-                .setListener(object : OnShareListener {
-                    override fun onSucceed(platform: Platform) {
-                        toast("分享成功")
-                    }
-
-                    override fun onError(platform: Platform, t: Throwable) {
-                        toast(t.message)
-                    }
-
-                    override fun onCancel(platform: Platform) {
-                        toast("分享取消")
-                    }
-                })
-                .show()
         }
         mBinding.slFishDetailRefresh.setOnRefreshListener {
             // 加载摸鱼动态详情和摸鱼动态评论列表
@@ -298,23 +207,22 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGesture.OnSlid
             mFishPondDetailCommendListAdapter.refresh()
         }
         mFishPondDetailCommendListAdapter.setOnVewMoreClickListener { item, _ ->
-            val intent = FishCommendDetailActivity.getIntent(this, mMomentId, item)
-            startActivityForResult(intent) { resultCode, _ ->
-                if (resultCode == Activity.RESULT_OK) {
-                    mFishPondDetailCommendListAdapter.refresh()
-                }
-            }
+            viewMoreDetail(item)
         }
         mFishPondDetailCommendListAdapter.setOnCommentClickListener { item, _ ->
-            val intent = FishCommendDetailActivity.getIntent(this, mMomentId, item)
-            startActivityForResult(intent) { resultCode, _ ->
-                if (resultCode == Activity.RESULT_OK) {
-                    mFishPondDetailCommendListAdapter.refresh()
-                }
-            }
+            viewMoreDetail(item)
         }
         mBinding.commentContainer.tvFishPondSubmitComment.setFixOnClickListener {
             goToPostComment(mNickName)
+        }
+    }
+
+    private fun viewMoreDetail(item: FishPondComment.FishPondCommentItem) {
+        val intent = FishCommendDetailActivity.getIntent(this, mMomentId, item)
+        startActivityForResult(intent) { resultCode, _ ->
+            if (resultCode == RESULT_OK) {
+                mFishPondDetailCommendListAdapter.refresh()
+            }
         }
     }
 

@@ -31,7 +31,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
  * time   : 2021/09/06
  * desc   : 摸鱼动态列表的适配器
  */
-class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
+class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val expandContent: Boolean = false) :
     PagingDataAdapter<Fish.FishItem, FishListAdapter.FishListViewHolder>(FishDiffCallback()),
     SimpleGridLayout.OnNineGridClickListener {
 
@@ -128,6 +128,15 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate) :
             "${item.position} · " +
                     DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
         tvContent.setTextIsSelectable(false)
+        tvContent.apply {
+            if (expandContent) {
+                maxLines = Int.MAX_VALUE
+                ellipsize = null
+            } else {
+                maxLines = 5
+                ellipsize = TextUtils.TruncateAt.END
+            }
+        }
         val content = item.content
         // 设置默认表情符号解析器
         tvContent.setDefaultEmojiParser()
