@@ -200,6 +200,9 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGridLayout.OnN
                 R.id.ll_great -> dynamicLikes(item, position)
             }
         }
+        mFishListAdapter.setOnNineGridClickListener { sources, index ->
+            ImagePreviewActivity.start(this, sources, index)
+        }
         mBinding.slFishDetailRefresh.setOnRefreshListener {
             // 加载摸鱼动态详情和摸鱼动态评论列表
             loadFishDetail()
