@@ -14,6 +14,7 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.util.dp
 import com.blankj.utilcode.util.ImageUtils
+import kotlin.math.sqrt
 
 /**
  *    author : A Lonely Cat
@@ -83,6 +84,7 @@ class AvatarDecorView @JvmOverloads constructor(
             // 如果设置的头像 drawable 为空，则设置默认头像 drawable
             drawable ?: defAvatarDrawable
         }
+        // background = ColorDrawable(Color.RED)
         super.setImageDrawable(decorDrawable)
     }
 
@@ -94,10 +96,14 @@ class AvatarDecorView @JvmOverloads constructor(
         canvas ?: return
         if (isVip) {
             // Timber.d("onDrawForeground：===> width is $width measuredWidth is $measuredWidth")
-            val dx = width - badgeBitmap.width * scaleFactor
-            val dy = height - badgeBitmap.height * scaleFactor
+
             // 画布默认是在左上角，需要先调整画布的位置
-            canvas.translate(dx, dy)
+            // 左移和上移 小正方形边长的一半的距离
+            canvas.translate(-badgeBitmap.width * scaleFactor / 2, -badgeBitmap.width * scaleFactor / 2)
+            // 右移和下移 大正方形边长的一半的距离
+            canvas.translate(width / 2f, width / 2f)
+            // 右移和下移 大圆半径除以根号2的距离
+            canvas.translate((width / 2) / sqrt(2f), (width / 2) / sqrt(2f))
             // 绘制小徽章
             canvas.drawBitmap(badgeBitmap, scaleMatrix, badgePaint)
         }
