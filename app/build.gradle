@@ -318,6 +318,7 @@ dependencies {
     // 对象注解：https://www.jianshu.com/p/f1f888e4a35f
     // 平板适配：https://github.com/JessYanCoding/AndroidAutoSize
     // 图片压缩：https://github.com/Curzibn/Luban
+    implementation 'top.zibin:Luban:1.1.8'
     // 对象存储：https://github.com/leavesC/DoKV
     // 第三方支付：https://github.com/Cuieney/RxPay
     // 多渠道打包：https://github.com/Meituan-Dianping/walle
