@@ -13,28 +13,28 @@ import cn.cqautotest.sunnybeach.databinding.UserFishListFragmentBinding
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
-import cn.cqautotest.sunnybeach.ui.adapter.QaListAdapter
-import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
+import cn.cqautotest.sunnybeach.ui.adapter.ShareListAdapter
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_SHARE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.util.dp
 import cn.cqautotest.sunnybeach.util.loadStateListener
-import cn.cqautotest.sunnybeach.viewmodel.QaViewModel
+import cn.cqautotest.sunnybeach.viewmodel.ShareViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import kotlinx.coroutines.flow.collectLatest
 
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/10/31
- * desc   : 用户回答列表 Fragment
+ * time   : 2022/04/12
+ * desc   : 用户分享列表 Fragment
  */
-class UserQaListFragment : AppFragment<AppActivity>(), StatusAction {
+class UserShareListFragment : AppFragment<AppActivity>(), StatusAction {
 
     private val mBinding by viewBinding<UserFishListFragmentBinding>()
     private val mAdapterDelegate = AdapterDelegate()
-    private val mQaListAdapter = QaListAdapter(mAdapterDelegate)
-    private val mQaViewModel by activityViewModels<QaViewModel>()
-    private val loadStateListener = loadStateListener(mQaListAdapter) {
+    private val mShareListAdapter = ShareListAdapter(mAdapterDelegate)
+    private val mShareViewModel by activityViewModels<ShareViewModel>()
+    private val loadStateListener = loadStateListener(mShareListAdapter) {
         mBinding.refreshLayout.finishRefresh()
     }
 
@@ -43,7 +43,7 @@ class UserQaListFragment : AppFragment<AppActivity>(), StatusAction {
     override fun initView() {
         mBinding.rvFishPondList.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = mQaListAdapter
+            adapter = mShareListAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(4.dp))
         }
     }
@@ -55,22 +55,22 @@ class UserQaListFragment : AppFragment<AppActivity>(), StatusAction {
 
     private fun loadUserQaList(userId: String) {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            mQaViewModel.loadUserQaList(userId).collectLatest {
-                mQaListAdapter.submitData(it)
+            mShareViewModel.loadUserShareList(userId).collectLatest {
+                mShareListAdapter.submitData(it)
             }
         }
     }
 
     override fun initEvent() {
         mBinding.refreshLayout.setOnRefreshListener {
-            mQaListAdapter.refresh()
+            mShareListAdapter.refresh()
         }
         // 需要在 View 销毁的时候移除 listener
-        mQaListAdapter.addLoadStateListener(loadStateListener)
+        mShareListAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            // 跳转到问答详情界面
-            val item = mQaListAdapter.snapshot()[position] ?: return@setOnItemClickListener
-            val url = "$SUNNY_BEACH_QA_URL_PRE${item.wendaComment.wendaId}"
+            // 跳转到分享详情界面
+            val item = mShareListAdapter.snapshot()[position] ?: return@setOnItemClickListener
+            val url = "$SUNNY_BEACH_SHARE_URL_PRE${item.id}"
             BrowserActivity.start(requireContext(), url)
         }
     }
@@ -79,13 +79,13 @@ class UserQaListFragment : AppFragment<AppActivity>(), StatusAction {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mQaListAdapter.removeLoadStateListener(loadStateListener)
+        mShareListAdapter.removeLoadStateListener(loadStateListener)
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(userId: String): UserQaListFragment {
-            val fragment = UserQaListFragment()
+        fun newInstance(userId: String): UserShareListFragment {
+            val fragment = UserShareListFragment()
             val args = Bundle().apply {
                 putString(IntentKey.ID, userId)
             }

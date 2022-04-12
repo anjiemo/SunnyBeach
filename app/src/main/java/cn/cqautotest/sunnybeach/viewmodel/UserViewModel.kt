@@ -7,9 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import cn.cqautotest.sunnybeach.model.*
-import cn.cqautotest.sunnybeach.other.FollowState
 import cn.cqautotest.sunnybeach.paging.source.RichPagingSource
-import cn.cqautotest.sunnybeach.paging.source.UserFollowPagingSource
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import com.blankj.utilcode.util.RegexUtils
 import kotlinx.coroutines.flow.Flow
@@ -99,19 +97,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
      * 领取津贴
      */
     fun getAllowance() = Repository.getAllowance()
-
-    /**
-     * 获取用户的关注/粉丝列表
-     */
-    fun getUserFollowList(
-        userId: String,
-        followState: FollowState
-    ): Flow<PagingData<UserFollow.UserFollowItem>> {
-        return Pager(config = PagingConfig(30),
-            pagingSourceFactory = {
-                UserFollowPagingSource(userId, followState)
-            }).flow.cachedIn(viewModelScope)
-    }
 
     /**
      * 取消关注用户

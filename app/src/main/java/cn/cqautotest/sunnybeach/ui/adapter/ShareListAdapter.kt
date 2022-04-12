@@ -6,64 +6,64 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import cn.cqautotest.sunnybeach.databinding.QaListItemBinding
-import cn.cqautotest.sunnybeach.model.UserQa
+import cn.cqautotest.sunnybeach.databinding.ShareListItemBinding
+import cn.cqautotest.sunnybeach.model.UserShare
 import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/10/31
- * desc   : 用户回答列表的适配器
+ * time   : 2022/04/12
+ * desc   : 用户分享列表的适配器
  */
-class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<UserQa.Content, QaListAdapter.QaListViewHolder>(QaDiffCallback()) {
+class ShareListAdapter(private val adapterDelegate: AdapterDelegate) :
+    PagingDataAdapter<UserShare.Content, ShareListAdapter.ShareListViewHolder>(ShareDiffCallback()) {
 
-    class QaDiffCallback : DiffUtil.ItemCallback<UserQa.Content>() {
+    class ShareDiffCallback : DiffUtil.ItemCallback<UserShare.Content>() {
         override fun areItemsTheSame(
-            oldItem: UserQa.Content,
-            newItem: UserQa.Content
+            oldItem: UserShare.Content,
+            newItem: UserShare.Content
         ): Boolean {
-            return oldItem.wendaComment.id == newItem.wendaComment.id
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: UserQa.Content,
-            newItem: UserQa.Content
+            oldItem: UserShare.Content,
+            newItem: UserShare.Content
         ): Boolean {
             return oldItem == newItem
         }
     }
 
-    inner class QaListViewHolder(val binding: QaListItemBinding) :
+    inner class ShareListViewHolder(val binding: ShareListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    override fun onViewAttachedToWindow(holder: QaListViewHolder) {
+    override fun onViewAttachedToWindow(holder: ShareListViewHolder) {
         super.onViewAttachedToWindow(holder)
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(holder: QaListAdapter.QaListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ShareListAdapter.ShareListViewHolder, position: Int) {
         val item = getItem(position) ?: return
         val itemView = holder.itemView
         val binding = holder.binding
-        val tvQaTitle = binding.tvQaTitle
+        val tvShareTitle = binding.tvShareTitle
         val tvDesc = binding.tvDesc
         itemView.setFixOnClickListener {
             adapterDelegate.onItemClick(it, position)
         }
-        tvQaTitle.text = item.wendaTitle
-        tvDesc.text = DateHelper.getFriendlyTimeSpanByNow("${item.wendaComment.publishTime}:00")
+        tvShareTitle.text = item.title
+        tvDesc.text = DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): QaListViewHolder {
+    ): ShareListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = QaListItemBinding.inflate(inflater, parent, false)
-        return QaListViewHolder(binding)
+        val binding = ShareListItemBinding.inflate(inflater, parent, false)
+        return ShareListViewHolder(binding)
     }
 }

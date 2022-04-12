@@ -162,22 +162,4 @@ interface UserApi {
      */
     @PUT("${SUNNY_BEACH_API_BASE_URL}ast/vip-allowance")
     suspend fun getAllowance(): ApiResponse<Any>
-
-    /**
-     * 获取用户关注的用户列表
-     */
-    @GET("${SUNNY_BEACH_API_BASE_URL}uc/follow/list/{userId}/{page}")
-    suspend fun getUserFollowList(
-        @Path("userId") userId: String,
-        @Path("page") page: Int
-    ): ApiResponse<UserFollow>
-
-    /**
-     * 获取用户的粉丝列表
-     */
-    @GET("${SUNNY_BEACH_API_BASE_URL}uc/fans/list/{userId}/{page}")
-    suspend fun getUserFansList(
-        @Path("userId") userId: String,
-        @Path("page") page: Int
-    ): ApiResponse<UserFollow>
 }

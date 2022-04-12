@@ -5,21 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.fragment.UserMediaFragment">
+    tools:context=".ui.fragment.UserMediaFragment"
+    tools:showIn="@layout/view_user_activity">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        app:tabGravity="start"
         app:tabIndicatorColor="#007FFF"
-        app:tabMode="auto"
+        app:tabMode="scrollable"
         app:tabSelectedTextColor="#007FFF"
         app:tabTextColor="@color/default_font_color" />
 
-    <androidx.viewpager.widget.ViewPager
+    <com.hjq.widget.layout.NestedViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_weight="1"
+        android:layout_height="0px" />
 
 </LinearLayout>

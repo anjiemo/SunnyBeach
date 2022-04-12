@@ -15,7 +15,7 @@ import timber.log.Timber
  * time   : 2021/11/06
  * desc   : 缓存清理 Worker
  */
-class CacheCleanWorker(appContext: Context, workerParams: WorkerParameters) :
+class CacheCleanupWorker(appContext: Context, workerParams: WorkerParameters) :
     CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
