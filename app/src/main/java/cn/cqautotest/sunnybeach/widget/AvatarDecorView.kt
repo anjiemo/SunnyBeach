@@ -84,7 +84,6 @@ class AvatarDecorView @JvmOverloads constructor(
             // 如果设置的头像 drawable 为空，则设置默认头像 drawable
             drawable ?: defAvatarDrawable
         }
-        // background = ColorDrawable(Color.RED)
         super.setImageDrawable(decorDrawable)
     }
 

@@ -18,7 +18,6 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.app.AppActivity
-import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
 import cn.cqautotest.sunnybeach.manager.UserManager
@@ -44,10 +43,12 @@ import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
 import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 /**
  * author : A Lonely Cat
@@ -55,10 +56,13 @@ import java.util.*
  * time   : 2021/07/07
  * desc   : 摸鱼动态列表 Fragment
  */
+@AndroidEntryPoint
 class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener {
 
     private val mBinding: FishListFragmentBinding by viewBinding()
-    private val mAppViewModel: AppViewModel = AppApplication.getAppViewModel()
+
+    @Inject
+    lateinit var mAppViewModel: AppViewModel
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
     private val mFishListAdapter = FishListAdapter(AdapterDelegate())
     private val loadStateListener = loadStateListener(mFishListAdapter) {

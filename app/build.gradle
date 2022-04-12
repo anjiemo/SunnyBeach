@@ -3,6 +3,7 @@ apply plugin: 'android-aspectjx'
 apply from: '../common.gradle'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.huawei.agconnect'
 
 // Android 代码规范文档：https://github.com/getActivity/AndroidCodeStandard
@@ -194,7 +195,7 @@ dependencies {
     def nav_version = "2.3.5"
     def emoji2_version = "1.0.0-beta01"
     def room_version = "2.3.0"
-    def work_version = "2.7.0"
+    def work_version = "2.7.1"
     def markwon_version = "4.6.2"
     def prism_version = "2.0.0"
     def qmui_arch_version = '2.0.1'
@@ -301,8 +302,8 @@ dependencies {
     implementation 'com.tencent:mmkv-static:1.2.10'
 
     // 内存泄漏监测框架：https://github.com/square/leakcanary
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
-    previewImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+    previewImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 
     // 多语种：https://github.com/getActivity/MultiLanguages
     // 悬浮窗：https://github.com/getActivity/XToast
@@ -373,6 +374,8 @@ dependencies {
     // 华为统一扫码服务：https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/service-introduction-0000001050041994
     implementation 'com.huawei.agconnect:agconnect-core:1.5.2.300'
     implementation 'com.huawei.hms:scan:2.4.0.301'
+    implementation "com.google.dagger:hilt-android:2.40.5"
+    kapt "com.google.dagger:hilt-android-compiler:2.40.5"
 }
 
 kapt {

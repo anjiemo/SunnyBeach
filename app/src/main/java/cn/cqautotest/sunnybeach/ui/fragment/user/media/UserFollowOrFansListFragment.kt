@@ -9,14 +9,14 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
-import cn.cqautotest.sunnybeach.databinding.UserFollowListFragmentBinding
+import cn.cqautotest.sunnybeach.databinding.UserFollowOrFansListFragmentBinding
 import cn.cqautotest.sunnybeach.other.FollowState
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.UserFollowListAdapter
 import cn.cqautotest.sunnybeach.util.*
-import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
+import cn.cqautotest.sunnybeach.viewmodel.FollowOrFansViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import kotlinx.coroutines.flow.collectLatest
 
@@ -24,18 +24,18 @@ import kotlinx.coroutines.flow.collectLatest
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2021/10/31
- * desc   : 用户关注的用户列表 Fragment
+ * desc   : 用户关注/粉丝列表 Fragment
  */
-class UserFollowListFragment : AppFragment<AppActivity>(), StatusAction {
+class UserFollowOrFansListFragment : AppFragment<AppActivity>(), StatusAction {
 
-    private val mBinding by viewBinding<UserFollowListFragmentBinding>()
+    private val mBinding by viewBinding<UserFollowOrFansListFragmentBinding>()
     private val mUserFollowListAdapter = UserFollowListAdapter(AdapterDelegate())
-    private val mUserViewModel by viewModels<UserViewModel>()
+    private val mFollowViewModel by viewModels<FollowOrFansViewModel>()
     private val loadStateListener = loadStateListener(mUserFollowListAdapter) {
         mBinding.refreshLayout.finishRefresh()
     }
 
-    override fun getLayoutId(): Int = R.layout.user_follow_list_fragment
+    override fun getLayoutId(): Int = R.layout.user_follow_or_fans_list_fragment
 
     override fun initView() {
         mBinding.rvFollowList.apply {
@@ -54,7 +54,7 @@ class UserFollowListFragment : AppFragment<AppActivity>(), StatusAction {
 
     private fun loadUserFollowList(userId: String, followState: FollowState) {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            mUserViewModel.getUserFollowList(userId, followState).collectLatest {
+            mFollowViewModel.loadUserFollowOrFansListByState(userId, followState).collectLatest {
                 mUserFollowListAdapter.submitData(it)
             }
         }
@@ -81,8 +81,8 @@ class UserFollowListFragment : AppFragment<AppActivity>(), StatusAction {
 
     companion object {
         @JvmStatic
-        fun newInstance(userId: String, followState: FollowState): UserFollowListFragment {
-            val fragment = UserFollowListFragment()
+        fun newInstance(userId: String, followState: FollowState): UserFollowOrFansListFragment {
+            val fragment = UserFollowOrFansListFragment()
             val args = Bundle().apply {
                 putString(IntentKey.ID, userId)
                 putString(IntentKey.OTHER, followState.toJson())

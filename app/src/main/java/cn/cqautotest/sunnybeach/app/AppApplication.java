@@ -7,11 +7,13 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.work.Configuration;
 import androidx.work.Constraints;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
@@ -49,7 +51,8 @@ import cn.cqautotest.sunnybeach.other.DebugLoggerTree;
 import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter;
 import cn.cqautotest.sunnybeach.other.ToastLogInterceptor;
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel;
-import cn.cqautotest.sunnybeach.work.CacheCleanWorker;
+import cn.cqautotest.sunnybeach.work.CacheCleanupWorker;
+import dagger.hilt.android.HiltAndroidApp;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
@@ -60,7 +63,8 @@ import timber.log.Timber;
  * time   : 2018/10/18
  * desc   : 应用入口
  */
-public class AppApplication extends Application {
+@HiltAndroidApp
+public class AppApplication extends Application implements Configuration.Provider {
 
     private static AppApplication INSTANCE;
     private static CookieRoomDatabase sDatabase;
@@ -226,12 +230,12 @@ public class AppApplication extends Application {
                 .setRequiresBatteryNotLow(true)
                 .build();
         // 定期工作请求（间隔一天工作一次）
-        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(CacheCleanWorker.class,
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(CacheCleanupWorker.class,
                 1, TimeUnit.HOURS)
                 // 设置约束条件
                 .setConstraints(constraints)
                 // 符合约束条件后，延迟1分钟执行
-                .setInitialDelay(0, TimeUnit.MINUTES)
+                .setInitialDelay(1, TimeUnit.MINUTES)
                 .build();
         WorkManager wm = WorkManager.getInstance(application);
         // 将工作加入队列中
@@ -269,5 +273,19 @@ public class AppApplication extends Application {
 
     public static AppViewModel getAppViewModel() {
         return sAppViewModel;
+    }
+
+    @NonNull
+    @Override
+    public Configuration getWorkManagerConfiguration() {
+        Configuration.Builder builder = new Configuration.Builder();
+        Configuration configuration;
+        if (AppConfig.isDebug()) {
+            configuration = builder.setMinimumLoggingLevel(Log.INFO)
+                    .build();
+        } else {
+            configuration = builder.build();
+        }
+        return configuration;
     }
 }

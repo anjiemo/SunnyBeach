@@ -35,6 +35,8 @@ import com.hjq.base.BaseDialog
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.HttpCallback
 import com.hjq.widget.view.SwitchButton
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * author : Android 轮子哥 & A Lonely Cat
@@ -42,12 +44,15 @@ import com.hjq.widget.view.SwitchButton
  * time   : 2019/03/01
  * desc   : 设置界面
  */
+@AndroidEntryPoint
 class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
 
     private val mBinding: SettingActivityBinding by viewBinding()
     private var isAutoCheckAppVersion = true
     private var mAppVersionLiveData = MutableLiveData<AppUpdateInfo?>()
-    private val mAppViewModel: AppViewModel = AppApplication.getAppViewModel()
+
+    @Inject
+    lateinit var mAppViewModel: AppViewModel
     private val mUserViewModel by viewModels<UserViewModel>()
 
     override fun getLayoutId(): Int = R.layout.setting_activity
@@ -129,10 +134,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                     .setList(R.string.setting_language_simple, R.string.setting_language_complex)
                     .setListener(MenuDialog.OnListener { _: BaseDialog?, _: Int, string: String? ->
                         mBinding.sbSettingLanguage.rightText = string
-                        BrowserActivity.start(
-                            activity,
-                            "https://github.com/getActivity/MultiLanguages"
-                        )
+                        BrowserActivity.start(activity, "https://github.com/getActivity/MultiLanguages")
                     })
                     .setGravity(Gravity.BOTTOM)
                     .setAnimStyle(BaseDialog.ANIM_BOTTOM)
@@ -148,9 +150,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
             R.id.sb_setting_phone -> {
                 SafeDialog.Builder(this)
                     .setListener { _: BaseDialog?, _: String?, code: String? ->
-                        PhoneResetActivity.start(
-                            activity, code
-                        )
+                        PhoneResetActivity.start(activity, code)
                     }
                     .show()
             }
@@ -223,9 +223,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                     SobCacheManager.onAccountLoginOut()
                     LoginActivity.start(this, "", "")
                     // 进行内存优化，销毁除登录页之外的所有界面
-                    ActivityManager.getInstance().finishAllActivities(
-                        LoginActivity::class.java
-                    )
+                    ActivityManager.getInstance().finishAllActivities(LoginActivity::class.java)
                 }
                 if (true) {
                     return
@@ -237,9 +235,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                         override fun onSucceed(data: HttpData<Void?>) {
                             LoginActivity.start(context, "", "")
                             // 进行内存优化，销毁除登录页之外的所有界面
-                            ActivityManager.getInstance().finishAllActivities(
-                                LoginActivity::class.java
-                            )
+                            ActivityManager.getInstance().finishAllActivities(LoginActivity::class.java)
                         }
                     })
             }

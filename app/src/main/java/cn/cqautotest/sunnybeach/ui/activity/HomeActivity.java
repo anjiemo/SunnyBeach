@@ -23,11 +23,12 @@ import com.hjq.gson.factory.GsonFactory;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener;
 import cn.cqautotest.sunnybeach.action.OnDoubleClickListener;
 import cn.cqautotest.sunnybeach.app.AppActivity;
-import cn.cqautotest.sunnybeach.app.AppApplication;
 import cn.cqautotest.sunnybeach.app.AppFragment;
 import cn.cqautotest.sunnybeach.manager.ActivityManager;
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo;
@@ -43,6 +44,7 @@ import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment;
 import cn.cqautotest.sunnybeach.util.FragmentActivityKt;
 import cn.cqautotest.sunnybeach.util.KotlinResult;
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel;
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * author : Android 轮子哥
@@ -50,6 +52,7 @@ import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel;
  * time   : 2018/10/18
  * desc   : 首页界面
  */
+@AndroidEntryPoint
 public final class HomeActivity extends AppActivity implements NavigationAdapter.OnNavigationListener, OnDoubleClickListener {
 
     private static final String INTENT_KEY_IN_FRAGMENT_INDEX = "fragmentIndex";
@@ -60,7 +63,8 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
 
     private NavigationAdapter mNavigationAdapter;
     private FragmentPagerAdapter<AppFragment<?>> mPagerAdapter;
-    private final AppViewModel mAppViewModel = AppApplication.getAppViewModel();
+    @Inject
+    AppViewModel mAppViewModel;
     private final MutableLiveData<AppUpdateInfo> mAppVersionLiveData = new MutableLiveData<>();
 
     public static void start(Context context) {
