@@ -25,13 +25,21 @@ import cn.cqautotest.sunnybeach.ui.dialog.InputDialog
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
+import com.blankj.utilcode.constant.MemoryConstants
+import com.blankj.utilcode.util.ConvertUtils
+import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.KeyboardUtils
+import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
 import com.hjq.bar.TitleBar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import top.zibin.luban.Luban
+import top.zibin.luban.OnCompressListener
 import java.io.File
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * author : A Lonely Cat
@@ -206,11 +214,29 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         // 上传图片，此处的 path 为客户端本地的路径，需要上传到服务器上，获取网络 url 路径
         lifecycleScope.launchWhenCreated {
             val successImages = arrayListOf<String>()
+            var hasOutOfSizeImg = false
             withContext(Dispatchers.IO) {
                 run {
+                    // 预处理，先判断压缩后的图片是否有超过阈值
+                    images.forEachIndexed { index, path ->
+                        // 压缩图片文件
+                        val zipImgFile = zipImageFile(File(path))
+                        // 压缩后的图片文件路径
+                        val zippedPath = zipImgFile?.path ?: path
+                        images[index] = zippedPath
+                        Timber.d("onRightClick：===> path is $path zippedPath is $zippedPath")
+                        val fileSize = FileUtils.getFileLength(zippedPath)
+                        if (fileSize >= IMAGE_FILE_MAX_SIZE) {
+                            val currImgFileSize = FileUtils.getSize(zippedPath)
+                            Timber.d("onRightClick：===> imageFile：$path file size max is $IMAGE_FILE_MAX_SIZE, but curr zipped size is $currImgFileSize")
+                            hasOutOfSizeImg = true
+                            return@run
+                        }
+                    }
                     images.forEach {
                         val imageUrl = withContext(Dispatchers.Default) {
-                            Repository.uploadFishImage(File(it))
+                            val imageFile = File(it)
+                            Repository.uploadFishImage(imageFile)
                             // 直接 return 只有 continue 的效果，此处需要使用 lambda 进行 return （相当于 break）
                         } ?: return@run
                         successImages.add(imageUrl)
@@ -220,7 +246,9 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             }
             Timber.d("===> successImages is $successImages")
             if (successImages.size != images.size) {
-                simpleToast("图片上传失败，请稍后重试")
+                val tips = if (hasOutOfSizeImg) "当前仅支持上传小于${ConvertUtils.byte2FitMemorySize(IMAGE_FILE_MAX_SIZE.toLong(), 0)}的图片"
+                else "图片上传失败，请稍后重试"
+                simpleToast(tips)
                 hideDialog()
                 view?.isEnabled = true
                 return@launchWhenCreated
@@ -232,6 +260,9 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                 "linkUrl" to mLinkUrl,
                 "images" to successImages,
             )
+
+            // If you want to debug, uncomment the next line of code.
+            // if (true) return@launchWhenCreated
 
             // 图片上传完成，可以发布摸鱼
             mFishPondViewModel.putFish(map).observe(this@PutFishActivity) {
@@ -254,6 +285,39 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         }
     }
 
+    private suspend fun zipImageFile(imgFile: File) = suspendCoroutine<File?> { con ->
+        Luban.with(this)
+            .load(imgFile)
+            .ignoreBy(TIMES)
+            .setTargetDir(PathUtils.getExternalAppCachePath())
+            .filter { it.isNotBlank() }
+            .setCompressListener(object : OnCompressListener {
+                override fun onStart() {
+                    // 压缩开始前调用
+                    // Ignore this callback, because we don't want to do anything.
+                }
+
+                override fun onSuccess(file: File?) {
+                    // 压缩成功后调用，返回压缩后的图片文件
+                    // We need to rename the image file name to end with png to overcome the server limit.
+                    // Define the extension function inside the function for us to call.
+                    fun String.fixSuffix() = replace("jpeg", "png").replace("jpg", "png")
+                    val destFile = File(file?.parent, imgFile.name.fixSuffix())
+                    // 删除以存在的文件以确保能够正常重命名
+                    FileUtils.delete(destFile)
+                    // 重命名文件
+                    val renameSuccess = FileUtils.rename(file, destFile.name)
+                    con.resume(if (renameSuccess) destFile else file)
+                }
+
+                override fun onError(e: Throwable?) {
+                    con.resume(null)
+                    // 当压缩过程出现问题时调用
+                    e?.printStackTrace()
+                }
+            }).launch()
+    }
+
     override fun onSelected(data: MutableList<String>) {
         mPreviewAdapter.setData(data.toMutableList())
         Timber.d("===> images path is $data")
@@ -265,6 +329,12 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     }
 
     companion object {
+
+        // 图片文件大小的阈值（4MB）
+        private const val IMAGE_FILE_MAX_SIZE = 4 * MemoryConstants.MB
+
+        // 计算出图片文件的阈值是 KB 的多少倍
+        private const val TIMES = IMAGE_FILE_MAX_SIZE / MemoryConstants.KB
 
         private const val INPUT_MAX_LENGTH = 1024
 

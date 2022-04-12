@@ -193,11 +193,7 @@ public class AppApplication extends Application implements Configuration.Provide
         // 初始化 Glide 的 Cookie 管理
         Glide.get(application)
                 .getRegistry()
-                .replace(
-                        GlideUrl.class,
-                        InputStream.class,
-                        new OkHttpUrlLoader.Factory(castOrNull(okHttpClient))
-                );
+                .replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(castOrNull(okHttpClient)));
         // UMConfigure.setLogEnabled(AppConfig.isDebug());
         // // 客户端用户同意隐私政策后，正式初始化友盟+SDK
         // UMConfigure.init(
@@ -229,7 +225,7 @@ public class AppApplication extends Application implements Configuration.Provide
                 // 电池电量不低
                 .setRequiresBatteryNotLow(true)
                 .build();
-        // 定期工作请求（间隔一天工作一次）
+        // 定期工作请求（间隔一小时工作一次）
         PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(CacheCleanupWorker.class,
                 1, TimeUnit.HOURS)
                 // 设置约束条件
