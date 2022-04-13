@@ -11,11 +11,11 @@ data class UserInfo(
     @SerializedName("avatar")
     val avatar: String,
     @SerializedName("company")
-    val company: String,
+    val company: String?,
     @SerializedName("nickname")
     val nickname: String,
     @SerializedName("position")
-    val position: String,
+    val position: String?,
     @SerializedName("sign")
     val sign: String,
     @SerializedName("userId")

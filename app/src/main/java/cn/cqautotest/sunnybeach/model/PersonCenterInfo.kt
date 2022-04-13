@@ -9,13 +9,13 @@ package cn.cqautotest.sunnybeach.model
 data class PersonCenterInfo(
     val area: String,
     val avatar: String,
-    val company: String,
+    val company: String?,
     val email: String,
     val goodAt: String,
     val isvIP: String,
     val nickname: String,
     val phoneNum: String,
-    val position: String,
+    val position: String?,
     val sex: Int,
     val sign: String,
     val userId: String

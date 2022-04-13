@@ -84,8 +84,10 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             mBinding.tvSobId.text = userId.manicured()
 
             val userCenterContent = mBinding.userCenterContent
-            userCenterContent.sbSettingCompany.rightText = personCenterInfo.company
-            userCenterContent.sbSettingJob.rightText = personCenterInfo.position
+            val company = if (personCenterInfo.company.isNullOrEmpty()) "无业" else personCenterInfo.company
+            userCenterContent.sbSettingCompany.rightText = company
+            val job = if (personCenterInfo.position.isNullOrEmpty()) "游民" else personCenterInfo.position
+            userCenterContent.sbSettingJob.rightText = job
             userCenterContent.sbSettingSkill.rightText = personCenterInfo.goodAt
             userCenterContent.sbSettingCoordinate.rightText = personCenterInfo.area
             userCenterContent.sbSettingSign.rightText = personCenterInfo.sign
