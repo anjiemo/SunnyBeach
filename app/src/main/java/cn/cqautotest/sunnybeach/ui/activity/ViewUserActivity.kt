@@ -91,7 +91,9 @@ class ViewUserActivity : AppActivity() {
             mBinding.ivAvatar.loadAvatar(userInfo.vip, userInfo.avatar)
             mBinding.tvNickName.text = userInfo.nickname
             mBinding.tvNickName.setTextColor(UserManager.getNickNameColor(userInfo.vip))
-            mBinding.tvDesc.text = "${userInfo.position}@${userInfo.company}"
+            val job = if (userInfo.position.isNullOrEmpty()) "游民" else userInfo.position
+            val company = if (userInfo.company.isNullOrEmpty()) "无业" else userInfo.company
+            mBinding.tvDesc.text = "${job}@${company}"
         }
         checkFollowState(userId)
         mUserViewModel.getAchievement(userId).observe(this) {

@@ -9,6 +9,7 @@ interface FishPondApi {
 
     /**
      * 获取指定用户的摸鱼动态列表
+     * 如果当前未登录账号则只能获取到第一页的数据
      */
     @GET("${SUNNY_BEACH_API_BASE_URL}ct/moyu/list/user/{userId}/{page}")
     suspend fun loadUserFishList(
