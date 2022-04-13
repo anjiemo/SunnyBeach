@@ -231,7 +231,7 @@ public class AppApplication extends Application implements Configuration.Provide
                 // 设置约束条件
                 .setConstraints(constraints)
                 // 符合约束条件后，延迟1分钟执行
-                .setInitialDelay(1, TimeUnit.MINUTES)
+                .setInitialDelay(0, TimeUnit.MINUTES)
                 .build();
         WorkManager wm = WorkManager.getInstance(application);
         // 将工作加入队列中
