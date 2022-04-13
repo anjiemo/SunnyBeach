@@ -124,9 +124,8 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         ivAvatar.loadAvatar(item.vip, item.avatar)
         tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
         tvNickName.text = item.nickname
-        tvDesc.text =
-            "${item.position} · " +
-                    DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
+        val job = if (item.position.isNullOrEmpty()) "游民" else item.position
+        tvDesc.text = "$job · " + DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
         tvContent.setTextIsSelectable(false)
         tvContent.apply {
             if (expandContent) {

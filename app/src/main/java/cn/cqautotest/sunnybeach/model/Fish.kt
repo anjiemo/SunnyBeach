@@ -47,7 +47,7 @@ data class Fish(
         @SerializedName("nickname")
         val nickname: String,
         @SerializedName("position")
-        val position: String,
+        val position: String?,
         @SerializedName("thumbUpCount")
         val thumbUpCount: Int,
         @SerializedName("thumbUpList")
