@@ -127,9 +127,7 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
             String jsonValue = KotlinResult.INSTANCE.toJson(gson, result);
             AppUpdateInfo appUpdateInfo = gson.fromJson(jsonValue, new TypeToken<AppUpdateInfo>() {
             }.getType());
-            if (appUpdateInfo == null) {
-                return;
-            }
+            if (appUpdateInfo == null) return;
             mAppVersionLiveData.setValue(appUpdateInfo);
         });
     }
@@ -154,8 +152,10 @@ public final class HomeActivity extends AppActivity implements NavigationAdapter
     @Override
     public void initObserver() {
         mAppVersionLiveData.observe(this, appUpdateInfo -> {
+            if (appUpdateInfo == null) return;
             // 是否需要强制更新（当前版本低于最低版本，强制更新）
-            boolean needForceUpdate = AppConfig.getVersionCode() < appUpdateInfo.minVersionCode;
+            int minVersionCode = appUpdateInfo.minVersionCode;
+            boolean needForceUpdate = AppConfig.getVersionCode() < minVersionCode;
             if (needForceUpdate) {
                 showAppUpdateDialog(appUpdateInfo, true);
                 return;
