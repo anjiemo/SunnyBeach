@@ -86,6 +86,19 @@
         tools:ignore="AllowBackup,LockedOrientationActivity"
         tools:replace="android:allowBackup,android:supportsRtl,android:label"
         tools:targetApi="n">
+        <!-- 自定义 WorkManager 配置和初始化：https://developer.android.com/topic/libraries/architecture/workmanager/advanced/custom-configuration#remove-default -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <!-- 移除默认初始化程序：移除 WorkManagerInitializer 节点 -->
+            <!-- If you are using androidx.startup to initialize other components -->
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
         <!-- 适配 Android 7.0 文件意图 -->
         <provider
             android:name="androidx.core.content.FileProvider"
