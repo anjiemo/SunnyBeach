@@ -221,13 +221,16 @@ public class AppApplication extends Application implements Configuration.Provide
      */
     private static void initCacheCleanWork(Application application) {
         // 构造工作执行的约束条件
-        Constraints constraints = new Constraints.Builder()
+        Constraints.Builder builder = new Constraints.Builder()
                 // 电池电量不低
-                .setRequiresBatteryNotLow(true)
-                .build();
+                .setRequiresBatteryNotLow(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // 设备处于空闲状态
+            builder.setRequiresDeviceIdle(true);
+        }
+        Constraints constraints = builder.build();
         // 定期工作请求（间隔一小时工作一次）
-        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(CacheCleanupWorker.class,
-                1, TimeUnit.HOURS)
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(CacheCleanupWorker.class, 1, TimeUnit.HOURS)
                 // 设置约束条件
                 .setConstraints(constraints)
                 // 符合约束条件后，延迟1分钟执行
