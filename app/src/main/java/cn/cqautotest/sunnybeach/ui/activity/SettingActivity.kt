@@ -18,16 +18,10 @@ import cn.cqautotest.sunnybeach.databinding.SettingActivityBinding
 import cn.cqautotest.sunnybeach.db.SobCacheManager
 import cn.cqautotest.sunnybeach.http.model.HttpData
 import cn.cqautotest.sunnybeach.http.request.LogoutApi
-import cn.cqautotest.sunnybeach.manager.ActivityManager
-import cn.cqautotest.sunnybeach.manager.CacheDataManager
-import cn.cqautotest.sunnybeach.manager.ThreadPoolManager
-import cn.cqautotest.sunnybeach.manager.UserManager
+import cn.cqautotest.sunnybeach.manager.*
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
 import cn.cqautotest.sunnybeach.other.AppConfig
-import cn.cqautotest.sunnybeach.ui.dialog.MenuDialog
-import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
-import cn.cqautotest.sunnybeach.ui.dialog.SafeDialog
-import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog
+import cn.cqautotest.sunnybeach.ui.dialog.*
 import cn.cqautotest.sunnybeach.util.startActivity
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
@@ -121,6 +115,31 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
         mAppViewModel.checkAppUpdate().observe(this) {
             isAutoCheckAppVersion = true
             mAppVersionLiveData.value = it.getOrNull()
+        }
+    }
+
+    override fun initEvent() {
+        mBinding.sbSettingCache.setOnLongClickListener {
+            fun Int.isOpenAutoCleanCache() = this == 0
+            fun Boolean.selectIndex() = if (this) 0 else 1
+            // 选择清理模式
+            SelectDialog.Builder(this)
+                .setTitle("空闲时自动清理")
+                .setList("开", "关")
+                // 设置单选模式
+                .setSingleSelect()
+                // 设置默认选中
+                .setSelect(AppManager.isAutoCleanCache().selectIndex())
+                .setListener { _, data ->
+                    // 单选
+                    val keys = data.keys
+                    if (keys.size == 1) {
+                        val key = keys.toList()[0]
+                        AppManager.setAutoCleanCache(key.isOpenAutoCleanCache())
+                    }
+                }
+                .show()
+            true
         }
     }
 

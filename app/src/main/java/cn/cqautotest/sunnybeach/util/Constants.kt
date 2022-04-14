@@ -6,6 +6,8 @@ const val USER_SETTING = "userSetting"
 
 const val IS_FIRST = "isFirst"
 
+const val APP_AUTO_CLEAN_CACHE = "appAutoCleanCache"
+
 const val BASE_URL = "http://192.168.123.159:3000/"
 
 const val DEFAULT_URL =

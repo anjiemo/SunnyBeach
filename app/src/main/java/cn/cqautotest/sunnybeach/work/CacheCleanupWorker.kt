@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
+import cn.cqautotest.sunnybeach.manager.AppManager
 import cn.cqautotest.sunnybeach.manager.CacheDataManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,6 +20,9 @@ class CacheCleanupWorker(appContext: Context, workerParams: WorkerParameters) :
     CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
+        val isAutoCleanCache = AppManager.isAutoCleanCache()
+        Timber.d("doWork:===> isAutoCleanCache $isAutoCleanCache")
+        if (isAutoCleanCache.not()) return Result.success()
         Timber.d("doWork:===> start clean cache...")
         try {
             withContext(Dispatchers.Main) {
