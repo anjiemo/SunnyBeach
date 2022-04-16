@@ -71,7 +71,7 @@ class UserFishListFragment : AppFragment<AppActivity>(), StatusAction {
             FishPondDetailActivity.start(requireContext(), momentId)
         }
         mFishListAdapter.setOnNineGridClickListener { sources, index ->
-            ImagePreviewActivity.start(requireContext(), sources, index)
+            ImagePreviewActivity.start(requireContext(), sources.toMutableList(), index)
         }
     }
 

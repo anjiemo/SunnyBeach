@@ -86,7 +86,7 @@ class UserArticleListFragment : AppFragment<AppActivity>(), StatusAction {
             }
         }
         mUserArticleAdapter.setOnNineGridClickListener { sources, index ->
-            ImagePreviewActivity.start(requireContext(), sources, index)
+            ImagePreviewActivity.start(requireContext(), sources.toMutableList(), index)
         }
     }
 
@@ -100,15 +100,15 @@ class UserArticleListFragment : AppFragment<AppActivity>(), StatusAction {
         ShareDialog.Builder(requireActivity())
             .setShareLink(content)
             .setListener(object : UmengShare.OnShareListener {
-                override fun onSucceed(platform: Platform) {
+                override fun onSucceed(platform: Platform?) {
                     toast("分享成功")
                 }
 
-                override fun onError(platform: Platform, t: Throwable) {
+                override fun onError(platform: Platform?, t: Throwable) {
                     toast(t.message)
                 }
 
-                override fun onCancel(platform: Platform) {
+                override fun onCancel(platform: Platform?) {
                     toast("分享取消")
                 }
             })

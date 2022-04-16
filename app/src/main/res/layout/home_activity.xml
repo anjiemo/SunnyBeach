@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".ui.activity.HomeActivity">
 
-    <androidx.viewpager.widget.ViewPager
+    <com.hjq.widget.layout.NoScrollViewPager
         android:id="@+id/vp_home_pager"
         android:layout_width="match_parent"
         android:layout_height="0px"

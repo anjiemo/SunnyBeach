@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/7/7
+ * time   : 2021/07/07
  * desc   : 摸鱼评论列表bean类
  */
 data class FishPondComment(
@@ -40,7 +40,7 @@ data class FishPondComment(
         @SerializedName("nickname")
         private val nickname: String = "",
         @SerializedName("position")
-        val position: String = "",
+        val position: String? = "",
         @SerializedName("subComments")
         val subComments: List<SubComment> = arrayListOf(),
         @SerializedName("thumbUp")
@@ -68,7 +68,7 @@ data class FishPondComment(
             @SerializedName("nickname")
             private val nickname: String = "",
             @SerializedName("position")
-            val position: String = "",
+            val position: String? = "",
             @SerializedName("targetUserId")
             private val targetUserId: String = "",
             @SerializedName("targetUserIsVip")

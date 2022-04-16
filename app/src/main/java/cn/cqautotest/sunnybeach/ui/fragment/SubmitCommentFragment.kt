@@ -44,7 +44,7 @@ class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction,
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext())
         _binding = SubmitCommendIncludeBinding.inflate(layoutInflater)
-        dialog.contentView = mBinding.root
+        dialog.setContentView(mBinding.root)
         onCreateDialogView()
         return dialog
     }
@@ -105,6 +105,7 @@ class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction,
             mBinding.tvInputLength.text = inputLengthTips
             // 判断输入的字符串长度是否超过最大长度
             mBinding.tvInputLength.setTextColor(if (isOverflow) overflowColor else normalColor)
+            mBinding.tvSend.isEnabled = it.isNullOrEmpty().not()
         }
         mBinding.tvSend.setFixOnClickListener { view ->
             view.isEnabled = false

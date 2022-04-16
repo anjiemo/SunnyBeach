@@ -4,7 +4,7 @@
     <color name="common_primary_color">@color/white</color>
     <color name="common_primary_dark_color">@color/black</color>
     <color name="common_accent_color">#5A8DDF</color>
-    <color name="common_window_background_color">#F5F5F6</color>
+    <color name="common_window_background_color">#F4F4F4</color>
     <color name="common_text_color">#333333</color>
     <color name="common_text_hint_color">@color/panda</color>
 
@@ -38,11 +38,6 @@
     <!-- 按钮禁用时的背景颜色 -->
     <color name="btn_bg_disable_color">#F7F8FA</color>
 
-
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
-
     <color name="skin_white">#FFFFFFFF</color>
     <color name="skin_black">#FF000000</color>
     <color name="skin_red">#FFFF0000</color>
@@ -52,4 +47,7 @@
     <color name="menu_default_font_color">#969BA3</color>
     <!-- 菜单列表点赞字体的颜色 -->
     <color name="menu_like_font_color">#0084ff</color>
+
+    <!-- item 选中的灰色 -->
+    <color name="item_selector">#F0F0F0</color>
 </resources>

@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.Flow
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/7/10
+ * time   : 2021/07/10
  * desc   : 摸鱼列表的 ViewModel
  */
 class FishPondViewModel : ViewModel() {

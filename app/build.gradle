@@ -1,8 +1,7 @@
-apply plugin: 'com.android.application'
-apply plugin: 'android-aspectjx'
-apply from: '../common.gradle'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+apply plugin : 'com.android.application'
+apply plugin : 'android-aspectjx'
+apply from : '../common.gradle'
+apply plugin : 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.huawei.agconnect'
 
@@ -14,11 +13,12 @@ android {
 
         // 无痛修改包名：https://www.jianshu.com/p/17327e191d2e
         applicationId 'cn.cqautotest.sunnybeach'
-        resConfigs 'zh', 'xxhdpi'
 
         // 仅保留中文语种的资源
+        resConfigs 'zh'
 
         // 仅保留 xxhdpi 图片资源（目前主流分辨率 1920 * 1080）
+        resConfigs 'xxhdpi'
 
         // 混淆配置
         proguardFiles 'proguard-sdk.pro', 'proguard-app.pro'
@@ -29,10 +29,6 @@ android {
         buildConfigField('String', 'BUGLY_ID', '"' + BUGLY_ID + '"')
         // 测试服务器的主机地址
         buildConfigField('String', 'HOST_URL', '"' + HOST_URL + '"')
-
-        vectorDrawables {
-            useSupportLibrary true
-        }
     }
 
     // Apk 签名的那些事：https://www.jianshu.com/p/a1f8e5896aa2
@@ -44,27 +40,6 @@ android {
             keyPassword KeyPassword
         }
     }
-
-    buildFeatures {
-        viewBinding true
-    }
-
-    // Kotlin
-    kotlinOptions {
-        jvmTarget = '1.8'
-        useIR = true
-    }
-    packagingOptions {
-        jniLibs {
-            excludes += ['META-INF/*******']
-        }
-        resources {
-            excludes += ['META-INF/*******']
-        }
-    }
-
-    // 避免编译不能用于在编译类路径中发现的注解处理器，因为它们中的任何更改都需要运行注解处理任务
-    // kapt.includeCompileClasspath = false
 
     // 构建配置：https://developer.android.google.cn/studio/build/build-variants
     buildTypes {
@@ -83,15 +58,9 @@ android {
             minifyEnabled false
             // 签名信息配置
             signingConfig signingConfigs.config
-            // 日志打印开关
-            buildConfigField('boolean', 'LOG_ENABLE', 'true')
-            // 测试包下的 BuglyId
-            buildConfigField('String', 'BUGLY_ID', '"6ce2807170"')
-            // 测试服务器的主机地址
-            buildConfigField('String', 'HOST_URL', '"https://www.test.baidu.com/"')
             // 添加清单占位符
             addManifestPlaceholders([
-                    'app_name': '阳光沙滩 Debug 版'
+                    'app_name'    :    '阳光沙滩 Debug 版'
             ])
             // 调试模式下只保留一种架构的 so 库，提升打包速度
             ndk {
@@ -104,7 +73,7 @@ android {
             applicationIdSuffix ''
             // 添加清单占位符
             addManifestPlaceholders([
-                    'app_name': '阳光沙滩 Preview 版'
+                    'app_name'    :    '阳光沙滩 Preview 版'
             ])
         }
 
@@ -120,15 +89,9 @@ android {
             minifyEnabled true
             // 签名信息配置
             signingConfig signingConfigs.config
-            // 日志打印开关
-            buildConfigField('boolean', 'LOG_ENABLE', 'false')
-            // 正式包下的 BuglyId
-            buildConfigField('String', 'BUGLY_ID', '"6ce2807170"')
-            // 正式服务器的主机地址
-            buildConfigField('String', 'HOST_URL', '"https://www.baidu.com/"')
             // 添加清单占位符
             addManifestPlaceholders([
-                    'app_name': '@string/app_name'
+                    'app_name'    :    '@string/app_name'
             ])
             // 仅保留两种架构的 so 库，根据 Bugly 统计得出
             ndk {
@@ -136,41 +99,28 @@ android {
                 // armeabi-v7a：曾经主流的架构平台（占用率：10%）
                 // arm64-v8a：目前主流架构平台（占用率：95%）
                 abiFilters 'armeabi-v7a', 'arm64-v8a'
-                moduleName "app"
             }
         }
     }
 
+    packagingOptions {
+        // 剔除这个包下的所有文件（不会移除签名信息）
+        exclude 'META-INF/*******'
+    }
 
     // AOP 配置（exclude 和 include 二选一）
+    // 需要进行配置，否则就会引发冲突，具体表现为：
+    // 第一种：编译不过去，报错：java.util.zip.ZipException：Cause: zip file is empty
+    // 第二种：编译能过去，但运行时报错：ClassNotFoundException: Didn't find class on path: DexPathList
     aspectjx {
         // 排除一些第三方库的包名（Gson、 LeakCanary 和 AOP 有冲突）
         // exclude 'androidx', 'com.google', 'com.squareup', 'org.apache', 'com.alipay', 'com.taobao', 'versions.9'
-        exclude 'cn.android52.sunnybeach.skin'
         // 只对以下包名做 AOP 处理
         include android.defaultConfig.applicationId
-        // 否则就会引发冲突，具体表现为：
-        // 编译不过去，报错：java.util.zip.ZipException：Cause: zip file is empty
-        // 编译能过去，但运行时报错：ClassNotFoundException: Didn't find class on path: DexPathList
     }
-    lint {
-        disable 'HardcodedText', 'ContentDescription'
-    }
-
-    // // AOP 配置（exclude 和 include 二选一）
-    // // 需要进行配置，否则就会引发冲突，具体表现为：
-    // // 第一种：编译不过去，报错：java.util.zip.ZipException：Cause: zip file is empty
-    // // 第二种：编译能过去，但运行时报错：ClassNotFoundException: Didn't find class on path: DexPathList
-    // aspectjx {
-    //     // 排除一些第三方库的包名（Gson、 LeakCanary 和 AOP 有冲突）
-    //     // exclude 'androidx', 'com.google', 'com.squareup', 'org.apache', 'com.alipay', 'com.taobao', 'versions.9'
-    //     // 只对以下包名做 AOP 处理
-    //     include android.defaultConfig.applicationId
-    // }
 
     applicationVariants.all { variant ->
-
-        // Apk 输出文件名配置
+        // apk 输出文件名配置
         variant.outputs.all { output ->
             outputFileName = rootProject.getName() + '_v' + variant.versionName + '_' + variant.buildType.name
             if (variant.buildType.name == buildTypes.release.getName()) {
@@ -179,13 +129,6 @@ android {
             outputFileName += '.apk'
         }
     }
-
-    // 排除重复的 org.jetbrains 注解：https://stackoverflow.com/questions/58903820/java-lang-runtimeexception-duplicate-class-org-intellij-lang-annotations-flow-f
-    // Gradle依赖排除 参考：https://www.zhyea.com/2018/02/08/gradle-exclude-dependencies.html
-    // configurations {
-    //     cleanedAnnotations
-    //     compile.exclude group: 'org.jetbrains', module: 'annotations'
-    // }
 }
 
 // 添加构建依赖项：https://developer.android.google.cn/studio/build/dependencies
@@ -199,22 +142,18 @@ dependencies {
     def markwon_version = "4.6.2"
     def prism_version = "2.0.0"
     def qmui_arch_version = '2.0.1'
+
     // 基类封装
     implementation project(':library:base')
     // 控件封装
     implementation project(':library:widget')
     // 友盟封装
     implementation project(':library:umeng')
-    // 插件式换肤
-    implementation project(':library:skin')
 
-    // implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.activity:activity-ktx:1.4.0'
     implementation 'androidx.fragment:fragment-ktx:1.3.6'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
-
 
     // Room 数据库：https://developer.android.com/jetpack/androidx/releases/room
     // CodeLab：https://developer.android.com/codelabs/android-room-with-a-view-kotlin#0
@@ -251,7 +190,7 @@ dependencies {
     implementation 'com.github.getActivity:EasyHttp:10.2'
     // OkHttp 框架：https://github.com/square/okhttp
     // noinspection GradleDependency
-    implementation 'com.squareup.okhttp3:okhttp:3.12.12'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.13'
     // Android网络请求库：https://github.com/square/retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
@@ -269,7 +208,7 @@ dependencies {
     implementation 'org.aspectj:aspectjrt:1.9.6'
 
     // 图片加载框架：https://github.com/bumptech/glide
-    // 官方使用文档：https://muyangmin.github.io/glide-docs-cn/
+    // 官方使用文档：https://github.com/Muyangmin/glide-docs-cn
     implementation 'com.github.bumptech.glide:glide:4.13.0'
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.12.0'
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
@@ -277,8 +216,8 @@ dependencies {
     // 沉浸式框架：https://github.com/gyf-dev/ImmersionBar
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
 
-    // 手势 ImageView：https://github.com/chrisbanes/PhotoView
-    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    // 手势 ImageView：https://github.com/Baseflow/PhotoView
+    implementation 'com.github.Baseflow:PhotoView:2.3.0'
 
     // Bugly 异常捕捉：https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190418140644
     implementation 'com.tencent.bugly:crashreport:3.4.4'
@@ -288,7 +227,7 @@ dependencies {
     // 动画资源：https://lottiefiles.com、https://icons8.com/animated-icons
     implementation 'com.airbnb.android:lottie:4.1.0'
 
-    // 刷新框架：https://github.com/scwang90/SmartRefreshLayout
+    // 上拉刷新下拉加载框架：https://github.com/scwang90/SmartRefreshLayout
     implementation 'com.scwang.smart:refresh-layout-kernel:2.0.3'
     implementation 'com.scwang.smart:refresh-header-material:2.0.3'
 
@@ -307,9 +246,7 @@ dependencies {
 
     // 多语种：https://github.com/getActivity/MultiLanguages
     // 悬浮窗：https://github.com/getActivity/XToast
-    implementation 'com.github.getActivity:XToast:8.5'
     // 日志输出：https://github.com/getActivity/Logcat
-    debugImplementation 'com.github.getActivity:Logcat:10.0'
     // 工具类：https://github.com/Blankj/AndroidUtilCode
     implementation 'com.blankj:utilcodex:1.30.6'
     // 轮播图：https://github.com/bingoogolapple/BGABanner-Android
@@ -319,6 +256,7 @@ dependencies {
     // 平板适配：https://github.com/JessYanCoding/AndroidAutoSize
     // 图片压缩：https://github.com/Curzibn/Luban
     implementation 'top.zibin:Luban:1.1.8'
+    // 对象注解：https://www.jianshu.com/p/f1f888e4a35f
     // 对象存储：https://github.com/leavesC/DoKV
     // 第三方支付：https://github.com/Cuieney/RxPay
     // 多渠道打包：https://github.com/Meituan-Dianping/walle
@@ -327,7 +265,7 @@ dependencies {
     // 隐私调用监控：https://github.com/huage2580/PermissionMonitor
 
     // 一个强大并且灵活的RecyclerViewAdapter：https://github.com/CymChad/BaseRecyclerViewAdapterHelper
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     // 轮播图库：https://github.com/youth5201314/banner
     implementation 'io.github.youth5201314:banner:2.2.2'
 
@@ -345,7 +283,7 @@ dependencies {
     // // 自动生成语法高亮类的注解处理器
     // annotationProcessor "io.noties:prism4j-bundler:${prism_version}"
     // 支持动画展开和折叠其子视图的 Android 布局类：https://github.com/cachapa/ExpandableLayout
-    implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
+    // implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
 
     // 使用 Android ViewBinding 更简单：https://github.com/androidbroadcast/ViewBindingPropertyDelegate
     implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.0-beta01'
@@ -358,23 +296,25 @@ dependencies {
     // 一个帮助键盘平滑过渡到功能面板的框架：https://github.com/YummyLau/PanelSwitchHelper
     // implementation 'com.github.YummyLau:PanelSwitchHelper:1.4.0'
 
-    // skin-support
-    implementation 'skin.support:skin-support:4.0.5'
-    // skin-support 基础控件支持
-    implementation 'skin.support:skin-support-appcompat:4.0.5'
-    // skin-support-design material design 控件支持[可选]
-    implementation 'skin.support:skin-support-design:4.0.5'
-    // skin-support-cardview CardView 控件支持[可选]
-    implementation 'skin.support:skin-support-cardview:4.0.5'
-    // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
-    implementation 'skin.support:skin-support-constraint-layout:4.0.5'
-    // 提高 Android UI 开发效率的 UI 库：https://github.com/Tencent/QMUI_Android
-    implementation "com.qmuiteam:qmui:$qmui_arch_version"
-    implementation "com.qmuiteam:arch:$qmui_arch_version"
-    kapt "com.qmuiteam:arch-compiler:$qmui_arch_version"
+    // // skin-support
+    // implementation 'skin.support:skin-support:4.0.5'
+    // // skin-support 基础控件支持
+    // implementation 'skin.support:skin-support-appcompat:4.0.5'
+    // // skin-support-design material design 控件支持[可选]
+    // implementation 'skin.support:skin-support-design:4.0.5'
+    // // skin-support-cardview CardView 控件支持[可选]
+    // implementation 'skin.support:skin-support-cardview:4.0.5'
+    // // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
+    // implementation 'skin.support:skin-support-constraint-layout:4.0.5'
+    // // 提高 Android UI 开发效率的 UI 库：https://github.com/Tencent/QMUI_Android
+    // implementation "com.qmuiteam:qmui:$qmui_arch_version"
+    // implementation "com.qmuiteam:arch:$qmui_arch_version"
+    // kapt "com.qmuiteam:arch-compiler:$qmui_arch_version"
     // 华为统一扫码服务：https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/service-introduction-0000001050041994
     implementation 'com.huawei.agconnect:agconnect-core:1.5.2.300'
     implementation 'com.huawei.hms:scan:2.4.0.301'
+
+    // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
     implementation "com.google.dagger:hilt-android:2.40.5"
     kapt "com.google.dagger:hilt-android-compiler:2.40.5"
 }

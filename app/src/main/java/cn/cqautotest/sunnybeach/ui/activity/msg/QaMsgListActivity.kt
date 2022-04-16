@@ -52,7 +52,7 @@ class QaMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
     }
 
     override fun initEvent() {
-        titleBar?.setDoubleClickListener {
+        getTitleBar()?.setDoubleClickListener {
             onBack2Top()
         }
         mBinding.refreshLayout.setOnRefreshListener {
