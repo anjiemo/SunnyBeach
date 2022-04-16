@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.request.api.PhotoApi
-import cn.cqautotest.sunnybeach.http.response.model.WallpaperBannerBean
-import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
+import cn.cqautotest.sunnybeach.http.api.PhotoApi
+import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBannerBean
+import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -16,7 +16,7 @@ import timber.log.Timber
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/6/18
+ * time   : 2021/06/18
  * desc   : 发现界面的 ViewModel
  */
 class DiscoverViewModel : ViewModel() {

@@ -41,10 +41,7 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): FishDetailCommendListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishDetailCommendListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = FishPondDetailCommendListBinding.inflate(inflater, parent, false)
         return FishDetailCommendListViewHolder(binding)
@@ -75,9 +72,9 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
         ivPondComment.setFixOnClickListener {
             mCommentClickListener.invoke(item, position)
         }
+        val job = if (item.position.isNullOrEmpty()) "游民" else item.position
         // 摸鱼详情列表的时间没有精确到秒
-        tvDesc.text = "${item.position} · " +
-                DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
+        tvDesc.text = "$job · " + DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
         tvReply.setDefaultEmojiParser()
         tvReply.text = getBeautifiedFormat(item, mData)
         tvBuildReplyMsgContainer.isVisible = false

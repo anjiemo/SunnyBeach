@@ -1,7 +1,7 @@
 package cn.cqautotest.sunnybeach.viewmodel.app
 
 import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.request.api.UserApi
+import cn.cqautotest.sunnybeach.http.api.UserApi
 import cn.cqautotest.sunnybeach.model.ModifyPwd
 import cn.cqautotest.sunnybeach.model.SmsInfo
 import cn.cqautotest.sunnybeach.model.User

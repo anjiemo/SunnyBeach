@@ -54,7 +54,7 @@ class LikeMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
     }
 
     override fun initEvent() {
-        titleBar?.setDoubleClickListener {
+        getTitleBar()?.setDoubleClickListener {
             onBack2Top()
         }
         mBinding.refreshLayout.setOnRefreshListener {
@@ -62,7 +62,7 @@ class LikeMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         }
         // 需要在 View 销毁的时候移除 listener
         mLikeMsgAdapter.addLoadStateListener(loadStateListener)
-        mAdapterDelegate.setOnItemClickListener { view, position ->
+        mAdapterDelegate.setOnItemClickListener { _, _ ->
 
         }
     }

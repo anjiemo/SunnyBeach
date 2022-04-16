@@ -79,7 +79,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
                     return@checkToken
                 }
                 val (avatar, _, _, id, _, _, nickname, _, _) = userBasicInfo
-                BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL, id, nickname, avatar)
+                BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL, true, id, nickname, avatar)
             }
         }
         meContent.settingContainer.setFixOnClickListener {

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
-import cn.cqautotest.sunnybeach.aop.DebugLog
+import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailActivityBinding
 import cn.cqautotest.sunnybeach.manager.UserManager
@@ -55,8 +55,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGridLayout.OnN
     private val mKeyboardViewModel by viewModels<KeyboardViewModel>()
     private val mAdapterDelegate = AdapterDelegate()
     private val mFishListAdapter = FishListAdapter(AdapterDelegate(), true)
-    private val mFishPondDetailCommendListAdapter =
-        FishPondDetailCommentListAdapter(mAdapterDelegate)
+    private val mFishPondDetailCommendListAdapter = FishPondDetailCommentListAdapter(mAdapterDelegate)
     private var mMomentId: String = ""
     private var mNickName: String = ""
 
@@ -174,15 +173,15 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGridLayout.OnN
         ShareDialog.Builder(this)
             .setShareLink(content)
             .setListener(object : UmengShare.OnShareListener {
-                override fun onSucceed(platform: Platform) {
+                override fun onSucceed(platform: Platform?) {
                     toast("分享成功")
                 }
 
-                override fun onError(platform: Platform, t: Throwable) {
+                override fun onError(platform: Platform?, t: Throwable) {
                     toast(t.message)
                 }
 
-                override fun onCancel(platform: Platform) {
+                override fun onCancel(platform: Platform?) {
                     toast("分享取消")
                 }
             })
@@ -190,7 +189,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGridLayout.OnN
     }
 
     override fun onNineGridClick(sources: List<String>, index: Int) {
-        ImagePreviewActivity.start(this, sources, index)
+        ImagePreviewActivity.start(this, sources.toMutableList(), index)
     }
 
     override fun initEvent() {
@@ -201,7 +200,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGridLayout.OnN
             }
         }
         mFishListAdapter.setOnNineGridClickListener { sources, index ->
-            ImagePreviewActivity.start(this, sources, index)
+            ImagePreviewActivity.start(this, sources.toMutableList(), index)
         }
         mBinding.slFishDetailRefresh.setOnRefreshListener {
             // 加载摸鱼动态详情和摸鱼动态评论列表
@@ -242,7 +241,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGridLayout.OnN
     companion object {
 
         @JvmStatic
-        @DebugLog
+        @Log
         fun start(context: Context, momentId: String) {
             val intent = Intent(context, FishPondDetailActivity::class.java)
             intent.putExtra(IntentKey.ID, momentId)

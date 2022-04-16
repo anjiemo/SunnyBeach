@@ -1,7 +1,7 @@
 package cn.cqautotest.sunnybeach.viewmodel.app
 
 import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.request.api.FansApi
+import cn.cqautotest.sunnybeach.http.api.FansApi
 
 /**
  *    author : A Lonely Cat
