@@ -6,9 +6,9 @@ import androidx.lifecycle.liveData
 import cn.cqautotest.sunnybeach.db.dao.PlaceDao
 import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.*
+import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import cn.cqautotest.sunnybeach.model.weather.Place
 import cn.cqautotest.sunnybeach.model.weather.Weather
 import cn.cqautotest.sunnybeach.util.lowercaseMd5
@@ -33,91 +33,27 @@ object Repository {
     private val cachePhotoIdList = arrayListOf<WallpaperBean.Res.Vertical>()
 
     fun modifyPasswordBySms(smsCode: String, user: User) = liveData(Dispatchers.IO) {
-        val result = try {
-            val result = UserNetwork.modifyPasswordBySms(smsCode, user)
-            Timber.d("result is $result")
-            if (result.isSuccess()) JavaResult.success(result.getMessage())
-            else JavaResult.failure(result.getMessage())
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            JavaResult.failure(ServiceException(t))
-        }
-        emit(result)
+        launchAndGetMsg { UserNetwork.modifyPasswordBySms(smsCode, user) }
     }
 
     fun modifyPasswordByOldPwd(modifyPwd: ModifyPwd) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.modifyPasswordByOldPwd(modifyPwd)
-                Timber.d("result is $result")
-                if (result.isSuccess()) JavaResult.success(result.getMessage())
-                else JavaResult.failure(result.getMessage())
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            JavaResult.failure(ServiceException(t))
-        }
-        emit(result)
+        launchAndGetMsg { UserNetwork.modifyPasswordByOldPwd(modifyPwd) }
     }
 
     fun checkSmsCode(phoneNumber: String, smsCode: String) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.checkSmsCode(phoneNumber, smsCode)
-                Timber.d("result is $result")
-                if (result.isSuccess()) JavaResult.success(result.getMessage())
-                else JavaResult.failure(result.getMessage())
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            JavaResult.failure(ServiceException(t))
-        }
-        emit(result)
+        launchAndGetMsg { UserNetwork.checkSmsCode(phoneNumber, smsCode) }
     }
 
     fun sendForgetSmsVerifyCode(smsInfo: SmsInfo) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.sendForgetSmsVerifyCode(smsInfo)
-                Timber.d("result is $result")
-                if (result.isSuccess()) JavaResult.success(result.getMessage())
-                else JavaResult.failure(result.getMessage())
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            JavaResult.failure(ServiceException(t))
-        }
-        emit(result)
+        launchAndGetMsg { UserNetwork.sendForgetSmsVerifyCode(smsInfo) }
     }
 
     fun registerAccount(smsCode: String, user: User) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.registerAccount(smsCode, user)
-                Timber.d("result is $result")
-                if (result.isSuccess()) JavaResult.success(result.getMessage())
-                else JavaResult.failure(result.getMessage())
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            JavaResult.failure(ServiceException(t))
-        }
-        emit(result)
+        launchAndGetMsg { UserNetwork.registerAccount(smsCode, user) }
     }
 
     fun sendRegisterSmsVerifyCode(smsInfo: SmsInfo) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.sendRegisterSmsVerifyCode(smsInfo)
-                Timber.d("result is $result")
-                if (result.isSuccess()) JavaResult.success(result.getMessage())
-                else JavaResult.failure(result.getMessage())
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            JavaResult.failure(ServiceException(t))
-        }
-        emit(result)
+        launchAndGetMsg { UserNetwork.sendRegisterSmsVerifyCode(smsInfo) }
     }
 
     fun getSobIEDetailList(userId: String, page: Int) = liveData(Dispatchers.IO) {
@@ -377,10 +313,16 @@ object Repository {
         launchAndGetMsg { MsgNetwork.readArticleMsg(msgId, 1) }
     }
 
+    /**
+     * 一键已读所有消息
+     */
     fun readAllMsg() = liveData(Dispatchers.IO) {
         launchAndGetMsg { MsgNetwork.readAllMsg() }
     }
 
+    /**
+     * 获取未读消息数量
+     */
     fun getUnReadMsgCount() = liveData(Dispatchers.IO) {
         launchAndGetData { MsgNetwork.getUnReadMsgCount() }
     }
@@ -403,6 +345,9 @@ object Repository {
         emit(result)
     }
 
+    /**
+     * 刷新天气
+     */
     fun refreshWeather(lng: String, lat: String) = liveData(Dispatchers.IO) {
         val result = try {
             coroutineScope {
@@ -415,8 +360,7 @@ object Repository {
                 val realtimeResponse = deferredRealtime.await()
                 val dailyResponse = deferredDaily.await()
                 if (realtimeResponse.status == "ok" && dailyResponse.status == "ok") {
-                    val weather =
-                        Weather(realtimeResponse.result.realtime, dailyResponse.result.daily)
+                    val weather = Weather(realtimeResponse.result.realtime, dailyResponse.result.daily)
                     Result.success(weather)
                 } else {
                     Result.failure(
@@ -433,28 +377,50 @@ object Repository {
         emit(result)
     }
 
+    /**
+     * 保存地点
+     */
     fun savePlace(place: Place) = PlaceDao.savePlace(place)
 
+    /**
+     * 获取保存的地点
+     */
     fun getSavedPlace() = PlaceDao.getSavedPlace()
 
+    /**
+     * 是否保存了地点
+     */
     fun isSaved() = PlaceDao.isSaved()
 
+    /**
+     * 启动并获取数据
+     */
     private suspend inline fun <reified T> LiveDataScope<Result<T>>.launchAndGetData(crossinline action: suspend () -> ApiResponse<T>) {
         launchAndGet(action = action, onSuccess = { it.getData() })
     }
 
+    /**
+     * 启动并获取消息
+     */
     private suspend inline fun LiveDataScope<Result<Any>>.launchAndGetMsg(crossinline action: suspend () -> ApiResponse<Any>) {
         launchAndGet(action = action, onSuccess = { it.getMessage() })
     }
 
+    /**
+     * 启动并获取
+     * 成功时返回：Result.success()
+     * 失败时返回：Result.failure()
+     */
     private suspend inline fun <reified T> LiveDataScope<Result<T>>.launchAndGet(
+        // 需要调用的接口
         crossinline action: suspend () -> ApiResponse<T>,
+        // 请求成功时的回调
         crossinline onSuccess: (ApiResponse<T>) -> T
     ) {
         val result = try {
             coroutineScope {
                 val result = action.invoke()
-                Timber.d("result is $result")
+                Timber.d("result is ${result.toJson()}")
                 if (result.isSuccess()) Result.success(onSuccess.invoke(result))
                 else Result.failure(ServiceException(result.getMessage()))
             }

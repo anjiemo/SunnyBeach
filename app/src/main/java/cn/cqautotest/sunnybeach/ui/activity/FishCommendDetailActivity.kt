@@ -12,7 +12,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.DebugLog
+import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.FishCommendDetailActivityBinding
 import cn.cqautotest.sunnybeach.manager.UserManager
@@ -96,7 +96,7 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener,
             if (TextUtils.isEmpty(userId)) {
                 return@setFixOnClickListener
             }
-            ViewUserActivity.start(context, userId)
+            ViewUserActivity.start(this, userId)
         }
         mFishCommendDetailListAdapter.setOnCommentClickListener { item, _ ->
             val commendId = item.getCommentId()
@@ -157,7 +157,7 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener,
     }
 
     companion object {
-        @DebugLog
+        @Log
         @JvmStatic
         fun getIntent(
             context: Context,

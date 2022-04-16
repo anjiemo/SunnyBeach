@@ -77,7 +77,7 @@ class AccountInterceptor : Interceptor {
     private fun interceptUserAction() {
         ThreadUtils.getMainHandler().post {
             val am = ActivityManager.getInstance()
-            val topActivity = am.topActivity
+            val topActivity = am.getTopActivity()
             if (topActivity is HomeActivity || topActivity is LoginActivity) {
                 return@post
             }

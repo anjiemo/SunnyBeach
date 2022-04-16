@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.collectLatest
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/6/20
+ * time   : 2021/06/20
  * desc   : 文章消息列表界面
  */
 class ArticleMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
@@ -52,7 +52,7 @@ class ArticleMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
     }
 
     override fun initEvent() {
-        titleBar?.setDoubleClickListener {
+        getTitleBar()?.setDoubleClickListener {
             onBack2Top()
         }
         mBinding.refreshLayout.setOnRefreshListener {

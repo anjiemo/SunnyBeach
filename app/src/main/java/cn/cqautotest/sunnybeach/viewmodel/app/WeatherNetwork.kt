@@ -2,8 +2,8 @@ package cn.cqautotest.sunnybeach.viewmodel.app
 
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.request.api.weather.PlaceApi
-import cn.cqautotest.sunnybeach.http.request.api.weather.WeatherApi
+import cn.cqautotest.sunnybeach.http.api.weather.PlaceApi
+import cn.cqautotest.sunnybeach.http.api.weather.WeatherApi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

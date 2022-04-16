@@ -5,61 +5,28 @@
 
     <!-- 网络相关 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <!-- 设置壁纸权限 -->
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <!-- 外部存储 -->
-    <!-- 权限框架内部已经做了适配，直接申请 Manifest.permission.MANAGE_EXTERNAL_STORAGE 权限即可 -->
-    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> -->
-    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
-        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
+
     <!-- 拍照权限 -->
     <uses-permission android:name="android.permission.CAMERA" />
+
     <!-- 安装权限 -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <!-- 定位权限（用于 WebView 定位） -->
+
+    <!-- 定位权限（用于 WebView 定位）-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!--震动权限-->
     <uses-permission android:name="android.permission.VIBRATE" />
-    <!-- Android 11 软件包可见性适配：https://www.jianshu.com/p/d1ccd425c4ce -->
-    <queries>
-
-        <!-- 拍照意图：MediaStore.ACTION_IMAGE_CAPTURE -->
-        <intent>
-            <action android:name="android.media.action.IMAGE_CAPTURE" />
-        </intent>
-
-        <!-- 拍摄意图：MediaStore.ACTION_VIDEO_CAPTURE -->
-        <intent>
-            <action android:name="android.media.action.VIDEO_CAPTURE" />
-        </intent>
-
-        <!-- 图片裁剪意图 -->
-        <intent>
-            <action android:name="com.android.camera.action.CROP" />
-        </intent>
-
-        <!-- 打电话意图：Intent.ACTION_DIAL -->
-        <intent>
-            <action android:name="android.intent.action.DIAL" />
-        </intent>
-
-        <!-- 分享意图：Intent.ACTION_SEND -->
-        <intent>
-            <action android:name="android.intent.action.SEND" />
-        </intent>
-
-        <!-- 调起其他页面意图：Intent.ACTION_VIEW -->
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-        </intent>
-
-        <package android:name="cn.android52.sunnybeach.skin" />
-    </queries>
 
     <!-- 悬浮窗入口 -->
     <meta-data
@@ -71,6 +38,8 @@
         android:name="LogcatNotifyEntrance"
         android:value="true" />
 
+    <!-- Application 节点详解：https://developer.android.google.cn/guide/topics/manifest/application-element -->
+    <!-- Activity 节点详解：https://developer.android.google.cn/guide/topics/manifest/activity-element -->
     <application
         android:name=".app.AppApplication"
         android:allowBackup="false"
@@ -86,6 +55,12 @@
         tools:ignore="AllowBackup,LockedOrientationActivity"
         tools:replace="android:allowBackup,android:supportsRtl,android:label"
         tools:targetApi="n">
+
+        <!-- 表示当前已经适配了分区存储 -->
+        <meta-data
+            android:name="ScopedStorage"
+            android:value="true" />
+
         <!-- 自定义 WorkManager 配置和初始化：https://developer.android.com/topic/libraries/architecture/workmanager/advanced/custom-configuration#remove-default -->
         <provider
             android:name="androidx.startup.InitializationProvider"
@@ -99,16 +74,19 @@
                 android:value="androidx.startup"
                 tools:node="remove" />
         </provider>
+
         <!-- 适配 Android 7.0 文件意图 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
+
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <receiver
             android:name="com.xiaomi.market.sdk.DownloadCompleteReceiver"
             android:exported="false">
@@ -116,6 +94,7 @@
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
+
         <!-- 闪屏页 -->
         <activity
             android:name=".ui.activity.SplashActivity"
@@ -131,12 +110,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
         <!-- 引导页 -->
         <activity
             android:name=".ui.activity.GuideActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+
         <!-- 首页 -->
         <activity
             android:name=".ui.activity.HomeActivity"
@@ -144,26 +126,180 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppMaterialComponentsTheme"
             android:windowSoftInputMode="adjustPan" />
+
+        <!-- 登录页 -->
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <!-- 注册页 -->
+        <activity
+            android:name=".ui.activity.RegisterActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <!-- 崩溃展示（必须在独立进程） -->
+        <activity
+            android:name=".ui.activity.CrashActivity"
+            android:launchMode="singleTop"
+            android:process=":crash"
+            android:screenOrientation="landscape" />
+
+        <!-- 重启应用（必须在独立进程） -->
+        <activity
+            android:name=".ui.activity.RestartActivity"
+            android:launchMode="singleTop"
+            android:process=":restart" />
+
+        <!-- 设置页 -->
+        <activity
+            android:name=".ui.activity.SettingActivity"
+            android:label="@string/setting_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 忘记密码 -->
+        <activity
+            android:name=".ui.activity.PasswordForgetActivity"
+            android:label="@string/password_forget_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <!-- 重置密码 -->
+        <activity
+            android:name=".ui.activity.PasswordResetActivity"
+            android:label="@string/password_reset_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <!-- 更换手机 -->
+        <activity
+            android:name=".ui.activity.PhoneResetActivity"
+            android:label="@string/phone_reset_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <!-- 关于我们 -->
+        <activity
+            android:name=".ui.activity.AboutActivity"
+            android:label="@string/about_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 个人资料 -->
+        <activity
+            android:name=".ui.activity.PersonalDataActivity"
+            android:label="@string/personal_data_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 网页浏览 -->
+        <activity
+            android:name=".ui.activity.BrowserActivity"
+            android:label="@string/web_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 拍照选择 -->
+        <activity
+            android:name=".ui.activity.CameraActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 图片裁剪 -->
+        <activity
+            android:name=".ui.activity.ImageCropActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 图片选择 -->
+        <activity
+            android:name=".ui.activity.ImageSelectActivity"
+            android:label="@string/image_select_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 查看大图 -->
+        <activity
+            android:name=".ui.activity.ImagePreviewActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 播放视频（自适应方向） -->
+        <activity
+            android:name=".ui.activity.VideoPlayActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/FullScreenTheme" />
+
+        <!-- 播放视频（竖屏方向） -->
+        <activity
+            android:name=".ui.activity.VideoPlayActivity$Portrait"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme" />
+
+        <!-- 播放视频（横屏方向） -->
+        <activity
+            android:name=".ui.activity.VideoPlayActivity$Landscape"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/FullScreenTheme" />
+
+        <!-- 选择视频 -->
+        <activity
+            android:name=".ui.activity.VideoSelectActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 对话框案例 -->
+        <activity
+            android:name=".ui.activity.DialogActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 状态案例 -->
+        <activity
+            android:name=".ui.activity.StatusActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 微信回调（请注意这个 Activity 放置的包名要和当前项目的包名保持一致，否则将不能正常回调） -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <!-- 测试界面 -->
         <activity
             android:name=".ui.activity.TestActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <!-- 温度趋势界面 -->
+
+        <!-- 图片查看（仿抖音） -->
         <activity
-            android:name=".ui.activity.weather.TemperatureTrendActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:name=".ui.activity.GalleryActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
         <!-- 天气界面 -->
         <activity
             android:name=".ui.activity.weather.WeatherActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+
         <!-- 天气首页界面 -->
         <activity
             android:name=".ui.activity.weather.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+
         <!-- 查看用户信息页 -->
         <activity
             android:name=".ui.activity.ViewUserActivity"
@@ -262,130 +398,49 @@
         <activity
             android:name=".ui.activity.msg.SystemMsgListActivity"
             android:screenOrientation="portrait" />
-        <!-- 登录页 -->
-        <activity
-            android:name=".ui.activity.LoginActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <!-- 注册页 -->
-        <activity
-            android:name=".ui.activity.RegisterActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <!-- 崩溃展示（必须在独立进程） -->
-        <activity
-            android:name=".ui.activity.CrashActivity"
-            android:launchMode="singleTop"
-            android:process=":crash"
-            android:screenOrientation="landscape" />
-        <!-- 重启应用（必须在独立进程） -->
-        <activity
-            android:name=".ui.activity.RestartActivity"
-            android:launchMode="singleTop"
-            android:process=":restart" />
-        <!-- 设置页 -->
-        <activity
-            android:name=".ui.activity.SettingActivity"
-            android:label="@string/setting_title"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <!-- 忘记密码 -->
-        <activity
-            android:name=".ui.activity.PasswordForgetActivity"
-            android:label="@string/password_forget_title"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <!-- 修改密码 -->
-        <activity
-            android:name=".ui.activity.PasswordModifyActivity"
-            android:label="@string/password_modify_title"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <!-- 重置密码 -->
-        <activity
-            android:name=".ui.activity.PasswordResetActivity"
-            android:label="@string/password_reset_title"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <!-- 更换手机 -->
-        <activity
-            android:name=".ui.activity.PhoneResetActivity"
-            android:label="@string/phone_reset_title"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <!-- 关于我们 -->
-        <activity
-            android:name=".ui.activity.AboutActivity"
-            android:label="@string/about_title"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <!-- 个人资料 -->
-        <activity
-            android:name=".ui.activity.PersonalDataActivity"
-            android:label="@string/personal_data_title"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <!-- 网页浏览 -->
-        <activity
-            android:name=".ui.activity.BrowserActivity"
-            android:label="@string/web_title"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <!-- 拍照选择 -->
-        <activity
-            android:name=".ui.activity.CameraActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <!-- 图片选择 -->
-        <activity
-            android:name=".ui.activity.ImageSelectActivity"
-            android:label="@string/image_select_title"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <!-- 查看大图 -->
-        <activity
-            android:name=".ui.activity.ImagePreviewActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <!-- 播放视频 -->
-        <activity
-            android:name=".ui.activity.VideoPlayActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="landscape"
-            android:theme="@style/FullScreenTheme" />
-        <!-- 选择视频 -->
-        <activity
-            android:name=".ui.activity.VideoSelectActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <!-- 对话框案例 -->
-        <activity
-            android:name=".ui.activity.DialogActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <!-- 状态案例 -->
-        <activity
-            android:name=".ui.activity.StatusActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <!-- 图片查看（仿抖音） -->
-        <activity
-            android:name=".ui.activity.GalleryActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-
-        <!-- 微信回调（请注意这个 Activity 放置的包名要和当前项目的包名保持一致，否则将不能正常回调） -->
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- Vip 介绍页 -->
         <activity android:name=".ui.activity.VipActivity" />
+        <!-- 创作中心页 -->
         <activity android:name=".ui.activity.CreationCenterActivity" />
+
     </application>
+
+    <!-- Android 11 软件包可见性适配：https://www.jianshu.com/p/d1ccd425c4ce -->
+    <queries>
+        <!-- 拍照意图：MediaStore.ACTION_IMAGE_CAPTURE -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+
+        <!-- 拍摄意图：MediaStore.ACTION_VIDEO_CAPTURE -->
+        <intent>
+            <action android:name="android.media.action.VIDEO_CAPTURE" />
+        </intent>
+
+        <!-- 图片裁剪意图 -->
+        <intent>
+            <action android:name="com.android.camera.action.CROP" />
+        </intent>
+
+        <!-- 打电话意图：Intent.ACTION_DIAL -->
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+        </intent>
+
+        <!-- 调起分享意图：Intent.ACTION_SEND -->
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+        </intent>
+
+        <!-- 调起其他页面意图：Intent.ACTION_VIEW -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+        </intent>
+
+        <!-- 调起系统文件选择器：Intent.ACTION_GET_CONTENT -->
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT" />
+        </intent>
+    </queries>
 
 </manifest>

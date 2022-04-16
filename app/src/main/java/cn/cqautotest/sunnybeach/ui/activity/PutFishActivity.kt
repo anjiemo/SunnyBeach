@@ -134,14 +134,12 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             etInputContent.text.insert(cursor, emoji)
         }
         mBinding.ivImage.setFixOnClickListener {
-            // TODO: 2021/9/11 选择图片，跳转至图片选择界面
-            // simpleToast("暂不支持选择图片")
-            // 选择图片，跳转到图片选择界面
+            // 选择图片，跳转至图片选择界面
             ImageSelectActivity.start(this, 9, this)
         }
         mBinding.ivLink.setFixOnClickListener {
             // 弹出链接输入对话框，添加 url 链接
-            InputDialog.Builder(context)
+            InputDialog.Builder(this)
                 .setTitle("添加链接")
                 .setHint("http(s)://")
                 .setContent(mLinkUrl)
@@ -194,7 +192,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         tvChooseFishPondDesc.text = "放到合适的鱼塘会被更多的摸鱼人看见哟~"
     }
 
-    override fun onRightClick(titleBar: TitleBar?) {
+    override fun onRightClick(titleBar: TitleBar) {
         val view = titleBar?.rightView
         view?.isEnabled = false
         // 校验内容是否合法，发布信息

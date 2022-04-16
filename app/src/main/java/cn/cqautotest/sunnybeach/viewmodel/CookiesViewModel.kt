@@ -13,8 +13,7 @@ import cn.cqautotest.sunnybeach.manager.CookieStore
  * time   : 2021/06/18
  * desc   : Cookie的 ViewModel
  */
-class CookiesViewModel(application: Application) :
-    AndroidViewModel(application) {
+class CookiesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val cookieDao: CookieDao = AppApplication.getDatabase().cookieDao()
 

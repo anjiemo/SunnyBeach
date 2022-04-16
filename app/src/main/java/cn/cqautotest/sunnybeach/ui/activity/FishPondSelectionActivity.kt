@@ -70,7 +70,7 @@ class FishPondSelectionActivity : AppActivity(), StatusAction {
         }
     }
 
-    override fun onRightClick(titleBar: TitleBar?) {
+    override fun onRightClick(titleBar: TitleBar) {
         setResult(Activity.RESULT_OK, null)
         finish()
     }

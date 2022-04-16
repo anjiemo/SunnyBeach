@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/6/27
+ * time   : 2021/06/27
  * desc   : 文章详情
  */
 data class ArticleDetail(
