@@ -10,7 +10,7 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
-import cn.cqautotest.sunnybeach.http.response.model.WallpaperBannerBean
+import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBannerBean
 import cn.cqautotest.sunnybeach.ui.activity.GalleryActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.WallpaperListAdapter
@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.collectLatest
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/6/18
+ * time   : 2021/06/18
  * desc   : 发现 Fragment
  */
 class DiscoverFragment : TitleBarFragment<AppActivity>(), StatusAction {

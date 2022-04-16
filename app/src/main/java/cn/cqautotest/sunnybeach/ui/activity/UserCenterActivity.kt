@@ -85,15 +85,15 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
 
             val userCenterContent = mBinding.userCenterContent
             val company = if (personCenterInfo.company.isNullOrEmpty()) "无业" else personCenterInfo.company
-            userCenterContent.sbSettingCompany.rightText = company
+            userCenterContent.sbSettingCompany.setRightText(company)
             val job = if (personCenterInfo.position.isNullOrEmpty()) "游民" else personCenterInfo.position
-            userCenterContent.sbSettingJob.rightText = job
-            userCenterContent.sbSettingSkill.rightText = personCenterInfo.goodAt
-            userCenterContent.sbSettingCoordinate.rightText = personCenterInfo.area
-            userCenterContent.sbSettingSign.rightText = personCenterInfo.sign
+            userCenterContent.sbSettingJob.setRightText(job)
+            userCenterContent.sbSettingSkill.setRightText(personCenterInfo.goodAt)
+            userCenterContent.sbSettingCoordinate.setRightText(personCenterInfo.area)
+            userCenterContent.sbSettingSign.setRightText(personCenterInfo.sign)
 
-            userCenterContent.sbSettingPhone.rightText = personCenterInfo.phoneNum
-            userCenterContent.sbSettingEmail.rightText = personCenterInfo.email
+            userCenterContent.sbSettingPhone.setRightText(personCenterInfo.phoneNum)
+            userCenterContent.sbSettingEmail.setRightText(personCenterInfo.email)
 
             mBinding.ivSobQrCode.setImageBitmap(generateQRCode("${SUNNY_BEACH_VIEW_USER_URL_PRE}${personCenterInfo.userId}"))
         }
@@ -121,7 +121,7 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
         mBinding.llUserInfoContainer.setFixOnClickListener {
             takeIfLogin { userBasicInfo ->
                 val userId = userBasicInfo.id
-                ViewUserActivity.start(context, userId)
+                ViewUserActivity.start(this, userId)
             }
         }
         mBinding.ivAvatar.setFixOnClickListener {
@@ -196,8 +196,7 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
         }
     }
 
-    override fun onSelected(file: File?) {
-        file ?: return
+    override fun onSelected(file: File) {
         Glide.with(this)
             .load(file)
             .placeholder(R.mipmap.ic_default_avatar)
@@ -205,6 +204,10 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             .circleCrop()
             .into(mBinding.ivAvatar)
         simpleToast("暂不支持更换头像")
+    }
+
+    override fun onError(details: String) {
+        toast(details)
     }
 
     override fun isStatusBarDarkFont(): Boolean = true

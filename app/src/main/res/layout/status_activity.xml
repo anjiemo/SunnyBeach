@@ -21,7 +21,8 @@
             android:name="cn.cqautotest.sunnybeach.ui.fragment.StatusFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:ignore="MissingId" />
+            tools:ignore="MissingId"
+            tools:layout="@layout/status_fragment" />
 
     </cn.cqautotest.sunnybeach.widget.StatusLayout>
 

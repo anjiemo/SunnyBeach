@@ -15,7 +15,7 @@ import cn.cqautotest.sunnybeach.util.simpleToast
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/6/18
+ * time   : 2021/06/18
  * desc   : 空 Fragment
  */
 class EmptyFragment : AppFragment<AppActivity>() {
