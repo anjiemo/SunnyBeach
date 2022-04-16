@@ -5,6 +5,7 @@
 
     <!-- 短信验证码的长度 -->
     <integer name="sms_code_length">4</integer>
+
     <!-- 图灵验证码的长度 -->
     <integer name="verify_code_length">8</integer>
     <!-- 昵称的长度 -->

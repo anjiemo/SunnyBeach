@@ -4,14 +4,14 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.request.api.PhotoApi
-import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
+import cn.cqautotest.sunnybeach.http.api.PhotoApi
+import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import timber.log.Timber
 
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/9/6
+ * time   : 2021/09/06
  * desc   : 壁纸 PagingSource
  */
 class WallpaperPagingSource : PagingSource<Int, WallpaperBean.Res.Vertical>() {

@@ -4,9 +4,9 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 
 /**
- *    author : A Lonely Cat
- *    github : https://github.com/anjiemo/SunnyBeach
- *    time   : 2021/11/12
+ *    author : Android 轮子哥
+ *    github : https://github.com/getActivity/AndroidProject-Kotlin
+ *    time   : 2018/10/18
  *    desc   : 可进行拷贝的副本
  */
 class CopyActivity : AppActivity() {

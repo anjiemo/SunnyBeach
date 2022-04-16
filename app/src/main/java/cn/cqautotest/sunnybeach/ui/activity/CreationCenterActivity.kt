@@ -42,7 +42,7 @@ class CreationCenterActivity : AppActivity() {
         mBinding.llUserInfoContainer.setFixOnClickListener {
             takeIfLogin { userBasicInfo ->
                 val userId = userBasicInfo.id
-                ViewUserActivity.start(context, userId)
+                ViewUserActivity.start(this, userId)
             }
         }
     }

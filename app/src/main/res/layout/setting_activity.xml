@@ -103,8 +103,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                app:bar_leftTextColor="@color/red"
-                app:bar_leftText="@string/setting_exit" />
+                app:bar_leftText="@string/setting_exit"
+                app:bar_leftTextColor="@color/red" />
 
         </LinearLayout>
 

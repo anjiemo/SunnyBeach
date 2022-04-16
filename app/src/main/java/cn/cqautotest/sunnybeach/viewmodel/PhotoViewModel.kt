@@ -6,7 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
+import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import cn.cqautotest.sunnybeach.paging.source.WallpaperPagingSource
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import kotlinx.coroutines.flow.Flow

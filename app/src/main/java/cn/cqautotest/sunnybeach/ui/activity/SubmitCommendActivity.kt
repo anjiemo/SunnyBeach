@@ -13,15 +13,12 @@ import androidx.core.view.setPadding
 import androidx.core.widget.addTextChangedListener
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.DebugLog
+import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SubmitCommendActivityBinding
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.manager.ActivityManager
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import cn.cqautotest.sunnybeach.util.simpleToast
-import cn.cqautotest.sunnybeach.util.textString
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.blankj.utilcode.util.KeyboardUtils
 import com.bumptech.glide.Glide
@@ -227,7 +224,7 @@ class SubmitCommendActivity : AppActivity() {
         /**
          * 获取发表评论(评论动态)的意图
          */
-        @DebugLog
+        @Log
         fun getCommentIntent(
             context: Context,
             targetUserName: String = "",

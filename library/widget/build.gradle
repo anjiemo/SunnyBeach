@@ -1,13 +1,6 @@
 apply plugin : 'com.android.library'
 apply from : '../../common.gradle'
 
-android {
-    lint {
-        disable 'HardcodedText', 'ContentDescription'
-    }
-}
-
-
 dependencies {
     // 基础库（不包任何第三方框架）
     implementation project(':library:base')

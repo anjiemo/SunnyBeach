@@ -9,6 +9,7 @@ import android.webkit.CookieManager
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.SingleClick
@@ -16,84 +17,52 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.SettingActivityBinding
 import cn.cqautotest.sunnybeach.db.SobCacheManager
+import cn.cqautotest.sunnybeach.http.api.LogoutApi
 import cn.cqautotest.sunnybeach.http.model.HttpData
-import cn.cqautotest.sunnybeach.http.request.LogoutApi
-import cn.cqautotest.sunnybeach.manager.*
+import cn.cqautotest.sunnybeach.manager.ActivityManager
+import cn.cqautotest.sunnybeach.manager.AppManager
+import cn.cqautotest.sunnybeach.manager.CacheDataManager
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
 import cn.cqautotest.sunnybeach.other.AppConfig
 import cn.cqautotest.sunnybeach.ui.dialog.*
-import cn.cqautotest.sunnybeach.util.startActivity
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import com.hjq.base.BaseDialog
+import com.hjq.base.action.AnimAction
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.HttpCallback
+import com.hjq.widget.layout.SettingBar
 import com.hjq.widget.view.SwitchButton
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
- * author : Android 轮子哥 & A Lonely Cat
- * github : https://github.com/getActivity/AndroidProject
- * time   : 2019/03/01
- * desc   : 设置界面
+ *    author : Android 轮子哥 & A Lonely Cat
+ *    github : https://github.com/getActivity/AndroidProject-Kotlin
+ *    time   : 2019/03/01
+ *    desc   : 设置界面
  */
-@AndroidEntryPoint
 class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
 
     private val mBinding: SettingActivityBinding by viewBinding()
+    private val languageView: SettingBar? by lazy { findViewById(R.id.sb_setting_language) }
+    private val cleanCacheView: SettingBar? by lazy { findViewById(R.id.sb_setting_cache) }
+    private val autoSwitchView: SwitchButton? by lazy { findViewById(R.id.sb_setting_switch) }
+
+    private val mAppViewModel: AppViewModel = AppApplication.getAppViewModel()
     private var isAutoCheckAppVersion = true
     private var mAppVersionLiveData = MutableLiveData<AppUpdateInfo?>()
 
-    @Inject
-    lateinit var mAppViewModel: AppViewModel
     private val mUserViewModel by viewModels<UserViewModel>()
 
-    override fun getLayoutId(): Int = R.layout.setting_activity
-
-    override fun initObserver() {
-        mAppVersionLiveData.observe(this) { appUpdateInfo ->
-            hideUpdateIcon()
-            appUpdateInfo ?: run {
-                if (isAutoCheckAppVersion.not()) {
-                    toast(R.string.check_update_error)
-                }
-                return@observe
-            }
-            // 是否需要强制更新（当前版本低于最低版本，强制更新）
-            val needForceUpdate = AppConfig.getVersionCode() < appUpdateInfo.minVersionCode
-            if (needForceUpdate) {
-                showUpdateIcon()
-                showAppUpdateDialog(appUpdateInfo, true)
-                return@observe
-            }
-            // 当前版本是否低于最新版本
-            if (AppConfig.getVersionCode() < appUpdateInfo.versionCode) {
-                showUpdateIcon()
-                showAppUpdateDialog(appUpdateInfo, appUpdateInfo.forceUpdate)
-            } else {
-                if (isAutoCheckAppVersion.not()) {
-                    toast(R.string.current_version_is_up_to_date)
-                }
-            }
-        }
-        mBinding.sbSettingCache.rightText = CacheDataManager.getTotalCacheSize(this)
+    override fun getLayoutId(): Int {
+        return R.layout.setting_activity
     }
-
-    private fun showAppUpdateDialog(appUpdateInfo: AppUpdateInfo, forceUpdateApp: Boolean) {
-        UpdateDialog.Builder(this)
-            .setFileMd5(appUpdateInfo.apkHash)
-            .setDownloadUrl(appUpdateInfo.url)
-            .setForceUpdate(forceUpdateApp)
-            .setUpdateLog(appUpdateInfo.updateLog)
-            .setVersionName(appUpdateInfo.versionName)
-            .show()
-    }
-
 
     override fun initView() {
         // 设置切换按钮的监听
-        mBinding.sbSettingSwitch.setOnCheckedChangeListener(this)
+        autoSwitchView?.setOnCheckedChangeListener(this)
         setOnClickListener(
             R.id.sb_setting_language,
             R.id.sb_setting_update,
@@ -108,9 +77,9 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
 
     override fun initData() {
         // 获取应用缓存大小
-        mBinding.sbSettingCache.rightText = CacheDataManager.getTotalCacheSize(this)
-        mBinding.sbSettingLanguage.rightText = "简体中文"
-        mBinding.sbSettingSwitch.isChecked = true
+        cleanCacheView?.setRightText(CacheDataManager.getTotalCacheSize(this))
+        languageView?.setRightText("简体中文")
+        mBinding.sbSettingSwitch.setChecked(true)
         // 检查更新
         mAppViewModel.checkAppUpdate().observe(this) {
             isAutoCheckAppVersion = true
@@ -143,122 +112,42 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
         }
     }
 
-    @SingleClick
-    override fun onClick(view: View) {
-        when (view.id) {
-            R.id.sb_setting_language -> {
-                // 底部选择框
-                MenuDialog.Builder(this) // 设置点击按钮后不关闭对话框
-                    //.setAutoDismiss(false)
-                    .setList(R.string.setting_language_simple, R.string.setting_language_complex)
-                    .setListener(MenuDialog.OnListener { _: BaseDialog?, _: Int, string: String? ->
-                        mBinding.sbSettingLanguage.rightText = string
-                        BrowserActivity.start(activity, "https://github.com/getActivity/MultiLanguages")
-                    })
-                    .setGravity(Gravity.BOTTOM)
-                    .setAnimStyle(BaseDialog.ANIM_BOTTOM)
-                    .show()
-            }
-            R.id.sb_setting_update -> {
-                // 检查更新
-                mAppViewModel.checkAppUpdate().observe(this) {
-                    isAutoCheckAppVersion = false
-                    mAppVersionLiveData.value = it.getOrNull()
+    override fun initObserver() {
+        mAppVersionLiveData.observe(this) { appUpdateInfo ->
+            hideUpdateIcon()
+            appUpdateInfo ?: run {
+                if (isAutoCheckAppVersion.not()) {
+                    toast(R.string.check_update_error)
                 }
+                return@observe
             }
-            R.id.sb_setting_phone -> {
-                SafeDialog.Builder(this)
-                    .setListener { _: BaseDialog?, _: String?, code: String? ->
-                        PhoneResetActivity.start(activity, code)
-                    }
-                    .show()
+            // 是否需要强制更新（当前版本低于最低版本，强制更新）
+            val needForceUpdate = AppConfig.getVersionCode() < appUpdateInfo.minVersionCode
+            if (needForceUpdate) {
+                showUpdateIcon()
+                showAppUpdateDialog(appUpdateInfo, true)
+                return@observe
             }
-            R.id.sb_setting_password -> {
-                SafeDialog.Builder(this)
-                    .setListener { _: BaseDialog?, phone: String?, code: String? ->
-                        PasswordResetActivity.start(
-                            activity, phone, code
-                        )
-                    }
-                    .show()
-            }
-            R.id.sb_setting_agreement -> {
-                BrowserActivity.start(activity, "https://github.com/anjiemo/SunnyBeach")
-            }
-            R.id.sb_setting_me_pay -> {
-                MessageDialog.Builder(activity)
-                    .setTitle("捐赠")
-                    .setMessage("如果你觉得这个开源项目很棒，希望它能更好地坚持开发下去，可否愿意花一点点钱（推荐 10.24 元）作为对于开发者的激励")
-                    .setConfirm("支付宝")
-                    .setCancel(null) //.setAutoDismiss(false)
-                    .setListener {
-                        val PAY_QR_URL =
-                            "http://r.photo.store.qq.com/psb?/V11f9eYN22gzYb/1l8Fxuv4qOVPY4IVk8e0gnwGAUevkQEIdTQkY7u1fbo!/r/dFsBAAAAAAAA"
-                        BrowserActivity.start(activity, PAY_QR_URL)
-                        toast("【阳光沙滩】 因为有你的支持而能够不断更新、完善，非常感谢支持！")
-                        postDelayed({
-                            try {
-                                val intent = Intent(
-                                    Intent.ACTION_VIEW,
-                                    Uri.parse("alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=https%3A%2F%2Fqr.alipay.com%2FFKX051528LQJA7OWAZ76A4%3F_s%3Dweb-other")
-                                )
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                startActivity(intent)
-                            } catch (e: ActivityNotFoundException) {
-                                toast("打开支付宝失败，你可能还没有安装支付宝客户端")
-                            }
-                        }, 2000)
-                    }
-                    .show()
-            }
-            R.id.sb_setting_about -> {
-                startActivity<AboutActivity>()
-            }
-            R.id.sb_setting_auto -> {
-                // 自动登录
-                val sbSettingSwitch = mBinding.sbSettingSwitch
-                sbSettingSwitch.isChecked = !sbSettingSwitch.isChecked
-            }
-            R.id.sb_setting_cache -> {
-                mAppViewModel.clearCacheMemory().observe(this) {
-                    val totalCacheSize = it.getOrNull() ?: return@observe
-                    mBinding.sbSettingCache.rightText = totalCacheSize
+            // 当前版本是否低于最新版本
+            if (AppConfig.getVersionCode() < appUpdateInfo.versionCode) {
+                showUpdateIcon()
+                showAppUpdateDialog(appUpdateInfo, appUpdateInfo.forceUpdate)
+            } else {
+                if (isAutoCheckAppVersion.not()) {
+                    toast(R.string.current_version_is_up_to_date)
                 }
-            }
-            R.id.sb_setting_exit -> {
-                // 清除用户信息
-                UserManager.exitUserAccount()
-                // 清除 WebView 的 Cookie
-                val cookieManager = CookieManager.getInstance()
-                cookieManager.removeAllCookies(null)
-                val database = AppApplication.getDatabase()
-                val cookieDao = database.cookieDao()
-                ThreadPoolManager.getInstance().execute {
-                    // 清除App本地缓存的 Cookie（必须在非主线程操作）
-                    cookieDao.clearCookies()
-                }
-                // 退出账号并清除用户基本信息数据
-                mUserViewModel.logout().observe(this) {
-                    SobCacheManager.onAccountLoginOut()
-                    LoginActivity.start(this, "", "")
-                    // 进行内存优化，销毁除登录页之外的所有界面
-                    ActivityManager.getInstance().finishAllActivities(LoginActivity::class.java)
-                }
-                if (true) {
-                    return
-                }
-                // 退出登录
-                EasyHttp.post(this)
-                    .api(LogoutApi())
-                    .request(object : HttpCallback<HttpData<Void?>>(this) {
-                        override fun onSucceed(data: HttpData<Void?>) {
-                            LoginActivity.start(context, "", "")
-                            // 进行内存优化，销毁除登录页之外的所有界面
-                            ActivityManager.getInstance().finishAllActivities(LoginActivity::class.java)
-                        }
-                    })
             }
         }
+    }
+
+    private fun showAppUpdateDialog(appUpdateInfo: AppUpdateInfo, forceUpdateApp: Boolean) {
+        UpdateDialog.Builder(this)
+            .setFileMd5(appUpdateInfo.apkHash)
+            .setDownloadUrl(appUpdateInfo.url)
+            .setForceUpdate(forceUpdateApp)
+            .setUpdateLog(appUpdateInfo.updateLog)
+            .setVersionName(appUpdateInfo.versionName)
+            .show()
     }
 
     /**
@@ -275,11 +164,148 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
         mBinding.tvSettingUpdate.isVisible = true
     }
 
+    @SingleClick
+    override fun onClick(view: View) {
+        when (view.id) {
+            R.id.sb_setting_language -> {
+
+                // 底部选择框
+                MenuDialog.Builder(this) // 设置点击按钮后不关闭对话框
+                    //.setAutoDismiss(false)
+                    .setList(R.string.setting_language_simple, R.string.setting_language_complex)
+                    .setListener(object : MenuDialog.OnListener<String> {
+
+                        override fun onSelected(dialog: BaseDialog?, position: Int, data: String) {
+                            languageView?.setRightText(data)
+                            BrowserActivity.start(this@SettingActivity, "https://github.com/getActivity/MultiLanguages")
+                        }
+                    })
+                    .setGravity(Gravity.BOTTOM)
+                    .setAnimStyle(AnimAction.ANIM_BOTTOM)
+                    .show()
+            }
+            R.id.sb_setting_update -> {
+                // 检查更新
+                mAppViewModel.checkAppUpdate().observe(this) {
+                    isAutoCheckAppVersion = false
+                    mAppVersionLiveData.value = it.getOrNull()
+                }
+            }
+            R.id.sb_setting_phone -> {
+
+                SafeDialog.Builder(this)
+                    .setListener(object : SafeDialog.OnListener {
+
+                        override fun onConfirm(dialog: BaseDialog?, phone: String, code: String) {
+                            PhoneResetActivity.start(this@SettingActivity, code)
+                        }
+                    })
+                    .show()
+            }
+            R.id.sb_setting_password -> {
+
+                SafeDialog.Builder(this)
+                    .setListener(object : SafeDialog.OnListener {
+
+                        override fun onConfirm(dialog: BaseDialog?, phone: String, code: String) {
+                            PasswordResetActivity.start(this@SettingActivity, phone, code)
+                        }
+                    })
+                    .show()
+            }
+            R.id.sb_setting_agreement -> {
+
+                BrowserActivity.start(this, "https://github.com/anjiemo/SunnyBeach")
+            }
+            R.id.sb_setting_me_pay -> {
+                MessageDialog.Builder(this)
+                    .setTitle("捐赠")
+                    .setMessage("如果你觉得这个开源项目很棒，希望它能更好地坚持开发下去，可否愿意花一点点钱（推荐 10.24 元）作为对于开发者的激励")
+                    .setConfirm("支付宝")
+                    .setCancel(null) //.setAutoDismiss(false)
+                    .setListener {
+                        val PAY_QR_URL =
+                            "http://r.photo.store.qq.com/psb?/V11f9eYN22gzYb/1l8Fxuv4qOVPY4IVk8e0gnwGAUevkQEIdTQkY7u1fbo!/r/dFsBAAAAAAAA"
+                        BrowserActivity.start(this, PAY_QR_URL)
+                        toast("【阳光沙滩】 因为有你的支持而能够不断更新、完善，非常感谢支持！")
+                        postDelayed({
+                            try {
+                                val intent = Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse("alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=https%3A%2F%2Fqr.alipay.com%2FFKX051528LQJA7OWAZ76A4%3F_s%3Dweb-other")
+                                )
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(intent)
+                            } catch (e: ActivityNotFoundException) {
+                                e.printStackTrace()
+                                toast("打开支付宝失败，你可能还没有安装支付宝客户端")
+                            }
+                        }, 2000)
+                    }
+                    .show()
+            }
+            R.id.sb_setting_about -> {
+
+                startActivity(AboutActivity::class.java)
+            }
+            R.id.sb_setting_auto -> {
+
+                autoSwitchView?.let {
+                    // 自动登录
+                    it.setChecked(!it.isChecked())
+                }
+            }
+            R.id.sb_setting_cache -> {
+
+                mAppViewModel.clearCacheMemory().observe(this) {
+                    val totalCacheSize = it.getOrNull() ?: return@observe
+                    mBinding.sbSettingCache.setRightText(totalCacheSize)
+                }
+            }
+            R.id.sb_setting_exit -> {
+
+                // 清除用户信息
+                UserManager.exitUserAccount()
+                // 清除 WebView 的 Cookie
+                val cookieManager = CookieManager.getInstance()
+                cookieManager.removeAllCookies(null)
+                val database = AppApplication.getDatabase()
+                val cookieDao = database.cookieDao()
+                lifecycleScope.launchWhenCreated {
+                    withContext(Dispatchers.IO) {
+                        // 清除App本地缓存的 Cookie（必须在非主线程操作）
+                        cookieDao.clearCookies()
+                    }
+                }
+                // 退出账号并清除用户基本信息数据
+                mUserViewModel.logout().observe(this) {
+                    SobCacheManager.onAccountLoginOut()
+                    LoginActivity.start(this, "", "")
+                    // 进行内存优化，销毁除登录页之外的所有界面
+                    ActivityManager.getInstance().finishAllActivities(LoginActivity::class.java)
+                }
+                if (true) {
+                    return
+                }
+                // 退出登录
+                EasyHttp.post(this)
+                    .api(LogoutApi())
+                    .request(object : HttpCallback<HttpData<Void?>>(this) {
+                        override fun onSucceed(data: HttpData<Void?>) {
+                            LoginActivity.start(this@SettingActivity, "", "")
+                            // 进行内存优化，销毁除登录页之外的所有界面
+                            ActivityManager.getInstance().finishAllActivities(LoginActivity::class.java)
+                        }
+                    })
+            }
+        }
+    }
+
     /**
      * [SwitchButton.OnCheckedChangeListener]
      */
     override fun onCheckedChanged(button: SwitchButton, checked: Boolean) {
-        // TODO: 设置是否自动登录
+        // 设置是否自动登录
     }
 
     override fun isStatusBarDarkFont(): Boolean {

@@ -32,7 +32,7 @@ import kotlinx.coroutines.flow.collectLatest
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/6/20
+ * time   : 2021/06/20
  * desc   : 首页 Fragment
  */
 class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction, OnBack2TopListener {
@@ -68,7 +68,7 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction, OnBa
             }
         }
         mArticleAdapter.setOnNineGridClickListener { sources, index ->
-            ImagePreviewActivity.start(requireContext(), sources, index)
+            ImagePreviewActivity.start(requireContext(), sources.toMutableList(), index)
         }
     }
 
@@ -82,15 +82,15 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction, OnBa
         ShareDialog.Builder(requireActivity())
             .setShareLink(content)
             .setListener(object : UmengShare.OnShareListener {
-                override fun onSucceed(platform: Platform) {
+                override fun onSucceed(platform: Platform?) {
                     toast("分享成功")
                 }
 
-                override fun onError(platform: Platform, t: Throwable) {
+                override fun onError(platform: Platform?, t: Throwable) {
                     toast(t.message)
                 }
 
-                override fun onCancel(platform: Platform) {
+                override fun onCancel(platform: Platform?) {
                     toast("分享取消")
                 }
             })
