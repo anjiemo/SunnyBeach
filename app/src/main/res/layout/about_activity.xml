@@ -46,7 +46,7 @@
             android:autoLink="all"
             android:gravity="center_horizontal"
             android:lineSpacingExtra="@dimen/dp_10"
-            android:text="但愿人长久，搬砖不再有\n https://github.com/anjiemo/SunnyBeach"
+            android:text="阳光沙滩APP\n https://github.com/anjiemo/SunnyBeach"
             android:textColor="#222222"
             android:textSize="@dimen/sp_14" />
 
