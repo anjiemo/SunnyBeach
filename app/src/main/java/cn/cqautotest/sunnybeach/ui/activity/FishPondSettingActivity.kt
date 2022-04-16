@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
-import cn.cqautotest.sunnybeach.aop.DebugLog
+import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.FishPondSettingActivityBinding
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
@@ -27,7 +27,7 @@ import timber.log.Timber
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/7/10
+ * time   : 2021/07/10
  * desc   : 摸鱼设置界面
  */
 class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
@@ -96,7 +96,7 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
     companion object {
 
         @JvmStatic
-        @DebugLog
+        @Log
         fun start(context: Context) {
             val intent = Intent(context, FishPondSettingActivity::class.java)
             if (context !is Activity) {

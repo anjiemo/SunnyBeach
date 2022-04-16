@@ -1,7 +1,7 @@
 package cn.cqautotest.sunnybeach.viewmodel.app
 
 import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.request.api.AppApi
+import cn.cqautotest.sunnybeach.http.api.AppApi
 import cn.cqautotest.sunnybeach.util.APP_INFO_URL
 import cn.cqautotest.sunnybeach.util.MOURNING_CALENDAR_URL
 

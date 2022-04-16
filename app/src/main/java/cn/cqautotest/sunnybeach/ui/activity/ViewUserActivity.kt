@@ -9,7 +9,7 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.DebugLog
+import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.ViewUserActivityBinding
 import cn.cqautotest.sunnybeach.manager.UserManager
@@ -148,7 +148,7 @@ class ViewUserActivity : AppActivity() {
     companion object {
 
         @JvmStatic
-        @DebugLog
+        @Log
         fun start(context: Context, userId: String) {
             val intent = Intent(context, ViewUserActivity::class.java)
             intent.putExtra(IntentKey.ID, userId)

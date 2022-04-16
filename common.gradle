@@ -1,3 +1,5 @@
+apply plugin: 'kotlin-android'
+
 // 通用配置
 android {
 
@@ -8,14 +10,23 @@ android {
         minSdkVersion 21
         // 目标适配版本
         targetSdkVersion 31
-        versionName '5.3.1'
-        versionCode 12
+        versionName '5.3.2'
+        versionCode 13
     }
 
     // 支持 Java JDK 8
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+        useIR = true
     }
 
     // 设置存放 so 文件的目录
@@ -25,7 +36,7 @@ android {
         }
     }
 
-    // 可在 Studio 左侧 Build Variants 选项中切换默认的构建模式
+    // 可在 Studio 最左侧中的 Build Variants 选项中切换默认的构建类型
     buildTypes {
         // 调试版本
         debug {}
@@ -56,10 +67,16 @@ afterEvaluate {
 
 dependencies {
     // 依赖 libs 目录下所有的 jar 和 aar 包
-    implementation fileTree(include: ["*.jar", '*.aar'], dir: "libs")
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 
     // AndroidX 库：https://github.com/androidx/androidx
     implementation 'androidx.appcompat:appcompat:1.4.1'
     // Material 库：https://github.com/material-components/material-components-android
     implementation 'com.google.android.material:material:1.5.0'
+
+    // Kotlin 协程：https://github.com/Kotlin/kotlinx.coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
 }

@@ -3,10 +3,6 @@ apply from : '../../common.gradle'
 
 android {
 
-
-    lint {
-        disable 'HardcodedText', 'ContentDescription'
-    }
     defaultConfig {
         // 模块混淆配置
         consumerProguardFiles 'proguard-umeng.pro'
@@ -46,14 +42,4 @@ dependencies {
     api 'com.tencent.tauth:qqopensdk:3.53.0'
     // 微信组件：https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html
     api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.7.9'
-
-    //友盟Push相关依赖（必须）
-    api 'com.umeng.umsdk:push:6.3.3'
-    implementation 'com.umeng.umsdk:alicloud-httpdns:1.3.2.3'
-    implementation 'com.umeng.umsdk:alicloud-utils:2.0.0'
-    implementation 'com.umeng.umsdk:alicloud_beacon:1.0.5'
-    api 'com.umeng.umsdk:agoo-accs:3.4.2.7'
-    implementation 'com.umeng.umsdk:agoo_aranger:1.0.6'
-    implementation 'com.umeng.umsdk:agoo_networksdk:3.5.8'
-    implementation 'com.umeng.umsdk:agoo_tnet4android:3.1.14.10'
 }

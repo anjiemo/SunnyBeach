@@ -5,6 +5,11 @@ package cn.cqautotest.sunnybeach.util
 import android.app.Activity
 import android.graphics.Color
 import android.view.View
+import com.blankj.utilcode.util.KeyboardUtils
+
+fun Activity.hideKeyboard() {
+    KeyboardUtils.hideSoftInput(this)
+}
 
 @JvmOverloads
 fun Activity.fullWindow(isBlack: Boolean = true) {

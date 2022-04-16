@@ -43,12 +43,10 @@ import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
 import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
 
 /**
  * author : A Lonely Cat
@@ -56,13 +54,11 @@ import javax.inject.Inject
  * time   : 2021/07/07
  * desc   : 摸鱼动态列表 Fragment
  */
-@AndroidEntryPoint
 class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener {
 
     private val mBinding: FishListFragmentBinding by viewBinding()
 
-    @Inject
-    lateinit var mAppViewModel: AppViewModel
+    private val mAppViewModel: AppViewModel = AppViewModel.getAppViewModel()
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
     private val mFishListAdapter = FishListAdapter(AdapterDelegate())
     private val loadStateListener = loadStateListener(mFishListAdapter) {
@@ -103,7 +99,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             }
         }
         mFishListAdapter.setOnNineGridClickListener { sources, index ->
-            ImagePreviewActivity.start(requireContext(), sources, index)
+            ImagePreviewActivity.start(requireContext(), sources.toMutableList(), index)
         }
         mBinding.rvFishPondList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
@@ -184,15 +180,15 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         ShareDialog.Builder(requireActivity())
             .setShareLink(content)
             .setListener(object : UmengShare.OnShareListener {
-                override fun onSucceed(platform: Platform) {
+                override fun onSucceed(platform: Platform?) {
                     toast("分享成功")
                 }
 
-                override fun onError(platform: Platform, t: Throwable) {
+                override fun onError(platform: Platform?, t: Throwable) {
                     toast(t.message)
                 }
 
-                override fun onCancel(platform: Platform) {
+                override fun onCancel(platform: Platform?) {
                     toast("分享取消")
                 }
             })
@@ -240,7 +236,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     @Permissions(Permission.CAMERA)
-    override fun onRightClick(titleBar: TitleBar?) {
+    override fun onRightClick(titleBar: TitleBar) {
         // “QRCODE_SCAN_TYPE”和“DATAMATRIX_SCAN_TYPE”表示只扫描QR和Data Matrix的码
         val options = HmsScanAnalyzerOptions.Creator()
             .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
@@ -266,7 +262,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != AppActivity.RESULT_OK || data == null) return
+        if (resultCode != Activity.RESULT_OK || data == null) return
         if (requestCode == REQUEST_CODE_SCAN_ONE) {
             // 导入图片扫描返回结果
             val obj = data.getParcelableExtra(ScanUtil.RESULT) as HmsScan?

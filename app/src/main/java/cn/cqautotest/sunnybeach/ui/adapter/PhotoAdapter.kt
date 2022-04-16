@@ -3,7 +3,7 @@ package cn.cqautotest.sunnybeach.ui.adapter
 import android.view.ViewGroup
 import android.widget.ImageView
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
+import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import cn.cqautotest.sunnybeach.util.dp
 import cn.cqautotest.sunnybeach.widget.RoundRelativeLayout
 import com.blankj.utilcode.util.ScreenUtils

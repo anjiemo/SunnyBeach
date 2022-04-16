@@ -117,7 +117,7 @@ class MessageCenterActivity : AppActivity() {
         }
     }
 
-    override fun onRightClick(titleBar: TitleBar?) {
+    override fun onRightClick(titleBar: TitleBar) {
         takeIfLogin {
             // 先在 UI 上响应给用户，再去网络请求
             setUnReadCountByMenu(UnReadMsgCount())

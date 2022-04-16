@@ -21,26 +21,24 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.DebugLog
+import cn.cqautotest.sunnybeach.aop.Log
+import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.GalleryActivityBinding
-import cn.cqautotest.sunnybeach.http.response.model.WallpaperBean
 import cn.cqautotest.sunnybeach.manager.ThreadPoolManager
+import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import cn.cqautotest.sunnybeach.other.IntentKey
-import cn.cqautotest.sunnybeach.other.PermissionCallback
 import cn.cqautotest.sunnybeach.ui.adapter.PhotoAdapter
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 import com.blankj.utilcode.util.IntentUtils
 import com.gyf.immersionbar.ImmersionBar
-import com.hjq.permissions.XXPermissions
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.util.*
-import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlin.math.pow
@@ -48,7 +46,7 @@ import kotlin.math.pow
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/6/18
+ * time   : 2021/06/18
  * desc   : 发现图片列表查看界面
  */
 class GalleryActivity : AppActivity() {
@@ -98,25 +96,7 @@ class GalleryActivity : AppActivity() {
         }
         mBinding.downLoadPhotoTv.setOnClickListener {
             // 权限框架内部已经做了适配，直接申请 Manifest.permission.MANAGE_EXTERNAL_STORAGE 权限即可
-            lifecycleScope.launchWhenCreated {
-                val hasPermission =
-                    requestXXPermissions(activity, Manifest.permission.MANAGE_EXTERNAL_STORAGE)
-                takeIf { hasPermission }?.let {
-                    val dm = getSystemService<DownloadManager>() ?: return@let
-                    val sourceUri = getImageUri()
-                    val verticalPhotoBean = getCurrentVerticalPhotoBean()
-                    val request = DownloadManager.Request(sourceUri)
-                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                        .setTitle(verticalPhotoBean.id)
-                        .setDescription(verticalPhotoBean.id)
-                        .setDestinationInExternalPublicDir(
-                            Environment.DIRECTORY_PICTURES,
-                            "阳光沙滩${File.pathSeparator}${verticalPhotoBean.preview}.png"
-                        )
-                    dm.enqueue(request)
-                    simpleToast("已加入下载队列，请查看通知栏")
-                }
-            }
+            downloadPhotoFile()
         }
         val wallpaperManager = WallpaperManager.getInstance(this)
         mBinding.settingWallpaperTv.setOnClickListener {
@@ -133,6 +113,25 @@ class GalleryActivity : AppActivity() {
         }
     }
 
+    @Permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+    private fun downloadPhotoFile() {
+        lifecycleScope.launchWhenCreated {
+            val dm = getSystemService<DownloadManager>() ?: return@launchWhenCreated
+            val sourceUri = getImageUri()
+            val verticalPhotoBean = getCurrentVerticalPhotoBean()
+            val request = DownloadManager.Request(sourceUri)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setTitle(verticalPhotoBean.id)
+                .setDescription(verticalPhotoBean.id)
+                .setDestinationInExternalPublicDir(
+                    Environment.DIRECTORY_PICTURES,
+                    "阳光沙滩${File.pathSeparator}${verticalPhotoBean.preview}.png"
+                )
+            dm.enqueue(request)
+            simpleToast("已加入下载队列，请查看通知栏")
+        }
+    }
+
     private suspend fun WallpaperManager.setWallpaper(inputStream: InputStream) =
         suspendCoroutine<Boolean> {
             ThreadPoolManager.getInstance().execute {
@@ -144,25 +143,6 @@ class GalleryActivity : AppActivity() {
                     it.resume(false)
                 }
             }
-        }
-
-    /**
-     * 请求权限
-     */
-    private suspend fun requestXXPermissions(context: Context, permission: String) =
-        suspendCoroutine { cont: Continuation<Boolean> ->
-            XXPermissions.with(context)
-                .permission(permission)
-                .request(object : PermissionCallback() {
-                    override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
-                        cont.resume(true)
-                    }
-
-                    override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
-                        super.onDenied(permissions, never)
-                        cont.resume(false)
-                    }
-                })
         }
 
     private fun getImageUri(): Uri {
@@ -213,7 +193,7 @@ class GalleryActivity : AppActivity() {
         private const val SHARE_ELEMENT_NAME = "photo"
 
         @JvmStatic
-        @DebugLog
+        @Log
         fun start(context: Context, id: String) {
             val intent = Intent(context, GalleryActivity::class.java)
             intent.putExtra(IntentKey.ID, id)
@@ -224,7 +204,7 @@ class GalleryActivity : AppActivity() {
         }
 
         @JvmStatic
-        @DebugLog
+        @Log
         fun smoothEntry(activity: Activity, id: String, shareElement: View) {
             val aos = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 activity,
