@@ -35,7 +35,6 @@ import com.tencent.mmkv.MMKV;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
-import cn.android52.sunnybeach.skin.manager.SkinManager;
 import cn.cqautotest.sunnybeach.R;
 import cn.cqautotest.sunnybeach.aop.DebugLog;
 import cn.cqautotest.sunnybeach.db.CookieRoomDatabase;
@@ -81,8 +80,6 @@ public class AppApplication extends Application implements Configuration.Provide
         super.onCreate();
         INSTANCE = this;
         initSdk(this);
-        //初始化换肤管理器
-        SkinManager.getInstance().init(this);
     }
 
     /**
