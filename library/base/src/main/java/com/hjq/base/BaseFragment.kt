@@ -222,7 +222,16 @@ abstract class BaseFragment<A : BaseActivity> : Fragment(),
         return false
     }
 
-    override fun getContext(): Context? {
-        return activity
-    }
+    /**
+     * 此处不能返回上面 onAttach(context: Context) 获取到的 activity 实例，
+     * 这会导致与 Hilt 不兼容，正确的做法是不重写或者重写 onAttach(activity: Activity) 方法并重新赋值给 onAttach(context: Context) 方法获取的 activity 实例 。
+     * java.lang.NullPointerException
+     * at dagger.hilt.internal.Preconditions.checkNotNull(Preconditions.java:34)
+     * at dagger.hilt.android.internal.managers.ViewComponentManager$FragmentContextWrapper.<init>(ViewComponentManager.java:191)
+     * at dagger.hilt.android.internal.managers.FragmentComponentManager.createContextWrapper(FragmentComponentManager.java:105)
+     * at xxx.xxx.xxx.Hilt_xxxFragment.initializeComponentContext(Hilt_xxxFragment.java:xx)
+     */
+    // override fun getContext(): Context? {
+    //     return activity
+    // }
 }
