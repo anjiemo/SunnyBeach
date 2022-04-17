@@ -1,7 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -296,23 +295,15 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         Timber.d("showResult：===> result is $result")
         // toast(userId)
 
-        runCatching {
-            if (checkScheme(scheme).not()) unsupportedParsedContent()
-            if (checkAuthority(authority).not()) unsupportedParsedContent()
-            if (checkUserId(userId).not()) unsupportedParsedContent()
-        }.onSuccess {
-            ViewUserActivity.start(requireContext(), userId)
-        }.onFailure {
-            it.printStackTrace()
-            when (it) {
-                is UnsupportedOperationException -> toast("${it.message}❎")
-                is ActivityNotFoundException -> toast("无法跳转到未知界面❎")
-                else -> toast("扫描时发生了未知错误❎")
-            }
+        when {
+            checkScheme(scheme).not() -> unsupportedParsedContent()
+            checkAuthority(authority).not() -> unsupportedParsedContent()
+            checkUserId(userId).not() -> unsupportedParsedContent()
+            else -> ViewUserActivity.start(requireContext(), userId)
         }
     }
 
-    private fun unsupportedParsedContent(): Nothing = throw UnsupportedOperationException("不支持解析的内容")
+    private fun unsupportedParsedContent() = toast("不支持解析的内容")
 
     /**
      * We only support http and https protocols.
