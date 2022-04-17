@@ -318,8 +318,9 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         Timber.d("checkAuthority：===> sobSiteTopDomain is $sobSiteTopDomain")
         Timber.d("checkAuthority：===> loveSiteTopDomain is $loveSiteTopDomain")
 
-        val sobAuthority = authority.replace("www.", "") == sobSiteTopDomain
-        val loveAuthority = authority.replace("www.", "") == loveSiteTopDomain
+        fun String.delete3W() = replace("www.", "")
+        val sobAuthority = authority.delete3W() == sobSiteTopDomain
+        val loveAuthority = authority.delete3W() == loveSiteTopDomain
         return sobAuthority || loveAuthority
     }
 
