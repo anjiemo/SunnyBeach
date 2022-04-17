@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -264,6 +265,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mBinding.rvFishPondList.scrollToPosition(0)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK || data == null) return
@@ -294,12 +296,23 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         Timber.d("showResult：===> result is $result")
         // toast(userId)
 
-        if (checkScheme(scheme).not()) return
-        if (checkAuthority(authority).not()) return
-        if (checkUserId(userId).not()) return
-
-        ViewUserActivity.start(requireContext(), userId)
+        runCatching {
+            if (checkScheme(scheme).not()) unsupportedParsedContent()
+            if (checkAuthority(authority).not()) unsupportedParsedContent()
+            if (checkUserId(userId).not()) unsupportedParsedContent()
+        }.onSuccess {
+            ViewUserActivity.start(requireContext(), userId)
+        }.onFailure {
+            it.printStackTrace()
+            when (it) {
+                is UnsupportedOperationException -> toast("${it.message}❎")
+                is ActivityNotFoundException -> toast("无法跳转到未知界面❎")
+                else -> toast("扫描时发生了未知错误❎")
+            }
+        }
     }
+
+    private fun unsupportedParsedContent(): Nothing = throw UnsupportedOperationException("不支持解析的内容")
 
     /**
      * We only support http and https protocols.

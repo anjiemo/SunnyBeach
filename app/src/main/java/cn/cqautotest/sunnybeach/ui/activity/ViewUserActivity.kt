@@ -53,12 +53,14 @@ class ViewUserActivity : AppActivity() {
         val lastPathSegment = uri?.lastPathSegment ?: ""
         val userId = intent.getStringExtra(IntentKey.ID) ?: ""
 
-        if (checkScheme(scheme).not()) return userId
-        if (checkAuthority(authority).not()) return userId
-        if (checkUserId(lastPathSegment).not()) return userId
-
         Timber.d("showResult：===> scheme is $scheme authority is $authority userId is $userId lastPathSegment is $lastPathSegment")
-        return lastPathSegment
+
+        return when {
+            checkScheme(scheme).not() -> userId
+            checkAuthority(authority).not() -> userId
+            checkUserId(lastPathSegment).not() -> userId
+            else -> lastPathSegment
+        }
     }
 
     /**
