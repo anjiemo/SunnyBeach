@@ -202,7 +202,7 @@ dependencies {
     implementation 'com.github.getActivity:GsonFactory:5.2'
 
     // Shape 框架：https://github.com/getActivity/ShapeView
-    // implementation 'com.github.getActivity:ShapeView:6.0'
+    // implementation 'com.github.getActivity:ShapeView:6.2'
 
     // AOP 插件库：https://mvnrepository.com/artifact/org.aspectj/aspectjrt
     implementation 'org.aspectj:aspectjrt:1.9.6'
@@ -315,10 +315,6 @@ dependencies {
     implementation 'com.huawei.hms:scan:2.4.0.301'
 
     // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
-    implementation "com.google.dagger:hilt-android:2.40.5"
-    kapt "com.google.dagger:hilt-android-compiler:2.40.5"
-}
-
-kapt {
-    correctErrorTypes false
+    implementation "com.google.dagger:hilt-android:2.41"
+    kapt "com.google.dagger:hilt-android-compiler:2.41"
 }

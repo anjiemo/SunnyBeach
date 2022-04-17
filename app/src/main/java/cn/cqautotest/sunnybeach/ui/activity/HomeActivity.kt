@@ -75,8 +75,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     }
 
     override fun initView() {
-        val actionBar = supportActionBar
-        actionBar?.hide()
+        supportActionBar?.hide()
         navigationAdapter = NavigationAdapter(this).apply {
             addMenuItem(R.string.home_fish_pond_message, R.drawable.home_fish_pond_selector)
             addMenuItem(R.string.home_nav_found, R.drawable.home_found_selector)

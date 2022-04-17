@@ -139,8 +139,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         val content = item.content
         // 设置默认表情符号解析器
         tvContent.setDefaultEmojiParser()
-        tvContent.text =
-            content.parseAsHtml(imageGetter = EmojiImageGetter(tvContent.textSize.toInt()))
+        tvContent.text = content.parseAsHtml(imageGetter = EmojiImageGetter(tvContent.textSize.toInt()))
         tvContent.customSelectionActionModeCallback = object : ActionMode.Callback {
             override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 menu?.clear()
