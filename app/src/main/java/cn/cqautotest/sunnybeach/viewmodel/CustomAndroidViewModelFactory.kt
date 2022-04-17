@@ -21,7 +21,7 @@ class CustomAndroidViewModelFactory(private val appApplication: AppApplication) 
         //     return CookiesViewModel(application = appApplication) as T
         // }
         if (modelClass.isAssignableFrom(AppViewModel::class.java)) {
-            return AppViewModel(application = appApplication) as T
+            return AppViewModel.getAppViewModel() as T
         }
         if (modelClass.isAssignableFrom(DiscoverViewModel::class.java)) {
             return DiscoverViewModel() as T
