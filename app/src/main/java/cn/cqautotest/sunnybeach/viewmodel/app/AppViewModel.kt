@@ -1,14 +1,10 @@
 package cn.cqautotest.sunnybeach.viewmodel.app
 
-import android.app.Activity
 import android.app.Application
-import androidx.core.app.ComponentActivity
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.liveData
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.manager.CacheDataManager
-import com.blankj.utilcode.util.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -18,28 +14,7 @@ import kotlinx.coroutines.withContext
  * time   : 2021/06/18
  * desc   : 应用的 ViewModel
  */
-class AppViewModel(private val application: Application) : Utils.ActivityLifecycleCallbacks() {
-
-    private val mCallbacks = arrayListOf<LifecycleOwner>()
-
-    private fun getApplication(): Application {
-        return application
-    }
-
-    override fun onActivityCreated(activity: Activity) {
-        super.onActivityCreated(activity)
-        if (activity !is ComponentActivity || !mCallbacks.contains(activity)) {
-            return
-        }
-        mCallbacks.add(activity)
-    }
-
-    override fun onActivityDestroyed(activity: Activity) {
-        if (activity is ComponentActivity) {
-            mCallbacks.remove(activity)
-        }
-        super.onActivityDestroyed(activity)
-    }
+class AppViewModel private constructor(private val application: Application) {
 
     fun checkAppUpdate() = Repository.checkAppUpdate()
 
@@ -48,13 +23,13 @@ class AppViewModel(private val application: Application) : Utils.ActivityLifecyc
     fun clearCacheMemory() = liveData(Dispatchers.Main) {
         val result = try {
             // 清除内存缓存（必须在主线程）
-            GlideApp.get(getApplication()).clearMemory()
+            GlideApp.get(application).clearMemory()
             withContext(Dispatchers.IO) {
-                CacheDataManager.clearAllCache(getApplication())
+                CacheDataManager.clearAllCache(application)
                 // 清除本地缓存（必须在子线程）
-                GlideApp.get(getApplication()).clearDiskCache()
+                GlideApp.get(application).clearDiskCache()
             }
-            val totalCacheSize = CacheDataManager.getTotalCacheSize(getApplication())
+            val totalCacheSize = CacheDataManager.getTotalCacheSize(application)
             Result.success(totalCacheSize)
         } catch (t: Throwable) {
             t.printStackTrace()

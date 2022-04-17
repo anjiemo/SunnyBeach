@@ -34,8 +34,10 @@ import com.hjq.http.EasyHttp
 import com.hjq.http.listener.HttpCallback
 import com.hjq.widget.layout.SettingBar
 import com.hjq.widget.view.SwitchButton
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 /**
  *    author : Android 轮子哥 & A Lonely Cat
@@ -43,6 +45,7 @@ import kotlinx.coroutines.withContext
  *    time   : 2019/03/01
  *    desc   : 设置界面
  */
+@AndroidEntryPoint
 class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
 
     private val mBinding: SettingActivityBinding by viewBinding()
@@ -50,7 +53,8 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
     private val cleanCacheView: SettingBar? by lazy { findViewById(R.id.sb_setting_cache) }
     private val autoSwitchView: SwitchButton? by lazy { findViewById(R.id.sb_setting_switch) }
 
-    private val mAppViewModel: AppViewModel = AppApplication.getAppViewModel()
+    @Inject
+    lateinit var mAppViewModel: AppViewModel
     private var isAutoCheckAppVersion = true
     private var mAppVersionLiveData = MutableLiveData<AppUpdateInfo?>()
 

@@ -20,10 +20,7 @@ import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.http.model.RequestHandler
 import cn.cqautotest.sunnybeach.http.model.RequestServer
 import cn.cqautotest.sunnybeach.manager.ActivityManager
-import cn.cqautotest.sunnybeach.manager.LocalCookieManager
 import cn.cqautotest.sunnybeach.other.*
-import cn.cqautotest.sunnybeach.other.AppConfig.isDebug
-import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
@@ -76,7 +73,7 @@ class AppApplication : Application(), Configuration.Provider {
     }
 
     override fun getWorkManagerConfiguration(): Configuration = Configuration.Builder().also {
-        if (isDebug()) {
+        if (AppConfig.isDebug()) {
             it.setMinimumLoggingLevel(android.util.Log.INFO)
         }
     }.build()
@@ -84,13 +81,10 @@ class AppApplication : Application(), Configuration.Provider {
     companion object {
 
         private lateinit var mApp: AppApplication
-        private lateinit var appViewModel: AppViewModel
         private lateinit var database: CookieRoomDatabase
         private const val sWeatherApiToken = "7xoSm4k7GIK8X8E1"
 
         fun getInstance() = mApp
-
-        fun getAppViewModel() = appViewModel
 
         fun getDatabase() = database
 
@@ -154,10 +148,7 @@ class AppApplication : Application(), Configuration.Provider {
             MMKV.initialize(application)
 
             // 网络请求框架初始化
-            val okHttpClient: OkHttpClient = OkHttpClient.Builder()
-                .cookieJar(LocalCookieManager.get())
-                .addInterceptor(ServiceCreator.accountInterceptor)
-                .build()
+            val okHttpClient: OkHttpClient = ServiceCreator.client
 
             EasyConfig.with(okHttpClient)
                 // 是否打印日志
@@ -205,7 +196,6 @@ class AppApplication : Application(), Configuration.Provider {
                     }
                 })
             }
-            appViewModel = AppViewModel(application)
             // 初始化 Room 数据库
             database = getDatabase(application)
             // 初始化 Glide 的 Cookie 管理
