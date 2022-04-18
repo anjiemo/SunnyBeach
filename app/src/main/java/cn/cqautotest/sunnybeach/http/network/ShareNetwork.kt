@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.viewmodel.app
+package cn.cqautotest.sunnybeach.http.network
 
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.api.ShareApi

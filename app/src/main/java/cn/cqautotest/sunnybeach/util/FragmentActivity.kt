@@ -3,10 +3,10 @@ package cn.cqautotest.sunnybeach.util
 import androidx.core.app.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.execption.NotLoginException
+import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
-import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 
 /**
  * 解析当前用户的 Token
