@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.liveData
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
+import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.manager.CacheDataManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

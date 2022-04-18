@@ -10,6 +10,7 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
+import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBannerBean
 import cn.cqautotest.sunnybeach.ui.activity.GalleryActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
@@ -19,7 +20,6 @@ import cn.cqautotest.sunnybeach.util.GridSpaceItemDecoration
 import cn.cqautotest.sunnybeach.util.dp
 import cn.cqautotest.sunnybeach.util.loadStateListener
 import cn.cqautotest.sunnybeach.viewmodel.PhotoViewModel
-import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.bumptech.glide.Glide
 import com.youth.banner.adapter.BannerImageAdapter
