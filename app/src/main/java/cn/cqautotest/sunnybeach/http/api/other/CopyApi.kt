@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.http.api
+package cn.cqautotest.sunnybeach.http.api.other
 
 import com.hjq.http.config.IRequestApi
 

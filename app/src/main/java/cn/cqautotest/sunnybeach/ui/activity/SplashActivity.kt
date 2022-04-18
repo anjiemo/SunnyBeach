@@ -6,7 +6,7 @@ import android.content.Intent
 import android.view.View
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
-import cn.cqautotest.sunnybeach.http.api.UserInfoApi
+import cn.cqautotest.sunnybeach.http.api.other.UserInfoApi
 import cn.cqautotest.sunnybeach.http.model.HttpData
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.other.AppConfig

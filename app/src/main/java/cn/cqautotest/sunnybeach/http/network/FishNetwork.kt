@@ -1,7 +1,5 @@
 package cn.cqautotest.sunnybeach.http.network
 
-import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.api.FishPondApi
 import okhttp3.MultipartBody
 
 /**
@@ -10,12 +8,9 @@ import okhttp3.MultipartBody
  *    time   : 2021/09/09
  *    desc   : 摸鱼获取
  */
-object FishNetwork {
+object FishNetwork : INetworkApi {
 
-    private val fishPondApi = ServiceCreator.create<FishPondApi>()
-
-    suspend fun getFishCommendListById(momentId: String, page: Int) =
-        fishPondApi.getFishCommendListById(momentId, page)
+    suspend fun getFishCommendListById(momentId: String, page: Int) = fishPondApi.getFishCommendListById(momentId, page)
 
     suspend fun loadFishDetailById(momentId: String) = fishPondApi.loadFishDetailById(momentId)
 
@@ -23,16 +18,13 @@ object FishNetwork {
 
     suspend fun uploadFishImage(part: MultipartBody.Part) = fishPondApi.uploadFishImage(part)
 
-    suspend fun postComment(momentComment: Map<String, Any?>) =
-        fishPondApi.postComment(momentComment)
+    suspend fun postComment(momentComment: Map<String, Any?>) = fishPondApi.postComment(momentComment)
 
-    suspend fun replyComment(momentComment: Map<String, Any?>) =
-        fishPondApi.replyComment(momentComment)
+    suspend fun replyComment(momentComment: Map<String, Any?>) = fishPondApi.replyComment(momentComment)
 
     suspend fun dynamicLikes(momentId: String) = fishPondApi.dynamicLikes(momentId)
 
     suspend fun loadTopicList() = fishPondApi.loadTopicList()
 
-    suspend fun loadUserFishList(userId: String, page: Int) =
-        fishPondApi.loadUserFishList(userId, page)
+    suspend fun loadUserFishList(userId: String, page: Int) = fishPondApi.loadUserFishList(userId, page)
 }

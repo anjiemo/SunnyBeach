@@ -17,7 +17,7 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.SettingActivityBinding
 import cn.cqautotest.sunnybeach.db.SobCacheManager
-import cn.cqautotest.sunnybeach.http.api.LogoutApi
+import cn.cqautotest.sunnybeach.http.api.other.LogoutApi
 import cn.cqautotest.sunnybeach.http.model.HttpData
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.AppManager

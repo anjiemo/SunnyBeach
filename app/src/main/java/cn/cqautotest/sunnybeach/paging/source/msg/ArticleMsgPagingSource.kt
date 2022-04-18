@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.api.MsgApi
+import cn.cqautotest.sunnybeach.http.api.sob.MsgApi
 import cn.cqautotest.sunnybeach.model.msg.ArticleMsg
 import timber.log.Timber
 
