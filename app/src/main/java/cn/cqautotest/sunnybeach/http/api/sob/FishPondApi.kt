@@ -1,17 +1,16 @@
-package cn.cqautotest.sunnybeach.http.api
+package cn.cqautotest.sunnybeach.http.api.sob
 
 import cn.cqautotest.sunnybeach.model.*
-import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_API_BASE_URL
 import okhttp3.MultipartBody
 import retrofit2.http.*
 
-interface FishPondApi {
+interface FishPondApi : ISobApi {
 
     /**
      * 获取指定用户的摸鱼动态列表
      * 如果当前未登录账号则只能获取到第一页的数据
      */
-    @GET("${SUNNY_BEACH_API_BASE_URL}ct/moyu/list/user/{userId}/{page}")
+    @GET("ct/moyu/list/user/{userId}/{page}")
     suspend fun loadUserFishList(
         @Path("userId") userId: String,
         @Path("page") page: Int
@@ -21,19 +20,19 @@ interface FishPondApi {
      * 上传图片（摸鱼动态）
      */
     @Multipart
-    @POST("${SUNNY_BEACH_API_BASE_URL}ct/image/mo_yu")
+    @POST("ct/image/mo_yu")
     suspend fun uploadFishImage(@Part part: MultipartBody.Part): ApiResponse<String>
 
     /**
      * 发布动态
      */
-    @POST("${SUNNY_BEACH_API_BASE_URL}ct/moyu")
+    @POST("ct/moyu")
     suspend fun putFish(@Body moment: @JvmSuppressWildcards Map<String, Any?>): ApiResponse<Any>
 
     /**
      * 获取动态评论
      */
-    @GET("${SUNNY_BEACH_API_BASE_URL}ct/moyu/comment/{momentId}/{page}?sort=1")
+    @GET("ct/moyu/comment/{momentId}/{page}?sort=1")
     suspend fun getFishCommendListById(
         @Path("momentId") momentId: String,
         @Path("page") page: Int
@@ -42,13 +41,13 @@ interface FishPondApi {
     /**
      * 获取动态详情
      */
-    @GET("${SUNNY_BEACH_API_BASE_URL}ct/moyu/{momentId}")
+    @GET("ct/moyu/{momentId}")
     suspend fun loadFishDetailById(@Path("momentId") momentId: String): ApiResponse<Fish.FishItem>
 
     /**
      * 获取动态列表
      */
-    @GET("${SUNNY_BEACH_API_BASE_URL}ct/moyu/list/{topicId}/{page}")
+    @GET("ct/moyu/list/{topicId}/{page}")
     suspend fun loadFishListById(
         @Path("topicId") topicId: String,
         @Path("page") page: Int
@@ -57,36 +56,36 @@ interface FishPondApi {
     /**
      * 获取首页话题（类似于摸鱼首页侧栏）
      */
-    @GET("${SUNNY_BEACH_API_BASE_URL}ct/moyu/topic/index")
+    @GET("ct/moyu/topic/index")
     suspend fun loadTopicListByIndex(): ApiResponse<FishPondTopicIndex>
 
     /**
      * 获取热门动态列表
      */
-    @GET("${SUNNY_BEACH_API_BASE_URL}ct/moyu/hot/{size}")
+    @GET("ct/moyu/hot/{size}")
     suspend fun loadHotFish(@Path("size") size: Int): ApiResponse<Fish>
 
     /**
      * 获取话题列表
      */
-    @GET("${SUNNY_BEACH_API_BASE_URL}ct/moyu/topic")
+    @GET("ct/moyu/topic")
     suspend fun loadTopicList(): ApiResponse<FishPondTopicList>
 
     /**
      * 发表评论(评论动态)
      */
-    @POST("${SUNNY_BEACH_API_BASE_URL}ct/moyu/comment")
+    @POST("ct/moyu/comment")
     suspend fun postComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): ApiResponse<String>
 
     /**
      * 回复评论（回复动态列表下的评论）
      */
-    @POST("${SUNNY_BEACH_API_BASE_URL}ct/moyu/sub-comment")
+    @POST("ct/moyu/sub-comment")
     suspend fun replyComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): ApiResponse<String>
 
     /**
      * 动态点赞
      */
-    @PUT("${SUNNY_BEACH_API_BASE_URL}ct/moyu/thumb-up/{momentId}")
+    @PUT("ct/moyu/thumb-up/{momentId}")
     suspend fun dynamicLikes(@Path("momentId") momentId: String): ApiResponse<Any>
 }

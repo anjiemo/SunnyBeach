@@ -1,7 +1,7 @@
 package cn.cqautotest.sunnybeach.paging.source.msg.factory
 
 import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.api.MsgApi
+import cn.cqautotest.sunnybeach.http.api.sob.MsgApi
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.IApiResponse
 import cn.cqautotest.sunnybeach.paging.source.msg.impl.IMsgPageData
