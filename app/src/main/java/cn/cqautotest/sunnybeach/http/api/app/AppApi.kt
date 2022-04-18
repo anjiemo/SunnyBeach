@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.http.api
+package cn.cqautotest.sunnybeach.http.api.app
 
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo

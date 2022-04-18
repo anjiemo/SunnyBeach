@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.http.api
+package cn.cqautotest.sunnybeach.http.api.photo
 
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBannerBean
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean

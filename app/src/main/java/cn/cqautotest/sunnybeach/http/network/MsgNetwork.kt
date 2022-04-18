@@ -1,17 +1,12 @@
 package cn.cqautotest.sunnybeach.http.network
 
-import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.api.MsgApi
-
 /**
  *    author : A Lonely Cat
  *    github : https://github.com/anjiemo/SunnyBeach
  *    time   : 2021/10/24
  *    desc   : 消息操作
  */
-object MsgNetwork {
-
-    private val msgApi = ServiceCreator.create<MsgApi>()
+object MsgNetwork : INetworkApi {
 
     suspend fun readQaMsg(msgId: String) = msgApi.readQaMsg(msgId)
 

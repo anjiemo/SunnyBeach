@@ -1,7 +1,5 @@
 package cn.cqautotest.sunnybeach.http.network
 
-import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.api.UserApi
 import cn.cqautotest.sunnybeach.model.ModifyPwd
 import cn.cqautotest.sunnybeach.model.SmsInfo
 import cn.cqautotest.sunnybeach.model.User
@@ -12,29 +10,21 @@ import cn.cqautotest.sunnybeach.model.User
  * time   : 2021/10/23
  * desc   : 用户信息获取
  */
-object UserNetwork {
+object UserNetwork : INetworkApi {
 
-    private val userApi = ServiceCreator.create<UserApi>()
+    suspend fun modifyPasswordBySms(smsCode: String, user: User) = userApi.modifyPasswordBySms(smsCode, user)
 
-    suspend fun modifyPasswordBySms(smsCode: String, user: User) =
-        userApi.modifyPasswordBySms(smsCode, user)
+    suspend fun modifyPasswordByOldPwd(modifyPwd: ModifyPwd) = userApi.modifyPasswordByOldPwd(modifyPwd)
 
-    suspend fun modifyPasswordByOldPwd(modifyPwd: ModifyPwd) =
-        userApi.modifyPasswordByOldPwd(modifyPwd)
-
-    suspend fun checkSmsCode(phoneNumber: String, smsCode: String) =
-        userApi.checkSmsCode(phoneNumber, smsCode)
+    suspend fun checkSmsCode(phoneNumber: String, smsCode: String) = userApi.checkSmsCode(phoneNumber, smsCode)
 
     suspend fun sendForgetSmsVerifyCode(smsInfo: SmsInfo) = userApi.sendForgetSmsVerifyCode(smsInfo)
 
-    suspend fun registerAccount(smsCode: String, user: User) =
-        userApi.registerAccount(smsCode, user)
+    suspend fun registerAccount(smsCode: String, user: User) = userApi.registerAccount(smsCode, user)
 
-    suspend fun sendRegisterSmsVerifyCode(smsInfo: SmsInfo) =
-        userApi.sendRegisterSmsVerifyCode(smsInfo)
+    suspend fun sendRegisterSmsVerifyCode(smsInfo: SmsInfo) = userApi.sendRegisterSmsVerifyCode(smsInfo)
 
-    suspend fun getSobIEDetailList(userId: String, page: Int) =
-        userApi.getSobIEDetailList(userId, page)
+    suspend fun getSobIEDetailList(userId: String, page: Int) = userApi.getSobIEDetailList(userId, page)
 
     suspend fun getVipUserList() = userApi.getVipUserList()
 
