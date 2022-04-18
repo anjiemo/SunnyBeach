@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.viewmodel.app
+package cn.cqautotest.sunnybeach.http.network
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataScope

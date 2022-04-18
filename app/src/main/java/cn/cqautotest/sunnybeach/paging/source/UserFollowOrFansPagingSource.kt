@@ -3,10 +3,10 @@ package cn.cqautotest.sunnybeach.paging.source
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import cn.cqautotest.sunnybeach.execption.ServiceException
+import cn.cqautotest.sunnybeach.http.network.FansNetwork
+import cn.cqautotest.sunnybeach.http.network.FollowNetwork
 import cn.cqautotest.sunnybeach.model.UserFollow
 import cn.cqautotest.sunnybeach.other.FollowState
-import cn.cqautotest.sunnybeach.viewmodel.app.FansNetwork
-import cn.cqautotest.sunnybeach.viewmodel.app.FollowNetwork
 import timber.log.Timber
 
 /**

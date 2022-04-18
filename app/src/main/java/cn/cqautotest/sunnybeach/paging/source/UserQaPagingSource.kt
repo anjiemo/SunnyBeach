@@ -3,8 +3,8 @@ package cn.cqautotest.sunnybeach.paging.source
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import cn.cqautotest.sunnybeach.execption.ServiceException
+import cn.cqautotest.sunnybeach.http.network.QaNetwork
 import cn.cqautotest.sunnybeach.model.UserQa
-import cn.cqautotest.sunnybeach.viewmodel.app.QaNetwork
 import timber.log.Timber
 
 /**
