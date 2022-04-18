@@ -26,10 +26,7 @@ import cn.cqautotest.sunnybeach.other.AppConfig
 import cn.cqautotest.sunnybeach.other.DoubleClickHelper
 import cn.cqautotest.sunnybeach.ui.adapter.NavigationAdapter
 import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog
-import cn.cqautotest.sunnybeach.ui.fragment.ArticleListFragment
-import cn.cqautotest.sunnybeach.ui.fragment.DiscoverFragment
-import cn.cqautotest.sunnybeach.ui.fragment.FishListFragment
-import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment
+import cn.cqautotest.sunnybeach.ui.fragment.*
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.base.FragmentPagerAdapter
@@ -79,6 +76,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         navigationAdapter = NavigationAdapter(this).apply {
             addMenuItem(R.string.home_fish_pond_message, R.drawable.home_fish_pond_selector)
             addMenuItem(R.string.home_nav_found, R.drawable.home_found_selector)
+            addMenuItem(R.string.home_nav_qa, R.drawable.home_qa_selector)
             addMenuItem(R.string.home_nav_index, R.drawable.home_home_selector)
             addMenuItem(R.string.home_nav_me, R.drawable.home_me_selector)
             setOnNavigationListener(this@HomeActivity)
@@ -101,6 +99,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         pagerAdapter = FragmentPagerAdapter<AppFragment<*>>(this).apply {
             addFragment(FishListFragment.newInstance())
             addFragment(DiscoverFragment.newInstance())
+            addFragment(QaListFragment.newInstance())
             addFragment(ArticleListFragment.newInstance())
             // addFragment(EmptyFragment.newInstance())
             addFragment(MyMeFragment.newInstance())
@@ -181,7 +180,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             return
         }
         when (fragmentIndex) {
-            0, 1, 2, 3 -> {
+            0, 1, 2, 3, 4 -> {
                 viewPager?.currentItem = fragmentIndex
                 navigationAdapter?.setSelectedPosition(fragmentIndex)
             }
@@ -201,7 +200,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
      */
     override fun onNavigationItemSelected(position: Int): Boolean {
         return when (position) {
-            0, 1, 2, 3 -> {
+            0, 1, 2, 3, 4 -> {
                 viewPager?.currentItem = position
                 true
             }
@@ -228,6 +227,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         }, 300)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         pagerAdapter?.getShowFragment()?.onActivityResult(requestCode, resultCode, data)

@@ -8,7 +8,6 @@ import cn.cqautotest.sunnybeach.util.CAI_YUN_BASE_URL
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_API_BASE_URL
 import cn.cqautotest.sunnybeach.util.unicodeToString
 import com.hjq.gson.factory.GsonFactory
-import com.huawei.hms.scankit.p.T
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
