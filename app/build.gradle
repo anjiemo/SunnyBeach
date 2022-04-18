@@ -29,6 +29,8 @@ android {
         buildConfigField('String', 'BUGLY_ID', '"' + BUGLY_ID + '"')
         // 测试服务器的主机地址
         buildConfigField('String', 'HOST_URL', '"' + HOST_URL + '"')
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     // Apk 签名的那些事：https://www.jianshu.com/p/a1f8e5896aa2
@@ -149,6 +151,11 @@ dependencies {
     implementation project(':library:widget')
     // 友盟封装
     implementation project(':library:umeng')
+
+    // 单元测试
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.activity:activity-ktx:1.4.0'
@@ -286,7 +293,7 @@ dependencies {
     // implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
 
     // 使用 Android ViewBinding 更简单：https://github.com/androidbroadcast/ViewBindingPropertyDelegate
-    implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.0-beta01'
+    implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.3'
     // Longan 是一个简化 Android 开发的 Kotlin 工具类集合，可以使代码更加简洁易读：https://github.com/DylanCaiCoding/Longan
     implementation 'com.github.DylanCaiCoding.Longan:longan:1.0.0'
     // Optional
