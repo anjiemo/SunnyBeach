@@ -2,18 +2,25 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="20dp"
     tools:context=".ui.fragment.EmptyFragment">
+
+    <View
+        android:id="@+id/v_point"
+        android:layout_width="@dimen/dp_10"
+        android:layout_height="@dimen/dp_10"
+        android:background="#00ff00" />
 
     <com.hjq.shape.view.ShapeImageView
         android:id="@+id/iv_avatar"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
-        android:padding="1dp"
         android:layout_marginVertical="20dp"
+        android:padding="1dp"
         android:src="@mipmap/ic_default_avatar"
         app:shape="oval"
         app:shape_strokeColor="@color/pink"
