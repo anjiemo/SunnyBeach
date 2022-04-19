@@ -11,6 +11,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.work.Configuration
+import androidx.work.Constraints
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.db.CookieRoomDatabase
@@ -21,6 +24,7 @@ import cn.cqautotest.sunnybeach.http.model.RequestHandler
 import cn.cqautotest.sunnybeach.http.model.RequestServer
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.other.*
+import cn.cqautotest.sunnybeach.work.CacheCleanupWorker
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
@@ -43,6 +47,7 @@ import dagger.hilt.android.HiltAndroidApp
 import okhttp3.OkHttpClient
 import timber.log.Timber
 import java.io.InputStream
+import java.util.concurrent.TimeUnit
 
 /**
  *    author : Android 轮子哥
@@ -202,6 +207,32 @@ class AppApplication : Application(), Configuration.Provider {
             Glide.get(application)
                 .registry
                 .replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
+
+            initCacheCleanWork(application)
+        }
+
+        /**
+         * 初始化 缓存清理工作
+         *
+         * @param application Application
+         */
+        private fun initCacheCleanWork(application: Application) {
+            // 构造工作执行的约束条件
+            val builder = Constraints.Builder() // 电池电量不低
+                .setRequiresBatteryNotLow(true)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                // 设备处于空闲状态
+                builder.setRequiresDeviceIdle(true)
+            }
+            val constraints = builder.build()
+            // 定期工作请求（间隔三天工作一次）
+            val workRequest = PeriodicWorkRequest.Builder(CacheCleanupWorker::class.java, 3, TimeUnit.DAYS) // 设置约束条件
+                .setConstraints(constraints) // 符合约束条件后，延迟1分钟执行
+                .setInitialDelay(0, TimeUnit.MINUTES)
+                .build()
+            val wm = WorkManager.getInstance(application)
+            // 将工作加入队列中
+            wm.enqueue(workRequest)
         }
     }
 }
