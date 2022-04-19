@@ -71,7 +71,45 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     override fun getLayoutId(): Int = R.layout.fish_list_fragment
 
-    override fun initObserver() {}
+    override fun initView() {
+        // This emptyAdapter is like a hacker.
+        // Its existence allows the PagingAdapter to scroll to the top before being refreshed,
+        // avoiding the problem that the PagingAdapter cannot return to the top after being refreshed.
+        // But it needs to be used in conjunction with ConcatAdapter, and must appear before PagingAdapter.
+        val emptyAdapter = EmptyAdapter()
+        val concatAdapter = ConcatAdapter(emptyAdapter, mFishListAdapter)
+        mBinding.rvFishPondList.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = concatAdapter
+            addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
+        }
+    }
+
+    override fun initData() {
+        loadFishList()
+        mAppViewModel.getMourningCalendar().observe(viewLifecycleOwner) {
+            val result = it.getOrNull() ?: return@observe
+            val sdf = SimpleDateFormat("MM月dd日", Locale.getDefault())
+            val formatDate = sdf.format(System.currentTimeMillis())
+            val rootView = requireView()
+            result.onEach { mourningCalendar ->
+                val date = mourningCalendar.date
+                if (date == formatDate) {
+                    rootView.setMourningStyle()
+                }
+                // Timber.d("initData：===> day is $date formatDate is $formatDate")
+            }
+        }
+    }
+
+    private fun loadFishList() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            mFishPondViewModel.getFishListByCategoryId("recommend").collectLatest {
+                onBack2Top()
+                mFishListAdapter.submitData(it)
+            }
+        }
+    }
 
     override fun initEvent() {
         val ivPublishContent = mBinding.ivPublishContent
@@ -199,45 +237,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             .show()
     }
 
-    override fun initData() {
-        loadFishList()
-        mAppViewModel.getMourningCalendar().observe(viewLifecycleOwner) {
-            val result = it.getOrNull() ?: return@observe
-            val sdf = SimpleDateFormat("MM月dd日", Locale.getDefault())
-            val formatDate = sdf.format(System.currentTimeMillis())
-            val rootView = requireView()
-            result.onEach { mourningCalendar ->
-                val date = mourningCalendar.date
-                if (date == formatDate) {
-                    rootView.setMourningStyle()
-                }
-                // Timber.d("initData：===> day is $date formatDate is $formatDate")
-            }
-        }
-    }
-
-    private fun loadFishList() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            mFishPondViewModel.getFishListByCategoryId("recommend").collectLatest {
-                onBack2Top()
-                mFishListAdapter.submitData(it)
-            }
-        }
-    }
-
-    override fun initView() {
-        // This emptyAdapter is like a hacker.
-        // Its existence allows the PagingAdapter to scroll to the top before being refreshed,
-        // avoiding the problem that the PagingAdapter cannot return to the top after being refreshed.
-        // But it needs to be used in conjunction with ConcatAdapter, and must appear before PagingAdapter.
-        val emptyAdapter = EmptyAdapter()
-        val concatAdapter = ConcatAdapter(emptyAdapter, mFishListAdapter)
-        mBinding.rvFishPondList.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = concatAdapter
-            addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
-        }
-    }
+    override fun initObserver() {}
 
     @Permissions(Permission.CAMERA)
     override fun onRightClick(titleBar: TitleBar) {
