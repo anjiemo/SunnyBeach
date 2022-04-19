@@ -41,7 +41,7 @@
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="20"
-                tools:listitem="@layout/user_qa_list_item" />
+                tools:listitem="@layout/qa_list_item" />
 
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 

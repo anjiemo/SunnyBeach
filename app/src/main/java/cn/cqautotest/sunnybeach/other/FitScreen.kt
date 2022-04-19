@@ -22,10 +22,12 @@ class FitScreen(private val browserView: WebView) : Runnable {
             textZoom = 125
         }
         setInitialScale(144)
+        // 隐藏 header
         evaluateJavascript(
             "var child=document.getElementById(\"header-container\");\n" +
                     "child.style.display=\"none\";\n", null
         )
+        // 隐藏文章详情界面相关
         evaluateJavascript(
             "var child=document.getElementById(\"article-detail-left-part\");\n" +
                     "child.style.display=\"none\";\n", null
@@ -35,13 +37,28 @@ class FitScreen(private val browserView: WebView) : Runnable {
                     "child.style.display=\"none\";\n", null
         )
         evaluateJavascript(
-            "var child=document.getElementById(\"footer-container\");\n" +
-                    "child.style.display=\"none\";\n", null
-        )
-        evaluateJavascript(
             "var child=document.getElementById('article-detail-center-part');\n" +
                     "child.style.margin='-20px 0 0 0';", null
         )
+        // 隐藏问答详情界面相关
+        evaluateJavascript(
+            "var child=document.getElementById('wenda-detail-left-part');\n" +
+                    "child.style.display=\"none\";\n", null
+        )
+        evaluateJavascript(
+            "var child=document.getElementById('wenda-detail-right-part');\n" +
+                    "child.style.display=\"none\";\n", null
+        )
+        evaluateJavascript(
+            "var child=document.getElementById('wenda-detail-center-part');\n" +
+                    "child.style.margin='-20px 0 0 0';", null
+        )
+        // 隐藏 footer
+        evaluateJavascript(
+            "var child=document.getElementById(\"footer-container\");\n" +
+                    "child.style.display=\"none\";\n", null
+        )
+        // 设置整体界面的宽度
         evaluateJavascript(
             "var child=document.getElementById('main-content');\n" +
                     "child.style.width='750px';", null
