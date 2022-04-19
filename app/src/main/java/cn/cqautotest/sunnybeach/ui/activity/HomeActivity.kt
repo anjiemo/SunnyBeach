@@ -100,8 +100,8 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             addFragment(FishListFragment.newInstance())
             addFragment(DiscoverFragment.newInstance())
             addFragment(QaListFragment.newInstance())
-            addFragment(ArticleListFragment.newInstance())
             // addFragment(EmptyFragment.newInstance())
+            addFragment(ArticleListFragment.newInstance())
             addFragment(MyMeFragment.newInstance())
             viewPager?.adapter = this
         }
