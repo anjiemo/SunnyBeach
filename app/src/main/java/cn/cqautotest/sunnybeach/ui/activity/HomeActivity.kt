@@ -75,7 +75,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         supportActionBar?.hide()
         navigationAdapter = NavigationAdapter(this).apply {
             addMenuItem(R.string.home_fish_pond_message, R.drawable.home_fish_pond_selector)
-            addMenuItem(R.string.home_nav_found, R.drawable.home_found_selector)
+            addMenuItem(R.string.home_nav_found, R.drawable.home_paint_selector)
             addMenuItem(R.string.home_nav_qa, R.drawable.home_qa_selector)
             addMenuItem(R.string.home_nav_index, R.drawable.home_home_selector)
             addMenuItem(R.string.home_nav_me, R.drawable.home_me_selector)

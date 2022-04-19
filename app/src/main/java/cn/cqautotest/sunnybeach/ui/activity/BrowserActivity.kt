@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.View
+import android.webkit.CookieManager
 import android.webkit.WebView
 import android.widget.ProgressBar
 import cn.cqautotest.sunnybeach.R
@@ -15,17 +16,31 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.CheckNet
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.app.AppApplication
+import cn.cqautotest.sunnybeach.db.SobCacheManager
+import cn.cqautotest.sunnybeach.db.SobCacheManager.getSobToken
+import cn.cqautotest.sunnybeach.db.dao.CookieDao
+import cn.cqautotest.sunnybeach.manager.CookieStore
+import cn.cqautotest.sunnybeach.manager.ThreadPoolManager
+import cn.cqautotest.sunnybeach.other.FitScreen
+import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.widget.BrowserView
 import cn.cqautotest.sunnybeach.widget.BrowserView.BrowserChromeClient
 import cn.cqautotest.sunnybeach.widget.BrowserView.BrowserViewClient
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import cn.cqautotest.sunnybeach.widget.StatusLayout.OnRetryListener
 import com.hjq.bar.TitleBar
+import com.hjq.umeng.Platform
+import com.hjq.umeng.UmengShare.OnShareListener
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
+import com.umeng.socialize.media.UMImage
+import com.umeng.socialize.media.UMWeb
+import okhttp3.Cookie
 import okhttp3.FormBody
 import timber.log.Timber
+
 
 /**
  *    author : Android 轮子哥 & A Lonely Cat
@@ -131,6 +146,30 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
         finish()
     }
 
+    override fun onRightClick(titleBar: TitleBar) {
+        val content = UMWeb(browserView?.url)
+        content.title = browserView?.title
+        content.setThumb(UMImage(this, R.mipmap.launcher_ic))
+        content.description = getString(R.string.app_name)
+        // 分享
+        ShareDialog.Builder(this)
+            .setShareLink(content)
+            .setListener(object : OnShareListener {
+                override fun onSucceed(platform: Platform?) {
+                    toast("分享成功")
+                }
+
+                override fun onError(platform: Platform?, t: Throwable) {
+                    toast(t.message)
+                }
+
+                override fun onCancel(platform: Platform?) {
+                    toast("分享取消")
+                }
+            })
+            .show()
+    }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         browserView?.apply {
             if (keyCode == KeyEvent.KEYCODE_BACK && canGoBack()) {
@@ -157,19 +196,23 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
         reload()
     }
 
+    override fun isStatusBarDarkFont(): Boolean {
+        return false
+    }
+
     private inner class AppBrowserViewClient : BrowserViewClient() {
+
+        val appApplication = AppApplication.getDatabase()
+        private val cookieDao: CookieDao = appApplication.cookieDao()
 
         /**
          * 网页加载错误时回调，这个方法会在 onPageFinished 之前调用
          */
+        @Deprecated("Deprecated in Java")
         override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
             // 这里为什么要用延迟呢？因为加载出错之后会先调用 onReceivedError 再调用 onPageFinished
             post {
-                showError(object : OnRetryListener {
-                    override fun onRetry(layout: StatusLayout) {
-                        reload()
-                    }
-                })
+                showError { reload() }
             }
         }
 
@@ -178,6 +221,62 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
          */
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
             progressBar?.visibility = View.VISIBLE
+            injectCookie(url)
+        }
+
+        private fun injectCookie(url: String) {
+            val domain: String = StringUtil.getTopDomain(SUNNY_BEACH_API_BASE_URL)
+            val manager = ThreadPoolManager.getInstance()
+            manager.execute {
+                Timber.d("hookUrlLoad：===> domain is %s", domain)
+                val cookieManager: CookieManager = CookieManager.getInstance()
+                val cookieStore: CookieStore? = cookieDao.getCookiesByDomain(domain)
+                if (cookieStore != null) {
+                    val cookieStoreList: List<Cookie> = cookieStore.cookies
+                    for (cookie in cookieStoreList) {
+                        val cookieName = cookie.name
+                        val cookieValue = cookie.value
+                        val cookieDomain = cookie.domain
+                        val cookieStr: String = Cookie.Builder()
+                            .name(cookieName)
+                            .value(cookieValue)
+                            .domain(cookieDomain)
+                            .path("/")
+                            .build()
+                            .toString()
+                        Timber.d("hookUrlLoad：===> Set-Cookie is %s", cookieStr)
+                        cookieManager.setCookie(url, cookieStr)
+                    }
+                }
+                val newCookie: String = cookieManager.getCookie(url)
+                Timber.d("hookUrlLoad：===> newCookie is %s", newCookie)
+                val currUrlTopDomain: String = StringUtil.getTopDomain(url)
+                val apiTopDomain: String = StringUtil.getTopDomain(SUNNY_BEACH_API_BASE_URL)
+                val siteTopDomain: String = StringUtil.getTopDomain(SUNNY_BEACH_SITE_BASE_URL)
+                if (currUrlTopDomain == apiTopDomain || currUrlTopDomain == siteTopDomain) {
+                    val cookieName = SobCacheManager.SOB_TOKEN_NAME
+                    val cookieValue = getSobToken()
+                    val apiCookie: String = Cookie.Builder()
+                        .name(cookieName)
+                        .value(cookieValue)
+                        .domain(apiTopDomain)
+                        .path("/")
+                        .build()
+                        .toString()
+                    val siteCookie: String = Cookie.Builder()
+                        .name(cookieName)
+                        .value(cookieValue)
+                        .domain(siteTopDomain)
+                        .path("/")
+                        .build()
+                        .toString()
+                    Timber.d("===> Set-Cookie：apiCookie is %s", apiCookie)
+                    Timber.d("===> Set-Cookie：siteCookie is %s", siteCookie)
+                    cookieManager.setCookie(url, apiCookie)
+                    cookieManager.setCookie(url, siteCookie)
+                }
+                Timber.d("===> CookieManager is finish")
+            }
         }
 
         /**
@@ -185,6 +284,10 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
          */
         override fun onPageFinished(view: WebView, url: String) {
             progressBar?.visibility = View.GONE
+            if (url.contains(SUNNY_BEACH_ARTICLE_URL_PRE) || url.contains(SUNNY_BEACH_QA_URL_PRE)) {
+                val fitScreen = FitScreen(view)
+                fitScreen.run()
+            }
             refreshLayout?.finishRefresh()
             showComplete()
         }

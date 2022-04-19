@@ -19,7 +19,7 @@ object SobCacheManager {
     private val mmkv = MMKV.mmkvWithID(SOB_ACCOUNT_MAP)
     private const val SOB_CAPTCHA_KEY_NAME = "l_c_i"
     private var sobCaptchaKey = ""
-    private const val SOB_TOKEN_NAME = "sob_token"
+    const val SOB_TOKEN_NAME = "sob_token"
 
     fun addHeadersByNeed(request: Request, requestBuilder: Request.Builder) {
         val url = request.url.toString()
