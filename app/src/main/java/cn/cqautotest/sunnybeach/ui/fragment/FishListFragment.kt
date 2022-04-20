@@ -245,7 +245,8 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         val options = HmsScanAnalyzerOptions.Creator()
             .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
             .create()
-        ScanUtil.startScan(requireActivity(), REQUEST_CODE_SCAN_ONE, options)
+        // ScanUtil.startScan(requireActivity(), REQUEST_CODE_SCAN_ONE, options)
+        startScan(requireActivity(), REQUEST_CODE_SCAN_ONE, options)
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlFishPondHint
@@ -270,18 +271,24 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         if (resultCode != Activity.RESULT_OK || data == null) return
         if (requestCode == REQUEST_CODE_SCAN_ONE) {
             // 导入图片扫描返回结果
-            val obj = data.getParcelableExtra(ScanUtil.RESULT) as HmsScan?
-            if (obj != null) {
+            val hmsScan = data.getParcelableExtra(ScanUtil.RESULT) as HmsScan?
+            if (hmsScan != null) {
                 // 展示解码结果
-                showResult(obj)
+                showResult(hmsScan)
+            } else {
+                showNoContentTips()
             }
         }
     }
 
-    private fun showResult(hmsScan: HmsScan) {
-        val result = hmsScan.showResult ?: ""
+    private fun showNoContentTips() {
+        toast("什么内容也没有~")
+    }
+
+    private fun showResult(hmsScan: HmsScan?) {
+        val result = hmsScan?.showResult ?: ""
         if (result.isBlank()) {
-            toast("什么内容也没有~")
+            showNoContentTips()
             return
         }
 

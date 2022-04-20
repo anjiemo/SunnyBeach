@@ -399,9 +399,17 @@
             android:name=".ui.activity.msg.SystemMsgListActivity"
             android:screenOrientation="portrait" />
         <!-- Vip 介绍页 -->
-        <activity android:name=".ui.activity.VipActivity" />
+        <activity
+            android:name=".ui.activity.VipActivity"
+            android:screenOrientation="portrait" />
         <!-- 创作中心页 -->
-        <activity android:name=".ui.activity.CreationCenterActivity" />
+        <activity
+            android:name=".ui.activity.CreationCenterActivity"
+            android:screenOrientation="portrait" />
+        <!-- 扫码界面 -->
+        <activity
+            android:name=".ui.activity.ScanCodeActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 
