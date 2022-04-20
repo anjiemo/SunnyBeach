@@ -8,12 +8,6 @@
     android:paddingTop="20dp"
     tools:context=".ui.fragment.EmptyFragment">
 
-    <View
-        android:id="@+id/v_point"
-        android:layout_width="@dimen/dp_10"
-        android:layout_height="@dimen/dp_10"
-        android:background="#00ff00" />
-
     <com.hjq.shape.view.ShapeImageView
         android:id="@+id/iv_avatar"
         android:layout_width="80dp"
