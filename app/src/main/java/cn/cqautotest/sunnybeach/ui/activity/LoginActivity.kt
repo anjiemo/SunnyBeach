@@ -95,7 +95,7 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
 
     override fun initView() {
         setOnClickListener(mBinding.sivLoginVerifyCode, forgetView, commitView, qqView, weChatView)
-        passwordView?.setOnEditorActionListener(this)
+        mBinding.etLoginVerifyCode.setOnEditorActionListener(this)
         commitView?.let {
             InputTextManager.with(this)
                 .addView(phoneView)
