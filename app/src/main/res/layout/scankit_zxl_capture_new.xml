@@ -32,16 +32,9 @@
     <com.huawei.hms.scankit.ViewfinderView
         android:id="@+id/viewfinderView"
         android:layout_width="match_parent"
+        my_view:scankit_showResultPoint="true"
         android:layout_height="match_parent"
-        android:textAllCaps="false"
-        my_view:scankit_cornerColor="@color/red"
-        my_view:scankit_frameColor="@color/red"
-        my_view:scankit_labelTextColor="@color/red"
-        my_view:scankit_laserColor="@color/red"
-        my_view:scankit_line_anim="true"
-        my_view:scankit_maskColor="@color/red"
-        my_view:scankit_resultPointColor="@color/red"
-        my_view:scankit_titleColor="@color/red" />
+        android:textAllCaps="false" />
 
     <LinearLayout
         android:layout_width="match_parent"
