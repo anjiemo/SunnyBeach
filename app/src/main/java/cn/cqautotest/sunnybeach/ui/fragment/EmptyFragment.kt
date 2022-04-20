@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.graphics.Color
 import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
-import android.os.Bundle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -12,7 +11,6 @@ import cn.cqautotest.sunnybeach.databinding.EmptyFragmentBinding
 import cn.cqautotest.sunnybeach.util.EmojiMapHelper
 import cn.cqautotest.sunnybeach.util.setDefaultEmojiParser
 import cn.cqautotest.sunnybeach.util.simpleToast
-import com.huawei.hms.hmsscankit.RemoteView
 
 /**
  * author : A Lonely Cat
@@ -23,33 +21,14 @@ import com.huawei.hms.hmsscankit.RemoteView
 class EmptyFragment : AppFragment<AppActivity>() {
 
     private val mBinding: EmptyFragmentBinding by viewBinding()
-    private var instanceState: Bundle? = null
 
     override fun getLayoutId(): Int = R.layout.empty_fragment
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        instanceState = savedInstanceState
-    }
 
     override fun initView() {
         mBinding.emptyDescription.setOnItemClickListener { menuItem, position ->
             simpleToast("我是${menuItem.title}操作菜单，index：$position")
         }
         mBinding.ivAvatarDecorView.loadAvatar(resource = R.drawable.login_qq_ic, vip = true)
-
-        val remoteView = RemoteView.Builder()
-            .setContext(requireActivity())
-            .build()
-        remoteView.setOnResultCallback {
-            if (it.isNotEmpty()) {
-                val hmsScan = it[0]
-                toast(hmsScan.getShowResult())
-            }
-        }
-        remoteView.onCreate(instanceState)
-        mBinding.flContainer.addView(remoteView)
-        remoteView.onStart()
     }
 
     override fun initData() {
