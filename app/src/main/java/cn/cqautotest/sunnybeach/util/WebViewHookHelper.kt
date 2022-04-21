@@ -28,7 +28,7 @@ object WebViewHookHelper {
         val cookieManager: CookieManager = CookieManager.getInstance()
         val manager = ThreadPoolManager.getInstance()
         manager.execute {
-            Timber.d("hookUrlLoad：===> domain is %s", domain)
+            Timber.d("injectCookie：===> domain is %s", domain)
             val cookieStore: CookieStore? = cookieDao.getCookiesByDomain(domain)
             if (cookieStore != null) {
                 val cookieStoreList: List<Cookie> = cookieStore.cookies
@@ -43,12 +43,12 @@ object WebViewHookHelper {
                         .path("/")
                         .build()
                         .toString()
-                    Timber.d("hookUrlLoad：===> Set-Cookie is %s", cookieStr)
+                    Timber.d("injectCookie：===> Set-Cookie is %s", cookieStr)
                     cookieManager.setCookie(url, cookieStr)
                 }
             }
             val newCookie: String = cookieManager.getCookie(url)
-            Timber.d("hookUrlLoad：===> newCookie is %s", newCookie)
+            Timber.d("injectCookie：===> newCookie is %s", newCookie)
             val currUrlTopDomain: String = StringUtil.getTopDomain(url)
             val apiTopDomain: String = StringUtil.getTopDomain(SUNNY_BEACH_API_BASE_URL)
             val siteTopDomain: String = StringUtil.getTopDomain(SUNNY_BEACH_SITE_BASE_URL)
@@ -69,12 +69,12 @@ object WebViewHookHelper {
                     .path("/")
                     .build()
                     .toString()
-                Timber.d("===> Set-Cookie：apiCookie is %s", apiCookie)
-                Timber.d("===> Set-Cookie：siteCookie is %s", siteCookie)
+                Timber.d("injectCookie：===> Set-Cookie：apiCookie is %s", apiCookie)
+                Timber.d("injectCookie：===> Set-Cookie：siteCookie is %s", siteCookie)
                 cookieManager.setCookie(url, apiCookie)
                 cookieManager.setCookie(url, siteCookie)
             }
-            Timber.d("===> CookieManager is finish")
+            Timber.d("injectCookie：===> CookieManager is finish")
         }
     }
 
