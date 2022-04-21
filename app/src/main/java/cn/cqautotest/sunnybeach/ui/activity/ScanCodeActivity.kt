@@ -25,8 +25,11 @@ import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
  */
 class ScanCodeActivity : ScanKitActivity(), Init {
 
+    private var instanceState: Bundle? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        instanceState = savedInstanceState
         initEvent()
     }
 
@@ -51,7 +54,7 @@ class ScanCodeActivity : ScanKitActivity(), Init {
             }
             parseScanResult(uri)
         } else {
-            setResultAndFinish(null)
+            toast("未选择图片")
         }
     }
 
