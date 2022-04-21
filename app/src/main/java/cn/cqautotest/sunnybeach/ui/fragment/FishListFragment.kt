@@ -245,8 +245,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         val options = HmsScanAnalyzerOptions.Creator()
             .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
             .create()
-        // ScanUtil.startScan(requireActivity(), REQUEST_CODE_SCAN_ONE, options)
-        startScan(requireActivity(), REQUEST_CODE_SCAN_ONE, options)
+        MyScanUtil.startScan(requireActivity(), REQUEST_CODE_SCAN_ONE, options)
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlFishPondHint

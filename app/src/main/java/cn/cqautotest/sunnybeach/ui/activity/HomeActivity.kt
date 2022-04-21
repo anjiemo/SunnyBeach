@@ -99,8 +99,8 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         pagerAdapter = FragmentPagerAdapter<AppFragment<*>>(this).apply {
             addFragment(FishListFragment.newInstance())
             addFragment(DiscoverFragment.newInstance())
-            // addFragment(QaListFragment.newInstance())
-            addFragment(EmptyFragment.newInstance())
+            addFragment(QaListFragment.newInstance())
+            // addFragment(EmptyFragment.newInstance())
             addFragment(ArticleListFragment.newInstance())
             addFragment(MyMeFragment.newInstance())
             viewPager?.adapter = this
