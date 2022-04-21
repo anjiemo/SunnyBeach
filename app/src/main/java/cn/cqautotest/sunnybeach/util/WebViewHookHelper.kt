@@ -23,12 +23,12 @@ object WebViewHookHelper {
     private val cookieDao: CookieDao = database.cookieDao()
 
     fun injectCookie(url: String?) {
-        url ?: return
+        if (url.isNullOrEmpty()) return
         val domain: String = StringUtil.getTopDomain(SUNNY_BEACH_API_BASE_URL)
+        val cookieManager: CookieManager = CookieManager.getInstance()
         val manager = ThreadPoolManager.getInstance()
         manager.execute {
             Timber.d("hookUrlLoad：===> domain is %s", domain)
-            val cookieManager: CookieManager = CookieManager.getInstance()
             val cookieStore: CookieStore? = cookieDao.getCookiesByDomain(domain)
             if (cookieStore != null) {
                 val cookieStoreList: List<Cookie> = cookieStore.cookies
@@ -95,7 +95,7 @@ object WebViewHookHelper {
             useWideViewPort = true
             loadWithOverviewMode = true
             layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
-            textZoom = 125
+            textZoom = 175
         }
         setInitialScale(144)
         // 隐藏 header
