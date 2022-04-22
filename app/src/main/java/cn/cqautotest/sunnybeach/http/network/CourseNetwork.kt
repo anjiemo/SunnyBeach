@@ -13,4 +13,6 @@ object CourseNetwork : INetworkApi {
     suspend fun getCourseDetail(courseId: String) = courseApi.getCourseDetail(courseId)
 
     suspend fun getCourseChapter(courseId: String) = courseApi.getCourseChapter(courseId)
+
+    suspend fun getCoursePlayAuth(videoId: String) = courseApi.getCoursePlayAuth(videoId)
 }
