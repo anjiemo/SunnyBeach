@@ -4,6 +4,7 @@ import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.course.Course
 import cn.cqautotest.sunnybeach.model.course.CourseChapter
 import cn.cqautotest.sunnybeach.model.course.CourseDetail
+import cn.cqautotest.sunnybeach.model.course.CoursePlayAuth
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -26,4 +27,10 @@ interface CourseApi : ISobApi {
      */
     @GET("ct/edu/course/chapter/{courseId}")
     suspend fun getCourseChapter(@Path("courseId") courseId: String): ApiResponse<CourseChapter>
+
+    /**
+     * 获取课程播放凭证
+     */
+    @GET("ct/video/certification/{videoId}")
+    suspend fun getCoursePlayAuth(@Path("videoId") videoId: String): ApiResponse<CoursePlayAuth>
 }
