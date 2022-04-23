@@ -27,12 +27,16 @@ class AvatarDecorView @JvmOverloads constructor(
 ) : AppCompatImageView(context, attrs) {
 
     // 默认头像 drawable
-    private val defAvatarDrawable = ContextCompat.getDrawable(context, R.mipmap.ic_default_avatar)
+    private val defAvatarDrawable by lazy {
+        ContextCompat.getDrawable(context, R.mipmap.ic_default_avatar)
+    }
 
     // 边框 drawable
-    private val decorDrawable = GradientDrawable().apply {
-        shape = GradientDrawable.OVAL
-        setStroke(1.dp, ContextCompat.getColor(context, R.color.pink))
+    private val decorDrawable by lazy {
+        GradientDrawable().apply {
+            shape = GradientDrawable.OVAL
+            setStroke(1.dp, ContextCompat.getColor(context, R.color.pink))
+        }
     }
 
     // 前景徽章图标的画笔

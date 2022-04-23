@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
  * 参考《Scrolling up after refresh with PagingDataAdapter is an impossible task》：
  * https://www.reddit.com/r/androiddev/comments/lb7ys6/scrolling_up_after_refresh_with_pagingdataadapter
  */
-class EmptyAdapter: RecyclerView.Adapter<EmptyAdapter.ViewHolder>() {
+class EmptyAdapter(private val itemCount: Int = 1) : RecyclerView.Adapter<EmptyAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -27,5 +27,5 @@ class EmptyAdapter: RecyclerView.Adapter<EmptyAdapter.ViewHolder>() {
         // Nothing to do.
     }
 
-    override fun getItemCount(): Int = 1
+    override fun getItemCount(): Int = itemCount
 }

@@ -32,6 +32,10 @@ object Repository {
 
     private val cachePhotoIdList = arrayListOf<WallpaperBean.Res.Vertical>()
 
+    fun getCourseChapterList(chapterId: String) = liveData(Dispatchers.IO) {
+        launchAndGetData { CourseNetwork.getCourseChapter(chapterId) }
+    }
+
     fun modifyPasswordBySms(smsCode: String, user: User) = liveData(Dispatchers.IO) {
         launchAndGetMsg { UserNetwork.modifyPasswordBySms(smsCode, user) }
     }
