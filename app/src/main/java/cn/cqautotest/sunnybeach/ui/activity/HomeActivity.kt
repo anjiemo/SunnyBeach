@@ -78,6 +78,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             addMenuItem(R.string.home_nav_found, R.drawable.home_paint_selector)
             addMenuItem(R.string.home_nav_qa, R.drawable.home_qa_selector)
             addMenuItem(R.string.home_nav_index, R.drawable.home_home_selector)
+            addMenuItem(R.string.home_nav_course, R.drawable.home_course_selector)
             addMenuItem(R.string.home_nav_me, R.drawable.home_me_selector)
             setOnNavigationListener(this@HomeActivity)
             navigationView?.adapter = this
@@ -102,6 +103,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             addFragment(QaListFragment.newInstance())
             // addFragment(EmptyFragment.newInstance())
             addFragment(ArticleListFragment.newInstance())
+            addFragment(CourseListFragment.newInstance())
             addFragment(MyMeFragment.newInstance())
             viewPager?.adapter = this
         }
@@ -180,7 +182,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             return
         }
         when (fragmentIndex) {
-            0, 1, 2, 3, 4 -> {
+            0, 1, 2, 3, 4, 5 -> {
                 viewPager?.currentItem = fragmentIndex
                 navigationAdapter?.setSelectedPosition(fragmentIndex)
             }
@@ -200,7 +202,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
      */
     override fun onNavigationItemSelected(position: Int): Boolean {
         return when (position) {
-            0, 1, 2, 3, 4 -> {
+            0, 1, 2, 3, 4, 5 -> {
                 viewPager?.currentItem = position
                 true
             }

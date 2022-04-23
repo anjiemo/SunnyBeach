@@ -7,7 +7,7 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 
-inline fun <reified T> Context.startActivity(block: Intent.() -> Unit = {}) {
+inline fun <reified T : Activity> Context.startActivity(block: Intent.() -> Unit = {}) {
     val context = this
     Intent(this, T::class.java).apply(block).run {
         if (context !is Activity) {
