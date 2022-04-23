@@ -329,6 +329,7 @@
                     android:host="sunofbeach.net"
                     android:pathPrefix="/u"
                     android:scheme="https" />
+
             </intent-filter>
 
         </activity>
@@ -409,6 +410,10 @@
         <!-- 扫码界面 -->
         <activity
             android:name=".ui.activity.ScanCodeActivity"
+            android:screenOrientation="portrait" />
+        <!-- 课程详情页 -->
+        <activity
+            android:name=".ui.activity.CourseDetailActivity"
             android:screenOrientation="portrait" />
 
     </application>
