@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.model.course
 
+import cn.cqautotest.sunnybeach.ui.adapter.CourseChapterListAdapter
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -28,7 +29,7 @@ class CourseChapter : ArrayList<CourseChapter.CourseChapterItem>() {
         // 标题
         @SerializedName("title")
         val title: String
-    ) {
+    ) : CourseChapterListAdapter.GroupType {
         data class Children(
             // 章节 ID
             @SerializedName("chapterId")
@@ -54,6 +55,6 @@ class CourseChapter : ArrayList<CourseChapter.CourseChapterItem>() {
             // 节点名称
             @SerializedName("title")
             val title: String
-        )
+        ) : CourseChapterListAdapter.ChildType
     }
 }

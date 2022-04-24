@@ -27,7 +27,8 @@
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:srlEnableLoadMore="false">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_course_detail_list"
@@ -37,7 +38,7 @@
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="20"
-                tools:listitem="@layout/fish_pond_list_item" />
+                tools:listitem="@layout/course_chapter_group_item" />
 
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
