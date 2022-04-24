@@ -57,7 +57,6 @@ class CourseDetailActivity : AppActivity(), StatusAction {
     }
 
     private fun loadCourseList() {
-        showLoading()
         val courseId = courseItem.id
         lifecycleScope.launchWhenCreated {
             mCourseViewModel.getCourseChapterList(courseId).collectLatest {
