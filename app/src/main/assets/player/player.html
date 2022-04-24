@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
+    <title>课程视频播放</title>
+    <link rel="stylesheet"
+          href="https://g.alicdn.com/de/prismplayer/2.9.19/skins/default/aliplayer-min.css"/>
+    <script type="text/javascript" charset="utf-8"
+            src="https://g.alicdn.com/de/prismplayer/2.9.19/aliplayer-min.js"></script>
+</head>
+<body>
+<div class="prism-player" id="player-con"></div>
+<script>
+function getQueryString(name) {
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) return unescape(r[2]);
+  return null;
+};
+var player = new Aliplayer({
+  "id": "player-con",
+  "vid": getQueryString("videoId"),
+  "playauth": getQueryString("playAuth"),
+  "qualitySort": "asc",
+  "format": "mp4",
+  "mediaType": "video",
+  "width": "100%",
+  "height": "340px",
+  "autoplay": true,
+  "isLive": false,
+  "rePlay": false,
+  "playsinline": true,
+  "preload": true,
+  "controlBarVisibility": "hover",
+  "useH5Prism": true,
+  "extraInfo": {
+    "crossOrigin": "anonymous"
+  },
+  "skinLayout": [
+    {
+      "name": "bigPlayButton",
+      "align": "blabs",
+      "x": 30,
+      "y": 80
+    },
+    {
+      "name": "H5Loading",
+      "align": "cc"
+    },
+    {
+      "name": "errorDisplay",
+      "align": "tlabs",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "name": "infoDisplay"
+    },
+    {
+      "name": "tooltip",
+      "align": "blabs",
+      "x": 0,
+      "y": 56
+    },
+    {
+      "name": "thumbnail"
+    },
+    {
+      "name": "controlBar",
+      "align": "blabs",
+      "x": 0,
+      "y": 0,
+      "children": [
+        {
+          "name": "progress",
+          "align": "blabs",
+          "x": 0,
+          "y": 44
+        },
+        {
+          "name": "playButton",
+          "align": "tl",
+          "x": 15,
+          "y": 12
+        },
+        {
+          "name": "timeDisplay",
+          "align": "tl",
+          "x": 10,
+          "y": 7
+        },
+        {
+          "name": "fullScreenButton",
+          "align": "tr",
+          "x": 10,
+          "y": 12
+        },
+        {
+          "name": "subtitle",
+          "align": "tr",
+          "x": 15,
+          "y": 12
+        },
+        {
+          "name": "setting",
+          "align": "tr",
+          "x": 15,
+          "y": 12
+        },
+        {
+          "name": "volume",
+          "align": "tr",
+          "x": 5,
+          "y": 10
+        },
+        {
+          "name": "snapshot",
+          "align": "tr",
+          "x": 10,
+          "y": 12
+        }
+      ]
+    }
+  ]
+}, function (player) {
+    console.log("The player is created");
+  }
+);
+/* h5截图按钮, 截图成功回调 */
+player.on('snapshoted', function (data) {
+  var pictureData = data.paramData.base64
+  var downloadElement = document.createElement('a')
+  downloadElement.setAttribute('href', pictureData)
+  var fileName = 'Aliplayer' + Date.now() + '.png'
+  downloadElement.setAttribute('download', fileName)
+  downloadElement.click()
+  pictureData = null
+});
+function initPlayer(videoId, playAuth) {
+  this.player.vid = videoId;
+  this.player.playauth = playAuth;
+}
+
+
+</script>
+</body>

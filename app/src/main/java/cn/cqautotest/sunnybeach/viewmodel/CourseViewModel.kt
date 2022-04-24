@@ -6,6 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.model.course.Course
 import cn.cqautotest.sunnybeach.paging.source.CourseChapterPagingSource
 import cn.cqautotest.sunnybeach.paging.source.CoursePagingSource
@@ -20,6 +21,8 @@ import kotlinx.coroutines.flow.Flow
  */
 class CourseViewModel : ViewModel() {
 
+    fun getCoursePlayAuth(videoId: String) = Repository.getCoursePlayAuth(videoId)
+
     fun getCourseChapterList(courseId: String): Flow<PagingData<CourseChapterListAdapter.Type>> {
         return Pager(config = PagingConfig(30),
             pagingSourceFactory = {
@@ -28,7 +31,8 @@ class CourseViewModel : ViewModel() {
     }
 
     fun getCourseList(): Flow<PagingData<Course.CourseItem>> {
-        return Pager(config = PagingConfig(30),
+        return Pager(
+            config = PagingConfig(30),
             pagingSourceFactory = {
                 CoursePagingSource()
             }).flow.cachedIn(viewModelScope)
