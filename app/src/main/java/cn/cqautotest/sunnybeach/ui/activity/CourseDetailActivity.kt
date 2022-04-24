@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -13,10 +14,13 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.CourseDetailActivityBinding
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.course.Course
+import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
+import cn.cqautotest.sunnybeach.ui.adapter.CourseChapterListAdapter
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.dylanc.longan.intentExtras
+import kotlinx.coroutines.flow.collectLatest
 
 /**
  * author : A Lonely Cat
@@ -30,7 +34,11 @@ class CourseDetailActivity : AppActivity(), StatusAction {
     private val mCourseViewModel by viewModels<CourseViewModel>()
     private val courseItemJson by intentExtras<String>(COURSE_ITEM)
     private val courseItem by lazy { fromJson<Course.CourseItem>(courseItemJson) }
-    // private val mCourseChapterListAdapter = CourseChapterListAdapter()
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mCourseChapterListAdapter = CourseChapterListAdapter(mAdapterDelegate)
+    private val loadStateListener = loadStateListener(mCourseChapterListAdapter) {
+        mBinding.refreshLayout.finishRefresh()
+    }
 
     override fun getLayoutId(): Int = R.layout.course_detail_activity
 
@@ -40,8 +48,7 @@ class CourseDetailActivity : AppActivity(), StatusAction {
         mBinding.tvBuyCourse.text = if (price.isZero) "已购买" else "购买 ¥ ${courseItem.price}"
         mBinding.rvCourseDetailList.apply {
             layoutManager = LinearLayoutManager(context)
-            // adapter = mCourseChapterListAdapter
-            addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
+            adapter = mCourseChapterListAdapter
         }
     }
 
@@ -52,17 +59,22 @@ class CourseDetailActivity : AppActivity(), StatusAction {
     private fun loadCourseList() {
         showLoading()
         val courseId = courseItem.id
-        mCourseViewModel.getCourseChapterList(courseId).observe(this) {
-            val courseChapterList = it.getOrElse {
-                showError { loadCourseList() }
-                return@observe
+        lifecycleScope.launchWhenCreated {
+            mCourseViewModel.getCourseChapterList(courseId).collectLatest {
+                mCourseChapterListAdapter.submitData(it)
             }
-            if (courseChapterList.isNullOrEmpty()) showEmpty() else showComplete()
-            // mCourseChapterListAdapter.setData(courseChapterList)
         }
     }
 
     override fun initEvent() {
+        mBinding.refreshLayout.setOnRefreshListener {
+            mCourseChapterListAdapter.refresh()
+        }
+        // 需要在 View 销毁的时候移除 listener
+        mCourseChapterListAdapter.addLoadStateListener(loadStateListener)
+        mCourseChapterListAdapter.setOnItemClickListener { item, _ ->
+            toast(item.title)
+        }
         mBinding.tvVipFree.setFixOnClickListener {
             checkCanStudy()
         }
@@ -98,6 +110,11 @@ class CourseDetailActivity : AppActivity(), StatusAction {
     override fun isStatusBarEnabled(): Boolean {
         // 使用沉浸式状态栏
         return !super.isStatusBarEnabled()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mCourseChapterListAdapter.removeLoadStateListener(loadStateListener)
     }
 
     companion object {
