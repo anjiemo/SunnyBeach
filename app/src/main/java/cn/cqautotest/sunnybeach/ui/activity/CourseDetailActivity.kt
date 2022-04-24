@@ -72,7 +72,7 @@ class CourseDetailActivity : AppActivity(), StatusAction {
         // 需要在 View 销毁的时候移除 listener
         mCourseChapterListAdapter.addLoadStateListener(loadStateListener)
         mCourseChapterListAdapter.setOnItemClickListener { item, _ ->
-            toast(item.title)
+            PlayerActivity.start(this, item)
         }
         mBinding.tvVipFree.setFixOnClickListener {
             checkCanStudy()
