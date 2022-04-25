@@ -18,6 +18,7 @@
             app:srlEnableHeaderTranslationContent="false"
             app:srlEnableLoadMore="false"
             app:srlEnablePreviewInEditMode="false"
+            app:srlEnableRefresh="false"
             app:srlPrimaryColor="#444444">
 
             <cn.cqautotest.sunnybeach.widget.BrowserView
