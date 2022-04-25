@@ -30,6 +30,8 @@ import java.io.File
  */
 object Repository {
 
+    private const val NOT_LOGIN_CODE = 11126
+
     private val cachePhotoIdList = arrayListOf<WallpaperBean.Res.Vertical>()
 
     fun getCoursePlayAuth(videoId: String) = liveData(Dispatchers.IO) {
@@ -426,7 +428,10 @@ object Repository {
                 val result = action.invoke()
                 Timber.d("result is ${result.toJson()}")
                 if (result.isSuccess()) Result.success(onSuccess.invoke(result))
-                else Result.failure(ServiceException(result.getMessage()))
+                else when (result.getCode()) {
+                    NOT_LOGIN_CODE -> Result.failure(NotLoginException(result.getMessage()))
+                    else -> Result.failure(ServiceException(result.getMessage()))
+                }
             }
         } catch (t: Throwable) {
             t.printStackTrace()

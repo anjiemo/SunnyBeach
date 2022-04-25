@@ -416,9 +416,7 @@
             android:name=".ui.activity.CourseDetailActivity"
             android:screenOrientation="portrait" />
         <!-- 课程视频播放页 -->
-        <activity
-            android:name=".ui.activity.PlayerActivity"
-            android:screenOrientation="landscape" />
+        <activity android:name=".ui.activity.PlayerActivity" />
 
     </application>
 
