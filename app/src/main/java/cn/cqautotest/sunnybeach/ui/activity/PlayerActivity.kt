@@ -5,6 +5,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
 import android.view.KeyEvent
+import android.webkit.ConsoleMessage
+import android.webkit.WebSettings
 import android.webkit.WebView
 import androidx.activity.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -25,6 +27,7 @@ import com.dylanc.longan.intentExtras
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import okhttp3.FormBody
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -47,15 +50,26 @@ class PlayerActivity : AppActivity(), StatusAction, OnRefreshListener {
         val webView = mBinding.wvBrowserView
         webView.apply {
             setBrowserViewClient(AppBrowserViewClient())
-            setBrowserChromeClient(BrowserView.BrowserChromeClient(this))
+            setBrowserChromeClient(AppBrowserChromeClient(this))
             // 设置 WebView 生命管控
             webView.setLifecycleOwner(this@PlayerActivity)
+
+            settings.apply {
+                useWideViewPort = true
+                loadWithOverviewMode = true
+                layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
+                textZoom = 175
+                // 设置可缩放
+                setSupportZoom(true)
+                builtInZoomControls = true
+                displayZoomControls = false
+            }
         }
         // 设置网页刷新监听
         mBinding.slBrowserRefresh.setOnRefreshListener(this)
 
         if (item == null) {
-            showError { initData() }
+            showError { reload() }
             return
         }
         // 设置可以跨域请求
@@ -72,11 +86,10 @@ class PlayerActivity : AppActivity(), StatusAction, OnRefreshListener {
     }
 
     override fun initData() {
-        showLoading()
         checkToken {
             it.getOrElse {
                 showLoginDialog()
-                showError { initData() }
+                showError { reload() }
                 return@checkToken
             }
             getCoursePlayAuth()
@@ -87,7 +100,7 @@ class PlayerActivity : AppActivity(), StatusAction, OnRefreshListener {
         mCourseViewModel.getCoursePlayAuth(item.id).observe(this) { result ->
             val coursePlayAuth = result.getOrElse { t ->
                 when (t) {
-                    is NotLoginException -> showError { initData() }
+                    is NotLoginException -> showError { reload() }
                     else -> toast("播放凭证获取失败")
                 }
                 return@observe
@@ -97,8 +110,8 @@ class PlayerActivity : AppActivity(), StatusAction, OnRefreshListener {
             val screenWidth = ScreenUtils.getAppScreenWidth()
             val screenHeight = ScreenUtils.getAppScreenHeight()
             val queryParams = FormBody.Builder()
-                .add("screenWidth", screenWidth.toString())
-                .add("screenHeight", screenHeight.toString())
+                .add("screenWidth", "${screenWidth}px")
+                .add("screenHeight", "${screenHeight}px")
                 .add("videoId", videoId)
                 .add("playAuth", playAuth)
                 .build().toQueryParams()
@@ -132,7 +145,7 @@ class PlayerActivity : AppActivity(), StatusAction, OnRefreshListener {
      */
     @CheckNet
     private fun reload() {
-        mBinding.wvBrowserView.reload()
+        initData()
     }
 
     /**
@@ -149,7 +162,6 @@ class PlayerActivity : AppActivity(), StatusAction, OnRefreshListener {
         /**
          * 网页加载错误时回调，这个方法会在 onPageFinished 之前调用
          */
-        @Deprecated("Deprecated in Java")
         override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
             // 这里为什么要用延迟呢？因为加载出错之后会先调用 onReceivedError 再调用 onPageFinished
             post {
@@ -169,6 +181,16 @@ class PlayerActivity : AppActivity(), StatusAction, OnRefreshListener {
          */
         override fun onPageFinished(view: WebView, url: String) {
             showComplete()
+        }
+    }
+
+    private inner class AppBrowserChromeClient constructor(view: BrowserView) : BrowserView.BrowserChromeClient(view) {
+
+        override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
+            consoleMessage?.let {
+                Timber.d("onConsoleMessage：===> ${it.message()}")
+            }
+            return super.onConsoleMessage(consoleMessage)
         }
     }
 

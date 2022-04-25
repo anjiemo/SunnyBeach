@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="IE=edge">
-    <!--<meta name="viewport"-->
-    <!--      content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>-->
+    <meta name="viewport"
+          content="width=device-width, height=device-height, initial-scale=0.33, maximum-scale=1, minimum-scale=0.25, user-scalable=yes"/>
     <title>课程视频播放</title>
     <link rel="stylesheet"
           href="https://g.alicdn.com/de/prismplayer/2.9.19/skins/default/aliplayer-min.css"/>
@@ -27,8 +27,8 @@ var player = new Aliplayer({
   "qualitySort": "asc",
   "format": "mp4",
   "mediaType": "video",
-  "width": "750px",
-  "height": getQueryString("screenHeight") + "px",
+  "width": getQueryString("screenWidth"),
+  "height": getQueryString("screenHeight"),
   "autoplay": true,
   "isLive": false,
   "rePlay": false,
