@@ -46,9 +46,9 @@ object WebViewHookHelper {
                     Timber.d("injectCookie：===> Set-Cookie is %s", cookieStr)
                     cookieManager.setCookie(url, cookieStr)
                 }
+                val newCookie: String = cookieManager.getCookie(url)
+                Timber.d("injectCookie：===> newCookie is %s", newCookie)
             }
-            val newCookie: String = cookieManager.getCookie(url)
-            Timber.d("injectCookie：===> newCookie is %s", newCookie)
             val currUrlTopDomain: String = StringUtil.getTopDomain(url)
             val apiTopDomain: String = StringUtil.getTopDomain(SUNNY_BEACH_API_BASE_URL)
             val siteTopDomain: String = StringUtil.getTopDomain(SUNNY_BEACH_SITE_BASE_URL)
