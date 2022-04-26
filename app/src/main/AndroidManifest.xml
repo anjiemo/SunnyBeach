@@ -419,6 +419,10 @@
         <activity
             android:name=".ui.activity.PlayerActivity"
             android:screenOrientation="landscape" />
+        <!-- 壁纸发现页 -->
+        <activity
+            android:name=".ui.activity.WallpaperActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 
