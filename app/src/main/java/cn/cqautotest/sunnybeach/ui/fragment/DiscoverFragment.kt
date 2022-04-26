@@ -27,7 +27,6 @@ import com.youth.banner.holder.BannerImageHolder
 import com.youth.banner.indicator.CircleIndicator
 import kotlinx.coroutines.flow.collectLatest
 
-
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
