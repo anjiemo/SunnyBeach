@@ -8,9 +8,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.core.app.SharedElementCallback
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
@@ -75,7 +73,6 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         supportActionBar?.hide()
         navigationAdapter = NavigationAdapter(this).apply {
             addMenuItem(R.string.home_fish_pond_message, R.drawable.home_fish_pond_selector)
-            addMenuItem(R.string.home_nav_found, R.drawable.home_paint_selector)
             addMenuItem(R.string.home_nav_qa, R.drawable.home_qa_selector)
             addMenuItem(R.string.home_nav_index, R.drawable.home_home_selector)
             addMenuItem(R.string.home_nav_course, R.drawable.home_course_selector)
@@ -99,7 +96,6 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     override fun initData() {
         pagerAdapter = FragmentPagerAdapter<AppFragment<*>>(this).apply {
             addFragment(FishListFragment.newInstance())
-            addFragment(DiscoverFragment.newInstance())
             addFragment(QaListFragment.newInstance())
             // addFragment(EmptyFragment.newInstance())
             addFragment(ArticleListFragment.newInstance())
@@ -116,11 +112,6 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     }
 
     override fun initEvent() {
-        setExitSharedElementCallback(object : SharedElementCallback() {
-            override fun onMapSharedElements(names: List<String>, sharedElements: Map<String, View>) {
-                navigationView?.isVisible = false
-            }
-        })
         viewPager?.addOnPageChangeListener(object : SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
                 navigationAdapter?.setSelectedPosition(position)
@@ -182,7 +173,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             return
         }
         when (fragmentIndex) {
-            0, 1, 2, 3, 4, 5 -> {
+            0, 1, 2, 3, 4 -> {
                 viewPager?.currentItem = fragmentIndex
                 navigationAdapter?.setSelectedPosition(fragmentIndex)
             }
@@ -202,7 +193,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
      */
     override fun onNavigationItemSelected(position: Int): Boolean {
         return when (position) {
-            0, 1, 2, 3, 4, 5 -> {
+            0, 1, 2, 3, 4 -> {
                 viewPager?.currentItem = position
                 true
             }
@@ -233,9 +224,6 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         pagerAdapter?.getShowFragment()?.onActivityResult(requestCode, resultCode, data)
-        if (navigationView?.isVisible == false) {
-            navigationView?.isVisible = true
-        }
     }
 
     override fun onDestroy() {
