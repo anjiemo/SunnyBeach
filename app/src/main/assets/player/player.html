@@ -11,6 +11,12 @@
           href="https://g.alicdn.com/de/prismplayer/2.9.20/skins/default/aliplayer-min.css"/>
     <script type="text/javascript" charset="utf-8"
             src="https://g.alicdn.com/de/prismplayer/2.9.20/aliplayer-min.js"></script>
+    <style>
+        .prism-fullscreen-btn {
+            display: none !important;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -23,7 +29,6 @@
             if (r != null) return unescape(r[2]);
             return null;
         };
-        var fullScreenBtn = document.getElementsByClassName("prism-fullscreen-btn")[0];
         // 参数说明详情：https://help.aliyun.com/document_detail/125572.html
         var player = new Aliplayer({
             "id": "player-con",
@@ -42,14 +47,16 @@
             // 显示控制栏的时间：5ms
             "showBarTime": 5000,
             "useH5Prism": true,
-            "fullScreen": true
+            "fullScreen": false
         }, function (player) {
             player.play();
             console.log("The player is created");
-            // 模拟点击全屏按钮
-            fullScreenBtn.onClick();
+            // 隐藏全屏按钮
+            // var fullScreenBtn = document.getElementsByClassName("prism-fullscreen-btn")[0];
+            // fullScreenBtn.style.display = "none";
+            // 默认全屏
+            player.fullscreenService.requestFullScreen();
             AndroidNative.onPlayerCreated();
         });
-
 </script>
 </body>

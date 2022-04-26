@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.ContentResolver
 import android.content.Context
-import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.os.Build
 import android.view.KeyEvent
@@ -12,7 +11,6 @@ import android.webkit.WebView
 import androidx.activity.viewModels
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
@@ -30,8 +28,6 @@ import com.blankj.utilcode.util.ScreenUtils
 import com.dylanc.longan.intentExtras
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import okhttp3.FormBody
 import timber.log.Timber
 
@@ -183,22 +179,9 @@ class PlayerActivity : AppActivity(), StatusAction, OnRefreshListener {
         mBinding.wvBrowserView.evaluateJavascript("javascript:player.fullscreenService.cancelFullScreen();", null)
     }
 
-    @WorkerThread
-    @JavascriptInterface
-    fun onFullScreenStatusChanged(fullScreen: Boolean) {
-        lifecycleScope.launchWhenCreated {
-            withContext(Dispatchers.Main) {
-                requestedOrientation = if (!fullScreen) {
-                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                } else {
-                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                }
-            }
-        }
-    }
-
     /**
      * 开始播放视频（注意：是从当前位置开始播放，不是从初始位置播放）
+     * player.play()
      */
     fun startPlayVideo() {
 
