@@ -58,6 +58,7 @@ class PasswordForgetActivity : AppActivity(), OnEditorActionListener {
 
     override fun initData() {
         loadVerifyCode()
+        PasswordModifyActivity.start(getContext(), "13896649934", "smsCode")
     }
 
     /**
