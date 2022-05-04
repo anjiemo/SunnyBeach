@@ -6,7 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
-import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.CommendAction
@@ -20,10 +20,14 @@ import cn.cqautotest.sunnybeach.databinding.SubmitCommendIncludeBinding
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
-import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.util.setDefaultEmojiParser
+import cn.cqautotest.sunnybeach.util.setFixOnClickListener
+import cn.cqautotest.sunnybeach.util.simpleToast
+import cn.cqautotest.sunnybeach.util.textString
 import cn.cqautotest.sunnybeach.viewmodel.KeyboardViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hjq.base.BottomSheetDialog
 import com.hjq.base.action.KeyboardAction
@@ -33,6 +37,7 @@ import com.hjq.base.action.KeyboardAction
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2021/11/09
  * desc   : 评论回复页（发表动态评论/回复动态评论） Fragment
+ * 适用于 Android 11 的窗口插图和键盘动画教程：https://www.raywenderlich.com/18393648-window-insets-and-keyboard-animations-tutorial-for-android-11
  */
 class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction, CommendAction {
 
@@ -45,6 +50,8 @@ class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction,
         val dialog = BottomSheetDialog(requireContext())
         _binding = SubmitCommendIncludeBinding.inflate(layoutInflater)
         dialog.setContentView(mBinding.root)
+        val bottomSheetBehavior = dialog.getBottomSheetBehavior()
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         onCreateDialogView()
         return dialog
     }
@@ -64,11 +71,9 @@ class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction,
 
     private fun initView() {
         val etInputContent = mBinding.etInputContent
-        etInputContent.setRoundRectBg(Color.parseColor("#F7F7F7"), 4.dp)
         etInputContent.setDefaultEmojiParser()
-        etInputContent.post {
-            showKeyboard(etInputContent)
-        }
+        etInputContent.requestFocus()
+        etInputContent.postDelayed({ showKeyboard(etInputContent) }, 100)
         mBinding.ivImage.isVisible = false
     }
 
@@ -86,11 +91,11 @@ class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction,
         }
         mBinding.rvEmojiList.setOnEmojiClickListener { emoji, _ ->
             val cursor = etInputContent.selectionStart
-            etInputContent.text.insert(cursor, emoji)
+            etInputContent.text?.insert(cursor, emoji)
         }
         val normalColor = Color.parseColor("#CBD0D3")
         val overflowColor = Color.RED
-        mBinding.etInputContent.addTextChangedListener {
+        mBinding.etInputContent.doAfterTextChanged {
             // 最大字符输入长度
             val maxInputTextLength = 512
             // 最小字符输入长度
@@ -158,9 +163,10 @@ class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction,
         val etInputContent = mBinding.etInputContent
         val flPanelContainer = mBinding.flPanelContainer
         val rvEmojiList = mBinding.rvEmojiList
-        val keyboardHeight = mKeyboardViewModel.keyboardHeightLiveData.value ?: 310.dp
-        flPanelContainer.updateLayoutParams {
-            height = keyboardHeight
+        mKeyboardViewModel.keyboardHeightLiveData.observe(this) {
+            flPanelContainer.updateLayoutParams {
+                height = it
+            }
         }
         mKeyboardViewModel.keyboardStateLiveData.observe(this) { keyboardIsShowing ->
             rvEmojiList.isVisible = !keyboardIsShowing

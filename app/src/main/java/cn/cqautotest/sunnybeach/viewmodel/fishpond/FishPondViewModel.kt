@@ -6,12 +6,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.paging.source.FishDetailCommendListPagingSource
 import cn.cqautotest.sunnybeach.paging.source.FishPagingSource
 import cn.cqautotest.sunnybeach.paging.source.UserFishPagingSource
-import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import kotlinx.coroutines.flow.Flow
 
 /**

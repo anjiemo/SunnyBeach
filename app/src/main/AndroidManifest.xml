@@ -169,6 +169,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
+        <!-- 修改密码 -->
+        <activity
+            android:name=".ui.activity.PasswordModifyActivity"
+            android:label="@string/password_modify_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
         <!-- 重置密码 -->
         <activity
             android:name=".ui.activity.PasswordResetActivity"
@@ -329,6 +336,7 @@
                     android:host="sunofbeach.net"
                     android:pathPrefix="/u"
                     android:scheme="https" />
+
             </intent-filter>
 
         </activity>
@@ -345,7 +353,8 @@
         <!-- 摸鱼详情页 -->
         <activity
             android:name=".ui.activity.FishPondDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <!-- 摸鱼设置页 -->
         <activity
             android:name=".ui.activity.FishPondSettingActivity"
@@ -360,7 +369,7 @@
         <activity
             android:name=".ui.activity.PutFishActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <!-- 摸鱼评论列表页 -->
         <activity
             android:name=".ui.activity.FishCommendDetailActivity"
@@ -399,9 +408,29 @@
             android:name=".ui.activity.msg.SystemMsgListActivity"
             android:screenOrientation="portrait" />
         <!-- Vip 介绍页 -->
-        <activity android:name=".ui.activity.VipActivity" />
+        <activity
+            android:name=".ui.activity.VipActivity"
+            android:screenOrientation="portrait" />
         <!-- 创作中心页 -->
-        <activity android:name=".ui.activity.CreationCenterActivity" />
+        <activity
+            android:name=".ui.activity.CreationCenterActivity"
+            android:screenOrientation="portrait" />
+        <!-- 扫码界面 -->
+        <activity
+            android:name=".ui.activity.ScanCodeActivity"
+            android:screenOrientation="portrait" />
+        <!-- 课程详情页 -->
+        <activity
+            android:name=".ui.activity.CourseDetailActivity"
+            android:screenOrientation="portrait" />
+        <!-- 课程视频播放页 -->
+        <activity
+            android:name=".ui.activity.PlayerActivity"
+            android:screenOrientation="landscape" />
+        <!-- 壁纸发现页 -->
+        <activity
+            android:name=".ui.activity.WallpaperActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

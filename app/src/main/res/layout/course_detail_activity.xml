@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.CourseDetailActivity">
+
+    <com.hjq.bar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="课程详情" />
+
+    <cn.cqautotest.sunnybeach.widget.StatusLayout
+        android:id="@+id/hl_course_detail_hint"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        app:layout_constraintBottom_toTopOf="@id/ll_pay_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_bar">
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlEnableLoadMore="false">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_course_detail_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1px"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="20"
+                tools:listitem="@layout/course_chapter_group_item" />
+
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    </cn.cqautotest.sunnybeach.widget.StatusLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_pay_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingVertical="@dimen/dp_8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/tv_vip_free"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_14"
+            android:layout_marginEnd="@dimen/dp_6"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingVertical="@dimen/dp_10"
+            android:text="会员免费学"
+            android:textColor="#007BFF"
+            app:shape_radius="@dimen/dp_4"
+            app:shape_solidColor="#F1F8FF" />
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/tv_buy_course"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginEnd="@dimen/dp_14"
+            android:layout_weight="2"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            android:paddingVertical="@dimen/dp_10"
+            android:textColor="@color/white"
+            app:shape_radius="@dimen/dp_4"
+            app:shape_solidColor="#007BFF"
+            tools:text="购买 ¥ 49.9" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,9 @@
 #-libraryjars libs/xxxxxxxxx.jar
 
 # 不混淆这个包下的类
+-keep class cn.cqautotest.sunnybeach.model.** {
+    <fields>;
+}
 -keep class cn.cqautotest.sunnybeach.http.api.** {
     <fields>;
 }

@@ -43,10 +43,12 @@ import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
 import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 /**
  * author : A Lonely Cat
@@ -54,11 +56,13 @@ import java.util.*
  * time   : 2021/07/07
  * desc   : 摸鱼动态列表 Fragment
  */
+@AndroidEntryPoint
 class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener {
 
     private val mBinding: FishListFragmentBinding by viewBinding()
 
-    private val mAppViewModel: AppViewModel = AppViewModel.getAppViewModel()
+    @Inject
+    lateinit var mAppViewModel: AppViewModel
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
     private val mFishListAdapter = FishListAdapter(AdapterDelegate())
     private val loadStateListener = loadStateListener(mFishListAdapter) {
@@ -67,7 +71,45 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     override fun getLayoutId(): Int = R.layout.fish_list_fragment
 
-    override fun initObserver() {}
+    override fun initView() {
+        // This emptyAdapter is like a hacker.
+        // Its existence allows the PagingAdapter to scroll to the top before being refreshed,
+        // avoiding the problem that the PagingAdapter cannot return to the top after being refreshed.
+        // But it needs to be used in conjunction with ConcatAdapter, and must appear before PagingAdapter.
+        val emptyAdapter = EmptyAdapter()
+        val concatAdapter = ConcatAdapter(emptyAdapter, mFishListAdapter)
+        mBinding.rvFishPondList.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = concatAdapter
+            addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
+        }
+    }
+
+    override fun initData() {
+        loadFishList()
+        mAppViewModel.getMourningCalendar().observe(viewLifecycleOwner) {
+            val result = it.getOrNull() ?: return@observe
+            val sdf = SimpleDateFormat("MM月dd日", Locale.getDefault())
+            val formatDate = sdf.format(System.currentTimeMillis())
+            val rootView = requireView()
+            result.onEach { mourningCalendar ->
+                val date = mourningCalendar.date
+                if (date == formatDate) {
+                    rootView.setMourningStyle()
+                }
+                // Timber.d("initData：===> day is $date formatDate is $formatDate")
+            }
+        }
+    }
+
+    private fun loadFishList() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            mFishPondViewModel.getFishListByCategoryId("recommend").collectLatest {
+                onBack2Top()
+                mFishListAdapter.submitData(it)
+            }
+        }
+    }
 
     override fun initEvent() {
         val ivPublishContent = mBinding.ivPublishContent
@@ -195,45 +237,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             .show()
     }
 
-    override fun initData() {
-        loadFishList()
-        mAppViewModel.getMourningCalendar().observe(viewLifecycleOwner) {
-            val result = it.getOrNull() ?: return@observe
-            val sdf = SimpleDateFormat("MM月dd日", Locale.getDefault())
-            val formatDate = sdf.format(System.currentTimeMillis())
-            val rootView = requireView()
-            result.onEach { mourningCalendar ->
-                val date = mourningCalendar.date
-                if (date == formatDate) {
-                    rootView.setMourningStyle()
-                }
-                // Timber.d("initData：===> day is $date formatDate is $formatDate")
-            }
-        }
-    }
-
-    private fun loadFishList() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            mFishPondViewModel.getFishListByCategoryId("recommend").collectLatest {
-                onBack2Top()
-                mFishListAdapter.submitData(it)
-            }
-        }
-    }
-
-    override fun initView() {
-        // This emptyAdapter is like a hacker.
-        // Its existence allows the PagingAdapter to scroll to the top before being refreshed,
-        // avoiding the problem that the PagingAdapter cannot return to the top after being refreshed.
-        // But it needs to be used in conjunction with ConcatAdapter, and must appear before PagingAdapter.
-        val emptyAdapter = EmptyAdapter()
-        val concatAdapter = ConcatAdapter(emptyAdapter, mFishListAdapter)
-        mBinding.rvFishPondList.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = concatAdapter
-            addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
-        }
-    }
+    override fun initObserver() {}
 
     @Permissions(Permission.CAMERA)
     override fun onRightClick(titleBar: TitleBar) {
@@ -241,7 +245,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         val options = HmsScanAnalyzerOptions.Creator()
             .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
             .create()
-        ScanUtil.startScan(requireActivity(), REQUEST_CODE_SCAN_ONE, options)
+        MyScanUtil.startScan(requireActivity(), REQUEST_CODE_SCAN_ONE, options)
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlFishPondHint
@@ -260,23 +264,30 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mBinding.rvFishPondList.scrollToPosition(0)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK || data == null) return
         if (requestCode == REQUEST_CODE_SCAN_ONE) {
             // 导入图片扫描返回结果
-            val obj = data.getParcelableExtra(ScanUtil.RESULT) as HmsScan?
-            if (obj != null) {
+            val hmsScan = data.getParcelableExtra(ScanUtil.RESULT) as HmsScan?
+            if (hmsScan != null) {
                 // 展示解码结果
-                showResult(obj)
+                showResult(hmsScan)
+            } else {
+                showNoContentTips()
             }
         }
     }
 
-    private fun showResult(hmsScan: HmsScan) {
-        val result = hmsScan.showResult ?: ""
+    private fun showNoContentTips() {
+        toast("什么内容也没有~")
+    }
+
+    private fun showResult(hmsScan: HmsScan?) {
+        val result = hmsScan?.showResult ?: ""
         if (result.isBlank()) {
-            toast("什么内容也没有~")
+            showNoContentTips()
             return
         }
 
@@ -290,12 +301,15 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         Timber.d("showResult：===> result is $result")
         // toast(userId)
 
-        if (checkScheme(scheme).not()) return
-        if (checkAuthority(authority).not()) return
-        if (checkUserId(userId).not()) return
-
-        ViewUserActivity.start(requireContext(), userId)
+        when {
+            checkScheme(scheme).not() -> unsupportedParsedContent()
+            checkAuthority(authority).not() -> unsupportedParsedContent()
+            checkUserId(userId).not() -> unsupportedParsedContent()
+            else -> ViewUserActivity.start(requireContext(), userId)
+        }
     }
+
+    private fun unsupportedParsedContent() = toast("不支持解析的内容")
 
     /**
      * We only support http and https protocols.
@@ -310,8 +324,9 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         Timber.d("checkAuthority：===> sobSiteTopDomain is $sobSiteTopDomain")
         Timber.d("checkAuthority：===> loveSiteTopDomain is $loveSiteTopDomain")
 
-        val sobAuthority = authority.replace("www.", "") == sobSiteTopDomain
-        val loveAuthority = authority.replace("www.", "") == loveSiteTopDomain
+        fun String.delete3W() = replace("www.", "")
+        val sobAuthority = authority.delete3W() == sobSiteTopDomain
+        val loveAuthority = authority.delete3W() == loveSiteTopDomain
         return sobAuthority || loveAuthority
     }
 

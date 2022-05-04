@@ -15,17 +15,23 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.CheckNet
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
+import cn.cqautotest.sunnybeach.util.WebViewHookHelper
 import cn.cqautotest.sunnybeach.widget.BrowserView
 import cn.cqautotest.sunnybeach.widget.BrowserView.BrowserChromeClient
 import cn.cqautotest.sunnybeach.widget.BrowserView.BrowserViewClient
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import cn.cqautotest.sunnybeach.widget.StatusLayout.OnRetryListener
 import com.hjq.bar.TitleBar
+import com.hjq.umeng.Platform
+import com.hjq.umeng.UmengShare.OnShareListener
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
+import com.umeng.socialize.media.UMImage
+import com.umeng.socialize.media.UMWeb
 import okhttp3.FormBody
 import timber.log.Timber
+
 
 /**
  *    author : Android 轮子哥 & A Lonely Cat
@@ -131,6 +137,30 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
         finish()
     }
 
+    override fun onRightClick(titleBar: TitleBar) {
+        val content = UMWeb(browserView?.url)
+        content.title = browserView?.title
+        content.setThumb(UMImage(this, R.mipmap.launcher_ic))
+        content.description = getString(R.string.app_name)
+        // 分享
+        ShareDialog.Builder(this)
+            .setShareLink(content)
+            .setListener(object : OnShareListener {
+                override fun onSucceed(platform: Platform?) {
+                    toast("分享成功")
+                }
+
+                override fun onError(platform: Platform?, t: Throwable) {
+                    toast(t.message)
+                }
+
+                override fun onCancel(platform: Platform?) {
+                    toast("分享取消")
+                }
+            })
+            .show()
+    }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         browserView?.apply {
             if (keyCode == KeyEvent.KEYCODE_BACK && canGoBack()) {
@@ -157,19 +187,20 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
         reload()
     }
 
+    override fun isStatusBarDarkFont(): Boolean {
+        return false
+    }
+
     private inner class AppBrowserViewClient : BrowserViewClient() {
 
         /**
          * 网页加载错误时回调，这个方法会在 onPageFinished 之前调用
          */
+        @Deprecated("Deprecated in Java")
         override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
             // 这里为什么要用延迟呢？因为加载出错之后会先调用 onReceivedError 再调用 onPageFinished
             post {
-                showError(object : OnRetryListener {
-                    override fun onRetry(layout: StatusLayout) {
-                        reload()
-                    }
-                })
+                showError { reload() }
             }
         }
 
@@ -178,6 +209,8 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
          */
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
             progressBar?.visibility = View.VISIBLE
+            // 给指定的 url 注入 cookie
+            WebViewHookHelper.injectCookie(url)
         }
 
         /**
@@ -185,6 +218,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
          */
         override fun onPageFinished(view: WebView, url: String) {
             progressBar?.visibility = View.GONE
+            WebViewHookHelper.fitScreen(view, url)
             refreshLayout?.finishRefresh()
             showComplete()
         }

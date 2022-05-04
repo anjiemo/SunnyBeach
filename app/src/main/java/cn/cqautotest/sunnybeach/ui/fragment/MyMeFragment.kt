@@ -68,6 +68,9 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
                 requireContext().startActivity<CreationCenterActivity>()
             }
         }
+        meContent.wallpaperContainer.setFixOnClickListener {
+            requireContext().startActivity<WallpaperActivity>()
+        }
         meContent.weatherContainer.setFixOnClickListener {
             requireContext().startActivity<MainActivity>()
         }
