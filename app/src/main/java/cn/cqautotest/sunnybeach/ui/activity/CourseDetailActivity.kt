@@ -106,11 +106,6 @@ class CourseDetailActivity : AppActivity(), StatusAction {
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlCourseDetailHint
 
-    override fun isStatusBarEnabled(): Boolean {
-        // 使用沉浸式状态栏
-        return !super.isStatusBarEnabled()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         mCourseChapterListAdapter.removeLoadStateListener(loadStateListener)
