@@ -5,8 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
-import android.view.GestureDetector
-import android.view.ViewConfiguration
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,8 +29,7 @@ import timber.log.Timber
  * time   : 2021/09/18
  * desc   : 摸鱼评论列表页
  */
-class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener,
-    KeyboardWatcher.SoftKeyboardStateListener {
+class FishCommendDetailActivity : AppActivity(), KeyboardWatcher.SoftKeyboardStateListener {
 
     private val mBinding: FishCommendDetailActivityBinding by viewBinding()
     private val mKeyboardViewModel by viewModels<KeyboardViewModel>()
@@ -86,8 +83,8 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener,
         mFishCommendDetailListAdapter.setData(item)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun initEvent() {
+        mBinding.titleBar.setOnClickListener {}
         val fishPondDetailComment = mBinding.fishPondDetailComment
         val ivFishPondAvatar = fishPondDetailComment.ivFishPondAvatar
         ivFishPondAvatar.setFixOnClickListener {
@@ -106,12 +103,13 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener,
             goToReplyComment(commendId, nickName, userId)
         }
         val clReplyContainer = mBinding.commentContainer.clReplyContainer
-        // 如果要使用 GestureDetector 手势检测器，则必须禁用点击事件，否则无法检测手势
-        clReplyContainer.setOnClickListener(null)
-        val minDistance = ViewConfiguration.get(this).scaledTouchSlop
-        val sg = SimpleGesture(minDistance, this)
-        val gestureDetector = GestureDetector(this, sg)
-        clReplyContainer.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
+        clReplyContainer.setFixOnClickListener {
+            val item = getFishPondCommentItem()
+            val commendId = item.getCommentId()
+            val nickName = item.getNickName()
+            val userId = item.getUserId()
+            goToReplyComment(commendId, nickName, userId)
+        }
         mBinding.commentContainer.tvFishPondSubmitComment.setFixOnClickListener {
             val item = getFishPondCommentItem()
             val commendId = item.getCommentId()
@@ -119,14 +117,6 @@ class FishCommendDetailActivity : AppActivity(), SimpleGesture.OnSlideListener,
             val userId = item.getUserId()
             goToReplyComment(commendId, nickName, userId)
         }
-    }
-
-    override fun onSwipeUp() {
-        val item = getFishPondCommentItem()
-        val commendId = item.getCommentId()
-        val nickName = item.getNickName()
-        val userId = item.getUserId()
-        goToReplyComment(commendId, nickName, userId)
     }
 
     private fun getMomentId(): String = intent.getStringExtra(IntentKey.ID) ?: ""

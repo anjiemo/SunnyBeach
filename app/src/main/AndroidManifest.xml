@@ -346,7 +346,8 @@
         <!-- 摸鱼详情页 -->
         <activity
             android:name=".ui.activity.FishPondDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <!-- 摸鱼设置页 -->
         <activity
             android:name=".ui.activity.FishPondSettingActivity"
@@ -360,8 +361,7 @@
         <!-- 发布摸鱼页 -->
         <activity
             android:name=".ui.activity.PutFishActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:screenOrientation="portrait" />
         <!-- 摸鱼评论列表页 -->
         <activity
             android:name=".ui.activity.FishCommendDetailActivity"
