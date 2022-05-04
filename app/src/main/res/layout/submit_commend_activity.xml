@@ -17,70 +17,71 @@
         android:orientation="vertical"
         tools:showIn="@layout/submit_commend_activity">
 
-        <View
+        <com.hjq.shape.view.ShapeView
             android:id="@+id/v_open_or_close"
-            android:layout_width="50dp"
-            android:layout_height="5dp"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_5"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
-            android:background="@drawable/menu_top_bg"
-            android:padding="48dp" />
+            android:layout_marginTop="@dimen/dp_6"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:padding="@dimen/dp_48"
+            app:shape_radius="@dimen/dp_10"
+            app:shape_solidColor="#F8F5F5" />
 
         <EditText
             android:id="@+id/et_input_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_20"
             android:background="#F9FCF8"
-            android:drawableTint="@color/blue"
             android:gravity="top"
             android:hint="请友善评论..."
             android:inputType="textMultiLine"
             android:maxLines="8"
             android:minLines="4"
-            android:padding="16dp"
-            android:textSize="14sp" />
+            android:padding="@dimen/dp_16"
+            android:textSize="14sp"
+            app:drawableTint="@color/blue" />
 
         <RelativeLayout
             android:id="@+id/rl_menu_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="@dimen/dp_10"
             android:background="@color/white"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp">
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="@dimen/dp_20">
 
             <ImageView
                 android:id="@+id/iv_emoji"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:padding="8dp"
+                android:padding="@dimen/dp_8"
                 app:srcCompat="@mipmap/ic_emoji_normal" />
 
             <ImageView
                 android:id="@+id/iv_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="@dimen/dp_10"
                 android:layout_toEndOf="@id/iv_emoji"
-                android:padding="8dp"
+                android:padding="@dimen/dp_8"
                 app:srcCompat="@mipmap/ic_select_image" />
 
             <ImageView
                 android:id="@+id/iv_link"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="@dimen/dp_10"
                 android:layout_toEndOf="@id/iv_image"
-                android:padding="8dp"
+                android:padding="@dimen/dp_8"
                 android:visibility="gone"
                 app:srcCompat="@mipmap/ic_link_normal" />
 
@@ -89,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="@dimen/dp_20"
                 android:layout_toStartOf="@id/tv_send"
                 android:text="512"
                 android:textColor="#CBD0D3" />
@@ -101,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="@dimen/dp_10"
                 android:padding="4dp"
                 android:text="发送"
                 android:textColor="@color/white" />
@@ -111,7 +112,7 @@
         <cn.cqautotest.sunnybeach.widget.EmojiListView
             android:id="@+id/rv_emoji_list"
             android:layout_width="match_parent"
-            android:layout_height="310dp"
+            android:layout_height="@dimen/dp_200"
             android:visibility="gone" />
 
     </LinearLayout>

@@ -40,7 +40,6 @@ import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
 import kotlinx.coroutines.flow.collectLatest
 
-
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
@@ -73,6 +72,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGridLayout.OnN
             adapter = concatAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
         }
+
         postDelayed({
             KeyboardWatcher.with(this)
                 .setListener(this)
