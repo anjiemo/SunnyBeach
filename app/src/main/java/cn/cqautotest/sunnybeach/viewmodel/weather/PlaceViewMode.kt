@@ -3,8 +3,8 @@ package cn.cqautotest.sunnybeach.viewmodel.weather
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.model.weather.Place
-import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 
 class PlaceViewMode : ViewModel() {
 

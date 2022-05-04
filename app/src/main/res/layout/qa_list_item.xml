@@ -1,30 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_selector_ic"
     android:padding="10dp">
 
+    <LinearLayout
+        android:id="@+id/ll_qa_additional_info"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/hsv_qa_label_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/tv_answer_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|right"
+            android:paddingHorizontal="@dimen/dp_4"
+            android:text="√ 5 answers"
+            app:shape_radius="@dimen/dp_4"
+            app:shape_strokeWidth="1px"
+            tools:shape_solidColor="#48A868"
+            tools:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_view_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/dp_2"
+            android:gravity="center|right"
+            android:text="1.2k views" />
+
+        <TextView
+            android:id="@+id/tv_gold_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|right"
+            android:text="100" />
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tv_qa_title"
-        android:layout_width="match_parent"
+        android:layout_width="0px"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_4"
+        android:layout_marginBottom="@dimen/dp_10"
         android:ellipsize="end"
         android:maxLines="2"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ll_qa_additional_info"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <cn.cqautotest.sunnybeach.widget.AvatarDecorView
+        android:id="@+id/iv_qa_avatar"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:contentDescription="用户头像"
+        android:src="@mipmap/ic_default_avatar"
+        app:layout_constraintBottom_toTopOf="@id/hsv_qa_label_container"
+        app:layout_constraintStart_toStartOf="@id/tv_qa_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_qa_title" />
+
+    <TextView
+        android:id="@+id/tv_qa_nick_name"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="A Lonely Cat"
+        app:layout_constraintBottom_toBottomOf="@id/iv_qa_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_qa_avatar"
+        app:layout_constraintTop_toTopOf="@id/iv_qa_avatar"
+        tools:textColor="@color/pink" />
+
+    <HorizontalScrollView
+        android:id="@+id/hsv_qa_label_container"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_desc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_qa_additional_info">
+
+        <LinearLayout
+            android:id="@+id/ll_qa_label_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/ic_divider_label"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/topic_label_selector"
+                android:contentDescription="话题标签"
+                android:paddingHorizontal="@dimen/dp_4"
+                android:paddingVertical="@dimen/dp_2"
+                android:text="安卓/IOS"
+                android:textColor="@color/common_confirm_text_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/topic_label_selector"
+                android:contentDescription="话题标签"
+                android:paddingHorizontal="@dimen/dp_4"
+                android:paddingVertical="@dimen/dp_2"
+                android:text="安卓/IOS"
+                android:textColor="@color/common_confirm_text_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/topic_label_selector"
+                android:contentDescription="话题标签"
+                android:paddingHorizontal="@dimen/dp_4"
+                android:paddingVertical="@dimen/dp_2"
+                android:text="安卓/IOS"
+                android:textColor="@color/common_confirm_text_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/topic_label_selector"
+                android:contentDescription="话题标签"
+                android:paddingHorizontal="@dimen/dp_4"
+                android:paddingVertical="@dimen/dp_2"
+                android:text="安卓/IOS"
+                android:textColor="@color/common_confirm_text_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/topic_label_selector"
+                android:contentDescription="话题标签"
+                android:paddingHorizontal="@dimen/dp_4"
+                android:paddingVertical="@dimen/dp_2"
+                android:text="安卓/IOS"
+                android:textColor="@color/common_confirm_text_color"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
 
     <TextView
         android:id="@+id/tv_desc"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp_80"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_4"
+        android:gravity="center|end"
         android:textColor="@color/default_font_color"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_qa_title" />
+        app:layout_constraintBottom_toBottomOf="@id/hsv_qa_label_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_qa_avatar"
+        app:layout_constraintTop_toTopOf="@id/hsv_qa_label_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

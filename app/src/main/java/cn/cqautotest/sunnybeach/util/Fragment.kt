@@ -2,10 +2,10 @@ package cn.cqautotest.sunnybeach.util
 
 import androidx.fragment.app.Fragment
 import cn.cqautotest.sunnybeach.execption.NotLoginException
+import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
-import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import com.dylanc.longan.viewLifecycleScope
 
 /**

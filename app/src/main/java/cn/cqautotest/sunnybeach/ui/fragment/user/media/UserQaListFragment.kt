@@ -13,7 +13,7 @@ import cn.cqautotest.sunnybeach.databinding.UserFishListFragmentBinding
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
-import cn.cqautotest.sunnybeach.ui.adapter.QaListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.UserQaListAdapter
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.util.dp
@@ -32,9 +32,9 @@ class UserQaListFragment : AppFragment<AppActivity>(), StatusAction {
 
     private val mBinding by viewBinding<UserFishListFragmentBinding>()
     private val mAdapterDelegate = AdapterDelegate()
-    private val mQaListAdapter = QaListAdapter(mAdapterDelegate)
+    private val mUserQaListAdapter = UserQaListAdapter(mAdapterDelegate)
     private val mQaViewModel by activityViewModels<QaViewModel>()
-    private val loadStateListener = loadStateListener(mQaListAdapter) {
+    private val loadStateListener = loadStateListener(mUserQaListAdapter) {
         mBinding.refreshLayout.finishRefresh()
     }
 
@@ -43,7 +43,7 @@ class UserQaListFragment : AppFragment<AppActivity>(), StatusAction {
     override fun initView() {
         mBinding.rvFishPondList.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = mQaListAdapter
+            adapter = mUserQaListAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(4.dp))
         }
     }
@@ -56,20 +56,20 @@ class UserQaListFragment : AppFragment<AppActivity>(), StatusAction {
     private fun loadUserQaList(userId: String) {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             mQaViewModel.loadUserQaList(userId).collectLatest {
-                mQaListAdapter.submitData(it)
+                mUserQaListAdapter.submitData(it)
             }
         }
     }
 
     override fun initEvent() {
         mBinding.refreshLayout.setOnRefreshListener {
-            mQaListAdapter.refresh()
+            mUserQaListAdapter.refresh()
         }
         // 需要在 View 销毁的时候移除 listener
-        mQaListAdapter.addLoadStateListener(loadStateListener)
+        mUserQaListAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到问答详情界面
-            val item = mQaListAdapter.snapshot()[position] ?: return@setOnItemClickListener
+            val item = mUserQaListAdapter.snapshot()[position] ?: return@setOnItemClickListener
             val url = "$SUNNY_BEACH_QA_URL_PRE${item.wendaComment.wendaId}"
             BrowserActivity.start(requireContext(), url)
         }
@@ -79,7 +79,7 @@ class UserQaListFragment : AppFragment<AppActivity>(), StatusAction {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mQaListAdapter.removeLoadStateListener(loadStateListener)
+        mUserQaListAdapter.removeLoadStateListener(loadStateListener)
     }
 
     companion object {

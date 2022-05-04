@@ -1,7 +1,11 @@
 package cn.cqautotest.sunnybeach.http
 
+import cn.cqautotest.sunnybeach.http.api.sob.ISobApi
+import cn.cqautotest.sunnybeach.http.api.weather.ICaiYunApi
 import cn.cqautotest.sunnybeach.manager.LocalCookieManager
 import cn.cqautotest.sunnybeach.util.BASE_URL
+import cn.cqautotest.sunnybeach.util.CAI_YUN_BASE_URL
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_API_BASE_URL
 import cn.cqautotest.sunnybeach.util.unicodeToString
 import com.hjq.gson.factory.GsonFactory
 import okhttp3.OkHttpClient
@@ -25,25 +29,37 @@ object ServiceCreator {
             it.setLevel(HttpLoggingInterceptor.Level.BODY)
         }
     }
-    val accountInterceptor by lazy { AccountInterceptor() }
-
-    private var cookieManager = LocalCookieManager.get()
+    private val accountInterceptor by lazy { AccountInterceptor() }
+    private val cookieManager = LocalCookieManager.get()
 
     val client by lazy {
         OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
             .addInterceptor(accountInterceptor)
+            .addInterceptor(loggingInterceptor)
             .cookieJar(cookieManager)
             .build()
     }
 
-    val retrofit: Retrofit by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(GsonFactory.getSingletonGson()))
-            .client(client)
-            .build()
-    }
+    private fun createRetrofit(block: Retrofit.Builder.() -> Retrofit.Builder) = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create(GsonFactory.getSingletonGson()))
+        .client(client)
+        .run(block)
+        .build()
 
-    inline fun <reified T> create(): T = retrofit.create(T::class.java)
+    val sobRetrofit: Retrofit = createRetrofit { baseUrl(SUNNY_BEACH_API_BASE_URL) }
+
+    val caiYunRetrofit: Retrofit = createRetrofit { baseUrl(CAI_YUN_BASE_URL) }
+
+    val otherRetrofit: Retrofit = createRetrofit { baseUrl(BASE_URL) }
+
+    inline fun <reified T> create(): T {
+        // Create request Api instance with different Retrofit instance according to Api type, generic type T cannot be null.
+        val clazz = T::class.java
+        val api = when {
+            ISobApi::class.java.isAssignableFrom(clazz) -> sobRetrofit.create(clazz)
+            ICaiYunApi::class.java.isAssignableFrom(clazz) -> caiYunRetrofit.create(clazz)
+            else -> otherRetrofit.create(clazz)
+        }
+        return api
+    }
 }

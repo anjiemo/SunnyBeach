@@ -35,8 +35,6 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
     PagingDataAdapter<Fish.FishItem, FishListAdapter.FishListViewHolder>(FishDiffCallback()),
     SimpleGridLayout.OnNineGridClickListener {
 
-    private val mStateList = arrayListOf<Boolean>()
-
     class FishDiffCallback : DiffUtil.ItemCallback<Fish.FishItem>() {
         override fun areItemsTheSame(
             oldItem: Fish.FishItem,
@@ -67,15 +65,6 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
 
     inner class FishListViewHolder(val binding: FishPondListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        addOnPagesUpdatedListener {
-            mStateList.clear()
-            val itemCount = snapshot().size
-            mStateList.addAll(Array(itemCount) { false })
-        }
-    }
 
     override fun onViewAttachedToWindow(holder: FishListViewHolder) {
         super.onViewAttachedToWindow(holder)
@@ -139,8 +128,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         val content = item.content
         // 设置默认表情符号解析器
         tvContent.setDefaultEmojiParser()
-        tvContent.text =
-            content.parseAsHtml(imageGetter = EmojiImageGetter(tvContent.textSize.toInt()))
+        tvContent.text = content.parseAsHtml(imageGetter = EmojiImageGetter(tvContent.textSize.toInt()))
         tvContent.customSelectionActionModeCallback = object : ActionMode.Callback {
             override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 menu?.clear()

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.cqautotest.sunnybeach.widget.RoundRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_210"
+    app:rlRadius="@dimen/dp_10">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <com.hjq.shape.view.ShapeImageView
+            android:id="@+id/iv_cover"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_120"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shape_topLeftRadius="@dimen/dp_10"
+            app:shape_topRightRadius="@dimen/dp_10"
+            tools:srcCompat="@drawable/example_bg" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:ellipsize="end"
+            android:lines="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_cover" />
+
+        <cn.cqautotest.sunnybeach.widget.AvatarDecorView
+            android:id="@+id/iv_avatar"
+            android:layout_width="@dimen/dp_46"
+            android:layout_height="@dimen/dp_46"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/avatar_circle_vip_ic"
+            android:backgroundTint="#CDFFD700"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+        <TextView
+            android:id="@+id/tv_nick_name"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:lines="1"
+            app:layout_constraintEnd_toEndOf="@id/tv_title"
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
+            app:layout_constraintTop_toTopOf="@id/iv_avatar" />
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/slv_price"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            android:text="¥ 49.9"
+            android:textColor="#007BFF"
+            app:layout_constraintEnd_toEndOf="@id/tv_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_nick_name"
+            app:shape_radius="@dimen/dp_99"
+            app:shape_solidColor="#F1F8FF" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</cn.cqautotest.sunnybeach.widget.RoundRelativeLayout>

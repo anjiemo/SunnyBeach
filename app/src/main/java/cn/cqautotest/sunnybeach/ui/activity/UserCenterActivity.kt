@@ -49,25 +49,18 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             setRefreshHeader(headerWrapper)
             setEnableLoadMore(false)
             setHeaderHeight(60f)
+            // 此处 回弹动画时长 不能设置为 0，否则将无法正常回弹
+            setReboundDuration(1)
             setOnRefreshListener {
                 finishRefresh(0)
             }
         }
     }
 
-    private fun checkAllowance(block: (isGetAllowance: Boolean) -> Unit = {}) {
-        val tvGetAllowance = mBinding.tvGetAllowance
+    private fun checkAllowance() {
         mUserViewModel.checkAllowance().observe(this) {
             val isGetAllowance = it.getOrNull() ?: return@observe
-            tvGetAllowance.text = if (isGetAllowance) "已领取" else getDefaultAllowanceTips()
-            tvGetAllowance.isEnabled = isGetAllowance.not()
-            takeIf { isGetAllowance }?.let {
-                val disableTextColor = ContextCompat.getColor(this, R.color.btn_text_disable_color)
-                tvGetAllowance.setTextColor(disableTextColor)
-                val disableBgColor = ContextCompat.getColor(this, R.color.btn_bg_disable_color)
-                tvGetAllowance.setRoundRectBg(disableBgColor, 3.dp)
-            }
-            block.invoke(isGetAllowance)
+            setupAllowanceUI(isGetAllowance)
         }
     }
 
@@ -161,20 +154,22 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
 
     private fun getAllowance() {
         mUserViewModel.getAllowance().observe(this) { result ->
-            result.getOrNull()?.let {
-                val tvGetAllowance = mBinding.tvGetAllowance
-                tvGetAllowance.text = "已领取"
-                tvGetAllowance.isEnabled = it.not()
-                val disableTextColor = ContextCompat.getColor(this, R.color.btn_text_disable_color)
-                tvGetAllowance.setTextColor(disableTextColor)
-                val disableBgColor = ContextCompat.getColor(this, R.color.btn_bg_disable_color)
-                tvGetAllowance.setRoundRectBg(disableBgColor, 3.dp)
-                checkAllowance { isGetAllowance ->
-                    takeIf { isGetAllowance }?.let {
-                        simpleToast("当月津贴已领取")
-                    }
-                }
-            }
+            val isGetAllowance = result.getOrNull()
+            if (isGetAllowance == true) simpleToast("当月津贴已领取")
+            isGetAllowance ?: return@observe
+            setupAllowanceUI(isGetAllowance)
+        }
+    }
+
+    private fun setupAllowanceUI(isGetAllowance: Boolean) {
+        val tvGetAllowance = mBinding.tvGetAllowance
+        tvGetAllowance.text = if (isGetAllowance) "已领取" else getDefaultAllowanceTips()
+        tvGetAllowance.isEnabled = isGetAllowance.not()
+        takeIf { isGetAllowance }?.let {
+            val disableTextColor = ContextCompat.getColor(this, R.color.btn_text_disable_color)
+            tvGetAllowance.setTextColor(disableTextColor)
+            val disableBgColor = ContextCompat.getColor(this, R.color.btn_bg_disable_color)
+            tvGetAllowance.setRoundRectBg(disableBgColor, 3.dp)
         }
     }
 
