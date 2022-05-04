@@ -15,8 +15,8 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
-import cn.cqautotest.sunnybeach.http.api.GetCodeApi
-import cn.cqautotest.sunnybeach.http.api.PhoneApi
+import cn.cqautotest.sunnybeach.http.api.other.GetCodeApi
+import cn.cqautotest.sunnybeach.http.api.other.PhoneApi
 import cn.cqautotest.sunnybeach.http.model.HttpData
 import cn.cqautotest.sunnybeach.manager.InputTextManager
 import cn.cqautotest.sunnybeach.ui.dialog.TipsDialog

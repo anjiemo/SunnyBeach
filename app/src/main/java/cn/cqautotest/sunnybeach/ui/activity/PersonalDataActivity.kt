@@ -8,7 +8,7 @@ import android.widget.ImageView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
-import cn.cqautotest.sunnybeach.http.api.UpdateImageApi
+import cn.cqautotest.sunnybeach.http.api.other.UpdateImageApi
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.http.model.HttpData
 import cn.cqautotest.sunnybeach.ui.dialog.AddressDialog

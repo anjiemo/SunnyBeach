@@ -29,6 +29,8 @@ android {
         buildConfigField('String', 'BUGLY_ID', '"' + BUGLY_ID + '"')
         // 测试服务器的主机地址
         buildConfigField('String', 'HOST_URL', '"' + HOST_URL + '"')
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     // Apk 签名的那些事：https://www.jianshu.com/p/a1f8e5896aa2
@@ -150,6 +152,11 @@ dependencies {
     // 友盟封装
     implementation project(':library:umeng')
 
+    // 单元测试
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.activity:activity-ktx:1.4.0'
     implementation 'androidx.fragment:fragment-ktx:1.3.6'
@@ -202,7 +209,7 @@ dependencies {
     implementation 'com.github.getActivity:GsonFactory:5.2'
 
     // Shape 框架：https://github.com/getActivity/ShapeView
-    // implementation 'com.github.getActivity:ShapeView:6.0'
+    // implementation 'com.github.getActivity:ShapeView:6.2'
 
     // AOP 插件库：https://mvnrepository.com/artifact/org.aspectj/aspectjrt
     implementation 'org.aspectj:aspectjrt:1.9.6'
@@ -248,7 +255,7 @@ dependencies {
     // 悬浮窗：https://github.com/getActivity/XToast
     // 日志输出：https://github.com/getActivity/Logcat
     // 工具类：https://github.com/Blankj/AndroidUtilCode
-    implementation 'com.blankj:utilcodex:1.30.6'
+    implementation 'com.blankj:utilcodex:1.31.0'
     // 轮播图：https://github.com/bingoogolapple/BGABanner-Android
     // 二维码：https://github.com/bingoogolapple/BGAQRCode-Android
     // 跑马灯：https://github.com/sunfusheng/MarqueeView
@@ -286,7 +293,7 @@ dependencies {
     // implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
 
     // 使用 Android ViewBinding 更简单：https://github.com/androidbroadcast/ViewBindingPropertyDelegate
-    implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.0-beta01'
+    implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.3'
     // Longan 是一个简化 Android 开发的 Kotlin 工具类集合，可以使代码更加简洁易读：https://github.com/DylanCaiCoding/Longan
     implementation 'com.github.DylanCaiCoding.Longan:longan:1.0.0'
     // Optional
@@ -315,10 +322,6 @@ dependencies {
     implementation 'com.huawei.hms:scan:2.4.0.301'
 
     // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
-    implementation "com.google.dagger:hilt-android:2.40.5"
-    kapt "com.google.dagger:hilt-android-compiler:2.40.5"
-}
-
-kapt {
-    correctErrorTypes false
+    implementation "com.google.dagger:hilt-android:2.41"
+    kapt "com.google.dagger:hilt-android-compiler:2.41"
 }

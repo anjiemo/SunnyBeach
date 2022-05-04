@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.api.PhotoApi
+import cn.cqautotest.sunnybeach.http.api.photo.PhotoApi
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import timber.log.Timber
 

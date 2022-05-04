@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,11 +20,11 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.ImageChooseItemBinding
 import cn.cqautotest.sunnybeach.databinding.PutFishActivityBinding
+import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog
 import cn.cqautotest.sunnybeach.util.*
-import cn.cqautotest.sunnybeach.viewmodel.app.Repository
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.util.ConvertUtils
@@ -85,8 +86,10 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
 
     @SuppressLint("SetTextI18n")
     override fun initEvent() {
+        val etInputContent = mBinding.etInputContent
+        etInputContent.requestFocus()
         postDelayed({
-            showKeyboard(mBinding.etInputContent)
+            showKeyboard(etInputContent)
         }, 200)
         mBinding.rlChooseFishPond.setFixOnClickListener {
             // 选择鱼塘
@@ -110,10 +113,12 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             val keyboardIsShowing = KeyboardUtils.isSoftInputVisible(this)
             if (keyboardIsShowing) {
                 postDelayed({
+                    val keyboardHeight = mBinding.keyboardLayout.keyboardHeight
                     mBinding.rvEmojiList.isVisible = true
-                    mBinding.rvEmojiList.layoutParams =
-                        LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 310.dp)
-                }, 200)
+                    mBinding.rvEmojiList.updateLayoutParams {
+                        height = keyboardHeight
+                    }
+                }, 100)
                 hideKeyboard()
             } else {
                 mBinding.rvEmojiList.isVisible = false
@@ -129,13 +134,12 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                 .into(mBinding.ivEmoji)
         }
         mBinding.rvEmojiList.setOnEmojiClickListener { emoji, _ ->
-            val etInputContent = mBinding.etInputContent
             val cursor = etInputContent.selectionStart
             etInputContent.text.insert(cursor, emoji)
         }
         mBinding.ivImage.setFixOnClickListener {
             // 选择图片，跳转至图片选择界面
-            ImageSelectActivity.start(this, 9, this)
+            ImageSelectActivity.start(this, MAX_SELECT_IMAGE_COUNT, this)
         }
         mBinding.ivLink.setFixOnClickListener {
             // 弹出链接输入对话框，添加 url 链接
@@ -156,18 +160,15 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         }
         val clMenuContainer = mBinding.clMenuContainer
         mBinding.keyboardLayout.setKeyboardListener { isActive, keyboardHeight ->
-            val height = if (isActive) {
+            if (isActive) {
                 mBinding.rvEmojiList.isVisible = false
-                keyboardHeight
-            } else {
-                -(clMenuContainer.height + 10.dp)
             }
             val layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
-            val realHeight = height + clMenuContainer.height + 10.dp
-            layoutParams.bottomMargin = realHeight
+            Timber.d("initEvent：===> keyboardHeight is $keyboardHeight")
+            layoutParams.bottomMargin = keyboardHeight
             clMenuContainer.layoutParams = layoutParams
         }
         val normalColor = Color.parseColor("#CBD0D3")
@@ -193,7 +194,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     }
 
     override fun onRightClick(titleBar: TitleBar) {
-        val view = titleBar?.rightView
+        val view = titleBar.rightView
         view?.isEnabled = false
         // 校验内容是否合法，发布信息
         val inputLength = mBinding.etInputContent.length()
@@ -267,7 +268,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                 hideDialog()
                 view?.isEnabled = true
                 it.getOrElse { throwable ->
-                    simpleToast("发布失败😭 $throwable")
+                    simpleToast("发布失败😭 ${throwable.message}")
                     return@observe
                 }
                 // 重置界面状态
@@ -327,6 +328,8 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     }
 
     companion object {
+
+        private const val MAX_SELECT_IMAGE_COUNT = 9
 
         // 图片文件大小的阈值（4MB）
         private const val IMAGE_FILE_MAX_SIZE = 4 * MemoryConstants.MB

@@ -55,7 +55,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <EditText
@@ -63,18 +63,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:drawableTint="@color/blue"
                 android:focusableInTouchMode="true"
                 android:gravity="top|start"
                 android:hint="告诉你个小秘密，输入的内容不能少于5个字符哦~"
                 android:inputType="textMultiLine"
-                android:minHeight="120dp"
-                android:padding="10dp" />
+                android:minLines="8"
+                android:padding="10dp"
+                app:drawableTint="@color/blue" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_preview_image"
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:padding="4dp"

@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.di
 
 import android.content.Context
 import cn.cqautotest.sunnybeach.app.AppApplication
+import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import com.blankj.utilcode.util.GsonUtils
 import com.google.gson.Gson
 import dagger.Module
@@ -19,4 +20,7 @@ object SingletonModule {
 
     @Provides
     fun provideApplication(@ApplicationContext context: Context): AppApplication = context.applicationContext as AppApplication
+
+    @Provides
+    fun provideAppViewModel(): AppViewModel = AppViewModel.getAppViewModel()
 }

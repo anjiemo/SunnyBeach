@@ -3,7 +3,7 @@ package cn.cqautotest.sunnybeach.model
 import com.google.gson.annotations.SerializedName
 
 /**
- * 推荐
+ * 文章推荐
  */
 data class ArticleInfo(
     @SerializedName("currentPage")
