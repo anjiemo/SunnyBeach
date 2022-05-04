@@ -20,7 +20,7 @@ Kotlin、Glide、EasyHttp、Retrofit、OkHttp、BRVAH、XXPermissions、AndroidU
 
 #### 项目截图
 
-| <div style="width:33%"></div> | <div style="width:33%"></div> | <div style="width:33%"></div> |
+|  |  |  |
 | --- | --- | --- |
 | ![](./picture/sunnybeach/注册.png) | ![](./picture/sunnybeach/登录.png) | ![](./picture/sunnybeach/忘记密码1.png) |
 | ![](./picture/sunnybeach/忘记密码2.png) | ![](./picture/sunnybeach/我.png) | ![](./picture/sunnybeach/用户中心.png) |
@@ -40,10 +40,13 @@ Kotlin、Glide、EasyHttp、Retrofit、OkHttp、BRVAH、XXPermissions、AndroidU
 | ![](./picture/sunnybeach/摸鱼详情-评论.png) | ![](./picture/sunnybeach/摸鱼详情-表情评论.png) | ![](./picture/sunnybeach/摸鱼详情-摸鱼分享.png) |
 | ![](./picture/sunnybeach/发布摸鱼.png) | ![](./picture/sunnybeach/发布摸鱼-图片选择.png) | ![](./picture/sunnybeach/发布摸鱼-鱼塘选择.png) |
 | ![](./picture/sunnybeach/问答.png) | ![](./picture/sunnybeach/文章.png) | ![](./picture/sunnybeach/课程.png) |
-| ![](./picture/sunnybeach/课程详情.png) | ![](./picture/sunnybeach/课程视频播放.png) | ![](./picture/sunnybeach/扫码.png) |
-| ![](./picture/sunnybeach/问答-问题详情.png) | ![](./picture/sunnybeach/文章详情.png) | ![](./picture/sunnybeach/文章详情-代码块.png) |
-| ![](./picture/sunnybeach/文章详情-打赏.png) | ![](./picture/sunnybeach/文章详情-评论.png) | ![](./picture/sunnybeach/文章详情-文章推荐.png) |
-| ![](./picture/sunnybeach/文章详情-文章分享.png) | ![](./picture/sunnybeach/闪屏界面.png) |  |
+| ![](./picture/sunnybeach/课程详情.png) | ![](./picture/sunnybeach/扫码.png) | ![](./picture/sunnybeach/问答-问题详情.png) |
+| ![](./picture/sunnybeach/文章详情.png) | ![](./picture/sunnybeach/文章详情-代码块.png) | ![](./picture/sunnybeach/文章详情-打赏.png) |
+| ![](./picture/sunnybeach/文章详情-评论.png) | ![](./picture/sunnybeach/文章详情-文章推荐.png) | ![](./picture/sunnybeach/文章详情-文章分享.png) |
+| ![](./picture/sunnybeach/闪屏界面.png) |  |  |
+
+![](./picture/sunnybeach/课程视频播放.png)
+
 
 #### 如果您觉得我的这个项目对你有帮助，请扫描下方的二维码随意打赏，要是能打赏个 10.24 :monkey_face:就太:thumbsup:了。您的支持将鼓励我继续创作:octocat:
 
