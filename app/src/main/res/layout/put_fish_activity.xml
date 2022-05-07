@@ -142,8 +142,7 @@
     <cn.cqautotest.sunnybeach.widget.EmojiListView
         android:id="@+id/rv_emoji_list"
         android:layout_width="match_parent"
-        android:layout_height="310dp"
-        android:visibility="gone"
+        android:layout_height="@dimen/dp_200"
         app:layout_constraintTop_toBottomOf="@id/iv_emoji" />
 
     <cn.cqautotest.sunnybeach.widget.KeyboardLayout

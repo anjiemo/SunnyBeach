@@ -10,7 +10,19 @@ import android.graphics.drawable.GradientDrawable
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
+import androidx.annotation.Px
+import androidx.core.view.WindowInsetsCompat
 import com.blankj.utilcode.util.TouchUtils
+import com.dylanc.longan.rootWindowInsetsCompat
+
+/**
+ * 请求获取软键盘的高度
+ */
+@Px
+fun View.requireKeyboardHeight(): Int {
+    val insets = rootWindowInsetsCompat?.getInsets(WindowInsetsCompat.Type.ime()) ?: return 0
+    return insets.bottom - insets.top
+}
 
 /**
  * 设置哀悼风格
@@ -31,7 +43,7 @@ fun View.removeMourningStyle() {
 }
 
 @JvmOverloads
-fun View.setRoundRectBg(color: Int = Color.WHITE, cornerRadius: Int = 15.dp) {
+fun View.setRoundRectBg(color: Int = Color.WHITE, @Px cornerRadius: Int = 15.dp) {
     background = GradientDrawable().apply {
         setColor(color)
         setCornerRadius(cornerRadius.toFloat())

@@ -22,7 +22,6 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.other.IntentKey
-import cn.cqautotest.sunnybeach.other.KeyboardWatcher
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
@@ -30,7 +29,6 @@ import cn.cqautotest.sunnybeach.ui.adapter.FishPondDetailCommentListAdapter
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.ui.fragment.SubmitCommentFragment
 import cn.cqautotest.sunnybeach.util.*
-import cn.cqautotest.sunnybeach.viewmodel.KeyboardViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
 import cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -46,12 +44,10 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/07/11
  * desc   : 鱼塘详情页
  */
-class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGridLayout.OnNineGridClickListener,
-    KeyboardWatcher.SoftKeyboardStateListener {
+class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGridLayout.OnNineGridClickListener {
 
     private val mBinding: FishPondDetailActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
-    private val mKeyboardViewModel by viewModels<KeyboardViewModel>()
     private val mAdapterDelegate = AdapterDelegate()
     private val mFishListAdapter = FishListAdapter(AdapterDelegate(), true)
     private val mFishPondDetailCommendListAdapter = FishPondDetailCommentListAdapter(mAdapterDelegate)
@@ -72,20 +68,6 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGridLayout.OnN
             adapter = concatAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
         }
-
-        postDelayed({
-            KeyboardWatcher.with(this)
-                .setListener(this)
-        }, 500)
-    }
-
-    override fun onSoftKeyboardOpened(keyboardHeight: Int) {
-        mKeyboardViewModel.showKeyboard()
-        mKeyboardViewModel.setKeyboardHeight(keyboardHeight)
-    }
-
-    override fun onSoftKeyboardClosed() {
-        mKeyboardViewModel.hideKeyboard()
     }
 
     private fun safeShowFragment(targetUserName: String) {

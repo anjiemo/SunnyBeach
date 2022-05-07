@@ -7,9 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.LinearLayout
 import androidx.activity.viewModels
-import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
@@ -29,9 +27,9 @@ import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.FileUtils
-import com.blankj.utilcode.util.KeyboardUtils
 import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
+import com.gyf.immersionbar.ImmersionBar
 import com.hjq.bar.TitleBar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -88,9 +86,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     override fun initEvent() {
         val etInputContent = mBinding.etInputContent
         etInputContent.requestFocus()
-        postDelayed({
-            showKeyboard(etInputContent)
-        }, 200)
+        postDelayed({ showKeyboard(etInputContent) }, 100)
         mBinding.rlChooseFishPond.setFixOnClickListener {
             // 选择鱼塘
             startActivityForResult(FishPondSelectionActivity::class.java) { resultCode, data ->
@@ -109,26 +105,23 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             }
         }
         mBinding.ivEmoji.setFixOnClickListener {
-            // 选择表情，弹出表情选择列表
-            val keyboardIsShowing = KeyboardUtils.isSoftInputVisible(this)
-            if (keyboardIsShowing) {
-                postDelayed({
-                    val keyboardHeight = mBinding.keyboardLayout.keyboardHeight
-                    mBinding.rvEmojiList.isVisible = true
-                    mBinding.rvEmojiList.updateLayoutParams {
-                        height = keyboardHeight
-                    }
-                }, 100)
-                hideKeyboard()
-            } else {
-                mBinding.rvEmojiList.isVisible = false
-                showKeyboard(mBinding.etInputContent)
+            // 键盘显示的时候隐藏表情列表，键盘隐藏的时候显示表情列表
+            toggleSoftInput(etInputContent)
+        }
+        mBinding.keyboardLayout.setKeyboardListener { isActive, _ ->
+            val navigationBarHeight = ImmersionBar.getNavigationBarHeight(this)
+            Timber.d("initEvent：===> navigationBarHeight is $navigationBarHeight")
+
+            val keyboardHeight = etInputContent.requireKeyboardHeight()
+            Timber.d("initEvent：===> keyboardHeight is $keyboardHeight")
+            val rvEmojiList = mBinding.rvEmojiList
+            if (isActive) {
+                rvEmojiList.updateLayoutParams {
+                    // 此处应该减去底部导航栏的高度，否则在经典导航栏模式下高度过剩
+                    height = keyboardHeight - navigationBarHeight
+                }
             }
-            val emojiIcon = if (keyboardIsShowing) {
-                R.mipmap.ic_keyboard
-            } else {
-                R.mipmap.ic_emoji_normal
-            }
+            val emojiIcon = if (isActive) R.mipmap.ic_emoji_normal else R.mipmap.ic_keyboard
             Glide.with(this)
                 .load(emojiIcon)
                 .into(mBinding.ivEmoji)
@@ -157,19 +150,6 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             mBinding.keyboardLayout.postDelayed({
                 window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
             }, 250)
-        }
-        val clMenuContainer = mBinding.clMenuContainer
-        mBinding.keyboardLayout.setKeyboardListener { isActive, keyboardHeight ->
-            if (isActive) {
-                mBinding.rvEmojiList.isVisible = false
-            }
-            val layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            Timber.d("initEvent：===> keyboardHeight is $keyboardHeight")
-            layoutParams.bottomMargin = keyboardHeight
-            clMenuContainer.layoutParams = layoutParams
         }
         val normalColor = Color.parseColor("#CBD0D3")
         val overflowColor = Color.RED
