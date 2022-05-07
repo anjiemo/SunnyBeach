@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.util
 import android.graphics.Rect
 import android.view.View
 import androidx.annotation.CallSuper
+import androidx.annotation.Px
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -15,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
  */
 open class SimpleLinearSpaceItemDecoration(
     // 单位间距（实际间距的一半）
-    private val unit: Int = 2.dp
+    @Px private val unit: Int = 2.dp
 ) : RecyclerView.ItemDecoration() {
 
     @CallSuper

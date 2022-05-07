@@ -180,7 +180,7 @@ class AppApplication : Application(), Configuration.Provider {
             }
 
             // 初始化日志打印
-            if (AppConfig.isLogEnable().not()) {
+            if (AppConfig.isLogEnable()) {
                 Timber.plant(DebugLoggerTree())
             }
 

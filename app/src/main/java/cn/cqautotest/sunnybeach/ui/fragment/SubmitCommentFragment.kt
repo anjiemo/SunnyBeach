@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import cn.cqautotest.sunnybeach.R
@@ -20,17 +21,15 @@ import cn.cqautotest.sunnybeach.databinding.SubmitCommendIncludeBinding
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
-import cn.cqautotest.sunnybeach.util.setDefaultEmojiParser
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import cn.cqautotest.sunnybeach.util.simpleToast
-import cn.cqautotest.sunnybeach.util.textString
-import cn.cqautotest.sunnybeach.viewmodel.KeyboardViewModel
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.gyf.immersionbar.ImmersionBar
 import com.hjq.base.BottomSheetDialog
 import com.hjq.base.action.KeyboardAction
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -44,12 +43,14 @@ class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction,
     private var _binding: SubmitCommendIncludeBinding? = null
     private val mBinding: SubmitCommendIncludeBinding get() = _binding!!
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
-    private val mKeyboardViewModel by activityViewModels<KeyboardViewModel>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext())
         _binding = SubmitCommendIncludeBinding.inflate(layoutInflater)
-        dialog.setContentView(mBinding.root)
+        val contentView = mBinding.root
+        dialog.setContentView(contentView)
+        val navigationBarHeight = ImmersionBar.getNavigationBarHeight(this)
+        contentView.updatePadding(0, 0, 0, navigationBarHeight)
         val bottomSheetBehavior = dialog.getBottomSheetBehavior()
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         onCreateDialogView()
@@ -163,30 +164,23 @@ class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction,
         val etInputContent = mBinding.etInputContent
         val flPanelContainer = mBinding.flPanelContainer
         val rvEmojiList = mBinding.rvEmojiList
-        mKeyboardViewModel.keyboardHeightLiveData.observe(this) {
-            flPanelContainer.updateLayoutParams {
-                height = it
+        mBinding.keyboardLayout.setKeyboardListener { isActive, _ ->
+            val navigationBarHeight = ImmersionBar.getNavigationBarHeight(this)
+            Timber.d("initEvent：===> navigationBarHeight is $navigationBarHeight")
+
+            val keyboardHeight = etInputContent.requireKeyboardHeight()
+            Timber.d("initEvent：===> keyboardHeight is $keyboardHeight")
+            if (isActive) {
+                flPanelContainer.updateLayoutParams {
+                    // 此处应该减去底部导航栏的高度，否则在经典导航栏模式下高度过剩
+                    height = keyboardHeight - navigationBarHeight
+                }
             }
-        }
-        mKeyboardViewModel.keyboardStateLiveData.observe(this) { keyboardIsShowing ->
-            rvEmojiList.isVisible = !keyboardIsShowing
-            val emojiIcon = if (keyboardIsShowing) {
-                R.mipmap.ic_emoji_normal
-            } else {
-                R.mipmap.ic_keyboard
-            }
+            rvEmojiList.isVisible = !isActive
+            val emojiIcon = if (isActive) R.mipmap.ic_emoji_normal else R.mipmap.ic_keyboard
             Glide.with(this)
                 .load(emojiIcon)
                 .into(mBinding.ivEmoji)
-        }
-        mKeyboardViewModel.keyboardStateLiveData.observe(this) { show ->
-            dialog?.window?.decorView?.let {
-                if (show) {
-                    showKeyboard(etInputContent)
-                } else {
-                    hideKeyboard(etInputContent)
-                }
-            }
         }
     }
 
