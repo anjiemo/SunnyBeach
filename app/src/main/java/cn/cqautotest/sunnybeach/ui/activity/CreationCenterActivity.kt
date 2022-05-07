@@ -34,7 +34,7 @@ class CreationCenterActivity : AppActivity() {
     }
 
     override fun initData() {
-        val data = listOf(Pair(0, 0), Pair(0, 0), Pair(0, 0), Pair(0, 0))
+        val data = List(4) { Pair(0, 0) }
         mAchievementAdapter.setData(data)
     }
 
@@ -56,10 +56,13 @@ class CreationCenterActivity : AppActivity() {
         mUserViewModel.getAchievement().observe(this) {
             val userAchievement = it.getOrNull() ?: return@observe
             val data = arrayListOf<Pair<Int, Int>>().apply {
-                add(Pair(userAchievement.atotalView, userAchievement.articleDxView))
-                add(Pair(userAchievement.thumbUpTotal, userAchievement.thumbUpDx))
-                add(Pair(userAchievement.fansCount, userAchievement.fansDx))
-                add(Pair(userAchievement.sob, userAchievement.sobDx))
+                fun add(first: Int, second: Int) {
+                    add(Pair(first, second))
+                }
+                add(userAchievement.atotalView, userAchievement.articleDxView)
+                add(userAchievement.thumbUpTotal, userAchievement.thumbUpDx)
+                add(userAchievement.fansCount, userAchievement.fansDx)
+                add(userAchievement.sob, userAchievement.sobDx)
             }
             mAchievementAdapter.setData(data)
         }

@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
-import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -16,11 +15,9 @@ import cn.cqautotest.sunnybeach.databinding.FishCommendDetailActivityBinding
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.other.IntentKey
-import cn.cqautotest.sunnybeach.other.KeyboardWatcher
 import cn.cqautotest.sunnybeach.ui.adapter.FishCommendDetailListAdapter
 import cn.cqautotest.sunnybeach.ui.fragment.SubmitCommentFragment
 import cn.cqautotest.sunnybeach.util.*
-import cn.cqautotest.sunnybeach.viewmodel.KeyboardViewModel
 import timber.log.Timber
 
 /**
@@ -29,10 +26,9 @@ import timber.log.Timber
  * time   : 2021/09/18
  * desc   : 摸鱼评论列表页
  */
-class FishCommendDetailActivity : AppActivity(), KeyboardWatcher.SoftKeyboardStateListener {
+class FishCommendDetailActivity : AppActivity() {
 
     private val mBinding: FishCommendDetailActivityBinding by viewBinding()
-    private val mKeyboardViewModel by viewModels<KeyboardViewModel>()
     private val mFishCommendDetailListAdapter = FishCommendDetailListAdapter()
 
     override fun getLayoutId(): Int = R.layout.fish_commend_detail_activity
@@ -43,19 +39,6 @@ class FishCommendDetailActivity : AppActivity(), KeyboardWatcher.SoftKeyboardSta
             adapter = mFishCommendDetailListAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
         }
-        postDelayed({
-            KeyboardWatcher.with(this)
-                .setListener(this)
-        }, 500)
-    }
-
-    override fun onSoftKeyboardOpened(keyboardHeight: Int) {
-        mKeyboardViewModel.showKeyboard()
-        mKeyboardViewModel.setKeyboardHeight(keyboardHeight)
-    }
-
-    override fun onSoftKeyboardClosed() {
-        mKeyboardViewModel.hideKeyboard()
     }
 
     @SuppressLint("SetTextI18n")

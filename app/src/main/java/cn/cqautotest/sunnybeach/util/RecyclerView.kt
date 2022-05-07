@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.util
 
 import android.graphics.Rect
 import android.view.View
+import androidx.annotation.Px
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -62,7 +63,7 @@ inline fun RecyclerView.addOnScrollListener(
  * 均分 LinearLayoutManager 间距的便捷方法
  */
 fun equilibriumAssignmentOfLinear(
-    unit: Int,
+    @Px unit: Int,
     outRect: Rect,
     view: View,
     parent: RecyclerView
