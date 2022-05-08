@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.scaleMatrix
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
-import cn.cqautotest.sunnybeach.util.dp
+import cn.cqautotest.sunnybeach.ktx.dp
 import com.blankj.utilcode.util.ImageUtils
 import kotlin.math.sqrt
 

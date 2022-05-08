@@ -12,11 +12,17 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.ViewUserActivityBinding
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.setRoundRectBg
+import cn.cqautotest.sunnybeach.ktx.takeIfLogin
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.other.FriendsStatus
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.fragment.UserMediaFragment
-import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.util.I_LOVE_ANDROID_SITE_BASE_URL
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_SITE_BASE_URL
+import cn.cqautotest.sunnybeach.util.StringUtil
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import timber.log.Timber
 

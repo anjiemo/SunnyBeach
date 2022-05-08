@@ -5,10 +5,10 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.VipIntroFragmentBinding
+import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.ui.activity.CopyActivity
 import cn.cqautotest.sunnybeach.ui.adapter.VipIntroAdapter
-import cn.cqautotest.sunnybeach.util.dp
 
 /**
  *    author : A Lonely Cat

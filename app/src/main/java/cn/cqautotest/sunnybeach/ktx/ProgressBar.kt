@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.util
+package cn.cqautotest.sunnybeach.ktx
 
 import android.content.res.ColorStateList
 import android.widget.ProgressBar

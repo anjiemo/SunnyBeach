@@ -15,11 +15,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.WeatherActivityBinding
+import cn.cqautotest.sunnybeach.ktx.simpleToast
+import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.weather.DailyResponse
 import cn.cqautotest.sunnybeach.model.weather.Weather
 import cn.cqautotest.sunnybeach.model.weather.getSky
-import cn.cqautotest.sunnybeach.util.simpleToast
-import cn.cqautotest.sunnybeach.util.toJson
 import cn.cqautotest.sunnybeach.viewmodel.weather.WeatherViewModel
 
 class WeatherActivity : AppCompatActivity() {

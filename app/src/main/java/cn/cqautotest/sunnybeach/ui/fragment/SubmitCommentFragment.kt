@@ -19,9 +19,9 @@ import cn.cqautotest.sunnybeach.action.CommendAction.Companion.TARGET_USER_NAME
 import cn.cqautotest.sunnybeach.action.Init
 import cn.cqautotest.sunnybeach.databinding.SubmitCommendIncludeBinding
 import cn.cqautotest.sunnybeach.execption.ServiceException
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
-import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior

@@ -9,12 +9,12 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.MessageCenterActivityBinding
+import cn.cqautotest.sunnybeach.ktx.createDefaultStyleBadge
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.startActivity
+import cn.cqautotest.sunnybeach.ktx.takeIfLogin
 import cn.cqautotest.sunnybeach.model.msg.UnReadMsgCount
 import cn.cqautotest.sunnybeach.ui.activity.msg.*
-import cn.cqautotest.sunnybeach.util.createDefaultStyleBadge
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import cn.cqautotest.sunnybeach.util.startActivity
-import cn.cqautotest.sunnybeach.util.takeIfLogin
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils

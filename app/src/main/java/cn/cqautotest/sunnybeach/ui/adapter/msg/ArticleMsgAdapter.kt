@@ -7,9 +7,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.ArticleMsgListItemBinding
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.msg.ArticleMsg
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.blankj.utilcode.util.TimeUtils
 
 /**
@@ -55,7 +55,6 @@ class ArticleMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvDesc = binding.tvDesc
         val tvReplyMsg = binding.tvReplyMsg
         val tvChildReplyMsg = binding.tvChildReplyMsg
-        val context = itemView.context
         val item = getItem(position) ?: return
         itemView.setFixOnClickListener {
             adapterDelegate.onItemClick(it, position)

@@ -15,11 +15,11 @@ import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.PasswordModifyActivityBinding
+import cn.cqautotest.sunnybeach.ktx.lowercaseMd5
 import cn.cqautotest.sunnybeach.manager.InputTextManager
 import cn.cqautotest.sunnybeach.model.User
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.dialog.TipsDialog
-import cn.cqautotest.sunnybeach.util.lowercaseMd5
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 
 /**
