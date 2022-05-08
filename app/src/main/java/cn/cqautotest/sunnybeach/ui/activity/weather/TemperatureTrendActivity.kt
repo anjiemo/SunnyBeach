@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Intent
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.ktx.fromJson
 import cn.cqautotest.sunnybeach.model.weather.DailyResponse
-import cn.cqautotest.sunnybeach.util.fromJson
 import timber.log.Timber
 
 class TemperatureTrendActivity : AppActivity() {

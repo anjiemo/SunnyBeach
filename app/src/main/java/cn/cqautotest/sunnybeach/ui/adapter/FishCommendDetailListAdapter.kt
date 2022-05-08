@@ -11,13 +11,13 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
+import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.model.UserComment
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.util.DateHelper
-import cn.cqautotest.sunnybeach.util.setDefaultEmojiParser
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 
 /**
  * author : A Lonely Cat

@@ -11,9 +11,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.QaMsgListItemBinding
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.msg.QaMsg
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 
 /**
  * author : A Lonely Cat
@@ -50,7 +50,6 @@ class QaMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvDesc = binding.tvDesc
         val tvReplyMsg = binding.tvReplyMsg
         val tvChildReplyMsg = binding.tvChildReplyMsg
-        val context = itemView.context
         val item = getItem(position) ?: return
         itemView.setFixOnClickListener {
             adapterDelegate.onItemClick(it, position)

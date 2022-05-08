@@ -20,6 +20,7 @@ import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
@@ -264,7 +265,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mBinding.rvFishPondList.scrollToPosition(0)
     }
 
-    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK || data == null) return

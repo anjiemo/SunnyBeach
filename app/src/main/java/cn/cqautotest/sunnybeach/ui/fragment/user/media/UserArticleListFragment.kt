@@ -10,6 +10,8 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.UserArticleListFragmentBinding
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import cn.cqautotest.sunnybeach.model.UserArticle
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
@@ -19,8 +21,6 @@ import cn.cqautotest.sunnybeach.ui.adapter.UserArticleAdapter
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.loadStateListener
 import cn.cqautotest.sunnybeach.viewmodel.ArticleViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.hjq.umeng.Platform

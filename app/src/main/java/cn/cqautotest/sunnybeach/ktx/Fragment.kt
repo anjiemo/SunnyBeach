@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.util
+package cn.cqautotest.sunnybeach.ktx
 
 import androidx.fragment.app.Fragment
 import cn.cqautotest.sunnybeach.execption.NotLoginException

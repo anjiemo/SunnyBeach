@@ -5,10 +5,10 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ui.adapter.EmojiAdapter
 import cn.cqautotest.sunnybeach.util.EmojiMapHelper
 import cn.cqautotest.sunnybeach.util.GridSpaceItemDecoration
-import cn.cqautotest.sunnybeach.util.dp
 
 /**
  * author : A Lonely Cat

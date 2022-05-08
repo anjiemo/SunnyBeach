@@ -19,10 +19,10 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.ImageChooseItemBinding
 import cn.cqautotest.sunnybeach.databinding.PutFishActivityBinding
 import cn.cqautotest.sunnybeach.http.network.Repository
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog
-import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.util.ConvertUtils
@@ -51,21 +51,10 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     private val mBinding: PutFishActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
     private val mPreviewAdapter by lazy { ImagePreviewAdapter() }
-    private val softKeyboardListener = getSoftKeyboardListener()
     private var mTopicId: String? = null
     private var mLinkUrl: String? = null
 
     override fun getLayoutId(): Int = R.layout.put_fish_activity
-
-    override fun initSoftKeyboard() {
-        super.initSoftKeyboard()
-        registerSoftKeyboardListener(softKeyboardListener)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unRegisterSoftKeyboardListener(softKeyboardListener)
-    }
 
     @SuppressLint("SetTextI18n")
     override fun initView() {

@@ -7,9 +7,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.ShareListItemBinding
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.UserShare
 import cn.cqautotest.sunnybeach.util.DateHelper
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 
 /**
  * author : A Lonely Cat

@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.util
+package cn.cqautotest.sunnybeach.ktx
 
 import com.hjq.gson.factory.GsonFactory
 

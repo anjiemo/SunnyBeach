@@ -11,11 +11,15 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.QaListFragmentBinding
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.loadStateListener
+import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
 import cn.cqautotest.sunnybeach.other.QaState
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.QaListAdapter
-import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
+import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.QaViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import kotlinx.coroutines.flow.collectLatest

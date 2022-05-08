@@ -8,9 +8,9 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.EmptyFragmentBinding
+import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
+import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.util.EmojiMapHelper
-import cn.cqautotest.sunnybeach.util.setDefaultEmojiParser
-import cn.cqautotest.sunnybeach.util.simpleToast
 
 /**
  * author : A Lonely Cat

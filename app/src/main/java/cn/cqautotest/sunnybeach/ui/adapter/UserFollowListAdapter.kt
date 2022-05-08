@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.FollowListItemBinding
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.setRoundRectBg
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserFollow
 import cn.cqautotest.sunnybeach.other.FriendsStatus
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import cn.cqautotest.sunnybeach.util.setRoundRectBg
 
 /**
  * author : A Lonely Cat

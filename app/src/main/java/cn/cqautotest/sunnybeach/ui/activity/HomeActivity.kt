@@ -220,7 +220,6 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         }, 300)
     }
 
-    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         pagerAdapter?.getShowFragment()?.onActivityResult(requestCode, resultCode, data)

@@ -9,8 +9,8 @@ import cn.cqautotest.sunnybeach.action.Init
 import cn.cqautotest.sunnybeach.action.TitleBarAction
 import cn.cqautotest.sunnybeach.action.ToastAction
 import cn.cqautotest.sunnybeach.http.model.HttpData
+import cn.cqautotest.sunnybeach.ktx.checkToken
 import cn.cqautotest.sunnybeach.ui.dialog.WaitDialog
-import cn.cqautotest.sunnybeach.util.checkToken
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.bar.TitleBar
 import com.hjq.base.BaseActivity

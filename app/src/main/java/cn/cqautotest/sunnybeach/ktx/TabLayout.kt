@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.util
+package cn.cqautotest.sunnybeach.ktx
 
 import androidx.appcompat.widget.TooltipCompat
 import com.google.android.material.tabs.TabLayout
@@ -14,7 +14,7 @@ fun TabLayout.clearTooltipText() {
     }
 }
 
-fun TabLayout.onTabSelected(block: (tab: TabLayout.Tab?) -> Unit) {
+fun TabLayout.doTabSelected(block: (tab: TabLayout.Tab?) -> Unit) {
     addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
         override fun onTabSelected(tab: TabLayout.Tab?) {
             block.invoke(tab)
