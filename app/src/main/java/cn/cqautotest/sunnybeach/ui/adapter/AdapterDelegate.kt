@@ -3,7 +3,7 @@ package cn.cqautotest.sunnybeach.ui.adapter
 import android.animation.Animator
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import cn.cqautotest.sunnybeach.util.OnItemClickListener
+import cn.cqautotest.sunnybeach.ktx.OnItemClickListener
 import com.chad.library.adapter.base.animation.AlphaInAnimation
 import com.chad.library.adapter.base.animation.BaseAnimation
 

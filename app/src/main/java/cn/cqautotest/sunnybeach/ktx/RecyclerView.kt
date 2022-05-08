@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.util
+package cn.cqautotest.sunnybeach.ktx
 
 import android.graphics.Rect
 import android.view.View
@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
  * @param newState     The updated scroll state. One of {@link #SCROLL_STATE_IDLE},
  *                     {@link #SCROLL_STATE_DRAGGING} or {@link #SCROLL_STATE_SETTLING}.
  */
-fun RecyclerView.doOnScrollStateChanged(action: (recyclerView: RecyclerView, newState: Int) -> Unit): RecyclerView.OnScrollListener =
+fun RecyclerView.doScrollStateChanged(action: (recyclerView: RecyclerView, newState: Int) -> Unit): RecyclerView.OnScrollListener =
     addOnScrollListener(onScrollStateChanged = action)
 
 /**
@@ -28,7 +28,7 @@ fun RecyclerView.doOnScrollStateChanged(action: (recyclerView: RecyclerView, new
  * @param dx           The amount of horizontal scroll.
  * @param dy           The amount of vertical scroll.
  */
-fun RecyclerView.doOnScrolled(action: (recyclerView: RecyclerView, dx: Int, dy: Int) -> Unit): RecyclerView.OnScrollListener =
+fun RecyclerView.doScrolled(action: (recyclerView: RecyclerView, dx: Int, dy: Int) -> Unit): RecyclerView.OnScrollListener =
     addOnScrollListener(onScrolled = action)
 
 /**
@@ -208,9 +208,7 @@ fun RecyclerView.getItemCount(): Int {
 private fun RecyclerView.checkLinearLayoutManager(): LinearLayoutManager? {
     val layoutManager =
         layoutManager ?: return null
-    if (layoutManager !is LinearLayoutManager) {
-        throw IllegalStateException("Make sure you are using the LinearLayoutManager！")
-    }
+    require(layoutManager is GridLayoutManager) { "Make sure you are using the GridLayoutManager！" }
     return layoutManager
 }
 
@@ -220,8 +218,6 @@ private fun RecyclerView.checkLinearLayoutManager(): LinearLayoutManager? {
 private fun RecyclerView.checkGridLayoutManager(): GridLayoutManager? {
     val layoutManager =
         layoutManager ?: return null
-    if (layoutManager !is GridLayoutManager) {
-        throw IllegalStateException("Make sure you are using the GridLayoutManager！")
-    }
+    require(layoutManager is GridLayoutManager) { "Make sure you are using the GridLayoutManager！" }
     return layoutManager
 }

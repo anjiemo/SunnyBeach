@@ -5,11 +5,11 @@ import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppApplication
+import cn.cqautotest.sunnybeach.ktx.fromJson
+import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.util.AUTO_LOGIN
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_USER_BASIC_INFO
-import cn.cqautotest.sunnybeach.util.fromJson
-import cn.cqautotest.sunnybeach.util.toJson
 import com.tencent.mmkv.MMKV
 
 /**

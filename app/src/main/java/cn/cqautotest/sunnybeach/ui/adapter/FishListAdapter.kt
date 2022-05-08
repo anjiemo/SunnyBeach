@@ -15,11 +15,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.FishPondListItemBinding
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
-import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.util.DateHelper
+import cn.cqautotest.sunnybeach.util.EmojiImageGetter
 import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
 import com.blankj.utilcode.util.ResourceUtils
 import com.bumptech.glide.Glide
@@ -92,7 +94,6 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         val ivGreat = binding.listMenuItem.ivGreat
         val tvGreat = binding.listMenuItem.tvGreat
         val llShare = binding.listMenuItem.llShare
-        val ivShare = binding.listMenuItem.ivShare
         val context = itemView.context
         itemView.setFixOnClickListener {
             mItemClickListener.invoke(item, position)

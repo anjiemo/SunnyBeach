@@ -374,10 +374,6 @@
         <activity
             android:name=".ui.activity.FishCommendDetailActivity"
             android:screenOrientation="portrait" />
-        <!-- 评论回复页 -->
-        <activity
-            android:name=".ui.activity.SubmitCommendActivity"
-            android:screenOrientation="portrait" />
         <!-- 消息中心页 -->
         <activity
             android:name=".ui.activity.MessageCenterActivity"

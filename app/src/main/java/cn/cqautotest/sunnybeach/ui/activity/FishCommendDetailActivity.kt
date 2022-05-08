@@ -12,12 +12,14 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.FishCommendDetailActivityBinding
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.FishCommendDetailListAdapter
 import cn.cqautotest.sunnybeach.ui.fragment.SubmitCommentFragment
-import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.util.DateHelper
+import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import timber.log.Timber
 
 /**

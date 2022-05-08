@@ -196,7 +196,6 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
         /**
          * 网页加载错误时回调，这个方法会在 onPageFinished 之前调用
          */
-        @Deprecated("Deprecated in Java")
         override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
             // 这里为什么要用延迟呢？因为加载出错之后会先调用 onReceivedError 再调用 onPageFinished
             post {

@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.SystemMsgListItemBinding
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.msg.SystemMsg
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.blankj.utilcode.util.TimeUtils
 import com.bumptech.glide.Glide
 
@@ -55,7 +55,6 @@ class SystemMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvDesc = binding.tvDesc
         val tvReplyMsg = binding.tvReplyMsg
         val tvChildReplyMsg = binding.tvChildReplyMsg
-        val context = itemView.context
         val item = getItem(position) ?: return
         itemView.setFixOnClickListener {
             adapterDelegate.onItemClick(it, position)

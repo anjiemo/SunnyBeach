@@ -5,6 +5,8 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.Px
 import androidx.recyclerview.widget.RecyclerView
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.equilibriumAssignmentOfLinear
 
 /**
  * @ApplicationName: oa-android

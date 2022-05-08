@@ -19,6 +19,7 @@ import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.ktx.doScrollStateChanged
 import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.ui.activity.CameraActivity.OnCameraListener
 import cn.cqautotest.sunnybeach.ui.adapter.VideoSelectAdapter
@@ -134,15 +135,12 @@ class VideoSelectActivity : AppActivity(), StatusAction, Runnable, BaseAdapter.O
             // 添加分割线
             it.addItemDecoration(GridSpaceDecoration(resources.getDimension(R.dimen.dp_5).toInt()))
             // 设置滚动监听
-            it.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    when (newState) {
-                        RecyclerView.SCROLL_STATE_DRAGGING -> floatingView?.hide()
-                        RecyclerView.SCROLL_STATE_IDLE -> floatingView?.show()
-                    }
+            it.doScrollStateChanged { _, newState ->
+                when (newState) {
+                    RecyclerView.SCROLL_STATE_DRAGGING -> floatingView?.hide()
+                    RecyclerView.SCROLL_STATE_IDLE -> floatingView?.show()
                 }
-            })
+            }
         }
     }
 

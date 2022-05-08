@@ -6,11 +6,11 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.VipListFragmentBinding
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.isEmpty
 import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.ui.activity.CopyActivity
 import cn.cqautotest.sunnybeach.ui.adapter.VipUserListAdapter
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.isEmpty
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout

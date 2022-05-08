@@ -11,14 +11,14 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.CourseListFragmentBinding
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.loadStateListener
+import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
 import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.ui.activity.CourseDetailActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.CourseListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.loadStateListener
-import cn.cqautotest.sunnybeach.util.setDoubleClickListener
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import dagger.hilt.android.AndroidEntryPoint

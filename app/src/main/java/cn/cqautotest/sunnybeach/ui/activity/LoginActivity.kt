@@ -16,6 +16,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.core.widget.doAfterTextChanged
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
@@ -29,7 +30,6 @@ import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.other.KeyboardWatcher
 import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment
 import cn.cqautotest.sunnybeach.util.VERIFY_CODE_URL
-import cn.cqautotest.sunnybeach.util.afterTextChanged
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.wxapi.WXEntryActivity
 import com.blankj.utilcode.util.RegexUtils
@@ -135,24 +135,24 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
     }
 
     override fun initEvent() {
-        phoneView?.afterTextChanged { result: String? ->
+        phoneView?.doAfterTextChanged { result ->
             if (TextUtils.isEmpty(result)) {
                 commitView?.reset()
             }
             if (RegexUtils.isMobileExact(result)) {
-                mUserViewModel.queryUserAvatar(result!!)
+                mUserViewModel.queryUserAvatar(result.toString())
             } else {
                 Glide.with(this)
                     .load(R.mipmap.ic_default_avatar)
                     .into(mBinding.ivLoginLogo)
             }
         }
-        passwordView?.afterTextChanged { result: String? ->
+        passwordView?.doAfterTextChanged { result ->
             if (TextUtils.isEmpty(result)) {
                 commitView?.reset()
             }
         }
-        mBinding.etLoginVerifyCode.afterTextChanged { result: String? ->
+        mBinding.etLoginVerifyCode.doAfterTextChanged { result ->
             if (TextUtils.isEmpty(result)) {
                 commitView?.reset()
             }

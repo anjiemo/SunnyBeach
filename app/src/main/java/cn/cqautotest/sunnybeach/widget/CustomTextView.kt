@@ -9,7 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.view.menu.ActionMenuItem
 import androidx.appcompat.widget.AppCompatTextView
-import cn.cqautotest.sunnybeach.util.dp
+import cn.cqautotest.sunnybeach.ktx.dp
 
 /**
  * author : A Lonely Cat

@@ -10,6 +10,8 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.ArticleListFragmentBinding
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import cn.cqautotest.sunnybeach.model.ArticleInfo
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity
@@ -19,8 +21,6 @@ import cn.cqautotest.sunnybeach.ui.adapter.ArticleAdapter
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.loadStateListener
 import cn.cqautotest.sunnybeach.viewmodel.ArticleViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.hjq.umeng.Platform

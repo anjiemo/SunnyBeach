@@ -8,7 +8,7 @@ import androidx.collection.SparseArrayCompat
 import androidx.collection.set
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.CreationCenterAchievementItemBinding
-import cn.cqautotest.sunnybeach.util.setRoundRectBg
+import cn.cqautotest.sunnybeach.ktx.setRoundRectBg
 import java.text.DecimalFormat
 
 /**

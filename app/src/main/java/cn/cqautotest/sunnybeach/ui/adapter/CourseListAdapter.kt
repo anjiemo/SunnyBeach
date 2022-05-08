@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.CourseListItemBinding
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
+import cn.cqautotest.sunnybeach.ktx.isZero
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.course.Course
-import cn.cqautotest.sunnybeach.util.isZero
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 
 /**
  * author : A Lonely Cat

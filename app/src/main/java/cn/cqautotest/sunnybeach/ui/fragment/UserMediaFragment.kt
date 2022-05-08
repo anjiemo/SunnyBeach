@@ -6,10 +6,10 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.UserMediaFragmentBinding
+import cn.cqautotest.sunnybeach.ktx.clearTooltipText
 import cn.cqautotest.sunnybeach.other.FollowState
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.fragment.user.media.*
-import cn.cqautotest.sunnybeach.util.clearTooltipText
 import com.hjq.base.FragmentPagerAdapter
 
 /**

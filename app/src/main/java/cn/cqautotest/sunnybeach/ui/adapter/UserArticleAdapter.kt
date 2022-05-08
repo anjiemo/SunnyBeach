@@ -9,10 +9,10 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.ArticleListItemBinding
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserArticle
 import cn.cqautotest.sunnybeach.util.DateHelper
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
 
 /**
@@ -89,9 +89,6 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvViewCount = binding.listMenuItem.tvComment
         val tvGreat = binding.listMenuItem.tvGreat
         val llShare = binding.listMenuItem.llShare
-        val ivShare = binding.listMenuItem.ivShare
-        val llGreat = binding.listMenuItem.llGreat
-        val context = itemView.context
         val item = getItem(position) ?: return
         itemView.setFixOnClickListener {
             adapterDelegate.onItemClick(it, position)

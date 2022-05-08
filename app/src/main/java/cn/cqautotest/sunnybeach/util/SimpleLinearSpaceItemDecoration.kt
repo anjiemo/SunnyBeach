@@ -6,6 +6,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.Px
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import cn.cqautotest.sunnybeach.ktx.dp
 
 /**
  * @ApplicationName: oa-android
@@ -27,10 +28,6 @@ open class SimpleLinearSpaceItemDecoration(
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        // item 的个数
-        val itemCount = parent.getItemCount()
-        // 当前 item 的 position
-        val itemPosition = parent.getChildAdapterPosition(view)
         val layoutManager = (parent.layoutManager as? LinearLayoutManager) ?: return
         // 获取 LinearLayoutManager 的布局方向
         val orientation = layoutManager.orientation

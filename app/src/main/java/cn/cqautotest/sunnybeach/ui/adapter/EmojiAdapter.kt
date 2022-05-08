@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.setDefaultEmojiParser
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
 
 /**
  * author : A Lonely Cat

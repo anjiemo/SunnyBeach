@@ -8,8 +8,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import com.bumptech.glide.Glide
 
 /**
