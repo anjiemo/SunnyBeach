@@ -265,88 +265,81 @@
 
             </FrameLayout>
 
-            <androidx.cardview.widget.CardView
+            <com.hjq.shape.layout.ShapeConstraintLayout
+                android:id="@+id/cl_scan_qr_code"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:layout_margin="4dp"
-                app:cardBackgroundColor="@color/pink"
-                app:cardCornerRadius="10dp"
-                app:cardUseCompatPadding="true">
+                android:orientation="vertical"
+                app:shape_radius="@dimen/dp_10"
+                app:shape_solidColor="@color/pink">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_scan_qr_code"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="沙滩证"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_arrows"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/iv_arrows" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="沙滩证"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_arrows"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/iv_arrows" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_qr_code"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_arrows"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/iv_arrows"
+                    app:layout_constraintTop_toTopOf="@id/iv_arrows"
+                    app:tint="@color/white" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:src="@drawable/ic_qr_code"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_arrows"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/iv_arrows"
-                        app:layout_constraintTop_toTopOf="@id/iv_arrows"
-                        app:tint="@color/white" />
+                <ImageView
+                    android:id="@+id/iv_arrows"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="2dp"
+                    android:src="@drawable/arrows_right_ic"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/white" />
 
-                    <ImageView
-                        android:id="@+id/iv_arrows"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="10dp"
-                        android:padding="2dp"
-                        android:src="@drawable/arrows_right_ic"
-                        android:visibility="invisible"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/white" />
+                <TextView
+                    android:id="@+id/tv_sob_id_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="沙滩ID"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/iv_sob_qr_code" />
 
-                    <TextView
-                        android:id="@+id/tv_sob_id_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="沙滩ID"
-                        android:textColor="@color/white"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/iv_sob_qr_code" />
+                <TextView
+                    android:id="@+id/tv_sob_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="@id/tv_sob_id_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_sob_id_title"
+                    tools:text="1204    736    502    274    318    336" />
 
-                    <TextView
-                        android:id="@+id/tv_sob_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:textColor="@color/white"
-                        app:layout_constraintStart_toStartOf="@id/tv_sob_id_title"
-                        app:layout_constraintTop_toBottomOf="@id/tv_sob_id_title"
-                        tools:text="1204    736    502    274    318    336" />
+                <ImageView
+                    android:id="@+id/iv_sob_qr_code"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="20dp"
+                    android:src="@mipmap/ic_default_avatar"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_arrows"
+                    app:layout_constraintVertical_bias="0.3" />
 
-                    <ImageView
-                        android:id="@+id/iv_sob_qr_code"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_marginEnd="20dp"
-                        android:src="@mipmap/ic_default_avatar"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/iv_arrows"
-                        app:layout_constraintVertical_bias="0.3" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
+            </com.hjq.shape.layout.ShapeConstraintLayout>
 
         </LinearLayout>
 

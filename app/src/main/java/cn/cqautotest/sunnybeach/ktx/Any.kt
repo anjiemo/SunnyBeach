@@ -7,5 +7,5 @@ val Any.TAG
 
 fun Any.toJson() = GsonFactory.getSingletonGson().toJson(this)
 
-inline fun <reified T> Any.fromJson(json: String?) =
+inline fun <reified T> fromJson(json: String?) =
     GsonFactory.getSingletonGson().fromJson(json, T::class.java)

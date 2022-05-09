@@ -3,9 +3,12 @@ package cn.cqautotest.sunnybeach.ktx
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.view.LayoutInflater
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
+
+fun Context.asInflater() = LayoutInflater.from(this)
 
 inline fun <reified T : Activity> Context.startActivity(block: Intent.() -> Unit = {}) {
     val context = this
