@@ -3,13 +3,14 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.graphics.Color
 import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
+import android.widget.ImageView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.EmptyFragmentBinding
+import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
-import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.util.EmojiMapHelper
 
 /**
@@ -25,10 +26,17 @@ class EmptyFragment : AppFragment<AppActivity>() {
     override fun getLayoutId(): Int = R.layout.empty_fragment
 
     override fun initView() {
-        mBinding.emptyDescription.setOnItemClickListener { menuItem, position ->
-            simpleToast("我是${menuItem.title}操作菜单，index：$position")
-        }
         mBinding.ivAvatarDecorView.loadAvatar(resource = R.drawable.login_qq_ic, vip = true)
+        mBinding.ivAvatar1.loadAvatar(true, "https://images.sunofbeaches.com/content/2022_01_04/927947264050069504.png")
+        mBinding.ivAvatar2.loadAvatar(true, "https://imgs.sunofbeaches.com/group1/M00/00/0C/rBsADV3w3l6ATs8KAAA8tUB7EHo702.png")
+        mBinding.ivAvatar3.loadAvatar(true, "https://imgs.sunofbeaches.com/group1/M00/00/04/rBsADV2YuTKABc4DAABfJHgYqP8031.png")
+    }
+
+    private fun ImageView.load(o: Any?) {
+        GlideApp.with(this)
+            .load(o)
+            .circleCrop()
+            .into(this)
     }
 
     override fun initData() {

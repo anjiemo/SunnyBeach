@@ -2,11 +2,11 @@ package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
-import android.content.res.Resources
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.text.TextUtils
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.text.parseAsHtml
 import androidx.core.view.isVisible
@@ -23,7 +23,6 @@ import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.EmojiImageGetter
 import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
-import com.blankj.utilcode.util.ResourceUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
@@ -73,7 +72,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
-    @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: FishListAdapter.FishListViewHolder, position: Int) {
         val item = getItem(position) ?: return
         val itemView = holder.itemView
@@ -114,7 +113,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         ivAvatar.loadAvatar(item.vip, item.avatar)
         tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
         tvNickName.text = item.nickname
-        val job = if (item.position.isNullOrEmpty()) "游民" else item.position
+        val job = item.position.ifNullOrEmpty { "游民" }
         tvDesc.text = "$job · " + DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
         tvContent.setTextIsSelectable(false)
         tvContent.apply {
@@ -130,27 +129,6 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         // 设置默认表情符号解析器
         tvContent.setDefaultEmojiParser()
         tvContent.text = content.parseAsHtml(imageGetter = EmojiImageGetter(tvContent.textSize.toInt()))
-        tvContent.customSelectionActionModeCallback = object : ActionMode.Callback {
-            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                menu?.clear()
-                return true
-            }
-
-            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                menu?.clear()
-                menu?.add(Menu.NONE, 21215, 0, "我是自定义的菜单")
-                return true
-            }
-
-            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-                simpleToast(item?.title ?: "")
-                return true
-            }
-
-            override fun onDestroyActionMode(mode: ActionMode?) {
-
-            }
-        }
         val topicName = item.topicName
         val images = item.images
         val imageCount = images.size
@@ -206,17 +184,6 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         ivGreat.imageTintList = ColorStateList.valueOf((if (like) likeColor else defaultColor))
     }
 
-    private fun String?.loadLocalDrawableOrNull(): Drawable? {
-        if (this == null) return null
-        val resId = ResourceUtils.getMipmapIdByName(this)
-        return try {
-            ResourceUtils.getDrawable(resId)
-        } catch (e: Resources.NotFoundException) {
-            e.printStackTrace()
-            null
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = FishPondListItemBinding.inflate(inflater, parent, false)
@@ -241,10 +208,5 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         if (::mOnNineGridClickListener.isInitialized) {
             mOnNineGridClickListener.onNineGridClick(sources, index)
         }
-    }
-
-    companion object {
-
-        private const val EMOJI_PREFIX = "emoji_"
     }
 }

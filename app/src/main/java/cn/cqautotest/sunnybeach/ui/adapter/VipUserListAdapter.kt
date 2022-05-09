@@ -29,8 +29,7 @@ class VipUserListAdapter : RecyclerView.Adapter<VipUserListAdapter.ViewHolder>()
         mListener = listener
     }
 
-    inner class ViewHolder(val binding: VipUserListItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: VipUserListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun binding(item: VipUserInfoSummary, position: Int) {
             binding.ivAvatar.loadAvatar(true, item.avatar)

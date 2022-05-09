@@ -78,9 +78,11 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             mBinding.tvSobId.text = userId.manicured()
 
             val userCenterContent = mBinding.userCenterContent
-            val company = if (personCenterInfo.company.isNullOrEmpty()) "无业" else personCenterInfo.company
+            val company = personCenterInfo.company.ifNullOrEmpty { "无业" }
             userCenterContent.sbSettingCompany.setRightText(company)
-            val job = if (personCenterInfo.position.isNullOrEmpty()) "游民" else personCenterInfo.position
+
+            val job = personCenterInfo.position.ifNullOrEmpty { "游民" }
+
             userCenterContent.sbSettingJob.setRightText(job)
             userCenterContent.sbSettingSkill.setRightText(personCenterInfo.goodAt)
             userCenterContent.sbSettingCoordinate.setRightText(personCenterInfo.area)
@@ -108,7 +110,7 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(mBinding.ivAvatar)
-        mBinding.tvNickName.text = mUserBasicInfo?.nickname ?: "游客"
+        mBinding.tvNickName.text = mUserBasicInfo?.nickname.ifNullOrEmpty { "游客" }
     }
 
     override fun initEvent() {
