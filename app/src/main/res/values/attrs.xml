@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="PileLayout">
+        <!-- 两个子控件之间的垂直间隙-->
+        <attr name="verticalSpaceSize" format="integer" />
+        <!-- 重叠宽度-->
+        <attr name="pileWidth" format="integer" />
+    </declare-styleable>
+
     <declare-styleable name="ListMenuItemContainer">
         <attr name="defaultFirstIcon" format="reference" />
         <attr name="defaultFirstText" format="string" />

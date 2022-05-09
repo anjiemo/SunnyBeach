@@ -1,14 +1,9 @@
 package cn.cqautotest.sunnybeach.ktx
 
 import android.view.View
-import androidx.core.view.get
-import androidx.core.view.size
+import androidx.core.view.forEach
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-fun BottomNavigationView.clearLongClickTips() {
-    val menu = menu
-    for (index in 0 until menu.size) {
-        val menuItem = menu[index]
-        findViewById<View>(menuItem.itemId).setOnLongClickListener { true }
-    }
+fun BottomNavigationView.clearLongClickTips() = menu.forEach {
+    findViewById<View>(it.itemId).setOnLongClickListener { true }
 }

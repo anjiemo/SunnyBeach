@@ -18,8 +18,7 @@ import com.bumptech.glide.Glide
  * time   : 2021/10/22
  * desc   : 鱼塘选择列表的适配器
  */
-class FishPondSelectionAdapter :
-    RecyclerView.Adapter<FishPondSelectionAdapter.FishPondSelectionViewHolder>() {
+class FishPondSelectionAdapter : RecyclerView.Adapter<FishPondSelectionAdapter.FishPondSelectionViewHolder>() {
 
     inner class FishPondSelectionViewHolder(val binding: FishPondSelectionItemBinding) :
         RecyclerView.ViewHolder(binding.root)

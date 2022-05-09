@@ -4,6 +4,10 @@ import com.blankj.utilcode.util.EncryptUtils
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
+fun String?.ifNullOrEmpty(defaultValue: () -> String) = if (isNullOrEmpty()) defaultValue() else this
+
+fun String?.ifNullOrBlank(defaultValue: () -> String) = if (isNullOrBlank()) defaultValue() else this
+
 fun String.notContains(other: CharSequence, ignoreCase: Boolean = false) =
     !contains(other, ignoreCase)
 

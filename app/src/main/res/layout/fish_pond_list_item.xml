@@ -51,7 +51,7 @@
 
     </LinearLayout>
 
-    <cn.cqautotest.sunnybeach.widget.CustomTextView
+    <TextView
         android:id="@+id/tv_fish_pond_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
