@@ -112,14 +112,7 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
         val covers = item.covers
         val imageCount = covers.size
-        simpleGridLayout.setSpanCount(
-            when (imageCount) {
-                // 规避 0 ，避免导致：IllegalArgumentException，Span count should be at least 1. Provided 0.
-                in 1..3 -> imageCount
-                4 -> 2
-                else -> 3
-            }
-        ).setOnNineGridClickListener(this)
+        simpleGridLayout.setOnNineGridClickListener(this)
             .setData(covers)
         rrlContainer.isVisible = imageCount != 0
         // tvCreateTime.text = item.createTime

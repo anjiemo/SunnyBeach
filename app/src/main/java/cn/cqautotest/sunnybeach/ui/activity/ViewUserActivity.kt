@@ -12,10 +12,7 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.ViewUserActivityBinding
-import cn.cqautotest.sunnybeach.ktx.dp
-import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
-import cn.cqautotest.sunnybeach.ktx.setRoundRectBg
-import cn.cqautotest.sunnybeach.ktx.takeIfLogin
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.other.FriendsStatus
 import cn.cqautotest.sunnybeach.other.IntentKey
@@ -100,8 +97,8 @@ class ViewUserActivity : AppActivity() {
             mBinding.ivAvatar.loadAvatar(userInfo.vip, userInfo.avatar)
             mBinding.tvNickName.text = userInfo.nickname
             mBinding.tvNickName.setTextColor(UserManager.getNickNameColor(userInfo.vip))
-            val job = if (userInfo.position.isNullOrEmpty()) "游民" else userInfo.position
-            val company = if (userInfo.company.isNullOrEmpty()) "无业" else userInfo.company
+            val job = userInfo.position.ifNullOrEmpty { "游民" }
+            val company = userInfo.company.ifNullOrEmpty { "无业" }
             mBinding.tvDesc.text = "${job}@${company}"
         }
         checkFollowState(userId)

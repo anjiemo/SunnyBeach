@@ -107,7 +107,10 @@
                 android:layout_height="54dp"
                 android:layout_marginTop="1px"
                 android:background="@color/white"
-                android:orientation="horizontal">
+                android:divider="#E7E7E7"
+                android:dividerPadding="@dimen/dp_18"
+                android:orientation="horizontal"
+                android:showDividers="middle">
 
                 <LinearLayout
                     android:layout_width="0px"
@@ -210,15 +213,12 @@
 
             </LinearLayout>
 
-            <FrameLayout
+            <com.hjq.shape.layout.ShapeFrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:background="@color/white">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_become_vip_bg_gradient" />
+                app:shape_angle="90"
+                app:shape_endColor="@color/white"
+                app:shape_startColor="#FEE4EC">
 
                 <ImageView
                     android:id="@+id/iv_become_vip"
@@ -263,7 +263,7 @@
                     android:textColor="@color/pink"
                     android:textSize="18sp" />
 
-            </FrameLayout>
+            </com.hjq.shape.layout.ShapeFrameLayout>
 
             <com.hjq.shape.layout.ShapeConstraintLayout
                 android:id="@+id/cl_scan_qr_code"
