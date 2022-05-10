@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="SuperShapeLinearLayout">
+        <!-- 分隔线宽度 -->
+        <attr name="dividerWidth" format="dimension" />
+    </declare-styleable>
+
     <declare-styleable name="PileLayout">
         <!-- 两个子控件之间的垂直间隙-->
         <attr name="verticalSpaceSize" format="integer" />

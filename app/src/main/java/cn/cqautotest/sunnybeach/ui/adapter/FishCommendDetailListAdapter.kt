@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
+import cn.cqautotest.sunnybeach.ktx.ifNullOrEmpty
 import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
@@ -72,7 +73,7 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
         ivPondComment.setFixOnClickListener {
             mCommentClickListener.invoke(item, position)
         }
-        val job = if (item.position.isNullOrEmpty()) "游民" else item.position
+        val job = item.position.ifNullOrEmpty { "游民" }
         // 摸鱼详情列表的时间没有精确到秒
         tvDesc.text = "$job · " + DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
         tvReply.setDefaultEmojiParser()

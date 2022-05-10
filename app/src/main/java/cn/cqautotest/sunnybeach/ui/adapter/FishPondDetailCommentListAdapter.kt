@@ -13,6 +13,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
+import cn.cqautotest.sunnybeach.ktx.ifNullOrEmpty
 import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
@@ -99,7 +100,7 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
         }
         tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
         tvNickName.text = item.getNickName()
-        val job = if (item.position.isNullOrEmpty()) "游民" else item.position
+        val job = item.position.ifNullOrEmpty { "游民" }
         // 摸鱼详情列表的时间没有精确到秒
         tvDesc.text = "$job · " + DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
         tvReply.setDefaultEmojiParser()

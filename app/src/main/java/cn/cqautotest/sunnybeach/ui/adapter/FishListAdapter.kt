@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.FishPondListItemBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.ifNullOrEmpty
+import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
@@ -132,14 +134,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         val topicName = item.topicName
         val images = item.images
         val imageCount = images.size
-        simpleGridLayout.setSpanCount(
-            when (imageCount) {
-                // 规避 0 ，避免导致：IllegalArgumentException，Span count should be at least 1. Provided 0.
-                in 1..3 -> imageCount
-                4 -> 2
-                else -> 3
-            }
-        ).setOnNineGridClickListener(this)
+        simpleGridLayout.setOnNineGridClickListener(this)
             .setData(images)
         rrlContainer.isVisible = imageCount != 0
         tvLabel.isVisible = TextUtils.isEmpty(topicName).not()
@@ -149,7 +144,6 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         val hasLinkCover = TextUtils.isEmpty(item.linkCover).not()
         val linkCover = if (hasLinkCover) item.linkCover
         else R.mipmap.ic_link_default
-        llLinkContainer.setRoundRectBg(color = Color.parseColor("#F5F5F8"), cornerRadius = 4.dp)
         llLinkContainer.isVisible = hasLink
         llLinkContainer.setFixOnClickListener {
             BrowserActivity.start(context, linkUrl)
@@ -160,7 +154,6 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
             .error(R.mipmap.ic_link_default)
             .transform(RoundedCorners(3.dp))
             .into(ivLinkCover)
-        ivLinkCover.setRoundRectBg(cornerRadius = 3.dp)
         tvLinkTitle.text = item.linkTitle
         tvLinkUrl.text = linkUrl
         tvComment.text = with(item.commentCount) {
