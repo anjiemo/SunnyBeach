@@ -14,7 +14,7 @@ import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.fromJson
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import cn.cqautotest.sunnybeach.ktx.toJson
-import cn.cqautotest.sunnybeach.other.FollowState
+import cn.cqautotest.sunnybeach.other.FollowType
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
@@ -52,13 +52,13 @@ class UserFollowOrFansListFragment : AppFragment<AppActivity>(), StatusAction {
     override fun initData() {
         val userId = arguments?.getString(IntentKey.ID, "") ?: ""
         val followStateJson = arguments?.getString(IntentKey.OTHER)
-        val followState = fromJson<FollowState>(followStateJson) ?: FollowState.FOLLOW
+        val followState = fromJson<FollowType>(followStateJson) ?: FollowType.FOLLOW
         loadUserFollowList(userId, followState)
     }
 
-    private fun loadUserFollowList(userId: String, followState: FollowState) {
+    private fun loadUserFollowList(userId: String, followType: FollowType) {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            mFollowViewModel.loadUserFollowOrFansListByState(userId, followState).collectLatest {
+            mFollowViewModel.loadUserFollowOrFansListByState(userId, followType).collectLatest {
                 mUserFollowListAdapter.submitData(it)
             }
         }
@@ -85,11 +85,11 @@ class UserFollowOrFansListFragment : AppFragment<AppActivity>(), StatusAction {
 
     companion object {
         @JvmStatic
-        fun newInstance(userId: String, followState: FollowState): UserFollowOrFansListFragment {
+        fun newInstance(userId: String, followType: FollowType): UserFollowOrFansListFragment {
             val fragment = UserFollowOrFansListFragment()
             val args = Bundle().apply {
                 putString(IntentKey.ID, userId)
-                putString(IntentKey.OTHER, followState.toJson())
+                putString(IntentKey.OTHER, followType.toJson())
             }
             fragment.arguments = args
             return fragment

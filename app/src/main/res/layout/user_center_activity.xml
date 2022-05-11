@@ -102,7 +102,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <cn.cqautotest.sunnybeach.widget.SuperLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:layout_marginTop="1px"
@@ -211,7 +211,7 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </cn.cqautotest.sunnybeach.widget.SuperLinearLayout>
 
             <com.hjq.shape.layout.ShapeFrameLayout
                 android:layout_width="match_parent"

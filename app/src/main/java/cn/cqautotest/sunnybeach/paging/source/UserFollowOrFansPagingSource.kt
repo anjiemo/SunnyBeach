@@ -6,7 +6,7 @@ import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.network.FansNetwork
 import cn.cqautotest.sunnybeach.http.network.FollowNetwork
 import cn.cqautotest.sunnybeach.model.UserFollow
-import cn.cqautotest.sunnybeach.other.FollowState
+import cn.cqautotest.sunnybeach.other.FollowType
 import timber.log.Timber
 
 /**
@@ -15,7 +15,7 @@ import timber.log.Timber
  * time   : 2021/10/31
  * desc   : 指定用户的关注/粉丝 PagingSource
  */
-class UserFollowOrFansPagingSource(private val userId: String, private val followState: FollowState) :
+class UserFollowOrFansPagingSource(private val userId: String, private val followType: FollowType) :
     PagingSource<Int, UserFollow.UserFollowItem>() {
 
     override fun getRefreshKey(state: PagingState<Int, UserFollow.UserFollowItem>): Int? {
@@ -26,9 +26,9 @@ class UserFollowOrFansPagingSource(private val userId: String, private val follo
         return try {
             val page = params.key ?: FIRST_PAGE_INDEX
             Timber.d("load：===> userId is $userId page is $page")
-            val response = when (followState) {
-                FollowState.FOLLOW -> FollowNetwork.loadUserFollowList(userId = userId, page = page)
-                FollowState.FANS -> FansNetwork.loadUserFansList(userId = userId, page = page)
+            val response = when (followType) {
+                FollowType.FOLLOW -> FollowNetwork.loadUserFollowList(userId = userId, page = page)
+                FollowType.FANS -> FansNetwork.loadUserFansList(userId = userId, page = page)
             }
             val responseData = response.getData()
             val prevKey = if (responseData.hasPre) page - 1 else null

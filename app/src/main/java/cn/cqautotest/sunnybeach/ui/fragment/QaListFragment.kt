@@ -14,7 +14,7 @@ import cn.cqautotest.sunnybeach.databinding.QaListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
-import cn.cqautotest.sunnybeach.other.QaState
+import cn.cqautotest.sunnybeach.other.QaType
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.QaListAdapter
@@ -56,7 +56,7 @@ class QaListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2Top
 
     private fun loadQaList() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            mQaViewModel.loadQaList(QaState.LATEST).collectLatest {
+            mQaViewModel.loadQaList(QaType.LATEST).collectLatest {
                 onBack2Top()
                 mQaListAdapter.submitData(it)
             }
