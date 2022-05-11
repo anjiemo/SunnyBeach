@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="SuperShapeLinearLayout">
+    <declare-styleable name="SuperLinearLayout">
         <!-- 分隔线宽度 -->
         <attr name="dividerWidth" format="dimension" />
     </declare-styleable>
