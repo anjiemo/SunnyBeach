@@ -4,9 +4,9 @@ package cn.cqautotest.sunnybeach.other
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2022/04/18
- * desc   : 关注/粉丝 PagingSource
+ * desc   : 问答类型
  */
-enum class QaState(val value: String) {
+enum class QaType(val value: String) {
 
     // 最新的
     LATEST("lastest"),

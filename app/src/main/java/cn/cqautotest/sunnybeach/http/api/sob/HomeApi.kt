@@ -8,6 +8,19 @@ import retrofit2.http.Query
 interface HomeApi : ISobApi {
 
     /**
+     * keyword：关键字
+     * type：a-文章（article），w-问答（wenDa），s-分享（share）
+     * sort：0-不排序，1-时间升序，2-时间降序
+     */
+    @GET("ct/search")
+    suspend fun searchByKeywords(
+        @Query("keyword") keyword: String,
+        @Query("type") type: String,
+        @Query("page") page: Int,
+        @Query("sort") sort: Int
+    ): ApiResponse<SearchResult>
+
+    /**
      * 根据文章id获取文章详情内容
      */
     @GET("ct/article/detail/{articleId}")

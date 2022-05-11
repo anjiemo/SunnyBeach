@@ -7,7 +7,7 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.UserMediaFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.clearTooltipText
-import cn.cqautotest.sunnybeach.other.FollowState
+import cn.cqautotest.sunnybeach.other.FollowType
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.fragment.user.media.*
 import com.hjq.base.FragmentPagerAdapter
@@ -43,8 +43,8 @@ class UserMediaFragment : AppFragment<AppActivity>() {
             addFragment(UserFishListFragment.newInstance(mUserId), "动态")
             addFragment(UserArticleListFragment.newInstance(mUserId), "文章")
             addFragment(UserQaListFragment.newInstance(mUserId), "回答")
-            addFragment(UserFollowOrFansListFragment.newInstance(mUserId, FollowState.FOLLOW), "关注")
-            addFragment(UserFollowOrFansListFragment.newInstance(mUserId, FollowState.FANS), "粉丝")
+            addFragment(UserFollowOrFansListFragment.newInstance(mUserId, FollowType.FOLLOW), "关注")
+            addFragment(UserFollowOrFansListFragment.newInstance(mUserId, FollowType.FANS), "粉丝")
             addFragment(UserShareListFragment.newInstance(mUserId), "分享")
         }
         val tabLayout = mBinding.tabLayout

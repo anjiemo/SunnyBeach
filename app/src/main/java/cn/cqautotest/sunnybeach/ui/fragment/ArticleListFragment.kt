@@ -12,10 +12,12 @@ import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.ArticleListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.ArticleInfo
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
+import cn.cqautotest.sunnybeach.ui.activity.SearchActivity
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.ArticleAdapter
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
@@ -23,6 +25,7 @@ import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.ArticleViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.dylanc.longan.startActivity
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
 import com.umeng.socialize.media.UMImage
@@ -51,6 +54,9 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction, OnBa
     override fun initEvent() {
         mBinding.topLayout.setOnClickListener {
 
+        }
+        mBinding.searchContainer.setFixOnClickListener {
+            startActivity<SearchActivity>()
         }
         mBinding.refreshLayout.setOnRefreshListener {
             mArticleAdapter.refresh()
