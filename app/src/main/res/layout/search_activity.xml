@@ -14,10 +14,8 @@
 
     <SearchView
         android:id="@+id/search_view"
-        android:closeIcon="@null"
-        android:paddingVertical="@dimen/dp_6"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="@dimen/dp_56" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
