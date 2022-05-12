@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.app
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.Network
@@ -22,6 +23,7 @@ import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.http.model.RequestHandler
 import cn.cqautotest.sunnybeach.http.model.RequestServer
+import cn.cqautotest.sunnybeach.ktx.resetConfiguration
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.other.*
 import cn.cqautotest.sunnybeach.work.CacheCleanupWorker
@@ -82,6 +84,10 @@ class AppApplication : Application(), Configuration.Provider {
             it.setMinimumLoggingLevel(android.util.Log.INFO)
         }
     }.build()
+
+    override fun getResources(): Resources = super.getResources().apply {
+        resetConfiguration()
+    }
 
     companion object {
 

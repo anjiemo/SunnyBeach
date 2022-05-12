@@ -5,6 +5,7 @@ import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
 import androidx.collection.ArrayMap
+import cn.cqautotest.sunnybeach.ktx.resetConfiguration
 import timber.log.Timber
 
 /**
@@ -178,6 +179,7 @@ class ActivityManager private constructor() : ActivityLifecycleCallbacks {
         }
         topActivity = activity
         resumedActivity = activity
+        activity.resetConfiguration()
     }
 
     override fun onActivityPaused(activity: Activity) {
