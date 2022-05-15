@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import android.view.WindowManager
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -82,6 +83,7 @@ class ImagePreviewActivity : AppActivity(), BaseAdapter.OnItemClickListener {
 
     override fun initView() {
         viewPager2?.offscreenPageLimit = 3
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
 
     override fun initData() {
@@ -123,6 +125,7 @@ class ImagePreviewActivity : AppActivity(), BaseAdapter.OnItemClickListener {
     override fun onDestroy() {
         super.onDestroy()
         viewPager2?.unregisterOnPageChangeCallback(mPageChangeCallback)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
 
     /**

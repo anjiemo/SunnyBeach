@@ -63,25 +63,16 @@
         android:textIsSelectable="true"
         tools:text="我是摸鱼列表的正文内容啦" />
 
-    <cn.cqautotest.sunnybeach.widget.RoundRelativeLayout
-        android:id="@+id/rrl_container"
-        android:layout_width="wrap_content"
+    <cn.cqautotest.sunnybeach.widget.SimpleGridLayout
+        android:id="@+id/simple_grid_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="6dp"
-        app:rlClipBackground="true"
-        app:rlRadius="@dimen/dp_10">
-
-        <cn.cqautotest.sunnybeach.widget.SimpleGridLayout
-            android:id="@+id/simple_grid_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:itemCount="4" />
-
-    </cn.cqautotest.sunnybeach.widget.RoundRelativeLayout>
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        tools:itemCount="4" />
 
     <com.hjq.shape.view.ShapeTextView
         android:id="@+id/tv_fish_pond_label"

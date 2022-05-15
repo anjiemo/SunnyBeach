@@ -2,9 +2,11 @@ package cn.cqautotest.sunnybeach.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Outline
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
@@ -29,6 +31,13 @@ class SimpleGridLayout @JvmOverloads constructor(
     init {
         layoutManager = mManager
         adapter = mAdapter
+        val radius = 10.dp.toFloat()
+        outlineProvider = object : ViewOutlineProvider() {
+            override fun getOutline(view: View?, outline: Outline?) {
+                outline?.setRoundRect(0, 0, width, height, radius)
+            }
+        }
+        clipToOutline = true
     }
 
     fun setData(data: List<String> = listOf()) {
@@ -41,6 +50,14 @@ class SimpleGridLayout @JvmOverloads constructor(
                 else -> 1
             }
         }
+        giveUpFocus()
+    }
+
+    private fun giveUpFocus() {
+        // 清除焦点，避免与外层的 RecyclerView 抢占焦点
+        isFocusable = false
+        isFocusableInTouchMode = false
+        clearFocus()
     }
 
     fun setOnNineGridClickListener(listener: OnNineGridClickListener): SimpleGridLayout {
@@ -76,9 +93,9 @@ class SimpleGridLayout @JvmOverloads constructor(
         private fun createLayout(parent: ViewGroup, context: Context, viewType: Int): View {
             return ImageView(context).apply {
                 tag = "imageView"
-                scaleType = ImageView.ScaleType.MATRIX
-                layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                maxHeight = 160.dp
+                scaleType = ImageView.ScaleType.CENTER_CROP
+                layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 120.dp)
+                maxHeight = 120.dp
             }
         }
 
