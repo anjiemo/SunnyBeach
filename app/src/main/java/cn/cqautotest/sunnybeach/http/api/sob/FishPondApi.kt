@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.http.api.sob
 
 import cn.cqautotest.sunnybeach.model.*
 import okhttp3.MultipartBody
+import org.jetbrains.annotations.TestOnly
 import retrofit2.http.*
 
 interface FishPondApi : ISobApi {
@@ -47,6 +48,7 @@ interface FishPondApi : ISobApi {
     /**
      * 获取动态列表
      */
+    @TestOnly
     @GET("ct/moyu/list/{topicId}/{page}")
     suspend fun loadFishListById(
         @Path("topicId") topicId: String,

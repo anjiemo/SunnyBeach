@@ -1,19 +1,28 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
-import android.widget.SearchView
+import android.app.Activity
+import android.content.Intent
+import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
-import androidx.viewpager.widget.ViewPager
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
-import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.SearchActivityBinding
 import cn.cqautotest.sunnybeach.ktx.clearTooltipText
 import cn.cqautotest.sunnybeach.ktx.hideKeyboard
+import cn.cqautotest.sunnybeach.ktx.reduceDragSensitivity
+import cn.cqautotest.sunnybeach.ktx.textString
 import cn.cqautotest.sunnybeach.other.SearchType
 import cn.cqautotest.sunnybeach.ui.fragment.SearchListFragment
 import cn.cqautotest.sunnybeach.viewmodel.SearchViewModel
-import com.hjq.base.FragmentPagerAdapter
+import com.google.android.material.tabs.TabLayoutMediator
+import com.hjq.bar.TitleBar
 
 /**
  * author : A Lonely Cat
@@ -21,58 +30,95 @@ import com.hjq.base.FragmentPagerAdapter
  * time   : 2022/05/11
  * desc   : 搜索界面
  */
-class SearchActivity : AppActivity(), SearchView.OnQueryTextListener {
+class SearchActivity : AppActivity() {
 
     private val mBinding by viewBinding<SearchActivityBinding>()
     private val mSearchViewModel by viewModels<SearchViewModel>()
-    private val mPagerAdapter by lazy { FragmentPagerAdapter<AppFragment<AppActivity>>(this) }
+    private lateinit var mTabLayoutMediator: TabLayoutMediator
 
     override fun getLayoutId(): Int = R.layout.search_activity
 
     override fun initView() {
         val tabLayout = mBinding.tabLayout
-        val viewPager = mBinding.viewPager
-        viewPager.apply {
-            adapter = mPagerAdapter
-            mPagerAdapter.startUpdate(this)
+        val viewPager2 = mBinding.viewPager2
+        viewPager2.apply {
+            reduceDragSensitivity()
+            adapter = object : FragmentStateAdapter(this@SearchActivity) {
+
+                private val typeList = listOf(
+                    SearchType.ALL,
+                    SearchType.ARTICLE,
+                    SearchType.QA,
+                    SearchType.SHARE,
+                )
+
+                override fun getItemCount(): Int = typeList.size
+
+                override fun createFragment(position: Int): Fragment = SearchListFragment.newInstance(typeList[position])
+            }
         }
-        tabLayout.setupWithViewPager(viewPager)
+        mTabLayoutMediator = TabLayoutMediator(mBinding.tabLayout, mBinding.viewPager2) { tab, position ->
+            tab.text = when (position) {
+                0 -> "全部"
+                1 -> "文章"
+                2 -> "问答"
+                3 -> "分享"
+                else -> error("Creating this instance is not supported.")
+            }
+        }
+        mTabLayoutMediator.attach()
+        tabLayout.clearTooltipText()
     }
 
     override fun initData() {
-        mPagerAdapter.apply {
-            addFragment(SearchListFragment.newInstance(SearchType.ALL), "全部")
-            addFragment(SearchListFragment.newInstance(SearchType.ARTICLE), "文章")
-            addFragment(SearchListFragment.newInstance(SearchType.QA), "问答")
-            addFragment(SearchListFragment.newInstance(SearchType.SHARE), "分享")
-        }
-        val tabLayout = mBinding.tabLayout
-        tabLayout.clearTooltipText()
+
     }
 
     override fun initEvent() {
         val searchView = mBinding.searchView
-        searchView.setOnQueryTextListener(this)
-        mBinding.viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                mSearchViewModel.setKeywords(mSearchViewModel.keywordsLiveData.value ?: "")
-            }
-        })
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        newText?.let { mSearchViewModel.setKeywords(it) }
-        return true
-    }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        if (query.isNullOrEmpty()) {
-            toast("关键字不能为空哦~")
-            return true
+        searchView.doOnTextChanged { newText, _, _, _ ->
+            newText?.let { mSearchViewModel.setKeywords(it.toString()) }
         }
-        mSearchViewModel.setKeywords(query)
+        searchView.setOnEditorActionListener { _, actionId, _ ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_SEARCH -> {
+                    doSearch()
+                    hideKeyboard()
+                }
+            }
+            true
+        }
+    }
+
+    override fun onLeftClick(titleBar: TitleBar) {
         hideKeyboard()
-        return true
+        super.onLeftClick(titleBar)
+    }
+
+    override fun onRightClick(titleBar: TitleBar) {
+        doSearch()
+    }
+
+    private fun doSearch() {
+        with(mBinding.searchView.textString) {
+            takeUnless { isEmpty() }?.let { mSearchViewModel.setKeywords(this) } ?: toast("关键字不能为空哦~")
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mTabLayoutMediator.detach()
+    }
+
+    companion object {
+
+        private const val SHARED_ELEMENT_NAME = "searchView"
+
+        fun start(activity: Activity, sharedElement: View) {
+            Intent(activity, SearchActivity::class.java).apply {
+                val activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, sharedElement, SHARED_ELEMENT_NAME)
+                ActivityCompat.startActivity(activity, this, activityOptionsCompat.toBundle())
+            }
+        }
     }
 }
