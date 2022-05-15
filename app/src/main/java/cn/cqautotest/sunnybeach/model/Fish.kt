@@ -1,4 +1,5 @@
 package cn.cqautotest.sunnybeach.model
+
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -7,22 +8,7 @@ import com.google.gson.annotations.SerializedName
  * time   : 2021/07/07
  * desc   : 摸鱼的数据bean类
  */
-data class Fish(
-    @SerializedName("currentPage")
-    val currentPage: Int,
-    @SerializedName("hasNext")
-    val hasNext: Boolean,
-    @SerializedName("hasPre")
-    val hasPre: Boolean,
-    @SerializedName("list")
-    val list: List<FishItem>,
-    @SerializedName("pageSize")
-    val pageSize: Int,
-    @SerializedName("total")
-    val total: Int,
-    @SerializedName("totalPage")
-    val totalPage: Int
-) {
+class Fish : Page<Fish.FishItem>() {
     data class FishItem(
         @SerializedName("avatar")
         val avatar: String,

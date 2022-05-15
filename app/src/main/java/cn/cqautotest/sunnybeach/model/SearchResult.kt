@@ -5,22 +5,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * 搜索结果
  */
-data class SearchResult(
-    @SerializedName("currentPage")
-    val currentPage: Int,
-    @SerializedName("hasNext")
-    val hasNext: Boolean,
-    @SerializedName("hasPre")
-    val hasPre: Boolean,
-    @SerializedName("list")
-    val list: List<SearchResultItem>,
-    @SerializedName("pageSize")
-    val pageSize: Int,
-    @SerializedName("total")
-    val total: Int,
-    @SerializedName("totalPage")
-    val totalPage: Int
-) {
+class SearchResult : Page<SearchResult.SearchResultItem>() {
     data class SearchResultItem(
         @SerializedName("content")
         val content: String,

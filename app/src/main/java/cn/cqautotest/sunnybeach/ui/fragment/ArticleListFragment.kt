@@ -25,7 +25,6 @@ import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.ArticleViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import com.dylanc.longan.startActivity
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
 import com.umeng.socialize.media.UMImage
@@ -56,7 +55,7 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction, OnBa
 
         }
         mBinding.searchContainer.setFixOnClickListener {
-            startActivity<SearchActivity>()
+            SearchActivity.start(requireActivity(), it)
         }
         mBinding.refreshLayout.setOnRefreshListener {
             mArticleAdapter.refresh()

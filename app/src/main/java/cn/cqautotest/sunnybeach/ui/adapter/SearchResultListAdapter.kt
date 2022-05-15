@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.parseAsHtml
@@ -38,9 +39,14 @@ class SearchResultListAdapter(private val adapterDelegate: AdapterDelegate) :
     inner class SearchResultListViewHolder(val binding: UserQaListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        // Replace image with empty drawable.
+        private val emptyDrawable = ColorDrawable()
+
         fun onBind(item: SearchResult.SearchResultItem, position: Int) {
             binding.tvQaTitle.text = item.title.parseAsHtml()
-            binding.tvDesc.text = item.content.parseAsHtml()
+            // We do not need to display image information in the search results,
+            // so as to avoid typographical confusion caused by images.
+            binding.tvDesc.text = item.content.parseAsHtml(imageGetter = { emptyDrawable })
         }
     }
 

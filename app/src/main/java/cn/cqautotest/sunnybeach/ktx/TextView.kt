@@ -24,5 +24,5 @@ fun TextView.clearText() {
     text = null
 }
 
-val TextView.textString
-    get() = text.toString()
+val TextView.textString: String
+    get() = if (text != null) text.toString() else ""
