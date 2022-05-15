@@ -1,29 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.activity.SearchActivity">
 
     <com.hjq.bar.TitleBar
-        app:title="搜索"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:barStyle="light"
+        app:leftIconTint="@color/black"
+        app:rightTitle="搜索"
+        app:rightTitleColor="@color/black"
+        app:rightTitleStyle="bold">
 
-    <SearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_56" />
+        <com.hjq.shape.layout.ShapeLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginHorizontal="@dimen/dp_50"
+            android:layout_marginVertical="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:transitionName="searchView"
+            app:shape_radius="999dp"
+            app:shape_solidColor="@color/common_window_background_color">
+
+            <ImageView
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:layout_marginStart="14dp"
+                android:src="@drawable/discover_ic" />
+
+            <com.hjq.shape.view.ShapeEditText
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_30"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="搜你想搜"
+                android:imeOptions="actionSearch"
+                android:paddingHorizontal="@dimen/dp_10"
+                android:singleLine="true"
+                android:textSize="@dimen/sp_12" />
+
+        </com.hjq.shape.layout.ShapeLinearLayout>
+
+    </com.hjq.bar.TitleBar>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@color/white" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager2"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1" />

@@ -13,6 +13,7 @@ import cn.cqautotest.sunnybeach.other.SearchType
 import cn.cqautotest.sunnybeach.other.SortType
 import cn.cqautotest.sunnybeach.paging.source.SearchPagingSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 /**
  * author : A Lonely Cat
@@ -30,6 +31,7 @@ class SearchViewModel : ViewModel() {
     }
 
     fun searchByKeywords(keyword: String, searchType: SearchType, sortType: SortType): Flow<PagingData<SearchResult.SearchResultItem>> {
+        if (keyword.isEmpty()) return flowOf<PagingData<SearchResult.SearchResultItem>>(PagingData.empty()).cachedIn(viewModelScope)
         return Pager(config = PagingConfig(30),
             pagingSourceFactory = {
                 SearchPagingSource(keyword = keyword, searchType = searchType, sortType = sortType)

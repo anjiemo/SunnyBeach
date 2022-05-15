@@ -5,22 +5,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * 文章推荐
  */
-data class ArticleInfo(
-    @SerializedName("currentPage")
-    val currentPage: Int = 0,
-    @SerializedName("hasNext")
-    val hasNext: Boolean = true,
-    @SerializedName("hasPre")
-    val hasPre: Boolean = false,
-    @SerializedName("list")
-    val list: MutableList<ArticleItem> = arrayListOf(),
-    @SerializedName("pageSize")
-    val pageSize: Int = 1,
-    @SerializedName("total")
-    val total: Int = 20,
-    @SerializedName("totalPage")
-    val totalPage: Int = 1
-) {
+class ArticleInfo : Page<ArticleInfo.ArticleItem>() {
     data class ArticleItem(
         @SerializedName("avatar")
         val avatar: String = "",
