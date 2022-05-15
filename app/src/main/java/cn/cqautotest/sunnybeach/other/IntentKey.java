@@ -1,18 +1,22 @@
 package cn.cqautotest.sunnybeach.other;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2019/05/09
- *    desc   : Intent Key 管理
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2019/05/09
+ * desc   : Intent Key 管理
  */
 public final class IntentKey {
 
     // 常用相关
 
-    /** id */
+    /**
+     * id
+     */
     public static final String ID = "id";
-    /** token */
+    /**
+     * token
+     */
     public static final String TOKEN = "token";
     /**
      * 标题
@@ -93,51 +97,89 @@ public final class IntentKey {
      * 性别
      */
     public static final String SEX = "sex";
-    /** 手机 */
+    /**
+     * 手机
+     */
     public static final String PHONE = "phone";
-    /** 密码 */
+    /**
+     * 密码
+     */
     public static final String PASSWORD = "password";
-    /** 会员 */
+    /**
+     * 会员
+     */
     public static final String VIP = "vip";
-    /** 描述 */
+    /**
+     * 描述
+     */
     public static final String DESCRIBE = "describe";
-    /** 备注 */
+    /**
+     * 备注
+     */
     public static final String REMARK = "remark";
-    /** 星座 */
+    /**
+     * 星座
+     */
     public static final String CONSTELLATION = "constellation";
 
     // 地方
 
-    /** 地址 */
+    /**
+     * 地址
+     */
     public static final String ADDRESS = "address";
-    /** 省 */
+    /**
+     * 省
+     */
     public static final String PROVINCE = "province";
-    /** 市 */
+    /**
+     * 市
+     */
     public static final String CITY = "city";
-    /** 区 */
+    /**
+     * 区
+     */
     public static final String AREA = "area";
 
     // 文件类型相关
 
-    /** 文件 */
+    /**
+     * 文件
+     */
     public static final String FILE = "file";
-    /** 文本 */
+    /**
+     * 文本
+     */
     public static final String TEXT = "text";
-    /** 图片 */
+    /**
+     * 图片
+     */
     public static final String IMAGE = "picture";
-    /** 音频 */
+    /**
+     * 音频
+     */
     public static final String VOICE = "voice";
-    /** 视频 */
+    /**
+     * 视频
+     */
     public static final String VIDEO = "video";
 
     // 支付相关
 
-    /** 余额支付 */
+    /**
+     * 余额支付
+     */
     public static final String BALANCE_PAY = "balance_pay";
-    /** 微信支付 */
+    /**
+     * 微信支付
+     */
     public static final String WECHAT_PAY = "wechat_pay";
-    /** 支付宝支付 */
+    /**
+     * 支付宝支付
+     */
     public static final String ALI_PAY = "ali_pay";
-    /** 银联支付 */
+    /**
+     * 银联支付
+     */
     public static final String UNION_PAY = "union_pay";
 }

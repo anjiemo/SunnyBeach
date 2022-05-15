@@ -81,28 +81,19 @@
 
     </LinearLayout>
 
-    <cn.cqautotest.sunnybeach.widget.RoundRelativeLayout
-        android:id="@+id/rrl_container"
+    <cn.cqautotest.sunnybeach.widget.SimpleGridLayout
+        android:id="@+id/simple_grid_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="6dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/article_top_container"
-        app:rlClipBackground="true"
-        app:rlRadius="@dimen/dp_10">
-
-        <cn.cqautotest.sunnybeach.widget.SimpleGridLayout
-            android:id="@+id/simple_grid_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:itemCount="4" />
-
-    </cn.cqautotest.sunnybeach.widget.RoundRelativeLayout>
+        app:spanCount="2"
+        tools:itemCount="4" />
 
     <cn.cqautotest.sunnybeach.widget.ListMenuItemContainer
         android:id="@+id/list_menu_item"
@@ -110,6 +101,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         app:defaultFirstIcon="@mipmap/ic_view"
-        app:layout_constraintTop_toBottomOf="@+id/rrl_container" />
+        app:layout_constraintTop_toBottomOf="@+id/simple_grid_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

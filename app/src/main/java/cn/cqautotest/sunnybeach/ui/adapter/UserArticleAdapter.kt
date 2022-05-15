@@ -84,7 +84,6 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         val ivAvatar = binding.ivAvatar
         val tvArticleTitle = binding.tvArticleTitle
         val tvNickName = binding.tvNickName
-        val rrlContainer = binding.rrlContainer
         val simpleGridLayout = binding.simpleGridLayout
         val tvViewCount = binding.listMenuItem.tvComment
         val tvGreat = binding.listMenuItem.tvGreat
@@ -105,7 +104,7 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         val imageCount = covers.size
         simpleGridLayout.setOnNineGridClickListener(this)
             .setData(covers)
-        rrlContainer.isVisible = imageCount != 0
+        simpleGridLayout.isVisible = imageCount != 0
         // tvCreateTime.text = item.createTime
         tvViewCount.text = item.viewCount.toString()
         tvGreat.text = with(item.thumbUp) {

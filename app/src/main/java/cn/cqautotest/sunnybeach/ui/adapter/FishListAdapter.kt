@@ -83,7 +83,6 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         val tvNickName = binding.tvFishPondNickName
         val tvDesc = binding.tvFishPondDesc
         val tvContent = binding.tvFishPondContent
-        val rrlContainer = binding.rrlContainer
         val simpleGridLayout = binding.simpleGridLayout
         val tvLabel = binding.tvFishPondLabel
         val llLinkContainer = binding.llLinkContainer
@@ -136,7 +135,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         val imageCount = images.size
         simpleGridLayout.setOnNineGridClickListener(this)
             .setData(images)
-        rrlContainer.isVisible = imageCount != 0
+        simpleGridLayout.isVisible = imageCount != 0
         tvLabel.isVisible = TextUtils.isEmpty(topicName).not()
         tvLabel.text = topicName
         val linkUrl = item.linkUrl
