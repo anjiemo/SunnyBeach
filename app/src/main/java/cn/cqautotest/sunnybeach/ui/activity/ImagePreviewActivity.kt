@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
-import android.view.WindowManager
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -13,7 +12,6 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter
-import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.base.BaseAdapter
 import me.relex.circleindicator.CircleIndicator3
@@ -83,7 +81,7 @@ class ImagePreviewActivity : AppActivity(), BaseAdapter.OnItemClickListener {
 
     override fun initView() {
         viewPager2?.offscreenPageLimit = 3
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        // window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
 
     override fun initData() {
@@ -115,7 +113,7 @@ class ImagePreviewActivity : AppActivity(), BaseAdapter.OnItemClickListener {
 
     override fun createStatusBarConfig(): ImmersionBar {
         return super.createStatusBarConfig() // 隐藏状态栏和导航栏
-            .hideBar(BarHide.FLAG_HIDE_BAR)
+        // .hideBar(BarHide.FLAG_HIDE_BAR)
     }
 
     override fun isStatusBarDarkFont(): Boolean {
@@ -125,7 +123,7 @@ class ImagePreviewActivity : AppActivity(), BaseAdapter.OnItemClickListener {
     override fun onDestroy() {
         super.onDestroy()
         viewPager2?.unregisterOnPageChangeCallback(mPageChangeCallback)
-        window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        // window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
 
     /**
