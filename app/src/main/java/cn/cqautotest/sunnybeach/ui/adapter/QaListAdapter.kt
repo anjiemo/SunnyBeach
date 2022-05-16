@@ -72,7 +72,7 @@ class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
         val hasAnswer = answerCount > 0
         val isResolve = item.isResolve.toIntOrNull() == 1
         val answerColor = Color.parseColor("#48A868")
-        tvAnswerCount.text = "${if (isResolve) "√" else ""} $answerCount ${if (answerCount > 1) "answers" else "answer"}"
+        tvAnswerCount.text = "${if (isResolve) "√" else ""} $answerCount 答案"
         val answerTextColor = when {
             isResolve -> Color.WHITE
             hasAnswer -> answerColor
@@ -86,17 +86,25 @@ class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
                 else -> Color.WHITE
             }
         }.intoBackground()
-        val viewCount = item.viewCount
-        tvViewCount.text = if (viewCount > 1) "$viewCount views" else "$viewCount view"
+        tvViewCount.text = item.viewCount.toString()
         tvGoldCount.text = item.sob.toString()
-        val drawable = ContextCompat.getDrawable(context, R.mipmap.ic_gold_currency_1)
-        val textSize = tvGoldCount.textSize.toInt() * 2
-        drawable?.setBounds(0, 0, textSize, textSize)
-        tvGoldCount.setCompoundDrawables(drawable, null, null, null)
+
+        val viewDrawable = ContextCompat.getDrawable(context, R.mipmap.ic_view)
+        val viewTextSize = tvViewCount.textSize.toInt() * 2
+        viewDrawable?.setBounds(0, 0, viewTextSize, viewTextSize)
+        tvViewCount.setCompoundDrawables(viewDrawable, null, null, null)
+
+        val goldDrawable = ContextCompat.getDrawable(context, R.mipmap.ic_gold_currency_1)
+        val goldTextSize = tvGoldCount.textSize.toInt() * 2
+        goldDrawable?.setBounds(0, 0, goldTextSize, goldTextSize)
+        tvGoldCount.setCompoundDrawables(goldDrawable, null, null, null)
+
         val isVip = item.isVip.toIntOrNull() == 1
-        ivQaAvatar.loadAvatar(isVip, item.avatar)
+        ivQaAvatar.loadAvatar(false, item.avatar)
+
         tvQaNickName.text = item.nickname
         tvQaNickName.setTextColor(UserManager.getNickNameColor(isVip))
+
         tvQaTitle.text = item.title
         tvDesc.text = DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
         llQaLabelContainer.apply {
