@@ -160,11 +160,9 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
     }
 
     override fun initObserver() {
-        mUserViewModel.userAvatarLiveData.observe(
-            this
-        ) { avatarUrl: String? ->
+        mUserViewModel.userAvatarLiveData.observe(this) { result ->
             Glide.with(this)
-                .load(avatarUrl)
+                .load(result.getOrNull())
                 .placeholder(R.mipmap.ic_default_avatar)
                 .error(R.mipmap.ic_default_avatar)
                 .circleCrop()

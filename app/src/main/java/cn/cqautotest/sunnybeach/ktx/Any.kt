@@ -10,4 +10,3 @@ fun Any.toJson() = GsonFactory.getSingletonGson().toJson(this)
 inline fun <reified T> fromJson(json: String?) =
     GsonFactory.getSingletonGson().fromJson(json, T::class.java)
 
-inline fun runCatchingAndPrint(block: () -> Unit) = runCatching(block).onFailure { it.printStackTrace() }
