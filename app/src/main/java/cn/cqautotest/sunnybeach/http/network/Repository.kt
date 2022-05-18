@@ -5,6 +5,7 @@ import androidx.lifecycle.liveData
 import cn.cqautotest.sunnybeach.db.dao.PlaceDao
 import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.execption.ServiceException
+import cn.cqautotest.sunnybeach.ktx.getOrNull
 import cn.cqautotest.sunnybeach.ktx.lowercaseMd5
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.manager.UserManager
@@ -12,7 +13,6 @@ import cn.cqautotest.sunnybeach.model.*
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import cn.cqautotest.sunnybeach.model.weather.Place
 import cn.cqautotest.sunnybeach.model.weather.Weather
-import com.huawei.hms.scankit.p.T
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -109,28 +109,14 @@ object Repository {
 
     fun getAchievement(userId: String) = launchAndGetData { UserNetwork.getAchievement(userId) }
 
-    fun logout() = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.logout()
-                Timber.d("result is $result")
-                System.currentTimeMillis()
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            System.currentTimeMillis()
-        }
-        emit(result)
-    }
+    fun logout() = launchAndGetMsg { UserNetwork.logout() }
 
     suspend fun checkToken() = try {
         val result = UserNetwork.checkToken()
-        if (result.isSuccess()) {
-            val userBasicInfo = result.getData()
-            UserManager.saveUserBasicInfo(userBasicInfo)
-            UserManager.setupAutoLogin(true)
-            userBasicInfo
-        } else throw ServiceException()
+        val userBasicInfo = result.getOrNull() ?: throw ServiceException()
+        UserManager.saveUserBasicInfo(userBasicInfo)
+        UserManager.setupAutoLogin(true)
+        userBasicInfo
     } catch (t: Throwable) {
         t.printStackTrace()
         UserManager.saveUserBasicInfo(null)
@@ -154,20 +140,7 @@ object Repository {
         null
     }
 
-    fun queryUserAvatar(account: String) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.queryUserAvatar(account)
-                Timber.d("result is $result")
-                if (result.isSuccess()) result.getData()
-                else ""
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            ""
-        }
-        emit(result)
-    }
+    fun queryUserAvatar(account: String) = launchAndGetData { UserNetwork.queryUserAvatar(account) }
 
     fun checkAppUpdate(): LiveData<Result<AppUpdateInfo>> = launchAndGetData { AppNetwork.checkAppUpdate() }
 
@@ -176,11 +149,11 @@ object Repository {
     fun setPhotoIdList(photoIdList: List<WallpaperBean.Res.Vertical>) {
         if (photoIdList !== cachePhotoIdList) {
             cachePhotoIdList.clear()
-            if (photoIdList.isNullOrEmpty().not()) {
+            if (photoIdList.isEmpty().not()) {
                 cachePhotoIdList.addAll(photoIdList)
             }
         } else {
-            if (photoIdList.isNullOrEmpty().not()) {
+            if (photoIdList.isEmpty().not()) {
                 val newList = photoIdList.toList()
                 cachePhotoIdList.clear()
                 cachePhotoIdList.addAll(newList)
