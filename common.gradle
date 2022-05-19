@@ -27,6 +27,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
         useIR = true
+        freeCompilerArgs = ["-Xcontext-receivers"]
     }
 
     // 设置存放 so 文件的目录
@@ -77,6 +78,6 @@ dependencies {
     // Kotlin 协程：https://github.com/Kotlin/kotlinx.coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
 }
