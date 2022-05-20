@@ -2,20 +2,23 @@ package cn.cqautotest.sunnybeach.http.network
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.db.dao.PlaceDao
 import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.ktx.getOrNull
 import cn.cqautotest.sunnybeach.ktx.lowercaseMd5
+import cn.cqautotest.sunnybeach.ktx.toErrorResult
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.*
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import cn.cqautotest.sunnybeach.model.weather.Place
 import cn.cqautotest.sunnybeach.model.weather.Weather
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -57,26 +60,20 @@ object Repository {
 
     fun queryTotalSobCount() = launchAndGetData { UserNetwork.queryTotalSobCount() }
 
+    fun modifyUserInfo(personCenterInfo: PersonCenterInfo) = launchAndGetMsg { UserNetwork.modifyUserInfo(personCenterInfo) }
+
     fun queryUserInfo() = launchAndGetData { UserNetwork.queryUserInfo() }
 
-    fun getAllowance() = liveData(build = { UserNetwork.getAllowance() }) {
-        when (it.getCode()) {
-            // 未领取VIP津贴
-            11129 -> Result.success(false)
-            // 已经领取了VIP津贴
-            11128 -> Result.success(true)
-            else -> Result.failure(ServiceException(it.getMessage()))
-        }
-    }
+    fun getAllowance() = liveData(build = { UserNetwork.getAllowance() }) { it.toAllowanceResult() }
 
-    fun checkAllowance() = liveData(build = { UserNetwork.checkAllowance() }) {
-        when (it.getCode()) {
-            // 未领取VIP津贴
-            11129 -> Result.success(false)
-            // 已经领取了VIP津贴
-            11128 -> Result.success(true)
-            else -> Result.failure(ServiceException(it.getMessage()))
-        }
+    fun checkAllowance() = liveData(build = { UserNetwork.checkAllowance() }) { it.toAllowanceResult() }
+
+    private inline fun <reified T> IApiResponse<T>.toAllowanceResult(): Result<Boolean> = when (getCode()) {
+        // 未领取VIP津贴
+        11129 -> Result.success(false)
+        // 已经领取了VIP津贴
+        11128 -> Result.success(true)
+        else -> toErrorResult()
     }
 
     fun unfollowUser(userId: String) = launchAndGetData { UserNetwork.unfollowUser(userId) }
@@ -147,22 +144,20 @@ object Repository {
 
     fun getFishCommendListById(momentId: String, page: Int) = launchAndGetData { FishNetwork.getFishCommendListById(momentId, page) }
 
-    suspend fun uploadFishImage(imageFile: File): String? {
-        return try {
-            val fileName = imageFile.name
-            Timber.d("===> fileName is $fileName")
-            val requestBody = RequestBody.create("image/png".toMediaType(), imageFile)
-            val part = MultipartBody.Part.createFormData("image", fileName, requestBody)
-            val result = FishNetwork.uploadFishImage(part)
-            Timber.d("result is ${result.toJson()}")
-            // 此处不能返回 Result<T> ，详见：https://github.com/mockk/mockk/issues/443
-            // Result getOrNull give ClassCastException：https://stackoverflow.com/questions/68016267/result-getornull-give-classcastexception
-            if (result.isSuccess()) result.getData()
-            else null
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            null
-        }
+    suspend fun uploadFishImage(imageFile: File): String? = try {
+        val fileName = imageFile.name
+        Timber.d("===> fileName is $fileName")
+        val requestBody = RequestBody.create("image/png".toMediaType(), imageFile)
+        val part = MultipartBody.Part.createFormData("image", fileName, requestBody)
+        val result = FishNetwork.uploadFishImage(part)
+        Timber.d("result is ${result.toJson()}")
+        // 此处不能返回 Result<T> ，详见：https://github.com/mockk/mockk/issues/443
+        // Result getOrNull give ClassCastException：https://stackoverflow.com/questions/68016267/result-getornull-give-classcastexception
+        if (result.isSuccess()) result.getData()
+        else null
+    } catch (t: Throwable) {
+        t.printStackTrace()
+        null
     }
 
     fun putFish(moment: Map<String, Any?>) = launchAndGetData { FishNetwork.putFish(moment) }
@@ -212,46 +207,28 @@ object Repository {
     fun getUnReadMsgCount() = launchAndGetData { MsgNetwork.getUnReadMsgCount() }
 
     fun searchPlaces(query: String) = liveData(build = { WeatherNetwork.searchPlace(query) }) { placeResponse ->
-        Timber.d("${placeResponse.status}|${placeResponse.places[0].name}")
-        if (placeResponse.status == "ok") {
-            Timber.d(placeResponse.status)
-            val places = placeResponse.places
-            Result.success(places)
-        } else {
-            Result.failure(RuntimeException("response status is ${placeResponse.status}"))
-        }
+        Timber.d("searchPlaces：===> query status is ${placeResponse.status}|${placeResponse.places[0].name}")
+        if (placeResponse.status == "ok") Result.success(placeResponse.places)
+        else Result.failure(RuntimeException("response status is ${placeResponse.status}"))
     }
 
     /**
      * 刷新天气
      */
-    fun refreshWeather(lng: String, lat: String) = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val deferredRealtime = async {
-                    WeatherNetwork.getRealtimeWeather(lng, lat)
-                }
-                val deferredDaily = async {
-                    WeatherNetwork.getDailyWeather(lng, lat)
-                }
-                val realtimeResponse = deferredRealtime.await()
-                val dailyResponse = deferredDaily.await()
-                if (realtimeResponse.status == "ok" && dailyResponse.status == "ok") {
-                    val weather = Weather(realtimeResponse.result.realtime, dailyResponse.result.daily)
-                    Result.success(weather)
-                } else {
-                    Result.failure(
-                        RuntimeException(
-                            "realtimeWeather status is ${realtimeResponse.status}\n" +
-                                    "dailyWeather status is ${dailyResponse.status}"
-                        )
-                    )
-                }
-            }
-        } catch (e: Exception) {
-            Result.failure(e)
+    fun refreshWeather(lng: String, lat: String): LiveData<Result<Weather>> = liveData(build = {
+        Timber.d("refreshWeather：===> lng is $lng lat is $lat")
+        Pair(withContext(Dispatchers.IO) { WeatherNetwork.getRealtimeWeather(lng, lat) },
+            withContext(Dispatchers.IO) { WeatherNetwork.getDailyWeather(lng, lat) })
+    }) { (realtimeResponse, dailyResponse) ->
+        if (realtimeResponse.status == "ok" && dailyResponse.status == "ok") {
+            Result.success(Weather(realtimeResponse.result.realtime, dailyResponse.result.daily))
+        } else {
+            val errorMsg = """
+                    "realtimeWeather status is ${realtimeResponse.status} 
+                    dailyWeather status is ${dailyResponse.status}"
+                """.trimIndent()
+            Result.failure(RuntimeException(errorMsg))
         }
-        emit(result)
     }
 
     /**
@@ -271,14 +248,12 @@ object Repository {
 
     private inline fun <R, T> liveData(
         context: CoroutineContext = Dispatchers.IO,
-        crossinline build: suspend () -> R,
+        crossinline build: suspend CoroutineScope.() -> R,
         crossinline onError: (Throwable) -> Unit = { it.printStackTrace() },
         crossinline action: (R) -> Result<T>
     ) = liveData(context) {
         val result = try {
-            coroutineScope {
-                action.invoke(build.invoke())
-            }
+            coroutineScope { action.invoke(build.invoke(this)) }
         } catch (t: Throwable) {
             onError.invoke(t)
             Result.failure(t)

@@ -79,6 +79,12 @@ interface UserApi : ISobApi {
     suspend fun queryTotalSobCount(): ApiResponse<Int>
 
     /**
+     * 个人中心修改账号信息
+     */
+    @PUT("uc/ucenter/user-info")
+    suspend fun modifyUserInfo(@Body personCenterInfo: PersonCenterInfo): ApiResponse<Any>
+
+    /**
      * 个人中心获取账号信息
      */
     @GET("uc/ucenter/user-info")
