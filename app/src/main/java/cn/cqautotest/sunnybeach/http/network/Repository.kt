@@ -59,44 +59,24 @@ object Repository {
 
     fun queryUserInfo() = launchAndGetData { UserNetwork.queryUserInfo() }
 
-    fun getAllowance() = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.getAllowance()
-                Timber.d("result is $result")
-                when (result.getCode()) {
-                    // 未领取VIP津贴
-                    11129 -> Result.success(false)
-                    // 已经领取了VIP津贴
-                    11128 -> Result.success(true)
-                    else -> Result.failure(ServiceException(result.getMessage()))
-                }
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
+    fun getAllowance() = liveData(build = { UserNetwork.getAllowance() }) {
+        when (it.getCode()) {
+            // 未领取VIP津贴
+            11129 -> Result.success(false)
+            // 已经领取了VIP津贴
+            11128 -> Result.success(true)
+            else -> Result.failure(ServiceException(it.getMessage()))
         }
-        emit(result)
     }
 
-    fun checkAllowance() = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = UserNetwork.checkAllowance()
-                Timber.d("result is $result")
-                when (result.getCode()) {
-                    // 未领取VIP津贴
-                    11129 -> Result.success(false)
-                    // 已经领取了VIP津贴
-                    11128 -> Result.success(true)
-                    else -> Result.failure(ServiceException(result.getMessage()))
-                }
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
+    fun checkAllowance() = liveData(build = { UserNetwork.checkAllowance() }) {
+        when (it.getCode()) {
+            // 未领取VIP津贴
+            11129 -> Result.success(false)
+            // 已经领取了VIP津贴
+            11128 -> Result.success(true)
+            else -> Result.failure(ServiceException(it.getMessage()))
         }
-        emit(result)
     }
 
     fun unfollowUser(userId: String) = launchAndGetData { UserNetwork.unfollowUser(userId) }
@@ -189,19 +169,9 @@ object Repository {
 
     fun loadFishDetailById(momentId: String) = launchAndGetData { FishNetwork.loadFishDetailById(momentId) }
 
-    fun loadWallpaperBannerList() = liveData(Dispatchers.IO) {
-        val result = try {
-            coroutineScope {
-                val result = PhotoNetwork.loadWallpaperBannerList()
-                Timber.d("result is $result")
-                if ("0" == result.errno) Result.success(result.data)
-                else Result.failure(ServiceException())
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            Result.failure(t)
-        }
-        emit(result)
+    fun loadWallpaperBannerList() = liveData(build = { PhotoNetwork.loadWallpaperBannerList() }) {
+        if ("0" == it.errno) Result.success(it.data)
+        else Result.failure(ServiceException(it.errmsg))
     }
 
     fun postComment(momentComment: Map<String, Any?>, isReply: Boolean) = launchAndGetData {
@@ -241,22 +211,15 @@ object Repository {
      */
     fun getUnReadMsgCount() = launchAndGetData { MsgNetwork.getUnReadMsgCount() }
 
-    fun searchPlaces(query: String) = liveData(Dispatchers.IO) {
-        Timber.d(query)
-        val result = try {
-            val placeResponse = WeatherNetwork.searchPlace(query)
-            Timber.d("${placeResponse.status}|${placeResponse.places[0].name}")
-            if (placeResponse.status == "ok") {
-                Timber.d(placeResponse.status)
-                val places = placeResponse.places
-                Result.success(places)
-            } else {
-                Result.failure(RuntimeException("response status is ${placeResponse.status}"))
-            }
-        } catch (e: Exception) {
-            Result.failure(e)
+    fun searchPlaces(query: String) = liveData(build = { WeatherNetwork.searchPlace(query) }) { placeResponse ->
+        Timber.d("${placeResponse.status}|${placeResponse.places[0].name}")
+        if (placeResponse.status == "ok") {
+            Timber.d(placeResponse.status)
+            val places = placeResponse.places
+            Result.success(places)
+        } else {
+            Result.failure(RuntimeException("response status is ${placeResponse.status}"))
         }
-        emit(result)
     }
 
     /**
@@ -305,6 +268,23 @@ object Repository {
      * 是否保存了地点
      */
     fun isSaved() = PlaceDao.isSaved()
+
+    private inline fun <R, T> liveData(
+        context: CoroutineContext = Dispatchers.IO,
+        crossinline build: suspend () -> R,
+        crossinline onError: (Throwable) -> Unit = { it.printStackTrace() },
+        crossinline action: (R) -> Result<T>
+    ) = liveData(context) {
+        val result = try {
+            coroutineScope {
+                action.invoke(build.invoke())
+            }
+        } catch (t: Throwable) {
+            onError.invoke(t)
+            Result.failure(t)
+        }
+        emit(result)
+    }
 
     /**
      * 启动并获取数据
