@@ -82,6 +82,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     fun queryTotalSobCount() = Repository.queryTotalSobCount()
 
     /**
+     * 个人中心修改账号信息
+     */
+    fun modifyUserInfo(personCenterInfo: PersonCenterInfo) = Repository.modifyUserInfo(personCenterInfo)
+
+    /**
      * 个人中心获取账号信息
      */
     fun queryUserInfo() = Repository.queryUserInfo()

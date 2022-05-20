@@ -131,6 +131,39 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
         mBinding.tvGetAllowance.setFixOnClickListener {
             getAllowance()
         }
+        mBinding.userCenterContent.apply {
+            // region 公司、职位、坐标、签名：内容有变化就修改
+            sbSettingCompany.setFixOnClickListener {
+                // TODO: 修改公司
+            }
+            sbSettingJob.setFixOnClickListener {
+                // TODO: 修改职位
+            }
+            sbSettingCoordinate.setFixOnClickListener {
+                // TODO: 修改坐标
+            }
+            sbSettingSign.setFixOnClickListener {
+                // TODO: 修改签名
+            }
+            // endregion
+
+            // region 手机号、邮箱：单独校验
+            // 手机
+            sbSettingPhone.setFixOnClickListener {
+                // TODO: 修改手机号
+            }
+            // 邮箱
+            sbSettingEmail.setFixOnClickListener {
+                // TODO: 修改邮箱
+            }
+            // endregion
+
+            // region 密码（单独的修改密码接口）
+            sbSettingPassword.setFixOnClickListener {
+                // TODO: 修改密码
+            }
+            // endregion
+        }
     }
 
     private fun generateQRCode(
@@ -213,7 +246,7 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
     companion object {
 
         // 分隔规则
-        private const val regex = "(\\w{4})(\\w{3})(\\w{3})(\\w{3})(\\w{3})(\\w{3})"
-        private val pattern = Pattern.compile(regex)
+        private const val REGEX = "(\\w{4})(\\w{3})(\\w{3})(\\w{3})(\\w{3})(\\w{3})"
+        private val pattern = Pattern.compile(REGEX)
     }
 }
