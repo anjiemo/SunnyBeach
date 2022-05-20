@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.http.network
 
 import cn.cqautotest.sunnybeach.model.ModifyPwd
+import cn.cqautotest.sunnybeach.model.PersonCenterInfo
 import cn.cqautotest.sunnybeach.model.SmsInfo
 import cn.cqautotest.sunnybeach.model.User
 
@@ -31,6 +32,8 @@ object UserNetwork : INetworkApi {
     suspend fun getAchievement() = userApi.getAchievement()
 
     suspend fun queryTotalSobCount() = userApi.queryTotalSobCount()
+
+    suspend fun modifyUserInfo(personCenterInfo: PersonCenterInfo) = userApi.modifyUserInfo(personCenterInfo)
 
     suspend fun queryUserInfo() = userApi.queryUserInfo()
 
