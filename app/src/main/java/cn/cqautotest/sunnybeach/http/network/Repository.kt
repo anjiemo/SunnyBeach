@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.http.network
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
-import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.db.dao.PlaceDao
 import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.execption.ServiceException
@@ -60,7 +59,12 @@ object Repository {
 
     fun queryTotalSobCount() = launchAndGetData { UserNetwork.queryTotalSobCount() }
 
-    fun modifyUserInfo(personCenterInfo: PersonCenterInfo) = launchAndGetMsg { UserNetwork.modifyUserInfo(personCenterInfo) }
+    fun modifyUserInfo(personCenterInfo: PersonCenterInfo) = liveData(build = { UserNetwork.modifyUserInfo(personCenterInfo) }) {
+        when {
+            it.isSuccess() -> Result.success(true)
+            else -> Result.success(false)
+        }
+    }
 
     fun queryUserInfo() = launchAndGetData { UserNetwork.queryUserInfo() }
 
