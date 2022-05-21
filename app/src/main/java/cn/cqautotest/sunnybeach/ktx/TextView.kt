@@ -26,3 +26,6 @@ fun TextView.clearText() {
 
 val TextView.textString: String
     get() = if (text != null) text.toString() else ""
+
+val TextView.length: Int
+    get() = length()

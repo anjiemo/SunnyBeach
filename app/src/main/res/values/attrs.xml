@@ -4,6 +4,7 @@
     <declare-styleable name="SuperLinearLayout">
         <!-- 分隔线宽度 -->
         <attr name="dividerWidth" format="dimension" />
+        <attr name="dividerHeight" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="PileLayout">
