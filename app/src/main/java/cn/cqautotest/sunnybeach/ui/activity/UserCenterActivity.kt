@@ -12,11 +12,14 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.UserCenterActivityBinding
 import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
+import cn.cqautotest.sunnybeach.model.PersonCenterInfo
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
+import cn.cqautotest.sunnybeach.ui.dialog.AddressDialog
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_VIEW_USER_URL_PRE
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.dylanc.longan.context
 import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.hmsscankit.WriterException
 import com.huawei.hms.ml.scan.HmsBuildBitmapOption
@@ -37,6 +40,16 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
     private val mBinding by viewBinding(UserCenterActivityBinding::bind)
     private val mUserViewModel by viewModels<UserViewModel>()
     private var mUserBasicInfo: UserBasicInfo? = null
+    private lateinit var mPersonCenterInfo: PersonCenterInfo
+
+    /** 省 */
+    private var mProvince: String? = "重庆市"
+
+    /** 市 */
+    private var mCity: String? = "重庆市"
+
+    /** 区 */
+    private var mArea: String? = "渝中区"
 
     override fun getLayoutId(): Int = R.layout.user_center_activity
 
@@ -68,31 +81,7 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
     private fun getDefaultAllowanceTips() = if (UserManager.currUserIsVip()) "领取津贴" else "成为VIP"
 
     override fun initData() {
-        val userBasicInfo = UserManager.loadUserBasicInfo()
-        userBasicInfo?.let { mUserBasicInfo = it }
-        mUserViewModel.queryUserInfo().observe(this) {
-            val personCenterInfo = it.getOrNull() ?: return@observe
 
-            val userId = personCenterInfo.userId
-            Timber.d("initData：===> formatted userId is $userId")
-            mBinding.tvSobId.text = userId.manicured()
-
-            val userCenterContent = mBinding.userCenterContent
-            val company = personCenterInfo.company.ifNullOrEmpty { "无业" }
-            userCenterContent.sbSettingCompany.setRightText(company)
-
-            val job = personCenterInfo.position.ifNullOrEmpty { "游民" }
-
-            userCenterContent.sbSettingJob.setRightText(job)
-            userCenterContent.sbSettingSkill.setRightText(personCenterInfo.goodAt)
-            userCenterContent.sbSettingCoordinate.setRightText(personCenterInfo.area)
-            userCenterContent.sbSettingSign.setRightText(personCenterInfo.sign)
-
-            userCenterContent.sbSettingPhone.setRightText(personCenterInfo.phoneNum)
-            userCenterContent.sbSettingEmail.setRightText(personCenterInfo.email)
-
-            mBinding.ivSobQrCode.setImageBitmap(generateQRCode("${SUNNY_BEACH_VIEW_USER_URL_PRE}${personCenterInfo.userId}"))
-        }
     }
 
     private fun String.manicured(): String {
@@ -111,6 +100,7 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             .skipMemoryCache(true)
             .into(mBinding.ivAvatar)
         mBinding.tvNickName.text = mUserBasicInfo?.nickname.ifNullOrEmpty { "游客" }
+        queryUserInfo()
     }
 
     override fun initEvent() {
@@ -132,18 +122,26 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             getAllowance()
         }
         mBinding.userCenterContent.apply {
-            // region 公司、职位、坐标、签名：内容有变化就修改
+            // region 公司、职位、技能、坐标、签名
             sbSettingCompany.setFixOnClickListener {
-                // TODO: 修改公司
+                // 修改公司
+                ModifyUserInfoActivity.start(context, ModifyUserInfoActivity.ModifyType.COMPANY)
             }
             sbSettingJob.setFixOnClickListener {
-                // TODO: 修改职位
+                // 修改职位
+                ModifyUserInfoActivity.start(context, ModifyUserInfoActivity.ModifyType.JOB)
+            }
+            sbSettingSkill.setFixOnClickListener {
+                // 修改技能（擅长）
+                ModifyUserInfoActivity.start(context, ModifyUserInfoActivity.ModifyType.SKILL)
             }
             sbSettingCoordinate.setFixOnClickListener {
-                // TODO: 修改坐标
+                // 修改坐标（地区选择）
+                chooseAddress()
             }
             sbSettingSign.setFixOnClickListener {
-                // TODO: 修改签名
+                // 修改签名
+                ModifyUserInfoActivity.start(context, ModifyUserInfoActivity.ModifyType.SIGN)
             }
             // endregion
 
@@ -163,6 +161,70 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
                 // TODO: 修改密码
             }
             // endregion
+        }
+    }
+
+    private var mAddressDialog: AddressDialog.Builder? = null
+
+    private fun chooseAddress() {
+        mAddressDialog?.dismiss()
+        mAddressDialog = AddressDialog.Builder(this) //.setTitle("选择地区")
+            // 设置默认省份
+            .setProvince(mProvince) // 设置默认城市（必须要先设置默认省份）
+            .setCity(mCity) // 不选择县级区域
+            //.setIgnoreArea()
+            .setListener { _, province, city, area ->
+                val address: String = arrayOf(province, city, area).joinToString(separator = "/")
+                val sbSettingCoordinate = mBinding.userCenterContent.sbSettingCoordinate
+                if (sbSettingCoordinate.getRightText() != address) {
+                    mProvince = province
+                    mCity = city
+                    mArea = area
+                    sbSettingCoordinate.setRightText(address)
+                    modifyAddress(address)
+                }
+            }.also {
+                it.show()
+            }
+    }
+
+    private fun modifyAddress(address: String) {
+        takeIf { ::mPersonCenterInfo.isInitialized } ?: run {
+            queryUserInfo()
+            return
+        }
+        mUserViewModel.modifyUserInfo(mPersonCenterInfo.copy(area = address)).observe(this) { result ->
+            takeIf { result.getOrNull() == true }?.let {
+                simpleToast("修改成功")
+                queryUserInfo()
+            } ?: simpleToast("修改失败")
+        }
+    }
+
+    private fun queryUserInfo() {
+        val userBasicInfo = UserManager.loadUserBasicInfo()
+        userBasicInfo?.let { mUserBasicInfo = it }
+        mUserViewModel.queryUserInfo().observe(this) {
+            mPersonCenterInfo = it.getOrNull() ?: return@observe
+            val userId = mPersonCenterInfo.userId
+            Timber.d("initData：===> formatted userId is $userId")
+            mBinding.tvSobId.text = userId.manicured()
+
+            val userCenterContent = mBinding.userCenterContent
+            val company = mPersonCenterInfo.company.ifNullOrEmpty { "无业" }
+            userCenterContent.sbSettingCompany.setRightText(company)
+
+            val job = mPersonCenterInfo.position.ifNullOrEmpty { "游民" }
+
+            userCenterContent.sbSettingJob.setRightText(job)
+            userCenterContent.sbSettingSkill.setRightText(mPersonCenterInfo.goodAt)
+            userCenterContent.sbSettingCoordinate.setRightText(mPersonCenterInfo.area)
+            userCenterContent.sbSettingSign.setRightText(mPersonCenterInfo.sign)
+
+            userCenterContent.sbSettingPhone.setRightText(mPersonCenterInfo.phoneNum)
+            userCenterContent.sbSettingEmail.setRightText(mPersonCenterInfo.email)
+
+            mBinding.ivSobQrCode.setImageBitmap(generateQRCode("${SUNNY_BEACH_VIEW_USER_URL_PRE}${mPersonCenterInfo.userId}"))
         }
     }
 
@@ -242,6 +304,11 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
     }
 
     override fun isStatusBarDarkFont(): Boolean = true
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mAddressDialog?.dismiss()
+    }
 
     companion object {
 

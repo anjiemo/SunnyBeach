@@ -431,6 +431,9 @@
         <activity
             android:name=".ui.activity.SearchActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ModifyUserInfoActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

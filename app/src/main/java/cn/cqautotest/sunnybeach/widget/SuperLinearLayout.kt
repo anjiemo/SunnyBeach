@@ -21,8 +21,9 @@ class SuperLinearLayout @JvmOverloads constructor(
         context.obtainStyledAttributes(attrs, R.styleable.SuperLinearLayout).apply {
             dividerDrawable = GradientDrawable().apply {
                 (dividerDrawable as? ColorDrawable)?.let { setColor(it.color) }
-                // The height of the divider has no meaning to be set, please use the dividerPadding property to limit it.
-                setSize(getDimensionPixelSize(R.styleable.SuperLinearLayout_dividerWidth, -1), 0)
+                val dividerWidth = getDimensionPixelSize(R.styleable.SuperLinearLayout_dividerWidth, -1)
+                val dividerHeight = getDimensionPixelSize(R.styleable.SuperLinearLayout_dividerHeight, -1)
+                setSize(dividerWidth, dividerHeight)
             }
 
         }.also {
