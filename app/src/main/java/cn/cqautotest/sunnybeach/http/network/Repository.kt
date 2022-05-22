@@ -39,6 +39,38 @@ object Repository {
 
     fun getCoursePlayAuth(videoId: String) = launchAndGetData { CourseNetwork.getCoursePlayAuth(videoId) }
 
+    // fun modifyAvatar(avatarUrl: String) = liveData(build = { UserNetwork.modifyAvatar(avatarUrl) }) {
+    //     when {
+    //         it.isSuccess() -> Result.success(true)
+    //         else -> it.toErrorResult()
+    //     }
+    // }
+
+    fun modifyAvatar(avatarUrl: String) = liveData(build = { UserNetwork.modifyAvatar(avatarUrl) }) {
+        when {
+            it.isSuccess() -> Result.success(true)
+            else -> it.toErrorResult()
+        }
+    }
+
+    suspend fun uploadUserCenterImageByCategoryId(imageFile: File, categoryId: String): String? = try {
+        val fileName = imageFile.name
+        Timber.d("===> fileName is $fileName")
+        val requestBody = RequestBody.create("image/png".toMediaType(), imageFile)
+        val part = MultipartBody.Part.createFormData("image", fileName, requestBody)
+        val result = UserNetwork.uploadUserCenterImageByCategoryId(part, categoryId)
+        Timber.d("result is ${result.toJson()}")
+        // 此处不能返回 Result<T> ，详见：https://github.com/mockk/mockk/issues/443
+        // Result getOrNull give ClassCastException：https://stackoverflow.com/questions/68016267/result-getornull-give-classcastexception
+        if (result.isSuccess()) result.getData()
+        else null
+    } catch (t: Throwable) {
+        t.printStackTrace()
+        null
+    }
+
+    fun sendEmail(email: String) = launchAndGetMsg { UserNetwork.sendEmail(email) }
+
     fun modifyPasswordBySms(smsCode: String, user: User) = launchAndGetMsg { UserNetwork.modifyPasswordBySms(smsCode, user) }
 
     fun modifyPasswordByOldPwd(modifyPwd: ModifyPwd) = launchAndGetMsg { UserNetwork.modifyPasswordByOldPwd(modifyPwd) }
@@ -60,10 +92,7 @@ object Repository {
     fun queryTotalSobCount() = launchAndGetData { UserNetwork.queryTotalSobCount() }
 
     fun modifyUserInfo(personCenterInfo: PersonCenterInfo) = liveData(build = { UserNetwork.modifyUserInfo(personCenterInfo) }) {
-        when {
-            it.isSuccess() -> Result.success(true)
-            else -> Result.success(false)
-        }
+        Result.success(it.isSuccess())
     }
 
     fun queryUserInfo() = launchAndGetData { UserNetwork.queryUserInfo() }

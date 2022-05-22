@@ -1,11 +1,13 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.model.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface HomeApi : ISobApi {
+@SobClient
+interface HomeApi {
 
     /**
      * keyword：关键字

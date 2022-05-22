@@ -271,7 +271,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                     // Define the extension function inside the function for us to call.
                     fun String.fixSuffix() = replace("jpeg", "png").replace("jpg", "png")
                     val destFile = File(file?.parent, imgFile.name.fixSuffix())
-                    // 删除以存在的文件以确保能够正常重命名
+                    // 删除已存在的文件以确保能够正常重命名
                     FileUtils.delete(destFile)
                     // 重命名文件
                     val renameSuccess = FileUtils.rename(file, destFile.name)

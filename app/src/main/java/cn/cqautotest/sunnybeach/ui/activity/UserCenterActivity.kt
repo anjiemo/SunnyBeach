@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -15,16 +16,24 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.PersonCenterInfo
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.dialog.AddressDialog
+import cn.cqautotest.sunnybeach.ui.dialog.SendVerifyCodeDialog
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_VIEW_USER_URL_PRE
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
+import com.blankj.utilcode.constant.MemoryConstants
+import com.blankj.utilcode.constant.RegexConstants
+import com.blankj.utilcode.util.FileUtils
+import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.dylanc.longan.context
+import com.dylanc.longan.lifecycleOwner
 import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.hmsscankit.WriterException
 import com.huawei.hms.ml.scan.HmsBuildBitmapOption
 import com.huawei.hms.ml.scan.HmsScan
 import com.scwang.smart.refresh.layout.wrapper.RefreshHeaderWrapper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import java.util.regex.Pattern
@@ -35,7 +44,7 @@ import java.util.regex.Pattern
  * time   : 2021/10/26
  * desc   : 个人中心界面
  */
-class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
+class UserCenterActivity : AppActivity() {
 
     private val mBinding by viewBinding(UserCenterActivityBinding::bind)
     private val mUserViewModel by viewModels<UserViewModel>()
@@ -91,6 +100,12 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
 
     override fun onResume() {
         super.onResume()
+        queryUserInfo()
+        loadAvatar()
+        mBinding.tvNickName.text = mUserBasicInfo?.nickname.ifNullOrEmpty { "游客" }
+    }
+
+    private fun loadAvatar() {
         Glide.with(this)
             .load(mUserBasicInfo?.avatar)
             .placeholder(R.mipmap.ic_default_avatar)
@@ -99,8 +114,6 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(mBinding.ivAvatar)
-        mBinding.tvNickName.text = mUserBasicInfo?.nickname.ifNullOrEmpty { "游客" }
-        queryUserInfo()
     }
 
     override fun initEvent() {
@@ -111,12 +124,15 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             }
         }
         mBinding.ivAvatar.setFixOnClickListener {
-            simpleToast("此功能暂未开放")
-            // CameraActivity.start(this, this)
+            ImageSelectActivity.start(this, SINGLE_SELECT) {
+                val imageFilePath = it.toList().firstOrNull() ?: run {
+                    return@start
+                }
+                onAvatarSelected(File(imageFilePath))
+            }
         }
         mBinding.ivBecomeVip.setFixOnClickListener {
             startActivity<VipActivity>()
-            // BrowserActivity.start(this, "https://www.sunofbeach.net/vip")
         }
         mBinding.tvGetAllowance.setFixOnClickListener {
             getAllowance()
@@ -145,7 +161,7 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
             }
             // endregion
 
-            // region 手机号、邮箱：单独校验
+            // region 手机号、邮箱、修改密码：单独校验
             // 手机
             sbSettingPhone.setFixOnClickListener {
                 // TODO: 修改手机号
@@ -158,7 +174,17 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
 
             // region 密码（单独的修改密码接口）
             sbSettingPassword.setFixOnClickListener {
-                // TODO: 修改密码
+                if (true) return@setFixOnClickListener
+                // TODO: 修改密码（输入手机号）
+                SendVerifyCodeDialog.Builder(context)
+                    .setRegex(RegexConstants.REGEX_MOBILE_SIMPLE)
+                    .setListener(onSendVerifyCode = { _, phone ->
+                        // 发送修改密码的短信验证码
+                    }, onConfirm = { _, phone, code ->
+                        // 校验短信验证码
+                        // PasswordResetActivity.start(context, phone, code)
+                    })
+                    .show()
             }
             // endregion
         }
@@ -202,8 +228,7 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
     }
 
     private fun queryUserInfo() {
-        val userBasicInfo = UserManager.loadUserBasicInfo()
-        userBasicInfo?.let { mUserBasicInfo = it }
+        loadUserBasicInfo()
         mUserViewModel.queryUserInfo().observe(this) {
             mPersonCenterInfo = it.getOrNull() ?: return@observe
             val userId = mPersonCenterInfo.userId
@@ -226,6 +251,11 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
 
             mBinding.ivSobQrCode.setImageBitmap(generateQRCode("${SUNNY_BEACH_VIEW_USER_URL_PRE}${mPersonCenterInfo.userId}"))
         }
+    }
+
+    private fun loadUserBasicInfo() {
+        val userBasicInfo = UserManager.loadUserBasicInfo()
+        userBasicInfo?.let { mUserBasicInfo = it }
     }
 
     private fun generateQRCode(
@@ -289,18 +319,55 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
         }
     }
 
-    override fun onSelected(file: File) {
-        Glide.with(this)
-            .load(file)
-            .placeholder(R.mipmap.ic_default_avatar)
-            .error(R.mipmap.ic_default_avatar)
-            .circleCrop()
-            .into(mBinding.ivAvatar)
-        simpleToast("暂不支持更换头像")
+    private fun onAvatarSelected(file: File) {
+        uploadAvatarFile(file)
     }
 
-    override fun onError(details: String) {
-        toast(details)
+    private fun uploadAvatarFile(file: File) {
+        takeIf { FileUtils.getLength(file) >= IMAGE_FILE_MAX_SIZE }?.let {
+            simpleToast(IMAGE_OVER_FLOW_TIPS)
+            return
+        }
+        showDialog()
+        // We need to rename the image file name to end with png to overcome the server limit.
+        // Define the extension function inside the function for us to call.
+        fun String.fixSuffix() = replace("jpeg", "png").replace("jpg", "png")
+        val imageFile = File(PathUtils.getExternalAppCachePath(), file.name.fixSuffix())
+        imageFile.deleteOnExit()
+        lifecycleScope.launchWhenCreated {
+            val copySuccess = withContext(Dispatchers.IO) { FileUtils.copy(file, imageFile) }
+            takeUnless { copySuccess }?.let {
+                simpleToast("头像复制失败")
+                imageFile.delete()
+                hideDialog()
+                return@launchWhenCreated
+            }
+            val avatarUrl = mUserViewModel.uploadUserCenterImageByCategoryId(imageFile, "avatar").orEmpty().ifEmpty {
+                simpleToast("头像上传失败")
+                hideDialog()
+                return@launchWhenCreated
+            }
+            imageFile.delete()
+            modifyAvatar(avatarUrl)
+        }
+    }
+
+    private fun modifyAvatar(avatarUrl: String) {
+        mUserViewModel.modifyAvatar(avatarUrl).observe(lifecycleOwner) { result ->
+            result.onSuccess { simpleToast("头像修改成功") }.onFailure {
+                simpleToast(it.message ?: "头像修改失败")
+                hideDialog()
+                return@observe
+            }
+            val userBasicInfo = UserManager.loadUserBasicInfo()
+            userBasicInfo?.let {
+                val newUserBasicInfo = it.copy(avatar = avatarUrl)
+                UserManager.saveUserBasicInfo(newUserBasicInfo)
+                mUserBasicInfo = newUserBasicInfo
+            }
+            loadAvatar()
+            hideDialog()
+        }
     }
 
     override fun isStatusBarDarkFont(): Boolean = true
@@ -311,6 +378,14 @@ class UserCenterActivity : AppActivity(), CameraActivity.OnCameraListener {
     }
 
     companion object {
+
+        // 单选
+        private const val SINGLE_SELECT = 1
+
+        // 图片文件大小的阈值（4MB）
+        private const val IMAGE_FILE_MAX_SIZE = 4 * MemoryConstants.MB
+
+        private const val IMAGE_OVER_FLOW_TIPS = "图片最大支持4MB"
 
         // 分隔规则
         private const val REGEX = "(\\w{4})(\\w{3})(\\w{3})(\\w{3})(\\w{3})(\\w{3})"

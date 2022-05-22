@@ -415,7 +415,7 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
     /**
      * 图片选择监听
      */
-    interface OnPhotoSelectListener {
+    fun interface OnPhotoSelectListener {
 
         /**
          * 选择回调
