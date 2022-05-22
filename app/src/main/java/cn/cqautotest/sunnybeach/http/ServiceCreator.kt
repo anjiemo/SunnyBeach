@@ -13,6 +13,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * author : A Lonely Cat
@@ -21,6 +22,8 @@ import timber.log.Timber
  * desc   : 网络请求服务创建者
  */
 object ServiceCreator {
+
+    val clientCache = ConcurrentHashMap<Class<*>, Retrofit>()
 
     val sobRetrofit: Retrofit by lazy { createRetrofit { baseUrl(SUNNY_BEACH_API_BASE_URL) } }
 
@@ -54,12 +57,21 @@ object ServiceCreator {
 
     inline fun <reified T> create(): T {
         val clazz = T::class.java
-        val api = when {
-            clazz containsAnnotation SobClient::class.java -> sobRetrofit.create(clazz)
-            clazz containsAnnotation CaiYunClient::class.java -> caiYunRetrofit.create(clazz)
-            else -> otherRetrofit.create(clazz)
+        return getOrCreate(clazz)
+    }
+
+    inline fun <reified T> getOrCreate(clazz: Class<T>): T {
+        // Get it from the cache first, and return directly if the cache hits.
+        clientCache[clazz]?.let { return it.create(clazz) }
+        // We didn't find it in the cache, return the retrofit instance according to the annotation information.
+        val retrofit = when {
+            clazz containsAnnotation SobClient::class.java -> sobRetrofit
+            clazz containsAnnotation CaiYunClient::class.java -> caiYunRetrofit
+            else -> otherRetrofit
         }
-        return api
+        // Cached for the convenience of direct use next time.
+        clientCache[clazz] = retrofit
+        return retrofit.create(clazz)
     }
 
     infix fun <A : Class<*>, B : Annotation> A.containsAnnotation(that: Class<B>): Boolean = getAnnotation(that) != null
