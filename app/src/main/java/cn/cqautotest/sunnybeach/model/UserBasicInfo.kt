@@ -12,26 +12,26 @@ data class UserBasicInfo(
     val avatar: String = DEFAULT_AVATAR_URL,
     @JvmField
     @SerializedName("fansCount")
-    val fansCount: Any,
+    val fansCount: Int = 0,
     @JvmField
     @SerializedName("followCount")
-    val followCount: Any,
+    val followCount: Int = 0,
     @JvmField
     @SerializedName("id")
-    val id: String,
+    val id: String = "",
     @JvmField
     @SerializedName("isVip")
-    val isVip: String,
+    val isVip: String = "0",
     @JvmField
     @SerializedName("lev")
-    val lev: Int,
+    val lev: Int = 0,
     @JvmField
     @SerializedName("nickname")
-    val nickname: String,
+    val nickname: String = "",
     @JvmField
     @SerializedName("roles")
-    val roles: String,
+    val roles: String = "",
     @JvmField
     @SerializedName("token")
-    val token: String
+    val token: String = ""
 )

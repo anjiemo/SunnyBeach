@@ -206,17 +206,6 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                     })
                     .show()
             }
-            R.id.sb_setting_password -> {
-
-                SafeDialog.Builder(this)
-                    .setListener(object : SafeDialog.OnListener {
-
-                        override fun onConfirm(dialog: BaseDialog?, phone: String, code: String) {
-                            PasswordResetActivity.start(this@SettingActivity, phone, code)
-                        }
-                    })
-                    .show()
-            }
             R.id.sb_setting_agreement -> {
 
                 BrowserActivity.start(this, "https://github.com/anjiemo/SunnyBeach")

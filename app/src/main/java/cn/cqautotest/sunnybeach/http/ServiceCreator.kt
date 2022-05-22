@@ -1,7 +1,7 @@
 package cn.cqautotest.sunnybeach.http
 
-import cn.cqautotest.sunnybeach.http.api.sob.ISobApi
-import cn.cqautotest.sunnybeach.http.api.weather.ICaiYunApi
+import cn.cqautotest.sunnybeach.http.annotation.CaiYunClient
+import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.ktx.unicodeToString
 import cn.cqautotest.sunnybeach.manager.LocalCookieManager
 import cn.cqautotest.sunnybeach.util.BASE_URL
@@ -21,6 +21,12 @@ import timber.log.Timber
  * desc   : 网络请求服务创建者
  */
 object ServiceCreator {
+
+    val sobRetrofit: Retrofit by lazy { createRetrofit { baseUrl(SUNNY_BEACH_API_BASE_URL) } }
+
+    val caiYunRetrofit: Retrofit by lazy { createRetrofit { baseUrl(CAI_YUN_BASE_URL) } }
+
+    val otherRetrofit: Retrofit by lazy { createRetrofit { baseUrl(BASE_URL) } }
 
     private val loggingInterceptor by lazy {
         HttpLoggingInterceptor {
@@ -46,20 +52,15 @@ object ServiceCreator {
         .run(block)
         .build()
 
-    val sobRetrofit: Retrofit = createRetrofit { baseUrl(SUNNY_BEACH_API_BASE_URL) }
-
-    val caiYunRetrofit: Retrofit = createRetrofit { baseUrl(CAI_YUN_BASE_URL) }
-
-    val otherRetrofit: Retrofit = createRetrofit { baseUrl(BASE_URL) }
-
     inline fun <reified T> create(): T {
-        // Create request Api instance with different Retrofit instance according to Api type, generic type T cannot be null.
         val clazz = T::class.java
         val api = when {
-            ISobApi::class.java.isAssignableFrom(clazz) -> sobRetrofit.create(clazz)
-            ICaiYunApi::class.java.isAssignableFrom(clazz) -> caiYunRetrofit.create(clazz)
+            clazz containsAnnotation SobClient::class.java -> sobRetrofit.create(clazz)
+            clazz containsAnnotation CaiYunClient::class.java -> caiYunRetrofit.create(clazz)
             else -> otherRetrofit.create(clazz)
         }
         return api
     }
+
+    infix fun <A : Class<*>, B : Annotation> A.containsAnnotation(that: Class<B>): Boolean = getAnnotation(that) != null
 }

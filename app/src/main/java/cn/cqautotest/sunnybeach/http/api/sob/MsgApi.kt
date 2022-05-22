@@ -1,12 +1,14 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.msg.*
 import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
-interface MsgApi : ISobApi {
+@SobClient
+interface MsgApi {
 
     /**
      * 更新问题回答消息的状态

@@ -1,10 +1,35 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.model.*
 import cn.cqautotest.sunnybeach.model.msg.IEDetail
+import okhttp3.MultipartBody
 import retrofit2.http.*
 
-interface UserApi : ISobApi {
+@SobClient
+interface UserApi {
+
+    /**
+     * 修改用户头像
+     */
+    @PUT("uc/ucenter/user-info/avatar")
+    suspend fun modifyAvatar(@Query("avatar") avatarUrl: String): ApiResponse<Any>
+
+    /**
+     * 根据分类 id 上传图片
+     */
+    @Multipart
+    @POST("ct/ucenter/image")
+    suspend fun uploadUserCenterImageByCategoryId(
+        @Part part: MultipartBody.Part,
+        @Query("categoryId") categoryId: String
+    ): ApiResponse<String>
+
+    /**
+     * 发送邮箱验证码
+     */
+    @GET("uc/ucenter/send-email/{email}")
+    suspend fun sendEmail(@Path("email") email: String): ApiResponse<Any>
 
     /**
      * 找回密码（通过短信找回）
