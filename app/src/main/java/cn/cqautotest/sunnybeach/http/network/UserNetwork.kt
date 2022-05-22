@@ -4,6 +4,7 @@ import cn.cqautotest.sunnybeach.model.ModifyPwd
 import cn.cqautotest.sunnybeach.model.PersonCenterInfo
 import cn.cqautotest.sunnybeach.model.SmsInfo
 import cn.cqautotest.sunnybeach.model.User
+import okhttp3.MultipartBody
 
 /**
  * author : A Lonely Cat
@@ -12,6 +13,13 @@ import cn.cqautotest.sunnybeach.model.User
  * desc   : 用户信息获取
  */
 object UserNetwork : INetworkApi {
+
+    suspend fun modifyAvatar(avatarUrl: String) = userApi.modifyAvatar(avatarUrl)
+
+    suspend fun uploadUserCenterImageByCategoryId(part: MultipartBody.Part, categoryId: String) =
+        userApi.uploadUserCenterImageByCategoryId(part, categoryId)
+
+    suspend fun sendEmail(email: String) = userApi.sendEmail(email)
 
     suspend fun modifyPasswordBySms(smsCode: String, user: User) = userApi.modifyPasswordBySms(smsCode, user)
 

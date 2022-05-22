@@ -1,11 +1,12 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.model.*
 import okhttp3.MultipartBody
-import org.jetbrains.annotations.TestOnly
 import retrofit2.http.*
 
-interface FishPondApi : ISobApi {
+@SobClient
+interface FishPondApi {
 
     /**
      * 获取指定用户的摸鱼动态列表
@@ -48,7 +49,6 @@ interface FishPondApi : ISobApi {
     /**
      * 获取动态列表
      */
-    @TestOnly
     @GET("ct/moyu/list/{topicId}/{page}")
     suspend fun loadFishListById(
         @Path("topicId") topicId: String,

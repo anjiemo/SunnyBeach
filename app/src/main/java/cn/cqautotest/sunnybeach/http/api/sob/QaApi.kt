@@ -1,11 +1,13 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.UserQa
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface QaApi : ISobApi {
+@SobClient
+interface QaApi {
 
     /**
      * 获取指定用户的回答列表

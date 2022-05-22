@@ -12,6 +12,7 @@ import cn.cqautotest.sunnybeach.paging.source.RichPagingSource
 import com.blankj.utilcode.util.RegexUtils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import java.io.File
 
 /**
  * author : A Lonely Cat
@@ -30,6 +31,22 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     val userAvatarLiveData = Transformations.switchMap(phoneLiveData) { account ->
         Repository.queryUserAvatar(account)
     }
+
+    /**
+     * 修改用户头像
+     */
+    fun modifyAvatar(avatarUrl: String) = Repository.modifyAvatar(avatarUrl)
+
+    /**
+     * 根据分类 id 上传用户中心图片
+     */
+    suspend fun uploadUserCenterImageByCategoryId(imageFile: File, categoryId: String) =
+        Repository.uploadUserCenterImageByCategoryId(imageFile, categoryId)
+
+    /**
+     * 发送邮件
+     */
+    fun sendEmail(email: String) = Repository.sendEmail(email)
 
     /**
      * 找回密码（通过短信找回）

@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.course.Course
 import cn.cqautotest.sunnybeach.model.course.CourseChapter
@@ -8,7 +9,8 @@ import cn.cqautotest.sunnybeach.model.course.CoursePlayAuth
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface CourseApi : ISobApi {
+@SobClient
+interface CourseApi {
 
     /**
      * 获取课程列表
