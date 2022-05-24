@@ -114,6 +114,8 @@ class ModifyUserInfoActivity : AppActivity() {
         SIGN("签名"),
     }
 
+    override fun isStatusBarDarkFont(): Boolean = true
+
     companion object {
 
         private const val MODIFY_TYPE = "modify_type"
