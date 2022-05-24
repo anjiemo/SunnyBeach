@@ -26,6 +26,7 @@ import cn.cqautotest.sunnybeach.http.model.RequestServer
 import cn.cqautotest.sunnybeach.ktx.resetConfiguration
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.other.*
+import cn.cqautotest.sunnybeach.util.PushHelper
 import cn.cqautotest.sunnybeach.work.CacheCleanupWorker
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
@@ -189,6 +190,9 @@ class AppApplication : Application(), Configuration.Provider {
             if (AppConfig.isLogEnable()) {
                 Timber.plant(DebugLoggerTree())
             }
+
+            // MiPush 初始化
+            PushHelper.init(application)
 
             // 注册网络状态变化监听
             val connectivityManager: ConnectivityManager? = ContextCompat.getSystemService(application, ConnectivityManager::class.java)
