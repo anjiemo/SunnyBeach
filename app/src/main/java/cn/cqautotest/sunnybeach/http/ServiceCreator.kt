@@ -2,17 +2,16 @@ package cn.cqautotest.sunnybeach.http
 
 import cn.cqautotest.sunnybeach.http.annotation.CaiYunClient
 import cn.cqautotest.sunnybeach.http.annotation.SobClient
-import cn.cqautotest.sunnybeach.ktx.unicodeToString
+import cn.cqautotest.sunnybeach.http.interceptor.accountInterceptor
+import cn.cqautotest.sunnybeach.http.interceptor.loggingInterceptor
 import cn.cqautotest.sunnybeach.manager.LocalCookieManager
 import cn.cqautotest.sunnybeach.util.BASE_URL
 import cn.cqautotest.sunnybeach.util.CAI_YUN_BASE_URL
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_API_BASE_URL
 import com.hjq.gson.factory.GsonFactory
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import timber.log.Timber
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -23,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap
  */
 object ServiceCreator {
 
-    val clientCache = ConcurrentHashMap<Class<*>, Retrofit>()
+    val clientCache = ConcurrentHashMap<Class<*>, Retrofit>(3)
 
     val sobRetrofit: Retrofit by lazy { createRetrofit { baseUrl(SUNNY_BEACH_API_BASE_URL) } }
 
@@ -31,14 +30,6 @@ object ServiceCreator {
 
     val otherRetrofit: Retrofit by lazy { createRetrofit { baseUrl(BASE_URL) } }
 
-    private val loggingInterceptor by lazy {
-        HttpLoggingInterceptor {
-            Timber.d("===> result：${it.unicodeToString()}")
-        }.also {
-            it.setLevel(HttpLoggingInterceptor.Level.BODY)
-        }
-    }
-    private val accountInterceptor by lazy { AccountInterceptor() }
     private val cookieManager = LocalCookieManager.get()
 
     val client by lazy {
@@ -74,5 +65,8 @@ object ServiceCreator {
         return retrofit.create(clazz)
     }
 
+    /**
+     * Check if the class contains that annotation.
+     */
     infix fun <A : Class<*>, B : Annotation> A.containsAnnotation(that: Class<B>): Boolean = getAnnotation(that) != null
 }
