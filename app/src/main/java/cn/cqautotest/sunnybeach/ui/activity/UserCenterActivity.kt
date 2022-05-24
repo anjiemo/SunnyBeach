@@ -47,6 +47,7 @@ import java.util.regex.Pattern
 class UserCenterActivity : AppActivity() {
 
     private val mBinding by viewBinding(UserCenterActivityBinding::bind)
+    private val userCenterContent by lazy { mBinding.userCenterContent }
     private val mUserViewModel by viewModels<UserViewModel>()
     private var mUserBasicInfo: UserBasicInfo? = null
     private lateinit var mPersonCenterInfo: PersonCenterInfo
@@ -74,9 +75,7 @@ class UserCenterActivity : AppActivity() {
             setHeaderHeight(60f)
             // 此处 回弹动画时长 不能设置为 0，否则将无法正常回弹
             setReboundDuration(1)
-            setOnRefreshListener {
-                finishRefresh(0)
-            }
+            setOnRefreshListener { finishRefresh(0) }
         }
     }
 
@@ -89,9 +88,7 @@ class UserCenterActivity : AppActivity() {
 
     private fun getDefaultAllowanceTips() = if (UserManager.currUserIsVip()) "领取津贴" else "成为VIP"
 
-    override fun initData() {
-
-    }
+    override fun initData() {}
 
     private fun String.manicured(): String {
         val matcher = pattern.matcher(this)
@@ -117,76 +114,64 @@ class UserCenterActivity : AppActivity() {
     }
 
     override fun initEvent() {
-        mBinding.llUserInfoContainer.setFixOnClickListener {
-            takeIfLogin { userBasicInfo ->
-                val userId = userBasicInfo.id
-                ViewUserActivity.start(this, userId)
-            }
-        }
-        mBinding.ivAvatar.setFixOnClickListener {
-            ImageSelectActivity.start(this, SINGLE_SELECT) {
-                val imageFilePath = it.toList().firstOrNull() ?: run {
-                    return@start
+        mBinding.apply {
+            llUserInfoContainer.setFixOnClickListener {
+                takeIfLogin { userBasicInfo ->
+                    val userId = userBasicInfo.id
+                    ViewUserActivity.start(it.context, userId)
                 }
-                onAvatarSelected(File(imageFilePath))
             }
-        }
-        mBinding.ivBecomeVip.setFixOnClickListener {
-            startActivity<VipActivity>()
-        }
-        mBinding.tvGetAllowance.setFixOnClickListener {
-            getAllowance()
-        }
-        mBinding.userCenterContent.apply {
-            // region 公司、职位、技能、坐标、签名
-            sbSettingCompany.setFixOnClickListener {
+            ivAvatar.setFixOnClickListener {
+                ImageSelectActivity.start(this@UserCenterActivity, SINGLE_SELECT) {
+                    val imageFilePath = it.toList().firstOrNull() ?: run {
+                        return@start
+                    }
+                    onAvatarSelected(File(imageFilePath))
+                }
+            }
+            ivBecomeVip.setFixOnClickListener { startActivity<VipActivity>() }
+            tvGetAllowance.setFixOnClickListener { getAllowance() }
+            userCenterContent.apply {
+                // region 公司、职位、技能、坐标、签名
                 // 修改公司
-                ModifyUserInfoActivity.start(context, ModifyUserInfoActivity.ModifyType.COMPANY)
-            }
-            sbSettingJob.setFixOnClickListener {
+                sbSettingCompany.setFixOnClickListener { ModifyUserInfoActivity.start(context, ModifyUserInfoActivity.ModifyType.COMPANY) }
                 // 修改职位
-                ModifyUserInfoActivity.start(context, ModifyUserInfoActivity.ModifyType.JOB)
-            }
-            sbSettingSkill.setFixOnClickListener {
+                sbSettingJob.setFixOnClickListener { ModifyUserInfoActivity.start(context, ModifyUserInfoActivity.ModifyType.JOB) }
                 // 修改技能（擅长）
-                ModifyUserInfoActivity.start(context, ModifyUserInfoActivity.ModifyType.SKILL)
-            }
-            sbSettingCoordinate.setFixOnClickListener {
+                sbSettingSkill.setFixOnClickListener { ModifyUserInfoActivity.start(context, ModifyUserInfoActivity.ModifyType.SKILL) }
                 // 修改坐标（地区选择）
-                chooseAddress()
-            }
-            sbSettingSign.setFixOnClickListener {
+                sbSettingCoordinate.setFixOnClickListener { chooseAddress() }
                 // 修改签名
-                ModifyUserInfoActivity.start(context, ModifyUserInfoActivity.ModifyType.SIGN)
-            }
-            // endregion
+                sbSettingSign.setFixOnClickListener { ModifyUserInfoActivity.start(context, ModifyUserInfoActivity.ModifyType.SIGN) }
+                // endregion
 
-            // region 手机号、邮箱、修改密码：单独校验
-            // 手机
-            sbSettingPhone.setFixOnClickListener {
-                // TODO: 修改手机号
-            }
-            // 邮箱
-            sbSettingEmail.setFixOnClickListener {
-                // TODO: 修改邮箱
-            }
-            // endregion
+                // region 手机号、邮箱、修改密码：单独校验
+                // 手机
+                sbSettingPhone.setFixOnClickListener {
+                    // TODO: 修改手机号
+                }
+                // 邮箱
+                sbSettingEmail.setFixOnClickListener {
+                    // TODO: 修改邮箱
+                }
+                // endregion
 
-            // region 密码（单独的修改密码接口）
-            sbSettingPassword.setFixOnClickListener {
-                if (true) return@setFixOnClickListener
-                // TODO: 修改密码（输入手机号）
-                SendVerifyCodeDialog.Builder(context)
-                    .setRegex(RegexConstants.REGEX_MOBILE_SIMPLE)
-                    .setListener(onSendVerifyCode = { _, phone ->
-                        // 发送修改密码的短信验证码
-                    }, onConfirm = { _, phone, code ->
-                        // 校验短信验证码
-                        // PasswordResetActivity.start(context, phone, code)
-                    })
-                    .show()
+                // region 密码（单独的修改密码接口）
+                sbSettingPassword.setFixOnClickListener {
+                    if (true) return@setFixOnClickListener
+                    // TODO: 修改密码（输入手机号）
+                    SendVerifyCodeDialog.Builder(context)
+                        .setRegex(RegexConstants.REGEX_MOBILE_SIMPLE)
+                        .setListener(onSendVerifyCode = { _, phone ->
+                            // 发送修改密码的短信验证码
+                        }, onConfirm = { _, phone, code ->
+                            // 校验短信验证码
+                            // PasswordResetActivity.start(context, phone, code)
+                        })
+                        .show()
+                }
+                // endregion
             }
-            // endregion
         }
     }
 
@@ -201,7 +186,7 @@ class UserCenterActivity : AppActivity() {
             //.setIgnoreArea()
             .setListener { _, province, city, area ->
                 val address: String = arrayOf(province, city, area).joinToString(separator = "/")
-                val sbSettingCoordinate = mBinding.userCenterContent.sbSettingCoordinate
+                val sbSettingCoordinate = userCenterContent.sbSettingCoordinate
                 if (sbSettingCoordinate.getRightText() != address) {
                     mProvince = province
                     mCity = city
@@ -209,9 +194,7 @@ class UserCenterActivity : AppActivity() {
                     sbSettingCoordinate.setRightText(address)
                     modifyAddress(address)
                 }
-            }.also {
-                it.show()
-            }
+            }.also { it.show() }
     }
 
     private fun modifyAddress(address: String) {
@@ -235,19 +218,20 @@ class UserCenterActivity : AppActivity() {
             Timber.d("initData：===> formatted userId is $userId")
             mBinding.tvSobId.text = userId.manicured()
 
-            val userCenterContent = mBinding.userCenterContent
             val company = mPersonCenterInfo.company.ifNullOrEmpty { "无业" }
-            userCenterContent.sbSettingCompany.setRightText(company)
-
             val job = mPersonCenterInfo.position.ifNullOrEmpty { "游民" }
 
-            userCenterContent.sbSettingJob.setRightText(job)
-            userCenterContent.sbSettingSkill.setRightText(mPersonCenterInfo.goodAt)
-            userCenterContent.sbSettingCoordinate.setRightText(mPersonCenterInfo.area)
-            userCenterContent.sbSettingSign.setRightText(mPersonCenterInfo.sign)
+            userCenterContent.apply {
+                sbSettingCompany.setRightText(company)
 
-            userCenterContent.sbSettingPhone.setRightText(mPersonCenterInfo.phoneNum)
-            userCenterContent.sbSettingEmail.setRightText(mPersonCenterInfo.email)
+                sbSettingJob.setRightText(job)
+                sbSettingSkill.setRightText(mPersonCenterInfo.goodAt)
+                sbSettingCoordinate.setRightText(mPersonCenterInfo.area)
+                sbSettingSign.setRightText(mPersonCenterInfo.sign)
+
+                sbSettingPhone.setRightText(mPersonCenterInfo.phoneNum)
+                sbSettingEmail.setRightText(mPersonCenterInfo.email)
+            }
 
             mBinding.ivSobQrCode.setImageBitmap(generateQRCode("${SUNNY_BEACH_VIEW_USER_URL_PRE}${mPersonCenterInfo.userId}"))
         }
@@ -305,17 +289,19 @@ class UserCenterActivity : AppActivity() {
     override fun initObserver() {
         mUserViewModel.getAchievement().observe(this) {
             val userAchievement = it.getOrNull() ?: return@observe
-            mBinding.tvNickName.text = mUserBasicInfo?.nickname ?: "游客"
-            // 此字段在 v2 版本的接口将会修改
-            mBinding.tvVip.text = when (mUserBasicInfo?.isVip) {
-                "1" -> "正式会员"
-                "0" -> "普通会员"
-                else -> "普通会员"
+            mBinding.apply {
+                tvNickName.text = mUserBasicInfo?.nickname ?: "游客"
+                // 此字段在 v2 版本的接口将会修改
+                tvVip.text = when (mUserBasicInfo?.isVip) {
+                    "1" -> "正式会员"
+                    "0" -> "普通会员"
+                    else -> "普通会员"
+                }
+                tvSobCurrency.text = "SOB币：${userAchievement.sob}"
+                tvDynamicNum.text = userAchievement.momentCount.toString()
+                tvFollowNum.text = userAchievement.followCount.toString()
+                tvFansNum.text = userAchievement.fansCount.toString()
             }
-            mBinding.tvSobCurrency.text = "SOB币：${userAchievement.sob}"
-            mBinding.tvDynamicNum.text = userAchievement.momentCount.toString()
-            mBinding.tvFollowNum.text = userAchievement.followCount.toString()
-            mBinding.tvFansNum.text = userAchievement.fansCount.toString()
         }
     }
 

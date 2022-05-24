@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,15 +14,15 @@
         app:barStyle="light"
         app:title="用户中心" />
 
-    <FrameLayout
+    <cn.cqautotest.sunnybeach.widget.MaskView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/titleBar">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:tag="ll_top_container">
 
             <LinearLayout
                 android:id="@+id/ll_user_info_container"
@@ -346,22 +346,33 @@
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="234dp">
+            android:layout_height="match_parent">
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/scrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <include
-                    android:id="@+id/user_center_content"
-                    layout="@layout/include_user_center" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_234"
+                        android:tag="mask_view" />
+
+                    <include
+                        android:id="@+id/user_center_content"
+                        layout="@layout/include_user_center" />
+
+                </LinearLayout>
 
             </androidx.core.widget.NestedScrollView>
 
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
-    </FrameLayout>
+    </cn.cqautotest.sunnybeach.widget.MaskView>
 
-</RelativeLayout>
+</LinearLayout>

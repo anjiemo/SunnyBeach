@@ -110,6 +110,8 @@ class SearchActivity : AppActivity() {
         mTabLayoutMediator.detach()
     }
 
+    override fun isStatusBarDarkFont(): Boolean = true
+
     companion object {
 
         private const val SHARED_ELEMENT_NAME = "searchView"
