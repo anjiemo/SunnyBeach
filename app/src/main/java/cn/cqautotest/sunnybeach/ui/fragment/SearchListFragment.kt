@@ -56,7 +56,7 @@ class SearchListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack
     }
 
     override fun initData() {
-
+        showEmpty()
     }
 
     override fun initEvent() {
