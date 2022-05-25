@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.text.buildSpannedString
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -144,22 +145,23 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
         // 被回复的人
         val wasReplied = subComment.getTargetUserNickname()
         val content = whoReplied + "回复" + wasReplied + "：" + subComment.content
-        val spannableString = SpannableString(content)
-        val color = Color.parseColor("#045FB2")
-        spannableString.setSpan(
-            ForegroundColorSpan(color),
-            content.indexOf(whoReplied),
-            content.indexOf("回复"),
-            SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-        )
         val startIndex = whoReplied.length + 2
-        spannableString.setSpan(
-            ForegroundColorSpan(color),
-            startIndex,
-            startIndex + wasReplied.length,
-            SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-        )
-        return spannableString
+        val color = Color.parseColor("#045FB2")
+        return buildSpannedString {
+            append(content)
+            setSpan(
+                ForegroundColorSpan(color),
+                content.indexOf(whoReplied),
+                content.indexOf("回复"),
+                SpannableString.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            setSpan(
+                ForegroundColorSpan(color),
+                startIndex,
+                startIndex + wasReplied.length,
+                SpannableString.SPAN_INCLUSIVE_INCLUSIVE
+            )
+        }
     }
 
     override fun onCreateViewHolder(

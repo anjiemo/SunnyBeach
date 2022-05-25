@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.text.buildSpannedString
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
@@ -92,21 +93,23 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
         val whoReplied = ""
         val wasReplied = subComment.getTargetUserNickname()
         val content = whoReplied + "回复" + wasReplied + "：" + subComment.content
-        val spannableString = SpannableString(content)
+
         val color = Color.parseColor("#045FB2")
-        spannableString.setSpan(
-            ForegroundColorSpan(color),
-            content.indexOf(whoReplied),
-            content.indexOf("回复"),
-            SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-        )
-        spannableString.setSpan(
-            ForegroundColorSpan(color),
-            content.indexOf(wasReplied),
-            content.indexOf(wasReplied) + wasReplied.length,
-            SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-        )
-        return spannableString
+        return buildSpannedString {
+            append(content)
+            setSpan(
+                ForegroundColorSpan(color),
+                content.indexOf(whoReplied),
+                content.indexOf("回复"),
+                SpannableString.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            setSpan(
+                ForegroundColorSpan(color),
+                content.indexOf(wasReplied),
+                content.indexOf(wasReplied) + wasReplied.length,
+                SpannableString.SPAN_INCLUSIVE_INCLUSIVE
+            )
+        }
     }
 
     override fun getItemCount(): Int = mData.subComments.size

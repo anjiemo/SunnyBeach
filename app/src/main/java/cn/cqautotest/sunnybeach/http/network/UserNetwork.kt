@@ -1,9 +1,6 @@
 package cn.cqautotest.sunnybeach.http.network
 
-import cn.cqautotest.sunnybeach.model.ModifyPwd
-import cn.cqautotest.sunnybeach.model.PersonCenterInfo
-import cn.cqautotest.sunnybeach.model.SmsInfo
-import cn.cqautotest.sunnybeach.model.User
+import cn.cqautotest.sunnybeach.model.*
 import okhttp3.MultipartBody
 
 /**
@@ -13,6 +10,8 @@ import okhttp3.MultipartBody
  * desc   : 用户信息获取
  */
 object UserNetwork : INetworkApi {
+
+    suspend fun report(report: Report) = userApi.report(report)
 
     suspend fun modifyAvatar(avatarUrl: String) = userApi.modifyAvatar(avatarUrl)
 
