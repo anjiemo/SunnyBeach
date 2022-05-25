@@ -24,6 +24,7 @@ import cn.cqautotest.sunnybeach.ktx.takeIfLogin
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondComment
+import cn.cqautotest.sunnybeach.model.ReportType
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
@@ -36,6 +37,7 @@ import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.hjq.bar.TitleBar
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
 import com.umeng.socialize.media.UMImage
@@ -218,6 +220,10 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGridLayout.OnN
         takeIfLogin {
             safeShowFragment(targetUserName)
         }
+    }
+
+    override fun onRightClick(titleBar: TitleBar) {
+        ReportActivity.start(this, ReportType.FISH, mMomentId)
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.slFishDetailHint
