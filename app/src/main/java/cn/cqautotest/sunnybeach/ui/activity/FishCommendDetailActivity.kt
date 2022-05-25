@@ -18,9 +18,11 @@ import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.FishCommendDetailListAdapter
 import cn.cqautotest.sunnybeach.ui.fragment.SubmitCommentFragment
-import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
+import com.blankj.utilcode.util.TimeUtils
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * author : A Lonely Cat
@@ -32,6 +34,7 @@ class FishCommendDetailActivity : AppActivity() {
 
     private val mBinding: FishCommendDetailActivityBinding by viewBinding()
     private val mFishCommendDetailListAdapter = FishCommendDetailListAdapter()
+    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
     override fun getLayoutId(): Int = R.layout.fish_commend_detail_activity
 
@@ -59,8 +62,7 @@ class FishCommendDetailActivity : AppActivity() {
         tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
         tvNickName.text = item.getNickName()
         // 摸鱼详情列表的时间没有精确到秒
-        val time = "${item.createTime}:00"
-        tvDesc.text = "${item.position} · " + DateHelper.getFriendlyTimeSpanByNow(time)
+        tvDesc.text = "${item.position} · " + TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
         tvDesc.maxLines = Int.MAX_VALUE
         tvReply.setDefaultEmojiParser()
         tvReply.text = item.content
@@ -132,6 +134,7 @@ class FishCommendDetailActivity : AppActivity() {
     }
 
     companion object {
+
         @Log
         @JvmStatic
         fun getIntent(

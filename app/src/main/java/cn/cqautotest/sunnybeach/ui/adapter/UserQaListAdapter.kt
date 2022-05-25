@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.UserQaListItemBinding
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.UserQa
-import cn.cqautotest.sunnybeach.util.DateHelper
+import com.blankj.utilcode.util.TimeUtils
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * author : A Lonely Cat
@@ -36,6 +38,8 @@ class UserQaListAdapter(private val adapterDelegate: AdapterDelegate) :
         }
     }
 
+    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
+
     inner class QaListViewHolder(val binding: UserQaListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -55,7 +59,7 @@ class UserQaListAdapter(private val adapterDelegate: AdapterDelegate) :
             adapterDelegate.onItemClick(it, position)
         }
         tvQaTitle.text = item.wendaTitle
-        tvDesc.text = DateHelper.getFriendlyTimeSpanByNow("${item.wendaComment.publishTime}:00")
+        tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.wendaComment.publishTime, mSdf)
     }
 
     override fun onCreateViewHolder(
