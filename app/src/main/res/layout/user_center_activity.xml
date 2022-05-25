@@ -88,17 +88,19 @@
 
                 </LinearLayout>
 
-                <TextView
+                <com.hjq.shape.view.ShapeTextView
                     android:id="@+id/tv_get_allowance"
                     android:layout_width="76dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
-                    android:background="@color/pink"
                     android:gravity="center"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
+                    app:shape_solidDisabledColor="@color/btn_bg_disable_color"
                     android:text="成为VIP"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    app:shape_radius="@dimen/dp_3"
+                    app:shape_solidColor="@color/pink" />
 
             </LinearLayout>
 

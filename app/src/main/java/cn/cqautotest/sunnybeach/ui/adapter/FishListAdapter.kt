@@ -22,11 +22,13 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
-import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.util.EmojiImageGetter
 import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
+import com.blankj.utilcode.util.TimeUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * author : A Lonely Cat
@@ -54,7 +56,10 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         }
     }
 
+    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
+
     private var mItemClickListener: (item: Fish.FishItem, position: Int) -> Unit = { _, _ -> }
+
     private var mMenuItemClickListener: (view: View, item: Fish.FishItem, position: Int) -> Unit =
         { _, _, _ -> }
 
@@ -115,7 +120,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
         tvNickName.text = item.nickname
         val job = item.position.ifNullOrEmpty { "游民" }
-        tvDesc.text = "$job · " + DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
+        tvDesc.text = "$job · " + TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
         tvContent.setTextIsSelectable(false)
         tvContent.apply {
             if (expandContent) {

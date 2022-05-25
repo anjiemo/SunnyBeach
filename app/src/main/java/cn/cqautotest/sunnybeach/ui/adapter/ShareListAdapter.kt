@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.ShareListItemBinding
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.UserShare
-import cn.cqautotest.sunnybeach.util.DateHelper
+import com.blankj.utilcode.util.TimeUtils
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * author : A Lonely Cat
@@ -36,6 +38,8 @@ class ShareListAdapter(private val adapterDelegate: AdapterDelegate) :
         }
     }
 
+    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
+
     inner class ShareListViewHolder(val binding: ShareListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -55,7 +59,7 @@ class ShareListAdapter(private val adapterDelegate: AdapterDelegate) :
             adapterDelegate.onItemClick(it, position)
         }
         tvShareTitle.text = item.title
-        tvDesc.text = DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
+        tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
     }
 
     override fun onCreateViewHolder(

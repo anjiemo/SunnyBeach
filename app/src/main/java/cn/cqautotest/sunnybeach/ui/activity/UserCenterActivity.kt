@@ -66,7 +66,6 @@ class UserCenterActivity : AppActivity() {
     override fun initView() {
         val tvGetAllowance = mBinding.tvGetAllowance
         tvGetAllowance.text = getDefaultAllowanceTips()
-        tvGetAllowance.setRoundRectBg(ContextCompat.getColor(this, R.color.pink), 3.dp)
         checkAllowance()
         mBinding.refreshLayout.apply {
             val headerWrapper = RefreshHeaderWrapper(View(context))
@@ -280,8 +279,6 @@ class UserCenterActivity : AppActivity() {
         takeIf { isGetAllowance }?.let {
             val disableTextColor = ContextCompat.getColor(this, R.color.btn_text_disable_color)
             tvGetAllowance.setTextColor(disableTextColor)
-            val disableBgColor = ContextCompat.getColor(this, R.color.btn_bg_disable_color)
-            tvGetAllowance.setRoundRectBg(disableBgColor, 3.dp)
         }
     }
 

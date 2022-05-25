@@ -16,7 +16,9 @@ import cn.cqautotest.sunnybeach.databinding.QaListItemBinding
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.QaInfo
-import cn.cqautotest.sunnybeach.util.DateHelper
+import com.blankj.utilcode.util.TimeUtils
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * author : A Lonely Cat
@@ -42,6 +44,8 @@ class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
             return oldItem == newItem
         }
     }
+
+    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
     inner class QaListViewHolder(val binding: QaListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -106,7 +110,7 @@ class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
         tvQaNickName.setTextColor(UserManager.getNickNameColor(isVip))
 
         tvQaTitle.text = item.title
-        tvDesc.text = DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
+        tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
         llQaLabelContainer.apply {
             forEach {
                 it.isVisible = false

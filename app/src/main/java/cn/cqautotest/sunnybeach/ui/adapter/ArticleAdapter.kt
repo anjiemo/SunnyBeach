@@ -14,8 +14,10 @@ import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.ArticleInfo
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
-import cn.cqautotest.sunnybeach.util.DateHelper
 import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
+import com.blankj.utilcode.util.TimeUtils
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * author : A Lonely Cat
@@ -42,6 +44,8 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
             return oldItem == newItem
         }
     }
+
+    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.SIMPLIFIED_CHINESE)
 
     private var mMenuItemClickListener: (view: View, item: ArticleInfo.ArticleItem, position: Int) -> Unit =
         { _, _, _ -> }
@@ -106,8 +110,7 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         }
         ivAvatar.loadAvatar(item.vip, item.avatar)
         tvArticleTitle.text = item.title
-        tvNickName.text =
-            "${item.nickName} · ${DateHelper.getFriendlyTimeSpanByNow(item.createTime)}"
+        tvNickName.text = "${item.nickName} · ${TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)}"
         tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
         val covers = item.covers
         val imageCount = covers.size

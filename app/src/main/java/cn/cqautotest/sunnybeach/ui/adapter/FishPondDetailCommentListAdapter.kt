@@ -19,7 +19,9 @@ import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
-import cn.cqautotest.sunnybeach.util.DateHelper
+import com.blankj.utilcode.util.TimeUtils
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * author : A Lonely Cat
@@ -47,6 +49,8 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
             return oldItem == newItem
         }
     }
+
+    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
     private var mItemClickListener: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit =
         { _, _ -> }
@@ -102,7 +106,7 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
         tvNickName.text = item.getNickName()
         val job = item.position.ifNullOrEmpty { "游民" }
         // 摸鱼详情列表的时间没有精确到秒
-        tvDesc.text = "$job · " + DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
+        tvDesc.text = "$job · " + TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
         tvReply.setDefaultEmojiParser()
         tvReply.text = item.content
         val subComments = item.subComments
