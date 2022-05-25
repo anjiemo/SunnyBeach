@@ -10,6 +10,13 @@ import retrofit2.http.*
 interface UserApi {
 
     /**
+     * 举报
+     * 本接口详细描述请参见：https://www.sunofbeach.net/a/1529277017319542785
+     */
+    @POST("uc/report")
+    suspend fun report(@Body report: Report): ApiResponse<String>
+
+    /**
      * 修改用户头像
      */
     @PUT("uc/ucenter/user-info/avatar")

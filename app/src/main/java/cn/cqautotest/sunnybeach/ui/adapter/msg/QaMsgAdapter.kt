@@ -7,6 +7,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
+import androidx.core.text.buildSpannedString
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -61,15 +62,16 @@ class QaMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         val preText = "回答了朕的提问：「"
         val qaTitle = HtmlCompat.fromHtml(item.title, HtmlCompat.FROM_HTML_MODE_LEGACY)
         val suffixText = "」去看看问题解决了吗？"
-        val ss = SpannableString(preText + qaTitle + suffixText)
-        if (TextUtils.isEmpty(qaTitle).not()) {
-            val highlightColor = Color.parseColor("#1D7DFA")
-            val fcs = ForegroundColorSpan(highlightColor)
-            val startIndex = preText.length
-            val endIndex = preText.length + qaTitle.length
-            ss.setSpan(fcs, startIndex, endIndex, SpannableString.SPAN_INCLUSIVE_INCLUSIVE)
+        tvChildReplyMsg.text = buildSpannedString {
+            append(preText + qaTitle + suffixText)
+            if (TextUtils.isEmpty(qaTitle).not()) {
+                val highlightColor = Color.parseColor("#1D7DFA")
+                val fcs = ForegroundColorSpan(highlightColor)
+                val startIndex = preText.length
+                val endIndex = preText.length + qaTitle.length
+                setSpan(fcs, startIndex, endIndex, SpannableString.SPAN_INCLUSIVE_INCLUSIVE)
+            }
         }
-        tvChildReplyMsg.text = ss
         tvChildReplyMsg.ellipsize = TextUtils.TruncateAt.MIDDLE
     }
 
