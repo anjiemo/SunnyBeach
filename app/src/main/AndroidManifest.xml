@@ -448,7 +448,10 @@
         <activity
             android:name=".ui.activity.ModifyUserInfoActivity"
             android:screenOrientation="portrait" />
-
+        <!-- 举报页 -->
+        <activity
+            android:name=".ui.activity.ReportActivity"
+            android:screenOrientation="portrait" />
         <!-- region MiPush -->
         <!-- MiPush 通知点击 Activity  -->
         <activity

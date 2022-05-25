@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.ReportActivity">
+
+    <com.hjq.bar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:barStyle="light" />
+
+    <com.hjq.shape.view.ShapeEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:gravity="top"
+        android:hint="请填写5个字以上的举报描述"
+        android:lines="4"
+        android:padding="@dimen/dp_10"
+        app:shape_solidColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="@dimen/dp_10"
+        android:text="当前已输入 0 字"
+        android:textColor="@color/default_font_color" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="@dimen/dp_10"
+        android:enabled="false"
+        android:paddingHorizontal="@dimen/dp_40"
+        android:paddingVertical="@dimen/dp_4"
+        android:text="完成"
+        app:shape_radius="@dimen/dp_4"
+        app:shape_solidDisabledColor="@color/white70"
+        app:shape_textDisabledColor="@color/black40" />
+
+</LinearLayout>
