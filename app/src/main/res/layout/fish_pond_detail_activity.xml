@@ -12,6 +12,7 @@
     <com.hjq.bar.TitleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:rightIcon="@mipmap/ic_more"
         app:title="摸鱼详情" />
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
