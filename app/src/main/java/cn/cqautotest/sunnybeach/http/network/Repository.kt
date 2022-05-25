@@ -39,12 +39,10 @@ object Repository {
 
     fun getCoursePlayAuth(videoId: String) = launchAndGetData { CourseNetwork.getCoursePlayAuth(videoId) }
 
-    // fun modifyAvatar(avatarUrl: String) = liveData(build = { UserNetwork.modifyAvatar(avatarUrl) }) {
-    //     when {
-    //         it.isSuccess() -> Result.success(true)
-    //         else -> it.toErrorResult()
-    //     }
-    // }
+    fun report(reportType: ReportType, contentId: String, url: String, why: String): LiveData<Result<String>> {
+        val report = Report(type = reportType.type, contentId = contentId, url = url, why = why)
+        return launchAndGetData { UserNetwork.report(report) }
+    }
 
     fun modifyAvatar(avatarUrl: String) = liveData(build = { UserNetwork.modifyAvatar(avatarUrl) }) {
         when {

@@ -33,6 +33,12 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
+     * 举报
+     */
+    fun report(reportType: ReportType, contentId: String, url: String, why: String) =
+        Repository.report(reportType = reportType, contentId = contentId, url = url, why = why)
+
+    /**
      * 修改用户头像
      */
     fun modifyAvatar(avatarUrl: String) = Repository.modifyAvatar(avatarUrl)
