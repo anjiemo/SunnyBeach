@@ -18,7 +18,9 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.model.UserComment
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
-import cn.cqautotest.sunnybeach.util.DateHelper
+import com.blankj.utilcode.util.TimeUtils
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * author : A Lonely Cat
@@ -29,6 +31,8 @@ import cn.cqautotest.sunnybeach.util.DateHelper
 class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListViewHolder>() {
 
     private lateinit var mData: FishPondComment.FishPondCommentItem
+
+    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
     private var mCommentClickListener: (item: UserComment, position: Int) -> Unit = { _, _ -> }
 
@@ -75,7 +79,7 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
         }
         val job = item.position.ifNullOrEmpty { "游民" }
         // 摸鱼详情列表的时间没有精确到秒
-        tvDesc.text = "$job · " + DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
+        tvDesc.text = "$job · " + TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
         tvReply.setDefaultEmojiParser()
         tvReply.text = getBeautifiedFormat(item, mData)
         tvBuildReplyMsgContainer.isVisible = false
