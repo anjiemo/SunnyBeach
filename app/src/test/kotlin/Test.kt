@@ -1,9 +1,16 @@
+import cn.cqautotest.sunnybeach.execption.ServiceException
+import cn.cqautotest.sunnybeach.ktx.toJson
+import cn.cqautotest.sunnybeach.model.ApiResponse
+import cn.cqautotest.sunnybeach.model.ArticleDetail
 import cn.cqautotest.sunnybeach.model.UserArticle
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.hjq.gson.factory.GsonFactory
+import com.huawei.hms.scankit.p.T
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import okhttp3.*
-import okhttp3.Headers.Companion.toHeaders
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import org.junit.Test
 import java.io.File
 import java.io.IOException
@@ -13,35 +20,130 @@ import kotlin.coroutines.suspendCoroutine
 
 class Test {
 
-    @Test
-    fun test(): Unit = runBlocking(Dispatchers.IO) {
-        val userId = ""
-        val page = 1
-        val sobToken = ""
-        val headersTemplate = File("config", "headers.config").readText()
-        val headers = headersTemplate.replace("{sob_token}", sobToken)
-            .split("\r\n").associate { Pair(it.split(":")[0], it.split(":")[1]) }
-            .toHeaders()
+    private val userId = ""
+    private val sobToken by lazy { File("config", "sob_token.config").readText() }
+    private val userArticleListFile by lazy { File("config", "user_article_list.json") }
+    private val userArticleDetailUrlTemplate = "https://api.sunofbeaches.com/ct/article/detail/{articleId}"
+    private val userArticleUpdateUrlTemplate = "https://api.sunofbeaches.com/ct/ucenter/article/{articleId}"
 
-        println("test：===> headers is $headers")
+    @Test
+    fun createConfigFile() {
+        println("createConfigFile：===> pre create new config file...")
+        File("config", "sob_token.config").apply { takeUnless { exists() }?.createNewFile() }
+        File("config", "url.config").apply { takeUnless { exists() }?.createNewFile() }
+        println("createConfigFile：===> create new config file end...")
+    }
+
+    @Test
+    fun writeUserArticleListToFile(): Unit = runBlocking(Dispatchers.IO) {
         val userArticleList = arrayListOf<UserArticle.UserArticleItem>()
+        var currentPage = 1
         var hasNext = true
         while (hasNext) {
-            val result = paging(userId, page, headers, userArticleList)
+            val result = paging(currentPage, userArticleList)
             hasNext = result.getOrNull()?.hasNext ?: false
+            currentPage++
         }
         println("test：===> userArticleList size is ${userArticleList.size}")
+        val json = GsonBuilder().setPrettyPrinting().create().toJson(userArticleList)
+        userArticleListFile.writeText(json)
+        println("test：===> write userArticleList to file end...")
+    }
+
+    @Test
+    fun downloadUserArticleList(): Unit = runBlocking(Dispatchers.IO) {
+        File("article").apply { takeUnless { exists() }?.mkdir() }
+        var count = 0
+        val userArticleList = loadUserArticleList()
+        userArticleList.forEach {
+            val url = userArticleDetailUrlTemplate.replace("{articleId}", it.id)
+            val result = request<ArticleDetail>(url)
+            println("test：===> result is $result")
+            result.getOrNull()?.let { articleDetail ->
+                File("article", "${articleDetail.id}.md").writeText(articleDetail.content)
+                count++
+            }
+        }
+        println("test：===> transform end, userArticleList size is ${userArticleList.size} total $count")
+    }
+
+    private fun loadUserArticleList(): List<UserArticle.UserArticleItem> =
+        GsonFactory.getSingletonGson()
+            .fromJson(userArticleListFile.readText(), object : TypeToken<List<UserArticle.UserArticleItem>>() {}.type)
+
+    private fun listArticleFile(): Array<out File> {
+        val articleListDir = File("article")
+        return articleListDir.listFiles() ?: emptyArray()
+    }
+
+    @Test
+    fun modifyImgUrl() {
+        val modifyArticleDir = File("revised_article").apply { mkdirs() }
+        val linkPre = "https://gitee.com/anjiemo/figure-bed/raw/master/img/"
+        val newLinkPre = "http://blog.52android.cn/blog/imgs/"
+        listArticleFile().forEach { file ->
+            val content = file.readText()
+            takeIf { content.contains(linkPre) }?.let {
+                val newContent = content.replace(linkPre, newLinkPre)
+                    .replace("<p>", "\n")
+                    .replace("</p>", "\n")
+                File(modifyArticleDir.path, file.name).writeText(newContent)
+            }
+        }
+    }
+
+    @Test
+    fun updateUserArticleList(): Unit = runBlocking(Dispatchers.IO) {
+        println("updateUserArticleList：===> update start...")
+        val headerArr = File("config", "headers.config")
+            .readText()
+            .split("\n")
+            .map { Pair(it.split(":")[0], it.split(":")[1]) }
+        listArticleFile().forEach { file ->
+            val content = file.readText()
+            val articleId = file.name.removeSuffix(".md")
+            val url = userArticleUpdateUrlTemplate.replace("{articleId}", articleId)
+            request<HashMap<String, Any>>(userArticleDetailUrlTemplate.replace("{articleId}", articleId)).getOrNull()?.let { jsonMap ->
+                val result = request<Any>(url) {
+                    jsonMap["content"] = content
+                    val newContent = jsonMap.toJson()
+                    val mediaType = "application/json".toMediaTypeOrNull()
+                    val requestBody = RequestBody.create(mediaType, newContent)
+                    println("updateUserArticleList：===> requestBody is ${requestBody.toJson()}")
+                    headerArr.forEach { addHeader(it.first, it.second) }
+                    this.method("PUT", requestBody)
+                    this
+                }
+                println("test：===> result is ${result.getOrNull()}")
+            }
+        }
+        println("updateUserArticleList：===> update end...")
+    }
+
+    @Test
+    fun findNeedModifyUserArticleAndPrint(): Unit = runBlocking(Dispatchers.IO) {
+        val userArticleList = loadUserArticleList()
+        listArticleFile().forEach { file ->
+            val content = file.readText()
+            val articleId = file.name.removeSuffix(".md")
+            userArticleList.find { it.id == articleId }?.let { userArticle ->
+                val needModify = content.contains("https://gitee.com/anjiemo/figure-bed/raw/master/img/")
+                if (needModify) {
+                    takeIf { needModify }?.let {
+                        println("test：===> need modify articleId is $articleId, userArticle is ${userArticle.title}")
+                    }
+                }
+            }
+        }
     }
 
     private suspend fun paging(
-        userId: String,
         page: Int,
-        headers: Headers,
         totalUserArticleList: MutableList<UserArticle.UserArticleItem>
     ): Result<UserArticle> {
         val urlTemplate = File("config", "url.config").readText()
         val url = urlTemplate.replace("{userId}", userId).replace("{page}", page.toString())
-        val result: Result<UserArticle> = request(url, headers, UserArticle::class.java)
+        val result: Result<UserArticle> = request(url)
         val userArticlePage = result.getOrNull()
         println("test：===> result is $userArticlePage")
         val userArticleList = userArticlePage?.list ?: emptyList()
@@ -54,31 +156,38 @@ class Test {
 
     private val client = OkHttpClient()
 
-    private suspend fun request(url: String, headers: Headers, clazz: Class<UserArticle>) = suspendCoroutine<Result<UserArticle>> { con ->
-        println("request：===> url is $url")
-        val request = Request.Builder()
-            .url(url)
-            .headers(headers)
-            .build()
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-                con.resumeWithException(e)
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                val result = response.body?.string() ?: ""
-                println("request：===> result is $result")
-                try {
-                    val resultBean = GsonFactory.getSingletonGson().fromJson(result, clazz)
-                    con.resume(Result.success(resultBean))
-                } catch (e: Exception) {
+    private suspend inline fun <reified T> request(url: String, crossinline build: (Request.Builder.() -> Request.Builder) = { this }) =
+        suspendCoroutine<Result<T>> { con ->
+            println("request：===> url is $url")
+            val request = Request.Builder()
+                .header("sob_token", sobToken)
+                .run(build)
+                .url(url)
+                .build()
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
                     e.printStackTrace()
                     con.resumeWithException(e)
                 }
-            }
-        })
-    }
+
+                override fun onResponse(call: Call, response: Response) {
+                    val result = response.body?.string() ?: ""
+                    println("request：===> result is $result")
+                    try {
+                        val apiResponse: ApiResponse<T> =
+                            GsonFactory.getSingletonGson().fromJson(result, object : TypeToken<ApiResponse<T>>() {}.type)
+                        if (apiResponse.isSuccess()) {
+                            con.resume(Result.success(apiResponse.getData()))
+                        } else {
+                            con.resumeWithException(ServiceException("apiResponse is not success"))
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        con.resumeWithException(e)
+                    }
+                }
+            })
+        }
 
     @Test
     fun listFiles() {
