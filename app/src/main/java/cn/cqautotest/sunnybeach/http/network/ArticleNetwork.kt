@@ -8,5 +8,7 @@ package cn.cqautotest.sunnybeach.http.network
  */
 object ArticleNetwork : INetworkApi {
 
+    suspend fun getArticleDetailById(articleId: String) = articleApi.getArticleDetailById(articleId)
+
     suspend fun loadUserArticleList(userId: String, page: Int) = articleApi.loadUserArticleList(userId, page)
 }

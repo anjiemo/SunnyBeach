@@ -7,12 +7,9 @@ import android.view.LayoutInflater
 
 fun Context.asInflater() = LayoutInflater.from(this)
 
-inline fun <reified T : Activity> Context.startActivity(block: Intent.() -> Unit = {}) {
-    val context = this
-    Intent(this, T::class.java).apply(block).run {
-        if (context !is Activity) {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-        startActivity(this)
+inline fun <reified T : Activity> Context.startActivity(noinline block: (Intent.() -> Unit)? = null) {
+    Intent(this, T::class.java).also {
+        if (this !is Activity) it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(it.apply { block?.invoke(this) })
     }
 }
