@@ -6,6 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.model.ArticleInfo
 import cn.cqautotest.sunnybeach.model.UserArticle
 import cn.cqautotest.sunnybeach.paging.source.ArticlePagingSource
@@ -20,6 +21,8 @@ import kotlinx.coroutines.flow.Flow
  */
 class ArticleViewModel : ViewModel() {
 
+    fun getArticleDetailById(articleId: String) = Repository.getArticleDetailById(articleId)
+
     fun getUserArticleList(userId: String): Flow<PagingData<UserArticle.UserArticleItem>> {
         return Pager(config = PagingConfig(30),
             pagingSourceFactory = {
@@ -28,7 +31,8 @@ class ArticleViewModel : ViewModel() {
     }
 
     fun getArticleListByCategoryId(categoryId: String): Flow<PagingData<ArticleInfo.ArticleItem>> {
-        return Pager(config = PagingConfig(30),
+        return Pager(
+            config = PagingConfig(30),
             pagingSourceFactory = {
                 ArticlePagingSource(categoryId)
             }).flow.cachedIn(viewModelScope)

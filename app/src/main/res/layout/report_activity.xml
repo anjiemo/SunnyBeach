@@ -14,6 +14,7 @@
         app:barStyle="light" />
 
     <com.hjq.shape.view.ShapeEditText
+        android:id="@+id/et_input_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
@@ -33,16 +34,19 @@
         android:textColor="@color/default_font_color" />
 
     <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/tv_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginVertical="@dimen/dp_10"
         android:enabled="false"
         android:paddingHorizontal="@dimen/dp_40"
-        android:paddingVertical="@dimen/dp_4"
+        android:paddingVertical="@dimen/dp_10"
         android:text="完成"
         app:shape_radius="@dimen/dp_4"
-        app:shape_solidDisabledColor="@color/white70"
+        app:shape_solidColor="#1D7DFA"
+        app:shape_solidDisabledColor="@color/white60"
+        app:shape_textColor="@color/white"
         app:shape_textDisabledColor="@color/black40" />
 
 </LinearLayout>

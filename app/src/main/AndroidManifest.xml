@@ -353,53 +353,64 @@
             </intent-filter>
 
         </activity>
+
         <!-- 用户中心页 -->
         <activity
             android:name=".ui.activity.UserCenterActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+
         <!-- 富豪榜列表页 -->
         <activity
             android:name=".ui.activity.RichListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+
         <!-- 摸鱼详情页 -->
         <activity
             android:name=".ui.activity.FishPondDetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+
         <!-- 摸鱼设置页 -->
         <activity
             android:name=".ui.activity.FishPondSettingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+
         <!-- 鱼塘列表选择页 -->
         <activity
             android:name=".ui.activity.FishPondSelectionActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+
         <!-- 发布摸鱼页 -->
         <activity
             android:name=".ui.activity.PutFishActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+
         <!-- 摸鱼评论列表页 -->
         <activity
             android:name=".ui.activity.FishCommendDetailActivity"
             android:screenOrientation="portrait" />
+
         <!-- 消息中心页 -->
         <activity
             android:name=".ui.activity.MessageCenterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppMaterialComponentsTheme" />
+
         <!-- 文章消息列表页 -->
         <activity
             android:name=".ui.activity.msg.ArticleMsgListActivity"
             android:screenOrientation="portrait" />
+
         <!-- 点赞消息列表页 -->
         <activity
             android:name=".ui.activity.msg.LikeMsgListActivity"
             android:screenOrientation="portrait" />
+
         <!-- 摸鱼消息列表页 -->
         <activity
             android:name=".ui.activity.msg.FishMsgListActivity"
@@ -408,50 +419,62 @@
         <activity
             android:name=".ui.activity.msg.AtMeMsgListActivity"
             android:screenOrientation="portrait" />
+
         <!-- 问答消息列表页 -->
         <activity
             android:name=".ui.activity.msg.QaMsgListActivity"
             android:screenOrientation="portrait" />
+
         <!-- 系统消息列表页 -->
         <activity
             android:name=".ui.activity.msg.SystemMsgListActivity"
             android:screenOrientation="portrait" />
+
         <!-- Vip 介绍页 -->
         <activity
             android:name=".ui.activity.VipActivity"
             android:screenOrientation="portrait" />
+
         <!-- 创作中心页 -->
         <activity
             android:name=".ui.activity.CreationCenterActivity"
             android:screenOrientation="portrait" />
+
         <!-- 扫码界面 -->
         <activity
             android:name=".ui.activity.ScanCodeActivity"
             android:screenOrientation="portrait" />
+
         <!-- 课程详情页 -->
         <activity
             android:name=".ui.activity.CourseDetailActivity"
             android:screenOrientation="portrait" />
+
         <!-- 课程视频播放页 -->
         <activity
             android:name=".ui.activity.PlayerActivity"
             android:screenOrientation="landscape" />
+
         <!-- 壁纸发现页 -->
         <activity
             android:name=".ui.activity.WallpaperActivity"
             android:screenOrientation="portrait" />
+
         <!-- 搜索结果页 -->
         <activity
             android:name=".ui.activity.SearchActivity"
             android:screenOrientation="portrait" />
+
         <!-- 修改用户信息页 -->
         <activity
             android:name=".ui.activity.ModifyUserInfoActivity"
             android:screenOrientation="portrait" />
+
         <!-- 举报页 -->
         <activity
             android:name=".ui.activity.ReportActivity"
             android:screenOrientation="portrait" />
+
         <!-- region MiPush -->
         <!-- MiPush 通知点击 Activity  -->
         <activity
@@ -507,16 +530,20 @@
         <receiver
             android:name=".push.xiaomi.MiPushBroadcastReceiver"
             android:exported="true">
+
             <!--这里com.xiaomi.mipushdemo.DemoMessageRreceiver改成app中定义的完整类名-->
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.ERROR" />
             </intent-filter>
+
         </receiver>
 
         <!-- endregion -->

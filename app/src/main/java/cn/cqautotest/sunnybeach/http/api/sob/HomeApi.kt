@@ -23,12 +23,6 @@ interface HomeApi {
     ): ApiResponse<SearchResult>
 
     /**
-     * 根据文章id获取文章详情内容
-     */
-    @GET("ct/article/detail/{articleId}")
-    suspend fun getArticleDetailById(@Path("articleId") articleId: String): ApiResponse<ArticleDetail>
-
-    /**
      * 根据分类id获取内容
      */
     @GET("ct/content/home/recommend/{categoryId}/{page}")
