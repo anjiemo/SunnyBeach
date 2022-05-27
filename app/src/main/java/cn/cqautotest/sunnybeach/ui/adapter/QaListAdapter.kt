@@ -9,10 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.QaListItemBinding
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.QaInfo
@@ -27,23 +27,7 @@ import java.util.*
  * desc   : 问答列表的适配器
  */
 class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<QaInfo.QaInfoItem, QaListAdapter.QaListViewHolder>(QaDiffCallback()) {
-
-    class QaDiffCallback : DiffUtil.ItemCallback<QaInfo.QaInfoItem>() {
-        override fun areItemsTheSame(
-            oldItem: QaInfo.QaInfoItem,
-            newItem: QaInfo.QaInfoItem
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(
-            oldItem: QaInfo.QaInfoItem,
-            newItem: QaInfo.QaInfoItem
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
+    PagingDataAdapter<QaInfo.QaInfoItem, QaListAdapter.QaListViewHolder>(diffCallback) {
 
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
@@ -133,5 +117,11 @@ class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
         val inflater = LayoutInflater.from(parent.context)
         val binding = QaListItemBinding.inflate(inflater, parent, false)
         return QaListViewHolder(binding)
+    }
+
+    companion object {
+
+        private val diffCallback =
+            itemDiffCallback<QaInfo.QaInfoItem>({ oldItem, newItem -> oldItem.id == newItem.id }) { oldItem, newItem -> oldItem == newItem }
     }
 }

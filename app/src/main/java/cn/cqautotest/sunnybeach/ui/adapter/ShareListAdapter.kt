@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.ShareListItemBinding
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.UserShare
 import com.blankj.utilcode.util.TimeUtils
@@ -20,23 +20,7 @@ import java.util.*
  * desc   : 用户分享列表的适配器
  */
 class ShareListAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<UserShare.Content, ShareListAdapter.ShareListViewHolder>(ShareDiffCallback()) {
-
-    class ShareDiffCallback : DiffUtil.ItemCallback<UserShare.Content>() {
-        override fun areItemsTheSame(
-            oldItem: UserShare.Content,
-            newItem: UserShare.Content
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(
-            oldItem: UserShare.Content,
-            newItem: UserShare.Content
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
+    PagingDataAdapter<UserShare.Content, ShareListAdapter.ShareListViewHolder>(diffCallback) {
 
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
@@ -69,5 +53,11 @@ class ShareListAdapter(private val adapterDelegate: AdapterDelegate) :
         val inflater = LayoutInflater.from(parent.context)
         val binding = ShareListItemBinding.inflate(inflater, parent, false)
         return ShareListViewHolder(binding)
+    }
+
+    companion object {
+
+        private val diffCallback =
+            itemDiffCallback<UserShare.Content>({ oldItem, newItem -> oldItem.id == newItem.id }) { oldItem, newItem -> oldItem == newItem }
     }
 }

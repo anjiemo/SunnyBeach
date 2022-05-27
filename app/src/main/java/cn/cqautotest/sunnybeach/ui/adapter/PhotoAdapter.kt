@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
@@ -22,6 +23,10 @@ import com.hjq.widget.layout.RatioFrameLayout
 class PhotoAdapter(val fillBox: Boolean = false) :
     BaseQuickAdapter<WallpaperBean.Res.Vertical, BaseViewHolder>(R.layout.photo_list_item),
     LoadMoreModule {
+
+    private val radius = (if (fillBox) 0 else 8).dp.toFloat()
+    private val screenWidth = ScreenUtils.getScreenWidth().toFloat()
+    private val screenHeight = ScreenUtils.getScreenHeight().toFloat()
 
     private var mItemClickListener: (verticalPhoto: WallpaperBean.Res.Vertical, position: Int) -> Unit =
         { _, _ -> }
@@ -44,15 +49,12 @@ class PhotoAdapter(val fillBox: Boolean = false) :
             }
             val photoIv = getView<ImageView>(R.id.photoIv)
             val roundLayout = getView<RoundRelativeLayout>(R.id.round_layout)
-            roundLayout.setRadius((if (fillBox) 0 else 8).dp.toFloat())
+            roundLayout.setRadius(radius)
             // 设置比例布局全屏
             if (fillBox) {
                 // 设置比例布局全屏
                 val ratioFrameLayout = getView<RatioFrameLayout>(R.id.ratio_frame_layout)
-                ratioFrameLayout.setSizeRatio(
-                    ScreenUtils.getScreenWidth().toFloat(),
-                    ScreenUtils.getScreenHeight().toFloat()
-                )
+                ratioFrameLayout.setSizeRatio(screenWidth, screenHeight)
             } else {
                 itemView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
                 itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
@@ -64,12 +66,14 @@ class PhotoAdapter(val fillBox: Boolean = false) :
                     if (fillBox) this else override(photoIv.width, photoIv.height)
                 }
                 .into(photoIv)
-            itemView.setOnClickListener {
-                mItemClickListener(item, bindingAdapterPosition)
-            }
-            itemView.setOnLongClickListener {
-                mItemLongClickListener(item, bindingAdapterPosition)
-                true
+            with(holder as RecyclerView.ViewHolder) {
+                itemView.setOnClickListener {
+                    mItemClickListener(item, absoluteAdapterPosition)
+                }
+                itemView.setOnLongClickListener {
+                    mItemLongClickListener(item, absoluteAdapterPosition)
+                    true
+                }
             }
         }
     }

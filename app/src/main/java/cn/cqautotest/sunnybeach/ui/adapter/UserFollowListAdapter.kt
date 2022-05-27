@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.FollowListItemBinding
 import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.setRoundRectBg
 import cn.cqautotest.sunnybeach.manager.UserManager
@@ -24,25 +24,7 @@ import cn.cqautotest.sunnybeach.other.FriendsStatus
  * desc   : 用户关注的用户列表的适配器
  */
 class UserFollowListAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<UserFollow.UserFollowItem, UserFollowListAdapter.QaListViewHolder>(
-        UserFollowDiffCallback()
-    ) {
-
-    class UserFollowDiffCallback : DiffUtil.ItemCallback<UserFollow.UserFollowItem>() {
-        override fun areItemsTheSame(
-            oldItem: UserFollow.UserFollowItem,
-            newItem: UserFollow.UserFollowItem
-        ): Boolean {
-            return oldItem.userId == newItem.userId
-        }
-
-        override fun areContentsTheSame(
-            oldItem: UserFollow.UserFollowItem,
-            newItem: UserFollow.UserFollowItem
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
+    PagingDataAdapter<UserFollow.UserFollowItem, UserFollowListAdapter.QaListViewHolder>(diffCallback) {
 
     private var mItemClickListener: (item: UserFollow.UserFollowItem, position: Int) -> Unit =
         { _, _ -> }
@@ -96,5 +78,11 @@ class UserFollowListAdapter(private val adapterDelegate: AdapterDelegate) :
         val inflater = LayoutInflater.from(parent.context)
         val binding = FollowListItemBinding.inflate(inflater, parent, false)
         return QaListViewHolder(binding)
+    }
+
+    companion object {
+
+        private val diffCallback =
+            itemDiffCallback<UserFollow.UserFollowItem>({ oldItem, newItem -> oldItem.userId == newItem.userId }) { oldItem, newItem -> oldItem == newItem }
     }
 }

@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.PhotoListItemBinding
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import com.blankj.utilcode.util.ScreenUtils
@@ -22,26 +22,7 @@ import com.bumptech.glide.Glide
 class WallpaperListAdapter(
     private val adapterDelegate: AdapterDelegate,
     private val fillBox: Boolean = false
-) :
-    PagingDataAdapter<WallpaperBean.Res.Vertical, WallpaperListAdapter.PhotoListViewHolder>(
-        WallDiffCallback()
-    ) {
-
-    class WallDiffCallback : DiffUtil.ItemCallback<WallpaperBean.Res.Vertical>() {
-        override fun areItemsTheSame(
-            oldItem: WallpaperBean.Res.Vertical,
-            newItem: WallpaperBean.Res.Vertical
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(
-            oldItem: WallpaperBean.Res.Vertical,
-            newItem: WallpaperBean.Res.Vertical
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
+) : PagingDataAdapter<WallpaperBean.Res.Vertical, WallpaperListAdapter.PhotoListViewHolder>(diffCallback) {
 
     inner class PhotoListViewHolder(private val binding: PhotoListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -85,7 +66,6 @@ class WallpaperListAdapter(
     private var mItemClickListener: (view: View, verticalPhoto: WallpaperBean.Res.Vertical, position: Int) -> Unit =
         { _, _, _ -> }
 
-
     private var mItemLongClickListener: (verticalPhoto: WallpaperBean.Res.Vertical, position: Int) -> Unit =
         { _, _ -> }
 
@@ -105,5 +85,11 @@ class WallpaperListAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val binding = PhotoListItemBinding.inflate(inflater, parent, false)
         return PhotoListViewHolder(binding)
+    }
+
+    companion object {
+
+        private val diffCallback =
+            itemDiffCallback<WallpaperBean.Res.Vertical>({ oldItem, newItem -> oldItem.id == newItem.id }) { oldItem, newItem -> oldItem == newItem }
     }
 }

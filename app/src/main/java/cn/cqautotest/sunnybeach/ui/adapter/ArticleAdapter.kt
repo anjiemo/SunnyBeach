@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.ArticleListItemBinding
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.ArticleInfo
@@ -26,24 +26,8 @@ import java.util.*
  * desc   : 文章列表的适配器
  */
 class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<ArticleInfo.ArticleItem, ArticleAdapter.ArticleViewHolder>(ArticleDiffCallback()),
+    PagingDataAdapter<ArticleInfo.ArticleItem, ArticleAdapter.ArticleViewHolder>(diffCallback),
     SimpleGridLayout.OnNineGridClickListener {
-
-    class ArticleDiffCallback : DiffUtil.ItemCallback<ArticleInfo.ArticleItem>() {
-        override fun areItemsTheSame(
-            oldItem: ArticleInfo.ArticleItem,
-            newItem: ArticleInfo.ArticleItem
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(
-            oldItem: ArticleInfo.ArticleItem,
-            newItem: ArticleInfo.ArticleItem
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
 
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.SIMPLIFIED_CHINESE)
 
@@ -132,5 +116,11 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         val inflater = LayoutInflater.from(parent.context)
         val binding = ArticleListItemBinding.inflate(inflater, parent, false)
         return ArticleViewHolder(binding)
+    }
+
+    companion object {
+
+        private val diffCallback =
+            itemDiffCallback<ArticleInfo.ArticleItem>({ oldItem, newItem -> oldItem.id == newItem.id }) { oldItem, newItem -> oldItem.id == newItem.id }
     }
 }
