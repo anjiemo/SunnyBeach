@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.parseAsHtml
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.UserQaListItemBinding
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.SearchResult
 
@@ -18,23 +18,7 @@ import cn.cqautotest.sunnybeach.model.SearchResult
  * desc   : 搜索结果列表的适配器
  */
 class SearchResultListAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<SearchResult.SearchResultItem, SearchResultListAdapter.SearchResultListViewHolder>(SearchResultDiffCallback()) {
-
-    class SearchResultDiffCallback : DiffUtil.ItemCallback<SearchResult.SearchResultItem>() {
-        override fun areItemsTheSame(
-            oldItem: SearchResult.SearchResultItem,
-            newItem: SearchResult.SearchResultItem
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(
-            oldItem: SearchResult.SearchResultItem,
-            newItem: SearchResult.SearchResultItem
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
+    PagingDataAdapter<SearchResult.SearchResultItem, SearchResultListAdapter.SearchResultListViewHolder>(diffCallback) {
 
     inner class SearchResultListViewHolder(val binding: UserQaListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -71,5 +55,11 @@ class SearchResultListAdapter(private val adapterDelegate: AdapterDelegate) :
         val inflater = LayoutInflater.from(parent.context)
         val binding = UserQaListItemBinding.inflate(inflater, parent, false)
         return SearchResultListViewHolder(binding)
+    }
+
+    companion object {
+
+        private val diffCallback =
+            itemDiffCallback<SearchResult.SearchResultItem>({ oldItem, newItem -> oldItem.id == newItem.id }) { oldItem, newItem -> oldItem == newItem }
     }
 }

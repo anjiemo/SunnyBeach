@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.RichListItemBinding
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.RichList
@@ -21,23 +21,7 @@ import com.bumptech.glide.Glide
  * desc   : 富豪榜列表适配器
  */
 class RichListAdapter :
-    PagingDataAdapter<RichList.RichUserItem, RichListAdapter.RichListViewHolder>(RichDiffCallback()) {
-
-    class RichDiffCallback : DiffUtil.ItemCallback<RichList.RichUserItem>() {
-        override fun areItemsTheSame(
-            oldItem: RichList.RichUserItem,
-            newItem: RichList.RichUserItem
-        ): Boolean {
-            return oldItem.userId == newItem.userId
-        }
-
-        override fun areContentsTheSame(
-            oldItem: RichList.RichUserItem,
-            newItem: RichList.RichUserItem
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
+    PagingDataAdapter<RichList.RichUserItem, RichListAdapter.RichListViewHolder>(diffCallback) {
 
     inner class RichListViewHolder(val binding: RichListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -88,5 +72,11 @@ class RichListAdapter :
                 else -> setImageDrawable(null)
             }
         }
+    }
+
+    companion object {
+
+        private val diffCallback =
+            itemDiffCallback<RichList.RichUserItem>({ oldItem, newItem -> oldItem.userId == newItem.userId }) { oldItem, newItem -> oldItem == newItem }
     }
 }

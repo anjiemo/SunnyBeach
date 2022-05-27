@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.TextUtils
 import cn.cqautotest.sunnybeach.ktx.toJson
 import com.xiaomi.mipush.sdk.*
+import org.json.JSONObject
 import timber.log.Timber
 
 /**
@@ -27,12 +28,35 @@ class MiPushBroadcastReceiver : PushMessageReceiver() {
 
     override fun onReceivePassThroughMessage(context: Context?, message: MiPushMessage) {
         Timber.d("onReceivePassThroughMessage：===> message is ${message.toJson()}")
-        // TODO: 解析透传消息内容并执行
         mMessage = message.content
         when {
             !TextUtils.isEmpty(message.topic) -> mTopic = message.topic
             !TextUtils.isEmpty(message.alias) -> mAlias = message.alias
             !TextUtils.isEmpty(message.userAccount) -> mUserAccount = message.userAccount
+        }
+        mMessage?.let { parseMessage(it) }
+    }
+
+    /**
+     * 解析透传消息内容
+     * 消息结构：
+     * {
+     *     "type": "update",
+     *     "data": {
+     *         "title": "更新标题",
+     *         "content": "更新内容",
+     *         "url": "http://www.baidu.com",
+     *         "force": true
+     *     }
+     * }
+     */
+    private fun parseMessage(message: String) {
+        val jsonObject = JSONObject(message)
+        when (jsonObject.optString("type")) {
+            "update" -> {
+                // 更新
+
+            }
         }
     }
 

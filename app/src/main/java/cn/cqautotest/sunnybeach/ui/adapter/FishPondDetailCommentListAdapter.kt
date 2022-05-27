@@ -11,10 +11,10 @@ import android.view.ViewGroup
 import androidx.core.text.buildSpannedString
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
 import cn.cqautotest.sunnybeach.ktx.ifNullOrEmpty
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
@@ -31,25 +31,7 @@ import java.util.*
  * desc   : 摸鱼话题评论列表适配器
  */
 class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<FishPondComment.FishPondCommentItem, FishDetailCommendListViewHolder>(
-        FishCommendDiffCallback()
-    ) {
-
-    class FishCommendDiffCallback : DiffUtil.ItemCallback<FishPondComment.FishPondCommentItem>() {
-        override fun areItemsTheSame(
-            oldItem: FishPondComment.FishPondCommentItem,
-            newItem: FishPondComment.FishPondCommentItem
-        ): Boolean {
-            return oldItem.getId() == newItem.getId()
-        }
-
-        override fun areContentsTheSame(
-            oldItem: FishPondComment.FishPondCommentItem,
-            newItem: FishPondComment.FishPondCommentItem
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
+    PagingDataAdapter<FishPondComment.FishPondCommentItem, FishDetailCommendListViewHolder>(diffCallback) {
 
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
@@ -171,6 +153,12 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
         val inflater = LayoutInflater.from(parent.context)
         val binding = FishPondDetailCommendListBinding.inflate(inflater, parent, false)
         return FishDetailCommendListViewHolder(binding)
+    }
+
+    companion object {
+
+        private val diffCallback =
+            itemDiffCallback<FishPondComment.FishPondCommentItem>({ oldItem, newItem -> oldItem.getId() == newItem.getId() }) { oldItem, newItem -> oldItem == newItem }
     }
 }
 

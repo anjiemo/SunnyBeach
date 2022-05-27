@@ -11,7 +11,8 @@
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:leftTitle="评论" />
+        app:rightIcon="@mipmap/ic_more"
+        app:title="评论" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"

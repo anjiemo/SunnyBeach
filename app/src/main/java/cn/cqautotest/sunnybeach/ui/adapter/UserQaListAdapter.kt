@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.UserQaListItemBinding
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.UserQa
 import com.blankj.utilcode.util.TimeUtils
@@ -20,23 +20,7 @@ import java.util.*
  * desc   : 用户回答列表的适配器
  */
 class UserQaListAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<UserQa.Content, UserQaListAdapter.QaListViewHolder>(UserQaDiffCallback()) {
-
-    class UserQaDiffCallback : DiffUtil.ItemCallback<UserQa.Content>() {
-        override fun areItemsTheSame(
-            oldItem: UserQa.Content,
-            newItem: UserQa.Content
-        ): Boolean {
-            return oldItem.wendaComment.id == newItem.wendaComment.id
-        }
-
-        override fun areContentsTheSame(
-            oldItem: UserQa.Content,
-            newItem: UserQa.Content
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
+    PagingDataAdapter<UserQa.Content, UserQaListAdapter.QaListViewHolder>(diffCallback) {
 
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
@@ -69,5 +53,11 @@ class UserQaListAdapter(private val adapterDelegate: AdapterDelegate) :
         val inflater = LayoutInflater.from(parent.context)
         val binding = UserQaListItemBinding.inflate(inflater, parent, false)
         return QaListViewHolder(binding)
+    }
+
+    companion object {
+
+        private val diffCallback =
+            itemDiffCallback<UserQa.Content>({ oldItem, newItem -> oldItem.wendaComment.id == newItem.wendaComment.id }) { oldItem, newItem -> oldItem == newItem }
     }
 }

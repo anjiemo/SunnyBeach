@@ -3,10 +3,10 @@ package cn.cqautotest.sunnybeach.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.CourseChapterChildItemBinding
 import cn.cqautotest.sunnybeach.databinding.CourseChapterGroupItemBinding
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.course.CourseChapter
 
@@ -17,31 +17,7 @@ import cn.cqautotest.sunnybeach.model.course.CourseChapter
  * desc   : 课程章节列表的适配器
  */
 class CourseChapterListAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<CourseChapterListAdapter.Type, RecyclerView.ViewHolder>(CourseChapterDiffCallback()) {
-
-    class CourseChapterDiffCallback : DiffUtil.ItemCallback<Type>() {
-        override fun areItemsTheSame(
-            oldItem: Type,
-            newItem: Type
-        ): Boolean {
-            return when (oldItem) {
-                is GroupType -> (oldItem as? CourseChapter.CourseChapterItem)?.id == (newItem as? CourseChapter.CourseChapterItem)?.id
-                is ChildType -> (oldItem as? CourseChapter.CourseChapterItem.Children)?.id == (newItem as? CourseChapter.CourseChapterItem.Children)?.id
-                else -> false
-            }
-        }
-
-        override fun areContentsTheSame(
-            oldItem: Type,
-            newItem: Type
-        ): Boolean {
-            return when (oldItem) {
-                is GroupType -> (oldItem as? CourseChapter.CourseChapterItem) == (newItem as? CourseChapter.CourseChapterItem)
-                is ChildType -> (oldItem as? CourseChapter.CourseChapterItem.Children) == (newItem as? CourseChapter.CourseChapterItem.Children)
-                else -> false
-            }
-        }
-    }
+    PagingDataAdapter<CourseChapterListAdapter.Type, RecyclerView.ViewHolder>(diffCallback) {
 
     private var mItemClickListener: (item: CourseChapter.CourseChapterItem.Children, position: Int) -> Unit = { _, _ -> }
 
@@ -120,5 +96,19 @@ class CourseChapterListAdapter(private val adapterDelegate: AdapterDelegate) :
 
         private const val GROUP_TYPE = 0x001
         private const val CHILD_TYPE = 0x002
+
+        private val diffCallback = itemDiffCallback<Type>({ oldItem, newItem ->
+            when (oldItem) {
+                is GroupType -> (oldItem as? CourseChapter.CourseChapterItem)?.id == (newItem as? CourseChapter.CourseChapterItem)?.id
+                is ChildType -> (oldItem as? CourseChapter.CourseChapterItem.Children)?.id == (newItem as? CourseChapter.CourseChapterItem.Children)?.id
+                else -> false
+            }
+        }) { oldItem, newItem ->
+            when (oldItem) {
+                is GroupType -> (oldItem as? CourseChapter.CourseChapterItem) == (newItem as? CourseChapter.CourseChapterItem)
+                is ChildType -> (oldItem as? CourseChapter.CourseChapterItem.Children) == (newItem as? CourseChapter.CourseChapterItem.Children)
+                else -> false
+            }
+        }
     }
 }

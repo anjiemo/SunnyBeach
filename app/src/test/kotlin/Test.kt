@@ -6,7 +6,6 @@ import cn.cqautotest.sunnybeach.model.UserArticle
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.hjq.gson.factory.GsonFactory
-import com.huawei.hms.scankit.p.T
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import okhttp3.*
@@ -20,7 +19,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class Test {
 
-    private val userId = ""
+    private val userId = "1204736502274318336"
     private val sobToken by lazy { File("config", "sob_token.config").readText() }
     private val userArticleListFile by lazy { File("config", "user_article_list.json") }
     private val userArticleDetailUrlTemplate = "https://api.sunofbeaches.com/ct/article/detail/{articleId}"
@@ -93,6 +92,23 @@ class Test {
     }
 
     @Test
+    fun findNeedModifyUserArticleAndPrint(): Unit = runBlocking(Dispatchers.IO) {
+        val userArticleList = loadUserArticleList()
+        listArticleFile().forEach { file ->
+            val content = file.readText()
+            val articleId = file.name.removeSuffix(".md")
+            userArticleList.find { it.id == articleId }?.let { userArticle ->
+                val needModify = content.contains("https://gitee.com/anjiemo/figure-bed/raw/master/img/")
+                if (needModify) {
+                    takeIf { needModify }?.let {
+                        println("test：===> need modify articleId is $articleId, userArticle is ${userArticle.title}")
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     fun updateUserArticleList(): Unit = runBlocking(Dispatchers.IO) {
         println("updateUserArticleList：===> update start...")
         val headerArr = File("config", "headers.config")
@@ -118,23 +134,6 @@ class Test {
             }
         }
         println("updateUserArticleList：===> update end...")
-    }
-
-    @Test
-    fun findNeedModifyUserArticleAndPrint(): Unit = runBlocking(Dispatchers.IO) {
-        val userArticleList = loadUserArticleList()
-        listArticleFile().forEach { file ->
-            val content = file.readText()
-            val articleId = file.name.removeSuffix(".md")
-            userArticleList.find { it.id == articleId }?.let { userArticle ->
-                val needModify = content.contains("https://gitee.com/anjiemo/figure-bed/raw/master/img/")
-                if (needModify) {
-                    takeIf { needModify }?.let {
-                        println("test：===> need modify articleId is $articleId, userArticle is ${userArticle.title}")
-                    }
-                }
-            }
-        }
     }
 
     private suspend fun paging(
