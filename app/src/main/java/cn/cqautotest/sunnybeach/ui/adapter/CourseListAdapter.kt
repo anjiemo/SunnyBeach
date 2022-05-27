@@ -5,11 +5,11 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.CourseListItemBinding
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.ktx.isZero
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.course.Course
 
@@ -19,24 +19,9 @@ import cn.cqautotest.sunnybeach.model.course.Course
  * time   : 2022/04/22
  * desc   : 课程列表的适配器
  */
+
 class CourseListAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<Course.CourseItem, CourseListAdapter.CourseViewHolder>(CourseDiffCallback()) {
-
-    class CourseDiffCallback : DiffUtil.ItemCallback<Course.CourseItem>() {
-        override fun areItemsTheSame(
-            oldItem: Course.CourseItem,
-            newItem: Course.CourseItem
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(
-            oldItem: Course.CourseItem,
-            newItem: Course.CourseItem
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
+    PagingDataAdapter<Course.CourseItem, CourseListAdapter.CourseViewHolder>(diffCallback) {
 
     private var mItemClickListener: (item: Course.CourseItem, position: Int) -> Unit = { _, _ -> }
 
@@ -78,5 +63,10 @@ class CourseListAdapter(private val adapterDelegate: AdapterDelegate) :
         val inflater = LayoutInflater.from(parent.context)
         val binding = CourseListItemBinding.inflate(inflater, parent, false)
         return CourseViewHolder(binding)
+    }
+
+    companion object {
+        private val diffCallback =
+            itemDiffCallback<Course.CourseItem>({ oldItem, newItem -> oldItem.id == newItem.id }) { oldItem, newItem -> oldItem == newItem }
     }
 }

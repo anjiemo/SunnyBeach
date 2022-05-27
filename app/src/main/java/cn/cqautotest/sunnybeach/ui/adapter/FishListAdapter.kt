@@ -10,14 +10,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.parseAsHtml
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.FishPondListItemBinding
-import cn.cqautotest.sunnybeach.ktx.dp
-import cn.cqautotest.sunnybeach.ktx.ifNullOrEmpty
-import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
-import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
@@ -37,24 +33,8 @@ import java.util.*
  * desc   : 摸鱼动态列表的适配器
  */
 class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val expandContent: Boolean = false) :
-    PagingDataAdapter<Fish.FishItem, FishListAdapter.FishListViewHolder>(FishDiffCallback()),
+    PagingDataAdapter<Fish.FishItem, FishListAdapter.FishListViewHolder>(diffCallback),
     SimpleGridLayout.OnNineGridClickListener {
-
-    class FishDiffCallback : DiffUtil.ItemCallback<Fish.FishItem>() {
-        override fun areItemsTheSame(
-            oldItem: Fish.FishItem,
-            newItem: Fish.FishItem
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(
-            oldItem: Fish.FishItem,
-            newItem: Fish.FishItem
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
 
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
@@ -205,5 +185,11 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         if (::mOnNineGridClickListener.isInitialized) {
             mOnNineGridClickListener.onNineGridClick(sources, index)
         }
+    }
+
+    companion object {
+
+        private val diffCallback =
+            itemDiffCallback<Fish.FishItem>({ oldItem, newItem -> oldItem.id == newItem.id }) { oldItem, newItem -> oldItem == newItem }
     }
 }

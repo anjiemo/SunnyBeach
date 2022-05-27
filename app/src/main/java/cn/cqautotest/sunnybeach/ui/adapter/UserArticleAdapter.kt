@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.ArticleListItemBinding
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserArticle
@@ -24,25 +24,8 @@ import java.util.*
  * desc   : 用户文章列表的适配器
  */
 class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<UserArticle.UserArticleItem, UserArticleAdapter.ArticleViewHolder>(
-        UserArticleDiffCallback()
-    ), SimpleGridLayout.OnNineGridClickListener {
-
-    class UserArticleDiffCallback : DiffUtil.ItemCallback<UserArticle.UserArticleItem>() {
-        override fun areItemsTheSame(
-            oldItem: UserArticle.UserArticleItem,
-            newItem: UserArticle.UserArticleItem
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(
-            oldItem: UserArticle.UserArticleItem,
-            newItem: UserArticle.UserArticleItem
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
+    PagingDataAdapter<UserArticle.UserArticleItem, UserArticleAdapter.ArticleViewHolder>(diffCallback),
+    SimpleGridLayout.OnNineGridClickListener {
 
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.SIMPLIFIED_CHINESE)
 
@@ -122,5 +105,11 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         val inflater = LayoutInflater.from(parent.context)
         val binding = ArticleListItemBinding.inflate(inflater, parent, false)
         return ArticleViewHolder(binding)
+    }
+
+    companion object {
+
+        private val diffCallback =
+            itemDiffCallback<UserArticle.UserArticleItem>({ oldItem, newItem -> oldItem.id == newItem.id }) { oldItem, newItem -> oldItem == newItem }
     }
 }

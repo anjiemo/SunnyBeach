@@ -32,7 +32,7 @@ class ReportActivity : AppActivity() {
     override fun getLayoutId(): Int = R.layout.report_activity
 
     override fun initView() {
-
+        mBinding.titleBar.title = "举报${reportType.title}"
     }
 
     override fun initData() {
@@ -41,7 +41,6 @@ class ReportActivity : AppActivity() {
             finish()
             return
         }
-        mBinding.titleBar.title = "举报${reportType.title}"
         // 根据举报类型获取网页 url 前缀
         val urlPre = when (reportType) {
             ReportType.ARTICLE, ReportType.ARTICLE_COMMENT -> SUNNY_BEACH_ARTICLE_URL_PRE
