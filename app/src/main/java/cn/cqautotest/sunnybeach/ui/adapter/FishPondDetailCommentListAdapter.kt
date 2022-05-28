@@ -6,20 +6,17 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.buildSpannedString
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
-import cn.cqautotest.sunnybeach.ktx.ifNullOrEmpty
-import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
-import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
-import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import com.blankj.utilcode.util.TimeUtils
 import java.text.SimpleDateFormat
 import java.util.*
@@ -35,16 +32,10 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
 
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
-    private var mItemClickListener: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit =
-        { _, _ -> }
     private var mViewMoreClickListener: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit =
         { _, _ -> }
     private var mCommentClickListener: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit =
         { _, _ -> }
-
-    fun setOnItemClickListener(block: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit) {
-        mItemClickListener = block
-    }
 
     fun setOnVewMoreClickListener(block: (item: FishPondComment.FishPondCommentItem, position: Int) -> Unit) {
         mViewMoreClickListener = block
@@ -146,14 +137,8 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
         }
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): FishDetailCommendListViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = FishPondDetailCommendListBinding.inflate(inflater, parent, false)
-        return FishDetailCommendListViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishDetailCommendListViewHolder =
+        FishDetailCommendListViewHolder(parent)
 
     companion object {
 
@@ -162,5 +147,6 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
     }
 }
 
-class FishDetailCommendListViewHolder(val binding: FishPondDetailCommendListBinding) :
-    RecyclerView.ViewHolder(binding.root)
+class FishDetailCommendListViewHolder(val binding: FishPondDetailCommendListBinding) : RecyclerView.ViewHolder(binding.root) {
+    constructor(parent: ViewGroup) : this(parent.asViewBinding<FishPondDetailCommendListBinding>())
+}

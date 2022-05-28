@@ -1,14 +1,15 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.ShareListItemBinding
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.UserShare
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import com.blankj.utilcode.util.TimeUtils
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,8 +25,9 @@ class ShareListAdapter(private val adapterDelegate: AdapterDelegate) :
 
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
-    inner class ShareListViewHolder(val binding: ShareListItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    inner class ShareListViewHolder(val binding: ShareListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<ShareListItemBinding>())
+    }
 
     override fun onViewAttachedToWindow(holder: ShareListViewHolder) {
         super.onViewAttachedToWindow(holder)
@@ -39,21 +41,12 @@ class ShareListAdapter(private val adapterDelegate: AdapterDelegate) :
         val binding = holder.binding
         val tvShareTitle = binding.tvShareTitle
         val tvDesc = binding.tvDesc
-        itemView.setFixOnClickListener {
-            adapterDelegate.onItemClick(it, position)
-        }
+        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
         tvShareTitle.text = item.title
         tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ShareListViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ShareListItemBinding.inflate(inflater, parent, false)
-        return ShareListViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShareListViewHolder = ShareListViewHolder(parent)
 
     companion object {
 

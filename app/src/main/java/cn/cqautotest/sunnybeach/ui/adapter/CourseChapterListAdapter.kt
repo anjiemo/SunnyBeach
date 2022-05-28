@@ -1,14 +1,15 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.CourseChapterChildItemBinding
 import cn.cqautotest.sunnybeach.databinding.CourseChapterGroupItemBinding
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.course.CourseChapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 
 /**
  * author : A Lonely Cat
@@ -19,18 +20,14 @@ import cn.cqautotest.sunnybeach.model.course.CourseChapter
 class CourseChapterListAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<CourseChapterListAdapter.Type, RecyclerView.ViewHolder>(diffCallback) {
 
-    private var mItemClickListener: (item: CourseChapter.CourseChapterItem.Children, position: Int) -> Unit = { _, _ -> }
-
-    fun setOnItemClickListener(block: (item: CourseChapter.CourseChapterItem.Children, position: Int) -> Unit) {
-        mItemClickListener = block
-    }
-
     override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
         super.onViewAttachedToWindow(holder)
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
     inner class CourseChapterListViewHolder(val binding: CourseChapterGroupItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<CourseChapterGroupItemBinding>())
 
         fun onBinding(item: CourseChapter.CourseChapterItem) {
             binding.tvTitle.text = item.title
@@ -40,10 +37,10 @@ class CourseChapterListAdapter(private val adapterDelegate: AdapterDelegate) :
 
     inner class CourseChapterChildrenListViewHolder(val binding: CourseChapterChildItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<CourseChapterChildItemBinding>())
+
         fun onBinding(item: CourseChapter.CourseChapterItem.Children, position: Int) {
-            itemView.setFixOnClickListener {
-                mItemClickListener.invoke(item, position)
-            }
+            itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
             binding.tvTitle.text = item.title
         }
     }
@@ -72,16 +69,9 @@ class CourseChapterListAdapter(private val adapterDelegate: AdapterDelegate) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            GROUP_TYPE -> {
-                val binding = CourseChapterGroupItemBinding.inflate(inflater, parent, false)
-                CourseChapterListViewHolder(binding)
-            }
-            CHILD_TYPE -> {
-                val binding = CourseChapterChildItemBinding.inflate(inflater, parent, false)
-                CourseChapterChildrenListViewHolder(binding)
-            }
+            GROUP_TYPE -> CourseChapterListViewHolder(parent)
+            CHILD_TYPE -> CourseChapterChildrenListViewHolder(parent)
             else -> error("are you ok? Did you implement the creation of this viewType?")
         }
     }

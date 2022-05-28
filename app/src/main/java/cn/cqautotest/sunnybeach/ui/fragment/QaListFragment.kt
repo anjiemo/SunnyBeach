@@ -14,10 +14,11 @@ import cn.cqautotest.sunnybeach.databinding.QaListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.other.QaType
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.QaListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.QaViewModel
@@ -36,9 +37,7 @@ class QaListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2Top
     private val mQaViewModel by activityViewModels<QaViewModel>()
     private val mAdapterDelegate = AdapterDelegate()
     private val mQaListAdapter = QaListAdapter(mAdapterDelegate)
-    private val loadStateListener = loadStateListener(mQaListAdapter) {
-        mBinding.refreshLayout.finishRefresh()
-    }
+    private val loadStateListener = loadStateListener(mQaListAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.qa_list_fragment
 
@@ -74,7 +73,7 @@ class QaListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2Top
         mQaListAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到问答详情界面
-            val item = mQaListAdapter.snapshot()[position] ?: return@setOnItemClickListener
+            val item = mQaListAdapter.snapshotList[position] ?: return@setOnItemClickListener
             val url = "$SUNNY_BEACH_QA_URL_PRE${item.id}"
             BrowserActivity.start(requireContext(), url)
         }

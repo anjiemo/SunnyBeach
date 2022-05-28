@@ -12,9 +12,10 @@ import cn.cqautotest.sunnybeach.databinding.AtMeMsgListActivityBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.AtMeMsgAdapter
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
@@ -34,9 +35,7 @@ class AtMeMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
     private val mMsgViewModel by viewModels<MsgViewModel>()
     private val mAdapterDelegate = AdapterDelegate()
     private val mAtMeMsgAdapter = AtMeMsgAdapter(mAdapterDelegate)
-    private val loadStateListener = loadStateListener(mAtMeMsgAdapter) {
-        mBinding.refreshLayout.finishRefresh()
-    }
+    private val loadStateListener = loadStateListener(mAtMeMsgAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.at_me_msg_list_activity
 
@@ -66,7 +65,7 @@ class AtMeMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         // 需要在 View 销毁的时候移除 listener
         mAtMeMsgAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            val item = mAtMeMsgAdapter.snapshot()[position] ?: return@setOnItemClickListener
+            val item = mAtMeMsgAdapter.snapshotList[position] ?: return@setOnItemClickListener
             mMsgViewModel.readAtMeMsg(item.id).observe(this) {}
             when (item.type) {
                 "moment" -> FishPondDetailActivity.start(this, item.exId)

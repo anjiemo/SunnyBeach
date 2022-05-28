@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -12,10 +11,12 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.QaListItemBinding
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.QaInfo
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import com.blankj.utilcode.util.TimeUtils
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,8 +32,9 @@ class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
 
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
-    inner class QaListViewHolder(val binding: QaListItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    inner class QaListViewHolder(val binding: QaListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<QaListItemBinding>())
+    }
 
     override fun onViewAttachedToWindow(holder: QaListViewHolder) {
         super.onViewAttachedToWindow(holder)
@@ -53,9 +55,7 @@ class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvQaNickName = binding.tvQaNickName
         val tvDesc = binding.tvDesc
         val llQaLabelContainer = binding.llQaLabelContainer
-        itemView.setFixOnClickListener {
-            adapterDelegate.onItemClick(it, position)
-        }
+        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
         val answerCount = item.answerCount
         val hasAnswer = answerCount > 0
         val isResolve = item.isResolve.toIntOrNull() == 1
@@ -110,14 +110,7 @@ class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
         }
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): QaListViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = QaListItemBinding.inflate(inflater, parent, false)
-        return QaListViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QaListViewHolder = QaListViewHolder(parent)
 
     companion object {
 

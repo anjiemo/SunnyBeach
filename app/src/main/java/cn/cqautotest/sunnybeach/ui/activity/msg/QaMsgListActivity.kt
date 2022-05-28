@@ -12,8 +12,9 @@ import cn.cqautotest.sunnybeach.databinding.QaMsgListActivityBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.QaMsgAdapter
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
@@ -33,9 +34,7 @@ class QaMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
     private val mMsgViewModel by viewModels<MsgViewModel>()
     private val mAdapterDelegate = AdapterDelegate()
     private val mQaMsgAdapter = QaMsgAdapter(mAdapterDelegate)
-    private val loadStateListener = loadStateListener(mQaMsgAdapter) {
-        mBinding.refreshLayout.finishRefresh()
-    }
+    private val loadStateListener = loadStateListener(mQaMsgAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.qa_msg_list_activity
 
@@ -66,7 +65,7 @@ class QaMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         mQaMsgAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到问答详情界面
-            val item = mQaMsgAdapter.snapshot()[position] ?: return@setOnItemClickListener
+            val item = mQaMsgAdapter.snapshotList[position] ?: return@setOnItemClickListener
             val url = "$SUNNY_BEACH_QA_URL_PRE${item.wendaId}"
             BrowserActivity.start(this, url)
         }

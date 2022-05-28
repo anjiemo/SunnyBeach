@@ -1,15 +1,16 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.PhotoListItemBinding
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import com.blankj.utilcode.util.ScreenUtils
 import com.bumptech.glide.Glide
 
@@ -24,8 +25,12 @@ class WallpaperListAdapter(
     private val fillBox: Boolean = false
 ) : PagingDataAdapter<WallpaperBean.Res.Vertical, WallpaperListAdapter.PhotoListViewHolder>(diffCallback) {
 
-    inner class PhotoListViewHolder(private val binding: PhotoListItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    private val screenWidth = ScreenUtils.getScreenWidth().toFloat()
+    private val screenHeight = ScreenUtils.getScreenHeight().toFloat()
+
+    inner class PhotoListViewHolder(private val binding: PhotoListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<PhotoListItemBinding>())
 
         fun binding(position: Int) {
             val photoIv = binding.photoIv
@@ -33,18 +38,14 @@ class WallpaperListAdapter(
             val item = getItem(position) ?: return
             // 设置比例布局全屏
             if (fillBox) {
-                ratioFrameLayout.setSizeRatio(
-                    ScreenUtils.getScreenWidth().toFloat(),
-                    ScreenUtils.getScreenHeight().toFloat()
-                )
+                ratioFrameLayout.setSizeRatio(screenWidth, screenHeight)
             } else {
                 itemView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
                 itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
             }
-            val imageUrl = if (fillBox) item.preview else item.thumb
             // 加载全屏的图片
             Glide.with(itemView)
-                .load(imageUrl)
+                .load(item.thumb)
                 .placeholder(R.mipmap.ic_bg)
                 .into(photoIv)
             itemView.setFixOnClickListener {
@@ -81,11 +82,7 @@ class WallpaperListAdapter(
         holder.binding(position)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoListViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = PhotoListItemBinding.inflate(inflater, parent, false)
-        return PhotoListViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoListViewHolder = PhotoListViewHolder(parent)
 
     companion object {
 

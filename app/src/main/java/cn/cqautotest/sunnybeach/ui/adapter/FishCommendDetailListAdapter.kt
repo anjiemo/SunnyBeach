@@ -6,12 +6,10 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.buildSpannedString
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
 import cn.cqautotest.sunnybeach.ktx.ifNullOrEmpty
 import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
@@ -47,11 +45,8 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishDetailCommendListViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = FishPondDetailCommendListBinding.inflate(inflater, parent, false)
-        return FishDetailCommendListViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishDetailCommendListViewHolder =
+        FishDetailCommendListViewHolder(parent)
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: FishDetailCommendListViewHolder, position: Int) {

@@ -7,6 +7,7 @@ import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
@@ -14,6 +15,8 @@ import androidx.annotation.Px
 import androidx.core.view.WindowInsetsCompat
 import com.blankj.utilcode.util.TouchUtils
 import com.dylanc.longan.rootWindowInsetsCompat
+
+fun View.asInflate(): LayoutInflater = context.asInflater()
 
 /**
  * 请求获取软键盘的高度

@@ -15,8 +15,9 @@ import cn.cqautotest.sunnybeach.databinding.CourseDetailActivityBinding
 import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.course.Course
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
+import cn.cqautotest.sunnybeach.model.course.CourseChapter
 import cn.cqautotest.sunnybeach.ui.adapter.CourseChapterListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.dylanc.longan.intentExtras
@@ -36,9 +37,7 @@ class CourseDetailActivity : AppActivity(), StatusAction {
     private val courseItem by lazy { fromJson<Course.CourseItem>(courseItemJson) }
     private val mAdapterDelegate = AdapterDelegate()
     private val mCourseChapterListAdapter = CourseChapterListAdapter(mAdapterDelegate)
-    private val loadStateListener = loadStateListener(mCourseChapterListAdapter) {
-        mBinding.refreshLayout.finishRefresh()
-    }
+    private val loadStateListener = loadStateListener(mCourseChapterListAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.course_detail_activity
 
@@ -71,8 +70,14 @@ class CourseDetailActivity : AppActivity(), StatusAction {
         }
         // 需要在 View 销毁的时候移除 listener
         mCourseChapterListAdapter.addLoadStateListener(loadStateListener)
-        mCourseChapterListAdapter.setOnItemClickListener { item, _ ->
-            PlayerActivity.start(this, item)
+        mAdapterDelegate.setOnItemClickListener { _, position ->
+            mCourseChapterListAdapter.snapshotList[position]?.let {
+                when (it) {
+                    is CourseChapter.CourseChapterItem.Children -> PlayerActivity.start(this, it)
+                    else -> { /* do nothing */
+                    }
+                }
+            }
         }
         mBinding.tvVipFree.setFixOnClickListener {
             checkCanStudy()

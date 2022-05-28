@@ -14,11 +14,12 @@ import cn.cqautotest.sunnybeach.databinding.CourseListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.ui.activity.CourseDetailActivity
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.CourseListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,10 +37,9 @@ class CourseListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack
     private val mBinding: CourseListFragmentBinding by viewBinding()
 
     private val mCourseViewModel by activityViewModels<CourseViewModel>()
-    private val mCourseListAdapter = CourseListAdapter(AdapterDelegate())
-    private val loadStateListener = loadStateListener(mCourseListAdapter) {
-        mBinding.refreshLayout.finishRefresh()
-    }
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mCourseListAdapter = CourseListAdapter(mAdapterDelegate)
+    private val loadStateListener = loadStateListener(mCourseListAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.course_list_fragment
 
@@ -80,8 +80,8 @@ class CourseListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack
         }
         // 需要在 View 销毁的时候移除 listener
         mCourseListAdapter.addLoadStateListener(loadStateListener)
-        mCourseListAdapter.setOnItemClickListener { item, _ ->
-            CourseDetailActivity.start(requireContext(), item)
+        mAdapterDelegate.setOnItemClickListener { _, position ->
+            mCourseListAdapter.snapshotList[position]?.let { CourseDetailActivity.start(requireContext(), it) }
         }
     }
 

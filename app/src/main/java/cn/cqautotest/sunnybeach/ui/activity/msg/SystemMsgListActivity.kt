@@ -12,8 +12,9 @@ import cn.cqautotest.sunnybeach.databinding.SystemMsgListActivityBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.SystemMsgAdapter
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
@@ -34,9 +35,7 @@ class SystemMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
     private val mMsgViewModel by viewModels<MsgViewModel>()
     private val mAdapterDelegate = AdapterDelegate()
     private val mSystemMsgAdapter = SystemMsgAdapter(mAdapterDelegate)
-    private val loadStateListener = loadStateListener(mSystemMsgAdapter) {
-        mBinding.refreshLayout.finishRefresh()
-    }
+    private val loadStateListener = loadStateListener(mSystemMsgAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.system_msg_list_activity
 
@@ -66,20 +65,15 @@ class SystemMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         // 需要在 View 销毁的时候移除 listener
         mSystemMsgAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            val item = mSystemMsgAdapter.snapshot()[position] ?: return@setOnItemClickListener
-            when (item.exType) {
-                "article" -> {
-                    val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${item.exId}"
-                    BrowserActivity.start(this, url)
-                }
-                "sobTrade" -> {
-                    // 登录奖励
-                }
-                "wendaComment" -> {
-                    val url = "$SUNNY_BEACH_QA_URL_PRE${item.exId}"
-                    BrowserActivity.start(this, url)
-                }
+            val item = mSystemMsgAdapter.snapshotList[position] ?: return@setOnItemClickListener
+            val url = when (item.exType) {
+                "article" -> "$SUNNY_BEACH_ARTICLE_URL_PRE${item.exId}"
+                // 登录奖励
+                "sobTrade" -> null
+                "wendaComment" -> "$SUNNY_BEACH_QA_URL_PRE${item.exId}"
+                else -> null
             }
+            url?.let { BrowserActivity.start(this, it) }
         }
     }
 

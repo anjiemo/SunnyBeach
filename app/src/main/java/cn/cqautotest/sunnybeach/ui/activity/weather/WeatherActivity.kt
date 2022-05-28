@@ -35,15 +35,9 @@ class WeatherActivity : AppCompatActivity() {
         decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         window.statusBarColor = Color.TRANSPARENT
-        if (viewModel.locationLng.isEmpty()) {
-            viewModel.locationLng = intent.getStringExtra("location_lng") ?: ""
-        }
-        if (viewModel.locationLat.isEmpty()) {
-            viewModel.locationLat = intent.getStringExtra("location_lat") ?: ""
-        }
-        if (viewModel.placeName.isEmpty()) {
-            viewModel.placeName = intent.getStringExtra("place_name") ?: ""
-        }
+        viewModel.locationLng = viewModel.locationLng.ifEmpty { intent.getStringExtra("location_lng") ?: "" }
+        viewModel.locationLat = viewModel.locationLat.ifEmpty { intent.getStringExtra("location_lat") ?: "" }
+        viewModel.placeName = viewModel.placeName.ifEmpty { intent.getStringExtra("placeName") ?: "" }
         viewModel.refreshWeather(viewModel.locationLng, viewModel.locationLat)
         initEvent()
     }

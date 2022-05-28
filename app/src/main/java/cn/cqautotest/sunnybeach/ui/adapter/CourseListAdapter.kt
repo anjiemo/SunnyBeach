@@ -2,16 +2,17 @@ package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.CourseListItemBinding
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.isZero
 import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.course.Course
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 
 /**
  * author : A Lonely Cat
@@ -23,14 +24,9 @@ import cn.cqautotest.sunnybeach.model.course.Course
 class CourseListAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<Course.CourseItem, CourseListAdapter.CourseViewHolder>(diffCallback) {
 
-    private var mItemClickListener: (item: Course.CourseItem, position: Int) -> Unit = { _, _ -> }
-
-    fun setOnItemClickListener(block: (item: Course.CourseItem, position: Int) -> Unit) {
-        mItemClickListener = block
+    inner class CourseViewHolder(val binding: CourseListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<CourseListItemBinding>())
     }
-
-    inner class CourseViewHolder(val binding: CourseListItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
 
     override fun onViewAttachedToWindow(holder: CourseViewHolder) {
         super.onViewAttachedToWindow(holder)
@@ -43,9 +39,7 @@ class CourseListAdapter(private val adapterDelegate: AdapterDelegate) :
         val itemView = holder.itemView
         val binding = holder.binding
         val context = itemView.context
-        itemView.setFixOnClickListener {
-            mItemClickListener.invoke(item, position)
-        }
+        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
         GlideApp.with(context)
             .load(item.cover)
             .into(binding.ivCover)
@@ -59,11 +53,7 @@ class CourseListAdapter(private val adapterDelegate: AdapterDelegate) :
         slvPrice.setTextColor(Color.parseColor(if (isFree) "#48D044" else "#007BFF"))
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = CourseListItemBinding.inflate(inflater, parent, false)
-        return CourseViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder = CourseViewHolder(parent)
 
     companion object {
         private val diffCallback =

@@ -12,12 +12,13 @@ import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.UserArticleListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.UserArticle
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.UserArticleAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
@@ -41,9 +42,7 @@ class UserArticleListFragment : AppFragment<AppActivity>(), StatusAction {
     private val mAdapterDelegate = AdapterDelegate()
     private val mUserArticleAdapter = UserArticleAdapter(mAdapterDelegate)
     private val mArticleViewModel by activityViewModels<ArticleViewModel>()
-    private val loadStateListener = loadStateListener(mUserArticleAdapter) {
-        mBinding.refreshLayout.finishRefresh()
-    }
+    private val loadStateListener = loadStateListener(mUserArticleAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.user_article_list_fragment
 
@@ -76,7 +75,7 @@ class UserArticleListFragment : AppFragment<AppActivity>(), StatusAction {
         mUserArticleAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到文章详情界面
-            val item = mUserArticleAdapter.snapshot()[position] ?: return@setOnItemClickListener
+            val item = mUserArticleAdapter.snapshotList[position] ?: return@setOnItemClickListener
             val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${item.id}"
             BrowserActivity.start(requireContext(), url)
         }

@@ -210,7 +210,7 @@ dependencies {
     implementation 'com.github.getActivity:GsonFactory:5.2'
 
     // Shape 框架：https://github.com/getActivity/ShapeView
-    // implementation 'com.github.getActivity:ShapeView:6.2'
+    implementation 'com.github.getActivity:ShapeView:8.0'
 
     // AOP 插件库：https://mvnrepository.com/artifact/org.aspectj/aspectjrt
     implementation 'org.aspectj:aspectjrt:1.9.6'

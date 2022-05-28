@@ -11,9 +11,7 @@ import cn.cqautotest.sunnybeach.app.AppActivity
  */
 class AboutActivity : AppActivity() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.about_activity
-    }
+    override fun getLayoutId(): Int = R.layout.about_activity
 
     override fun initView() {}
 

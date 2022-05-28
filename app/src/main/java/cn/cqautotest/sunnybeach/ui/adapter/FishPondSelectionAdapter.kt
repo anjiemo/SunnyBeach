@@ -2,10 +2,10 @@ package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.FishPondSelectionItemBinding
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.setRoundRectBg
@@ -20,8 +20,9 @@ import com.bumptech.glide.Glide
  */
 class FishPondSelectionAdapter : RecyclerView.Adapter<FishPondSelectionAdapter.FishPondSelectionViewHolder>() {
 
-    inner class FishPondSelectionViewHolder(val binding: FishPondSelectionItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    inner class FishPondSelectionViewHolder(val binding: FishPondSelectionItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<FishPondSelectionItemBinding>())
+    }
 
     private var mItemClickListener: (item: FishPondTopicList.TopicItem, position: Int) -> Unit =
         { _, _ -> }
@@ -39,11 +40,7 @@ class FishPondSelectionAdapter : RecyclerView.Adapter<FishPondSelectionAdapter.F
         mItemClickListener = listener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishPondSelectionViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = FishPondSelectionItemBinding.inflate(inflater, parent, false)
-        return FishPondSelectionViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishPondSelectionViewHolder = FishPondSelectionViewHolder(parent)
 
     override fun onBindViewHolder(holder: FishPondSelectionViewHolder, position: Int) {
         val item = mData[position]

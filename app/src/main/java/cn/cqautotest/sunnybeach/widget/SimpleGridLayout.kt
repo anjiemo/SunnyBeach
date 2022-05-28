@@ -60,21 +60,21 @@ class SimpleGridLayout @JvmOverloads constructor(
         clearFocus()
     }
 
-    fun setOnNineGridClickListener(listener: OnNineGridClickListener): SimpleGridLayout {
+    fun setOnNineGridClickListener(listener: OnNineGridClickListener?): SimpleGridLayout {
         mAdapter.setOnNineGridClickListener(listener)
         return this
     }
 
-    interface OnNineGridClickListener {
-        fun onNineGridClick(sources: List<String>, index: Int)
+    fun interface OnNineGridClickListener {
+        fun onNineGridItemClick(sources: List<String>, index: Int)
     }
 
     class GridLayoutAdapter(private val mData: MutableList<String> = arrayListOf()) :
         RecyclerView.Adapter<GridViewHolder>() {
 
-        private lateinit var mListener: OnNineGridClickListener
+        private var mListener: OnNineGridClickListener? = null
 
-        fun setOnNineGridClickListener(listener: OnNineGridClickListener) {
+        fun setOnNineGridClickListener(listener: OnNineGridClickListener?) {
             mListener = listener
         }
 
@@ -104,11 +104,7 @@ class SimpleGridLayout @JvmOverloads constructor(
         override fun onBindViewHolder(holder: GridViewHolder, position: Int) {
             val item = getItem(position)
             val imageView = holder.imageView
-            holder.itemView.setFixOnClickListener {
-                if (::mListener.isInitialized) {
-                    mListener.onNineGridClick(mData, position)
-                }
-            }
+            holder.itemView.setFixOnClickListener { mListener?.onNineGridItemClick(mData, position) }
             Glide.with(imageView)
                 .load(item)
                 .into(imageView)
