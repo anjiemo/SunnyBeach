@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 
-fun Context.asInflater() = LayoutInflater.from(this)
+fun Context.asInflater(): LayoutInflater = LayoutInflater.from(this)
 
 inline fun <reified T : Activity> Context.startActivity(noinline block: (Intent.() -> Unit)? = null) {
     Intent(this, T::class.java).also {

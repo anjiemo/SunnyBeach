@@ -1,14 +1,15 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.UserQaListItemBinding
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.UserQa
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import com.blankj.utilcode.util.TimeUtils
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,8 +25,9 @@ class UserQaListAdapter(private val adapterDelegate: AdapterDelegate) :
 
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
-    inner class QaListViewHolder(val binding: UserQaListItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    inner class QaListViewHolder(val binding: UserQaListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<UserQaListItemBinding>())
+    }
 
     override fun onViewAttachedToWindow(holder: QaListViewHolder) {
         super.onViewAttachedToWindow(holder)
@@ -39,21 +41,12 @@ class UserQaListAdapter(private val adapterDelegate: AdapterDelegate) :
         val binding = holder.binding
         val tvQaTitle = binding.tvQaTitle
         val tvDesc = binding.tvDesc
-        itemView.setFixOnClickListener {
-            adapterDelegate.onItemClick(it, position)
-        }
+        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
         tvQaTitle.text = item.wendaTitle
         tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.wendaComment.publishTime, mSdf)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): QaListViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = UserQaListItemBinding.inflate(inflater, parent, false)
-        return QaListViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QaListViewHolder = QaListViewHolder(parent)
 
     companion object {
 

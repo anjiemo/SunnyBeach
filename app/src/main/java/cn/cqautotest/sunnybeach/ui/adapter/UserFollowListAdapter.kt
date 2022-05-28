@@ -2,20 +2,17 @@ package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.FollowListItemBinding
-import cn.cqautotest.sunnybeach.ktx.dp
-import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
-import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
-import cn.cqautotest.sunnybeach.ktx.setRoundRectBg
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserFollow
 import cn.cqautotest.sunnybeach.other.FriendsStatus
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 
 /**
  * author : A Lonely Cat
@@ -26,15 +23,9 @@ import cn.cqautotest.sunnybeach.other.FriendsStatus
 class UserFollowListAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<UserFollow.UserFollowItem, UserFollowListAdapter.QaListViewHolder>(diffCallback) {
 
-    private var mItemClickListener: (item: UserFollow.UserFollowItem, position: Int) -> Unit =
-        { _, _ -> }
-
-    fun setOnItemClickListener(block: (item: UserFollow.UserFollowItem, position: Int) -> Unit) {
-        mItemClickListener = block
+    inner class QaListViewHolder(val binding: FollowListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<FollowListItemBinding>())
     }
-
-    inner class QaListViewHolder(val binding: FollowListItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
 
     override fun onViewAttachedToWindow(holder: QaListViewHolder) {
         super.onViewAttachedToWindow(holder)
@@ -51,9 +42,7 @@ class UserFollowListAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvDesc = binding.tvDesc
         val tvFollow = binding.tvFollow
         val context = itemView.context
-        itemView.setFixOnClickListener {
-            mItemClickListener.invoke(item, position)
-        }
+        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
         ivAvatar.loadAvatar(item.vip, item.avatar)
         tvNickName.text = item.nickname
         val nickNameColor = if (item.vip) ContextCompat.getColor(context, R.color.pink)
@@ -71,14 +60,7 @@ class UserFollowListAdapter(private val adapterDelegate: AdapterDelegate) :
         tvFollow.isEnabled = UserManager.isNotCurrUser(userId)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): QaListViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = FollowListItemBinding.inflate(inflater, parent, false)
-        return QaListViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QaListViewHolder = QaListViewHolder(parent)
 
     companion object {
 

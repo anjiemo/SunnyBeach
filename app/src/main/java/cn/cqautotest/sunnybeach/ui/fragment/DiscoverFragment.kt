@@ -13,10 +13,11 @@ import cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
 import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBannerBean
 import cn.cqautotest.sunnybeach.ui.activity.GalleryActivity
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.WallpaperListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.CustomAnimation
 import cn.cqautotest.sunnybeach.util.GridSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.PhotoViewModel
@@ -38,12 +39,11 @@ class DiscoverFragment : TitleBarFragment<AppActivity>(), StatusAction {
     private val mBinding: DiscoverFragmentBinding by viewBinding()
     private val mPhotoViewModel by activityViewModels<PhotoViewModel>()
     private val mWallpaperBannerAdapter = BannerAdapter()
-    private val mWallpaperListAdapter = WallpaperListAdapter(AdapterDelegate().apply {
+    private val mAdapterDelegate = AdapterDelegate().apply {
         adapterAnimation = CustomAnimation()
-    })
-    private val loadStateListener = loadStateListener(mWallpaperListAdapter) {
-        mBinding.refreshLayout.finishRefresh()
     }
+    private val mWallpaperListAdapter = WallpaperListAdapter(mAdapterDelegate)
+    private val loadStateListener = loadStateListener(mWallpaperListAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.discover_fragment
 
@@ -66,14 +66,12 @@ class DiscoverFragment : TitleBarFragment<AppActivity>(), StatusAction {
     }
 
     override fun initEvent() {
-        mBinding.refreshLayout.setOnRefreshListener {
-            mWallpaperListAdapter.refresh()
-        }
+        mBinding.refreshLayout.setOnRefreshListener { mWallpaperListAdapter.refresh() }
         // 需要在 View 销毁的时候移除 listener
         mWallpaperListAdapter.addLoadStateListener(loadStateListener)
-        mWallpaperListAdapter.setOnItemClickListener { view, verticalPhoto, _ ->
+        mAdapterDelegate.setOnItemClickListener { view, position ->
             Repository.setPhotoIdList(mWallpaperListAdapter.snapshot().items.toList())
-            GalleryActivity.smoothEntry(requireActivity(), verticalPhoto.id, view)
+            mWallpaperListAdapter.snapshotList[position]?.let { GalleryActivity.smoothEntry(requireActivity(), it.id, view) }
         }
     }
 

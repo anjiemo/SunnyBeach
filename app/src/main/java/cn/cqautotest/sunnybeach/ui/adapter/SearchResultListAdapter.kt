@@ -1,15 +1,16 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.graphics.drawable.ColorDrawable
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.parseAsHtml
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.UserQaListItemBinding
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.SearchResult
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 
 /**
  * author : A Lonely Cat
@@ -20,8 +21,9 @@ import cn.cqautotest.sunnybeach.model.SearchResult
 class SearchResultListAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<SearchResult.SearchResultItem, SearchResultListAdapter.SearchResultListViewHolder>(diffCallback) {
 
-    inner class SearchResultListViewHolder(val binding: UserQaListItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class SearchResultListViewHolder(val binding: UserQaListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<UserQaListItemBinding>())
 
         // Replace image with empty drawable.
         private val emptyDrawable = ColorDrawable()
@@ -42,20 +44,11 @@ class SearchResultListAdapter(private val adapterDelegate: AdapterDelegate) :
     override fun onBindViewHolder(holder: SearchResultListAdapter.SearchResultListViewHolder, position: Int) {
         val item = getItem(position) ?: return
         val itemView = holder.itemView
-        itemView.setFixOnClickListener {
-            adapterDelegate.onItemClick(it, position)
-        }
+        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
         holder.onBind(item, position)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): SearchResultListViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = UserQaListItemBinding.inflate(inflater, parent, false)
-        return SearchResultListViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultListViewHolder = SearchResultListViewHolder(parent)
 
     companion object {
 

@@ -19,6 +19,7 @@ import cn.cqautotest.sunnybeach.databinding.SettingActivityBinding
 import cn.cqautotest.sunnybeach.db.SobCacheManager
 import cn.cqautotest.sunnybeach.http.api.other.LogoutApi
 import cn.cqautotest.sunnybeach.http.model.HttpData
+import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.AppManager
 import cn.cqautotest.sunnybeach.manager.CacheDataManager
@@ -28,7 +29,6 @@ import cn.cqautotest.sunnybeach.other.AppConfig
 import cn.cqautotest.sunnybeach.ui.dialog.*
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
-import com.hjq.base.BaseDialog
 import com.hjq.base.action.AnimAction
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.HttpCallback
@@ -60,9 +60,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
 
     private val mUserViewModel by viewModels<UserViewModel>()
 
-    override fun getLayoutId(): Int {
-        return R.layout.setting_activity
-    }
+    override fun getLayoutId(): Int = R.layout.setting_activity
 
     override fun initView() {
         // 设置切换按钮的监听
@@ -120,9 +118,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
         mAppVersionLiveData.observe(this) { appUpdateInfo ->
             hideUpdateIcon()
             appUpdateInfo ?: run {
-                if (isAutoCheckAppVersion.not()) {
-                    toast(R.string.check_update_error)
-                }
+                takeUnless { isAutoCheckAppVersion }?.let { toast(R.string.check_update_error) }
                 return@observe
             }
             // 是否需要强制更新（当前版本低于最低版本，强制更新）
@@ -133,13 +129,12 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                 return@observe
             }
             // 当前版本是否低于最新版本
-            if (AppConfig.getVersionCode() < appUpdateInfo.versionCode) {
+            val lowerThanLatest = AppConfig.getVersionCode() < appUpdateInfo.versionCode
+            if (lowerThanLatest) {
                 showUpdateIcon()
                 showAppUpdateDialog(appUpdateInfo, appUpdateInfo.forceUpdate)
             } else {
-                if (isAutoCheckAppVersion.not()) {
-                    toast(R.string.current_version_is_up_to_date)
-                }
+                takeUnless { isAutoCheckAppVersion }?.let { toast(R.string.current_version_is_up_to_date) }
             }
         }
     }
@@ -177,13 +172,10 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                 MenuDialog.Builder(this) // 设置点击按钮后不关闭对话框
                     //.setAutoDismiss(false)
                     .setList(R.string.setting_language_simple, R.string.setting_language_complex)
-                    .setListener(object : MenuDialog.OnListener<String> {
-
-                        override fun onSelected(dialog: BaseDialog?, position: Int, data: String) {
-                            languageView?.setRightText(data)
-                            BrowserActivity.start(this@SettingActivity, "https://github.com/getActivity/MultiLanguages")
-                        }
-                    })
+                    .setListener { _, _, data ->
+                        languageView?.setRightText(data.toString())
+                        BrowserActivity.start(this, "https://github.com/getActivity/MultiLanguages")
+                    }
                     .setGravity(Gravity.BOTTOM)
                     .setAnimStyle(AnimAction.ANIM_BOTTOM)
                     .show()
@@ -198,12 +190,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
             R.id.sb_setting_phone -> {
 
                 SafeDialog.Builder(this)
-                    .setListener(object : SafeDialog.OnListener {
-
-                        override fun onConfirm(dialog: BaseDialog?, phone: String, code: String) {
-                            PhoneResetActivity.start(this@SettingActivity, code)
-                        }
-                    })
+                    .setListener { _, _, code -> PhoneResetActivity.start(this, code) }
                     .show()
             }
             R.id.sb_setting_agreement -> {
@@ -239,7 +226,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
             }
             R.id.sb_setting_about -> {
 
-                startActivity(AboutActivity::class.java)
+                startActivity<AboutActivity>()
             }
             R.id.sb_setting_auto -> {
 
@@ -265,10 +252,8 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                 val database = AppApplication.getDatabase()
                 val cookieDao = database.cookieDao()
                 lifecycleScope.launchWhenCreated {
-                    withContext(Dispatchers.IO) {
-                        // 清除App本地缓存的 Cookie（必须在非主线程操作）
-                        cookieDao.clearCookies()
-                    }
+                    // 清除App本地缓存的 Cookie（必须在非主线程操作）
+                    withContext(Dispatchers.IO) { cookieDao.clearCookies() }
                 }
                 // 退出账号并清除用户基本信息数据
                 mUserViewModel.logout().observe(this) {
@@ -301,7 +286,5 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
         // 设置是否自动登录
     }
 
-    override fun isStatusBarDarkFont(): Boolean {
-        return false
-    }
+    override fun isStatusBarDarkFont(): Boolean = false
 }

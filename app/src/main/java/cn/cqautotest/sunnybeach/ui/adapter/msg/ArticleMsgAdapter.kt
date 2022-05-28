@@ -1,15 +1,15 @@
 package cn.cqautotest.sunnybeach.ui.adapter.msg
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.ArticleMsgListItemBinding
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.msg.ArticleMsg
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import com.blankj.utilcode.util.TimeUtils
 
 /**
@@ -19,28 +19,11 @@ import com.blankj.utilcode.util.TimeUtils
  * desc   : 文章评论列表消息适配器
  */
 class ArticleMsgAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<ArticleMsg.Content, ArticleMsgAdapter.ArticleMsgViewHolder>(
-        ArticleMsgDiffCallback()
-    ) {
+    PagingDataAdapter<ArticleMsg.Content, ArticleMsgAdapter.ArticleMsgViewHolder>(diffCallback) {
 
-    class ArticleMsgDiffCallback : DiffUtil.ItemCallback<ArticleMsg.Content>() {
-        override fun areItemsTheSame(
-            oldItem: ArticleMsg.Content,
-            newItem: ArticleMsg.Content
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(
-            oldItem: ArticleMsg.Content,
-            newItem: ArticleMsg.Content
-        ): Boolean {
-            return oldItem == newItem
-        }
+    inner class ArticleMsgViewHolder(val binding: ArticleMsgListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<ArticleMsgListItemBinding>())
     }
-
-    inner class ArticleMsgViewHolder(val binding: ArticleMsgListItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
 
     override fun onViewAttachedToWindow(holder: ArticleMsgViewHolder) {
         super.onViewAttachedToWindow(holder)
@@ -56,9 +39,7 @@ class ArticleMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvReplyMsg = binding.tvReplyMsg
         val tvChildReplyMsg = binding.tvChildReplyMsg
         val item = getItem(position) ?: return
-        itemView.setFixOnClickListener {
-            adapterDelegate.onItemClick(it, position)
-        }
+        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
         ivAvatar.loadAvatar(false, item.avatar)
         cbNickName.text = item.nickname
         val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
@@ -67,9 +48,11 @@ class ArticleMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         tvChildReplyMsg.text = item.title
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleMsgViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ArticleMsgListItemBinding.inflate(inflater, parent, false)
-        return ArticleMsgViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleMsgViewHolder = ArticleMsgViewHolder(parent)
+
+    companion object {
+
+        private val diffCallback =
+            itemDiffCallback<ArticleMsg.Content>({ oldItem, newItem -> oldItem.id == newItem.id }) { oldItem, newItem -> oldItem == newItem }
     }
 }

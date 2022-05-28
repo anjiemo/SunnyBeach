@@ -10,6 +10,7 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.RichListActivityBinding
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import cn.cqautotest.sunnybeach.ui.adapter.RichListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import kotlinx.coroutines.flow.collectLatest
@@ -24,10 +25,8 @@ class RichListActivity : AppActivity(), StatusAction {
 
     private val mBinding by viewBinding<RichListActivityBinding>()
     private val mUserViewModel by viewModels<UserViewModel>()
-    private val mRichListAdapter = RichListAdapter()
-    private val loadStateListener = loadStateListener(mRichListAdapter) {
-        mBinding.refreshLayout.finishRefresh()
-    }
+    private val mRichListAdapter = RichListAdapter(AdapterDelegate())
+    private val loadStateListener = loadStateListener(mRichListAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.rich_list_activity
 

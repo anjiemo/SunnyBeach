@@ -12,8 +12,9 @@ import cn.cqautotest.sunnybeach.databinding.FishMsgListActivityBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.MomentMsgAdapter
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
@@ -32,9 +33,7 @@ class FishMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
     private val mMsgViewModel by viewModels<MsgViewModel>()
     private val mAdapterDelegate = AdapterDelegate()
     private val mMomentMsgAdapter = MomentMsgAdapter(mAdapterDelegate)
-    private val loadStateListener = loadStateListener(mMomentMsgAdapter) {
-        mBinding.refreshLayout.finishRefresh()
-    }
+    private val loadStateListener = loadStateListener(mMomentMsgAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.fish_msg_list_activity
 
@@ -64,7 +63,7 @@ class FishMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         // 需要在 View 销毁的时候移除 listener
         mMomentMsgAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            val item = mMomentMsgAdapter.snapshot()[position] ?: return@setOnItemClickListener
+            val item = mMomentMsgAdapter.snapshotList[position] ?: return@setOnItemClickListener
             mMsgViewModel.readMomentMsg(item.id).observe(this) {}
             FishPondDetailActivity.start(this, item.momentId)
         }

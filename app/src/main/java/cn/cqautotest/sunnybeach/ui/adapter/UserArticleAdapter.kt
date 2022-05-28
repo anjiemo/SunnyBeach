@@ -1,18 +1,19 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.ArticleListItemBinding
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserArticle
-import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.NineGridAdapterDelegate
 import com.blankj.utilcode.util.TimeUtils
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,9 +25,9 @@ import java.util.*
  * desc   : 用户文章列表的适配器
  */
 class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<UserArticle.UserArticleItem, UserArticleAdapter.ArticleViewHolder>(diffCallback),
-    SimpleGridLayout.OnNineGridClickListener {
+    PagingDataAdapter<UserArticle.UserArticleItem, UserArticleAdapter.ArticleViewHolder>(diffCallback) {
 
+    private val nineGridAdapterDelegate = NineGridAdapterDelegate()
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.SIMPLIFIED_CHINESE)
 
     private var mMenuItemClickListener: (view: View, item: UserArticle.UserArticleItem, position: Int) -> Unit =
@@ -36,28 +37,13 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         mMenuItemClickListener = block
     }
 
-    private lateinit var mOnNineGridClickListener: SimpleGridLayout.OnNineGridClickListener
-
-    fun setOnNineGridClickListener(listener: SimpleGridLayout.OnNineGridClickListener) {
-        mOnNineGridClickListener = listener
-    }
-
     fun setOnNineGridClickListener(block: (sources: List<String>, index: Int) -> Unit) {
-        mOnNineGridClickListener = object : SimpleGridLayout.OnNineGridClickListener {
-            override fun onNineGridClick(sources: List<String>, index: Int) {
-                block.invoke(sources, index)
-            }
-        }
+        nineGridAdapterDelegate.setOnNineGridItemClickListener(block)
     }
 
-    override fun onNineGridClick(sources: List<String>, index: Int) {
-        if (::mOnNineGridClickListener.isInitialized) {
-            mOnNineGridClickListener.onNineGridClick(sources, index)
-        }
+    inner class ArticleViewHolder(val binding: ArticleListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<ArticleListItemBinding>())
     }
-
-    inner class ArticleViewHolder(val binding: ArticleListItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
 
     override fun onViewAttachedToWindow(holder: ArticleViewHolder) {
         super.onViewAttachedToWindow(holder)
@@ -76,9 +62,7 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvGreat = binding.listMenuItem.tvGreat
         val llShare = binding.listMenuItem.llShare
         val item = getItem(position) ?: return
-        itemView.setFixOnClickListener {
-            adapterDelegate.onItemClick(it, position)
-        }
+        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
         llShare.setFixOnClickListener {
             mMenuItemClickListener.invoke(it, item, position)
         }
@@ -88,7 +72,7 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
         val covers = item.covers
         val imageCount = covers.size
-        simpleGridLayout.setOnNineGridClickListener(this)
+        simpleGridLayout.setOnNineGridClickListener(nineGridAdapterDelegate)
             .setData(covers)
         simpleGridLayout.isVisible = imageCount != 0
         tvViewCount.text = item.viewCount.toString()
@@ -101,11 +85,7 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ArticleListItemBinding.inflate(inflater, parent, false)
-        return ArticleViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder = ArticleViewHolder(parent)
 
     companion object {
 

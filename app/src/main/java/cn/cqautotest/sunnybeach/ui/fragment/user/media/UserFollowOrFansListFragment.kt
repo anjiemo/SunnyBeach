@@ -10,15 +10,12 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.UserFollowOrFansListFragmentBinding
-import cn.cqautotest.sunnybeach.ktx.dp
-import cn.cqautotest.sunnybeach.ktx.fromJson
-import cn.cqautotest.sunnybeach.ktx.loadStateListener
-import cn.cqautotest.sunnybeach.ktx.toJson
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.other.FollowType
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.UserFollowListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.FollowOrFansViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -33,11 +30,10 @@ import kotlinx.coroutines.flow.collectLatest
 class UserFollowOrFansListFragment : AppFragment<AppActivity>(), StatusAction {
 
     private val mBinding by viewBinding<UserFollowOrFansListFragmentBinding>()
-    private val mUserFollowListAdapter = UserFollowListAdapter(AdapterDelegate())
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mUserFollowListAdapter = UserFollowListAdapter(mAdapterDelegate)
     private val mFollowViewModel by viewModels<FollowOrFansViewModel>()
-    private val loadStateListener = loadStateListener(mUserFollowListAdapter) {
-        mBinding.refreshLayout.finishRefresh()
-    }
+    private val loadStateListener = loadStateListener(mUserFollowListAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.user_follow_or_fans_list_fragment
 
@@ -70,9 +66,9 @@ class UserFollowOrFansListFragment : AppFragment<AppActivity>(), StatusAction {
         }
         // 需要在 View 销毁的时候移除 listener
         mUserFollowListAdapter.addLoadStateListener(loadStateListener)
-        mUserFollowListAdapter.setOnItemClickListener { item, _ ->
+        mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到用户详情界面
-            ViewUserActivity.start(requireContext(), item.userId)
+            mUserFollowListAdapter.snapshotList[position]?.let { ViewUserActivity.start(requireContext(), it.userId) }
         }
     }
 

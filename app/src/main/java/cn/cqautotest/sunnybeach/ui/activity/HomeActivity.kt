@@ -61,6 +61,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     private val navigationView: RecyclerView? by lazy { findViewById(R.id.rv_home_navigation) }
     private var navigationAdapter: NavigationAdapter? = null
     private var pagerAdapter: FragmentPagerAdapter<AppFragment<*>>? = null
+    private val updateDialog by lazy { UpdateDialog.Builder(this) }
 
     @Inject
     lateinit var mAppViewModel: AppViewModel
@@ -123,23 +124,22 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     override fun initObserver() {
         mAppViewModel.checkAppUpdate().observe(this) { result ->
             val appUpdateInfo = result.getOrNull() ?: return@observe
-            // 是否需要强制更新（当前版本低于最低版本，强制更新）
-            val minVersionCode = appUpdateInfo.minVersionCode
-            val needForceUpdate = AppConfig.getVersionCode() < minVersionCode
-            if (needForceUpdate) {
-                showAppUpdateDialog(appUpdateInfo, true)
-                return@observe
-            }
-            // 当前版本是否低于最新版本
-            if (AppConfig.getVersionCode() < appUpdateInfo.versionCode) {
-                showAppUpdateDialog(appUpdateInfo, appUpdateInfo.forceUpdate)
-            }
+            onlyCheckOrUpdate(appUpdateInfo)
         }
     }
 
-    private fun showAppUpdateDialog(appUpdateInfo: AppUpdateInfo, forceUpdateApp: Boolean) {
-        UpdateDialog.Builder(getContext())
-            .setFileMd5(appUpdateInfo.apkHash)
+    fun onlyCheckOrUpdate(appUpdateInfo: AppUpdateInfo) {
+        // 是否需要强制更新（当前版本低于最低版本，强制更新）
+        val minVersionCode = appUpdateInfo.minVersionCode
+        val needForceUpdate = AppConfig.getVersionCode() < minVersionCode
+        takeIf { needForceUpdate }?.let { showUpdateDialog(appUpdateInfo, true) }?.also { return }
+        // 当前版本是否低于最新版本
+        val lowerThanLatest = AppConfig.getVersionCode() < appUpdateInfo.versionCode
+        takeIf { lowerThanLatest }?.let { showUpdateDialog(appUpdateInfo, appUpdateInfo.forceUpdate) }
+    }
+
+    private fun showUpdateDialog(appUpdateInfo: AppUpdateInfo, forceUpdateApp: Boolean) {
+        updateDialog.setFileMd5(appUpdateInfo.apkHash)
             .setDownloadUrl(appUpdateInfo.url)
             .setForceUpdate(forceUpdateApp)
             .setUpdateLog(appUpdateInfo.updateLog)
