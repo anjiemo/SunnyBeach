@@ -27,9 +27,9 @@ import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.activity.PutFishActivity
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
@@ -65,7 +65,8 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     @Inject
     lateinit var mAppViewModel: AppViewModel
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
-    private val mFishListAdapter = FishListAdapter(AdapterDelegate())
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mFishListAdapter = FishListAdapter(mAdapterDelegate)
     private val loadStateListener = loadStateListener(mFishListAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.fish_list_fragment
@@ -120,9 +121,8 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         }
         // 需要在 View 销毁的时候移除 listener
         mFishListAdapter.addLoadStateListener(loadStateListener)
-        mFishListAdapter.setOnItemClickListener { item, _ ->
-            val momentId = item.id
-            FishPondDetailActivity.start(requireContext(), momentId)
+        mAdapterDelegate.setOnItemClickListener { _, position ->
+            mFishListAdapter.snapshotList[position]?.let { FishPondDetailActivity.start(requireContext(), it.id) }
         }
         mFishListAdapter.setOnMenuItemClickListener { view, item, position ->
             when (view.id) {

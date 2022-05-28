@@ -26,16 +26,15 @@ import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.model.ReportType
 import cn.cqautotest.sunnybeach.other.IntentKey
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondDetailCommentListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.ui.fragment.SubmitCommentFragment
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_FISH_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
-import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.hjq.bar.TitleBar
 import com.hjq.umeng.Platform
@@ -50,7 +49,7 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/07/11
  * desc   : 鱼塘详情页
  */
-class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGridLayout.OnNineGridClickListener {
+class FishPondDetailActivity : AppActivity(), StatusAction {
 
     private val mBinding: FishPondDetailActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
@@ -174,10 +173,6 @@ class FishPondDetailActivity : AppActivity(), StatusAction, SimpleGridLayout.OnN
                 }
             })
             .show()
-    }
-
-    override fun onNineGridClick(sources: List<String>, index: Int) {
-        ImagePreviewActivity.start(this, sources.toMutableList(), index)
     }
 
     override fun initEvent() {

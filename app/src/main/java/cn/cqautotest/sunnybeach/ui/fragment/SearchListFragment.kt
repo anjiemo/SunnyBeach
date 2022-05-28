@@ -11,15 +11,12 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.SearchListFragmentBinding
-import cn.cqautotest.sunnybeach.ktx.dp
-import cn.cqautotest.sunnybeach.ktx.fromJson
-import cn.cqautotest.sunnybeach.ktx.loadStateListener
-import cn.cqautotest.sunnybeach.ktx.toJson
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.other.SearchType
 import cn.cqautotest.sunnybeach.other.SortType
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.SearchResultListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_SHARE_URL_PRE
@@ -65,7 +62,7 @@ class SearchListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack
         mSearchResultListAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到搜索详情界面
-            val item = mSearchResultListAdapter.snapshot()[position] ?: return@setOnItemClickListener
+            val item = mSearchResultListAdapter.snapshotList[position] ?: return@setOnItemClickListener
             val url = when (SearchType.valueOfType(item.type)) {
                 SearchType.ARTICLE -> "$SUNNY_BEACH_ARTICLE_URL_PRE${item.id}"
                 SearchType.QA -> "$SUNNY_BEACH_QA_URL_PRE${item.id}"

@@ -12,11 +12,12 @@ import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.UserFishListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -31,11 +32,10 @@ import kotlinx.coroutines.flow.collectLatest
 class UserFishListFragment : AppFragment<AppActivity>(), StatusAction {
 
     private val mBinding by viewBinding<UserFishListFragmentBinding>()
-    private val mFishListAdapter = FishListAdapter(AdapterDelegate())
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
-    private val loadStateListener = loadStateListener(mFishListAdapter) {
-        mBinding.refreshLayout.finishRefresh()
-    }
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mFishListAdapter = FishListAdapter(mAdapterDelegate)
+    private val loadStateListener = loadStateListener(mFishListAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.user_fish_list_fragment
 
@@ -66,9 +66,8 @@ class UserFishListFragment : AppFragment<AppActivity>(), StatusAction {
         }
         // 需要在 View 销毁的时候移除 listener
         mFishListAdapter.addLoadStateListener(loadStateListener)
-        mFishListAdapter.setOnItemClickListener { item, _ ->
-            val momentId = item.id
-            FishPondDetailActivity.start(requireContext(), momentId)
+        mAdapterDelegate.setOnItemClickListener { _, position ->
+            mFishListAdapter.snapshotList[position]?.let { FishPondDetailActivity.start(requireContext(), it.id) }
         }
         mFishListAdapter.setOnNineGridClickListener { sources, index ->
             ImagePreviewActivity.start(requireContext(), sources.toMutableList(), index)

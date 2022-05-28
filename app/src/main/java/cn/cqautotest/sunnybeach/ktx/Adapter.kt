@@ -7,7 +7,13 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.action.StatusAction
 
-typealias OnItemClickListener = (View, Int) -> Unit
+fun interface OnItemClickListener {
+    fun onItemClick(view: View, position: Int)
+}
+
+fun interface OnItemLongClickListener {
+    fun onItemLongClick(view: View, position: Int): Boolean
+}
 
 /**
  * Take over the action of StatusAction, returns CombinedLoadStates instance,then execute the given lambda expression.
@@ -18,11 +24,7 @@ inline fun <T : Any, reified VH : RecyclerView.ViewHolder> StatusAction.loadStat
     when (cls.refresh) {
         is LoadState.NotLoading -> {
             block.invoke()
-            if (pagingAdapter.isEmpty()) {
-                showEmpty()
-            } else {
-                showComplete()
-            }
+            takeIf { pagingAdapter.isEmpty() }?.let { showEmpty() } ?: showComplete()
         }
         is LoadState.Loading -> showLoading()
         is LoadState.Error -> showError { pagingAdapter.refresh() }

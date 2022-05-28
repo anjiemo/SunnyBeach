@@ -2,7 +2,12 @@ package cn.cqautotest.sunnybeach.push.xiaomi
 
 import android.content.Context
 import android.text.TextUtils
+import cn.cqautotest.sunnybeach.ktx.fromJson
 import cn.cqautotest.sunnybeach.ktx.toJson
+import cn.cqautotest.sunnybeach.manager.ActivityManager
+import cn.cqautotest.sunnybeach.model.ApiResponse
+import cn.cqautotest.sunnybeach.model.AppUpdateInfo
+import cn.cqautotest.sunnybeach.ui.activity.HomeActivity
 import com.xiaomi.mipush.sdk.*
 import org.json.JSONObject
 import timber.log.Timber
@@ -34,29 +39,41 @@ class MiPushBroadcastReceiver : PushMessageReceiver() {
             !TextUtils.isEmpty(message.alias) -> mAlias = message.alias
             !TextUtils.isEmpty(message.userAccount) -> mUserAccount = message.userAccount
         }
-        mMessage?.let { parseMessage(it) }
+        mMessage?.let { runCatching { parseMessage(it) }.onFailure { it.printStackTrace() } }
     }
 
     /**
      * 解析透传消息内容
-     * 消息结构：
+     * App 更新的消息结构：
      * {
      *     "type": "update",
      *     "data": {
-     *         "title": "更新标题",
-     *         "content": "更新内容",
-     *         "url": "http://www.baidu.com",
-     *         "force": true
+     *          "updateLog": "",
+     *          "versionName": "",
+     *          "versionCode": 1,
+     *          "minVersionCode": 1,
+     *          "url": "",
+     *          "apkSize": 0,
+     *          "apkHash": "",
+     *          "forceUpdate": false
      *     }
      * }
      */
     private fun parseMessage(message: String) {
-        val jsonObject = JSONObject(message)
+        val apiResponse = fromJson<ApiResponse<Map<String, Any>>>(message)
+        val data = apiResponse.getData()
+        takeUnless { apiResponse.isSuccess() }?.let { return }
+        val jsonObject = JSONObject(data)
         when (jsonObject.optString("type")) {
-            "update" -> {
-                // 更新
+            "update" -> parseAppUpdateInfo(jsonObject)
+        }
+    }
 
-            }
+    private fun parseAppUpdateInfo(jsonObject: JSONObject) {
+        val appUpdateInfo = fromJson<AppUpdateInfo>(jsonObject.optString("data"))
+        (ActivityManager.getInstance().getTopActivity() as? HomeActivity)?.let {
+            // 如果栈顶有 Activity 且为 HomeActivity ，则弹出更新对话框
+            it.runOnUiThread { it.onlyCheckOrUpdate(appUpdateInfo) }
         }
     }
 

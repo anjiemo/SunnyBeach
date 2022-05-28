@@ -13,13 +13,14 @@ import cn.cqautotest.sunnybeach.databinding.ArticleListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.ArticleInfo
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.activity.SearchActivity
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.ArticleAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
@@ -43,9 +44,7 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction, OnBa
     private val mArticleViewModel by activityViewModels<ArticleViewModel>()
     private val mAdapterDelegate = AdapterDelegate()
     private val mArticleAdapter = ArticleAdapter(mAdapterDelegate)
-    private val loadStateListener = loadStateListener(mArticleAdapter) {
-        mBinding.refreshLayout.finishRefresh()
-    }
+    private val loadStateListener = loadStateListener(mArticleAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.article_list_fragment
 
@@ -63,7 +62,7 @@ class ArticleListFragment : TitleBarFragment<HomeActivity>(), StatusAction, OnBa
         // 需要在 View 销毁的时候移除 listener
         mArticleAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            val item = mArticleAdapter.snapshot()[position] ?: return@setOnItemClickListener
+            val item = mArticleAdapter.snapshotList[position] ?: return@setOnItemClickListener
             val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${item.id}"
             BrowserActivity.start(requireContext(), url)
         }

@@ -1,24 +1,25 @@
 package cn.cqautotest.sunnybeach.model
 
+import com.google.gson.annotations.SerializedName
 import java.io.File
 
 data class AppUpdateInfo(
-    @JvmField
+    @SerializedName("updateLog")
     val updateLog: String = "",
-    @JvmField
+    @SerializedName("versionName")
     val versionName: String = "阳光沙滩1.0",
-    @JvmField
+    @SerializedName("versionCode")
     val versionCode: Int = 1,
-    @JvmField
+    @SerializedName("minVersionCode")
     val minVersionCode: Int = 1,
-    @JvmField
-    val url: String?,
-    @JvmField
-    val apkSize: Long,
-    @JvmField
+    @SerializedName("url")
+    val url: String? = null,
+    @SerializedName("apkSize")
+    val apkSize: Long = 0,
+    @SerializedName("apkHash")
     val apkHash: String? = null,
-    @JvmField
+    @SerializedName("file")
     var file: File? = null,
-    @JvmField
+    @SerializedName("forceUpdate")
     val forceUpdate: Boolean = false
 )

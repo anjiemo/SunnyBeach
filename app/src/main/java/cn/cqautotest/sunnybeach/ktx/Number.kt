@@ -4,15 +4,7 @@ import android.content.res.Resources
 import android.util.TypedValue
 
 val Int.dp
-    get() = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        toFloat(),
-        Resources.getSystem().displayMetrics
-    ).toInt()
+    get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, toFloat(), Resources.getSystem().displayMetrics).toInt()
 
 val Float.dp
-    get() = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        this,
-        Resources.getSystem().displayMetrics
-    )
+    get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, Resources.getSystem().displayMetrics)

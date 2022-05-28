@@ -4,17 +4,17 @@ import android.graphics.Color
 import android.text.SpannableString
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.core.text.buildSpannedString
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.QaMsgListItemBinding
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.msg.QaMsg
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 
 /**
  * author : A Lonely Cat
@@ -23,20 +23,11 @@ import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
  * desc   : 问答评论列表消息适配器
  */
 class QaMsgAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<QaMsg.Content, QaMsgAdapter.QAMsgViewHolder>(QaMsgDiffCallback()) {
+    PagingDataAdapter<QaMsg.Content, QaMsgAdapter.QAMsgViewHolder>(diffCallback) {
 
-    class QaMsgDiffCallback : DiffUtil.ItemCallback<QaMsg.Content>() {
-        override fun areItemsTheSame(oldItem: QaMsg.Content, newItem: QaMsg.Content): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: QaMsg.Content, newItem: QaMsg.Content): Boolean {
-            return oldItem == newItem
-        }
+    inner class QAMsgViewHolder(val binding: QaMsgListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<QaMsgListItemBinding>())
     }
-
-    inner class QAMsgViewHolder(val binding: QaMsgListItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
 
     override fun onViewAttachedToWindow(holder: QAMsgViewHolder) {
         super.onViewAttachedToWindow(holder)
@@ -52,9 +43,7 @@ class QaMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         val tvReplyMsg = binding.tvReplyMsg
         val tvChildReplyMsg = binding.tvChildReplyMsg
         val item = getItem(position) ?: return
-        itemView.setFixOnClickListener {
-            adapterDelegate.onItemClick(it, position)
-        }
+        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
         cbNickName.text = item.nickname
         ivAvatar.loadAvatar(false, item.avatar)
         tvDesc.text = item.timeText
@@ -75,9 +64,11 @@ class QaMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         tvChildReplyMsg.ellipsize = TextUtils.TruncateAt.MIDDLE
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QAMsgViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = QaMsgListItemBinding.inflate(inflater, parent, false)
-        return QAMsgViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QAMsgViewHolder = QAMsgViewHolder(parent)
+
+    companion object {
+
+        private val diffCallback =
+            itemDiffCallback<QaMsg.Content>({ oldItem, newItem -> oldItem.id == newItem.id }) { oldItem, newItem -> oldItem == newItem }
     }
 }

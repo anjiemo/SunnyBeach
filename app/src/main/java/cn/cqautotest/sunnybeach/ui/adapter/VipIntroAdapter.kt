@@ -1,12 +1,11 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.VipIntroItemBinding
-import cn.cqautotest.sunnybeach.ktx.asInflater
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.util.AdapterDataStore
 import com.bumptech.glide.Glide
 
@@ -25,11 +24,13 @@ class VipIntroAdapter : RecyclerView.Adapter<VipIntroAdapter.ViewHolder>() {
 
     data class VipIntro(@DrawableRes val resId: Int, val title: String, val desc: String)
 
-    inner class ViewHolder(val context: Context, val binding: VipIntroItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: VipIntroItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<VipIntroItemBinding>())
 
         fun onBinding(item: VipIntro, position: Int) {
             val ivIcon = binding.ivIcon
+            val context = itemView.context
             Glide.with(context)
                 .load(item.resId)
                 .into(ivIcon)
@@ -38,11 +39,7 @@ class VipIntroAdapter : RecyclerView.Adapter<VipIntroAdapter.ViewHolder>() {
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val context = parent.context
-        val binding = VipIntroItemBinding.inflate(context.asInflater())
-        return ViewHolder(context, binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(parent)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mAdapterDataStore.getItem(position)

@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.ui.adapter
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.text.TextUtils
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -18,8 +17,9 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.NineGridAdapterDelegate
 import cn.cqautotest.sunnybeach.util.EmojiImageGetter
-import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
 import com.blankj.utilcode.util.TimeUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -33,26 +33,21 @@ import java.util.*
  * desc   : 摸鱼动态列表的适配器
  */
 class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val expandContent: Boolean = false) :
-    PagingDataAdapter<Fish.FishItem, FishListAdapter.FishListViewHolder>(diffCallback),
-    SimpleGridLayout.OnNineGridClickListener {
+    PagingDataAdapter<Fish.FishItem, FishListAdapter.FishListViewHolder>(diffCallback) {
 
+    private val nineGridAdapterDelegate = NineGridAdapterDelegate()
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
-
-    private var mItemClickListener: (item: Fish.FishItem, position: Int) -> Unit = { _, _ -> }
 
     private var mMenuItemClickListener: (view: View, item: Fish.FishItem, position: Int) -> Unit =
         { _, _, _ -> }
-
-    fun setOnItemClickListener(block: (item: Fish.FishItem, position: Int) -> Unit) {
-        mItemClickListener = block
-    }
 
     fun setOnMenuItemClickListener(block: (view: View, item: Fish.FishItem, position: Int) -> Unit) {
         mMenuItemClickListener = block
     }
 
-    inner class FishListViewHolder(val binding: FishPondListItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    inner class FishListViewHolder(val binding: FishPondListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<FishPondListItemBinding>())
+    }
 
     override fun onViewAttachedToWindow(holder: FishListViewHolder) {
         super.onViewAttachedToWindow(holder)
@@ -80,9 +75,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         val tvGreat = binding.listMenuItem.tvGreat
         val llShare = binding.listMenuItem.llShare
         val context = itemView.context
-        itemView.setFixOnClickListener {
-            mItemClickListener.invoke(item, position)
-        }
+        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
         llShare.setFixOnClickListener {
             mMenuItemClickListener.invoke(it, item, position)
         }
@@ -118,7 +111,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         val topicName = item.topicName
         val images = item.images
         val imageCount = images.size
-        simpleGridLayout.setOnNineGridClickListener(this)
+        simpleGridLayout.setOnNineGridClickListener(nineGridAdapterDelegate)
             .setData(images)
         simpleGridLayout.isVisible = imageCount != 0
         tvLabel.isVisible = TextUtils.isEmpty(topicName).not()
@@ -161,30 +154,10 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         ivGreat.imageTintList = ColorStateList.valueOf((if (like) likeColor else defaultColor))
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishListViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = FishPondListItemBinding.inflate(inflater, parent, false)
-        return FishListViewHolder(binding)
-    }
-
-    private lateinit var mOnNineGridClickListener: SimpleGridLayout.OnNineGridClickListener
-
-    fun setOnNineGridClickListener(listener: SimpleGridLayout.OnNineGridClickListener) {
-        mOnNineGridClickListener = listener
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishListViewHolder = FishListViewHolder(parent)
 
     fun setOnNineGridClickListener(block: (sources: List<String>, index: Int) -> Unit) {
-        mOnNineGridClickListener = object : SimpleGridLayout.OnNineGridClickListener {
-            override fun onNineGridClick(sources: List<String>, index: Int) {
-                block.invoke(sources, index)
-            }
-        }
-    }
-
-    override fun onNineGridClick(sources: List<String>, index: Int) {
-        if (::mOnNineGridClickListener.isInitialized) {
-            mOnNineGridClickListener.onNineGridClick(sources, index)
-        }
+        nineGridAdapterDelegate.setOnNineGridItemClickListener(block)
     }
 
     companion object {
