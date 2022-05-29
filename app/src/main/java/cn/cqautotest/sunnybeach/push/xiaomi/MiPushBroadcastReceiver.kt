@@ -3,11 +3,15 @@ package cn.cqautotest.sunnybeach.push.xiaomi
 import android.content.Context
 import android.text.TextUtils
 import cn.cqautotest.sunnybeach.ktx.fromJson
+import cn.cqautotest.sunnybeach.ktx.fromJsonByTypeToken
+import cn.cqautotest.sunnybeach.ktx.getOrNull
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
+import cn.cqautotest.sunnybeach.model.MourningCalendar
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity
+import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import com.xiaomi.mipush.sdk.*
 import org.json.JSONObject
 import timber.log.Timber
@@ -18,7 +22,7 @@ import timber.log.Timber
  * time   : 2022/05/24
  * desc   : 小米推送 BroadcastReceiver 类
  */
-class MiPushBroadcastReceiver : PushMessageReceiver() {
+open class MiPushBroadcastReceiver : PushMessageReceiver() {
 
     private var mRegId: String? = null
     private val mResultCode: Long = -1
@@ -30,6 +34,8 @@ class MiPushBroadcastReceiver : PushMessageReceiver() {
     private var mUserAccount: String? = null
     private var mStartTime: String? = null
     private var mEndTime: String? = null
+
+    private val mAppViewModel = AppViewModel.getAppViewModel()
 
     override fun onReceivePassThroughMessage(context: Context?, message: MiPushMessage) {
         Timber.d("onReceivePassThroughMessage：===> message is ${message.toJson()}")
@@ -61,20 +67,31 @@ class MiPushBroadcastReceiver : PushMessageReceiver() {
      */
     private fun parseMessage(message: String) {
         val apiResponse = fromJson<ApiResponse<Map<String, Any>>>(message)
-        val data = apiResponse.getData()
-        takeUnless { apiResponse.isSuccess() }?.let { return }
+        val data = apiResponse.getOrNull() ?: return
         val jsonObject = JSONObject(data)
+        val jsonData = jsonObject.optString("data")
         when (jsonObject.optString("type")) {
-            "update" -> parseAppUpdateInfo(jsonObject)
+            "update" -> parseAppUpdateInfo(jsonData)
+            "mourningCalendar" -> parseMourningCalendar(jsonData)
+            else -> Timber.d("parseMessage：===> unknown message type")
         }
     }
 
-    private fun parseAppUpdateInfo(jsonObject: JSONObject) {
-        val appUpdateInfo = fromJson<AppUpdateInfo>(jsonObject.optString("data"))
-        (ActivityManager.getInstance().getTopActivity() as? HomeActivity)?.let {
-            // 如果栈顶有 Activity 且为 HomeActivity ，则弹出更新对话框
-            it.runOnUiThread { it.onlyCheckOrUpdate(appUpdateInfo) }
-        }
+    private fun parseMourningCalendar(jsonData: String) {
+        val mourningCalendarList = fromJsonByTypeToken<List<MourningCalendar>>(jsonData)
+        // 如果栈顶有 Activity 且为 HomeActivity ，则设置哀悼日历
+        executeWithHomeActivity { mAppViewModel.setMourningCalendarList(mourningCalendarList) }
+    }
+
+    private fun parseAppUpdateInfo(jsonData: String) {
+        val appUpdateInfo = fromJson<AppUpdateInfo>(jsonData)
+        // 如果栈顶有 Activity 且为 HomeActivity ，则弹出更新对话框
+        executeWithHomeActivity { onlyCheckOrUpdate(appUpdateInfo) }
+    }
+
+    private fun executeWithHomeActivity(block: HomeActivity.() -> Unit) {
+        val homeActivity = ActivityManager.getInstance().getTopActivity() as? HomeActivity
+        homeActivity?.let { with(it) { runOnUiThread { block.invoke(this) } } }
     }
 
     override fun onNotificationMessageClicked(context: Context?, message: MiPushMessage) {
