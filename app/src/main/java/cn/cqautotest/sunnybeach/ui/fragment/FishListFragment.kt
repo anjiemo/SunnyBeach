@@ -23,6 +23,7 @@ import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
+import cn.cqautotest.sunnybeach.model.MourningCalendar
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.activity.PutFishActivity
@@ -89,16 +90,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         loadFishList()
         mAppViewModel.getMourningCalendar().observe(viewLifecycleOwner) {
             val result = it.getOrNull() ?: return@observe
-            val sdf = SimpleDateFormat("MM月dd日", Locale.getDefault())
-            val formatDate = sdf.format(System.currentTimeMillis())
-            val rootView = requireView()
-            result.onEach { mourningCalendar ->
-                val date = mourningCalendar.date
-                if (date == formatDate) {
-                    rootView.setMourningStyle()
-                }
-                // Timber.d("initData：===> day is $date formatDate is $formatDate")
-            }
+            setMourningStyleByDate(result)
         }
     }
 
@@ -186,13 +178,9 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     private fun dynamicLikes(item: Fish.FishItem, position: Int) {
         val thumbUpList = item.thumbUpList
         val currUserId = UserManager.loadCurrUserId()
-        if (thumbUpList.contains(currUserId)) {
-            toast("请不要重复点赞")
-            return
-        } else {
-            thumbUpList.add(currUserId)
-            mFishListAdapter.notifyItemChanged(position)
-        }
+        takeIf { thumbUpList.contains(currUserId) }?.let { toast("请不要重复点赞") }?.also { return }
+        thumbUpList.add(currUserId)
+        mFishListAdapter.notifyItemChanged(position)
         tryVibrate()
         mFishPondViewModel.dynamicLikes(item.id).observe(viewLifecycleOwner) {}
     }
@@ -236,7 +224,16 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             .show()
     }
 
-    override fun initObserver() {}
+    override fun initObserver() {
+        mAppViewModel.mourningCalendarListLiveData.observe(viewLifecycleOwner) { setMourningStyleByDate(it) }
+    }
+
+    private fun setMourningStyleByDate(mourningCalendarList: List<MourningCalendar>) {
+        val sdf = SimpleDateFormat("MM月dd日", Locale.getDefault())
+        val formatDate = sdf.format(System.currentTimeMillis())
+        val rootView = requireView()
+        mourningCalendarList.find { it.date == formatDate }?.let { rootView.setMourningStyle() } ?: rootView.removeMourningStyle()
+    }
 
     @Permissions(Permission.CAMERA)
     override fun onRightClick(titleBar: TitleBar) {
