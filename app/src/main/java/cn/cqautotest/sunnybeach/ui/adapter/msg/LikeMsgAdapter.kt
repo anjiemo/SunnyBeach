@@ -21,7 +21,19 @@ class LikeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<LikeMsg.Content, LikeMsgAdapter.LikeMsgViewHolder>(diffCallback) {
 
     inner class LikeMsgViewHolder(val binding: LikeMsgListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
         constructor(parent: ViewGroup) : this(parent.asViewBinding<LikeMsgListItemBinding>())
+
+        fun onBinding(item: LikeMsg.Content?, position: Int) {
+            item ?: return
+            with(binding) {
+                ivAvatar.loadAvatar(false, item.avatar)
+                cbNickName.text = item.nickname
+                tvDesc.text = item.timeText
+                tvReplyMsg.height = 0
+                tvChildReplyMsg.text = HtmlCompat.fromHtml(item.title, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            }
+        }
     }
 
     override fun onViewAttachedToWindow(holder: LikeMsgViewHolder) {
@@ -30,20 +42,8 @@ class LikeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     }
 
     override fun onBindViewHolder(holder: LikeMsgViewHolder, position: Int) {
-        val itemView = holder.itemView
-        val binding = holder.binding
-        val ivAvatar = binding.ivAvatar
-        val cbNickName = binding.cbNickName
-        val tvDesc = binding.tvDesc
-        val tvReplyMsg = binding.tvReplyMsg
-        val tvChildReplyMsg = binding.tvChildReplyMsg
-        val item = getItem(position) ?: return
-        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
-        ivAvatar.loadAvatar(false, item.avatar)
-        cbNickName.text = item.nickname
-        tvDesc.text = item.timeText
-        tvReplyMsg.height = 0
-        tvChildReplyMsg.text = HtmlCompat.fromHtml(item.title, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
+        holder.onBinding(getItem(position), position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LikeMsgViewHolder = LikeMsgViewHolder(parent)

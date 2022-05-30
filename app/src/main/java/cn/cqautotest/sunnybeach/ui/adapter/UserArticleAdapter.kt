@@ -42,7 +42,35 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
     }
 
     inner class ArticleViewHolder(val binding: ArticleListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
         constructor(parent: ViewGroup) : this(parent.asViewBinding<ArticleListItemBinding>())
+
+        @SuppressLint("SetTextI18n")
+        fun onBinding(item: UserArticle.UserArticleItem?, position: Int) {
+            item ?: return
+            with(binding) {
+                val ivAvatar = ivAvatar
+                val tvArticleTitle = tvArticleTitle
+                val tvNickName = tvNickName
+                val simpleGridLayout = simpleGridLayout
+                ivAvatar.loadAvatar(item.vip, item.avatar)
+                tvArticleTitle.text = item.title
+                tvNickName.text = "${item.nickname} · ${TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)}"
+                tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
+                val covers = item.covers
+                val imageCount = covers.size
+                simpleGridLayout.setOnNineGridClickListener(nineGridAdapterDelegate)
+                    .setData(covers)
+                simpleGridLayout.isVisible = imageCount != 0
+                with(listMenuItem) {
+                    llShare.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, position) }
+                    tvComment.text = item.viewCount.toString()
+                    tvGreat.text = with(item.thumbUp) {
+                        if (this == 0) "点赞" else toString()
+                    }
+                }
+            }
+        }
     }
 
     override fun onViewAttachedToWindow(holder: ArticleViewHolder) {
@@ -50,39 +78,9 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
-        val itemView = holder.itemView
-        val binding = holder.binding
-        val ivAvatar = binding.ivAvatar
-        val tvArticleTitle = binding.tvArticleTitle
-        val tvNickName = binding.tvNickName
-        val simpleGridLayout = binding.simpleGridLayout
-        val tvViewCount = binding.listMenuItem.tvComment
-        val tvGreat = binding.listMenuItem.tvGreat
-        val llShare = binding.listMenuItem.llShare
-        val item = getItem(position) ?: return
-        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
-        llShare.setFixOnClickListener {
-            mMenuItemClickListener.invoke(it, item, position)
-        }
-        ivAvatar.loadAvatar(item.vip, item.avatar)
-        tvArticleTitle.text = item.title
-        tvNickName.text = "${item.nickname} · ${TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)}"
-        tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
-        val covers = item.covers
-        val imageCount = covers.size
-        simpleGridLayout.setOnNineGridClickListener(nineGridAdapterDelegate)
-            .setData(covers)
-        simpleGridLayout.isVisible = imageCount != 0
-        tvViewCount.text = item.viewCount.toString()
-        tvGreat.text = with(item.thumbUp) {
-            if (this == 0) {
-                "点赞"
-            } else {
-                toString()
-            }
-        }
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
+        holder.onBinding(getItem(position), position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder = ArticleViewHolder(parent)

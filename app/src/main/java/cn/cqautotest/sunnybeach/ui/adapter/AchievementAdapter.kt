@@ -2,12 +2,12 @@ package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.collection.SparseArrayCompat
 import androidx.collection.set
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.CreationCenterAchievementItemBinding
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.setRoundRectBg
 import java.text.DecimalFormat
 
@@ -40,8 +40,10 @@ class AchievementAdapter : RecyclerView.Adapter<AchievementAdapter.ViewHolder>()
     inner class ViewHolder(val binding: CreationCenterAchievementItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<CreationCenterAchievementItemBinding>())
+
         @SuppressLint("SetTextI18n")
-        fun binding(item: Pair<Int, Int>, position: Int) {
+        fun onBinding(item: Pair<Int, Int>, position: Int) {
             itemView.setRoundRectBg(getColor(position))
             binding.tvAchievementTitle.text = position.getTitle()
             binding.tvTotalNum.text = DecimalFormat.getInstance().format(item.first)
@@ -66,14 +68,10 @@ class AchievementAdapter : RecyclerView.Adapter<AchievementAdapter.ViewHolder>()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mData.valueAt(position)
-        holder.binding(item, position)
+        holder.onBinding(item, position)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = CreationCenterAchievementItemBinding.inflate(inflater, parent, false)
-        return ViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(parent)
 
     override fun getItemCount(): Int = mData.size()
 }

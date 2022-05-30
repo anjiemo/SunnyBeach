@@ -33,18 +33,18 @@ class VipUserListAdapter : RecyclerView.Adapter<VipUserListAdapter.ViewHolder>()
 
         constructor(parent: ViewGroup) : this(parent.asViewBinding<VipUserListItemBinding>())
 
-        fun binding(item: VipUserInfoSummary, position: Int) {
-            binding.ivAvatar.loadAvatar(true, item.avatar)
-            binding.tvNickName.text = item.nickname
-            itemView.setOnClickListener {
-                mListener.invoke(item, position)
+        fun onBinding(item: VipUserInfoSummary, position: Int) {
+            with(binding) {
+                ivAvatar.loadAvatar(true, item.avatar)
+                tvNickName.text = item.nickname
             }
         }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mData[position]
-        holder.binding(item, position)
+        holder.itemView.setOnClickListener { mListener.invoke(item, position) }
+        holder.onBinding(item, position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(parent)

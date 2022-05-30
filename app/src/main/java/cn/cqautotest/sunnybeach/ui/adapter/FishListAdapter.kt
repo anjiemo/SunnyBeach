@@ -46,7 +46,80 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
     }
 
     inner class FishListViewHolder(val binding: FishPondListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
         constructor(parent: ViewGroup) : this(parent.asViewBinding<FishPondListItemBinding>())
+
+        @SuppressLint("SetTextI18n")
+        fun onBinding(item: Fish.FishItem?, position: Int) {
+            item ?: return
+            with(binding) {
+                val userId = item.userId
+                ivFishPondAvatar.setFixOnClickListener { takeIf { userId.isNotEmpty() }?.let { ViewUserActivity.start(context, userId) } }
+                ivFishPondAvatar.loadAvatar(item.vip, item.avatar)
+                tvFishPondNickName.setTextColor(UserManager.getNickNameColor(item.vip))
+                tvFishPondNickName.text = item.nickname
+                val job = item.position.ifNullOrEmpty { "游民" }
+                tvFishPondDesc.text = "$job · " + TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
+                tvFishPondContent.setTextIsSelectable(false)
+                tvFishPondContent.apply {
+                    if (expandContent) {
+                        maxLines = Int.MAX_VALUE
+                        ellipsize = null
+                    } else {
+                        maxLines = 5
+                        ellipsize = TextUtils.TruncateAt.END
+                    }
+                }
+                val content = item.content
+                // 设置默认表情符号解析器
+                tvFishPondContent.setDefaultEmojiParser()
+                tvFishPondContent.text = content.parseAsHtml(imageGetter = EmojiImageGetter(tvFishPondContent.textSize.toInt()))
+                val topicName = item.topicName
+                val images = item.images
+                val imageCount = images.size
+                simpleGridLayout.setOnNineGridClickListener(nineGridAdapterDelegate)
+                    .setData(images)
+                simpleGridLayout.isVisible = imageCount != 0
+                tvFishPondLabel.isVisible = TextUtils.isEmpty(topicName).not()
+                tvFishPondLabel.text = topicName
+                val linkUrl = item.linkUrl
+                val hasLink = TextUtils.isEmpty(linkUrl).not()
+                val hasLinkCover = TextUtils.isEmpty(item.linkCover).not()
+                val linkCover = if (hasLinkCover) item.linkCover
+                else R.mipmap.ic_link_default
+                llLinkContainer.isVisible = hasLink
+                llLinkContainer.setFixOnClickListener {
+                    BrowserActivity.start(context, linkUrl)
+                }
+                Glide.with(context)
+                    .load(linkCover)
+                    .placeholder(R.mipmap.ic_link_default)
+                    .error(R.mipmap.ic_link_default)
+                    .transform(RoundedCorners(3.dp))
+                    .into(ivLinkCover)
+                tvLinkTitle.text = item.linkTitle
+                tvLinkUrl.text = linkUrl
+                val currUserId = UserManager.loadCurrUserId()
+                val like = item.thumbUpList.contains(currUserId)
+                val defaultColor = ContextCompat.getColor(context, R.color.menu_default_font_color)
+                val likeColor = ContextCompat.getColor(context, R.color.menu_like_font_color)
+                with(listMenuItem) {
+                    llShare.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, position) }
+                    llGreat.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, position) }
+                    ivGreat.imageTintList = ColorStateList.valueOf((if (like) likeColor else defaultColor))
+                    tvComment.text = with(item.commentCount) {
+                        if (this == 0) {
+                            "评论"
+                        } else {
+                            toString()
+                        }
+                    }
+                    tvGreat.text = with(item.thumbUpList.size) {
+                        if (this == 0) "点赞" else toString()
+                    }
+                }
+            }
+        }
     }
 
     override fun onViewAttachedToWindow(holder: FishListViewHolder) {
@@ -56,102 +129,8 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: FishListAdapter.FishListViewHolder, position: Int) {
-        val item = getItem(position) ?: return
-        val itemView = holder.itemView
-        val binding = holder.binding
-        val ivAvatar = binding.ivFishPondAvatar
-        val tvNickName = binding.tvFishPondNickName
-        val tvDesc = binding.tvFishPondDesc
-        val tvContent = binding.tvFishPondContent
-        val simpleGridLayout = binding.simpleGridLayout
-        val tvLabel = binding.tvFishPondLabel
-        val llLinkContainer = binding.llLinkContainer
-        val ivLinkCover = binding.ivLinkCover
-        val tvLinkTitle = binding.tvLinkTitle
-        val tvLinkUrl = binding.tvLinkUrl
-        val tvComment = binding.listMenuItem.tvComment
-        val llGreat = binding.listMenuItem.llGreat
-        val ivGreat = binding.listMenuItem.ivGreat
-        val tvGreat = binding.listMenuItem.tvGreat
-        val llShare = binding.listMenuItem.llShare
-        val context = itemView.context
-        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
-        llShare.setFixOnClickListener {
-            mMenuItemClickListener.invoke(it, item, position)
-        }
-        llGreat.setFixOnClickListener {
-            mMenuItemClickListener.invoke(it, item, position)
-        }
-        val userId = item.userId
-        ivAvatar.setFixOnClickListener {
-            if (TextUtils.isEmpty(userId)) {
-                return@setFixOnClickListener
-            }
-            ViewUserActivity.start(context, userId)
-        }
-        ivAvatar.loadAvatar(item.vip, item.avatar)
-        tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
-        tvNickName.text = item.nickname
-        val job = item.position.ifNullOrEmpty { "游民" }
-        tvDesc.text = "$job · " + TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
-        tvContent.setTextIsSelectable(false)
-        tvContent.apply {
-            if (expandContent) {
-                maxLines = Int.MAX_VALUE
-                ellipsize = null
-            } else {
-                maxLines = 5
-                ellipsize = TextUtils.TruncateAt.END
-            }
-        }
-        val content = item.content
-        // 设置默认表情符号解析器
-        tvContent.setDefaultEmojiParser()
-        tvContent.text = content.parseAsHtml(imageGetter = EmojiImageGetter(tvContent.textSize.toInt()))
-        val topicName = item.topicName
-        val images = item.images
-        val imageCount = images.size
-        simpleGridLayout.setOnNineGridClickListener(nineGridAdapterDelegate)
-            .setData(images)
-        simpleGridLayout.isVisible = imageCount != 0
-        tvLabel.isVisible = TextUtils.isEmpty(topicName).not()
-        tvLabel.text = topicName
-        val linkUrl = item.linkUrl
-        val hasLink = TextUtils.isEmpty(linkUrl).not()
-        val hasLinkCover = TextUtils.isEmpty(item.linkCover).not()
-        val linkCover = if (hasLinkCover) item.linkCover
-        else R.mipmap.ic_link_default
-        llLinkContainer.isVisible = hasLink
-        llLinkContainer.setFixOnClickListener {
-            BrowserActivity.start(context, linkUrl)
-        }
-        Glide.with(context)
-            .load(linkCover)
-            .placeholder(R.mipmap.ic_link_default)
-            .error(R.mipmap.ic_link_default)
-            .transform(RoundedCorners(3.dp))
-            .into(ivLinkCover)
-        tvLinkTitle.text = item.linkTitle
-        tvLinkUrl.text = linkUrl
-        tvComment.text = with(item.commentCount) {
-            if (this == 0) {
-                "评论"
-            } else {
-                toString()
-            }
-        }
-        tvGreat.text = with(item.thumbUpList.size) {
-            if (this == 0) {
-                "点赞"
-            } else {
-                toString()
-            }
-        }
-        val currUserId = UserManager.loadCurrUserId()
-        val like = item.thumbUpList.contains(currUserId)
-        val defaultColor = ContextCompat.getColor(context, R.color.menu_default_font_color)
-        val likeColor = ContextCompat.getColor(context, R.color.menu_like_font_color)
-        ivGreat.imageTintList = ColorStateList.valueOf((if (like) likeColor else defaultColor))
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
+        holder.onBinding(getItem(position), position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishListViewHolder = FishListViewHolder(parent)

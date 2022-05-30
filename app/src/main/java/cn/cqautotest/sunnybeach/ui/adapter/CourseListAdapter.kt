@@ -1,16 +1,12 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.CourseListItemBinding
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
-import cn.cqautotest.sunnybeach.ktx.asViewBinding
-import cn.cqautotest.sunnybeach.ktx.isZero
-import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
-import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.model.course.Course
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 
@@ -25,7 +21,24 @@ class CourseListAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<Course.CourseItem, CourseListAdapter.CourseViewHolder>(diffCallback) {
 
     inner class CourseViewHolder(val binding: CourseListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
         constructor(parent: ViewGroup) : this(parent.asViewBinding<CourseListItemBinding>())
+
+        fun onBinding(item: Course.CourseItem?, position: Int) {
+            item ?: return
+            with(binding) {
+                GlideApp.with(context)
+                    .load(item.cover)
+                    .into(ivCover)
+                tvTitle.text = item.title
+                ivAvatar.loadAvatar(false, item.avatar)
+                tvNickName.text = item.teacherName
+                val price = item.price
+                val isFree = price.isZero
+                slvPrice.text = if (isFree) "免费" else "¥ ${item.price}"
+                slvPrice.setTextColor(Color.parseColor(if (isFree) "#48D044" else "#007BFF"))
+            }
+        }
     }
 
     override fun onViewAttachedToWindow(holder: CourseViewHolder) {
@@ -33,24 +46,9 @@ class CourseListAdapter(private val adapterDelegate: AdapterDelegate) :
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: CourseListAdapter.CourseViewHolder, position: Int) {
-        val item = getItem(position) ?: return
-        val itemView = holder.itemView
-        val binding = holder.binding
-        val context = itemView.context
-        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
-        GlideApp.with(context)
-            .load(item.cover)
-            .into(binding.ivCover)
-        binding.tvTitle.text = item.title
-        binding.ivAvatar.loadAvatar(false, item.avatar)
-        binding.tvNickName.text = item.teacherName
-        val price = item.price
-        val isFree = price.isZero
-        val slvPrice = binding.slvPrice
-        slvPrice.text = if (isFree) "免费" else "¥ ${item.price}"
-        slvPrice.setTextColor(Color.parseColor(if (isFree) "#48D044" else "#007BFF"))
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
+        holder.onBinding(getItem(position), position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder = CourseViewHolder(parent)

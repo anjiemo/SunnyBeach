@@ -28,9 +28,7 @@ class AdapterDelegate {
     private fun addAnimation(holder: RecyclerView.ViewHolder) {
         if (holder.layoutPosition <= mLastPosition) return
         val animation: BaseAnimation = adapterAnimation ?: AlphaInAnimation()
-        animation.animators(holder.itemView).forEach {
-            startAnim(it)
-        }
+        animation.animators(holder.itemView).forEach { startAnim(it) }
         mLastPosition = holder.layoutPosition
     }
 
