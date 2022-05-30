@@ -1,6 +1,5 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
-import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +25,18 @@ class ShareListAdapter(private val adapterDelegate: AdapterDelegate) :
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
     inner class ShareListViewHolder(val binding: ShareListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
         constructor(parent: ViewGroup) : this(parent.asViewBinding<ShareListItemBinding>())
+
+        fun onBinding(item: UserShare.Content?, position: Int) {
+            item ?: return
+            with(binding) {
+                val tvShareTitle = tvShareTitle
+                val tvDesc = tvDesc
+                tvShareTitle.text = item.title
+                tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
+            }
+        }
     }
 
     override fun onViewAttachedToWindow(holder: ShareListViewHolder) {
@@ -34,16 +44,9 @@ class ShareListAdapter(private val adapterDelegate: AdapterDelegate) :
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ShareListAdapter.ShareListViewHolder, position: Int) {
-        val item = getItem(position) ?: return
-        val itemView = holder.itemView
-        val binding = holder.binding
-        val tvShareTitle = binding.tvShareTitle
-        val tvDesc = binding.tvDesc
-        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
-        tvShareTitle.text = item.title
-        tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
+        holder.onBinding(getItem(position), position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShareListViewHolder = ShareListViewHolder(parent)

@@ -22,7 +22,20 @@ class ArticleMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<ArticleMsg.Content, ArticleMsgAdapter.ArticleMsgViewHolder>(diffCallback) {
 
     inner class ArticleMsgViewHolder(val binding: ArticleMsgListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
         constructor(parent: ViewGroup) : this(parent.asViewBinding<ArticleMsgListItemBinding>())
+
+        fun onBinding(item: ArticleMsg.Content?, position: Int) {
+            item ?: return
+            with(binding) {
+                ivAvatar.loadAvatar(false, item.avatar)
+                cbNickName.text = item.nickname
+                val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
+                tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.createTime, sdf)
+                tvReplyMsg.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                tvChildReplyMsg.text = item.title
+            }
+        }
     }
 
     override fun onViewAttachedToWindow(holder: ArticleMsgViewHolder) {
@@ -31,21 +44,8 @@ class ArticleMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     }
 
     override fun onBindViewHolder(holder: ArticleMsgViewHolder, position: Int) {
-        val itemView = holder.itemView
-        val binding = holder.binding
-        val ivAvatar = binding.ivAvatar
-        val cbNickName = binding.cbNickName
-        val tvDesc = binding.tvDesc
-        val tvReplyMsg = binding.tvReplyMsg
-        val tvChildReplyMsg = binding.tvChildReplyMsg
-        val item = getItem(position) ?: return
-        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
-        ivAvatar.loadAvatar(false, item.avatar)
-        cbNickName.text = item.nickname
-        val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
-        tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.createTime, sdf)
-        tvReplyMsg.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        tvChildReplyMsg.text = item.title
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
+        holder.onBinding(getItem(position), position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleMsgViewHolder = ArticleMsgViewHolder(parent)

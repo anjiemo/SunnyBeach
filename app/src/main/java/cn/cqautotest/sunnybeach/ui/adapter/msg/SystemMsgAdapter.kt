@@ -24,7 +24,25 @@ class SystemMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<SystemMsg.Content, SystemMsgAdapter.SystemMsgViewHolder>(diffCallback) {
 
     inner class SystemMsgViewHolder(val binding: SystemMsgListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
         constructor(parent: ViewGroup) : this(parent.asViewBinding<SystemMsgListItemBinding>())
+
+        fun onBinding(item: SystemMsg.Content?, position: Int) {
+            item ?: return
+            with(binding) {
+                Glide.with(root)
+                    .load(R.mipmap.ic_gold)
+                    .placeholder(R.mipmap.ic_gold)
+                    .error(R.mipmap.ic_gold)
+                    .circleCrop()
+                    .into(ivAvatar)
+                cbNickName.text = item.title
+                val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
+                tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.publishTime, sdf)
+                tvReplyMsg.height = 0
+                tvChildReplyMsg.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            }
+        }
     }
 
     override fun onViewAttachedToWindow(holder: SystemMsgViewHolder) {
@@ -33,26 +51,8 @@ class SystemMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     }
 
     override fun onBindViewHolder(holder: SystemMsgViewHolder, position: Int) {
-        val itemView = holder.itemView
-        val binding = holder.binding
-        val ivAvatar = binding.ivAvatar
-        val cbNickName = binding.cbNickName
-        val tvDesc = binding.tvDesc
-        val tvReplyMsg = binding.tvReplyMsg
-        val tvChildReplyMsg = binding.tvChildReplyMsg
-        val item = getItem(position) ?: return
-        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
-        Glide.with(itemView)
-            .load(R.mipmap.ic_gold)
-            .placeholder(R.mipmap.ic_gold)
-            .error(R.mipmap.ic_gold)
-            .circleCrop()
-            .into(ivAvatar)
-        cbNickName.text = item.title
-        val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
-        tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.publishTime, sdf)
-        tvReplyMsg.height = 0
-        tvChildReplyMsg.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
+        holder.onBinding(getItem(position), position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SystemMsgViewHolder = SystemMsgViewHolder(parent)

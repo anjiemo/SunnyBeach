@@ -1,6 +1,5 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -24,7 +23,29 @@ class UserFollowListAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<UserFollow.UserFollowItem, UserFollowListAdapter.QaListViewHolder>(diffCallback) {
 
     inner class QaListViewHolder(val binding: FollowListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
         constructor(parent: ViewGroup) : this(parent.asViewBinding<FollowListItemBinding>())
+
+        fun onBinding(item: UserFollow.UserFollowItem?, position: Int) {
+            item ?: return
+            with(binding) {
+                ivAvatar.loadAvatar(item.vip, item.avatar)
+                tvNickName.text = item.nickname
+                val nickNameColor = if (item.vip) ContextCompat.getColor(context, R.color.pink)
+                else Color.BLACK
+                tvNickName.setTextColor(nickNameColor)
+                tvDesc.text = item.sign ?: context.getString(R.string.not_sign_text_tips)
+                val state = FriendsStatus.valueOfCode(item.relative)
+                val userId = item.userId
+                tvFollow.text = state.desc
+                val disableTextColor = ContextCompat.getColor(context, R.color.btn_text_disable_color)
+                val disableBgColor = ContextCompat.getColor(context, R.color.btn_bg_disable_color)
+                val followColor = if (UserManager.isCurrUser(userId)) disableBgColor else state.color
+                tvFollow.setRoundRectBg(followColor, 3.dp)
+                tvFollow.setTextColor(if (UserManager.isCurrUser(userId)) disableTextColor else Color.WHITE)
+                tvFollow.isEnabled = UserManager.isNotCurrUser(userId)
+            }
+        }
     }
 
     override fun onViewAttachedToWindow(holder: QaListViewHolder) {
@@ -32,32 +53,9 @@ class UserFollowListAdapter(private val adapterDelegate: AdapterDelegate) :
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: UserFollowListAdapter.QaListViewHolder, position: Int) {
-        val item = getItem(position) ?: return
-        val itemView = holder.itemView
-        val binding = holder.binding
-        val ivAvatar = binding.ivAvatar
-        val tvNickName = binding.tvNickName
-        val tvDesc = binding.tvDesc
-        val tvFollow = binding.tvFollow
-        val context = itemView.context
-        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
-        ivAvatar.loadAvatar(item.vip, item.avatar)
-        tvNickName.text = item.nickname
-        val nickNameColor = if (item.vip) ContextCompat.getColor(context, R.color.pink)
-        else Color.BLACK
-        tvNickName.setTextColor(nickNameColor)
-        tvDesc.text = item.sign ?: context.getString(R.string.not_sign_text_tips)
-        val state = FriendsStatus.valueOfCode(item.relative)
-        val userId = item.userId
-        tvFollow.text = state.desc
-        val disableTextColor = ContextCompat.getColor(context, R.color.btn_text_disable_color)
-        val disableBgColor = ContextCompat.getColor(context, R.color.btn_bg_disable_color)
-        val followColor = if (UserManager.isCurrUser(userId)) disableBgColor else state.color
-        tvFollow.setRoundRectBg(followColor, 3.dp)
-        tvFollow.setTextColor(if (UserManager.isCurrUser(userId)) disableTextColor else Color.WHITE)
-        tvFollow.isEnabled = UserManager.isNotCurrUser(userId)
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
+        holder.onBinding(getItem(position), position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QaListViewHolder = QaListViewHolder(parent)
