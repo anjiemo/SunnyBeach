@@ -28,11 +28,14 @@ class SearchResultListAdapter(private val adapterDelegate: AdapterDelegate) :
         // Replace image with empty drawable.
         private val emptyDrawable = ColorDrawable()
 
-        fun onBind(item: SearchResult.SearchResultItem, position: Int) {
-            binding.tvQaTitle.text = item.title.parseAsHtml()
-            // We do not need to display image information in the search results,
-            // so as to avoid typographical confusion caused by images.
-            binding.tvDesc.text = item.content.parseAsHtml(imageGetter = { emptyDrawable })
+        fun onBind(item: SearchResult.SearchResultItem?, position: Int) {
+            item ?: return
+            with(binding) {
+                tvQaTitle.text = item.title.parseAsHtml()
+                // We do not need to display image information in the search results,
+                // so as to avoid typographical confusion caused by images.
+                tvDesc.text = item.content.parseAsHtml(imageGetter = { emptyDrawable })
+            }
         }
     }
 
@@ -42,10 +45,8 @@ class SearchResultListAdapter(private val adapterDelegate: AdapterDelegate) :
     }
 
     override fun onBindViewHolder(holder: SearchResultListAdapter.SearchResultListViewHolder, position: Int) {
-        val item = getItem(position) ?: return
-        val itemView = holder.itemView
-        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
-        holder.onBind(item, position)
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
+        holder.onBind(getItem(position), position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultListViewHolder = SearchResultListViewHolder(parent)

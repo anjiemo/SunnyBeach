@@ -21,7 +21,18 @@ import com.bumptech.glide.Glide
 class FishPondSelectionAdapter : RecyclerView.Adapter<FishPondSelectionAdapter.FishPondSelectionViewHolder>() {
 
     inner class FishPondSelectionViewHolder(val binding: FishPondSelectionItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
         constructor(parent: ViewGroup) : this(parent.asViewBinding<FishPondSelectionItemBinding>())
+
+        fun onBinding(item: FishPondTopicList.TopicItem, position: Int) {
+            with(binding) {
+                Glide.with(itemView).load(item.cover).into(ivTopicCover)
+                tvTopicName.text = item.topicName
+                tvTopicDesc.text = item.description
+                btnChoose.setRoundRectBg(color = Color.parseColor("#F4F5F5"), 4.dp)
+                btnChoose.setFixOnClickListener { mItemClickListener.invoke(item, position) }
+            }
+        }
     }
 
     private var mItemClickListener: (item: FishPondTopicList.TopicItem, position: Int) -> Unit =
@@ -44,14 +55,7 @@ class FishPondSelectionAdapter : RecyclerView.Adapter<FishPondSelectionAdapter.F
 
     override fun onBindViewHolder(holder: FishPondSelectionViewHolder, position: Int) {
         val item = mData[position]
-        val binding = holder.binding
-        Glide.with(holder.itemView).load(item.cover).into(binding.ivTopicCover)
-        binding.tvTopicName.text = item.topicName
-        binding.tvTopicDesc.text = item.description
-        binding.btnChoose.setRoundRectBg(color = Color.parseColor("#F4F5F5"), 4.dp)
-        binding.btnChoose.setFixOnClickListener {
-            mItemClickListener.invoke(item, position)
-        }
+        holder.onBinding(item, position)
     }
 
     override fun getItemCount(): Int = mData.size

@@ -1,6 +1,5 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
-import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +25,16 @@ class UserQaListAdapter(private val adapterDelegate: AdapterDelegate) :
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
     inner class QaListViewHolder(val binding: UserQaListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
         constructor(parent: ViewGroup) : this(parent.asViewBinding<UserQaListItemBinding>())
+
+        fun onBinding(item: UserQa.Content?, position: Int) {
+            item ?: return
+            with(binding) {
+                tvQaTitle.text = item.wendaTitle
+                tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.wendaComment.publishTime, mSdf)
+            }
+        }
     }
 
     override fun onViewAttachedToWindow(holder: QaListViewHolder) {
@@ -34,16 +42,9 @@ class UserQaListAdapter(private val adapterDelegate: AdapterDelegate) :
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: UserQaListAdapter.QaListViewHolder, position: Int) {
-        val item = getItem(position) ?: return
-        val itemView = holder.itemView
-        val binding = holder.binding
-        val tvQaTitle = binding.tvQaTitle
-        val tvDesc = binding.tvDesc
-        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
-        tvQaTitle.text = item.wendaTitle
-        tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.wendaComment.publishTime, mSdf)
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
+        holder.onBinding(getItem(position), position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QaListViewHolder = QaListViewHolder(parent)

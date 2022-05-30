@@ -22,7 +22,20 @@ class AtMeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<AtMeMsg.Content, AtMeMsgAdapter.AtMeMsgViewHolder>(diffCallback) {
 
     inner class AtMeMsgViewHolder(val binding: AtMeMsgListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
         constructor(parent: ViewGroup) : this(parent.asViewBinding<AtMeMsgListItemBinding>())
+
+        fun onBinding(item: AtMeMsg.Content?, position: Int) {
+            item ?: return
+            with(binding) {
+                ivAvatar.loadAvatar(false, item.avatar)
+                cbNickName.text = item.nickname
+                val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
+                tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.publishTime, sdf)
+                tvReplyMsg.height = 0
+                tvChildReplyMsg.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            }
+        }
     }
 
     override fun onViewAttachedToWindow(holder: AtMeMsgViewHolder) {
@@ -31,21 +44,8 @@ class AtMeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     }
 
     override fun onBindViewHolder(holder: AtMeMsgViewHolder, position: Int) {
-        val itemView = holder.itemView
-        val binding = holder.binding
-        val ivAvatar = binding.ivAvatar
-        val cbNickName = binding.cbNickName
-        val tvDesc = binding.tvDesc
-        val tvReplyMsg = binding.tvReplyMsg
-        val tvChildReplyMsg = binding.tvChildReplyMsg
-        val item = getItem(position) ?: return
-        itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
-        ivAvatar.loadAvatar(false, item.avatar)
-        cbNickName.text = item.nickname
-        val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
-        tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.publishTime, sdf)
-        tvReplyMsg.height = 0
-        tvChildReplyMsg.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
+        holder.onBinding(getItem(position), position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AtMeMsgViewHolder = AtMeMsgViewHolder(parent)

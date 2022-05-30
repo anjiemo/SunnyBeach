@@ -32,29 +32,29 @@ class WallpaperListAdapter(
 
         constructor(parent: ViewGroup) : this(parent.asViewBinding<PhotoListItemBinding>())
 
-        fun binding(position: Int) {
-            val photoIv = binding.photoIv
-            val ratioFrameLayout = binding.ratioFrameLayout
-            val item = getItem(position) ?: return
-            // 设置比例布局全屏
-            if (fillBox) {
-                ratioFrameLayout.setSizeRatio(screenWidth, screenHeight)
-            } else {
-                itemView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-                itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-            }
-            // 加载全屏的图片
-            Glide.with(itemView)
-                .load(item.thumb)
-                .placeholder(R.mipmap.ic_bg)
-                .into(photoIv)
-            itemView.setFixOnClickListener {
-                photoIv.transitionName = item.id
-                mItemClickListener.invoke(photoIv, item, position)
-            }
-            itemView.setOnLongClickListener {
-                mItemLongClickListener.invoke(item, position)
-                true
+        fun onBinding(item: WallpaperBean.Res.Vertical?, position: Int) {
+            item ?: return
+            with(binding) {
+                // 设置比例布局全屏
+                if (fillBox) {
+                    ratioFrameLayout.setSizeRatio(screenWidth, screenHeight)
+                } else {
+                    itemView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+                    itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                }
+                // 加载全屏的图片
+                Glide.with(itemView)
+                    .load(item.thumb)
+                    .placeholder(R.mipmap.ic_bg)
+                    .into(photoIv)
+                itemView.setFixOnClickListener {
+                    photoIv.transitionName = item.id
+                    mItemClickListener.invoke(photoIv, item, position)
+                }
+                itemView.setOnLongClickListener {
+                    mItemLongClickListener.invoke(item, position)
+                    true
+                }
             }
         }
     }
@@ -79,7 +79,8 @@ class WallpaperListAdapter(
     }
 
     override fun onBindViewHolder(holder: PhotoListViewHolder, position: Int) {
-        holder.binding(position)
+        holder.itemView.setOnClickListener { adapterDelegate.onItemClick(it, position) }
+        holder.onBinding(getItem(position), position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoListViewHolder = PhotoListViewHolder(parent)
