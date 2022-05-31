@@ -26,10 +26,7 @@ class EmptyFragment : AppFragment<AppActivity>() {
     override fun getLayoutId(): Int = R.layout.empty_fragment
 
     override fun initView() {
-        mBinding.ivAvatarDecorView.loadAvatar(resource = R.drawable.login_qq_ic, vip = true)
-        mBinding.ivAvatar1.loadAvatar(true, "https://images.sunofbeaches.com/content/2022_01_04/927947264050069504.png")
-        mBinding.ivAvatar2.loadAvatar(true, "https://imgs.sunofbeaches.com/group1/M00/00/0C/rBsADV3w3l6ATs8KAAA8tUB7EHo702.png")
-        mBinding.ivAvatar3.loadAvatar(true, "https://imgs.sunofbeaches.com/group1/M00/00/04/rBsADV2YuTKABc4DAABfJHgYqP8031.png")
+
     }
 
     private fun ImageView.load(o: Any?) {
@@ -40,13 +37,21 @@ class EmptyFragment : AppFragment<AppActivity>() {
     }
 
     override fun initData() {
-        mBinding.emptyDescription.setDefaultEmojiParser()
-        val sb = buildString {
-            EmojiMapHelper.emojiMap.keys.onEach {
-                append(it)
+        with(mBinding) {
+            ivAvatarDecorView.loadAvatar(resource = R.drawable.login_qq_ic, vip = true)
+            ivAvatar1.loadAvatar(true, "https://images.sunofbeaches.com/content/2022_01_04/927947264050069504.png")
+            ivAvatar2.loadAvatar(true, "https://imgs.sunofbeaches.com/group1/M00/00/0C/rBsADV3w3l6ATs8KAAA8tUB7EHo702.png")
+            ivAvatar3.loadAvatar(true, "https://imgs.sunofbeaches.com/group1/M00/00/04/rBsADV2YuTKABc4DAABfJHgYqP8031.png")
+            emptyDescription.setDefaultEmojiParser()
+            val sb = buildString {
+                EmojiMapHelper.emojiMap.keys.onEach {
+                    append(it)
+                }
             }
+            emptyDescription.text = sb
+
+
         }
-        mBinding.emptyDescription.text = sb
     }
 
     override fun initEvent() {
