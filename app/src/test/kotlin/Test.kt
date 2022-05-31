@@ -1,4 +1,5 @@
 import cn.cqautotest.sunnybeach.execption.ServiceException
+import cn.cqautotest.sunnybeach.ktx.fromJson
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.ArticleDetail
@@ -17,12 +18,13 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
+
 class Test {
 
     private val userId = "1204736502274318336"
     private val sobToken by lazy { File("config", "sob_token.config").readText() }
     private val userArticleListFile by lazy { File("config", "user_article_list.json") }
-    private val userArticleDetailUrlTemplate = "https://api.sunofbeaches.com/ct/article/detail/{articleId}"
+    private val userArticleDetailUrlTemplate = "https://api.sunofbeaches.com/ct/ucenter/article/{articleId}"
     private val userArticleUpdateUrlTemplate = "https://api.sunofbeaches.com/ct/ucenter/article/{articleId}"
 
     @Test
@@ -79,14 +81,17 @@ class Test {
     fun modifyImgUrl() {
         val modifyArticleDir = File("revised_article").apply { mkdirs() }
         val linkPre = "https://gitee.com/anjiemo/figure-bed/raw/master/img/"
-        val newLinkPre = "http://blog.52android.cn/blog/imgs/"
-        listArticleFile().forEach { file ->
-            val content = file.readText()
-            takeIf { content.contains(linkPre) }?.let {
-                val newContent = content.replace(linkPre, newLinkPre)
-                    .replace("<p>", "\n")
-                    .replace("</p>", "\n")
-                File(modifyArticleDir.path, file.name).writeText(newContent)
+        val imageList = fromJson<List<Pair<String, String>>>(File("img", "imageMap.json").readText())
+        imageList.forEach { (oldName, newLinkUrl) ->
+            listArticleFile().forEach { file ->
+                val content = file.readText()
+                takeIf { content.contains(linkPre) }?.let {
+
+                    val newContent = content.replace(linkPre + oldName, newLinkUrl)
+                    println("modifyImgUrl：===> newContent is $newContent")
+
+                    // File(modifyArticleDir.path, file.name).writeText(newContent)
+                }
             }
         }
     }
@@ -134,6 +139,44 @@ class Test {
             }
         }
         println("updateUserArticleList：===> update end...")
+    }
+
+    @Test
+    fun uploadLocalImage(): Unit = runBlocking(Dispatchers.IO) {
+        val imageDirPath = ""
+        val imageServiceUrl = ""
+        val imageMapFile = File(File("img").apply { mkdir() }.path, "imageMap.json")
+        val imageList = arrayListOf<Pair<String, String>>()
+
+        val copyFileDir = File("copyFile").apply {
+            mkdir()
+            listFiles()?.forEach { it.delete() }
+        }
+
+        File(imageDirPath).listFiles()?.forEach { file ->
+            val targetFile = File(
+                copyFileDir.path, file.name
+                    .replace(".jpg", ".png")
+                    .replace(".gif", ".png")
+                    .replace(".jpeg", ".png")
+            )
+
+            println("uploadLocalImage：===> target image file name is ${targetFile.name})")
+
+            val newFile = file.copyTo(targetFile)
+            request<String>(imageServiceUrl) {
+                val requestBody: RequestBody = MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("image", newFile.path, RequestBody.create("image/png".toMediaTypeOrNull(), newFile))
+                    .build()
+                this.method("POST", requestBody)
+                this
+            }.getOrNull()?.let {
+                imageList.add(Pair(newFile.name, it))
+                println("test：===> result is $it")
+            }
+        }
+        imageMapFile.writeText(imageList.toJson())
     }
 
     private suspend fun paging(
