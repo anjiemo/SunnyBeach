@@ -1,5 +1,5 @@
 import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.ktx.fromJson
+import cn.cqautotest.sunnybeach.ktx.fromJsonByTypeToken
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.ArticleDetail
@@ -21,7 +21,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class Test {
 
-    private val userId = "1204736502274318336"
+    private val userId = ""
     private val sobToken by lazy { File("config", "sob_token.config").readText() }
     private val userArticleListFile by lazy { File("config", "user_article_list.json") }
     private val userArticleDetailUrlTemplate = "https://api.sunofbeaches.com/ct/ucenter/article/{articleId}"
@@ -77,21 +77,31 @@ class Test {
         return articleListDir.listFiles() ?: emptyArray()
     }
 
+    private fun listRevisedArticleFile(): Array<out File> {
+        val articleListDir = File("revised_article")
+        return articleListDir.listFiles() ?: emptyArray()
+    }
+
     @Test
     fun modifyImgUrl() {
-        val modifyArticleDir = File("revised_article").apply { mkdirs() }
-        val linkPre = "https://gitee.com/anjiemo/figure-bed/raw/master/img/"
-        val imageList = fromJson<List<Pair<String, String>>>(File("img", "imageMap.json").readText())
-        imageList.forEach { (oldName, newLinkUrl) ->
-            listArticleFile().forEach { file ->
-                val content = file.readText()
-                takeIf { content.contains(linkPre) }?.let {
-
-                    val newContent = content.replace(linkPre + oldName, newLinkUrl)
-                    println("modifyImgUrl：===> newContent is $newContent")
-
-                    // File(modifyArticleDir.path, file.name).writeText(newContent)
+        val modifyArticleDir = File("revised_article").apply {
+            delete()
+            mkdirs()
+        }
+        val linkPre = ""
+        val imageList: List<Pair<String, String>> = fromJsonByTypeToken(File("img", "imageMap.json").readText())
+        val listArticleFile = listArticleFile()
+        for (file in listArticleFile) {
+            val content = file.readText()
+            if (content.contains(linkPre)) {
+                var newContent = content
+                for ((fileName, url) in imageList) {
+                    val oldValue = linkPre + fileName
+                    println("modifyImgUrl：===> oldValue is $oldValue newValue is $url")
+                    newContent = newContent.replace(oldValue, url)
                 }
+                // println("modifyImgUrl：===> newContent is $newContent")
+                File(modifyArticleDir.path, file.name).writeText(newContent)
             }
         }
     }
@@ -103,7 +113,7 @@ class Test {
             val content = file.readText()
             val articleId = file.name.removeSuffix(".md")
             userArticleList.find { it.id == articleId }?.let { userArticle ->
-                val needModify = content.contains("https://gitee.com/anjiemo/figure-bed/raw/master/img/")
+                val needModify = content.contains("")
                 if (needModify) {
                     takeIf { needModify }?.let {
                         println("test：===> need modify articleId is $articleId, userArticle is ${userArticle.title}")
@@ -120,9 +130,10 @@ class Test {
             .readText()
             .split("\n")
             .map { Pair(it.split(":")[0], it.split(":")[1]) }
-        listArticleFile().forEach { file ->
+        listRevisedArticleFile().forEach { file ->
             val content = file.readText()
             val articleId = file.name.removeSuffix(".md")
+            println("updateUserArticleList：===> articleId is $articleId")
             val url = userArticleUpdateUrlTemplate.replace("{articleId}", articleId)
             request<HashMap<String, Any>>(userArticleDetailUrlTemplate.replace("{articleId}", articleId)).getOrNull()?.let { jsonMap ->
                 val result = request<Any>(url) {
@@ -172,7 +183,7 @@ class Test {
                 this.method("POST", requestBody)
                 this
             }.getOrNull()?.let {
-                imageList.add(Pair(newFile.name, it))
+                imageList.add(Pair(file.name, it))
                 println("test：===> result is $it")
             }
         }
