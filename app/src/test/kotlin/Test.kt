@@ -27,6 +27,54 @@ class Test {
     private val userArticleDetailUrlTemplate = "https://api.sunofbeaches.com/ct/ucenter/article/{articleId}"
     private val userArticleUpdateUrlTemplate = "https://api.sunofbeaches.com/ct/ucenter/article/{articleId}"
 
+    /**
+     * 批量替换文章图片链接
+     * 一个简化版本的例子
+     */
+    @Test
+    fun batchReplaceArticleImageLinks(): Unit = runBlocking(Dispatchers.IO) {
+        // 找到所有的文章
+        // 过滤出需要替换链接的文章
+        // 替换文章里的链接
+        // 保存文章到本地
+        // 更新文章到服务器
+        val keywords = loadKeywords()
+        loadArticleList()
+            .filter { it.contains("http://") }
+            .map { it.replaceKeyword(keywords) }
+            .onEach { saveArticle(it) }
+            .forEach { updateArticle(it) }
+    }
+
+    private suspend fun updateArticle(article: String) {
+        println("updateArticle：===> article $article is update...")
+    }
+
+    private fun saveArticle(article: String) {
+        println("saveArticle：===> article $article is save...")
+    }
+
+    private fun String.replaceKeyword(keywordsMap: List<Pair<String, String>>): String {
+        return keywordsMap.fold(this) { acc, (keyword, replace) ->
+            acc.replace(keyword, replace)
+        }
+    }
+
+    private fun loadKeywords() = arrayListOf<Pair<String, String>>().apply {
+        // oldKeyword, newKeyword
+        add(Pair("baidu.com", "52android.cn"))
+    }.toList()
+
+    private fun loadArticleList() = arrayListOf<String>().apply {
+        add("张三")
+        add("李四")
+        add("王五")
+        add("赵六")
+        repeat(10) {
+            add("http://www.baidu.com?id=$it")
+        }
+    }.toList()
+
     @Test
     fun createConfigFile() {
         println("createConfigFile：===> pre create new config file...")
