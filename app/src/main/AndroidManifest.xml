@@ -483,6 +483,14 @@
             android:exported="true"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- 收藏列表页 -->
+        <activity
+            android:name=".ui.activity.CollectionListActivity"
+            android:screenOrientation="portrait" />
+        <!-- 收藏详情列表页 -->
+        <activity
+            android:name=".ui.activity.CollectionDetailListActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name="com.xiaomi.push.service.XMPushService"

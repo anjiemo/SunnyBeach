@@ -15,9 +15,7 @@ import timber.log.Timber
 class MsgPagingSourceImpl<T : IMsgContent>(private val msgListFactory: AbstractMsgListFactory) :
     PagingSource<Int, T>() {
 
-    override fun getRefreshKey(state: PagingState<Int, T>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, T>): Int? = null
 
     @Suppress("UNCHECKED_CAST")
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {

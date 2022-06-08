@@ -18,9 +18,7 @@ import timber.log.Timber
 class UserFollowOrFansPagingSource(private val userId: String, private val followType: FollowType) :
     PagingSource<Int, UserFollow.UserFollowItem>() {
 
-    override fun getRefreshKey(state: PagingState<Int, UserFollow.UserFollowItem>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, UserFollow.UserFollowItem>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UserFollow.UserFollowItem> {
         return try {

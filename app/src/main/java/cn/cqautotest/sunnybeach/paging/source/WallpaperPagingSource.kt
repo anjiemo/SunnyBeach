@@ -18,9 +18,7 @@ class WallpaperPagingSource : PagingSource<Int, WallpaperBean.Res.Vertical>() {
 
     private val photoApi = ServiceCreator.create<PhotoApi>()
 
-    override fun getRefreshKey(state: PagingState<Int, WallpaperBean.Res.Vertical>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, WallpaperBean.Res.Vertical>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, WallpaperBean.Res.Vertical> {
         return try {

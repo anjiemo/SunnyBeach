@@ -18,9 +18,7 @@ class SystemMsgPagingSource : PagingSource<Int, SystemMsg.Content>() {
 
     private val msgApi = ServiceCreator.create<MsgApi>()
 
-    override fun getRefreshKey(state: PagingState<Int, SystemMsg.Content>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, SystemMsg.Content>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SystemMsg.Content> {
         return try {

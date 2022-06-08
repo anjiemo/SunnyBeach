@@ -21,9 +21,7 @@ class SearchPagingSource(private val keyword: String, private val searchType: Se
 
     private val homeApi = ServiceCreator.create<HomeApi>()
 
-    override fun getRefreshKey(state: PagingState<Int, SearchResult.SearchResultItem>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, SearchResult.SearchResultItem>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SearchResult.SearchResultItem> {
         return try {

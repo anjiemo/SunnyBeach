@@ -15,9 +15,7 @@ import timber.log.Timber
  */
 class RichPagingSource : PagingSource<Int, RichList.RichUserItem>() {
 
-    override fun getRefreshKey(state: PagingState<Int, RichList.RichUserItem>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, RichList.RichUserItem>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, RichList.RichUserItem> {
         return try {

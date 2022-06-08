@@ -18,9 +18,7 @@ class MomentMsgPagingSource : PagingSource<Int, MomentMsg.Content>() {
 
     private val msgApi = ServiceCreator.create<MsgApi>()
 
-    override fun getRefreshKey(state: PagingState<Int, MomentMsg.Content>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, MomentMsg.Content>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MomentMsg.Content> {
         return try {
