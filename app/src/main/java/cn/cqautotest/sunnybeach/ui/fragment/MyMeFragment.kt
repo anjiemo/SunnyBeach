@@ -50,44 +50,39 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     }
 
     override fun initEvent() {
-        val meContent = mBinding.meContent
-        meContent.llUserInfoContainer.setFixOnClickListener {
-            takeIfLogin {
-                requireContext().startActivity<UserCenterActivity>()
+        with(mBinding.meContent) {
+            // 跳转到用户中心
+            llUserInfoContainer.setFixOnClickListener {
+                takeIfLogin { requireContext().startActivity<UserCenterActivity>() }
             }
-        }
-        meContent.richListContainer.setFixOnClickListener {
-            requireContext().startActivity<RichListActivity>()
-        }
-        meContent.messageCenterContainer.setFixOnClickListener {
-            takeIfLogin {
-                requireContext().startActivity<MessageCenterActivity>()
+            // 跳转到富豪榜列表
+            richListContainer.setFixOnClickListener { requireContext().startActivity<RichListActivity>() }
+            // 跳转到消息中心
+            messageCenterContainer.setFixOnClickListener {
+                takeIfLogin { requireContext().startActivity<MessageCenterActivity>() }
             }
-        }
-        meContent.creationCenterContainer.setFixOnClickListener {
-            takeIfLogin {
-                requireContext().startActivity<CreationCenterActivity>()
+            // 跳转到创作中心
+            creationCenterContainer.setFixOnClickListener {
+                takeIfLogin { requireContext().startActivity<CreationCenterActivity>() }
             }
-        }
-        meContent.wallpaperContainer.setFixOnClickListener {
-            requireContext().startActivity<WallpaperActivity>()
-        }
-        meContent.weatherContainer.setFixOnClickListener {
-            requireContext().startActivity<MainActivity>()
-        }
-        meContent.feedbackContainer.setFixOnClickListener {
-            checkToken {
-                // check userBasicInfo is null, anonymous feedback if empty.
-                val userBasicInfo = UserManager.loadUserBasicInfo() ?: run {
-                    BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
-                    return@checkToken
+            // 跳转到高清壁纸
+            wallpaperContainer.setFixOnClickListener { requireContext().startActivity<WallpaperActivity>() }
+            // 跳转到天气预报
+            weatherContainer.setFixOnClickListener { requireContext().startActivity<MainActivity>() }
+            // 跳转到意见反馈
+            feedbackContainer.setFixOnClickListener {
+                checkToken {
+                    // check userBasicInfo is null, anonymous feedback if empty.
+                    val userBasicInfo = UserManager.loadUserBasicInfo() ?: run {
+                        BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
+                        return@checkToken
+                    }
+                    val (avatar, _, _, id, _, _, nickname, _, _) = userBasicInfo
+                    BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL, true, id, nickname, avatar)
                 }
-                val (avatar, _, _, id, _, _, nickname, _, _) = userBasicInfo
-                BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL, true, id, nickname, avatar)
             }
-        }
-        meContent.settingContainer.setFixOnClickListener {
-            requireContext().startActivity<SettingActivity>()
+            // 跳转到设置
+            settingContainer.setFixOnClickListener { requireContext().startActivity<SettingActivity>() }
         }
     }
 

@@ -79,7 +79,7 @@ class GalleryActivity : AppActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun initEvent() {
         mPhotoAdapter.setOnItemLongClickListener { verticalPhoto, _ ->
-            //打开指定的一张照片
+            // 打开指定的一张照片
             val intent = Intent(Intent.ACTION_VIEW)
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             intent.setDataAndType(Uri.parse(verticalPhoto.img), "image/*")

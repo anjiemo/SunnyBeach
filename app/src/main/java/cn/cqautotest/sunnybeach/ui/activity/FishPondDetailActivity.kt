@@ -3,11 +3,7 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
 import androidx.activity.viewModels
-import androidx.core.content.getSystemService
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
@@ -36,6 +32,7 @@ import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_FISH_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.blankj.utilcode.util.VibrateUtils
 import com.hjq.bar.TitleBar
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
@@ -108,9 +105,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
         mFishPondViewModel.getFishDetailById(mMomentId).observe(this) {
             mBinding.slFishDetailRefresh.finishRefresh()
             val item = it.getOrElse {
-                showError {
-                    initData()
-                }
+                showError { initData() }
                 return@observe
             }
             mNickName = item.nickname
@@ -132,28 +127,14 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
             thumbUpList.add(currUserId)
             mFishListAdapter.notifyItemChanged(position)
         }
-        tryVibrate()
+        VibrateUtils.vibrate(80)
         mFishPondViewModel.dynamicLikes(mMomentId).observe(this) {}
-    }
-
-    private fun tryVibrate() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            getSystemService<Vibrator>()?.let { vibrator ->
-                if (vibrator.hasVibrator()) {
-                    val ve = VibrationEffect.createOneShot(
-                        80,
-                        VibrationEffect.DEFAULT_AMPLITUDE
-                    )
-                    vibrator.vibrate(ve)
-                }
-            }
-        }
     }
 
     private fun shareFish(item: Fish.FishItem) {
         val momentId = item.id
         val content = UMWeb(SUNNY_BEACH_FISH_URL_PRE + momentId)
-        content.title = "我发布了一条摸鱼动态，快来看看吧~"
+        content.title = "我分享了一条摸鱼动态，快来看看吧~"
         content.setThumb(UMImage(this, R.mipmap.launcher_ic))
         content.description = getString(R.string.app_name)
         // 分享
