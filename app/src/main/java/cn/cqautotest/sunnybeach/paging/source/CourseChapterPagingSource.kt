@@ -18,9 +18,7 @@ class CourseChapterPagingSource(private val courseId: String) : PagingSource<Int
 
     private val courseApi = ServiceCreator.create<CourseApi>()
 
-    override fun getRefreshKey(state: PagingState<Int, CourseChapterListAdapter.Type>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, CourseChapterListAdapter.Type>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CourseChapterListAdapter.Type> {
         return try {

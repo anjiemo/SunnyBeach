@@ -52,19 +52,15 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     override fun initEvent() {
         with(mBinding.meContent) {
             // 跳转到用户中心
-            llUserInfoContainer.setFixOnClickListener {
-                takeIfLogin { requireContext().startActivity<UserCenterActivity>() }
-            }
+            llUserInfoContainer.setFixOnClickListener { takeIfLogin { requireContext().startActivity<UserCenterActivity>() } }
             // 跳转到富豪榜列表
             richListContainer.setFixOnClickListener { requireContext().startActivity<RichListActivity>() }
             // 跳转到消息中心
-            messageCenterContainer.setFixOnClickListener {
-                takeIfLogin { requireContext().startActivity<MessageCenterActivity>() }
-            }
+            messageCenterContainer.setFixOnClickListener { takeIfLogin { requireContext().startActivity<MessageCenterActivity>() } }
             // 跳转到创作中心
-            creationCenterContainer.setFixOnClickListener {
-                takeIfLogin { requireContext().startActivity<CreationCenterActivity>() }
-            }
+            creationCenterContainer.setFixOnClickListener { takeIfLogin { requireContext().startActivity<CreationCenterActivity>() } }
+            // 我的收藏
+            collectionContainer.setFixOnClickListener { takeIfLogin { requireContext().startActivity<CollectionListActivity>() } }
             // 跳转到高清壁纸
             wallpaperContainer.setFixOnClickListener { requireContext().startActivity<WallpaperActivity>() }
             // 跳转到天气预报

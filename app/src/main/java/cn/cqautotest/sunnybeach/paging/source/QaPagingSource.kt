@@ -20,9 +20,7 @@ class QaPagingSource(private val qaType: QaType) : PagingSource<Int, QaInfo.QaIn
 
     private val homeApi = ServiceCreator.create<HomeApi>()
 
-    override fun getRefreshKey(state: PagingState<Int, QaInfo.QaInfoItem>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, QaInfo.QaInfoItem>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, QaInfo.QaInfoItem> {
         return try {

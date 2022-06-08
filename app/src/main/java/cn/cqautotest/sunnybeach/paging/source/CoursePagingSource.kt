@@ -18,9 +18,7 @@ class CoursePagingSource : PagingSource<Int, Course.CourseItem>() {
 
     private val courseApi = ServiceCreator.create<CourseApi>()
 
-    override fun getRefreshKey(state: PagingState<Int, Course.CourseItem>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, Course.CourseItem>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Course.CourseItem> {
         return try {

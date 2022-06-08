@@ -19,9 +19,7 @@ class FishDetailCommendListPagingSource(private val momentId: String) :
 
     private val fishPondApi = ServiceCreator.create<FishPondApi>()
 
-    override fun getRefreshKey(state: PagingState<Int, FishPondComment.FishPondCommentItem>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, FishPondComment.FishPondCommentItem>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, FishPondComment.FishPondCommentItem> {
         return try {
