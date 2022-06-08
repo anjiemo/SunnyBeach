@@ -40,4 +40,6 @@ interface INetworkApi {
     val weatherApi get() = ServiceCreator.create<WeatherApi>()
 
     val courseApi get() = ServiceCreator.create<CourseApi>()
+
+    val collectionApi get() = ServiceCreator.create<CollectionApi>()
 }

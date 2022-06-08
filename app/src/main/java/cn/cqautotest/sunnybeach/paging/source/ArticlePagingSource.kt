@@ -20,9 +20,7 @@ class ArticlePagingSource(private val categoryId: String) :
 
     private val homeApi = ServiceCreator.create<HomeApi>()
 
-    override fun getRefreshKey(state: PagingState<Int, ArticleInfo.ArticleItem>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, ArticleInfo.ArticleItem>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ArticleInfo.ArticleItem> {
         return try {

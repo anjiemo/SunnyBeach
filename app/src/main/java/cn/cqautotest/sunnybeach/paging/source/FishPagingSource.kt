@@ -20,9 +20,7 @@ class FishPagingSource(private val topicId: String) :
 
     private val fishPondApi = ServiceCreator.create<FishPondApi>()
 
-    override fun getRefreshKey(state: PagingState<Int, Fish.FishItem>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, Fish.FishItem>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Fish.FishItem> {
         return try {

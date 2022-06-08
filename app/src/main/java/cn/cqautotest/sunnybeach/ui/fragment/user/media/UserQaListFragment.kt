@@ -32,9 +32,9 @@ import kotlinx.coroutines.flow.collectLatest
 class UserQaListFragment : AppFragment<AppActivity>(), StatusAction {
 
     private val mBinding by viewBinding<UserFishListFragmentBinding>()
+    private val mQaViewModel by activityViewModels<QaViewModel>()
     private val mAdapterDelegate = AdapterDelegate()
     private val mUserQaListAdapter = UserQaListAdapter(mAdapterDelegate)
-    private val mQaViewModel by activityViewModels<QaViewModel>()
     private val loadStateListener = loadStateListener(mUserQaListAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.user_fish_list_fragment
@@ -61,9 +61,7 @@ class UserQaListFragment : AppFragment<AppActivity>(), StatusAction {
     }
 
     override fun initEvent() {
-        mBinding.refreshLayout.setOnRefreshListener {
-            mUserQaListAdapter.refresh()
-        }
+        mBinding.refreshLayout.setOnRefreshListener { mUserQaListAdapter.refresh() }
         // 需要在 View 销毁的时候移除 listener
         mUserQaListAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->

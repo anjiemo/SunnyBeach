@@ -16,9 +16,7 @@ import timber.log.Timber
 class UserFishPagingSource(private val userId: String) :
     PagingSource<Int, Fish.FishItem>() {
 
-    override fun getRefreshKey(state: PagingState<Int, Fish.FishItem>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, Fish.FishItem>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Fish.FishItem> {
         return try {

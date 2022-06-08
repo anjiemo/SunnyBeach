@@ -7,7 +7,7 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/tv_qa_title"
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
@@ -18,6 +18,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/tv_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
     <TextView
         android:id="@+id/tv_desc"
         android:layout_width="wrap_content"
@@ -26,7 +34,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/default_font_color"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_qa_title" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
