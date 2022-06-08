@@ -3,10 +3,6 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
-import androidx.core.content.getSystemService
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
@@ -36,6 +32,7 @@ import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.blankj.utilcode.util.VibrateUtils
 import com.hjq.bar.TitleBar
 import com.hjq.permissions.Permission
 import com.hjq.umeng.Platform
@@ -122,15 +119,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 R.id.ll_great -> dynamicLikes(item, position)
             }
         }
-        ivPublishContent.setFixOnClickListener {
-            takeIfLogin {
-                startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
-                    if (resultCode == Activity.RESULT_OK) {
-                        mFishListAdapter.refresh()
-                    }
-                }
-            }
-        }
         mFishListAdapter.setOnNineGridClickListener { sources, index ->
             ImagePreviewActivity.start(requireContext(), sources.toMutableList(), index)
         }
@@ -173,6 +161,15 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 mIsUp = dy > 0
             }
         })
+        ivPublishContent.setFixOnClickListener {
+            takeIfLogin {
+                startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
+                    if (resultCode == Activity.RESULT_OK) {
+                        mFishListAdapter.refresh()
+                    }
+                }
+            }
+        }
     }
 
     private fun dynamicLikes(item: Fish.FishItem, position: Int) {
@@ -181,28 +178,14 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         takeIf { thumbUpList.contains(currUserId) }?.let { toast("请不要重复点赞") }?.also { return }
         thumbUpList.add(currUserId)
         mFishListAdapter.notifyItemChanged(position)
-        tryVibrate()
+        VibrateUtils.vibrate(80)
         mFishPondViewModel.dynamicLikes(item.id).observe(viewLifecycleOwner) {}
-    }
-
-    private fun tryVibrate() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            requireContext().getSystemService<Vibrator>()?.let { vibrator ->
-                if (vibrator.hasVibrator()) {
-                    val ve = VibrationEffect.createOneShot(
-                        80,
-                        VibrationEffect.DEFAULT_AMPLITUDE
-                    )
-                    vibrator.vibrate(ve)
-                }
-            }
-        }
     }
 
     private fun shareFish(item: Fish.FishItem) {
         val momentId = item.id
         val content = UMWeb(SUNNY_BEACH_FISH_URL_PRE + momentId)
-        content.title = "我发布了一条摸鱼动态，快来看看吧~"
+        content.title = "我分享了一条摸鱼动态，快来看看吧~"
         content.setThumb(UMImage(requireContext(), R.mipmap.launcher_ic))
         content.description = getString(R.string.app_name)
         // 分享

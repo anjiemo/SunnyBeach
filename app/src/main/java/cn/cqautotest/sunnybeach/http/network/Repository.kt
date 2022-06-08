@@ -53,20 +53,17 @@ object Repository {
         }
     }
 
-    suspend fun uploadUserCenterImageByCategoryId(imageFile: File, categoryId: String): String? = try {
+    suspend fun uploadUserCenterImageByCategoryId(imageFile: File, categoryId: String) = try {
         val fileName = imageFile.name
         Timber.d("===> fileName is $fileName")
         val requestBody = RequestBody.create("image/png".toMediaType(), imageFile)
         val part = MultipartBody.Part.createFormData("image", fileName, requestBody)
         val result = UserNetwork.uploadUserCenterImageByCategoryId(part, categoryId)
         Timber.d("result is ${result.toJson()}")
-        // 此处不能返回 Result<T> ，详见：https://github.com/mockk/mockk/issues/443
-        // Result getOrNull give ClassCastException：https://stackoverflow.com/questions/68016267/result-getornull-give-classcastexception
-        if (result.isSuccess()) result.getData()
-        else null
+        if (result.isSuccess()) Result.success(result.getData()) else result.toErrorResult()
     } catch (t: Throwable) {
         t.printStackTrace()
-        null
+        Result.failure(t)
     }
 
     fun sendEmail(email: String) = launchAndGetMsg { UserNetwork.sendEmail(email) }

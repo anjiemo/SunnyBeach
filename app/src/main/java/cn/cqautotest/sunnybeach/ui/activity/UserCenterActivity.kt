@@ -25,7 +25,6 @@ import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.dylanc.longan.context
 import com.dylanc.longan.lifecycleOwner
 import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.hmsscankit.WriterException
@@ -325,7 +324,7 @@ class UserCenterActivity : AppActivity() {
                 hideDialog()
                 return@launchWhenCreated
             }
-            val avatarUrl = mUserViewModel.uploadUserCenterImageByCategoryId(imageFile, "avatar").orEmpty().ifEmpty {
+            val avatarUrl = mUserViewModel.uploadUserCenterImageByCategoryId(imageFile, "avatar").getOrElse {
                 simpleToast("头像上传失败")
                 hideDialog()
                 return@launchWhenCreated
