@@ -65,15 +65,16 @@ class SystemMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         // 需要在 View 销毁的时候移除 listener
         mSystemMsgAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            val item = mSystemMsgAdapter.snapshotList[position] ?: return@setOnItemClickListener
-            val url = when (item.exType) {
-                "article" -> "$SUNNY_BEACH_ARTICLE_URL_PRE${item.exId}"
-                // 登录奖励
-                "sobTrade" -> null
-                "wendaComment" -> "$SUNNY_BEACH_QA_URL_PRE${item.exId}"
-                else -> null
+            mSystemMsgAdapter.snapshotList[position]?.let {
+                val url = when (it.exType) {
+                    "article" -> "$SUNNY_BEACH_ARTICLE_URL_PRE${it.exId}"
+                    // 登录奖励
+                    "sobTrade" -> null
+                    "wendaComment" -> "$SUNNY_BEACH_QA_URL_PRE${it.exId}"
+                    else -> null
+                }
+                url?.let { BrowserActivity.start(this, it) }
             }
-            url?.let { BrowserActivity.start(this, it) }
         }
     }
 

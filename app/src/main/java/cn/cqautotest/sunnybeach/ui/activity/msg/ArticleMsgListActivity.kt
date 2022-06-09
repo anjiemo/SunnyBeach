@@ -64,10 +64,11 @@ class ArticleMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         // 需要在 View 销毁的时候移除 listener
         mArticleMsgAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            val item = mArticleMsgAdapter.snapshotList[position] ?: return@setOnItemClickListener
-            val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${item.articleId}"
-            mMsgViewModel.readArticleMsg(item.id).observe(this) {}
-            BrowserActivity.start(this, url)
+            mArticleMsgAdapter.snapshotList[position]?.let {
+                val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${it.articleId}"
+                mMsgViewModel.readArticleMsg(it.id).observe(this) {}
+                BrowserActivity.start(this, url)
+            }
         }
     }
 

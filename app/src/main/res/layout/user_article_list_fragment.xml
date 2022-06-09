@@ -7,17 +7,17 @@
     tools:context="ui.fragment.user.media.UserArticleListFragment">
 
     <cn.cqautotest.sunnybeach.widget.StatusLayout
-        android:id="@+id/hl_article_list_hint"
+        android:id="@id/paging_status_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
-            android:id="@+id/refresh_layout"
+            android:id="@id/paging_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_article_list"
+                android:id="@id/paging_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="1px"

@@ -51,6 +51,7 @@ class VipIntroFragment : AppFragment<CopyActivity>() {
     }
 
     companion object {
+
         fun newInstance(): VipIntroFragment {
             return VipIntroFragment()
         }

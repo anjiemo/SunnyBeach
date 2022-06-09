@@ -65,15 +65,16 @@ class AtMeMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         // 需要在 View 销毁的时候移除 listener
         mAtMeMsgAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            val item = mAtMeMsgAdapter.snapshotList[position] ?: return@setOnItemClickListener
-            mMsgViewModel.readAtMeMsg(item.id).observe(this) {}
-            when (item.type) {
-                "moment" -> FishPondDetailActivity.start(this, item.exId)
-                "wenda" -> {
-                    val url = "$SUNNY_BEACH_QA_URL_PRE${item.exId}"
-                    BrowserActivity.start(this, url)
+            mAtMeMsgAdapter.snapshotList[position]?.let {
+                mMsgViewModel.readAtMeMsg(it.id).observe(this) {}
+                when (it.type) {
+                    "moment" -> FishPondDetailActivity.start(this, it.exId)
+                    "wenda" -> {
+                        val url = "$SUNNY_BEACH_QA_URL_PRE${it.exId}"
+                        BrowserActivity.start(this, url)
+                    }
+                    else -> {}
                 }
-                else -> {}
             }
         }
     }
