@@ -65,9 +65,10 @@ class QaMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         mQaMsgAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到问答详情界面
-            val item = mQaMsgAdapter.snapshotList[position] ?: return@setOnItemClickListener
-            val url = "$SUNNY_BEACH_QA_URL_PRE${item.wendaId}"
-            BrowserActivity.start(this, url)
+            mQaMsgAdapter.snapshotList[position]?.let {
+                val url = "$SUNNY_BEACH_QA_URL_PRE${it.wendaId}"
+                BrowserActivity.start(this, url)
+            }
         }
     }
 

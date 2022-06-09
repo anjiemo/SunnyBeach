@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+fun RecyclerView.removeAllItemDecoration() = repeat(itemDecorationCount) { removeItemDecorationAt(it) }
+
 /**
  * Callback method to be invoked when RecyclerView's scroll state changes.
  *

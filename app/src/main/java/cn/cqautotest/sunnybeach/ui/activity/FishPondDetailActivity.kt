@@ -4,15 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.Log
-import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailActivityBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
@@ -31,7 +29,6 @@ import cn.cqautotest.sunnybeach.ui.fragment.SubmitCommentFragment
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_FISH_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
-import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.blankj.utilcode.util.VibrateUtils
 import com.hjq.bar.TitleBar
 import com.hjq.umeng.Platform
@@ -46,7 +43,7 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/07/11
  * desc   : 鱼塘详情页
  */
-class FishPondDetailActivity : AppActivity(), StatusAction {
+class FishPondDetailActivity : PagingActivity(), StatusAction {
 
     private val mBinding: FishPondDetailActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
@@ -56,17 +53,19 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
     private var mMomentId: String = ""
     private var mNickName: String = ""
 
+    override fun getPagingAdapter() = mFishPondDetailCommendListAdapter
+
     override fun getLayoutId(): Int = R.layout.fish_pond_detail_activity
 
     override fun initView() {
+        super.initView()
         // This emptyAdapter is like a hacker.
         // Its existence allows the PagingAdapter to scroll to the top before being refreshed,
         // avoiding the problem that the PagingAdapter cannot return to the top after being refreshed.
         // But it needs to be used in conjunction with ConcatAdapter, and must appear before PagingAdapter.
         val emptyAdapter = EmptyAdapter()
         val concatAdapter = ConcatAdapter(emptyAdapter, mFishListAdapter, mFishPondDetailCommendListAdapter)
-        mBinding.rvFishPondDetailComment.apply {
-            layoutManager = LinearLayoutManager(context)
+        mBinding.pagingRecyclerView.apply {
             adapter = concatAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
         }
@@ -86,14 +85,16 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
     }
 
     override fun initData() {
+        super.initData()
         showLoading()
         mMomentId = intent.getStringExtra(IntentKey.ID) ?: ""
         loadFishDetail()
-        lifecycleScope.launchWhenCreated {
-            mFishPondViewModel.getFishCommendListById(mMomentId).collectLatest {
-                mFishPondDetailCommendListAdapter.submitData(it)
-                mBinding.rvFishPondDetailComment.scrollToPosition(0)
-            }
+    }
+
+    override suspend fun loadListData() {
+        mFishPondViewModel.getFishCommendListById(mMomentId).collectLatest {
+            mFishPondDetailCommendListAdapter.submitData(it)
+            mBinding.pagingRecyclerView.scrollToPosition(0)
         }
     }
 
@@ -103,7 +104,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
 
     private fun loadFishDetail() {
         mFishPondViewModel.getFishDetailById(mMomentId).observe(this) {
-            mBinding.slFishDetailRefresh.finishRefresh()
+            mBinding.pagingRefreshLayout.finishRefresh()
             val item = it.getOrElse {
                 showError { initData() }
                 return@observe
@@ -157,6 +158,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
     }
 
     override fun initEvent() {
+        super.initEvent()
         mFishListAdapter.setOnMenuItemClickListener { view, item, position ->
             when (view.id) {
                 R.id.ll_share -> shareFish(item)
@@ -166,7 +168,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
         mFishListAdapter.setOnNineGridClickListener { sources, index ->
             ImagePreviewActivity.start(this, sources.toMutableList(), index)
         }
-        mBinding.slFishDetailRefresh.setOnRefreshListener {
+        mBinding.pagingRefreshLayout.setOnRefreshListener {
             // 加载摸鱼动态详情和摸鱼动态评论列表
             loadFishDetail()
             // TODO: 2021/9/13 加载摸鱼动态相关推荐列表
@@ -201,8 +203,6 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
     override fun onRightClick(titleBar: TitleBar) {
         ReportActivity.start(this, ReportType.FISH, mMomentId)
     }
-
-    override fun getStatusLayout(): StatusLayout = mBinding.slFishDetailHint
 
     override fun isStatusBarDarkFont(): Boolean = false
 

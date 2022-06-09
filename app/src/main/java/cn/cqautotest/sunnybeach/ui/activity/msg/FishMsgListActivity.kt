@@ -63,9 +63,10 @@ class FishMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         // 需要在 View 销毁的时候移除 listener
         mMomentMsgAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            val item = mMomentMsgAdapter.snapshotList[position] ?: return@setOnItemClickListener
-            mMsgViewModel.readMomentMsg(item.id).observe(this) {}
-            FishPondDetailActivity.start(this, item.momentId)
+            mMomentMsgAdapter.snapshotList[position]?.let {
+                mMsgViewModel.readMomentMsg(it.id).observe(this) {}
+                FishPondDetailActivity.start(this, it.momentId)
+            }
         }
     }
 
