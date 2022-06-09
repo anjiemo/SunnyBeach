@@ -8,7 +8,6 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailActivityBinding
@@ -43,7 +42,7 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/07/11
  * desc   : 鱼塘详情页
  */
-class FishPondDetailActivity : PagingActivity(), StatusAction {
+class FishPondDetailActivity : PagingActivity() {
 
     private val mBinding: FishPondDetailActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()

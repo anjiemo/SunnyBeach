@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
-import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingTitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.CourseListFragmentBinding
@@ -29,7 +28,7 @@ import kotlinx.coroutines.flow.collectLatest
  * desc   : 课程列表 Fragment
  */
 @AndroidEntryPoint
-class CourseListFragment : PagingTitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener {
+class CourseListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopListener {
 
     private val mBinding: CourseListFragmentBinding by viewBinding()
 

@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.activity.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.CollectionDetailListActivityBinding
 import cn.cqautotest.sunnybeach.ktx.*
@@ -22,7 +21,7 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2022/06/08
  * desc   : 收藏夹详情列表页
  */
-class CollectionDetailListActivity : PagingActivity(), StatusAction {
+class CollectionDetailListActivity : PagingActivity() {
 
     private val mBinding by viewBinding<CollectionDetailListActivityBinding>()
     private val mCollectionViewModel by viewModels<CollectionViewModel>()
