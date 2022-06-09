@@ -70,7 +70,7 @@ class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction,
         initObserver()
     }
 
-    private fun initView() {
+    override fun initView() {
         val etInputContent = mBinding.etInputContent
         etInputContent.setDefaultEmojiParser()
         etInputContent.requestFocus()
@@ -78,7 +78,7 @@ class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction,
         mBinding.ivImage.isVisible = false
     }
 
-    private fun initData() {
+    override fun initData() {
         mBinding.etInputContent.hint = "回复 ${getTargetUserName()}"
     }
 

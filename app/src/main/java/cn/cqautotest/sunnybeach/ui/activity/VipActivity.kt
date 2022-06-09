@@ -28,7 +28,7 @@ class VipActivity : AppActivity() {
     }
 
     override fun initData() {
-        mFragmentAdapter = FragmentPagerAdapter<AppFragment<*>>(this)
+        mFragmentAdapter = FragmentPagerAdapter(this)
         mFragmentAdapter.addFragment(VipIntroFragment.newInstance(), "特权介绍")
         mFragmentAdapter.addFragment(VipListFragment.newInstance(), "贵宾席")
         mBinding.viewPager.adapter = mFragmentAdapter

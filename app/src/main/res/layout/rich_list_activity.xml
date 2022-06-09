@@ -13,18 +13,18 @@
         app:title="富豪榜" />
 
     <cn.cqautotest.sunnybeach.widget.StatusLayout
-        android:id="@+id/sl_rich_list_layout"
+        android:id="@id/paging_status_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
-            android:id="@+id/refresh_layout"
+            android:id="@id/paging_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srlEnableLoadMore="false">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_rich_list"
+                android:id="@id/paging_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

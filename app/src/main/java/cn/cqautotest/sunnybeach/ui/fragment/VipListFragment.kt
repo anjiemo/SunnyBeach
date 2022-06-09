@@ -71,6 +71,7 @@ class VipListFragment : AppFragment<CopyActivity>(), StatusAction, OnRefreshList
     override fun getStatusLayout(): StatusLayout = mBinding.hlVipUserListHint
 
     companion object {
+
         fun newInstance(): VipListFragment {
             return VipListFragment()
         }
