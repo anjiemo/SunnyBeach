@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingFragment
 import cn.cqautotest.sunnybeach.databinding.UserFishListFragmentBinding
@@ -25,7 +24,7 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2022/04/12
  * desc   : 用户分享列表 Fragment
  */
-class UserShareListFragment : PagingFragment<AppActivity>(), StatusAction {
+class UserShareListFragment : PagingFragment<AppActivity>() {
 
     private val mBinding by viewBinding<UserFishListFragmentBinding>()
     private val mAdapterDelegate = AdapterDelegate()

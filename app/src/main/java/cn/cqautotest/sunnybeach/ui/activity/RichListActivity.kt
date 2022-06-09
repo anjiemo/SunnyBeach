@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import androidx.activity.viewModels
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.ui.adapter.RichListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
@@ -15,7 +14,7 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/10/23
  * desc   : 富豪榜列表界面
  */
-class RichListActivity : PagingActivity(), StatusAction {
+class RichListActivity : PagingActivity() {
 
     private val mUserViewModel by viewModels<UserViewModel>()
     private val mRichListAdapter = RichListAdapter(AdapterDelegate())
