@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingFragment
 import cn.cqautotest.sunnybeach.databinding.UserFishListFragmentBinding
@@ -34,7 +33,7 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/10/31
  * desc   : 用户摸鱼列表 Fragment
  */
-class UserFishListFragment : PagingFragment<AppActivity>(), StatusAction {
+class UserFishListFragment : PagingFragment<AppActivity>() {
 
     private val mBinding by viewBinding<UserFishListFragmentBinding>()
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()

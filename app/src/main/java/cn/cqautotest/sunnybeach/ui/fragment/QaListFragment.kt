@@ -5,7 +5,6 @@ import androidx.fragment.app.activityViewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
-import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingTitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.QaListFragmentBinding
@@ -27,7 +26,7 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2022/04/18
  * desc   : 问答列表 Fragment
  */
-class QaListFragment : PagingTitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener {
+class QaListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopListener {
 
     private val mBinding by viewBinding<QaListFragmentBinding>()
     private val mQaViewModel by activityViewModels<QaViewModel>()

@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.activity.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.CheckNet
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.PagingActivity
@@ -26,7 +25,7 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2022/04/23
  * desc   : 课程详情页
  */
-class CourseDetailActivity : PagingActivity(), StatusAction {
+class CourseDetailActivity : PagingActivity() {
 
     private val mBinding by viewBinding<CourseDetailActivityBinding>()
     private val mCourseViewModel by viewModels<CourseViewModel>()

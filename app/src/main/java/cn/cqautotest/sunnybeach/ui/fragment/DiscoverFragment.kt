@@ -5,7 +5,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingTitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
@@ -31,7 +30,7 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/06/18
  * desc   : 发现 Fragment
  */
-class DiscoverFragment : PagingTitleBarFragment<AppActivity>(), StatusAction {
+class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
 
     private val mBinding: DiscoverFragmentBinding by viewBinding()
     private val mPhotoViewModel by activityViewModels<PhotoViewModel>()

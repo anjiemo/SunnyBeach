@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingFragment
 import cn.cqautotest.sunnybeach.databinding.UserFollowOrFansListFragmentBinding
@@ -27,7 +26,7 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/10/31
  * desc   : 用户关注/粉丝列表 Fragment
  */
-class UserFollowOrFansListFragment : PagingFragment<AppActivity>(), StatusAction {
+class UserFollowOrFansListFragment : PagingFragment<AppActivity>() {
 
     private val mBinding by viewBinding<UserFollowOrFansListFragmentBinding>()
     private val mAdapterDelegate = AdapterDelegate()
