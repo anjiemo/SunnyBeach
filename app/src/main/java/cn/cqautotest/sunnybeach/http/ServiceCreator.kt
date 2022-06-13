@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.http
 import cn.cqautotest.sunnybeach.http.annotation.CaiYunClient
 import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.http.interceptor.accountInterceptor
+import cn.cqautotest.sunnybeach.http.interceptor.baseUrlInterceptor
 import cn.cqautotest.sunnybeach.http.interceptor.loggingInterceptor
 import cn.cqautotest.sunnybeach.manager.LocalCookieManager
 import cn.cqautotest.sunnybeach.util.BASE_URL
@@ -34,6 +35,7 @@ object ServiceCreator {
 
     val client by lazy {
         OkHttpClient.Builder()
+            .addInterceptor(baseUrlInterceptor)
             .addInterceptor(accountInterceptor)
             .addInterceptor(loggingInterceptor)
             .cookieJar(cookieManager)
