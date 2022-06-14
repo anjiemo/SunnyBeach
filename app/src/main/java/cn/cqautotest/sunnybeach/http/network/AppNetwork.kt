@@ -1,8 +1,5 @@
 package cn.cqautotest.sunnybeach.http.network
 
-import cn.cqautotest.sunnybeach.util.APP_INFO_URL
-import cn.cqautotest.sunnybeach.util.MOURNING_CALENDAR_URL
-
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
@@ -11,7 +8,7 @@ import cn.cqautotest.sunnybeach.util.MOURNING_CALENDAR_URL
  */
 object AppNetwork : INetworkApi {
 
-    suspend fun checkAppUpdate(url: String = APP_INFO_URL) = appApi.checkAppUpdate(url)
+    suspend fun checkAppUpdate() = appApi.checkAppUpdate()
 
-    suspend fun getMourningCalendar(url: String = MOURNING_CALENDAR_URL) = appApi.getMourningCalendar(url)
+    suspend fun getMourningCalendar() = appApi.getMourningCalendar()
 }

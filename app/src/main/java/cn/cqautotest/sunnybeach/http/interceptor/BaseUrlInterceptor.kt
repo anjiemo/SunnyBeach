@@ -1,7 +1,7 @@
 package cn.cqautotest.sunnybeach.http.interceptor
 
-import cn.cqautotest.sunnybeach.http.annotation.CaiYunBaseUrl
-import cn.cqautotest.sunnybeach.http.annotation.SobBaseUrl
+import cn.cqautotest.sunnybeach.http.annotation.BaseUrl
+import cn.cqautotest.sunnybeach.ktx.getCustomAnnotation
 import cn.cqautotest.sunnybeach.util.BASE_URL
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -27,12 +27,14 @@ val baseUrlInterceptor = { chain: Interceptor.Chain ->
 }
 
 private fun Request.handleUrlPrefix(): String {
-    val caiYunAnnotation = getCustomAnnotation<CaiYunBaseUrl>()
-    val sobAnnotation = getCustomAnnotation<SobBaseUrl>()
-    caiYunAnnotation?.value?.let { return it }
-    sobAnnotation?.value?.let { return it }
+    getAnnotations().forEach { annotation ->
+        annotation.getCustomAnnotation<BaseUrl>().takeUnless { it == null }?.let { return it.value }
+    }
     return BASE_URL
 }
+
+private fun Request.getAnnotations(): Array<Annotation> =
+    tag(Invocation::class.java)?.method()?.annotations ?: arrayOf()
 
 private inline fun <reified T : Annotation> Request.getCustomAnnotation(): T? =
     tag(Invocation::class.java)?.method()?.getAnnotation(T::class.java)
