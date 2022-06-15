@@ -1,9 +1,10 @@
 package cn.cqautotest.sunnybeach.http
 
+import cn.android52.network.annotation.BaseClient
+import cn.android52.network.interceptor.BaseUrlInterceptor
 import cn.cqautotest.sunnybeach.http.annotation.CaiYunClient
 import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.http.interceptor.accountInterceptor
-import cn.cqautotest.sunnybeach.http.interceptor.baseUrlInterceptor
 import cn.cqautotest.sunnybeach.http.interceptor.loggingInterceptor
 import cn.cqautotest.sunnybeach.manager.LocalCookieManager
 import cn.cqautotest.sunnybeach.util.BASE_URL
@@ -35,14 +36,14 @@ object ServiceCreator {
 
     val client by lazy {
         OkHttpClient.Builder()
-            .addInterceptor(baseUrlInterceptor)
+            .addInterceptor(BaseUrlInterceptor(setOf(SUNNY_BEACH_API_BASE_URL, CAI_YUN_BASE_URL, BASE_URL)))
             .addInterceptor(accountInterceptor)
             .addInterceptor(loggingInterceptor)
             .cookieJar(cookieManager)
             .build()
     }
 
-    private fun createRetrofit(block: Retrofit.Builder.() -> Retrofit.Builder) = Retrofit.Builder()
+    fun createRetrofit(block: Retrofit.Builder.() -> Retrofit.Builder) = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create(GsonFactory.getSingletonGson()))
         .client(client)
         .run(block)
@@ -62,9 +63,23 @@ object ServiceCreator {
             clazz containsAnnotation CaiYunClient::class.java -> caiYunRetrofit
             else -> otherRetrofit
         }
+
+        // val baseClient = clazz.getBaseClientAnnotationOrNull()
+
         // Cached for the convenience of direct use next time.
         clientCache[clazz] = retrofit
         return retrofit.create(clazz)
+    }
+
+    fun Class<*>.getBaseClientAnnotationOrNull(): BaseClient? {
+        annotations.forEach {
+            it.annotationClass.java.annotations.forEach { annotation ->
+                if (annotation is BaseClient) {
+                    return annotation
+                }
+            }
+        }
+        return null
     }
 
     /**

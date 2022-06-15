@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.http.annotation
+package cn.android52.network.annotation
 
 /**
  * author : A Lonely Cat
