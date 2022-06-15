@@ -152,6 +152,8 @@ dependencies {
     implementation project(':library:widget')
     // 友盟封装
     implementation project(':library:umeng')
+    // 网络封装
+    implementation project(':library:network')
 
     // 单元测试
     testImplementation 'junit:junit:4.13.2'
@@ -323,8 +325,8 @@ dependencies {
     implementation 'com.huawei.hms:scan:2.4.0.301'
 
     // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
-    implementation "com.google.dagger:hilt-android:2.41"
-    kapt "com.google.dagger:hilt-android-compiler:2.41"
+    implementation "com.google.dagger:hilt-android:2.42"
+    kapt "com.google.dagger:hilt-android-compiler:2.42"
 
     // 从图片中提取具有代表性的调色板：https://developer.android.com/jetpack/androidx/releases/palette
     implementation 'androidx.palette:palette:1.0.0'
