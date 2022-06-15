@@ -325,4 +325,7 @@ dependencies {
     // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
     implementation "com.google.dagger:hilt-android:2.41"
     kapt "com.google.dagger:hilt-android-compiler:2.41"
+
+    // 从图片中提取具有代表性的调色板：https://developer.android.com/jetpack/androidx/releases/palette
+    implementation 'androidx.palette:palette:1.0.0'
 }
