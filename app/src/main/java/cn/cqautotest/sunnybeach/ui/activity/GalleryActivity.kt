@@ -6,6 +6,7 @@ import android.app.DownloadManager
 import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
@@ -16,8 +17,10 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.getSystemService
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.palette.graphics.Palette
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -37,6 +40,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.PhotoAdapter
 import cn.cqautotest.sunnybeach.util.DownloadHelper
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 import com.blankj.utilcode.util.IntentUtils
+import com.blankj.utilcode.util.ScreenUtils
 import com.gyf.immersionbar.ImmersionBar
 import timber.log.Timber
 import java.io.File
@@ -64,20 +68,40 @@ class GalleryActivity : AppActivity() {
 
     override fun getLayoutId(): Int = R.layout.gallery_activity
 
-    override fun initObserver() {
-        val loadMoreModule = mPhotoAdapter.loadMoreModule
-        mDiscoverViewModel.verticalPhotoList.observe(this) { verticalPhotoList ->
-            Timber.d(verticalPhotoList.toJson())
-            loadMoreModule.apply {
-                mPhotoAdapter.addData(verticalPhotoList.toList())
-                isEnableLoadMore = true
-                loadMoreComplete()
-            }
+    override fun initView() {
+        // 隐藏状态栏，全屏浏览壁纸
+        ImmersionBar.hideStatusBar(window)
+        mBinding.galleryViewPager2.apply {
+            orientation = ViewPager2.ORIENTATION_VERTICAL
+            adapter = mPhotoAdapter
         }
+        mBinding.settingWallpaperTv.setRoundRectBg(Color.parseColor("#66393939"), 8.dp)
+    }
+
+    override fun initData() {
+        val intent = intent
+        val photoId = intent.getStringExtra(IntentKey.ID)
+        Timber.d("photoId is $photoId")
+        val cacheVerticalPhotoList = Repository.getPhotoList()
+        mPhotoList.apply {
+            Timber.d("cacheVerticalPhotoList is $cacheVerticalPhotoList")
+            addAll(cacheVerticalPhotoList)
+        }
+        mCurrentPageIndex = mPhotoList.indexOfFirst { photoId == it.id }
+        mPhotoAdapter.setList(mPhotoList)
+        mBinding.galleryViewPager2.setCurrentItem(mCurrentPageIndex, false)
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun initEvent() {
+        // mBinding.galleryViewPager2.doPageSelected { position ->
+        //     mPhotoAdapter.getItemOrNull(position)?.let { wallpaperBean ->
+        //         val thumb = wallpaperBean.thumb
+        //         lifecycleScope.launchWhenCreated {
+        //             DownloadHelper.ofType<Bitmap>(context, thumb.toUri())?.let { fixStatusBar(it) }
+        //         }
+        //     }
+        // }
         mPhotoAdapter.setOnItemLongClickListener { verticalPhoto, _ ->
             // 打开指定的一张照片
             val intent = Intent(Intent.ACTION_VIEW)
@@ -115,6 +139,47 @@ class GalleryActivity : AppActivity() {
                 toast(if (success) "壁纸设置成功" else "壁纸设置失败")
             }
         }
+    }
+
+    override fun initObserver() {
+        val loadMoreModule = mPhotoAdapter.loadMoreModule
+        mDiscoverViewModel.verticalPhotoList.observe(this) { verticalPhotoList ->
+            Timber.d(verticalPhotoList.toJson())
+            loadMoreModule.apply {
+                mPhotoAdapter.addData(verticalPhotoList.toList())
+                isEnableLoadMore = true
+                loadMoreComplete()
+            }
+        }
+    }
+
+    private fun fixStatusBar(bitmap: Bitmap) {
+        val left = 0
+        val top = 0
+        val right = ScreenUtils.getAppScreenWidth()
+        val bottom = ImmersionBar.getStatusBarHeight(this)
+        Palette.from(bitmap)
+            .maximumColorCount(3)
+            .setRegion(left, top, right, bottom)
+            .generate {
+                it?.let { palette ->
+                    var mostPopularSwatch: Palette.Swatch? = null
+                    for (swatch in palette.swatches) {
+                        if (mostPopularSwatch == null
+                            || swatch.population > mostPopularSwatch.population
+                        ) {
+                            mostPopularSwatch = swatch
+                        }
+                    }
+                    mostPopularSwatch?.let { swatch ->
+                        val luminance = ColorUtils.calculateLuminance(swatch.rgb)
+                        // 当luminance小于0.5时，我们认为这是一个深色值.
+                        val isDarkFont = luminance < 0.5
+                        ImmersionBar.with(this)
+                            .statusBarDarkFont(isDarkFont)
+                    }
+                }
+            }
     }
 
     @Permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -158,30 +223,6 @@ class GalleryActivity : AppActivity() {
     }
 
     private fun getCurrentVerticalPhotoBean() = mPhotoList[mBinding.galleryViewPager2.currentItem]
-
-    override fun initData() {
-        val intent = intent
-        val photoId = intent.getStringExtra(IntentKey.ID)
-        Timber.d("photoId is $photoId")
-        val cacheVerticalPhotoList = Repository.getPhotoList()
-        mPhotoList.apply {
-            Timber.d("cacheVerticalPhotoList is $cacheVerticalPhotoList")
-            addAll(cacheVerticalPhotoList)
-        }
-        mCurrentPageIndex = mPhotoList.indexOfFirst { photoId == it.id }
-        mPhotoAdapter.setList(mPhotoList)
-        mBinding.galleryViewPager2.setCurrentItem(mCurrentPageIndex, false)
-    }
-
-    override fun initView() {
-        // 隐藏状态栏，全屏浏览壁纸
-        ImmersionBar.hideStatusBar(window)
-        mBinding.galleryViewPager2.apply {
-            orientation = ViewPager2.ORIENTATION_VERTICAL
-            adapter = mPhotoAdapter
-        }
-        mBinding.settingWallpaperTv.setRoundRectBg(Color.parseColor("#66393939"), 8.dp)
-    }
 
     private fun toggleStatus() {
         isShow = isShow.not()
