@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.http.api.weather
 
+import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.annotation.CaiYunClient
 import cn.cqautotest.sunnybeach.model.weather.DailyResponse
 import cn.cqautotest.sunnybeach.model.weather.RealtimeResponse
@@ -23,4 +24,6 @@ interface WeatherApi {
         @Path("lng") lng: String,
         @Path("lat") lat: String
     ): Call<DailyResponse>
+
+    companion object : WeatherApi by ServiceCreator.create()
 }

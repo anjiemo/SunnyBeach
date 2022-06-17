@@ -1,18 +1,20 @@
 package cn.cqautotest.sunnybeach.http.network
 
+import cn.cqautotest.sunnybeach.http.api.sob.CourseApi
+
 /**
  *    author : A Lonely Cat
  *    github : https://github.com/anjiemo/SunnyBeach
  *    time   : 2022/04/21
  *    desc   : 课程获取
  */
-object CourseNetwork : INetworkApi {
+object CourseNetwork {
 
-    suspend fun getCourse(page: Int) = courseApi.getCourseList(page)
+    suspend fun getCourse(page: Int) = CourseApi.getCourseList(page)
 
-    suspend fun getCourseDetail(courseId: String) = courseApi.getCourseDetail(courseId)
+    suspend fun getCourseDetail(courseId: String) = CourseApi.getCourseDetail(courseId)
 
-    suspend fun getCourseChapter(courseId: String) = courseApi.getCourseChapter(courseId)
+    suspend fun getCourseChapter(courseId: String) = CourseApi.getCourseChapter(courseId)
 
-    suspend fun getCoursePlayAuth(videoId: String) = courseApi.getCoursePlayAuth(videoId)
+    suspend fun getCoursePlayAuth(videoId: String) = CourseApi.getCoursePlayAuth(videoId)
 }

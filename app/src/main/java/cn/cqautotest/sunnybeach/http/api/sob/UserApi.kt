@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.model.*
 import cn.cqautotest.sunnybeach.model.msg.IEDetail
@@ -199,4 +200,6 @@ interface UserApi {
      */
     @PUT("ast/vip-allowance")
     suspend fun getAllowance(): ApiResponse<Any>
+
+    companion object : UserApi by ServiceCreator.create()
 }

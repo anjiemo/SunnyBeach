@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.paging.source
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.api.sob.CourseApi
 import cn.cqautotest.sunnybeach.ui.adapter.CourseChapterListAdapter
 import timber.log.Timber
@@ -16,14 +15,12 @@ import timber.log.Timber
  */
 class CourseChapterPagingSource(private val courseId: String) : PagingSource<Int, CourseChapterListAdapter.Type>() {
 
-    private val courseApi = ServiceCreator.create<CourseApi>()
-
     override fun getRefreshKey(state: PagingState<Int, CourseChapterListAdapter.Type>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CourseChapterListAdapter.Type> {
         return try {
             Timber.d("load：===> courseId is $courseId")
-            val response = courseApi.getCourseChapter(courseId = courseId)
+            val response = CourseApi.getCourseChapter(courseId = courseId)
             val responseData = response.getData()
             val prevKey = null
             val nextKey = null

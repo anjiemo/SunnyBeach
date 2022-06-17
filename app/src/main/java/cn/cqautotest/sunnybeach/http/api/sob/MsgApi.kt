@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.msg.*
@@ -89,4 +90,6 @@ interface MsgApi {
      */
     @GET("ct/ucenter/message/at/{page}")
     suspend fun getAtMeMsgList(@Path("page") page: Int): ApiResponse<AtMeMsg>
+
+    companion object : MsgApi by ServiceCreator.create()
 }
