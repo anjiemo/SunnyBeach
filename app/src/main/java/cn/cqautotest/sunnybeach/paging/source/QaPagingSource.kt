@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.paging.source
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.api.sob.HomeApi
 import cn.cqautotest.sunnybeach.ktx.getOrNull
 import cn.cqautotest.sunnybeach.model.QaInfo
@@ -18,15 +17,13 @@ import timber.log.Timber
  */
 class QaPagingSource(private val qaType: QaType) : PagingSource<Int, QaInfo.QaInfoItem>() {
 
-    private val homeApi = ServiceCreator.create<HomeApi>()
-
     override fun getRefreshKey(state: PagingState<Int, QaInfo.QaInfoItem>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, QaInfo.QaInfoItem> {
         return try {
             val page = params.key ?: FIRST_PAGE_INDEX
             Timber.d("load：===> qaState is $qaType page is $page")
-            val response = homeApi.getQaList(page = page, state = qaType.value)
+            val response = HomeApi.getQaList(page = page, state = qaType.value)
             val responseData = response.getOrNull() ?: return LoadResult.Error(ServiceException())
             val currentPage = responseData.currentPage
             val prevKey = if (responseData.hasPre) currentPage - 1 else null

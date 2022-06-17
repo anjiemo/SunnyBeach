@@ -16,7 +16,6 @@ import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
  * time   : 2022/04/22
  * desc   : 课程列表的适配器
  */
-
 class CourseListAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<Course.CourseItem, CourseListAdapter.CourseViewHolder>(diffCallback) {
 

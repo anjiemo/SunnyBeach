@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.http.network
 
+import cn.cqautotest.sunnybeach.http.api.sob.FishPondApi
 import okhttp3.MultipartBody
 
 /**
@@ -8,23 +9,23 @@ import okhttp3.MultipartBody
  *    time   : 2021/09/09
  *    desc   : 摸鱼获取
  */
-object FishNetwork : INetworkApi {
+object FishNetwork {
 
-    suspend fun getFishCommendListById(momentId: String, page: Int) = fishPondApi.getFishCommendListById(momentId, page)
+    suspend fun getFishCommendListById(momentId: String, page: Int) = FishPondApi.getFishCommendListById(momentId, page)
 
-    suspend fun loadFishDetailById(momentId: String) = fishPondApi.loadFishDetailById(momentId)
+    suspend fun loadFishDetailById(momentId: String) = FishPondApi.loadFishDetailById(momentId)
 
-    suspend fun putFish(moment: Map<String, Any?>) = fishPondApi.putFish(moment)
+    suspend fun putFish(moment: Map<String, Any?>) = FishPondApi.putFish(moment)
 
-    suspend fun uploadFishImage(part: MultipartBody.Part) = fishPondApi.uploadFishImage(part)
+    suspend fun uploadFishImage(part: MultipartBody.Part) = FishPondApi.uploadFishImage(part)
 
-    suspend fun postComment(momentComment: Map<String, Any?>) = fishPondApi.postComment(momentComment)
+    suspend fun postComment(momentComment: Map<String, Any?>) = FishPondApi.postComment(momentComment)
 
-    suspend fun replyComment(momentComment: Map<String, Any?>) = fishPondApi.replyComment(momentComment)
+    suspend fun replyComment(momentComment: Map<String, Any?>) = FishPondApi.replyComment(momentComment)
 
-    suspend fun dynamicLikes(momentId: String) = fishPondApi.dynamicLikes(momentId)
+    suspend fun dynamicLikes(momentId: String) = FishPondApi.dynamicLikes(momentId)
 
-    suspend fun loadTopicList() = fishPondApi.loadTopicList()
+    suspend fun loadTopicList() = FishPondApi.loadTopicList()
 
-    suspend fun loadUserFishList(userId: String, page: Int) = fishPondApi.loadUserFishList(userId, page)
+    suspend fun loadUserFishList(userId: String, page: Int) = FishPondApi.loadUserFishList(userId, page)
 }
