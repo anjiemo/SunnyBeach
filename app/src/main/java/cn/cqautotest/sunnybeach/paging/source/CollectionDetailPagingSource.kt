@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.paging.source
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.api.sob.CollectionApi
 import cn.cqautotest.sunnybeach.ktx.getOrNull
 import cn.cqautotest.sunnybeach.model.BookmarkDetail
@@ -17,15 +16,13 @@ import timber.log.Timber
  */
 class CollectionDetailPagingSource(private val collectionId: String) : PagingSource<Int, BookmarkDetail.Content>() {
 
-    private val collectionApi = ServiceCreator.create<CollectionApi>()
-
     override fun getRefreshKey(state: PagingState<Int, BookmarkDetail.Content>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, BookmarkDetail.Content> {
         return try {
             val page = params.key ?: FIRST_PAGE_INDEX
             Timber.d("load：===> page is $page")
-            val response = collectionApi.getCollectionDetailListById(collectionId, page, SORT_DESC)
+            val response = CollectionApi.getCollectionDetailListById(collectionId, page, SORT_DESC)
             val responseData = response.getOrNull() ?: return LoadResult.Error(ServiceException())
             val currentPage = responseData.number + 1
             val prevKey = if (responseData.first) null else currentPage - 1

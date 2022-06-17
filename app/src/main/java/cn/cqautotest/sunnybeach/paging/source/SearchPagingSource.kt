@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.paging.source
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.api.sob.HomeApi
 import cn.cqautotest.sunnybeach.model.SearchResult
 import cn.cqautotest.sunnybeach.other.SearchType
@@ -19,8 +18,6 @@ import timber.log.Timber
 class SearchPagingSource(private val keyword: String, private val searchType: SearchType, private val sortType: SortType) :
     PagingSource<Int, SearchResult.SearchResultItem>() {
 
-    private val homeApi = ServiceCreator.create<HomeApi>()
-
     override fun getRefreshKey(state: PagingState<Int, SearchResult.SearchResultItem>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SearchResult.SearchResultItem> {
@@ -29,7 +26,7 @@ class SearchPagingSource(private val keyword: String, private val searchType: Se
             val searchType = searchType.value
             val sortType = sortType.value
             Timber.d("load：===> keyword is $keyword page is $page searchType is $searchType sortType is $sortType")
-            val response = homeApi.searchByKeywords(keyword = keyword, type = searchType, page = page, sort = sortType)
+            val response = HomeApi.searchByKeywords(keyword = keyword, type = searchType, page = page, sort = sortType)
             val responseData = response.getData()
             val currentPage = responseData.currentPage
             val prevKey = if (responseData.hasPre) currentPage - 1 else null

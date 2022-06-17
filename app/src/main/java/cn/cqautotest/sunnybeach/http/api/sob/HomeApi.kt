@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.model.*
 import retrofit2.http.GET
@@ -55,4 +56,6 @@ interface HomeApi {
         @Query("state") state: String,
         @Query("category") category: Int = -2
     ): ApiResponse<QaInfo>
+
+    companion object : HomeApi by ServiceCreator.create()
 }

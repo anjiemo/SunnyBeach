@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.course.Course
@@ -35,4 +36,6 @@ interface CourseApi {
      */
     @GET("ct/video/certification/{videoId}")
     suspend fun getCoursePlayAuth(@Path("videoId") videoId: String): ApiResponse<CoursePlayAuth>
+
+    companion object : CourseApi by ServiceCreator.create()
 }

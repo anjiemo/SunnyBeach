@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.http.api.app
 
+import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.annotation.GiteeBaseUrl
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
@@ -21,4 +22,6 @@ interface AppApi {
     @GiteeBaseUrl
     @GET("mourning_calendar.json")
     suspend fun getMourningCalendar(): ApiResponse<List<MourningCalendar>>
+
+    companion object : AppApi by ServiceCreator.create()
 }

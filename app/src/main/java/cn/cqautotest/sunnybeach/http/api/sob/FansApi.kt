@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.UserFollow
@@ -17,4 +18,6 @@ interface FansApi {
         @Path("userId") userId: String,
         @Path("page") page: Int
     ): ApiResponse<UserFollow>
+
+    companion object : FansApi by ServiceCreator.create()
 }

@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.Bookmark
@@ -28,4 +29,6 @@ interface CollectionApi {
         @Path("page") page: Int,
         @Path("order") order: Int
     ): ApiResponse<BookmarkDetail>
+
+    companion object : CollectionApi by ServiceCreator.create()
 }

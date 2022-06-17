@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.ArticleDetail
@@ -24,4 +25,6 @@ interface ArticleApi {
         @Path("userId") userId: String,
         @Path("page") page: Int
     ): ApiResponse<UserArticle>
+
+    companion object : ArticleApi by ServiceCreator.create()
 }
