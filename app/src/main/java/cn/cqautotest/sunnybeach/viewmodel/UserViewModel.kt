@@ -225,7 +225,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     //             _loginResult.value =
     //                 LoginResult(
     //                     success = LoggedInUserView(
-    //                         displayName = userBasicInfoResponse?.getData()?.nickname ?: ""
+    //                         displayName = userBasicInfoResponse?.getData()?.nickname .orEmpty()
     //                     )
     //                 )
     //             setupAutoLogin(true)

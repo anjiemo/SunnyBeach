@@ -38,7 +38,7 @@ class UserMediaFragment : AppFragment<AppActivity>() {
     }
 
     override fun initData() {
-        mUserId = arguments?.getString(IntentKey.ID, "") ?: ""
+        mUserId = arguments?.getString(IntentKey.ID, "").orEmpty()
         mPagerAdapter.apply {
             addFragment(UserFishListFragment.newInstance(mUserId), "动态")
             addFragment(UserArticleListFragment.newInstance(mUserId), "文章")

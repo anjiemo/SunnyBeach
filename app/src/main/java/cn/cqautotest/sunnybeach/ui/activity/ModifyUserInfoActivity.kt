@@ -114,7 +114,7 @@ class ModifyUserInfoActivity : AppActivity() {
         SIGN("签名"),
     }
 
-    override fun isStatusBarDarkFont(): Boolean = true
+    override fun isStatusBarDarkFont() = true
 
     companion object {
 

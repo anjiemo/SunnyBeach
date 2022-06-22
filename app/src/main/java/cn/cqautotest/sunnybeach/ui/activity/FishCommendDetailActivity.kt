@@ -106,7 +106,7 @@ class FishCommendDetailActivity : AppActivity() {
         }
     }
 
-    private fun getMomentId(): String = intent.getStringExtra(IntentKey.ID) ?: ""
+    private fun getMomentId(): String = intent.getStringExtra(IntentKey.ID).orEmpty()
 
     private fun getFishPondCommentItem(): FishPondComment.FishPondCommentItem =
         fromJson(intent.getStringExtra(IntentKey.OTHER))

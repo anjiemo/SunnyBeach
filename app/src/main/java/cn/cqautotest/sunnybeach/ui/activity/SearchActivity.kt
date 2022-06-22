@@ -110,7 +110,7 @@ class SearchActivity : AppActivity() {
         mTabLayoutMediator.detach()
     }
 
-    override fun isStatusBarDarkFont(): Boolean = true
+    override fun isStatusBarDarkFont() = true
 
     companion object {
 
