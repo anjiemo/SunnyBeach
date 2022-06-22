@@ -1,13 +1,13 @@
 package cn.cqautotest.sunnybeach.http.api.weather
 
 import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.annotation.CaiYunClient
+import cn.cqautotest.sunnybeach.http.annotation.baseurl.CaiYunBaseUrl
 import cn.cqautotest.sunnybeach.model.weather.PlaceResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-@CaiYunClient
+@CaiYunBaseUrl
 interface PlaceApi {
 
     @GET("v2/place?lang=zh_CN")

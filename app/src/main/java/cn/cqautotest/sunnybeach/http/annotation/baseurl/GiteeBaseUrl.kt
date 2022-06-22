@@ -1,5 +1,6 @@
-package cn.cqautotest.sunnybeach.http.annotation
+package cn.cqautotest.sunnybeach.http.annotation.baseurl
 
+import cn.android52.network.annotation.BaseUrl
 import cn.cqautotest.sunnybeach.util.GITEE_BASE_URL
 
 /**
@@ -8,7 +9,7 @@ import cn.cqautotest.sunnybeach.util.GITEE_BASE_URL
  * time   : 2022/06/14
  * desc   : 码云的 BaseUrl 注解
  */
-@cn.android52.network.annotation.BaseUrl(value = GITEE_BASE_URL)
-@Target(AnnotationTarget.FUNCTION)
+@BaseUrl(value = GITEE_BASE_URL)
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class GiteeBaseUrl

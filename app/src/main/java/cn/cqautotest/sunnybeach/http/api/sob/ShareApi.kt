@@ -1,13 +1,13 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
 import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.annotation.SobClient
+import cn.cqautotest.sunnybeach.http.annotation.baseurl.SobBaseUrl
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.UserShare
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-@SobClient
+@SobBaseUrl
 interface ShareApi {
 
     /**
