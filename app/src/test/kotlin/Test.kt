@@ -271,7 +271,7 @@ class Test {
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    val result = response.body?.string() ?: ""
+                    val result = response.body?.string().orEmpty()
                     println("request：===> result is $result")
                     try {
                         val apiResponse: ApiResponse<T> =

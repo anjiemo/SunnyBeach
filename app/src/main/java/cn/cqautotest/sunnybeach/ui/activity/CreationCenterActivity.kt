@@ -72,5 +72,5 @@ class CreationCenterActivity : AppActivity() {
         }
     }
 
-    override fun isStatusBarDarkFont(): Boolean = true
+    override fun isStatusBarDarkFont() = true
 }

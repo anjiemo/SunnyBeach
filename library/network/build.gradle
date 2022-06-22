@@ -2,8 +2,8 @@ apply plugin : 'com.android.library'
 apply from : '../../common.gradle'
 
 dependencies {
-    // 基础库（不包任何第三方框架）
-    implementation project(':library:base')
+    // // 基础库（不包任何第三方框架）
+    // implementation project(':library:base')
 
     // OkHttp 框架：https://github.com/square/okhttp
     compileOnly 'com.squareup.okhttp3:okhttp:4.9.1'

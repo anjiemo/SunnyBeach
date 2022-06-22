@@ -48,7 +48,7 @@ object SobCacheManager {
         Timber.d("saveSobCaptchaKeyByNeed：===> url is $url")
         when {
             url.contains("uc/ut/captcha") -> {
-                sobCaptchaKey = headers[SOB_CAPTCHA_KEY_NAME] ?: ""
+                sobCaptchaKey = headers[SOB_CAPTCHA_KEY_NAME].orEmpty()
                 Timber.d("saveSobCaptchaKeyByNeed：===> sobCaptchaKey is $sobCaptchaKey")
             }
             url.contains("uc/user/login") -> {
@@ -57,7 +57,7 @@ object SobCacheManager {
                 saveHeader(SOB_TOKEN_NAME, sobToken)
             }
             url.contains("uc/user/checkToken") -> {
-                val sobToken = headers[SOB_TOKEN_NAME] ?: ""
+                val sobToken = headers[SOB_TOKEN_NAME].orEmpty()
                 if (sobToken.isNotBlank()) {
                     Timber.d("saveSobCaptchaKeyByNeed：===> sobToken is $sobToken")
                     saveHeader(SOB_TOKEN_NAME, sobToken)
@@ -73,9 +73,9 @@ object SobCacheManager {
         mmkv.putString(key, value)
     }
 
-    fun getSobToken() = mmkv.getString(SOB_TOKEN_NAME, "") ?: ""
+    fun getSobToken() = mmkv.getString(SOB_TOKEN_NAME, "").orEmpty()
 
-    fun getHeader(key: String) = mmkv.getString(key, "") ?: ""
+    fun getHeader(key: String) = mmkv.getString(key, "").orEmpty()
 
     fun onAccountLoginOut() {
         mmkv.clearAll()

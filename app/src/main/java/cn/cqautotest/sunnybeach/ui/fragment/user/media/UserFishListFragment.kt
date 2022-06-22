@@ -50,7 +50,7 @@ class UserFishListFragment : PagingFragment<AppActivity>() {
     }
 
     override suspend fun loadListData() {
-        val userId = arguments?.getString(IntentKey.ID, "") ?: ""
+        val userId = arguments?.getString(IntentKey.ID, "").orEmpty()
         mFishPondViewModel.getUserFishList(userId).collectLatest { mFishListAdapter.submitData(it) }
     }
 

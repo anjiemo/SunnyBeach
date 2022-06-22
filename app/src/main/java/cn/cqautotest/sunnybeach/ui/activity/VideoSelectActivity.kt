@@ -514,7 +514,7 @@ class VideoSelectActivity : AppActivity(), StatusAction, Runnable, BaseAdapter.O
         }
 
         constructor(`in`: Parcel) {
-            videoPath = `in`.readString() ?: ""
+            videoPath = `in`.readString().orEmpty()
             videoWidth = `in`.readInt()
             videoHeight = `in`.readInt()
             videoDuration = `in`.readLong()

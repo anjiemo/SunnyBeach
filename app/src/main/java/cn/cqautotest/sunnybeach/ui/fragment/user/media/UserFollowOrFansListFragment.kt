@@ -43,7 +43,7 @@ class UserFollowOrFansListFragment : PagingFragment<AppActivity>() {
     }
 
     override suspend fun loadListData() {
-        val userId = arguments?.getString(IntentKey.ID, "") ?: ""
+        val userId = arguments?.getString(IntentKey.ID, "").orEmpty()
         val followStateJson = arguments?.getString(IntentKey.OTHER)
         val followType = fromJson<FollowType>(followStateJson) ?: FollowType.FOLLOW
         mFollowViewModel.loadUserFollowOrFansListByState(userId, followType).collectLatest {

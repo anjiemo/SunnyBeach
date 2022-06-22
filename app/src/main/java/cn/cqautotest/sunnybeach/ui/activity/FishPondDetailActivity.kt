@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
-import androidx.paging.PagingData
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -13,6 +15,7 @@ import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailActivityBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.ktx.takeIfLogin
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
@@ -29,6 +32,7 @@ import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_FISH_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.blankj.utilcode.util.VibrateUtils
+import com.dylanc.longan.intentExtras
 import com.hjq.bar.TitleBar
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
@@ -49,10 +53,19 @@ class FishPondDetailActivity : PagingActivity() {
     private val mAdapterDelegate = AdapterDelegate()
     private val mFishListAdapter = FishListAdapter(AdapterDelegate(), true)
     private val mFishPondDetailCommendListAdapter = FishPondDetailCommentListAdapter(mAdapterDelegate)
-    private var mMomentId: String = ""
+    private val mMomentId: String by intentExtras(IntentKey.ID, "")
     private var mNickName: String = ""
+    private val mListener: (CombinedLoadStates) -> Unit = { cls ->
+        when (cls.refresh) {
+            is LoadState.NotLoading -> {
+                mNickName = mFishListAdapter.snapshotList.firstOrNull()?.nickname.orEmpty()
+                mBinding.commentContainer.clReplyContainer.setFixOnClickListener { goToPostComment(mNickName) }
+            }
+            else -> {}
+        }
+    }
 
-    override fun getPagingAdapter() = mFishPondDetailCommendListAdapter
+    override fun getPagingAdapter() = mFishListAdapter
 
     override fun getLayoutId(): Int = R.layout.fish_pond_detail_activity
 
@@ -86,7 +99,6 @@ class FishPondDetailActivity : PagingActivity() {
     override fun initData() {
         super.initData()
         showLoading()
-        mMomentId = intent.getStringExtra(IntentKey.ID) ?: ""
         loadFishDetail()
     }
 
@@ -102,18 +114,8 @@ class FishPondDetailActivity : PagingActivity() {
     }
 
     private fun loadFishDetail() {
-        mFishPondViewModel.getFishDetailById(mMomentId).observe(this) {
-            mBinding.pagingRefreshLayout.finishRefresh()
-            val item = it.getOrElse {
-                showError { initData() }
-                return@observe
-            }
-            mNickName = item.nickname
-            mFishListAdapter.submitData(lifecycle, PagingData.from(listOf(item)))
-            showComplete()
-            mBinding.commentContainer.clReplyContainer.setFixOnClickListener {
-                goToPostComment(mNickName)
-            }
+        lifecycleScope.launchWhenCreated {
+            mFishPondViewModel.getFishDetailById(mMomentId).collectLatest { pagingData -> mFishListAdapter.submitData(pagingData) }
         }
     }
 
@@ -158,6 +160,7 @@ class FishPondDetailActivity : PagingActivity() {
 
     override fun initEvent() {
         super.initEvent()
+        mFishListAdapter.addLoadStateListener(mListener)
         mFishListAdapter.setOnMenuItemClickListener { view, item, position ->
             when (view.id) {
                 R.id.ll_share -> shareFish(item)
@@ -203,7 +206,12 @@ class FishPondDetailActivity : PagingActivity() {
         ReportActivity.start(this, ReportType.FISH, mMomentId)
     }
 
-    override fun isStatusBarDarkFont(): Boolean = false
+    override fun isStatusBarDarkFont() = true
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mFishListAdapter.removeLoadStateListener(mListener)
+    }
 
     companion object {
 

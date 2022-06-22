@@ -352,7 +352,7 @@ class UserCenterActivity : AppActivity() {
         }
     }
 
-    override fun isStatusBarDarkFont(): Boolean = true
+    override fun isStatusBarDarkFont() = true
 
     override fun onDestroy() {
         super.onDestroy()

@@ -52,10 +52,10 @@ class ViewUserActivity : AppActivity() {
 
     private fun getUserId(): String {
         val uri = intent?.data
-        val scheme = uri?.scheme ?: ""
-        val authority = uri?.authority ?: ""
-        val lastPathSegment = uri?.lastPathSegment ?: ""
-        val userId = intent.getStringExtra(IntentKey.ID) ?: ""
+        val scheme = uri?.scheme.orEmpty()
+        val authority = uri?.authority.orEmpty()
+        val lastPathSegment = uri?.lastPathSegment.orEmpty()
+        val userId = intent.getStringExtra(IntentKey.ID).orEmpty()
 
         Timber.d("showResult：===> scheme is $scheme authority is $authority userId is $userId lastPathSegment is $lastPathSegment")
 
@@ -117,7 +117,7 @@ class ViewUserActivity : AppActivity() {
     private fun checkFollowState(userId: String) {
         with(mBinding) {
             tvFollow.setRoundRectBg(mFriendsStatus.color, 3.dp)
-            val currUserId = UserManager.loadUserBasicInfo()?.id ?: ""
+            val currUserId = UserManager.loadUserBasicInfo()?.id.orEmpty()
             if (userId == currUserId) {
                 tvFollow.text = "编辑"
                 tvFollow.setTextColor(Color.parseColor("#1D7DFA"))

@@ -76,7 +76,7 @@ object UserManager {
     /**
      * 获取当前用户的 id
      */
-    fun loadCurrUserId() = loadUserBasicInfo()?.id ?: ""
+    fun loadCurrUserId() = loadUserBasicInfo()?.id.orEmpty()
 
     /**
      * 根据 userId 判断是否为当前用户
