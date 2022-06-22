@@ -1,13 +1,14 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
 import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.annotation.SobClient
+import cn.cqautotest.sunnybeach.http.annotation.baseurl.SobBaseUrl
+
 import cn.cqautotest.sunnybeach.model.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-@SobClient
+@SobBaseUrl
 interface HomeApi {
 
     /**

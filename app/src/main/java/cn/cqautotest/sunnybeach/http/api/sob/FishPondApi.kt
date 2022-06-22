@@ -1,12 +1,13 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
 import cn.cqautotest.sunnybeach.http.ServiceCreator
-import cn.cqautotest.sunnybeach.http.annotation.SobClient
+import cn.cqautotest.sunnybeach.http.annotation.baseurl.SobBaseUrl
+
 import cn.cqautotest.sunnybeach.model.*
 import okhttp3.MultipartBody
 import retrofit2.http.*
 
-@SobClient
+@SobBaseUrl
 interface FishPondApi {
 
     /**
