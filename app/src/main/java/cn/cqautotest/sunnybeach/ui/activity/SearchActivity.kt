@@ -40,8 +40,7 @@ class SearchActivity : AppActivity() {
 
     override fun initView() {
         val tabLayout = mBinding.tabLayout
-        val viewPager2 = mBinding.viewPager2
-        viewPager2.apply {
+        val viewPager2 = mBinding.viewPager2.apply {
             reduceDragSensitivity()
             adapter = object : FragmentStateAdapter(this@SearchActivity) {
 
@@ -57,7 +56,7 @@ class SearchActivity : AppActivity() {
                 override fun createFragment(position: Int): Fragment = SearchListFragment.newInstance(typeList[position])
             }
         }
-        mTabLayoutMediator = TabLayoutMediator(mBinding.tabLayout, mBinding.viewPager2) { tab, position ->
+        mTabLayoutMediator = TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             tab.text = when (position) {
                 0 -> "全部"
                 1 -> "文章"

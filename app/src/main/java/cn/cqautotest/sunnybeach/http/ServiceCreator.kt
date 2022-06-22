@@ -1,9 +1,6 @@
 package cn.cqautotest.sunnybeach.http
 
-import cn.android52.network.annotation.BaseClient
 import cn.android52.network.interceptor.BaseUrlInterceptor
-import cn.cqautotest.sunnybeach.http.annotation.CaiYunClient
-import cn.cqautotest.sunnybeach.http.annotation.SobClient
 import cn.cqautotest.sunnybeach.http.interceptor.accountInterceptor
 import cn.cqautotest.sunnybeach.http.interceptor.loggingInterceptor
 import cn.cqautotest.sunnybeach.manager.LocalCookieManager
@@ -14,7 +11,6 @@ import com.hjq.gson.factory.GsonFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.ConcurrentHashMap
 
 /**
  * author : A Lonely Cat
@@ -24,13 +20,7 @@ import java.util.concurrent.ConcurrentHashMap
  */
 object ServiceCreator {
 
-    val clientCache = ConcurrentHashMap<Class<*>, Retrofit>(3)
-
-    val sobRetrofit: Retrofit by lazy { createRetrofit { baseUrl(SUNNY_BEACH_API_BASE_URL) } }
-
-    val caiYunRetrofit: Retrofit by lazy { createRetrofit { baseUrl(CAI_YUN_BASE_URL) } }
-
-    val otherRetrofit: Retrofit by lazy { createRetrofit { baseUrl(BASE_URL) } }
+    val retrofit: Retrofit by lazy { createRetrofit { baseUrl(BASE_URL) } }
 
     private val cookieManager = LocalCookieManager.get()
 
@@ -43,47 +33,11 @@ object ServiceCreator {
             .build()
     }
 
-    fun createRetrofit(block: Retrofit.Builder.() -> Retrofit.Builder) = Retrofit.Builder()
+    private fun createRetrofit(block: Retrofit.Builder.() -> Retrofit.Builder) = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create(GsonFactory.getSingletonGson()))
         .client(client)
         .run(block)
         .build()
 
-    inline fun <reified T> create(): T {
-        val clazz = T::class.java
-        return getOrCreate(clazz)
-    }
-
-    inline fun <reified T> getOrCreate(clazz: Class<T>): T {
-        // Get it from the cache first, and return directly if the cache hits.
-        clientCache[clazz]?.let { return it.create(clazz) }
-        // We didn't find it in the cache, return the retrofit instance according to the annotation information.
-        val retrofit = when {
-            clazz containsAnnotation SobClient::class.java -> sobRetrofit
-            clazz containsAnnotation CaiYunClient::class.java -> caiYunRetrofit
-            else -> otherRetrofit
-        }
-
-        // val baseClient = clazz.getBaseClientAnnotationOrNull()
-
-        // Cached for the convenience of direct use next time.
-        clientCache[clazz] = retrofit
-        return retrofit.create(clazz)
-    }
-
-    fun Class<*>.getBaseClientAnnotationOrNull(): BaseClient? {
-        annotations.forEach {
-            it.annotationClass.java.annotations.forEach { annotation ->
-                if (annotation is BaseClient) {
-                    return annotation
-                }
-            }
-        }
-        return null
-    }
-
-    /**
-     * Check if the class contains that annotation.
-     */
-    infix fun <A : Class<*>, B : Annotation> A.containsAnnotation(that: Class<B>): Boolean = getAnnotation(that) != null
+    inline fun <reified T> create(): T = retrofit.create(T::class.java)
 }
