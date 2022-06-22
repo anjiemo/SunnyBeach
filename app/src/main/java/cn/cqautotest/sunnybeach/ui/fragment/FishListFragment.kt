@@ -263,7 +263,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     private fun showResult(hmsScan: HmsScan?) {
-        val result = hmsScan?.showResult ?: ""
+        val result = hmsScan?.showResult.orEmpty()
         if (result.isBlank()) {
             showNoContentTips()
             return
@@ -271,9 +271,9 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
         // result can never be null.
         val uri = Uri.parse(result)
-        val scheme = uri.scheme ?: ""
-        val authority = uri.authority ?: ""
-        val userId = uri.lastPathSegment ?: ""
+        val scheme = uri.scheme.orEmpty()
+        val authority = uri.authority.orEmpty()
+        val userId = uri.lastPathSegment.orEmpty()
 
         Timber.d("showResult：===> scheme is $scheme authority is $authority userId is $userId")
         Timber.d("showResult：===> result is $result")

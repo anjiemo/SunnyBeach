@@ -101,8 +101,8 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
                 Timber.d("initData：===> openId is $openId nickName is $nickName avatar is $avatar")
                 val queryParams = FormBody.Builder()
                     .add("nickname", nickName ?: "游客")
-                    .add("avatar", avatar ?: "")
-                    .add("openid", openId ?: "")
+                    .add("avatar", avatar.orEmpty())
+                    .add("openid", openId.orEmpty())
                     .build().toQueryParams()
                 postUrl(url, queryParams.toByteArray())
             } else {
@@ -177,7 +177,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
         reload()
     }
 
-    override fun isStatusBarDarkFont(): Boolean = false
+    override fun isStatusBarDarkFont() = true
 
     private inner class AppBrowserViewClient : BrowserViewClient() {
 

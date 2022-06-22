@@ -41,7 +41,7 @@ class UserQaListFragment : PagingFragment<AppActivity>() {
     }
 
     override suspend fun loadListData() {
-        val userId = arguments?.getString(IntentKey.ID, "") ?: ""
+        val userId = arguments?.getString(IntentKey.ID, "").orEmpty()
         mQaViewModel.loadUserQaList(userId).collectLatest {
             mUserQaListAdapter.submitData(it)
         }

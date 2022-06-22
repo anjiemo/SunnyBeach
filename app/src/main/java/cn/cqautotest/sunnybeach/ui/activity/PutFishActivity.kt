@@ -253,12 +253,14 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         }
     }
 
-    private suspend fun zipImageFile(imgFile: File) = suspendCoroutine<File?> { con ->
+    private suspend fun zipImageFile(imgFile: File) = suspendCoroutine { con ->
+        fun String.fixSuffix() = replace("jpeg", "png").replace("jpg", "png")
         Luban.with(this)
             .load(imgFile)
             .ignoreBy(TIMES)
-            .setTargetDir(PathUtils.getExternalAppCachePath())
             .filter { it.isNotBlank() }
+            .setTargetDir(PathUtils.getExternalAppCachePath())
+            .setRenameListener { it.fixSuffix() }
             .setCompressListener(object : OnCompressListener {
                 override fun onStart() {
                     // 压缩开始前调用
@@ -266,16 +268,17 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                 }
 
                 override fun onSuccess(file: File?) {
-                    // 压缩成功后调用，返回压缩后的图片文件
-                    // We need to rename the image file name to end with png to overcome the server limit.
-                    // Define the extension function inside the function for us to call.
-                    fun String.fixSuffix() = replace("jpeg", "png").replace("jpg", "png")
-                    val destFile = File(file?.parent, imgFile.name.fixSuffix())
-                    // 删除已存在的文件以确保能够正常重命名
-                    FileUtils.delete(destFile)
-                    // 重命名文件
-                    val renameSuccess = FileUtils.rename(file, destFile.name)
-                    con.resume(if (renameSuccess) destFile else file)
+                    // // 压缩成功后调用，返回压缩后的图片文件
+                    // // We need to rename the image file name to end with png to overcome the server limit.
+                    // // Define the extension function inside the function for us to call.
+                    // fun String.fixSuffix() = replace("jpeg", "png").replace("jpg", "png")
+                    // val destFile = File(file?.parent, imgFile.name.fixSuffix())
+                    // // 删除已存在的文件以确保能够正常重命名
+                    // FileUtils.delete(destFile)
+                    // // 重命名文件
+                    // val renameSuccess = FileUtils.rename(file, destFile.name)
+                    // con.resume(if (renameSuccess) destFile else file)
+                    con.resume(file)
                 }
 
                 override fun onError(e: Throwable?) {

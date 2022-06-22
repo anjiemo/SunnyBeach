@@ -76,6 +76,8 @@ class ReportActivity : AppActivity() {
         }
     }
 
+    override fun isStatusBarDarkFont() = true
+
     companion object {
 
         private const val REPORT_TYPE = "report_type"

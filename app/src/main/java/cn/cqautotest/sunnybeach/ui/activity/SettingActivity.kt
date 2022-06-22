@@ -286,5 +286,5 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
         // 设置是否自动登录
     }
 
-    override fun isStatusBarDarkFont(): Boolean = false
+    override fun isStatusBarDarkFont() = true
 }
