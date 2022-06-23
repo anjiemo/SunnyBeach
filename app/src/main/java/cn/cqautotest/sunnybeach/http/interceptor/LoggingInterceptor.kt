@@ -10,6 +10,8 @@ import timber.log.Timber
  * time   : 2022/05/24
  * desc   : 日志拦截器
  */
-val loggingInterceptor = HttpLoggingInterceptor { Timber.d("===> result：${it.unicodeToString()}") }
-    .also { it.setLevel(HttpLoggingInterceptor.Level.BODY) }
+val loggingInterceptor =
+    HttpLoggingInterceptor { result -> result.takeIf { debugLoggerEnable }?.let { Timber.d("===> result：${it.unicodeToString()}") } }
+        .also { it.setLevel(HttpLoggingInterceptor.Level.BODY) }
 
+const val debugLoggerEnable = false
