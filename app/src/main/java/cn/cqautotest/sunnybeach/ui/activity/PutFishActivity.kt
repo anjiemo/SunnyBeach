@@ -99,10 +99,10 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         }
         mBinding.keyboardLayout.setKeyboardListener { isActive, _ ->
             val navigationBarHeight = ImmersionBar.getNavigationBarHeight(this)
-            Timber.d("initEvent：===> navigationBarHeight is $navigationBarHeight")
+            // Timber.d("initEvent：===> navigationBarHeight is $navigationBarHeight")
 
             val keyboardHeight = etInputContent.requireKeyboardHeight()
-            Timber.d("initEvent：===> keyboardHeight is $keyboardHeight")
+            // Timber.d("initEvent：===> keyboardHeight is $keyboardHeight")
             val rvEmojiList = mBinding.rvEmojiList
             if (isActive) {
                 rvEmojiList.updateLayoutParams {
