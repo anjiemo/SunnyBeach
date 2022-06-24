@@ -201,6 +201,8 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     /**
      * 1、压缩图片
      * 2、上传图片
+     * images：待上传图片文件路径集合
+     * uploadedImages：上传后的图片 url 集合
      */
     private fun CoroutineScope.zipAndUploadImages(
         dispatcher: CoroutineDispatcher,
@@ -220,8 +222,9 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                 // 上传摸鱼图片
                 .map { Repository.uploadFishImage(it).getOrThrow() }
                 .flowOn(dispatcher)
-                // 添加到已上传的图片链接集合
+                // 添加到已上传的图片 url 集合
                 .onEach { uploadedImages.add(it) }
+                // 服务器错误时，重试三次，每次间隔 100ms
                 .retryWhen { cause, attempt ->
                     val retry = (cause is ServiceException) && attempt < 3
                     takeIf { retry }?.let { delay(100) }
