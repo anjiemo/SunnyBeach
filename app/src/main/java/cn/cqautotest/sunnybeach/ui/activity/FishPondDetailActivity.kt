@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.view.Gravity
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
@@ -28,6 +29,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.FishPondDetailCommentListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.ui.fragment.SubmitCommentFragment
+import cn.cqautotest.sunnybeach.ui.popup.InputPopup
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_FISH_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
@@ -39,6 +41,7 @@ import com.hjq.umeng.UmengShare
 import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
 import kotlinx.coroutines.flow.collectLatest
+import razerdp.basepopup.BasePopupWindow
 
 /**
  * author : A Lonely Cat
@@ -84,6 +87,14 @@ class FishPondDetailActivity : PagingActivity() {
     }
 
     private fun safeShowFragment(targetUserName: String) {
+        val keyboardFlag = BasePopupWindow.FLAG_KEYBOARD_ALIGN_TO_ROOT or BasePopupWindow.FLAG_KEYBOARD_ANIMATE_ALIGN
+        InputPopup(this).apply {
+            setKeyboardAdaptive(true)
+            setAutoShowKeyboard(findViewById(R.id.et_input_content), true)
+            setKeyboardGravity(Gravity.BOTTOM)
+            setKeyboardAdaptionMode(findViewById(R.id.et_input_content), keyboardFlag)
+        }.also { it.showPopupWindow() }
+
         val args = SubmitCommentFragment.getCommentArgs(
             targetUserName,
             mMomentId,
@@ -93,7 +104,7 @@ class FishPondDetailActivity : PagingActivity() {
         )
         val dialogFragment = SubmitCommentFragment()
         dialogFragment.arguments = args
-        dialogFragment.show(supportFragmentManager, dialogFragment.tag)
+        // dialogFragment.show(supportFragmentManager, dialogFragment.tag)
     }
 
     override fun initData() {
