@@ -11,6 +11,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.SubmitCommendIncludeBinding
+import cn.cqautotest.sunnybeach.ktx.clearText
 import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.textString
@@ -99,9 +100,7 @@ class InputPopup(context: Context) : BasePopupWindow(context), KeyboardUtils.OnK
             ivEmoji.setOnClickListener {
                 flPanelContainer.isVisible = mShowing
                 val emojiIcon = if (mShowing) R.mipmap.ic_keyboard else R.mipmap.ic_emoji_normal
-                Glide.with(it)
-                    .load(emojiIcon)
-                    .into(mBinding.ivEmoji)
+                loadEmojiIcon(emojiIcon)
                 if (mShowing) {
                     KeyboardUtils.close(it)
                 } else {
@@ -114,6 +113,17 @@ class InputPopup(context: Context) : BasePopupWindow(context), KeyboardUtils.OnK
                 etInputContent.text?.insert(cursor, emoji)
             }
         }
+    }
+
+    fun resetForm() {
+        mBinding.etInputContent.clearText()
+    }
+
+    private fun loadEmojiIcon(emojiIcon: Int) {
+        val ivEmoji = mBinding.ivEmoji
+        Glide.with(ivEmoji)
+            .load(emojiIcon)
+            .into(ivEmoji)
     }
 
     fun doAfterTextChanged(action: (text: Editable?) -> Unit) {
@@ -144,6 +154,14 @@ class InputPopup(context: Context) : BasePopupWindow(context), KeyboardUtils.OnK
     override fun onCreateDismissAnimation(): Animation = AnimationHelper.asAnimation()
         .withTranslation(TranslationConfig.TO_BOTTOM)
         .toDismiss()
+
+    override fun onDismiss() {
+        super.onDismiss()
+        with(mBinding) {
+            loadEmojiIcon(R.mipmap.ic_emoji_normal)
+            flPanelContainer.isVisible = false
+        }
+    }
 
     fun interface OnCommitListener {
         fun onSubmit(view: View, content: String)

@@ -197,9 +197,8 @@ object Repository {
     }
 
     fun postComment(momentComment: Map<String, Any?>, isReply: Boolean) = launchAndGetData {
-        // if (isReply) FishNetwork.replyComment(momentComment)
-        // else FishNetwork.postComment(momentComment)
-        ApiResponse(200, true, "", "")
+        if (isReply) FishNetwork.replyComment(momentComment)
+        else FishNetwork.postComment(momentComment)
     }
 
     fun dynamicLikes(momentId: String) = launchAndGetMsg { FishNetwork.dynamicLikes(momentId) }
