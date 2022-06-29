@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
@@ -14,10 +13,8 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailActivityBinding
-import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
-import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
@@ -29,7 +26,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondDetailCommentListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
-import cn.cqautotest.sunnybeach.ui.popup.InputPopup
+import cn.cqautotest.sunnybeach.ui.fragment.SubmitCommentFragment
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_FISH_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
@@ -61,20 +58,12 @@ class FishPondDetailActivity : PagingActivity() {
         when (cls.refresh) {
             is LoadState.NotLoading -> {
                 mNickName = mFishListAdapter.snapshotList.firstOrNull()?.nickname.orEmpty()
-                mBinding.commentContainer.clReplyContainer.setFixOnClickListener { showCommentPopup(mNickName) }
+                mBinding.commentContainer.clReplyContainer.setFixOnClickListener { showCommentPopupFragment(mNickName) }
             }
             else -> {}
         }
     }
-    private val mInputPopup by lazy {
-        InputPopup(this).apply {
-            type = InputPopup.EMOJI_FLAG
-            defaultConfig()
-            doAfterTextChanged { submitButton.isEnabled = it.isNullOrEmpty().not() }
-            // 提交评论
-            setOnCommitListener { view, inputContent -> submitComment(view, inputContent) }
-        }
-    }
+    private val mSubmitCommentFragment = SubmitCommentFragment()
 
     override fun getPagingAdapter() = mFishListAdapter
 
@@ -91,28 +80,6 @@ class FishPondDetailActivity : PagingActivity() {
         mBinding.pagingRecyclerView.apply {
             adapter = concatAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
-        }
-    }
-
-    private fun submitComment(view: View, inputContent: String) {
-        view.isEnabled = false
-        val momentComment = mapOf("momentId" to mMomentId, "content" to inputContent, "commentId" to "", "targetUserId" to "")
-        mFishPondViewModel.postComment(momentComment, false).observe(this) { result ->
-            view.isEnabled = true
-            result.onSuccess {
-                simpleToast("评论成功\uD83D\uDE03")
-                mInputPopup.dismiss()
-                setResult(Activity.RESULT_OK)
-                refreshFishPondDetailCommendList()
-            }.onFailure {
-                when (it) {
-                    is NotLoginException -> {
-                        LoginActivity.start(this, "", "")
-                        simpleToast(it.message)
-                    }
-                    else -> simpleToast("评论失败，请稍后重试\uD83D\uDE2D")
-                }
-            }
         }
     }
 
@@ -202,14 +169,13 @@ class FishPondDetailActivity : PagingActivity() {
         mFishPondDetailCommendListAdapter.setOnCommentClickListener { item, _ ->
             viewMoreDetail(item)
         }
-        mBinding.commentContainer.tvFishPondSubmitComment.setFixOnClickListener { showCommentPopup(mNickName) }
+        mBinding.commentContainer.tvFishPondSubmitComment.setFixOnClickListener { showCommentPopupFragment(mNickName) }
     }
 
-    private fun showCommentPopup(targetUserName: String) {
-        mInputPopup.apply {
-            inputHint = "回复 $targetUserName"
-            showPopupWindow()
-        }
+    private fun showCommentPopupFragment(targetUserName: String) {
+        val args = SubmitCommentFragment.getCommentArgs(targetUserName, mMomentId, "", "", false)
+        val fragmentTag = SubmitCommentFragment.getFragmentTag(mSubmitCommentFragment)
+        SubmitCommentFragment.show(this, mSubmitCommentFragment, fragmentTag, args)
     }
 
     private fun viewMoreDetail(item: FishPondComment.FishPondCommentItem) {

@@ -35,6 +35,7 @@ class FishCommendDetailActivity : AppActivity() {
     private val mBinding: FishCommendDetailActivityBinding by viewBinding()
     private val mFishCommendDetailListAdapter = FishCommendDetailListAdapter()
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
+    private val mSubmitCommentFragment = SubmitCommentFragment()
 
     override fun getLayoutId(): Int = R.layout.fish_commend_detail_activity
 
@@ -115,22 +116,13 @@ class FishCommendDetailActivity : AppActivity() {
      * 去回复评论
      */
     private fun goToReplyComment(commentId: String, targetUserName: String, targetUserId: String) {
-        takeIfLogin {
-            safeShowFragment(targetUserName, commentId, targetUserId)
-        }
+        takeIfLogin { showCommentPopupFragment(targetUserName, commentId, targetUserId) }
     }
 
-    private fun safeShowFragment(targetUserName: String, commentId: String, targetUserId: String) {
-        val args = SubmitCommentFragment.getCommentArgs(
-            targetUserName,
-            getMomentId(),
-            commentId,
-            targetUserId,
-            true
-        )
-        val dialogFragment = SubmitCommentFragment()
-        dialogFragment.arguments = args
-        dialogFragment.show(supportFragmentManager, dialogFragment.tag)
+    private fun showCommentPopupFragment(targetUserName: String, commentId: String, targetUserId: String) {
+        val args = SubmitCommentFragment.getCommentArgs(targetUserName, getMomentId(), commentId, targetUserId, true)
+        val fragmentTag = SubmitCommentFragment.getFragmentTag(mSubmitCommentFragment)
+        SubmitCommentFragment.show(this, mSubmitCommentFragment, fragmentTag, args)
     }
 
     companion object {

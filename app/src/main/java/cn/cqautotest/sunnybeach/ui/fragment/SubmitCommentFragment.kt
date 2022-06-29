@@ -1,193 +1,95 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.app.Activity
-import android.app.Dialog
-import android.graphics.Color
 import android.os.Bundle
-import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
-import androidx.core.widget.doAfterTextChanged
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
-import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.CommendAction
 import cn.cqautotest.sunnybeach.action.CommendAction.Companion.COMMENT_ID
 import cn.cqautotest.sunnybeach.action.CommendAction.Companion.IS_REPLY
 import cn.cqautotest.sunnybeach.action.CommendAction.Companion.MOMENT_ID
 import cn.cqautotest.sunnybeach.action.CommendAction.Companion.TARGET_USER_ID
 import cn.cqautotest.sunnybeach.action.CommendAction.Companion.TARGET_USER_NAME
-import cn.cqautotest.sunnybeach.action.Init
-import cn.cqautotest.sunnybeach.databinding.SubmitCommendIncludeBinding
-import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.execption.NotLoginException
+import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
+import cn.cqautotest.sunnybeach.ui.popup.InputPopup
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
-import com.bumptech.glide.Glide
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.gyf.immersionbar.ImmersionBar
-import com.hjq.base.BottomSheetDialog
-import com.hjq.base.action.KeyboardAction
-import timber.log.Timber
+import razerdp.basepopup.BasePopupWindow
 
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2021/11/09
  * desc   : 评论回复页（发表动态评论/回复动态评论） Fragment
- * 适用于 Android 11 的窗口插图和键盘动画教程：https://www.raywenderlich.com/18393648-window-insets-and-keyboard-animations-tutorial-for-android-11
  */
-class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction, CommendAction {
+class SubmitCommentFragment : Fragment(), CommendAction {
 
-    private var _binding: SubmitCommendIncludeBinding? = null
-    private val mBinding: SubmitCommendIncludeBinding get() = _binding!!
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = BottomSheetDialog(requireContext())
-        _binding = SubmitCommendIncludeBinding.inflate(layoutInflater)
-        val contentView = mBinding.root
-        dialog.setContentView(contentView)
-        val navigationBarHeight = ImmersionBar.getNavigationBarHeight(this)
-        contentView.updatePadding(0, 0, 0, navigationBarHeight)
-        val bottomSheetBehavior = dialog.getBottomSheetBehavior()
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        onCreateDialogView()
-        return dialog
+    private val mInputPopup by lazy {
+        InputPopup(requireContext()).apply {
+            type = InputPopup.EMOJI_FLAG
+            defaultConfig()
+            doAfterTextChanged { submitButton.isEnabled = it.isNullOrEmpty().not() }
+            // 提交评论
+            setOnCommitListener { view, inputContent -> submitComment(view, inputContent) }
+            onDismissListener = object : BasePopupWindow.OnDismissListener() {
+                override fun onDismiss() {
+                    resetForm()
+                }
+            }
+        }
     }
 
-    override fun onStart() {
-        super.onStart()
-        // 使用 BottomSheetDialogFragment 删除底表中的暗淡背景：https://stackoverflow.com/questions/58251660/remove-dim-background-in-bottomsheet-using-bottomsheetdialogfragment
-        // dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+    private fun submitComment(view: View, inputContent: String) {
+        view.isEnabled = false
+        val momentComment = mapOf(
+            "momentId" to getMomentId(),
+            "content" to inputContent,
+            "commentId" to getCommentId(),
+            "targetUserId" to getTargetUserId()
+        )
+        mFishPondViewModel.postComment(momentComment, isReply()).observe(this) { result ->
+            view.isEnabled = true
+            result.onSuccess {
+                simpleToast("评论成功\uD83D\uDE03")
+                mInputPopup.dismiss()
+                with(requireActivity()) {
+                    setResult(Activity.RESULT_OK)
+                    if (this is FishPondDetailActivity) {
+                        refreshFishPondDetailCommendList()
+                    } else {
+                        finish()
+                    }
+                }
+            }.onFailure {
+                when (it) {
+                    is NotLoginException -> {
+                        LoginActivity.start(requireContext(), "", "")
+                        simpleToast(it.message)
+                    }
+                    else -> simpleToast("评论失败，请稍后重试\uD83D\uDE2D")
+                }
+            }
+        }
     }
 
-    private fun onCreateDialogView() {
-        initView()
-        initData()
-        initEvent()
-        initObserver()
+    fun show() {
+        showCommentPopup(getTargetUserName())
     }
 
-    override fun initView() {
-        val etInputContent = mBinding.etInputContent
-        etInputContent.setDefaultEmojiParser()
-        etInputContent.requestFocus()
-        etInputContent.postDelayed({ showKeyboard(etInputContent) }, 100)
-        mBinding.ivImage.isVisible = false
-    }
-
-    override fun initData() {
-        mBinding.etInputContent.hint = "回复 ${getTargetUserName()}"
+    private fun showCommentPopup(targetUserName: String) {
+        mInputPopup.apply {
+            inputHint = "回复 $targetUserName"
+            showPopupWindow()
+        }
     }
 
     override fun getCommentArgs(): Bundle = requireArguments()
-
-    override fun initEvent() {
-        val etInputContent = mBinding.etInputContent
-        mBinding.ivEmoji.setOnClickListener {
-            // 如果键盘已经显示就隐藏，如果键盘已经隐藏就显示
-            toggleSoftInput(etInputContent)
-        }
-        mBinding.rvEmojiList.setOnEmojiClickListener { emoji, _ ->
-            val cursor = etInputContent.selectionStart
-            etInputContent.text?.insert(cursor, emoji)
-        }
-        val normalColor = Color.parseColor("#CBD0D3")
-        val overflowColor = Color.RED
-        mBinding.etInputContent.doAfterTextChanged {
-            // 最大字符输入长度
-            val maxInputTextLength = 512
-            // 最小字符输入长度
-            val minInputTextLength = 5
-            val inputLength = mBinding.etInputContent.length()
-            // 判断输入的字符长度是否溢出
-            val isOverflow = (maxInputTextLength - inputLength) < 0
-            // 如果输入的字符长度溢出了，则为 -number 样式，否则为 number / maxInputTextLength 的样式
-            val inputLengthTips =
-                if (inputLength < minInputTextLength || isOverflow) (maxInputTextLength - inputLength).toString()
-                else "${inputLength}/$maxInputTextLength"
-            mBinding.tvInputLength.text = inputLengthTips
-            // 判断输入的字符串长度是否超过最大长度
-            mBinding.tvInputLength.setTextColor(if (isOverflow) overflowColor else normalColor)
-            mBinding.tvSend.isEnabled = it.isNullOrEmpty().not()
-        }
-        mBinding.tvSend.setFixOnClickListener { view ->
-            view.isEnabled = false
-            val momentId = getMomentId()
-            val commentId = getCommentId()
-            val targetUserId = getTargetUserId()
-            val isReply = isReply()
-            val content = etInputContent.textString
-            val momentComment = mapOf(
-                "momentId" to momentId,
-                "content" to content,
-                "commentId" to commentId,
-                "targetUserId" to targetUserId
-            )
-            // 校验内容是否合法，发布信息
-            val inputLength = mBinding.etInputContent.length()
-            val textLengthIsOk = inputLength in 1..512
-            takeIf { textLengthIsOk.not() }?.let {
-                simpleToast("请输入[1, 512)个字符~")
-                view.isEnabled = true
-                return@setFixOnClickListener
-            }
-            mFishPondViewModel.postComment(momentComment, isReply).observe(this) {
-                view.isEnabled = true
-                it.getOrElse { throwable ->
-                    takeIf { throwable is ServiceException }?.let {
-                        throwable.message?.let { msg ->
-                            LoginActivity.start(requireContext(), "", "")
-                            simpleToast(msg)
-                            return@getOrElse
-                        }
-                    }
-                    simpleToast("评论失败，请稍后重试\uD83D\uDE2D")
-                    return@observe
-                }
-                simpleToast("评论成功\uD83D\uDE03")
-                dismissAllowingStateLoss()
-                val activity = requireActivity()
-                activity.setResult(Activity.RESULT_OK)
-                if (activity is FishPondDetailActivity) {
-                    activity.refreshFishPondDetailCommendList()
-                } else {
-                    activity.finish()
-                }
-            }
-        }
-    }
-
-    override fun initObserver() {
-        val etInputContent = mBinding.etInputContent
-        val flPanelContainer = mBinding.flPanelContainer
-        val rvEmojiList = mBinding.rvEmojiList
-        mBinding.keyboardLayout.setKeyboardListener { isActive, _ ->
-            val navigationBarHeight = ImmersionBar.getNavigationBarHeight(this)
-            Timber.d("initEvent：===> navigationBarHeight is $navigationBarHeight")
-
-            val keyboardHeight = etInputContent.requireKeyboardHeight()
-            Timber.d("initEvent：===> keyboardHeight is $keyboardHeight")
-            if (isActive) {
-                flPanelContainer.updateLayoutParams {
-                    // 此处应该减去底部导航栏的高度，否则在经典导航栏模式下高度过剩
-                    height = keyboardHeight - navigationBarHeight
-                }
-            }
-            rvEmojiList.isVisible = !isActive
-            val emojiIcon = if (isActive) R.mipmap.ic_emoji_normal else R.mipmap.ic_keyboard
-            Glide.with(this)
-                .load(emojiIcon)
-                .into(mBinding.ivEmoji)
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     companion object {
 
@@ -207,6 +109,64 @@ class SubmitCommentFragment : BottomSheetDialogFragment(), Init, KeyboardAction,
                 putString(COMMENT_ID, commentId)
                 putString(TARGET_USER_ID, targetUserId)
                 putBoolean(IS_REPLY, isReply)
+            }
+        }
+
+        /**
+         * 获取 Fragment 的 tag
+         */
+        fun getFragmentTag(fragment: Fragment) = fragment.hashCode().toString()
+
+        /**
+         * activity：依附的 Activity 对象
+         * submitCommentFragment：评论 Fragment 对象
+         * fragmentTag：Fragment 标签
+         * args：Fragment 参数，从 SubmitCommentFragment#getCommentArgs 方法获取
+         */
+        fun show(
+            activity: AppCompatActivity,
+            submitCommentFragment: SubmitCommentFragment,
+            fragmentTag: String,
+            args: Bundle
+        ) {
+            show(activity.supportFragmentManager, submitCommentFragment, fragmentTag, args)
+        }
+
+        /**
+         * fragment：依附的 Fragment 对象
+         * submitCommentFragment：评论 Fragment 对象
+         * fragmentTag：Fragment 标签
+         * args：Fragment 参数，从 SubmitCommentFragment#getCommentArgs 方法获取
+         */
+        fun show(
+            fragment: Fragment,
+            submitCommentFragment: SubmitCommentFragment,
+            fragmentTag: String,
+            args: Bundle
+        ) {
+            show(fragment.parentFragmentManager, submitCommentFragment, fragmentTag, args)
+        }
+
+        /**
+         * fragmentManager：FragmentManager 对象
+         * submitCommentFragment：评论 Fragment 对象
+         * fragmentTag：Fragment 标签
+         * args：Fragment 参数，从 SubmitCommentFragment#getCommentArgs 方法获取
+         */
+        fun show(
+            fragmentManager: FragmentManager,
+            submitCommentFragment: SubmitCommentFragment,
+            fragmentTag: String,
+            args: Bundle
+        ) {
+            submitCommentFragment.arguments = args
+            fragmentManager.apply {
+                val fragment = findFragmentByTag(fragmentTag)
+                val ft = beginTransaction()
+                takeIf { fragment == null }?.let { ft.add(submitCommentFragment, fragmentTag) }
+                ft.show(submitCommentFragment)
+                    .runOnCommit { submitCommentFragment.show() }
+                    .commit()
             }
         }
     }
