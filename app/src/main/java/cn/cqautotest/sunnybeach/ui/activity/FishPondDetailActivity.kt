@@ -3,7 +3,7 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.view.Gravity
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
@@ -14,10 +14,11 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailActivityBinding
+import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.ktx.snapshotList
-import cn.cqautotest.sunnybeach.ktx.takeIfLogin
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondComment
@@ -28,7 +29,6 @@ import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondDetailCommentListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
-import cn.cqautotest.sunnybeach.ui.fragment.SubmitCommentFragment
 import cn.cqautotest.sunnybeach.ui.popup.InputPopup
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_FISH_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
@@ -41,7 +41,6 @@ import com.hjq.umeng.UmengShare
 import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
 import kotlinx.coroutines.flow.collectLatest
-import razerdp.basepopup.BasePopupWindow
 
 /**
  * author : A Lonely Cat
@@ -62,9 +61,18 @@ class FishPondDetailActivity : PagingActivity() {
         when (cls.refresh) {
             is LoadState.NotLoading -> {
                 mNickName = mFishListAdapter.snapshotList.firstOrNull()?.nickname.orEmpty()
-                mBinding.commentContainer.clReplyContainer.setFixOnClickListener { goToPostComment(mNickName) }
+                mBinding.commentContainer.clReplyContainer.setFixOnClickListener { showCommentPopup(mNickName) }
             }
             else -> {}
+        }
+    }
+    private val mInputPopup by lazy {
+        InputPopup(this).apply {
+            type = InputPopup.EMOJI_FLAG
+            defaultConfig()
+            doAfterTextChanged { submitButton.isEnabled = it.isNullOrEmpty().not() }
+            // 提交评论
+            setOnCommitListener { view, inputContent -> submitComment(view, inputContent) }
         }
     }
 
@@ -86,25 +94,26 @@ class FishPondDetailActivity : PagingActivity() {
         }
     }
 
-    private fun safeShowFragment(targetUserName: String) {
-        val keyboardFlag = BasePopupWindow.FLAG_KEYBOARD_ALIGN_TO_ROOT or BasePopupWindow.FLAG_KEYBOARD_ANIMATE_ALIGN
-        InputPopup(this).apply {
-            setKeyboardAdaptive(true)
-            setAutoShowKeyboard(findViewById(R.id.et_input_content), true)
-            setKeyboardGravity(Gravity.BOTTOM)
-            setKeyboardAdaptionMode(findViewById(R.id.et_input_content), keyboardFlag)
-        }.also { it.showPopupWindow() }
-
-        val args = SubmitCommentFragment.getCommentArgs(
-            targetUserName,
-            mMomentId,
-            "",
-            "",
-            false
-        )
-        val dialogFragment = SubmitCommentFragment()
-        dialogFragment.arguments = args
-        // dialogFragment.show(supportFragmentManager, dialogFragment.tag)
+    private fun submitComment(view: View, inputContent: String) {
+        view.isEnabled = false
+        val momentComment = mapOf("momentId" to mMomentId, "content" to inputContent, "commentId" to "", "targetUserId" to "")
+        mFishPondViewModel.postComment(momentComment, false).observe(this) { result ->
+            view.isEnabled = true
+            result.onSuccess {
+                simpleToast("评论成功\uD83D\uDE03")
+                mInputPopup.dismiss()
+                setResult(Activity.RESULT_OK)
+                refreshFishPondDetailCommendList()
+            }.onFailure {
+                when (it) {
+                    is NotLoginException -> {
+                        LoginActivity.start(this, "", "")
+                        simpleToast(it.message)
+                    }
+                    else -> simpleToast("评论失败，请稍后重试\uD83D\uDE2D")
+                }
+            }
+        }
     }
 
     override fun initData() {
@@ -193,8 +202,13 @@ class FishPondDetailActivity : PagingActivity() {
         mFishPondDetailCommendListAdapter.setOnCommentClickListener { item, _ ->
             viewMoreDetail(item)
         }
-        mBinding.commentContainer.tvFishPondSubmitComment.setFixOnClickListener {
-            goToPostComment(mNickName)
+        mBinding.commentContainer.tvFishPondSubmitComment.setFixOnClickListener { showCommentPopup(mNickName) }
+    }
+
+    private fun showCommentPopup(targetUserName: String) {
+        mInputPopup.apply {
+            inputHint = "回复 $targetUserName"
+            showPopupWindow()
         }
     }
 
@@ -207,17 +221,11 @@ class FishPondDetailActivity : PagingActivity() {
         }
     }
 
-    private fun goToPostComment(targetUserName: String) {
-        takeIfLogin {
-            safeShowFragment(targetUserName)
-        }
-    }
-
     override fun onRightClick(titleBar: TitleBar) {
         ReportActivity.start(this, ReportType.FISH, mMomentId)
     }
 
-    override fun isStatusBarDarkFont() = true
+    override fun isStatusBarDarkFont() = false
 
     override fun onDestroy() {
         super.onDestroy()
