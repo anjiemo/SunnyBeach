@@ -86,7 +86,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     override fun initView() {}
 
-    override fun isStatusBarDarkFont() = true
+    override fun isStatusBarDarkFont() = false
 
     override fun isStatusBarEnabled(): Boolean {
         // 使用沉浸式状态栏

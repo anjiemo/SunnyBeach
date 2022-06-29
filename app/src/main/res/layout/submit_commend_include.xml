@@ -20,6 +20,25 @@
         app:shape_radius="@dimen/dp_10"
         app:shape_solidColor="#F8F5F5" />
 
+    <com.hjq.shape.view.ShapeEditText
+        android:id="@+id/et_input_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_20"
+        android:gravity="top"
+        android:hint="请友善评论..."
+        android:inputType="textMultiLine"
+        android:maxLines="8"
+        android:paddingHorizontal="@dimen/dp_16"
+        android:scrollbars="vertical"
+        android:textSize="@dimen/sp_11"
+        app:drawableTint="#007fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_input_length"
+        app:layout_constraintStart_toEndOf="@id/iv_image"
+        app:shape_radius="@dimen/dp_4"
+        app:shape_solidColor="#F7F7F7" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl_menu_container"
         android:layout_width="match_parent"
@@ -58,30 +77,15 @@
             app:layout_constraintStart_toEndOf="@id/iv_image"
             app:srcCompat="@mipmap/ic_link_normal" />
 
-        <com.hjq.shape.view.ShapeEditText
-            android:id="@+id/et_input_content"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:hint="请友善评论..."
-            android:inputType="textMultiLine"
-            android:maxLines="8"
-            android:paddingHorizontal="@dimen/dp_16"
-            android:textSize="14sp"
-            app:drawableTint="#007fff"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tv_input_length"
-            app:layout_constraintStart_toEndOf="@id/iv_image"
-            app:shape_radius="@dimen/dp_4"
-            app:shape_solidColor="#F7F7F7" />
-
         <TextView
             android:id="@+id/tv_input_length"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_6"
+            android:paddingHorizontal="@dimen/dp_6"
             android:text="512"
             android:textColor="#CBD0D3"
+            android:textSize="@dimen/sp_11"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_send"
             app:layout_constraintTop_toTopOf="@id/iv_emoji" />
@@ -92,11 +96,11 @@
             android:layout_height="wrap_content"
             android:enabled="false"
             android:gravity="center"
-            android:paddingHorizontal="@dimen/dp_20"
-            android:paddingVertical="@dimen/dp_6"
+            android:paddingHorizontal="@dimen/dp_12"
+            android:paddingVertical="@dimen/dp_4"
             android:text="发送"
             android:textColor="@color/white"
-            android:textSize="@dimen/sp_14"
+            android:textSize="@dimen/sp_11"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/iv_emoji"

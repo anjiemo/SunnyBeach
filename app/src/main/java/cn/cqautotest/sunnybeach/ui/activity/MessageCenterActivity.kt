@@ -30,7 +30,7 @@ class MessageCenterActivity : AppActivity() {
 
     private val mBinding by viewBinding<MessageCenterActivityBinding>()
     private val mMsgViewModel by viewModels<MsgViewModel>()
-    private val mDrawableCacheMap = SparseArrayCompat<BadgeDrawable>(4)
+    private val mDrawableCacheMap = SparseArrayCompat<BadgeDrawable>(6)
 
     override fun getLayoutId(): Int = R.layout.message_center_activity
 
