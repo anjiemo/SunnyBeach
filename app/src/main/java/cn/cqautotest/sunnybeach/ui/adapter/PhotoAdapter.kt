@@ -62,7 +62,8 @@ class PhotoAdapter(val fillBox: Boolean = false) :
             // 加载全屏的图片
             Glide.with(itemView)
                 .load(item.preview)
-                .placeholder(R.mipmap.ic_bg).run {
+                .placeholder(R.mipmap.ic_bg)
+                .run {
                     if (fillBox) this else override(photoIv.width, photoIv.height)
                 }
                 .into(photoIv)

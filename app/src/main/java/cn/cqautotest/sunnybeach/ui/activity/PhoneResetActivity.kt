@@ -57,9 +57,7 @@ class PhoneResetActivity : AppActivity(), OnEditorActionListener {
     /** 验证码 */
     private var verifyCode: String? = null
 
-    override fun getLayoutId(): Int {
-        return R.layout.phone_reset_activity
-    }
+    override fun getLayoutId() = R.layout.phone_reset_activity
 
     override fun initView() {
         setOnClickListener(countdownView, commitView)
@@ -173,4 +171,6 @@ class PhoneResetActivity : AppActivity(), OnEditorActionListener {
         }
         return false
     }
+
+    override fun isStatusBarDarkFont() = false
 }

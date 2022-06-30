@@ -66,9 +66,7 @@ class PasswordResetActivity : AppActivity(), OnEditorActionListener {
 
     private val mUserViewModel by viewModels<UserViewModel>()
 
-    override fun getLayoutId(): Int {
-        return R.layout.password_reset_activity
-    }
+    override fun getLayoutId() = R.layout.password_reset_activity
 
     override fun initView() {
         setOnClickListener(commitView)
@@ -176,4 +174,6 @@ class PasswordResetActivity : AppActivity(), OnEditorActionListener {
         }
         return false
     }
+
+    override fun isStatusBarDarkFont() = false
 }

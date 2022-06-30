@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import cn.cqautotest.sunnybeach.app.AppApplication
+import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.manager.CacheDataManager
 import cn.cqautotest.sunnybeach.model.MourningCalendar
