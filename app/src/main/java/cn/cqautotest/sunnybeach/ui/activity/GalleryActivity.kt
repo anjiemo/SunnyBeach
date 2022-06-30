@@ -2,21 +2,19 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.Manifest
 import android.app.Activity
-import android.app.DownloadManager
 import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
-import android.os.Environment
 import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.content.getSystemService
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -39,8 +37,8 @@ import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.PhotoAdapter
 import cn.cqautotest.sunnybeach.util.DownloadHelper
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
-import com.blankj.utilcode.util.IntentUtils
-import com.blankj.utilcode.util.ScreenUtils
+import com.blankj.utilcode.util.*
+import com.dylanc.longan.context
 import com.gyf.immersionbar.ImmersionBar
 import timber.log.Timber
 import java.io.File
@@ -185,34 +183,32 @@ class GalleryActivity : AppActivity() {
     @Permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
     private fun downloadPhotoFile() {
         lifecycleScope.launchWhenCreated {
-            val dm = getSystemService<DownloadManager>() ?: return@launchWhenCreated
             val sourceUri = getImageUri()
             val verticalPhotoBean = getCurrentVerticalPhotoBean()
-            val request = DownloadManager.Request(sourceUri)
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                .setTitle(verticalPhotoBean.id)
-                .setDescription(verticalPhotoBean.id)
-                .setDestinationInExternalPublicDir(
-                    Environment.DIRECTORY_PICTURES,
-                    "阳光沙滩${File.pathSeparator}${verticalPhotoBean.preview}.png"
-                )
-            dm.enqueue(request)
-            simpleToast("已加入下载队列，请查看通知栏")
+            val oldFile = DownloadHelper.ofType<File>(context, sourceUri) ?: return@launchWhenCreated simpleToast("文件下载失败")
+            val imageType = ImageUtils.getImageType(oldFile)
+            val fileExtension = imageType.value
+            val newFile = File(PathUtils.getExternalPicturesPath(), "${verticalPhotoBean.id}.$fileExtension")
+            Timber.d("downloadPhotoFile：===> oldFile path is ${oldFile.path}")
+            Timber.d("downloadPhotoFile：===> newFile path is ${newFile.path}")
+            val success = FileUtils.copy(oldFile, newFile)
+            // 刷新媒体库
+            MediaScannerConnection.scanFile(context, arrayOf(newFile.path), arrayOf("image/$fileExtension")) { path, uri -> }
+            simpleToast(if (success) "文件下载成功" else "文件下载失败")
         }
     }
 
-    private suspend fun WallpaperManager.setWallpaper(inputStream: InputStream) =
-        suspendCoroutine<Boolean> {
-            ThreadPoolManager.getInstance().execute {
-                try {
-                    setStream(inputStream)
-                    it.resume(true)
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    it.resume(false)
-                }
+    private suspend fun WallpaperManager.setWallpaper(inputStream: InputStream) = suspendCoroutine {
+        ThreadPoolManager.getInstance().execute {
+            try {
+                setStream(inputStream)
+                it.resume(true)
+            } catch (e: IOException) {
+                e.printStackTrace()
+                it.resume(false)
             }
         }
+    }
 
     private fun getImageUri(): Uri {
         val verticalPhotoBean = getCurrentVerticalPhotoBean()
