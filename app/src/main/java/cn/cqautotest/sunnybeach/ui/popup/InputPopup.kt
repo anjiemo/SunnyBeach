@@ -59,6 +59,8 @@ class InputPopup(context: Context) : BasePopupWindow(context), KeyboardUtils.OnK
 
     private fun initView() {
         mBinding.etInputContent.setDefaultEmojiParser()
+        val emojiIcon = if (mShowing) R.mipmap.ic_emoji_normal else R.mipmap.ic_keyboard
+        loadEmojiIcon(emojiIcon)
         updateMenuItem()
     }
 
@@ -96,11 +98,8 @@ class InputPopup(context: Context) : BasePopupWindow(context), KeyboardUtils.OnK
     private fun initEvent() {
         setOnKeyboardChangeListener(this)
         with(mBinding) {
-            etInputContent.setOnClickListener { mBinding.flPanelContainer.isVisible = false }
+            etInputContent.setOnClickListener { flPanelContainer.isVisible = false }
             ivEmoji.setOnClickListener {
-                flPanelContainer.isVisible = mShowing
-                val emojiIcon = if (mShowing) R.mipmap.ic_keyboard else R.mipmap.ic_emoji_normal
-                loadEmojiIcon(emojiIcon)
                 if (mShowing) {
                     KeyboardUtils.close(it)
                 } else {
@@ -108,7 +107,7 @@ class InputPopup(context: Context) : BasePopupWindow(context), KeyboardUtils.OnK
                 }
             }
             tvSend.setFixOnClickListener { onCommitListener?.onSubmit(it, etInputContent.textString) }
-            mBinding.rvEmojiList.setOnEmojiClickListener { emoji, _ ->
+            rvEmojiList.setOnEmojiClickListener { emoji, _ ->
                 val cursor = etInputContent.selectionStart
                 etInputContent.text?.insert(cursor, emoji)
             }
@@ -142,9 +141,17 @@ class InputPopup(context: Context) : BasePopupWindow(context), KeyboardUtils.OnK
     override fun onKeyboardChange(rect: Rect, showing: Boolean) {
         val keyboardHeight = rect.height()
         with(mBinding.flPanelContainer) {
+            isVisible = !showing
+            val emojiIcon = if (showing) R.mipmap.ic_emoji_normal else R.mipmap.ic_keyboard
+            loadEmojiIcon(emojiIcon)
             takeIf { showing && height != keyboardHeight }?.let { updateLayoutParams { height = keyboardHeight } }
         }
         mShowing = showing
+    }
+
+    override fun onBeforeShow(): Boolean {
+        mBinding.flPanelContainer.isVisible = false
+        return super.onBeforeShow()
     }
 
     override fun onCreateShowAnimation(): Animation = AnimationHelper.asAnimation()
@@ -160,6 +167,7 @@ class InputPopup(context: Context) : BasePopupWindow(context), KeyboardUtils.OnK
         with(mBinding) {
             loadEmojiIcon(R.mipmap.ic_emoji_normal)
             flPanelContainer.isVisible = false
+            KeyboardUtils.close(etInputContent)
         }
     }
 

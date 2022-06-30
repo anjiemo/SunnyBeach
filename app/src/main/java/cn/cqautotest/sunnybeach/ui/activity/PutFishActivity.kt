@@ -22,6 +22,7 @@ import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
+import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
@@ -63,8 +64,9 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         mBinding.tvInputLength.text = "0/$INPUT_MAX_LENGTH"
         val rvPreviewImage = mBinding.rvPreviewImage
         rvPreviewImage.apply {
-            layoutManager = GridLayoutManager(context, 2)
+            layoutManager = GridLayoutManager(context, 4)
             adapter = mPreviewAdapter
+            addItemDecoration(GridSpaceDecoration(4.dp))
         }
     }
 
@@ -363,7 +365,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             }
 
             override fun onBindViewHolder(holder: ImagePreviewViewHolder, position: Int) {
-                val item = mData[position]
+                val item = mData.getOrNull(position) ?: return
                 val ivPhoto = holder.binding.ivPhoto
                 val ivClear = holder.binding.ivClear
                 Glide.with(holder.itemView)
@@ -373,12 +375,12 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                     .load(R.drawable.clear_ic)
                     .into(ivClear)
                 ivPhoto.setFixOnClickListener {
-                    previewImageListener.invoke(it, position)
+                    previewImageListener.invoke(it, holder.bindingAdapterPosition)
                 }
                 ivClear.setFixOnClickListener {
-                    mData.removeAt(position)
-                    notifyItemRemoved(position)
-                    clearImageListener.invoke(it, position)
+                    mData.removeAt(holder.bindingAdapterPosition)
+                    notifyItemRemoved(holder.bindingAdapterPosition)
+                    clearImageListener.invoke(it, holder.bindingAdapterPosition)
                 }
             }
 

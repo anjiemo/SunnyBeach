@@ -10,14 +10,13 @@
         android:id="@+id/iv_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
         android:scaleType="centerCrop"
         tools:src="@drawable/logo_big_ic" />
 
     <ImageView
         android:id="@+id/iv_clear"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="@dimen/dp_18"
+        android:layout_height="@dimen/dp_18"
         android:layout_gravity="top|end"
         android:src="@drawable/clear_ic" />
 
