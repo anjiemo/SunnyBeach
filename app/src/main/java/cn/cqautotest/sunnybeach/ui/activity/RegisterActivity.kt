@@ -74,9 +74,7 @@ class RegisterActivity : AppActivity(), OnEditorActionListener {
 
     private val mUserViewModel by viewModels<UserViewModel>()
 
-    override fun getLayoutId(): Int {
-        return R.layout.register_activity
-    }
+    override fun getLayoutId() = R.layout.register_activity
 
     override fun initView() {
         setOnClickListener(mBinding.sivRegisterVerifyCode, countdownView, commitView)
@@ -212,6 +210,8 @@ class RegisterActivity : AppActivity(), OnEditorActionListener {
             .navigationBarColor(R.color.white) // 不要把整个布局顶上去
             .keyboardEnable(true)
     }
+
+    override fun isStatusBarDarkFont() = true
 
     /**
      * [TextView.OnEditorActionListener]

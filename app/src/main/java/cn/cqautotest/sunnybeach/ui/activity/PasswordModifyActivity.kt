@@ -121,6 +121,8 @@ class PasswordModifyActivity : AppActivity(), TextView.OnEditorActionListener {
         return false
     }
 
+    override fun isStatusBarDarkFont() = false
+
     companion object {
         @Log
         fun start(context: Context, phone: String?, code: String?) {

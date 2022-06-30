@@ -91,7 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/common_phone_input_hint"
-                    android:inputType="textVisiblePassword"
+                    android:inputType="text"
                     android:singleLine="true"
                     app:regexType="mobile" />
 

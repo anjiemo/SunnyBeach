@@ -177,7 +177,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
         reload()
     }
 
-    override fun isStatusBarDarkFont() = true
+    override fun isStatusBarDarkFont() = false
 
     private inner class AppBrowserViewClient : BrowserViewClient() {
 

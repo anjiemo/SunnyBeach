@@ -39,9 +39,7 @@ class PasswordForgetActivity : AppActivity(), OnEditorActionListener {
 
     private val mUserViewModel by viewModels<UserViewModel>()
 
-    override fun getLayoutId(): Int {
-        return R.layout.password_forget_activity
-    }
+    override fun getLayoutId() = R.layout.password_forget_activity
 
     override fun initView() {
         setOnClickListener(countdownView, commitView)
@@ -156,4 +154,6 @@ class PasswordForgetActivity : AppActivity(), OnEditorActionListener {
         }
         return false
     }
+
+    override fun isStatusBarDarkFont() = false
 }
