@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.ktx
 import androidx.fragment.app.Fragment
 import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.http.network.Repository
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
@@ -44,7 +45,7 @@ fun Fragment.takeIfLogin(block: suspend (userBasicInfo: UserBasicInfo) -> Unit) 
                         isShowing = false
                     }
                     .setListener {
-                        LoginActivity.start(requireContext(), "", "")
+                        LoginActivity.start(requireContext(), UserManager.getCurrLoginAccount(), UserManager.getCurrLoginAccountPassword())
                     }.show()
             }
             else -> block.invoke(userBasicInfo)

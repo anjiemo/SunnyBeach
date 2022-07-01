@@ -104,8 +104,8 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
                 val defaultColor = ContextCompat.getColor(context, R.color.menu_default_font_color)
                 val likeColor = ContextCompat.getColor(context, R.color.menu_like_font_color)
                 with(listMenuItem) {
-                    llShare.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, position) }
-                    llGreat.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, position) }
+                    llShare.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, bindingAdapterPosition) }
+                    llGreat.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, bindingAdapterPosition) }
                     ivGreat.imageTintList = ColorStateList.valueOf((if (like) likeColor else defaultColor))
                     tvComment.text = with(item.commentCount) {
                         if (this == 0) {

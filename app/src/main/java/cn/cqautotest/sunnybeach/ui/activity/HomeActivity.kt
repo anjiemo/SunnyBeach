@@ -66,9 +66,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     @Inject
     lateinit var mAppViewModel: AppViewModel
 
-    override fun getLayoutId(): Int {
-        return R.layout.home_activity
-    }
+    override fun getLayoutId() = R.layout.home_activity
 
     override fun initView() {
         supportActionBar?.hide()

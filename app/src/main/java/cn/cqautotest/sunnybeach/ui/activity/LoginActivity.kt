@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
@@ -24,6 +23,8 @@ import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.LoginActivityBinding
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
+import cn.cqautotest.sunnybeach.ktx.startActivity
+import cn.cqautotest.sunnybeach.ktx.textString
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.InputTextManager
 import cn.cqautotest.sunnybeach.manager.UserManager
@@ -56,18 +57,17 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
 
     companion object {
 
+        private const val FROM_HOME = "from_home"
         private const val INTENT_KEY_IN_PHONE: String = "phone"
         private const val INTENT_KEY_IN_PASSWORD: String = "password"
 
         @Log
         fun start(context: Context, phone: String?, password: String?) {
-            val intent = Intent(context, LoginActivity::class.java)
-            intent.putExtra(INTENT_KEY_IN_PHONE, phone)
-            intent.putExtra(INTENT_KEY_IN_PASSWORD, password)
-            if (context !is Activity) {
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity<LoginActivity> {
+                putExtra(FROM_HOME, (context as? HomeActivity) != null)
+                putExtra(INTENT_KEY_IN_PHONE, phone)
+                putExtra(INTENT_KEY_IN_PASSWORD, password)
             }
-            context.startActivity(intent)
         }
     }
 
@@ -200,6 +200,7 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
             UserManager.saveCurrLoginAccountPassword(if (rememberPwd) userPassword else "")
             postDelayed({
                 val am = ActivityManager.getInstance()
+                takeIf { getBoolean(FROM_HOME) }?.let { am.finishActivity(HomeActivity::class.java) }
                 val topActivity = am.getTopActivity()
                 if (topActivity is LoginActivity) {
                     HomeActivity.start(this, MyMeFragment::class.java)
@@ -229,7 +230,8 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
 
     override fun onRightClick(titleBar: TitleBar) {
         // 跳转到注册界面
-        RegisterActivity.start(this, phoneView?.text.toString(), passwordView?.text.toString(),
+        RegisterActivity.start(
+            this, phoneView?.textString, "",
             object : RegisterActivity.OnRegisterListener {
 
                 override fun onSucceed(phone: String?, password: String?) {
