@@ -6,9 +6,13 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.CreationCenterActivityBinding
+import cn.cqautotest.sunnybeach.ktx.checkToken
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.takeIfLogin
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.adapter.AchievementAdapter
-import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.util.GridSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 
 /**
@@ -34,7 +38,7 @@ class CreationCenterActivity : AppActivity() {
     }
 
     override fun initData() {
-        val data = listOf(Pair(0, 0), Pair(0, 0), Pair(0, 0), Pair(0, 0))
+        val data = List(4) { Pair(0, 0) }
         mAchievementAdapter.setData(data)
     }
 
@@ -56,14 +60,17 @@ class CreationCenterActivity : AppActivity() {
         mUserViewModel.getAchievement().observe(this) {
             val userAchievement = it.getOrNull() ?: return@observe
             val data = arrayListOf<Pair<Int, Int>>().apply {
-                add(Pair(userAchievement.atotalView, userAchievement.articleDxView))
-                add(Pair(userAchievement.thumbUpTotal, userAchievement.thumbUpDx))
-                add(Pair(userAchievement.fansCount, userAchievement.fansDx))
-                add(Pair(userAchievement.sob, userAchievement.sobDx))
+                fun add(first: Int, second: Int) {
+                    add(Pair(first, second))
+                }
+                add(userAchievement.atotalView, userAchievement.articleDxView)
+                add(userAchievement.thumbUpTotal, userAchievement.thumbUpDx)
+                add(userAchievement.fansCount, userAchievement.fansDx)
+                add(userAchievement.sob, userAchievement.sobDx)
             }
             mAchievementAdapter.setData(data)
         }
     }
 
-    override fun isStatusBarDarkFont(): Boolean = true
+    override fun isStatusBarDarkFont() = true
 }

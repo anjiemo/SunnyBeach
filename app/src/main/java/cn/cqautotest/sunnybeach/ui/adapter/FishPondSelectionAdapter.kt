@@ -2,14 +2,14 @@ package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.FishPondSelectionItemBinding
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.setRoundRectBg
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import cn.cqautotest.sunnybeach.util.setRoundRectBg
 import com.bumptech.glide.Glide
 
 /**
@@ -18,11 +18,22 @@ import com.bumptech.glide.Glide
  * time   : 2021/10/22
  * desc   : 鱼塘选择列表的适配器
  */
-class FishPondSelectionAdapter :
-    RecyclerView.Adapter<FishPondSelectionAdapter.FishPondSelectionViewHolder>() {
+class FishPondSelectionAdapter : RecyclerView.Adapter<FishPondSelectionAdapter.FishPondSelectionViewHolder>() {
 
-    inner class FishPondSelectionViewHolder(val binding: FishPondSelectionItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    inner class FishPondSelectionViewHolder(val binding: FishPondSelectionItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<FishPondSelectionItemBinding>())
+
+        fun onBinding(item: FishPondTopicList.TopicItem, position: Int) {
+            with(binding) {
+                Glide.with(itemView).load(item.cover).into(ivTopicCover)
+                tvTopicName.text = item.topicName
+                tvTopicDesc.text = item.description
+                btnChoose.setRoundRectBg(color = Color.parseColor("#F4F5F5"), 4.dp)
+                btnChoose.setFixOnClickListener { mItemClickListener.invoke(item, position) }
+            }
+        }
+    }
 
     private var mItemClickListener: (item: FishPondTopicList.TopicItem, position: Int) -> Unit =
         { _, _ -> }
@@ -40,22 +51,11 @@ class FishPondSelectionAdapter :
         mItemClickListener = listener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishPondSelectionViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = FishPondSelectionItemBinding.inflate(inflater, parent, false)
-        return FishPondSelectionViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishPondSelectionViewHolder = FishPondSelectionViewHolder(parent)
 
     override fun onBindViewHolder(holder: FishPondSelectionViewHolder, position: Int) {
         val item = mData[position]
-        val binding = holder.binding
-        Glide.with(holder.itemView).load(item.cover).into(binding.ivTopicCover)
-        binding.tvTopicName.text = item.topicName
-        binding.tvTopicDesc.text = item.description
-        binding.btnChoose.setRoundRectBg(color = Color.parseColor("#F4F5F5"), 4.dp)
-        binding.btnChoose.setFixOnClickListener {
-            mItemClickListener.invoke(item, position)
-        }
+        holder.onBinding(item, position)
     }
 
     override fun getItemCount(): Int = mData.size

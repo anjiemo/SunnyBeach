@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,15 +14,15 @@
         app:barStyle="light"
         app:title="用户中心" />
 
-    <FrameLayout
+    <cn.cqautotest.sunnybeach.widget.MaskView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/titleBar">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:tag="ll_top_container">
 
             <LinearLayout
                 android:id="@+id/ll_user_info_container"
@@ -88,26 +88,31 @@
 
                 </LinearLayout>
 
-                <TextView
+                <com.hjq.shape.view.ShapeTextView
                     android:id="@+id/tv_get_allowance"
                     android:layout_width="76dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
-                    android:background="@color/pink"
                     android:gravity="center"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
+                    app:shape_solidDisabledColor="@color/btn_bg_disable_color"
                     android:text="成为VIP"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    app:shape_radius="@dimen/dp_3"
+                    app:shape_solidColor="@color/pink" />
 
             </LinearLayout>
 
-            <LinearLayout
+            <cn.cqautotest.sunnybeach.widget.SuperLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:layout_marginTop="1px"
                 android:background="@color/white"
-                android:orientation="horizontal">
+                android:divider="#E7E7E7"
+                android:dividerPadding="@dimen/dp_18"
+                android:orientation="horizontal"
+                android:showDividers="middle">
 
                 <LinearLayout
                     android:layout_width="0px"
@@ -208,17 +213,14 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </cn.cqautotest.sunnybeach.widget.SuperLinearLayout>
 
-            <FrameLayout
+            <com.hjq.shape.layout.ShapeFrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:background="@color/white">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_become_vip_bg_gradient" />
+                app:shape_angle="90"
+                app:shape_endColor="@color/white"
+                app:shape_startColor="#FEE4EC">
 
                 <ImageView
                     android:id="@+id/iv_become_vip"
@@ -263,112 +265,116 @@
                     android:textColor="@color/pink"
                     android:textSize="18sp" />
 
-            </FrameLayout>
+            </com.hjq.shape.layout.ShapeFrameLayout>
 
-            <androidx.cardview.widget.CardView
+            <com.hjq.shape.layout.ShapeConstraintLayout
+                android:id="@+id/cl_scan_qr_code"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:layout_margin="4dp"
-                app:cardBackgroundColor="@color/pink"
-                app:cardCornerRadius="10dp"
-                app:cardUseCompatPadding="true">
+                android:orientation="vertical"
+                app:shape_radius="@dimen/dp_10"
+                app:shape_solidColor="@color/pink">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_scan_qr_code"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="沙滩证"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_arrows"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/iv_arrows" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="沙滩证"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_arrows"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/iv_arrows" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_qr_code"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_arrows"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/iv_arrows"
+                    app:layout_constraintTop_toTopOf="@id/iv_arrows"
+                    app:tint="@color/white" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:src="@drawable/ic_qr_code"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_arrows"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/iv_arrows"
-                        app:layout_constraintTop_toTopOf="@id/iv_arrows"
-                        app:tint="@color/white" />
+                <ImageView
+                    android:id="@+id/iv_arrows"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="2dp"
+                    android:src="@drawable/arrows_right_ic"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/white" />
 
-                    <ImageView
-                        android:id="@+id/iv_arrows"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="10dp"
-                        android:padding="2dp"
-                        android:src="@drawable/arrows_right_ic"
-                        android:visibility="invisible"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/white" />
+                <TextView
+                    android:id="@+id/tv_sob_id_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="沙滩ID"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/iv_sob_qr_code" />
 
-                    <TextView
-                        android:id="@+id/tv_sob_id_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="沙滩ID"
-                        android:textColor="@color/white"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/iv_sob_qr_code" />
+                <TextView
+                    android:id="@+id/tv_sob_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="@id/tv_sob_id_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_sob_id_title"
+                    tools:text="1204    736    502    274    318    336" />
 
-                    <TextView
-                        android:id="@+id/tv_sob_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:textColor="@color/white"
-                        app:layout_constraintStart_toStartOf="@id/tv_sob_id_title"
-                        app:layout_constraintTop_toBottomOf="@id/tv_sob_id_title"
-                        tools:text="1204    736    502    274    318    336" />
+                <ImageView
+                    android:id="@+id/iv_sob_qr_code"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="20dp"
+                    android:src="@mipmap/ic_default_avatar"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_arrows"
+                    app:layout_constraintVertical_bias="0.3" />
 
-                    <ImageView
-                        android:id="@+id/iv_sob_qr_code"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_marginEnd="20dp"
-                        android:src="@mipmap/ic_default_avatar"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/iv_arrows"
-                        app:layout_constraintVertical_bias="0.3" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
+            </com.hjq.shape.layout.ShapeConstraintLayout>
 
         </LinearLayout>
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="234dp">
+            android:layout_height="match_parent">
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/scrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <include
-                    android:id="@+id/user_center_content"
-                    layout="@layout/include_user_center" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_234"
+                        android:tag="mask_view" />
+
+                    <include
+                        android:id="@+id/user_center_content"
+                        layout="@layout/include_user_center" />
+
+                </LinearLayout>
 
             </androidx.core.widget.NestedScrollView>
 
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
-    </FrameLayout>
+    </cn.cqautotest.sunnybeach.widget.MaskView>
 
-</RelativeLayout>
+</LinearLayout>

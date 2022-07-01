@@ -2,25 +2,22 @@ package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.graphics.Color
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
-import cn.cqautotest.sunnybeach.app.TitleBarFragment
+import cn.cqautotest.sunnybeach.app.PagingTitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
 import cn.cqautotest.sunnybeach.http.network.Repository
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBannerBean
 import cn.cqautotest.sunnybeach.ui.activity.GalleryActivity
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.WallpaperListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.CustomAnimation
 import cn.cqautotest.sunnybeach.util.GridSpaceItemDecoration
-import cn.cqautotest.sunnybeach.util.dp
-import cn.cqautotest.sunnybeach.util.loadStateListener
 import cn.cqautotest.sunnybeach.viewmodel.PhotoViewModel
-import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.bumptech.glide.Glide
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
@@ -33,19 +30,47 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/06/18
  * desc   : 发现 Fragment
  */
-class DiscoverFragment : TitleBarFragment<AppActivity>(), StatusAction {
+class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
 
     private val mBinding: DiscoverFragmentBinding by viewBinding()
     private val mPhotoViewModel by activityViewModels<PhotoViewModel>()
     private val mWallpaperBannerAdapter = BannerAdapter()
-    private val mWallpaperListAdapter = WallpaperListAdapter(AdapterDelegate().apply {
+    private val mAdapterDelegate = AdapterDelegate().apply {
         adapterAnimation = CustomAnimation()
-    })
-    private val loadStateListener = loadStateListener(mWallpaperListAdapter) {
-        mBinding.refreshLayout.finishRefresh()
     }
+    private val mWallpaperListAdapter = WallpaperListAdapter(mAdapterDelegate)
+
+    override fun getPagingAdapter() = mWallpaperListAdapter
 
     override fun getLayoutId(): Int = R.layout.discover_fragment
+
+    override fun initView() {
+        super.initView()
+        mBinding.banner.apply {
+            addBannerLifecycleObserver(viewLifecycleOwner)
+            setAdapter(mWallpaperBannerAdapter)
+            indicator = CircleIndicator(requireContext())
+            setIndicatorSelectedColor(Color.WHITE)
+        }
+        mBinding.pagingRecyclerView.apply {
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            addItemDecoration(GridSpaceItemDecoration(4.dp))
+        }
+    }
+
+    override suspend fun loadListData() {
+        mPhotoViewModel.getWallpaperList().collectLatest {
+            mWallpaperListAdapter.submitData(it)
+        }
+    }
+
+    override fun initEvent() {
+        super.initEvent()
+        mAdapterDelegate.setOnItemClickListener { view, position ->
+            Repository.setPhotoIdList(mWallpaperListAdapter.snapshot().items.toList())
+            mWallpaperListAdapter.snapshotList[position]?.let { GalleryActivity.smoothEntry(requireActivity(), it.id, view) }
+        }
+    }
 
     override fun initObserver() {
         loadWallpaperBannerList()
@@ -65,54 +90,9 @@ class DiscoverFragment : TitleBarFragment<AppActivity>(), StatusAction {
         }
     }
 
-    override fun initEvent() {
-        mBinding.refreshLayout.setOnRefreshListener {
-            mWallpaperListAdapter.refresh()
-        }
-        // 需要在 View 销毁的时候移除 listener
-        mWallpaperListAdapter.addLoadStateListener(loadStateListener)
-        mWallpaperListAdapter.setOnItemClickListener { view, verticalPhoto, _ ->
-            Repository.setPhotoIdList(mWallpaperListAdapter.snapshot().items.toList())
-            GalleryActivity.smoothEntry(requireActivity(), verticalPhoto.id, view)
-        }
-    }
-
-    override fun initData() {
-        loadPhotoList()
-    }
-
-    private fun loadPhotoList() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            mPhotoViewModel.getWallpaperList().collectLatest {
-                mWallpaperListAdapter.submitData(it)
-            }
-        }
-    }
-
-    override fun initView() {
-        mBinding.banner.apply {
-            addBannerLifecycleObserver(viewLifecycleOwner)
-            setAdapter(mWallpaperBannerAdapter)
-            indicator = CircleIndicator(requireContext())
-            setIndicatorSelectedColor(Color.WHITE)
-        }
-        mBinding.rvPhotoList.apply {
-            layoutManager = GridLayoutManager(requireContext(), 2)
-            adapter = mWallpaperListAdapter
-            addItemDecoration(GridSpaceItemDecoration(4.dp))
-        }
-    }
-
-    override fun getStatusLayout(): StatusLayout = mBinding.slDiscoverHint
-
     override fun isStatusBarEnabled(): Boolean {
         // 使用沉浸式状态栏
         return !super.isStatusBarEnabled()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        mWallpaperListAdapter.removeLoadStateListener(loadStateListener)
     }
 
     companion object {

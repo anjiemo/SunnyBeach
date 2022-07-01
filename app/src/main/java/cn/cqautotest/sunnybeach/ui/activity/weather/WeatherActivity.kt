@@ -15,11 +15,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.WeatherActivityBinding
+import cn.cqautotest.sunnybeach.ktx.simpleToast
+import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.weather.DailyResponse
 import cn.cqautotest.sunnybeach.model.weather.Weather
 import cn.cqautotest.sunnybeach.model.weather.getSky
-import cn.cqautotest.sunnybeach.util.simpleToast
-import cn.cqautotest.sunnybeach.util.toJson
 import cn.cqautotest.sunnybeach.viewmodel.weather.WeatherViewModel
 
 class WeatherActivity : AppCompatActivity() {
@@ -35,15 +35,9 @@ class WeatherActivity : AppCompatActivity() {
         decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         window.statusBarColor = Color.TRANSPARENT
-        if (viewModel.locationLng.isEmpty()) {
-            viewModel.locationLng = intent.getStringExtra("location_lng") ?: ""
-        }
-        if (viewModel.locationLat.isEmpty()) {
-            viewModel.locationLat = intent.getStringExtra("location_lat") ?: ""
-        }
-        if (viewModel.placeName.isEmpty()) {
-            viewModel.placeName = intent.getStringExtra("place_name") ?: ""
-        }
+        viewModel.locationLng = viewModel.locationLng.ifEmpty { intent.getStringExtra("location_lng").orEmpty() }
+        viewModel.locationLat = viewModel.locationLat.ifEmpty { intent.getStringExtra("location_lat").orEmpty() }
+        viewModel.placeName = viewModel.placeName.ifEmpty { intent.getStringExtra("placeName").orEmpty() }
         viewModel.refreshWeather(viewModel.locationLng, viewModel.locationLat)
         initEvent()
     }

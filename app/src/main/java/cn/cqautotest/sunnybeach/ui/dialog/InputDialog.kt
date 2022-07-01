@@ -76,7 +76,7 @@ class InputDialog {
             when (view.id) {
                 R.id.tv_ui_confirm -> {
                     autoDismiss()
-                    listener?.onConfirm(getDialog(), inputView?.text?.toString() ?: "")
+                    listener?.onConfirm(getDialog(), inputView?.text?.toString().orEmpty())
                 }
                 R.id.tv_ui_cancel -> {
                     autoDismiss()

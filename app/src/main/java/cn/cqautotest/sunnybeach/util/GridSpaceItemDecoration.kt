@@ -2,7 +2,10 @@ package cn.cqautotest.sunnybeach.util
 
 import android.graphics.Rect
 import android.view.View
+import androidx.annotation.Px
 import androidx.recyclerview.widget.RecyclerView
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.equilibriumAssignmentOfGrid
 
 /**
  * @ApplicationName: oa-android
@@ -13,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
  */
 class GridSpaceItemDecoration(
     // 单位间距（实际间距的一半）
-    private val unit: Int = 2.dp
+    @Px private val unit: Int = 2.dp
 ) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(

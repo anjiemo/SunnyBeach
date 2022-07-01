@@ -1,19 +1,22 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.ArticleListItemBinding
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserArticle
-import cn.cqautotest.sunnybeach.util.DateHelper
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
-import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.NineGridAdapterDelegate
+import com.blankj.utilcode.util.TimeUtils
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * author : A Lonely Cat
@@ -22,25 +25,10 @@ import cn.cqautotest.sunnybeach.widget.SimpleGridLayout
  * desc   : 用户文章列表的适配器
  */
 class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<UserArticle.UserArticleItem, UserArticleAdapter.ArticleViewHolder>(
-        UserArticleDiffCallback()
-    ), SimpleGridLayout.OnNineGridClickListener {
+    PagingDataAdapter<UserArticle.UserArticleItem, UserArticleAdapter.ArticleViewHolder>(diffCallback) {
 
-    class UserArticleDiffCallback : DiffUtil.ItemCallback<UserArticle.UserArticleItem>() {
-        override fun areItemsTheSame(
-            oldItem: UserArticle.UserArticleItem,
-            newItem: UserArticle.UserArticleItem
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(
-            oldItem: UserArticle.UserArticleItem,
-            newItem: UserArticle.UserArticleItem
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
+    private val nineGridAdapterDelegate = NineGridAdapterDelegate()
+    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.SIMPLIFIED_CHINESE)
 
     private var mMenuItemClickListener: (view: View, item: UserArticle.UserArticleItem, position: Int) -> Unit =
         { _, _, _ -> }
@@ -49,87 +37,57 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         mMenuItemClickListener = block
     }
 
-    private lateinit var mOnNineGridClickListener: SimpleGridLayout.OnNineGridClickListener
-
-    fun setOnNineGridClickListener(listener: SimpleGridLayout.OnNineGridClickListener) {
-        mOnNineGridClickListener = listener
+    fun setOnNineGridClickListener(block: (sources: List<String>, index: Int) -> Unit) {
+        nineGridAdapterDelegate.setOnNineGridItemClickListener(block)
     }
 
-    fun setOnNineGridClickListener(block: (sources: List<String>, index: Int) -> Unit) {
-        mOnNineGridClickListener = object : SimpleGridLayout.OnNineGridClickListener {
-            override fun onNineGridClick(sources: List<String>, index: Int) {
-                block.invoke(sources, index)
+    inner class ArticleViewHolder(val binding: ArticleListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<ArticleListItemBinding>())
+
+        @SuppressLint("SetTextI18n")
+        fun onBinding(item: UserArticle.UserArticleItem?, position: Int) {
+            item ?: return
+            with(binding) {
+                val ivAvatar = ivAvatar
+                val tvArticleTitle = tvArticleTitle
+                val tvNickName = tvNickName
+                val simpleGridLayout = simpleGridLayout
+                ivAvatar.loadAvatar(item.vip, item.avatar)
+                tvArticleTitle.text = item.title
+                tvNickName.text = "${item.nickname} · ${TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)}"
+                tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
+                val covers = item.covers
+                val imageCount = covers.size
+                simpleGridLayout.setOnNineGridClickListener(nineGridAdapterDelegate)
+                    .setData(covers)
+                simpleGridLayout.isVisible = imageCount != 0
+                with(listMenuItem) {
+                    llShare.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, position) }
+                    tvComment.text = item.viewCount.toString()
+                    tvGreat.text = with(item.thumbUp) {
+                        if (this == 0) "点赞" else toString()
+                    }
+                }
             }
         }
     }
-
-    override fun onNineGridClick(sources: List<String>, index: Int) {
-        if (::mOnNineGridClickListener.isInitialized) {
-            mOnNineGridClickListener.onNineGridClick(sources, index)
-        }
-    }
-
-    inner class ArticleViewHolder(val binding: ArticleListItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
 
     override fun onViewAttachedToWindow(holder: ArticleViewHolder) {
         super.onViewAttachedToWindow(holder)
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
-        val itemView = holder.itemView
-        val binding = holder.binding
-        val ivAvatar = binding.ivAvatar
-        val tvArticleTitle = binding.tvArticleTitle
-        val tvNickName = binding.tvNickName
-        val rrlContainer = binding.rrlContainer
-        val simpleGridLayout = binding.simpleGridLayout
-        val tvViewCount = binding.listMenuItem.tvComment
-        val tvGreat = binding.listMenuItem.tvGreat
-        val llShare = binding.listMenuItem.llShare
-        val ivShare = binding.listMenuItem.ivShare
-        val llGreat = binding.listMenuItem.llGreat
-        val context = itemView.context
-        val item = getItem(position) ?: return
-        itemView.setFixOnClickListener {
-            adapterDelegate.onItemClick(it, position)
-        }
-        llShare.setFixOnClickListener {
-            mMenuItemClickListener.invoke(it, item, position)
-        }
-        ivAvatar.loadAvatar(item.vip, item.avatar)
-        tvArticleTitle.text = item.title
-        tvNickName.text =
-            "${item.nickname} · ${DateHelper.getFriendlyTimeSpanByNow(item.createTime)}"
-        tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
-        val covers = item.covers
-        val imageCount = covers.size
-        simpleGridLayout.setSpanCount(
-            when (imageCount) {
-                // 规避 0 ，避免导致：IllegalArgumentException，Span count should be at least 1. Provided 0.
-                in 1..3 -> imageCount
-                4 -> 2
-                else -> 3
-            }
-        ).setOnNineGridClickListener(this)
-            .setData(covers)
-        rrlContainer.isVisible = imageCount != 0
-        // tvCreateTime.text = item.createTime
-        tvViewCount.text = item.viewCount.toString()
-        tvGreat.text = with(item.thumbUp) {
-            if (this == 0) {
-                "点赞"
-            } else {
-                toString()
-            }
-        }
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
+        holder.onBinding(getItem(position), position)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ArticleListItemBinding.inflate(inflater, parent, false)
-        return ArticleViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder = ArticleViewHolder(parent)
+
+    companion object {
+
+        private val diffCallback =
+            itemDiffCallback<UserArticle.UserArticleItem>({ oldItem, newItem -> oldItem.id == newItem.id }) { oldItem, newItem -> oldItem == newItem }
     }
 }

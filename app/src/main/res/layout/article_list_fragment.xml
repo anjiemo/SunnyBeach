@@ -20,22 +20,24 @@
         android:paddingBottom="6dp"
         tools:ignore="RtlSymmetry">
 
-        <RelativeLayout
+        <com.hjq.shape.layout.ShapeLinearLayout
             android:id="@+id/searchContainer"
             android:layout_width="0px"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/dp_30"
             android:layout_marginStart="14dp"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
-            android:background="@drawable/home_search_bar_gray_bg"
-            android:padding="10dp">
+            android:gravity="center_vertical"
+            android:transitionName="searchView"
+            app:shape_radius="999dp"
+            app:shape_solidColor="#f4f4f4">
 
             <ImageView
                 android:id="@+id/searchIv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="14dp"
                 android:src="@drawable/discover_ic" />
 
             <TextView
@@ -43,12 +45,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
+                android:layout_marginHorizontal="10dp"
                 android:layout_toEndOf="@id/searchIv"
                 android:gravity="center_vertical"
-                android:hint="搜索文章" />
+                android:hint="搜索"
+                android:textSize="@dimen/sp_12" />
 
-        </RelativeLayout>
+        </com.hjq.shape.layout.ShapeLinearLayout>
 
         <LinearLayout
             android:id="@+id/settingContainer"
@@ -87,7 +90,7 @@
         app:tabMode="scrollable" />
 
     <cn.cqautotest.sunnybeach.widget.StatusLayout
-        android:id="@+id/sl_article_layout"
+        android:id="@id/paging_status_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tabLayout_categories"
@@ -96,15 +99,15 @@
         android:layout_alignParentBottom="true">
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
-            android:id="@+id/refresh_layout"
+            android:id="@id/paging_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_article_list"
+                android:id="@id/paging_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_marginTop="1px"
                 android:layout_height="match_parent"
+                android:layout_marginTop="1px"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="20"

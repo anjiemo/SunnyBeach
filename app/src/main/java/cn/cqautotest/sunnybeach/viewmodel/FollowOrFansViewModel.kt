@@ -7,7 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import cn.cqautotest.sunnybeach.model.UserFollow
-import cn.cqautotest.sunnybeach.other.FollowState
+import cn.cqautotest.sunnybeach.other.FollowType
 import cn.cqautotest.sunnybeach.paging.source.UserFollowOrFansPagingSource
 import kotlinx.coroutines.flow.Flow
 
@@ -21,11 +21,11 @@ class FollowOrFansViewModel : ViewModel() {
 
     fun loadUserFollowOrFansListByState(
         userId: String,
-        followState: FollowState
+        followType: FollowType
     ): Flow<PagingData<UserFollow.UserFollowItem>> {
         return Pager(config = PagingConfig(30),
             pagingSourceFactory = {
-                UserFollowOrFansPagingSource(userId, followState)
+                UserFollowOrFansPagingSource(userId, followType)
             }).flow.cachedIn(viewModelScope)
     }
 }

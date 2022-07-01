@@ -1,5 +1,7 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.ServiceCreator
+import cn.cqautotest.sunnybeach.http.annotation.baseurl.SobBaseUrl
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.course.Course
 import cn.cqautotest.sunnybeach.model.course.CourseChapter
@@ -8,7 +10,8 @@ import cn.cqautotest.sunnybeach.model.course.CoursePlayAuth
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface CourseApi : ISobApi {
+@SobBaseUrl
+interface CourseApi {
 
     /**
      * 获取课程列表
@@ -33,4 +36,6 @@ interface CourseApi : ISobApi {
      */
     @GET("ct/video/certification/{videoId}")
     suspend fun getCoursePlayAuth(@Path("videoId") videoId: String): ApiResponse<CoursePlayAuth>
+
+    companion object : CourseApi by ServiceCreator.create()
 }

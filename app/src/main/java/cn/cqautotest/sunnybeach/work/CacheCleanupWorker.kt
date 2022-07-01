@@ -25,10 +25,8 @@ class CacheCleanupWorker(appContext: Context, workerParams: WorkerParameters) :
         if (isAutoCleanCache.not()) return Result.success()
         Timber.d("doWork:===> start clean cache...")
         try {
-            withContext(Dispatchers.Main) {
-                // 清除内存缓存（必须在主线程）
-                GlideApp.get(applicationContext).clearMemory()
-            }
+            // 清除内存缓存（必须在主线程）
+            withContext(Dispatchers.Main) { GlideApp.get(applicationContext).clearMemory() }
             withContext(Dispatchers.IO) {
                 CacheDataManager.clearAllCache(applicationContext)
                 // 清除本地缓存（必须在子线程）

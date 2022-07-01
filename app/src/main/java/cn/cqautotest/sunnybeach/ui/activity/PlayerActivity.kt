@@ -19,6 +19,7 @@ import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.PlayerActivityBinding
 import cn.cqautotest.sunnybeach.execption.NotLoginException
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.model.course.CourseChapter
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel

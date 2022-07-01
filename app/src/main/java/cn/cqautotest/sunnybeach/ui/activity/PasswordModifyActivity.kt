@@ -15,11 +15,11 @@ import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.PasswordModifyActivityBinding
+import cn.cqautotest.sunnybeach.ktx.lowercaseMd5
 import cn.cqautotest.sunnybeach.manager.InputTextManager
 import cn.cqautotest.sunnybeach.model.User
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.dialog.TipsDialog
-import cn.cqautotest.sunnybeach.util.lowercaseMd5
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 
 /**
@@ -63,7 +63,7 @@ class PasswordModifyActivity : AppActivity(), TextView.OnEditorActionListener {
     }
 
     private fun manicured(phoneNum: String?): String =
-        phoneNum?.replace("(\\d{3})(\\d{4})(\\d{4})".toRegex(), "$1****$2") ?: ""
+        phoneNum?.replace("(\\d{3})(\\d{4})(\\d{4})".toRegex(), "$1****$2").orEmpty()
 
     override fun onClick(view: View) {
         onSingleClick(view)
@@ -86,9 +86,9 @@ class PasswordModifyActivity : AppActivity(), TextView.OnEditorActionListener {
 
             // 隐藏软键盘
             hideKeyboard(currentFocus)
-            val phone = mPhoneNumber ?: ""
+            val phone = mPhoneNumber.orEmpty()
             val newPwd: String = firstPassword.text.toString()
-            val smsCode = mVerifyCode ?: ""
+            val smsCode = mVerifyCode.orEmpty()
             val user = User(phone, newPwd.lowercaseMd5, "")
 
             // 修改密码
@@ -120,6 +120,8 @@ class PasswordModifyActivity : AppActivity(), TextView.OnEditorActionListener {
         }
         return false
     }
+
+    override fun isStatusBarDarkFont() = false
 
     companion object {
         @Log

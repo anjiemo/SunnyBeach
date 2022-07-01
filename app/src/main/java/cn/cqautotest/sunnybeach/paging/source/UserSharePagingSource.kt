@@ -16,9 +16,7 @@ import timber.log.Timber
 class UserSharePagingSource(private val userId: String) :
     PagingSource<Int, UserShare.Content>() {
 
-    override fun getRefreshKey(state: PagingState<Int, UserShare.Content>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, UserShare.Content>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UserShare.Content> {
         return try {
