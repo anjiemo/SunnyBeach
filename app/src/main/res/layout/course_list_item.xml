@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_210"
+    android:layout_height="wrap_content"
     app:rlRadius="@dimen/dp_10">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/dp_10">
 
         <com.hjq.shape.view.ShapeImageView
             android:id="@+id/iv_cover"
@@ -58,18 +59,20 @@
 
         <com.hjq.shape.view.ShapeTextView
             android:id="@+id/slv_price"
-            android:layout_width="@dimen/dp_50"
-            android:layout_height="@dimen/dp_20"
+            android:layout_width="@dimen/dp_64"
+            android:layout_height="@dimen/dp_22"
             android:layout_marginTop="@dimen/dp_10"
             android:ellipsize="end"
             android:gravity="center"
-            android:lines="1"
-            android:text="¥ 49.9"
+            android:singleLine="true"
             android:textColor="#007BFF"
+            android:paddingHorizontal="@dimen/dp_4"
+            android:textSize="@dimen/sp_11"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/tv_nick_name"
             app:shape_radius="@dimen/dp_99"
-            app:shape_solidColor="#F1F8FF" />
+            app:shape_solidColor="#F1F8FF"
+            tools:text="¥ 49.9" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

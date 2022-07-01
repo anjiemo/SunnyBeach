@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.app
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.Network
@@ -22,8 +23,10 @@ import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.http.model.RequestHandler
 import cn.cqautotest.sunnybeach.http.model.RequestServer
+import cn.cqautotest.sunnybeach.ktx.resetConfiguration
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.other.*
+import cn.cqautotest.sunnybeach.util.PushHelper
 import cn.cqautotest.sunnybeach.work.CacheCleanupWorker
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
@@ -82,6 +85,10 @@ class AppApplication : Application(), Configuration.Provider {
             it.setMinimumLoggingLevel(android.util.Log.INFO)
         }
     }.build()
+
+    override fun getResources(): Resources = super.getResources().apply {
+        resetConfiguration()
+    }
 
     companion object {
 
@@ -180,9 +187,12 @@ class AppApplication : Application(), Configuration.Provider {
             }
 
             // 初始化日志打印
-            if (AppConfig.isLogEnable().not()) {
+            if (AppConfig.isLogEnable()) {
                 Timber.plant(DebugLoggerTree())
             }
+
+            // MiPush 初始化
+            PushHelper.init(application)
 
             // 注册网络状态变化监听
             val connectivityManager: ConnectivityManager? = ContextCompat.getSystemService(application, ConnectivityManager::class.java)

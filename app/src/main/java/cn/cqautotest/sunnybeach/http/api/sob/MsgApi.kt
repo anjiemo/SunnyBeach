@@ -1,12 +1,15 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.ServiceCreator
+import cn.cqautotest.sunnybeach.http.annotation.baseurl.SobBaseUrl
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.msg.*
 import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
-interface MsgApi : ISobApi {
+@SobBaseUrl
+interface MsgApi {
 
     /**
      * 更新问题回答消息的状态
@@ -87,4 +90,6 @@ interface MsgApi : ISobApi {
      */
     @GET("ct/ucenter/message/at/{page}")
     suspend fun getAtMeMsgList(@Path("page") page: Int): ApiResponse<AtMeMsg>
+
+    companion object : MsgApi by ServiceCreator.create()
 }

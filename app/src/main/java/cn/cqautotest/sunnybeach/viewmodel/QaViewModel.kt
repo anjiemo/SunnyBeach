@@ -8,7 +8,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import cn.cqautotest.sunnybeach.model.QaInfo
 import cn.cqautotest.sunnybeach.model.UserQa
-import cn.cqautotest.sunnybeach.other.QaState
+import cn.cqautotest.sunnybeach.other.QaType
 import cn.cqautotest.sunnybeach.paging.source.QaPagingSource
 import cn.cqautotest.sunnybeach.paging.source.UserQaPagingSource
 import kotlinx.coroutines.flow.Flow
@@ -21,10 +21,10 @@ import kotlinx.coroutines.flow.Flow
  */
 class QaViewModel : ViewModel() {
 
-    fun loadQaList(qaState: QaState): Flow<PagingData<QaInfo.QaInfoItem>> {
+    fun loadQaList(qaType: QaType): Flow<PagingData<QaInfo.QaInfoItem>> {
         return Pager(config = PagingConfig(30),
             pagingSourceFactory = {
-                QaPagingSource(qaState)
+                QaPagingSource(qaType)
             }).flow.cachedIn(viewModelScope)
     }
 

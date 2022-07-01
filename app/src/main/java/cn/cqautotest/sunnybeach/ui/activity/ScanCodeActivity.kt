@@ -9,8 +9,8 @@ import android.view.View
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.Init
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.ThreadPoolManager
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 import com.dylanc.longan.toast
 import com.huawei.hms.hmsscankit.ScanKitActivity
 import com.huawei.hms.hmsscankit.ScanUtil

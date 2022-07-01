@@ -1,4 +1,5 @@
 package cn.cqautotest.sunnybeach.model
+
 import com.google.gson.annotations.SerializedName
 
 /**

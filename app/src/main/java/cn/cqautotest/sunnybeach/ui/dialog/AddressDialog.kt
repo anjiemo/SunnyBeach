@@ -17,6 +17,7 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppAdapter
+import cn.cqautotest.sunnybeach.ktx.reduceDragSensitivity
 import cn.cqautotest.sunnybeach.ui.adapter.TabAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.TabAdapter.OnTabListener
 import cn.cqautotest.sunnybeach.ui.dialog.AddressDialog.RecyclerViewAdapter.OnSelectListener
@@ -61,6 +62,7 @@ class AddressDialog {
             adapter = RecyclerViewAdapter(context)
             adapter.setOnSelectListener(this)
             viewPager2?.adapter = adapter
+            viewPager2?.reduceDragSensitivity()
             setOnClickListener(closeView)
             tabAdapter = TabAdapter(context, TabAdapter.TAB_MODE_SLIDING, false)
             tabAdapter.addItem(getString(R.string.address_hint))
@@ -476,7 +478,7 @@ class AddressDialog {
         }
     }
 
-    interface OnListener {
+    fun interface OnListener {
 
         /**
          * 选择完成后回调

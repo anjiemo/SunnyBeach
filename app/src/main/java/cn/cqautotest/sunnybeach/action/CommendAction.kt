@@ -18,12 +18,12 @@ interface CommendAction {
     /**
      * 获取被评论的用户名称
      */
-    fun getTargetUserName() = getCommentArgs().getString(TARGET_USER_NAME) ?: ""
+    fun getTargetUserName() = getCommentArgs().getString(TARGET_USER_NAME).orEmpty()
 
     /**
      * 获取动态Id
      */
-    fun getMomentId() = getCommentArgs().getString(MOMENT_ID) ?: ""
+    fun getMomentId() = getCommentArgs().getString(MOMENT_ID).orEmpty()
 
     /**
      * 获取被评论内容的Id

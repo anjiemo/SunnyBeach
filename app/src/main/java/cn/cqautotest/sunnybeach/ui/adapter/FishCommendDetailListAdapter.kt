@@ -6,18 +6,20 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
-import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.text.buildSpannedString
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
+import cn.cqautotest.sunnybeach.ktx.ifNullOrEmpty
+import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.model.UserComment
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
-import cn.cqautotest.sunnybeach.util.DateHelper
-import cn.cqautotest.sunnybeach.util.setDefaultEmojiParser
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
+import com.blankj.utilcode.util.TimeUtils
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * author : A Lonely Cat
@@ -28,6 +30,8 @@ import cn.cqautotest.sunnybeach.util.setFixOnClickListener
 class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListViewHolder>() {
 
     private lateinit var mData: FishPondComment.FishPondCommentItem
+
+    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
     private var mCommentClickListener: (item: UserComment, position: Int) -> Unit = { _, _ -> }
 
@@ -41,11 +45,8 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishDetailCommendListViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = FishPondDetailCommendListBinding.inflate(inflater, parent, false)
-        return FishDetailCommendListViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishDetailCommendListViewHolder =
+        FishDetailCommendListViewHolder(parent)
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: FishDetailCommendListViewHolder, position: Int) {
@@ -72,9 +73,9 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
         ivPondComment.setFixOnClickListener {
             mCommentClickListener.invoke(item, position)
         }
-        val job = if (item.position.isNullOrEmpty()) "游民" else item.position
+        val job = item.position.ifNullOrEmpty { "游民" }
         // 摸鱼详情列表的时间没有精确到秒
-        tvDesc.text = "$job · " + DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
+        tvDesc.text = "$job · " + TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
         tvReply.setDefaultEmojiParser()
         tvReply.text = getBeautifiedFormat(item, mData)
         tvBuildReplyMsgContainer.isVisible = false
@@ -87,21 +88,23 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
         val whoReplied = ""
         val wasReplied = subComment.getTargetUserNickname()
         val content = whoReplied + "回复" + wasReplied + "：" + subComment.content
-        val spannableString = SpannableString(content)
+
         val color = Color.parseColor("#045FB2")
-        spannableString.setSpan(
-            ForegroundColorSpan(color),
-            content.indexOf(whoReplied),
-            content.indexOf("回复"),
-            SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-        )
-        spannableString.setSpan(
-            ForegroundColorSpan(color),
-            content.indexOf(wasReplied),
-            content.indexOf(wasReplied) + wasReplied.length,
-            SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-        )
-        return spannableString
+        return buildSpannedString {
+            append(content)
+            setSpan(
+                ForegroundColorSpan(color),
+                content.indexOf(whoReplied),
+                content.indexOf("回复"),
+                SpannableString.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            setSpan(
+                ForegroundColorSpan(color),
+                content.indexOf(wasReplied),
+                content.indexOf(wasReplied) + wasReplied.length,
+                SpannableString.SPAN_INCLUSIVE_INCLUSIVE
+            )
+        }
     }
 
     override fun getItemCount(): Int = mData.subComments.size

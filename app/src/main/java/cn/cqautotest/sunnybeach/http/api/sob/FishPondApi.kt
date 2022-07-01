@@ -1,10 +1,14 @@
 package cn.cqautotest.sunnybeach.http.api.sob
 
+import cn.cqautotest.sunnybeach.http.ServiceCreator
+import cn.cqautotest.sunnybeach.http.annotation.baseurl.SobBaseUrl
+
 import cn.cqautotest.sunnybeach.model.*
 import okhttp3.MultipartBody
 import retrofit2.http.*
 
-interface FishPondApi : ISobApi {
+@SobBaseUrl
+interface FishPondApi {
 
     /**
      * 获取指定用户的摸鱼动态列表
@@ -88,4 +92,6 @@ interface FishPondApi : ISobApi {
      */
     @PUT("ct/moyu/thumb-up/{momentId}")
     suspend fun dynamicLikes(@Path("momentId") momentId: String): ApiResponse<Any>
+
+    companion object : FishPondApi by ServiceCreator.create()
 }

@@ -2,29 +2,13 @@ package cn.cqautotest.sunnybeach.model
 
 import com.google.gson.annotations.SerializedName
 
-
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2021/10/31
  * desc   : 用户文章列表
  */
-data class UserArticle(
-    @SerializedName("currentPage")
-    val currentPage: Int,
-    @SerializedName("hasNext")
-    val hasNext: Boolean,
-    @SerializedName("hasPre")
-    val hasPre: Boolean,
-    @SerializedName("list")
-    val list: List<UserArticleItem>,
-    @SerializedName("pageSize")
-    val pageSize: Int,
-    @SerializedName("total")
-    val total: Int,
-    @SerializedName("totalPage")
-    val totalPage: Int
-) {
+class UserArticle : Page<UserArticle.UserArticleItem>() {
     data class UserArticleItem(
         @SerializedName("articleType")
         val articleType: String,

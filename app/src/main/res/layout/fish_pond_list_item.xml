@@ -51,7 +51,7 @@
 
     </LinearLayout>
 
-    <cn.cqautotest.sunnybeach.widget.CustomTextView
+    <TextView
         android:id="@+id/tv_fish_pond_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,53 +63,47 @@
         android:textIsSelectable="true"
         tools:text="我是摸鱼列表的正文内容啦" />
 
-    <cn.cqautotest.sunnybeach.widget.RoundRelativeLayout
-        android:id="@+id/rrl_container"
-        android:layout_width="wrap_content"
+    <cn.cqautotest.sunnybeach.widget.SimpleGridLayout
+        android:id="@+id/simple_grid_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="6dp"
-        app:rlClipBackground="true"
-        app:rlRadius="@dimen/dp_10">
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        tools:itemCount="4" />
 
-        <cn.cqautotest.sunnybeach.widget.SimpleGridLayout
-            android:id="@+id/simple_grid_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:itemCount="4" />
-
-    </cn.cqautotest.sunnybeach.widget.RoundRelativeLayout>
-
-    <TextView
+    <com.hjq.shape.view.ShapeTextView
         android:id="@+id/tv_fish_pond_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginHorizontal="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_2"
         android:layout_marginBottom="@dimen/dp_10"
-        android:background="@drawable/topic_label_selector"
         android:contentDescription="话题标签"
         android:paddingHorizontal="@dimen/dp_8"
         android:paddingVertical="@dimen/dp_4"
         android:textColor="@color/common_confirm_text_color"
         android:textSize="12sp"
+        app:shape_radius="999dp"
+        app:shape_strokeColor="@color/common_confirm_text_color"
+        app:shape_strokeWidth="1px"
         tools:text="上班摸鱼" />
 
-    <LinearLayout
+    <com.hjq.shape.layout.ShapeLinearLayout
         android:id="@+id/ll_link_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:background="#F5F5F8"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:shape_radius="@dimen/dp_4"
+        app:shape_solidColor="#F5F5F8">
 
         <ImageView
             android:id="@+id/iv_link_cover"
@@ -141,7 +135,7 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </com.hjq.shape.layout.ShapeLinearLayout>
 
     <cn.cqautotest.sunnybeach.widget.ListMenuItemContainer
         android:id="@+id/list_menu_item"

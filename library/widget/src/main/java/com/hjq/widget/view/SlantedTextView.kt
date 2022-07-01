@@ -253,7 +253,7 @@ class SlantedTextView @JvmOverloads constructor(
     }
 
     fun setText(text: String?) {
-        val finalText = text ?: ""
+        val finalText = text.orEmpty()
         if (!TextUtils.equals(finalText, getText())) {
             this.text = finalText
             invalidate()

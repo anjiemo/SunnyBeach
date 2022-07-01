@@ -1,11 +1,11 @@
 package cn.cqautotest.sunnybeach.ui.activity.weather
 
 import android.content.Context
-import android.content.Intent
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.ktx.fromJson
+import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.model.weather.DailyResponse
-import cn.cqautotest.sunnybeach.util.fromJson
 import timber.log.Timber
 
 class TemperatureTrendActivity : AppActivity() {
@@ -27,9 +27,9 @@ class TemperatureTrendActivity : AppActivity() {
 
     companion object {
         fun startActivity(context: Context, data: String) {
-            val intent = Intent(context, TemperatureTrendActivity::class.java)
-            intent.putExtra("data", data)
-            context.startActivity(intent)
+            context.startActivity<TemperatureTrendActivity> {
+                putExtra("data", data)
+            }
         }
     }
 }

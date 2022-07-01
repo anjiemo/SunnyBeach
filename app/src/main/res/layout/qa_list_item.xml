@@ -9,48 +9,51 @@
 
     <LinearLayout
         android:id="@+id/ll_qa_additional_info"
-        android:layout_width="@dimen/dp_80"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="right"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/hsv_qa_label_container"
+        android:layout_marginTop="@dimen/dp_10"
+        android:divider="@drawable/ic_divider_label"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        app:layout_constraintEnd_toStartOf="@id/tv_desc"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/hsv_qa_label_container">
 
         <com.hjq.shape.view.ShapeTextView
             android:id="@+id/tv_answer_count"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
-            android:gravity="center|right"
+            android:gravity="center"
             android:paddingHorizontal="@dimen/dp_4"
-            android:text="√ 5 answers"
             app:shape_radius="@dimen/dp_4"
             app:shape_strokeWidth="1px"
             tools:shape_solidColor="#48A868"
+            tools:text="√ 5 答案"
             tools:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tv_view_count"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_60"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/dp_2"
-            android:gravity="center|right"
-            android:text="1.2k views" />
+            android:layout_marginStart="@dimen/dp_20"
+            android:gravity="center_vertical"
+            tools:text="1.2k" />
 
         <TextView
             android:id="@+id/tv_gold_count"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_70"
             android:layout_height="wrap_content"
-            android:gravity="center|right"
-            android:text="100" />
+            android:gravity="center_vertical"
+            tools:text="100" />
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_qa_title"
-        android:layout_width="0px"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginStart="@dimen/dp_4"
         android:layout_marginEnd="@dimen/dp_4"
         android:layout_marginBottom="@dimen/dp_10"
         android:ellipsize="end"
@@ -58,16 +61,16 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ll_qa_additional_info"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <cn.cqautotest.sunnybeach.widget.AvatarDecorView
         android:id="@+id/iv_qa_avatar"
-        android:layout_width="@dimen/dp_40"
-        android:layout_height="@dimen/dp_40"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_10"
         android:contentDescription="用户头像"
         android:src="@mipmap/ic_default_avatar"
-        app:layout_constraintBottom_toTopOf="@id/hsv_qa_label_container"
         app:layout_constraintStart_toStartOf="@id/tv_qa_title"
         app:layout_constraintTop_toBottomOf="@id/tv_qa_title" />
 
@@ -78,11 +81,11 @@
         android:layout_marginStart="@dimen/dp_8"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="A Lonely Cat"
         app:layout_constraintBottom_toBottomOf="@id/iv_qa_avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_qa_avatar"
         app:layout_constraintTop_toTopOf="@id/iv_qa_avatar"
+        tools:text="A Lonely Cat"
         tools:textColor="@color/pink" />
 
     <HorizontalScrollView
@@ -91,10 +94,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_10"
         android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tv_desc"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_qa_additional_info">
+        app:layout_constraintTop_toBottomOf="@id/iv_qa_avatar">
 
         <LinearLayout
             android:id="@+id/ll_qa_label_container"
@@ -104,60 +106,65 @@
             android:orientation="horizontal"
             android:showDividers="middle">
 
-            <TextView
+            <com.hjq.shape.view.ShapeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/topic_label_selector"
                 android:contentDescription="话题标签"
                 android:paddingHorizontal="@dimen/dp_4"
-                android:paddingVertical="@dimen/dp_2"
-                android:text="安卓/IOS"
-                android:textColor="@color/common_confirm_text_color"
-                android:textSize="12sp" />
+                android:paddingVertical="@dimen/dp_1"
+                android:textColor="@color/default_font_color"
+                android:textSize="11sp"
+                app:shape_radius="@dimen/dp_4"
+                app:shape_solidColor="@color/common_window_background_color"
+                tools:text="安卓/IOS" />
 
-            <TextView
+            <com.hjq.shape.view.ShapeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/topic_label_selector"
                 android:contentDescription="话题标签"
                 android:paddingHorizontal="@dimen/dp_4"
-                android:paddingVertical="@dimen/dp_2"
-                android:text="安卓/IOS"
-                android:textColor="@color/common_confirm_text_color"
-                android:textSize="12sp" />
+                android:paddingVertical="@dimen/dp_1"
+                android:textColor="@color/default_font_color"
+                android:textSize="11sp"
+                app:shape_radius="@dimen/dp_4"
+                app:shape_solidColor="@color/common_window_background_color"
+                tools:text="安卓/IOS" />
 
-            <TextView
+            <com.hjq.shape.view.ShapeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/topic_label_selector"
                 android:contentDescription="话题标签"
                 android:paddingHorizontal="@dimen/dp_4"
-                android:paddingVertical="@dimen/dp_2"
-                android:text="安卓/IOS"
-                android:textColor="@color/common_confirm_text_color"
-                android:textSize="12sp" />
+                android:paddingVertical="@dimen/dp_1"
+                android:textColor="@color/default_font_color"
+                android:textSize="11sp"
+                app:shape_radius="@dimen/dp_4"
+                app:shape_solidColor="@color/common_window_background_color"
+                tools:text="安卓/IOS" />
 
-            <TextView
+            <com.hjq.shape.view.ShapeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/topic_label_selector"
                 android:contentDescription="话题标签"
                 android:paddingHorizontal="@dimen/dp_4"
-                android:paddingVertical="@dimen/dp_2"
-                android:text="安卓/IOS"
-                android:textColor="@color/common_confirm_text_color"
-                android:textSize="12sp" />
+                android:paddingVertical="@dimen/dp_1"
+                android:textColor="@color/default_font_color"
+                android:textSize="11sp"
+                app:shape_radius="@dimen/dp_4"
+                app:shape_solidColor="@color/common_window_background_color"
+                tools:text="安卓/IOS" />
 
-            <TextView
+            <com.hjq.shape.view.ShapeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/topic_label_selector"
                 android:contentDescription="话题标签"
                 android:paddingHorizontal="@dimen/dp_4"
-                android:paddingVertical="@dimen/dp_2"
-                android:text="安卓/IOS"
-                android:textColor="@color/common_confirm_text_color"
-                android:textSize="12sp" />
+                android:paddingVertical="@dimen/dp_1"
+                android:textColor="@color/default_font_color"
+                android:textSize="11sp"
+                app:shape_radius="@dimen/dp_4"
+                app:shape_solidColor="@color/common_window_background_color"
+                tools:text="安卓/IOS" />
 
         </LinearLayout>
 
@@ -171,9 +178,8 @@
         android:layout_marginEnd="@dimen/dp_4"
         android:gravity="center|end"
         android:textColor="@color/default_font_color"
-        app:layout_constraintBottom_toBottomOf="@id/hsv_qa_label_container"
+        app:layout_constraintBottom_toBottomOf="@id/ll_qa_additional_info"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_qa_avatar"
-        app:layout_constraintTop_toTopOf="@id/hsv_qa_label_container" />
+        app:layout_constraintTop_toTopOf="@id/ll_qa_additional_info" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

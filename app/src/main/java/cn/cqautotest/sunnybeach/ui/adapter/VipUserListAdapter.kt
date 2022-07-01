@@ -1,10 +1,10 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.VipUserListItemBinding
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.model.VipUserInfoSummary
 
 /**
@@ -29,28 +29,25 @@ class VipUserListAdapter : RecyclerView.Adapter<VipUserListAdapter.ViewHolder>()
         mListener = listener
     }
 
-    inner class ViewHolder(val binding: VipUserListItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: VipUserListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun binding(item: VipUserInfoSummary, position: Int) {
-            binding.ivAvatar.loadAvatar(true, item.avatar)
-            binding.tvNickName.text = item.nickname
-            itemView.setOnClickListener {
-                mListener.invoke(item, position)
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<VipUserListItemBinding>())
+
+        fun onBinding(item: VipUserInfoSummary, position: Int) {
+            with(binding) {
+                ivAvatar.loadAvatar(true, item.avatar)
+                tvNickName.text = item.nickname
             }
         }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mData[position]
-        holder.binding(item, position)
+        holder.itemView.setOnClickListener { mListener.invoke(item, position) }
+        holder.onBinding(item, position)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = VipUserListItemBinding.inflate(inflater, parent, false)
-        return ViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(parent)
 
     override fun getItemCount(): Int = mData.size
 }

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.api.photo.PhotoApi
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBannerBean
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
@@ -20,8 +19,6 @@ import timber.log.Timber
  * desc   : 发现界面的 ViewModel
  */
 class DiscoverViewModel : ViewModel() {
-
-    private val mPhotoApi by lazy { ServiceCreator.create<PhotoApi>() }
 
     // 当前请求的图片页码
     private val _currentPhotoPage = MutableLiveData<Int>()
@@ -55,7 +52,7 @@ class DiscoverViewModel : ViewModel() {
             runCatching {
                 // 查询多少条数据，跳过多少条数据
                 withContext(Dispatchers.IO) {
-                    mPhotoApi.loadWallpaperList(limit = limit, skip = skip)
+                    PhotoApi.loadWallpaperList(limit = limit, skip = skip)
                 }
             }.onSuccess { response ->
                 val responseData = response.res.vertical
@@ -88,7 +85,7 @@ class DiscoverViewModel : ViewModel() {
             runCatching {
                 // 查询多少条数据，跳过多少条数据
                 withContext(Dispatchers.IO) {
-                    mPhotoApi.loadWallpaperList(limit = limit, skip = skip)
+                    PhotoApi.loadWallpaperList(limit = limit, skip = skip)
                 }
             }.onSuccess { response ->
                 val responseData = response.res.vertical

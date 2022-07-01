@@ -17,12 +17,12 @@ import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.RegisterActivityBinding
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
+import cn.cqautotest.sunnybeach.ktx.lowercaseMd5
 import cn.cqautotest.sunnybeach.manager.InputTextManager
 import cn.cqautotest.sunnybeach.model.SmsInfo
 import cn.cqautotest.sunnybeach.model.User
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.util.VERIFY_CODE_URL
-import cn.cqautotest.sunnybeach.util.lowercaseMd5
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.gyf.immersionbar.ImmersionBar
@@ -74,9 +74,7 @@ class RegisterActivity : AppActivity(), OnEditorActionListener {
 
     private val mUserViewModel by viewModels<UserViewModel>()
 
-    override fun getLayoutId(): Int {
-        return R.layout.register_activity
-    }
+    override fun getLayoutId() = R.layout.register_activity
 
     override fun initView() {
         setOnClickListener(mBinding.sivRegisterVerifyCode, countdownView, commitView)
@@ -212,6 +210,8 @@ class RegisterActivity : AppActivity(), OnEditorActionListener {
             .navigationBarColor(R.color.white) // 不要把整个布局顶上去
             .keyboardEnable(true)
     }
+
+    override fun isStatusBarDarkFont() = true
 
     /**
      * [TextView.OnEditorActionListener]

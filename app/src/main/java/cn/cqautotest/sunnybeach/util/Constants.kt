@@ -42,9 +42,11 @@ const val DEFAULT_HTTP_OK_CODE = 200
 
 const val SUNNY_BEACH_HTTP_OK_CODE = 10000
 
-const val APP_INFO_URL = "https://gitee.com/anjiemo/sunny-beach-data/raw/master/appconfig.json"
+const val GITEE_BASE_URL = "https://gitee.com/anjiemo/sunny-beach-data/raw/master/"
 
-const val MOURNING_CALENDAR_URL = "https://gitee.com/anjiemo/sunny-beach-data/raw/master/mourning_calendar.json"
+const val APP_INFO_URL = "${GITEE_BASE_URL}appconfig.json"
+
+const val MOURNING_CALENDAR_URL = "${GITEE_BASE_URL}mourning_calendar.json"
 
 const val SUNNY_BEACH_USER_BASIC_INFO = "sunny_beach_user_basic_info"
 
@@ -71,3 +73,12 @@ const val QQ = "qq_number"
 
 // 自动登录
 const val AUTO_LOGIN = "auto_login"
+
+// 用户账号
+const val SOB_ACCOUNT = "sob_account"
+
+// 用户密码
+const val SOB_PASSWORD = "sob_password"
+
+// 记住密码
+const val SOB_REMEMBER_PWD = "sob_remember_pwd"

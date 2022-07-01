@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.http.api.photo
 
+import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBannerBean
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import retrofit2.http.GET
@@ -24,4 +25,6 @@ interface PhotoApi {
      */
     @GET("http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&count=5&from=360chrome")
     suspend fun loadWallpaperBannerList(@Query("start") start: Int): WallpaperBannerBean
+
+    companion object : PhotoApi by ServiceCreator.create()
 }

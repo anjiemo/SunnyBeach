@@ -4,7 +4,6 @@ import androidx.core.text.isDigitsOnly
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.api.sob.HomeApi
 import cn.cqautotest.sunnybeach.model.ArticleInfo
 import timber.log.Timber
@@ -18,20 +17,16 @@ import timber.log.Timber
 class ArticlePagingSource(private val categoryId: String) :
     PagingSource<Int, ArticleInfo.ArticleItem>() {
 
-    private val homeApi = ServiceCreator.create<HomeApi>()
-
-    override fun getRefreshKey(state: PagingState<Int, ArticleInfo.ArticleItem>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, ArticleInfo.ArticleItem>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ArticleInfo.ArticleItem> {
         return try {
             val page = params.key ?: FIRST_PAGE_INDEX
             Timber.d("load：===> categoryId is $categoryId page is $page")
             val response = if (categoryId.isEmpty() || categoryId.isDigitsOnly().not()) {
-                homeApi.getRecommendContent(page = page)
+                HomeApi.getRecommendContent(page = page)
             } else {
-                homeApi.getArticleListByCategoryId(categoryId = categoryId, page = page)
+                HomeApi.getArticleListByCategoryId(categoryId = categoryId, page = page)
             }
             val responseData = response.getData()
             val currentPage = responseData.currentPage

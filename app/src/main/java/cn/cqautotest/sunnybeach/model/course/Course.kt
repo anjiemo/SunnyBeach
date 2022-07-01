@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.model.course
 
+import cn.cqautotest.sunnybeach.model.Page
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -8,22 +9,7 @@ import com.google.gson.annotations.SerializedName
  * time   : 2022/04/21
  * desc   : 课程
  */
-data class Course(
-    @SerializedName("currentPage")
-    val currentPage: Int,
-    @SerializedName("hasNext")
-    val hasNext: Boolean,
-    @SerializedName("hasPre")
-    val hasPre: Boolean,
-    @SerializedName("list")
-    val list: List<CourseItem>,
-    @SerializedName("pageSize")
-    val pageSize: Int,
-    @SerializedName("total")
-    val total: Int,
-    @SerializedName("totalPage")
-    val totalPage: Int
-) {
+class Course : Page<Course.CourseItem>() {
     data class CourseItem(
         @SerializedName("avatar")
         val avatar: String,

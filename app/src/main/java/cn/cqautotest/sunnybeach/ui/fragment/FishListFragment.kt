@@ -3,10 +3,6 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
-import androidx.core.content.getSystemService
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
@@ -20,20 +16,23 @@ import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
+import cn.cqautotest.sunnybeach.model.MourningCalendar
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.activity.PutFishActivity
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
-import cn.cqautotest.sunnybeach.ui.adapter.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.blankj.utilcode.util.VibrateUtils
 import com.hjq.bar.TitleBar
 import com.hjq.permissions.Permission
 import com.hjq.umeng.Platform
@@ -64,10 +63,9 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     @Inject
     lateinit var mAppViewModel: AppViewModel
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
-    private val mFishListAdapter = FishListAdapter(AdapterDelegate())
-    private val loadStateListener = loadStateListener(mFishListAdapter) {
-        mBinding.refreshLayout.finishRefresh()
-    }
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mFishListAdapter = FishListAdapter(mAdapterDelegate)
+    private val loadStateListener = loadStateListener(mFishListAdapter) { mBinding.refreshLayout.finishRefresh() }
 
     override fun getLayoutId(): Int = R.layout.fish_list_fragment
 
@@ -89,16 +87,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         loadFishList()
         mAppViewModel.getMourningCalendar().observe(viewLifecycleOwner) {
             val result = it.getOrNull() ?: return@observe
-            val sdf = SimpleDateFormat("MM月dd日", Locale.getDefault())
-            val formatDate = sdf.format(System.currentTimeMillis())
-            val rootView = requireView()
-            result.onEach { mourningCalendar ->
-                val date = mourningCalendar.date
-                if (date == formatDate) {
-                    rootView.setMourningStyle()
-                }
-                // Timber.d("initData：===> day is $date formatDate is $formatDate")
-            }
+            setMourningStyleByDate(result)
         }
     }
 
@@ -116,28 +105,16 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mBinding.titleBar.setDoubleClickListener {
             onBack2Top()
         }
-        mBinding.refreshLayout.setOnRefreshListener {
-            mFishListAdapter.refresh()
-        }
+        mBinding.refreshLayout.setOnRefreshListener { mFishListAdapter.refresh() }
         // 需要在 View 销毁的时候移除 listener
         mFishListAdapter.addLoadStateListener(loadStateListener)
-        mFishListAdapter.setOnItemClickListener { item, _ ->
-            val momentId = item.id
-            FishPondDetailActivity.start(requireContext(), momentId)
+        mAdapterDelegate.setOnItemClickListener { _, position ->
+            mFishListAdapter.snapshotList[position]?.let { FishPondDetailActivity.start(requireContext(), it.id) }
         }
         mFishListAdapter.setOnMenuItemClickListener { view, item, position ->
             when (view.id) {
                 R.id.ll_share -> shareFish(item)
                 R.id.ll_great -> dynamicLikes(item, position)
-            }
-        }
-        ivPublishContent.setFixOnClickListener {
-            takeIfLogin {
-                startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
-                    if (resultCode == Activity.RESULT_OK) {
-                        mFishListAdapter.refresh()
-                    }
-                }
             }
         }
         mFishListAdapter.setOnNineGridClickListener { sources, index ->
@@ -182,40 +159,31 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 mIsUp = dy > 0
             }
         })
-    }
-
-    private fun dynamicLikes(item: Fish.FishItem, position: Int) {
-        val thumbUpList = item.thumbUpList
-        val currUserId = UserManager.loadCurrUserId()
-        if (thumbUpList.contains(currUserId)) {
-            toast("请不要重复点赞")
-            return
-        } else {
-            thumbUpList.add(currUserId)
-            mFishListAdapter.notifyItemChanged(position)
-        }
-        tryVibrate()
-        mFishPondViewModel.dynamicLikes(item.id).observe(viewLifecycleOwner) {}
-    }
-
-    private fun tryVibrate() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            requireContext().getSystemService<Vibrator>()?.let { vibrator ->
-                if (vibrator.hasVibrator()) {
-                    val ve = VibrationEffect.createOneShot(
-                        80,
-                        VibrationEffect.DEFAULT_AMPLITUDE
-                    )
-                    vibrator.vibrate(ve)
+        ivPublishContent.setFixOnClickListener {
+            takeIfLogin {
+                startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
+                    if (resultCode == Activity.RESULT_OK) {
+                        mFishListAdapter.refresh()
+                    }
                 }
             }
         }
     }
 
+    private fun dynamicLikes(item: Fish.FishItem, position: Int) {
+        val thumbUpList = item.thumbUpList
+        val currUserId = UserManager.loadCurrUserId()
+        takeIf { thumbUpList.contains(currUserId) }?.let { toast("请不要重复点赞") }?.also { return }
+        thumbUpList.add(currUserId)
+        mFishListAdapter.notifyItemChanged(position)
+        VibrateUtils.vibrate(80)
+        mFishPondViewModel.dynamicLikes(item.id).observe(viewLifecycleOwner) {}
+    }
+
     private fun shareFish(item: Fish.FishItem) {
         val momentId = item.id
         val content = UMWeb(SUNNY_BEACH_FISH_URL_PRE + momentId)
-        content.title = "我发布了一条摸鱼动态，快来看看吧~"
+        content.title = "我分享了一条摸鱼动态，快来看看吧~"
         content.setThumb(UMImage(requireContext(), R.mipmap.launcher_ic))
         content.description = getString(R.string.app_name)
         // 分享
@@ -237,7 +205,16 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             .show()
     }
 
-    override fun initObserver() {}
+    override fun initObserver() {
+        mAppViewModel.mourningCalendarListLiveData.observe(viewLifecycleOwner) { setMourningStyleByDate(it) }
+    }
+
+    private fun setMourningStyleByDate(mourningCalendarList: List<MourningCalendar>) {
+        val sdf = SimpleDateFormat("MM月dd日", Locale.getDefault())
+        val formatDate = sdf.format(System.currentTimeMillis())
+        val rootView = requireView()
+        mourningCalendarList.find { it.date == formatDate }?.let { rootView.setMourningStyle() } ?: rootView.removeMourningStyle()
+    }
 
     @Permissions(Permission.CAMERA)
     override fun onRightClick(titleBar: TitleBar) {
@@ -264,7 +241,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mBinding.rvFishPondList.scrollToPosition(0)
     }
 
-    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK || data == null) return
@@ -285,7 +261,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     private fun showResult(hmsScan: HmsScan?) {
-        val result = hmsScan?.showResult ?: ""
+        val result = hmsScan?.showResult.orEmpty()
         if (result.isBlank()) {
             showNoContentTips()
             return
@@ -293,9 +269,9 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
         // result can never be null.
         val uri = Uri.parse(result)
-        val scheme = uri.scheme ?: ""
-        val authority = uri.authority ?: ""
-        val userId = uri.lastPathSegment ?: ""
+        val scheme = uri.scheme.orEmpty()
+        val authority = uri.authority.orEmpty()
+        val userId = uri.lastPathSegment.orEmpty()
 
         Timber.d("showResult：===> scheme is $scheme authority is $authority userId is $userId")
         Timber.d("showResult：===> result is $result")

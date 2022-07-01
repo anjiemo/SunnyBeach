@@ -16,6 +16,7 @@ import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.ktx.doScrollStateChanged
 import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.ui.activity.CameraActivity.OnCameraListener
 import cn.cqautotest.sunnybeach.ui.adapter.ImageSelectAdapter
@@ -55,10 +56,8 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
         @Log
         @Permissions(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
         fun start(activity: BaseActivity, maxSelect: Int, listener: OnPhotoSelectListener?) {
-            if (maxSelect < 1) {
-                // 最少要选择一个图片
-                throw IllegalArgumentException("are you ok?")
-            }
+            // 最少要选择一个图片
+            require(maxSelect > 0) { "are you ok?" }
             val intent = Intent(activity, ImageSelectActivity::class.java)
             intent.putExtra(INTENT_KEY_IN_MAX_SELECT, maxSelect)
             activity.startActivityForResult(intent, object : OnActivityCallback {
@@ -115,9 +114,7 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
     /** 专辑选择对话框 */
     private var albumDialog: AlbumDialog.Builder? = null
 
-    override fun getLayoutId(): Int {
-        return R.layout.image_select_activity
-    }
+    override fun getLayoutId() = R.layout.image_select_activity
 
     override fun initView() {
         setOnClickListener(floatingView)
@@ -133,15 +130,12 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
             // 添加分割线
             it.addItemDecoration(GridSpaceDecoration(resources.getDimension(R.dimen.dp_3).toInt()))
             // 设置滚动监听
-            it.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    when (newState) {
-                        RecyclerView.SCROLL_STATE_DRAGGING -> floatingView?.hide()
-                        RecyclerView.SCROLL_STATE_IDLE -> floatingView?.show()
-                    }
+            it.doScrollStateChanged { _, newState ->
+                when (newState) {
+                    RecyclerView.SCROLL_STATE_DRAGGING -> floatingView?.hide()
+                    RecyclerView.SCROLL_STATE_IDLE -> floatingView?.show()
                 }
-            })
+            }
         }
     }
 
@@ -155,9 +149,7 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
         lifecycleScope.launch(Dispatchers.IO) { run() }
     }
 
-    override fun getStatusLayout(): StatusLayout? {
-        return hintLayout
-    }
+    override fun getStatusLayout(): StatusLayout? = hintLayout
 
     @SingleClick
     override fun onRightClick(titleBar: TitleBar) {
@@ -189,9 +181,9 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
                         // 滚动回第一个位置
                         recyclerView?.scrollToPosition(0)
                         if (position == 0) {
-                            adapter.setData(allImage)
+                            // adapter.setData(allImage)
                         } else {
-                            adapter.setData(allAlbum[bean.getName()])
+                            // adapter.setData(allAlbum[bean.getName()])
                         }
                         // 执行列表动画
                         recyclerView?.layoutAnimation = AnimationUtils.loadLayoutAnimation(
@@ -354,6 +346,7 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
             )
         }
         if (cursor != null && cursor.moveToFirst()) {
+            cursor.count
             val pathIndex: Int = cursor.getColumnIndex(MediaStore.MediaColumns.DATA)
             val mimeTypeIndex: Int = cursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE)
             val sizeIndex: Int = cursor.getColumnIndex(MediaStore.MediaColumns.SIZE)
@@ -383,6 +376,7 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
                 }
                 data.add(path)
                 allImage.add(path)
+                post { adapter.addItem(path) }
             } while (cursor.moveToNext())
             cursor.close()
         }
@@ -390,7 +384,7 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
             // 滚动回第一个位置
             recyclerView?.scrollToPosition(0)
             // 设置新的列表数据
-            adapter.setData(allImage)
+            // adapter.setData(allImage)
             if (selectImage.isEmpty()) {
                 floatingView?.setImageResource(R.drawable.camera_ic)
             } else {
@@ -400,24 +394,25 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
             // 执行列表动画
             recyclerView?.layoutAnimation = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_fall_down)
             recyclerView?.scheduleLayoutAnimation()
+            showComplete()
             if (allImage.isEmpty()) {
                 // 显示空布局
-                showEmpty()
+                // showEmpty()
                 // 设置右标题
                 setRightTitle(null)
             } else {
                 // 显示加载完成
-                showComplete()
+                // showComplete()
                 // 设置右标题
                 setRightTitle(R.string.image_select_all)
             }
-        }, 500)
+        }, 0)
     }
 
     /**
      * 图片选择监听
      */
-    interface OnPhotoSelectListener {
+    fun interface OnPhotoSelectListener {
 
         /**
          * 选择回调

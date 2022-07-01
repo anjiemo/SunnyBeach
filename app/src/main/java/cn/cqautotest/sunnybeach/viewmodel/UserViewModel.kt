@@ -12,6 +12,7 @@ import cn.cqautotest.sunnybeach.paging.source.RichPagingSource
 import com.blankj.utilcode.util.RegexUtils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import java.io.File
 
 /**
  * author : A Lonely Cat
@@ -30,6 +31,28 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     val userAvatarLiveData = Transformations.switchMap(phoneLiveData) { account ->
         Repository.queryUserAvatar(account)
     }
+
+    /**
+     * 举报
+     */
+    fun report(reportType: ReportType, contentId: String, url: String, why: String) =
+        Repository.report(reportType = reportType, contentId = contentId, url = url, why = why)
+
+    /**
+     * 修改用户头像
+     */
+    fun modifyAvatar(avatarUrl: String) = Repository.modifyAvatar(avatarUrl)
+
+    /**
+     * 根据分类 id 上传用户中心图片
+     */
+    suspend fun uploadUserCenterImageByCategoryId(imageFile: File, categoryId: String) =
+        Repository.uploadUserCenterImageByCategoryId(imageFile, categoryId)
+
+    /**
+     * 发送邮件
+     */
+    fun sendEmail(email: String) = Repository.sendEmail(email)
 
     /**
      * 找回密码（通过短信找回）
@@ -80,6 +103,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
      * 个人中心获取自己的sob币总数
      */
     fun queryTotalSobCount() = Repository.queryTotalSobCount()
+
+    /**
+     * 个人中心修改账号信息
+     */
+    fun modifyUserInfo(personCenterInfo: PersonCenterInfo) = Repository.modifyUserInfo(personCenterInfo)
 
     /**
      * 个人中心获取账号信息
@@ -197,7 +225,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     //             _loginResult.value =
     //                 LoginResult(
     //                     success = LoggedInUserView(
-    //                         displayName = userBasicInfoResponse?.getData()?.nickname ?: ""
+    //                         displayName = userBasicInfoResponse?.getData()?.nickname .orEmpty()
     //                     )
     //                 )
     //             setupAutoLogin(true)

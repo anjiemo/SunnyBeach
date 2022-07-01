@@ -1,6 +1,5 @@
 package cn.cqautotest.sunnybeach.paging.source.msg.factory
 
-import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.api.sob.MsgApi
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.IApiResponse
@@ -14,10 +13,8 @@ import cn.cqautotest.sunnybeach.paging.source.msg.impl.IMsgPageData
  */
 class AtMeMsgListFactory : AbstractMsgListFactory() {
 
-    private val msgApi = ServiceCreator.create<MsgApi>()
-
     @Suppress("UNCHECKED_CAST")
     override suspend fun createMsgListByType(page: Int): IApiResponse<IMsgPageData> {
-        return msgApi.getAtMeMsgList(page) as ApiResponse<IMsgPageData>
+        return MsgApi.getAtMeMsgList(page) as ApiResponse<IMsgPageData>
     }
 }
