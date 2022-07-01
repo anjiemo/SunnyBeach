@@ -5,6 +5,7 @@ import androidx.core.app.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.http.network.Repository
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
@@ -53,6 +54,6 @@ fun Context.showLoginDialog() {
             isShowing = false
         }
         .setListener {
-            LoginActivity.start(this, "", "")
+            LoginActivity.start(this, UserManager.getCurrLoginAccount(), UserManager.getCurrLoginAccountPassword())
         }.show()
 }

@@ -15,6 +15,7 @@ import cn.cqautotest.sunnybeach.action.CommendAction.Companion.TARGET_USER_ID
 import cn.cqautotest.sunnybeach.action.CommendAction.Companion.TARGET_USER_NAME
 import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.ktx.simpleToast
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 import cn.cqautotest.sunnybeach.ui.popup.InputPopup
@@ -69,7 +70,7 @@ class SubmitCommentFragment : Fragment(), CommendAction {
             }.onFailure {
                 when (it) {
                     is NotLoginException -> {
-                        LoginActivity.start(requireContext(), "", "")
+                        LoginActivity.start(requireContext(), UserManager.getCurrLoginAccount(), UserManager.getCurrLoginAccountPassword())
                         simpleToast(it.message)
                     }
                     else -> simpleToast("评论失败，请稍后重试\uD83D\uDE2D")

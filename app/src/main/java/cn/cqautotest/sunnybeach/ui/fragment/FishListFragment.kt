@@ -105,9 +105,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mBinding.titleBar.setDoubleClickListener {
             onBack2Top()
         }
-        mBinding.refreshLayout.setOnRefreshListener {
-            mFishListAdapter.refresh()
-        }
+        mBinding.refreshLayout.setOnRefreshListener { mFishListAdapter.refresh() }
         // 需要在 View 销毁的时候移除 listener
         mFishListAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->

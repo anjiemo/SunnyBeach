@@ -29,6 +29,7 @@ import cn.cqautotest.sunnybeach.other.AppConfig
 import cn.cqautotest.sunnybeach.ui.dialog.*
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
+import com.dylanc.longan.context
 import com.hjq.base.action.AnimAction
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.HttpCallback
@@ -75,6 +76,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
             R.id.sb_setting_auto,
             R.id.sb_setting_exit
         )
+        mBinding.sbSettingExit.isVisible = UserManager.isLogin()
     }
 
     override fun initData() {
@@ -270,7 +272,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                     .api(LogoutApi())
                     .request(object : HttpCallback<HttpData<Void?>>(this) {
                         override fun onSucceed(data: HttpData<Void?>) {
-                            LoginActivity.start(this@SettingActivity, "", "")
+                            LoginActivity.start(context, UserManager.getCurrLoginAccount(), UserManager.getCurrLoginAccountPassword())
                             // 进行内存优化，销毁除登录页之外的所有界面
                             ActivityManager.getInstance().finishAllActivities(LoginActivity::class.java)
                         }
