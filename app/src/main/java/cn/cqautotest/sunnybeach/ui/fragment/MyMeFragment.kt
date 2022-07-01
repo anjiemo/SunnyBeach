@@ -35,6 +35,10 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     override fun getLayoutId(): Int = R.layout.my_me_fragment
 
+    override fun initView() {}
+
+    override fun initData() {}
+
     override fun onFragmentResume(first: Boolean) {
         super.onFragmentResume(first)
         val meContent = mBinding.meContent
@@ -43,6 +47,10 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
             meContent.imageAvatar.loadAvatar(UserManager.currUserIsVip(), userBasicInfo?.avatar)
             meContent.textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
         }
+    }
+
+    override fun onActivityResume() {
+        super.onActivityResume()
         mMsgViewModel.getUnReadMsgCount().observe(viewLifecycleOwner) {
             val unReadMsgCount = it.getOrNull() ?: return@observe
             badgeDrawable.isVisible = unReadMsgCount.hasUnReadMsg
@@ -81,10 +89,6 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
             settingContainer.setFixOnClickListener { requireContext().startActivity<SettingActivity>() }
         }
     }
-
-    override fun initData() {}
-
-    override fun initView() {}
 
     override fun isStatusBarDarkFont() = false
 
