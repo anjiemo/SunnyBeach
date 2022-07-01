@@ -10,6 +10,7 @@ import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.paging.source.FishDetailCommendListPagingSource
+import cn.cqautotest.sunnybeach.paging.source.FishDetailPagingSource
 import cn.cqautotest.sunnybeach.paging.source.FishPagingSource
 import cn.cqautotest.sunnybeach.paging.source.UserFishPagingSource
 import kotlinx.coroutines.flow.Flow
@@ -39,7 +40,13 @@ class FishPondViewModel : ViewModel() {
 
     fun putFish(moment: Map<String, Any?>) = Repository.putFish(moment)
 
-    fun getFishDetailById(momentId: String) = Repository.loadFishDetailById(momentId)
+    fun getFishDetailById(momentId: String): Flow<PagingData<Fish.FishItem>> {
+        return Pager(
+            config = PagingConfig(30),
+            pagingSourceFactory = {
+                FishDetailPagingSource(momentId)
+            }).flow.cachedIn(viewModelScope)
+    }
 
     fun getFishListByCategoryId(topicId: String): Flow<PagingData<Fish.FishItem>> {
         return Pager(config = PagingConfig(30),
@@ -49,7 +56,8 @@ class FishPondViewModel : ViewModel() {
     }
 
     fun getUserFishList(userId: String): Flow<PagingData<Fish.FishItem>> {
-        return Pager(config = PagingConfig(30),
+        return Pager(
+            config = PagingConfig(30),
             pagingSourceFactory = {
                 UserFishPagingSource(userId)
             }).flow.cachedIn(viewModelScope)

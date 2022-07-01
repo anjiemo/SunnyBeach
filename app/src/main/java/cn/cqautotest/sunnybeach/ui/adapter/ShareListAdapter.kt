@@ -1,15 +1,17 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
-import android.annotation.SuppressLint
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.ShareListItemBinding
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.UserShare
-import cn.cqautotest.sunnybeach.util.DateHelper
-import cn.cqautotest.sunnybeach.util.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
+import com.blankj.utilcode.util.TimeUtils
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * author : A Lonely Cat
@@ -18,52 +20,40 @@ import cn.cqautotest.sunnybeach.util.setFixOnClickListener
  * desc   : 用户分享列表的适配器
  */
 class ShareListAdapter(private val adapterDelegate: AdapterDelegate) :
-    PagingDataAdapter<UserShare.Content, ShareListAdapter.ShareListViewHolder>(ShareDiffCallback()) {
+    PagingDataAdapter<UserShare.Content, ShareListAdapter.ShareListViewHolder>(diffCallback) {
 
-    class ShareDiffCallback : DiffUtil.ItemCallback<UserShare.Content>() {
-        override fun areItemsTheSame(
-            oldItem: UserShare.Content,
-            newItem: UserShare.Content
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
+    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
-        override fun areContentsTheSame(
-            oldItem: UserShare.Content,
-            newItem: UserShare.Content
-        ): Boolean {
-            return oldItem == newItem
+    inner class ShareListViewHolder(val binding: ShareListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<ShareListItemBinding>())
+
+        fun onBinding(item: UserShare.Content?, position: Int) {
+            item ?: return
+            with(binding) {
+                val tvShareTitle = tvShareTitle
+                val tvDesc = tvDesc
+                tvShareTitle.text = item.title
+                tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
+            }
         }
     }
-
-    inner class ShareListViewHolder(val binding: ShareListItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
 
     override fun onViewAttachedToWindow(holder: ShareListViewHolder) {
         super.onViewAttachedToWindow(holder)
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ShareListAdapter.ShareListViewHolder, position: Int) {
-        val item = getItem(position) ?: return
-        val itemView = holder.itemView
-        val binding = holder.binding
-        val tvShareTitle = binding.tvShareTitle
-        val tvDesc = binding.tvDesc
-        itemView.setFixOnClickListener {
-            adapterDelegate.onItemClick(it, position)
-        }
-        tvShareTitle.text = item.title
-        tvDesc.text = DateHelper.getFriendlyTimeSpanByNow("${item.createTime}:00")
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
+        holder.onBinding(getItem(position), position)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ShareListViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ShareListItemBinding.inflate(inflater, parent, false)
-        return ShareListViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShareListViewHolder = ShareListViewHolder(parent)
+
+    companion object {
+
+        private val diffCallback =
+            itemDiffCallback<UserShare.Content>({ oldItem, newItem -> oldItem.id == newItem.id }) { oldItem, newItem -> oldItem == newItem }
     }
 }

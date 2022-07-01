@@ -13,13 +13,13 @@
 
     <ImageView
         android:id="@+id/shareTv"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="@dimen/dp_36"
+        android:layout_height="@dimen/dp_36"
+        android:layout_marginEnd="@dimen/dp_14"
+        android:layout_marginBottom="@dimen/dp_8"
         android:background="@drawable/gallery_circle_bg"
         android:contentDescription="转发"
-        android:padding="8dp"
+        android:padding="@dimen/dp_8"
         android:src="@mipmap/ic_forward"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/guideline"
@@ -27,33 +27,32 @@
 
     <ImageView
         android:id="@+id/downLoadPhotoTv"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="14dp"
+        android:layout_width="@dimen/dp_36"
+        android:layout_height="@dimen/dp_36"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_14"
         android:background="@drawable/gallery_circle_bg"
         android:contentDescription="下载"
-        android:padding="2dp"
+        android:padding="@dimen/dp_2"
         android:src="@mipmap/ic_down"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline" />
 
-    <TextView
+    <com.hjq.shape.view.ShapeTextView
         android:id="@+id/settingWallpaperTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
-        android:background="#66393939"
-        android:paddingStart="40dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="40dp"
-        android:paddingBottom="10dp"
+        android:paddingHorizontal="@dimen/dp_40"
+        android:paddingVertical="@dimen/dp_10"
         android:text="设置壁纸"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:shape_radius="@dimen/dp_8"
+        app:shape_solidColor="#66393939" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/tool_menu_group"

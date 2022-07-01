@@ -14,6 +14,7 @@ import androidx.annotation.RawRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.ktx.orEmpty
 import com.airbnb.lottie.LottieAnimationView
 
 /**
@@ -113,7 +114,7 @@ class StatusLayout @JvmOverloads constructor(
     }
 
     fun setHint(text: CharSequence?) {
-        textView?.text = text ?: ""
+        textView?.text = text.orEmpty()
     }
 
     /**

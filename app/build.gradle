@@ -1,7 +1,7 @@
-apply plugin : 'com.android.application'
-apply plugin : 'android-aspectjx'
-apply from : '../common.gradle'
-apply plugin : 'kotlin-kapt'
+apply plugin: 'com.android.application'
+apply plugin: 'android-aspectjx'
+apply from: '../common.gradle'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.huawei.agconnect'
 
@@ -62,7 +62,7 @@ android {
             signingConfig signingConfigs.config
             // 添加清单占位符
             addManifestPlaceholders([
-                    'app_name'    :    '阳光沙滩 Debug 版'
+                    'app_name': '阳光沙滩 Debug 版'
             ])
             // 调试模式下只保留一种架构的 so 库，提升打包速度
             ndk {
@@ -75,7 +75,7 @@ android {
             applicationIdSuffix ''
             // 添加清单占位符
             addManifestPlaceholders([
-                    'app_name'    :    '阳光沙滩 Preview 版'
+                    'app_name': '阳光沙滩 Preview 版'
             ])
         }
 
@@ -93,7 +93,7 @@ android {
             signingConfig signingConfigs.config
             // 添加清单占位符
             addManifestPlaceholders([
-                    'app_name'    :    '@string/app_name'
+                    'app_name': '@string/app_name'
             ])
             // 仅保留两种架构的 so 库，根据 Bugly 统计得出
             ndk {
@@ -133,6 +133,7 @@ android {
     }
 }
 
+// MiPush 接入文档：https://dev.mi.com/console/doc/detail?pId=41#_0_0
 // 添加构建依赖项：https://developer.android.google.cn/studio/build/dependencies
 // api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
 dependencies {
@@ -151,6 +152,8 @@ dependencies {
     implementation project(':library:widget')
     // 友盟封装
     implementation project(':library:umeng')
+    // 网络封装
+    implementation project(':library:network')
 
     // 单元测试
     testImplementation 'junit:junit:4.13.2'
@@ -209,7 +212,7 @@ dependencies {
     implementation 'com.github.getActivity:GsonFactory:5.2'
 
     // Shape 框架：https://github.com/getActivity/ShapeView
-    // implementation 'com.github.getActivity:ShapeView:6.2'
+    implementation 'com.github.getActivity:ShapeView:8.0'
 
     // AOP 插件库：https://mvnrepository.com/artifact/org.aspectj/aspectjrt
     implementation 'org.aspectj:aspectjrt:1.9.6'
@@ -272,7 +275,7 @@ dependencies {
     // 隐私调用监控：https://github.com/huage2580/PermissionMonitor
 
     // 一个强大并且灵活的RecyclerViewAdapter：https://github.com/CymChad/BaseRecyclerViewAdapterHelper
-     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     // 轮播图库：https://github.com/youth5201314/banner
     implementation 'io.github.youth5201314:banner:2.2.2'
 
@@ -322,6 +325,12 @@ dependencies {
     implementation 'com.huawei.hms:scan:2.4.0.301'
 
     // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
-    implementation "com.google.dagger:hilt-android:2.41"
-    kapt "com.google.dagger:hilt-android-compiler:2.41"
+    implementation "com.google.dagger:hilt-android:2.42"
+    kapt "com.google.dagger:hilt-android-compiler:2.42"
+
+    // 从图片中提取具有代表性的调色板：https://developer.android.com/jetpack/androidx/releases/palette
+    implementation 'androidx.palette:palette:1.0.0'
+
+    // Android下打造通用便捷的PopupWindow弹窗库：https://github.com/razerdp/BasePopup
+    implementation 'io.github.razerdp:BasePopup:3.2.0'
 }

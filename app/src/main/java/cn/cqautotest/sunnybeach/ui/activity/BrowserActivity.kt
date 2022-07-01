@@ -1,8 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.text.TextUtils
@@ -15,6 +13,7 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.CheckNet
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.WebViewHookHelper
 import cn.cqautotest.sunnybeach.widget.BrowserView
@@ -31,7 +30,6 @@ import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
 import okhttp3.FormBody
 import timber.log.Timber
-
 
 /**
  *    author : Android 轮子哥 & A Lonely Cat
@@ -65,17 +63,13 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
             if (TextUtils.isEmpty(url)) {
                 return
             }
-            val intent = Intent(context, BrowserActivity::class.java).apply {
+            context.startActivity<BrowserActivity> {
                 putExtra(INTENT_KEY_IN_URL, url)
                 putExtra(IS_FEED_BACK, isFeedback)
                 putExtra(OPEN_ID, openId)
                 putExtra(NICK_NAME, nickName)
                 putExtra(AVATAR_URL, avatar)
             }
-            if (context !is Activity) {
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-            context.startActivity(intent)
         }
     }
 
@@ -84,9 +78,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
     private val refreshLayout: SmartRefreshLayout? by lazy { findViewById(R.id.sl_browser_refresh) }
     private val browserView: BrowserView? by lazy { findViewById(R.id.wv_browser_view) }
 
-    override fun getLayoutId(): Int {
-        return R.layout.browser_activity
-    }
+    override fun getLayoutId(): Int = R.layout.browser_activity
 
     override fun initView() {
         // 设置 WebView 生命管控
@@ -109,8 +101,8 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
                 Timber.d("initData：===> openId is $openId nickName is $nickName avatar is $avatar")
                 val queryParams = FormBody.Builder()
                     .add("nickname", nickName ?: "游客")
-                    .add("avatar", avatar ?: "")
-                    .add("openid", openId ?: "")
+                    .add("avatar", avatar.orEmpty())
+                    .add("openid", openId.orEmpty())
                     .build().toQueryParams()
                 postUrl(url, queryParams.toByteArray())
             } else {
@@ -129,9 +121,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
         if (size != 0) deleteAt(lastIndex)
     }
 
-    override fun getStatusLayout(): StatusLayout? {
-        return hintLayout
-    }
+    override fun getStatusLayout(): StatusLayout? = hintLayout
 
     override fun onLeftClick(titleBar: TitleBar) {
         finish()
@@ -187,16 +177,13 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
         reload()
     }
 
-    override fun isStatusBarDarkFont(): Boolean {
-        return false
-    }
+    override fun isStatusBarDarkFont() = false
 
     private inner class AppBrowserViewClient : BrowserViewClient() {
 
         /**
          * 网页加载错误时回调，这个方法会在 onPageFinished 之前调用
          */
-        @Deprecated("Deprecated in Java")
         override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
             // 这里为什么要用延迟呢？因为加载出错之后会先调用 onReceivedError 再调用 onPageFinished
             post {
@@ -230,17 +217,11 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
          * 收到网页标题
          */
         override fun onReceivedTitle(view: WebView, title: String?) {
-            if (title == null) {
-                return
-            }
-            setTitle(title)
+            title?.let { setTitle(title) }
         }
 
         override fun onReceivedIcon(view: WebView, icon: Bitmap?) {
-            if (icon == null) {
-                return
-            }
-            setRightIcon(BitmapDrawable(resources, icon))
+            icon?.let { setRightIcon(BitmapDrawable(resources, icon)) }
         }
 
         /**

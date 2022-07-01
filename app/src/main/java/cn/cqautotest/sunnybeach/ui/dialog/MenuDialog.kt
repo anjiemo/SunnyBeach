@@ -184,7 +184,7 @@ class MenuDialog {
         }
     }
 
-    interface OnListener<T> {
+    fun interface OnListener<T> {
 
         /**
          * 选择条目时回调

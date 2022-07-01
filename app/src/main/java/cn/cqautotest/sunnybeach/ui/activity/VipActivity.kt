@@ -5,9 +5,9 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.VipActivityBinding
+import cn.cqautotest.sunnybeach.ktx.clearTooltipText
 import cn.cqautotest.sunnybeach.ui.fragment.VipIntroFragment
 import cn.cqautotest.sunnybeach.ui.fragment.VipListFragment
-import cn.cqautotest.sunnybeach.util.clearTooltipText
 import com.hjq.base.FragmentPagerAdapter
 
 /**
@@ -28,7 +28,7 @@ class VipActivity : AppActivity() {
     }
 
     override fun initData() {
-        mFragmentAdapter = FragmentPagerAdapter<AppFragment<*>>(this)
+        mFragmentAdapter = FragmentPagerAdapter(this)
         mFragmentAdapter.addFragment(VipIntroFragment.newInstance(), "特权介绍")
         mFragmentAdapter.addFragment(VipListFragment.newInstance(), "贵宾席")
         mBinding.viewPager.adapter = mFragmentAdapter

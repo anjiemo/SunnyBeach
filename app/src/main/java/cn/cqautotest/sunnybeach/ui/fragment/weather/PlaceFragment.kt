@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.PlaceFragmentBinding
+import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.ui.activity.weather.MainActivity
 import cn.cqautotest.sunnybeach.ui.activity.weather.WeatherActivity
 import cn.cqautotest.sunnybeach.ui.adapter.weather.PlaceAdapter
-import cn.cqautotest.sunnybeach.util.simpleToast
 import cn.cqautotest.sunnybeach.viewmodel.weather.PlaceViewMode
 
 class PlaceFragment : Fragment(R.layout.place_fragment) {

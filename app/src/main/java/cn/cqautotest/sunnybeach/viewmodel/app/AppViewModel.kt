@@ -1,11 +1,14 @@
 package cn.cqautotest.sunnybeach.viewmodel.app
 
 import android.app.Application
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.manager.CacheDataManager
+import cn.cqautotest.sunnybeach.model.MourningCalendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -16,6 +19,13 @@ import kotlinx.coroutines.withContext
  * desc   : 应用的 ViewModel
  */
 class AppViewModel private constructor(private val application: Application) {
+
+    private val _mourningCalendarListLiveData = MutableLiveData<List<MourningCalendar>>()
+    val mourningCalendarListLiveData: LiveData<List<MourningCalendar>> get() = _mourningCalendarListLiveData
+
+    fun setMourningCalendarList(mourningCalendarList: List<MourningCalendar>) {
+        _mourningCalendarListLiveData.value = mourningCalendarList
+    }
 
     fun checkAppUpdate() = Repository.checkAppUpdate()
 

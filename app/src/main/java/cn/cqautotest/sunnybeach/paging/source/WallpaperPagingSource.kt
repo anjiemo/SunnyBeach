@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.paging.source
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.api.photo.PhotoApi
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import timber.log.Timber
@@ -16,11 +15,7 @@ import timber.log.Timber
  */
 class WallpaperPagingSource : PagingSource<Int, WallpaperBean.Res.Vertical>() {
 
-    private val photoApi = ServiceCreator.create<PhotoApi>()
-
-    override fun getRefreshKey(state: PagingState<Int, WallpaperBean.Res.Vertical>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, WallpaperBean.Res.Vertical>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, WallpaperBean.Res.Vertical> {
         return try {
@@ -28,7 +23,7 @@ class WallpaperPagingSource : PagingSource<Int, WallpaperBean.Res.Vertical>() {
             Timber.d("load：===> page is $page")
             val limit = 60
             val skip = page * limit
-            val response = photoApi.loadWallpaperList(limit = limit, skip = skip)
+            val response = PhotoApi.loadWallpaperList(limit = limit, skip = skip)
             val responseData = response.res
             val prevKey = null
             val nextKey = page + 1

@@ -5,22 +5,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * 用户分享列表
  */
-data class UserShare(
-    @SerializedName("currentPage")
-    val currentPage: Int,
-    @SerializedName("hasNext")
-    val hasNext: Boolean,
-    @SerializedName("hasPre")
-    val hasPre: Boolean,
-    @SerializedName("list")
-    val list: List<Content>,
-    @SerializedName("pageSize")
-    val pageSize: Int,
-    @SerializedName("total")
-    val total: Int,
-    @SerializedName("totalPage")
-    val totalPage: Int
-) {
+class UserShare : Page<UserShare.Content>() {
     data class Content(
         @SerializedName("avatar")
         val avatar: String,

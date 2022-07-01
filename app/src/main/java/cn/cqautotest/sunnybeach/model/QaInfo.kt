@@ -5,22 +5,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * 首页问答
  */
-data class QaInfo(
-    @SerializedName("currentPage")
-    val currentPage: Int,
-    @SerializedName("hasNext")
-    val hasNext: Boolean,
-    @SerializedName("hasPre")
-    val hasPre: Boolean,
-    @SerializedName("list")
-    val list: List<QaInfoItem>,
-    @SerializedName("pageSize")
-    val pageSize: Int,
-    @SerializedName("total")
-    val total: Int,
-    @SerializedName("totalPage")
-    val totalPage: Int
-) {
+class QaInfo : Page<QaInfo.QaInfoItem>() {
     data class QaInfoItem(
         @SerializedName("answerCount")
         val answerCount: Int,

@@ -120,7 +120,7 @@ class SafeDialog {
         }
     }
 
-    interface OnListener {
+    fun interface OnListener {
 
         /**
          * 点击确定时回调

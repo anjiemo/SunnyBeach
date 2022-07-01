@@ -1,4 +1,5 @@
 package cn.cqautotest.sunnybeach.model
+
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -7,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  * time   : 2021/07/10
  * desc   : 摸鱼首页话题列表的数据bean类
  */
-class FishPondTopicIndex : ArrayList<FishPondTopicIndex.FishPondTopicIndexItem>(){
+class FishPondTopicIndex : ArrayList<FishPondTopicIndex.FishPondTopicIndexItem>() {
     data class FishPondTopicIndexItem(
         @SerializedName("contentCount")
         val contentCount: Int,

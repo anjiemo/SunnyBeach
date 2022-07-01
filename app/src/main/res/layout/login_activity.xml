@@ -43,7 +43,7 @@
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="10dp"
             android:hint="@string/common_phone_input_hint"
-            android:inputType="textVisiblePassword"
+            android:inputType="text"
             android:singleLine="true"
             app:regexType="mobile" />
 
@@ -101,16 +101,33 @@
             style="@style/HorizontalLineStyle"
             android:layout_marginHorizontal="40dp" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_login_forget"
-            android:layout_width="wrap_content"
+        <cn.cqautotest.sunnybeach.widget.SuperLinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="40dp"
-            android:text="@string/login_forget"
-            android:textColor="@color/common_accent_color" />
+            android:layout_marginHorizontal="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_15"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cb_remember_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="记住密码" />
+
+            <View
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_login_forget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_forget"
+                android:textColor="@color/common_accent_color" />
+
+        </cn.cqautotest.sunnybeach.widget.SuperLinearLayout>
 
         <com.hjq.widget.view.SubmitButton
             android:id="@+id/btn_login_commit"

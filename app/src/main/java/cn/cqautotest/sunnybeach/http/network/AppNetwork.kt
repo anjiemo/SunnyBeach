@@ -1,7 +1,6 @@
 package cn.cqautotest.sunnybeach.http.network
 
-import cn.cqautotest.sunnybeach.util.APP_INFO_URL
-import cn.cqautotest.sunnybeach.util.MOURNING_CALENDAR_URL
+import cn.cqautotest.sunnybeach.http.api.app.AppApi
 
 /**
  * author : A Lonely Cat
@@ -9,9 +8,9 @@ import cn.cqautotest.sunnybeach.util.MOURNING_CALENDAR_URL
  * time   : 2021/10/01
  * desc   : App信息获取
  */
-object AppNetwork : INetworkApi {
+object AppNetwork {
 
-    suspend fun checkAppUpdate(url: String = APP_INFO_URL) = appApi.checkAppUpdate(url)
+    suspend fun checkAppUpdate() = AppApi.checkAppUpdate()
 
-    suspend fun getMourningCalendar(url: String = MOURNING_CALENDAR_URL) = appApi.getMourningCalendar(url)
+    suspend fun getMourningCalendar() = AppApi.getMourningCalendar()
 }

@@ -11,9 +11,7 @@ import cn.cqautotest.sunnybeach.app.AppActivity
  */
 class CopyActivity : AppActivity() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.copy_activity
-    }
+    override fun getLayoutId(): Int = R.layout.copy_activity
 
     override fun initView() {}
 

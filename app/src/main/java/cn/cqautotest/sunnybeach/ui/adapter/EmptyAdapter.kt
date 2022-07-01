@@ -19,13 +19,9 @@ class EmptyAdapter(private val itemCount: Int = 1) : RecyclerView.Adapter<EmptyA
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(View(parent.context))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(View(parent.context))
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // Nothing to do.
-    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {}
 
     override fun getItemCount(): Int = itemCount
 }

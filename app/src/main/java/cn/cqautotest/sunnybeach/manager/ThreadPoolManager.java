@@ -5,10 +5,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject
- *    time   : 2020/01/11
- *    desc   : 线程池管理类
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/AndroidProject
+ * time   : 2020/01/11
+ * desc   : 线程池管理类
  */
 public final class ThreadPoolManager extends ThreadPoolExecutor {
 
@@ -21,9 +21,9 @@ public final class ThreadPoolManager extends ThreadPoolExecutor {
     }
 
     public static ThreadPoolManager getInstance() {
-        if(sInstance == null) {
+        if (sInstance == null) {
             synchronized (ActivityManager.class) {
-                if(sInstance == null) {
+                if (sInstance == null) {
                     sInstance = new ThreadPoolManager();
                 }
             }

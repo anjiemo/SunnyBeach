@@ -1,8 +1,8 @@
 package cn.cqautotest.sunnybeach.http.network
 
-import cn.cqautotest.sunnybeach.model.ModifyPwd
-import cn.cqautotest.sunnybeach.model.SmsInfo
-import cn.cqautotest.sunnybeach.model.User
+import cn.cqautotest.sunnybeach.http.api.sob.UserApi
+import cn.cqautotest.sunnybeach.model.*
+import okhttp3.MultipartBody
 
 /**
  * author : A Lonely Cat
@@ -10,51 +10,62 @@ import cn.cqautotest.sunnybeach.model.User
  * time   : 2021/10/23
  * desc   : 用户信息获取
  */
-object UserNetwork : INetworkApi {
+object UserNetwork {
 
-    suspend fun modifyPasswordBySms(smsCode: String, user: User) = userApi.modifyPasswordBySms(smsCode, user)
+    suspend fun report(report: Report) = UserApi.report(report)
 
-    suspend fun modifyPasswordByOldPwd(modifyPwd: ModifyPwd) = userApi.modifyPasswordByOldPwd(modifyPwd)
+    suspend fun modifyAvatar(avatarUrl: String) = UserApi.modifyAvatar(avatarUrl)
 
-    suspend fun checkSmsCode(phoneNumber: String, smsCode: String) = userApi.checkSmsCode(phoneNumber, smsCode)
+    suspend fun uploadUserCenterImageByCategoryId(part: MultipartBody.Part, categoryId: String) =
+        UserApi.uploadUserCenterImageByCategoryId(part, categoryId)
 
-    suspend fun sendForgetSmsVerifyCode(smsInfo: SmsInfo) = userApi.sendForgetSmsVerifyCode(smsInfo)
+    suspend fun sendEmail(email: String) = UserApi.sendEmail(email)
 
-    suspend fun registerAccount(smsCode: String, user: User) = userApi.registerAccount(smsCode, user)
+    suspend fun modifyPasswordBySms(smsCode: String, user: User) = UserApi.modifyPasswordBySms(smsCode, user)
 
-    suspend fun sendRegisterSmsVerifyCode(smsInfo: SmsInfo) = userApi.sendRegisterSmsVerifyCode(smsInfo)
+    suspend fun modifyPasswordByOldPwd(modifyPwd: ModifyPwd) = UserApi.modifyPasswordByOldPwd(modifyPwd)
 
-    suspend fun getSobIEDetailList(userId: String, page: Int) = userApi.getSobIEDetailList(userId, page)
+    suspend fun checkSmsCode(phoneNumber: String, smsCode: String) = UserApi.checkSmsCode(phoneNumber, smsCode)
 
-    suspend fun getVipUserList() = userApi.getVipUserList()
+    suspend fun sendForgetSmsVerifyCode(smsInfo: SmsInfo) = UserApi.sendForgetSmsVerifyCode(smsInfo)
 
-    suspend fun getAchievement() = userApi.getAchievement()
+    suspend fun registerAccount(smsCode: String, user: User) = UserApi.registerAccount(smsCode, user)
 
-    suspend fun queryTotalSobCount() = userApi.queryTotalSobCount()
+    suspend fun sendRegisterSmsVerifyCode(smsInfo: SmsInfo) = UserApi.sendRegisterSmsVerifyCode(smsInfo)
 
-    suspend fun queryUserInfo() = userApi.queryUserInfo()
+    suspend fun getSobIEDetailList(userId: String, page: Int) = UserApi.getSobIEDetailList(userId, page)
 
-    suspend fun getRichList(count: Int = 100) = userApi.getRichList(count)
+    suspend fun getVipUserList() = UserApi.getVipUserList()
 
-    suspend fun queryUserAvatar(account: String) = userApi.queryUserAvatar(account)
+    suspend fun getAchievement() = UserApi.getAchievement()
 
-    suspend fun logout() = userApi.logout()
+    suspend fun queryTotalSobCount() = UserApi.queryTotalSobCount()
 
-    suspend fun checkToken() = userApi.checkToken()
+    suspend fun modifyUserInfo(personCenterInfo: PersonCenterInfo) = UserApi.modifyUserInfo(personCenterInfo)
 
-    suspend fun login(captcha: String, user: User) = userApi.login(captcha, user)
+    suspend fun queryUserInfo() = UserApi.queryUserInfo()
 
-    suspend fun getAchievement(userId: String) = userApi.getAchievement(userId)
+    suspend fun getRichList(count: Int = 100) = UserApi.getRichList(count)
 
-    suspend fun getUserInfo(userId: String) = userApi.getUserInfo(userId)
+    suspend fun queryUserAvatar(account: String) = UserApi.queryUserAvatar(account)
 
-    suspend fun followState(userId: String) = userApi.followState(userId)
+    suspend fun logout() = UserApi.logout()
 
-    suspend fun followUser(userId: String) = userApi.followUser(userId)
+    suspend fun checkToken() = UserApi.checkToken()
 
-    suspend fun unfollowUser(userId: String) = userApi.unfollowUser(userId)
+    suspend fun login(captcha: String, user: User) = UserApi.login(captcha, user)
 
-    suspend fun checkAllowance() = userApi.checkAllowance()
+    suspend fun getAchievement(userId: String) = UserApi.getAchievement(userId)
 
-    suspend fun getAllowance() = userApi.getAllowance()
+    suspend fun getUserInfo(userId: String) = UserApi.getUserInfo(userId)
+
+    suspend fun followState(userId: String) = UserApi.followState(userId)
+
+    suspend fun followUser(userId: String) = UserApi.followUser(userId)
+
+    suspend fun unfollowUser(userId: String) = UserApi.unfollowUser(userId)
+
+    suspend fun checkAllowance() = UserApi.checkAllowance()
+
+    suspend fun getAllowance() = UserApi.getAllowance()
 }
