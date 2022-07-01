@@ -12,6 +12,7 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.other.AppConfig
 import com.airbnb.lottie.LottieAnimationView
 import com.blankj.utilcode.util.DeviceUtils
+import com.dylanc.longan.context
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.http.EasyHttp
@@ -36,7 +37,7 @@ class SplashActivity : AppActivity() {
 
     override fun initView() {
         if (AppConfig.isDebug()) {
-            HomeActivity.start(this@SplashActivity)
+            HomeActivity.start(context)
             return
         }
         if (DeviceUtils.isDevelopmentSettingsEnabled() || DeviceUtils.isAdbEnabled()) {
@@ -47,9 +48,9 @@ class SplashActivity : AppActivity() {
             override fun onAnimationEnd(animation: Animator?) {
                 lottieView?.removeAnimatorListener(this)
                 if (UserManager.isAutoLogin() && UserManager.isLogin()) {
-                    HomeActivity.start(this@SplashActivity)
+                    HomeActivity.start(context)
                 } else {
-                    LoginActivity.start(this@SplashActivity, "", "")
+                    LoginActivity.start(context, UserManager.getCurrLoginAccount(), UserManager.getCurrLoginAccountPassword())
                 }
                 finish()
             }

@@ -258,7 +258,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                 // 退出账号并清除用户基本信息数据
                 mUserViewModel.logout().observe(this) {
                     SobCacheManager.onAccountLoginOut()
-                    LoginActivity.start(this, "", "")
+                    LoginActivity.start(this, UserManager.getCurrLoginAccount(), UserManager.getCurrLoginAccountPassword())
                     // 进行内存优化，销毁除登录页之外的所有界面
                     ActivityManager.getInstance().finishAllActivities(LoginActivity::class.java)
                 }

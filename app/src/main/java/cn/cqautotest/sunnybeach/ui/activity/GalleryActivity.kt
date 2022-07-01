@@ -1,13 +1,10 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
-import android.Manifest
 import android.app.Activity
 import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.view.View
@@ -23,12 +20,9 @@ import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
-import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.GalleryActivityBinding
 import cn.cqautotest.sunnybeach.http.network.Repository
-import cn.cqautotest.sunnybeach.ktx.dp
-import cn.cqautotest.sunnybeach.ktx.setRoundRectBg
 import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.manager.ThreadPoolManager
@@ -37,7 +31,9 @@ import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.PhotoAdapter
 import cn.cqautotest.sunnybeach.util.DownloadHelper
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
-import com.blankj.utilcode.util.*
+import com.blankj.utilcode.util.IntentUtils
+import com.blankj.utilcode.util.ScreenUtils
+import com.dylanc.longan.activity
 import com.dylanc.longan.context
 import com.gyf.immersionbar.ImmersionBar
 import timber.log.Timber
@@ -73,16 +69,15 @@ class GalleryActivity : AppActivity() {
             orientation = ViewPager2.ORIENTATION_VERTICAL
             adapter = mPhotoAdapter
         }
-        mBinding.settingWallpaperTv.setRoundRectBg(Color.parseColor("#66393939"), 8.dp)
     }
 
     override fun initData() {
         val intent = intent
         val photoId = intent.getStringExtra(IntentKey.ID)
-        Timber.d("photoId is $photoId")
+        Timber.d("initData：===> photoId is $photoId")
         val cacheVerticalPhotoList = Repository.getPhotoList()
         mPhotoList.apply {
-            Timber.d("cacheVerticalPhotoList is $cacheVerticalPhotoList")
+            Timber.d("initData：===> cacheVerticalPhotoList is $cacheVerticalPhotoList")
             addAll(cacheVerticalPhotoList)
         }
         mCurrentPageIndex = mPhotoList.indexOfFirst { photoId == it.id }
@@ -100,41 +95,42 @@ class GalleryActivity : AppActivity() {
         //         }
         //     }
         // }
-        mPhotoAdapter.setOnItemLongClickListener { verticalPhoto, _ ->
-            // 打开指定的一张照片
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            intent.setDataAndType(Uri.parse(verticalPhoto.img), "image/*")
-            startActivity(intent)
-        }
         mPhotoAdapter.loadMoreModule.run {
             setOnLoadMoreListener {
                 isEnableLoadMore = false
                 mDiscoverViewModel.loadMorePhotoList()
             }
         }
-        mPhotoAdapter.setOnItemClickListener { _, _ ->
-            toggleStatus()
-        }
-        mBinding.shareTv.setOnClickListener {
-            val intent = IntentUtils.getShareImageIntent(getImageUri())
-            startActivity(intent)
-        }
-        mBinding.downLoadPhotoTv.setOnClickListener {
-            // 权限框架内部已经做了适配，直接申请 Manifest.permission.MANAGE_EXTERNAL_STORAGE 权限即可
-            downloadPhotoFile()
-        }
-        val wallpaperManager = WallpaperManager.getInstance(this)
-        mBinding.settingWallpaperTv.setOnClickListener {
-            toast("开始准备壁纸...")
-            lifecycleScope.launchWhenCreated {
-                val imageFile = DownloadHelper.ofType<File>(this@GalleryActivity, getImageUri())
-                val success = if (imageFile == null) {
-                    false
-                } else {
-                    wallpaperManager.setWallpaper(imageFile.inputStream())
+        mPhotoAdapter.setOnItemClickListener { _, _ -> toggleStatus() }
+        with(mBinding) {
+            shareTv.setOnClickListener {
+                lifecycleScope.launchWhenCreated {
+                    simpleToast("正在下载图片，请稍后...")
+                    // 下载图片文件
+                    val imageFile = DownloadHelper.ofType<File>(context, getImageUri())
+                    simpleToast("图片下载完成，即将开始分享")
+                    // 分享图片
+                    val intent = IntentUtils.getShareImageIntent(imageFile)
+                    startActivity(intent)
                 }
-                toast(if (success) "壁纸设置成功" else "壁纸设置失败")
+            }
+            downLoadPhotoTv.setOnClickListener {
+                // 打开指定的一张照片
+                val verticalPhoto = getCurrentVerticalPhotoBean()
+                Intent(Intent.ACTION_VIEW).apply {
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    setDataAndType(Uri.parse(verticalPhoto.img), "image/*")
+                    startActivity(this)
+                }
+            }
+            val wallpaperManager = WallpaperManager.getInstance(context)
+            settingWallpaperTv.setOnClickListener {
+                toast("开始准备壁纸...")
+                lifecycleScope.launchWhenCreated {
+                    val imageFile = DownloadHelper.ofType<File>(activity, getImageUri())
+                    val success = imageFile.takeUnless { it == null }?.let { wallpaperManager.setWallpaper(it.inputStream()) } ?: false
+                    toast(if (success) "壁纸设置成功" else "壁纸设置失败")
+                }
             }
         }
     }
@@ -163,9 +159,7 @@ class GalleryActivity : AppActivity() {
                 it?.let { palette ->
                     var mostPopularSwatch: Palette.Swatch? = null
                     for (swatch in palette.swatches) {
-                        if (mostPopularSwatch == null
-                            || swatch.population > mostPopularSwatch.population
-                        ) {
+                        if (mostPopularSwatch == null || swatch.population > mostPopularSwatch.population) {
                             mostPopularSwatch = swatch
                         }
                     }
@@ -180,24 +174,6 @@ class GalleryActivity : AppActivity() {
             }
     }
 
-    @Permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-    private fun downloadPhotoFile() {
-        lifecycleScope.launchWhenCreated {
-            val sourceUri = getImageUri()
-            val verticalPhotoBean = getCurrentVerticalPhotoBean()
-            val oldFile = DownloadHelper.ofType<File>(context, sourceUri) ?: return@launchWhenCreated simpleToast("文件下载失败")
-            val imageType = ImageUtils.getImageType(oldFile)
-            val fileExtension = imageType.value
-            val newFile = File(PathUtils.getExternalPicturesPath(), "${verticalPhotoBean.id}.$fileExtension")
-            Timber.d("downloadPhotoFile：===> oldFile path is ${oldFile.path}")
-            Timber.d("downloadPhotoFile：===> newFile path is ${newFile.path}")
-            val success = FileUtils.copy(oldFile, newFile)
-            // 刷新媒体库
-            MediaScannerConnection.scanFile(context, arrayOf(newFile.path), arrayOf("image/$fileExtension")) { path, uri -> }
-            simpleToast(if (success) "文件下载成功" else "文件下载失败")
-        }
-    }
-
     private suspend fun WallpaperManager.setWallpaper(inputStream: InputStream) = suspendCoroutine {
         ThreadPoolManager.getInstance().execute {
             try {
@@ -210,12 +186,16 @@ class GalleryActivity : AppActivity() {
         }
     }
 
-    private fun getImageUri(): Uri {
+    private fun getImageUrl(): String {
         val verticalPhotoBean = getCurrentVerticalPhotoBean()
         Timber.d(verticalPhotoBean.toJson())
-        val previewUrl = verticalPhotoBean.preview
-        Timber.d("getImageUri：===> previewUrl is $previewUrl")
-        return Uri.parse(previewUrl)
+        return verticalPhotoBean.preview
+    }
+
+    private fun getImageUri(): Uri {
+        val imageUrl = getImageUrl()
+        Timber.d("getImageUri：===> imageUrl is $imageUrl")
+        return Uri.parse(imageUrl)
     }
 
     private fun getCurrentVerticalPhotoBean() = mPhotoList[mBinding.galleryViewPager2.currentItem]
