@@ -73,3 +73,12 @@ const val QQ = "qq_number"
 
 // 自动登录
 const val AUTO_LOGIN = "auto_login"
+
+// 用户账号
+const val SOB_ACCOUNT = "sob_account"
+
+// 用户密码
+const val SOB_PASSWORD = "sob_password"
+
+// 记住密码
+const val SOB_REMEMBER_PWD = "sob_remember_pwd"

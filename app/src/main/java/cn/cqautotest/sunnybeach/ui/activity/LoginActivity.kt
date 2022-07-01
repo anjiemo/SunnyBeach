@@ -26,6 +26,7 @@ import cn.cqautotest.sunnybeach.databinding.LoginActivityBinding
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.InputTextManager
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.other.KeyboardWatcher
 import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment
@@ -89,20 +90,24 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
 
     private val mUserViewModel by viewModels<UserViewModel>()
 
-    override fun getLayoutId(): Int {
-        return R.layout.login_activity
-    }
+    private var userAccount = ""
+    private var userPassword = ""
+
+    override fun getLayoutId() = R.layout.login_activity
 
     override fun initView() {
-        setOnClickListener(mBinding.sivLoginVerifyCode, forgetView, commitView, qqView, weChatView)
-        mBinding.etLoginVerifyCode.setOnEditorActionListener(this)
-        commitView?.let {
-            InputTextManager.with(this)
-                .addView(phoneView)
-                .addView(passwordView)
-                .addView(mBinding.etLoginVerifyCode)
-                .setMain(it)
-                .build()
+        with(mBinding) {
+            setOnClickListener(sivLoginVerifyCode, forgetView, commitView, qqView, weChatView)
+            etLoginVerifyCode.setOnEditorActionListener(this@LoginActivity)
+            cbRememberPwd.isChecked = UserManager.isRememberPwd()
+            commitView?.let {
+                InputTextManager.with(this@LoginActivity)
+                    .addView(phoneView)
+                    .addView(passwordView)
+                    .addView(etLoginVerifyCode)
+                    .setMain(it)
+                    .build()
+            }
         }
     }
 
@@ -132,6 +137,14 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
         // 自动填充手机号和密码
         phoneView?.setText(getString(INTENT_KEY_IN_PHONE))
         passwordView?.setText(getString(INTENT_KEY_IN_PASSWORD))
+        tryLoadUserAvatar()
+    }
+
+    /**
+     * 尝试加载用户头像，如果用户账号不是手机号则不查询头像
+     */
+    private fun tryLoadUserAvatar() {
+        UserManager.getCurrLoginAccount().takeIf { RegexUtils.isMobileExact(it) }?.let { mUserViewModel.queryUserAvatar(it) }
     }
 
     override fun initEvent() {
@@ -152,10 +165,13 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
                 commitView?.reset()
             }
         }
-        mBinding.etLoginVerifyCode.doAfterTextChanged { result ->
-            if (TextUtils.isEmpty(result)) {
-                commitView?.reset()
+        with(mBinding) {
+            etLoginVerifyCode.doAfterTextChanged { result ->
+                if (TextUtils.isEmpty(result)) {
+                    commitView?.reset()
+                }
             }
+            cbRememberPwd.setOnCheckedChangeListener { _, isChecked -> UserManager.isRememberPwd(isChecked) }
         }
     }
 
@@ -177,6 +193,11 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
                 return@observe
             }
             commitView?.showSucceed()
+            // 默认记住账号
+            UserManager.saveCurrLoginAccount(userAccount)
+            // 是否记住密码
+            val rememberPwd = mBinding.cbRememberPwd.isChecked
+            UserManager.saveCurrLoginAccountPassword(if (rememberPwd) userPassword else "")
             postDelayed({
                 val am = ActivityManager.getInstance()
                 val topActivity = am.getTopActivity()
@@ -249,8 +270,12 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
             hideKeyboard(currentFocus)
 
             commitView?.showProgress()
+            // 用户账号
+            userAccount = phoneView?.text.toString()
+            // 用户密码
+            userPassword = passwordView?.text.toString()
             // 登录
-            mUserViewModel.login(phoneView?.text.toString(), passwordView?.text.toString(), mBinding.etLoginVerifyCode.text.toString())
+            mUserViewModel.login(userAccount, userPassword, mBinding.etLoginVerifyCode.text.toString())
             return
         }
         if (view === qqView || view === weChatView) {
@@ -424,7 +449,5 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
             .navigationBarColor(R.color.white)
     }
 
-    override fun isStatusBarDarkFont(): Boolean {
-        return true
-    }
+    override fun isStatusBarDarkFont() = true
 }

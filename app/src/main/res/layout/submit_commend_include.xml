@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dp_6"
             android:paddingHorizontal="@dimen/dp_6"
-            android:text="512"
+            android:text="0"
             android:textColor="#CBD0D3"
             android:textSize="@dimen/sp_11"
             app:layout_constraintBottom_toBottomOf="parent"

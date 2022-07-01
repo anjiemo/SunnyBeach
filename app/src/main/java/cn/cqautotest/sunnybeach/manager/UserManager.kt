@@ -8,8 +8,7 @@ import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.ktx.fromJson
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
-import cn.cqautotest.sunnybeach.util.AUTO_LOGIN
-import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_USER_BASIC_INFO
+import cn.cqautotest.sunnybeach.util.*
 import com.tencent.mmkv.MMKV
 
 /**
@@ -115,5 +114,53 @@ object UserManager {
     fun getNickNameColor(vip: Boolean): Int {
         return if (vip) ContextCompat.getColor(appContext, R.color.pink)
         else Color.BLACK
+    }
+
+    /**
+     * 保存当前登录过的账号
+     */
+    fun saveCurrLoginAccount(account: String) {
+        val mmkv = MMKV.defaultMMKV() ?: return
+        mmkv.putString(SOB_ACCOUNT, account)
+    }
+
+    /**
+     * 获取当前登录过的账号
+     */
+    fun getCurrLoginAccount(): String {
+        val mmkv = MMKV.defaultMMKV() ?: return ""
+        return mmkv.getString(SOB_ACCOUNT, "") ?: ""
+    }
+
+    /**
+     * 保存当前登录过的账号密码
+     */
+    fun saveCurrLoginAccountPassword(account: String) {
+        val mmkv = MMKV.defaultMMKV() ?: return
+        mmkv.putString(SOB_PASSWORD, account)
+    }
+
+    /**
+     * 获取当前登录过的账号密码
+     */
+    fun getCurrLoginAccountPassword(): String {
+        val mmkv = MMKV.defaultMMKV() ?: return ""
+        return mmkv.getString(SOB_PASSWORD, "") ?: ""
+    }
+
+    /**
+     * 保存是否记住密码的状态
+     */
+    fun isRememberPwd(remember: Boolean) {
+        val mmkv = MMKV.defaultMMKV() ?: return
+        mmkv.putBoolean(SOB_REMEMBER_PWD, remember)
+    }
+
+    /**
+     * 是否记住密码
+     */
+    fun isRememberPwd(): Boolean {
+        val mmkv = MMKV.defaultMMKV() ?: return true
+        return mmkv.getBoolean(SOB_REMEMBER_PWD, true)
     }
 }
