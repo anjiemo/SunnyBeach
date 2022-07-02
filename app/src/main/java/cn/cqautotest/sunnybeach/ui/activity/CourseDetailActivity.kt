@@ -56,7 +56,8 @@ class CourseDetailActivity : PagingActivity() {
             mCourseChapterListAdapter.snapshotList[position]?.let {
                 when (it) {
                     is CourseChapter.CourseChapterItem.Children -> PlayerActivity.start(this, it)
-                    else -> { /* do nothing */
+                    else -> {
+                        /* do nothing */
                     }
                 }
             }
