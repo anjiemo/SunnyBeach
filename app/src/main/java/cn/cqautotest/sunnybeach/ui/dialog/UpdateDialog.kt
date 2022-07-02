@@ -26,6 +26,7 @@ import com.hjq.http.EasyHttp
 import com.hjq.http.listener.OnDownloadListener
 import com.hjq.http.model.HttpMethod
 import com.hjq.permissions.Permission
+import timber.log.Timber
 import java.io.File
 
 /**
@@ -178,6 +179,7 @@ class UpdateDialog {
                 getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),
                 getString(R.string.app_name) + "_v" + nameView?.text.toString() + ".apk"
             )
+            Timber.d("downloadApk：===> apkFile path is ${apkFile?.path}")
 
             EasyHttp.download(getDialog())
                 .method(HttpMethod.GET)
@@ -225,7 +227,14 @@ class UpdateDialog {
                                 // 设置下载的进度
                                 .setProgress(100, 100, false)
                                 // 设置通知点击之后的意图
-                                .setContentIntent(PendingIntent.getActivity(getContext(), 1, getInstallIntent(), Intent.FILL_IN_ACTION))
+                                .also {
+                                    val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                        PendingIntent.FLAG_IMMUTABLE or Intent.FILL_IN_ACTION
+                                    } else {
+                                        Intent.FILL_IN_ACTION
+                                    }
+                                    it.setContentIntent(PendingIntent.getActivity(getContext(), 1, getInstallIntent(), flags))
+                                }
                                 // 设置点击通知后是否自动消失
                                 .setAutoCancel(true)
                                 // 是否正在交互中
