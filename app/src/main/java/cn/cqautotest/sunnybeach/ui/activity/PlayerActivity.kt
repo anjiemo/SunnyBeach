@@ -61,10 +61,6 @@ class PlayerActivity : AppActivity(), StatusAction, OnRefreshListener {
         // 设置网页刷新监听
         mBinding.slBrowserRefresh.setOnRefreshListener(this)
 
-        if (item == null) {
-            showError { reload() }
-            return
-        }
         // 设置可以跨域请求
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -80,35 +76,34 @@ class PlayerActivity : AppActivity(), StatusAction, OnRefreshListener {
 
     override fun initData() {
         checkToken {
-            it.getOrElse {
+            it.onSuccess { getCoursePlayAuth() }.onFailure {
                 showLoginDialog()
                 showError { reload() }
-                return@checkToken
             }
-            getCoursePlayAuth()
         }
     }
 
     private fun getCoursePlayAuth() {
         mCourseViewModel.getCoursePlayAuth(item.id).observe(this) { result ->
-            val coursePlayAuth = result.getOrElse { t ->
-                when (t) {
+            result.onSuccess {
+                val videoId = it.videoId
+                val playAuth = it.playAuth
+                Timber.d("getCoursePlayAuth：===> videoId is $videoId playAuth is $playAuth")
+                val screenWidth = ScreenUtils.getAppScreenWidth()
+                val screenHeight = ScreenUtils.getAppScreenHeight()
+                val queryParams = FormBody.Builder()
+                    .add("screenWidth", "${screenWidth}px")
+                    .add("screenHeight", "${screenHeight}px")
+                    .add("videoId", videoId)
+                    .add("playAuth", playAuth)
+                    .build().toQueryParams()
+                mBinding.wvBrowserView.loadUrl("${ASSET_PREFIX}player/player.html?${queryParams}")
+            }.onFailure {
+                when (it) {
                     is NotLoginException -> showError { reload() }
                     else -> toast("播放凭证获取失败")
                 }
-                return@observe
             }
-            val videoId = coursePlayAuth.videoId
-            val playAuth = coursePlayAuth.playAuth
-            val screenWidth = ScreenUtils.getAppScreenWidth()
-            val screenHeight = ScreenUtils.getAppScreenHeight()
-            val queryParams = FormBody.Builder()
-                .add("screenWidth", "${screenWidth}px")
-                .add("screenHeight", "${screenHeight}px")
-                .add("videoId", videoId)
-                .add("playAuth", playAuth)
-                .build().toQueryParams()
-            mBinding.wvBrowserView.loadUrl("${ASSET_PREFIX}player/player.html?${queryParams}")
         }
     }
 
