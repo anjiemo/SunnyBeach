@@ -228,11 +228,11 @@ class UpdateDialog {
                                 .setProgress(100, 100, false)
                                 // 设置通知点击之后的意图
                                 .also {
-                                    val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                                        PendingIntent.FLAG_IMMUTABLE or Intent.FILL_IN_ACTION
-                                    } else {
-                                        Intent.FILL_IN_ACTION
-                                    }
+                                    // Targeting S+ (version 31 and above) requires that one of FLAG_IMMUTABLE or FLAG_MUTABLE be specified when creating a PendingIntent.
+                                    // Strongly consider using FLAG_IMMUTABLE, only use FLAG_MUTABLE if some functionality depends on the PendingIntent being mutable, e.g.
+                                    // if it needs to be used with inline replies or bubbles.
+                                    val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_IMMUTABLE
+                                    else PendingIntent.FLAG_UPDATE_CURRENT
                                     it.setContentIntent(PendingIntent.getActivity(getContext(), 1, getInstallIntent(), flags))
                                 }
                                 // 设置点击通知后是否自动消失

@@ -20,6 +20,7 @@ import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.db.CookieRoomDatabase
 import cn.cqautotest.sunnybeach.db.CookieRoomDatabase.Companion.getDatabase
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
+import cn.cqautotest.sunnybeach.http.interceptor.accountInterceptor
 import cn.cqautotest.sunnybeach.http.model.RequestHandler
 import cn.cqautotest.sunnybeach.http.model.RequestServer
 import cn.cqautotest.sunnybeach.ktx.resetConfiguration
@@ -160,6 +161,7 @@ class AppApplication : Application(), Configuration.Provider {
 
             // 网络请求框架初始化
             val okHttpClient: OkHttpClient = OkHttpClient.Builder()
+                .addInterceptor(accountInterceptor)
                 .build()
 
             EasyConfig.with(okHttpClient)
