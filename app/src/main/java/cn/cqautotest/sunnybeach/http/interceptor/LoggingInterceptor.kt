@@ -14,4 +14,4 @@ val loggingInterceptor =
     HttpLoggingInterceptor { result -> result.takeIf { debugLoggerEnable }?.let { Timber.d("===> result：${it.unicodeToString()}") } }
         .also { it.setLevel(HttpLoggingInterceptor.Level.BODY) }
 
-const val debugLoggerEnable = false
+const val debugLoggerEnable = true
