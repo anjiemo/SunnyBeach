@@ -11,3 +11,4 @@ captures
 local.properties
 
 app/release
+app/debug
