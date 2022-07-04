@@ -15,7 +15,7 @@ android {
         applicationId 'cn.cqautotest.sunnybeach'
 
         // 仅保留中文语种的资源
-        resConfigs 'zh'
+        resConfigs 'zh,zh-rCN'
 
         // 仅保留 xxhdpi 图片资源（目前主流分辨率 1920 * 1080）
         resConfigs 'xxhdpi'
@@ -156,7 +156,7 @@ dependencies {
     implementation project(':library:network')
     // 阿里云视频播放器SDK
     implementation project(':Aliyunplayer:player_demo')
-    implementation project (':Aliyunplayer:AlivcPlayerTools')
+    implementation project(':Aliyunplayer:AlivcPlayerTools')
 
     // 单元测试
     testImplementation 'junit:junit:4.13.2'
