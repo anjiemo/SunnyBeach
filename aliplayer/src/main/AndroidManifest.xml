@@ -21,11 +21,11 @@
 
         <meta-data
             android:name="com.aliyun.alivc_license.licensekey"
-            android:value="xxxxxxxxx" />
+            android:value="roMudN9ivX0oDuy5Ueec1806b0b0745c1beafb836350d3263" />
 
         <meta-data
             android:name="com.aliyun.alivc_license.licensefile"
-            android:value="assets/license.crt" />
+            android:value="assets/aliplayer/license.crt" />
 
     </application>
 

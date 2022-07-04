@@ -1,0 +1,14 @@
+<resources>
+    <string name="alivc_base_version">SDK VERSION INFO</string>
+    <string name="alivc_operator_play">Autoplay on Provider Network</string>
+
+    <string name="alivc_replay">Replay</string>
+    <string name="alivc_alivc_replay_msg">Video ended</string>
+    <string name="alivc_error_msg">Error message</string>
+    <string name="alivc_error_code">Error code:</string>
+    <string name="alivc_retry">Retry</string>
+    <string name="alivc_loading">Loading...</string>
+    <string name="alivc_net_state_mobile">The current network is cell-network, whether to continue?</string>
+    <string name="alivc_net_state_mobile_yes">Resume</string>
+    <string name="alivc_net_state_mobile_no">Exit</string>
+</resources>

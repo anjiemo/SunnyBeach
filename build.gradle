@@ -6,6 +6,7 @@ buildscript {
 
     // 导入通用的 Maven 库配置
     apply from : 'maven.gradle'
+    apply from: 'thirdparty-lib/config.gradle'
 
     ext.kotlin_version = "1.7.0"
     ext.agcp_version  = "1.6.0.300"

@@ -1,0 +1,24 @@
+<resources>
+
+    <dimen name="alivc_player_info_seekbar_height">3dp</dimen>
+    <dimen name="alivc_player_info_seekbar_offset">8dp</dimen>
+    <dimen name="alivc_player_info_bar_height">46dp</dimen>
+
+
+    <dimen name="alivc_player_adv_picture_background_width">72dp</dimen>
+    <dimen name="alivc_palyer_adv_picture_background_height">24dp</dimen>
+
+
+    <dimen name="alivc_player_gesture_dialog_size">155dp</dimen>
+
+    <!--rate-->
+    <dimen name="alivc_player_rate_item_height">32dp</dimen>
+
+
+    <!--download-->
+    <dimen name="alivc_player_download_dialog_height">275sp</dimen>
+
+    <dimen name="alivc_player_seekbar_height">3dp</dimen>
+    <dimen name="alivc_player_seekbar_offset">8dp</dimen>
+
+</resources>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/alivc_common_theme_primary_darker">
+
+    <com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alivc_common_height_group_200" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/video_view"
+        android:background="@color/alivc_common_white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <TextView
+                android:id="@+id/tv_video_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="@dimen/alivc_common_margin_6"
+                android:textColor="@color/alivc_longvideo_font_black"
+                android:textSize="@dimen/alivc_common_font_18" />
+
+            <ImageView
+                android:id="@+id/iv_share"
+                android:layout_width="@dimen/alivc_common_height_icon_24"
+                android:layout_height="@dimen/alivc_common_height_icon_24"
+                android:layout_below="@id/tv_video_title"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/alivc_common_margin_36"
+                android:layout_marginTop="@dimen/alivc_common_margin_15"
+                android:layout_marginRight="@dimen/alivc_common_margin_28"
+                android:scaleType="centerInside"
+                android:src="@drawable/alivc_icon_play_share" />
+
+
+            <ImageView
+                android:id="@+id/iv_download"
+                android:layout_width="@dimen/alivc_common_height_icon_24"
+                android:layout_height="@dimen/alivc_common_height_icon_24"
+                android:layout_below="@id/tv_video_title"
+                android:layout_marginTop="@dimen/alivc_common_margin_15"
+                android:layout_toLeftOf="@id/iv_share"
+                android:scaleType="centerInside"
+                android:src="@drawable/alivc_icon_play_download" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_player_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_download"
+                android:layout_marginLeft="@dimen/alivc_common_margin_6"
+                android:layout_marginTop="@dimen/alivc_common_margin_30">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <ProgressBar
+                android:id="@+id/loading_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_download"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/tv_download_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/alivc_common_margin_20"
+        android:background="@drawable/aliyun_player_download_list_bg_shape"
+        android:gravity="center"
+        android:padding="@dimen/alivc_common_padding_10"
+        android:text="@string/alivc_download_list_button"
+        android:textColor="@color/alivc_common_white" />
+
+    <ProgressBar
+        android:id="@+id/download_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

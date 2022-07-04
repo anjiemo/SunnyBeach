@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/alivc_common_bg_white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/alivc_title"
+        layout="@layout/alivc_player_video_base_title" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/alivc_common_margin_48"
+        android:layout_below="@+id/alivc_title">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/alivc_cache_video_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+
+        <TextView
+            android:id="@+id/alivc_not_cache_video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/alivc_player_download_video_not_cachevideo"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/alivc_fl_cache_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alivc_common_margin_48"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible">
+
+        <ProgressBar
+            android:id="@+id/alivc_progress_bar_healthy"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:max="100"
+            android:progressDrawable="@drawable/alivc_player_capacity_progressbar_bg" />
+
+        <TextView
+            android:id="@+id/alivc_tv_cache_size"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/alivc_fl_edit_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alivc_common_margin_48"
+        android:layout_alignParentBottom="true"
+        android:background="@color/alivc_common_white"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/alivc_tv_all_selected"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/alivc_player_download_video_all_selected"
+            android:textColor="@color/alivc_common_font_gray_333333"
+            android:textSize="@dimen/alivc_common_font_16" />
+
+        <TextView
+            android:id="@+id/alivc_tv_delete"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/alivc_player_download_video_delete"
+            android:textColor="@color/alivc_common_font_gray_333333"
+            android:textSize="@dimen/alivc_common_font_16" />
+    </LinearLayout>
+</RelativeLayout>

@@ -66,7 +66,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,LockedOrientationActivity"
-        tools:replace="android:allowBackup,android:supportsRtl,android:label"
+        tools:replace="android:allowBackup,android:supportsRtl,android:label,android:icon,android:roundIcon,android:theme"
         tools:targetApi="n">
 
         <!-- 表示当前已经适配了分区存储 -->
@@ -97,7 +97,8 @@
 
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/file_paths"
+                tools:replace="android:resource" />
         </provider>
 
         <receiver
@@ -451,9 +452,7 @@
             android:screenOrientation="portrait" />
 
         <!-- 课程视频播放页 -->
-        <activity
-            android:name=".ui.activity.PlayerActivity"
-            android:screenOrientation="landscape" />
+        <activity android:name=".ui.activity.PlayerActivity" />
 
         <!-- 壁纸发现页 -->
         <activity
