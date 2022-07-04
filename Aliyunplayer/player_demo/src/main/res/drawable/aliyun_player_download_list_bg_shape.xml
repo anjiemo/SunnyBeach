@@ -5,7 +5,7 @@
     <solid android:color="@color/alivc_player_config_edit_background" />
 
     <size
-        android:width="@dimen/alivc_common_width_group_55"
-        android:height="@dimen/alivc_common_height_group_55" />
+        android:width="200dp"
+        android:height="200dp" />
 
 </shape>
