@@ -23,6 +23,7 @@ import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.LoginActivityBinding
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
+import cn.cqautotest.sunnybeach.ktx.clearText
 import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.ktx.textString
 import cn.cqautotest.sunnybeach.manager.ActivityManager
@@ -190,6 +191,7 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
             if (userBasicInfo == null) {
                 loadVerifyCode()
                 commitView?.showError()
+                mBinding.etLoginVerifyCode.clearText()
                 return@observe
             }
             commitView?.showSucceed()
