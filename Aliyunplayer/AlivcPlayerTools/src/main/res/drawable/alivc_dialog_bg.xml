@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <solid android:color="@color/alivc_common_theme_primary_light" />
+
+    <!-- 圆角 -->
+    <corners android:radius="@dimen/alivc_common_radius_6" />
+
+</shape>

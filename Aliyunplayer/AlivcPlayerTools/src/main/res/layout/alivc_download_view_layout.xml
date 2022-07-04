@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/alivc_layout_empty_view"
+        layout="@layout/alivc_layout_empty_view"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/rl_download_manager_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/rl_download_manager_edit_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_height_group_50"
+            android:layout_alignParentBottom="true">
+
+            <RelativeLayout
+                android:id="@+id/rl_download_manager_edit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/alivc_common_height_group_50"
+                android:layout_alignParentBottom="true"
+                android:background="@color/alivc_common_theme_primary_light">
+
+                <CheckBox
+                    android:id="@+id/checkbox_all_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/alivc_common_margin_15"
+                    android:background="@drawable/alivc_checkbox_selector"
+                    android:button="@null" />
+
+                <TextView
+                    android:id="@+id/tv_delete_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/alivc_common_margin_15"
+                    android:layout_toRightOf="@id/checkbox_all_select"
+                    android:text="@string/alivc_checkbox_all_select"
+                    android:textColor="@color/alivc_common_font_white_light" />
+
+                <ImageView
+                    android:id="@+id/iv_download_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/alivc_common_margin_20"
+                    android:layout_toLeftOf="@id/iv_close_edit"
+                    android:background="@drawable/ic_delete" />
+
+                <ImageView
+                    android:id="@+id/iv_close_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/alivc_common_margin_20"
+                    android:background="@drawable/alivc_download_dialog_close" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_download_manager_edit_default"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/alivc_common_height_group_50"
+                android:layout_alignParentBottom="true"
+                android:background="@color/alivc_common_theme_primary_light"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/alivc_common_margin_15"
+                    android:text="@string/alivc_download_edit"
+                    android:textColor="@color/alivc_common_font_white_light" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/rl_download_manager_edit_layout">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/download_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

@@ -1,0 +1,31 @@
+<resources>
+    <string name="alivc_common_no_camera_permission">没有权限使用摄像头，请开启摄像头权限</string>
+    <string name="alivc_common_no_record_bluetooth_permission">没有权限使用蓝牙，请开启蓝牙权限</string>
+    <string name="alivc_common_no_record_audio_permission">没有权限使用录音，请开启录音权限</string>
+    <string name="alivc_common_no_read_phone_state_permission">没有读取用户数据的权限，请开启该权限</string>
+    <string name="alivc_common_no_write_external_storage_permission">没有文件写权限，请开启该权限</string>
+    <string name="alivc_common_no_read_external_storage_permission">没有文件读权限，请开启该权限</string>
+
+    <string name="alivc_common_note">提示</string>
+    <string name="alivc_common_confirm">确认</string>
+
+    <string name="alivc_common_no_permission">没有权限</string>
+
+    <string name="aliyun_common_confirm">确定</string>
+    <string name="aliyun_common_cancel">取消</string>
+    <string name="aliyun_common_update_app">发现新版本，请升级</string>
+    <string name="aliyun_common_updating">升级中</string>
+
+    <string name="alivc_common_operate_success">操作成功</string>
+    <string name="alivc_common_operate_fail">操作失败</string>
+    <string name="alivc_common_loading">正在加载</string>
+    <string name="alivc_common_loading_end">加载完毕</string>
+    <string name="alivc_common_device_memory_not_enough">设备内存不足，请及时清理</string>
+    <string name="alivc_common_creating_video_remind">正在进行视频合成，确定要放弃吗？</string>
+
+
+    <string name="alivc_common_download">下载</string>
+    <string name="alivc_common_cancel">取消</string>
+    <string name="alivc_common_no_free_memory">剩余磁盘空间不足</string>
+
+</resources>

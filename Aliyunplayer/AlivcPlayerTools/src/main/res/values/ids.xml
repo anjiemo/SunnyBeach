@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="custom_id_min" type="id" />
+    <item name="alivc_player_subtitle" type="id" />
+    <item name="auto_bitrate" type="id" />
+    <item name="cicada_player_ass_subtitle" type="id" />
+</resources>

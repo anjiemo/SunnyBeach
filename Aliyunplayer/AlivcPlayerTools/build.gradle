@@ -1,0 +1,38 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion externalCompileSdkVersion
+
+    defaultConfig {
+        minSdkVersion externalMinSdkVersion
+        targetSdkVersion externalTargetSdkVersion
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    api project(':AliyunPlayerBase')
+
+    //弹幕
+    implementation('com.github.ctiao:DanmakuFlameMaster:0.9.25'){
+        exclude group: 'com.android.support'
+    }
+
+    // Cling library
+//    implementation 'org.fourthline.cling:cling-core:2.1.1'
+//    implementation 'org.fourthline.cling:cling-support:2.1.1'
+    // Jetty library
+    implementation 'org.eclipse.jetty:jetty-server:8.1.12.v20130726'
+    implementation 'org.eclipse.jetty:jetty-servlet:8.1.12.v20130726'
+    implementation 'org.eclipse.jetty:jetty-client:8.1.12.v20130726'
+    implementation 'org.slf4j:slf4j-simple:1.7.21'
+    implementation 'com.koushikdutta.urlimageviewhelper:urlimageviewhelper:1.0.4'
+
+}

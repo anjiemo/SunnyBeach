@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--error-->
+    <dimen name="alivc_player_dialog_err_width">220dp</dimen>
+    <dimen name="alivc_player_dialog_err_height">120dp</dimen>
+
+    <!--loading-->
+    <dimen name="alivc_player_loading_height">120dp</dimen>
+    <dimen name="alivc_player_loading_width">130dp</dimen>
+
+    <dimen name="alivc_palyer_dialog_loading_width">200dp</dimen>
+    <dimen name="alivc_player_dialog_loading_height">200dp</dimen>
+
+    <dimen name="alivc_player_dialog_netchange_width">280dp</dimen>
+    <dimen name="alivc_player_dialog_netchange_height">120dp</dimen>
+</resources>

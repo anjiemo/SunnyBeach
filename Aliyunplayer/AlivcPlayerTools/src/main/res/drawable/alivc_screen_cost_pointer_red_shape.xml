@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <solid android:color="@color/alivc_player_theme_red" />
+
+    <size
+        android:height="@dimen/alivc_common_size_icon_5"
+        android:width="@dimen/alivc_common_size_icon_5" />
+
+</shape>

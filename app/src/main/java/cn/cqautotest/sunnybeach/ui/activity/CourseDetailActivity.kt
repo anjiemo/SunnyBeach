@@ -15,6 +15,7 @@ import cn.cqautotest.sunnybeach.model.course.Course
 import cn.cqautotest.sunnybeach.model.course.CourseChapter
 import cn.cqautotest.sunnybeach.ui.adapter.CourseChapterListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
+import cn.cqautotest.sunnybeach.util.CourseVideoPlayHelper
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
 import com.dylanc.longan.intentExtras
 import kotlinx.coroutines.flow.collectLatest
@@ -55,7 +56,7 @@ class CourseDetailActivity : PagingActivity() {
         mAdapterDelegate.setOnItemClickListener { _, position ->
             mCourseChapterListAdapter.snapshotList[position]?.let {
                 when (it) {
-                    is CourseChapter.CourseChapterItem.Children -> PlayerActivity.start(this, it)
+                    is CourseChapter.CourseChapterItem.Children -> CourseVideoPlayHelper.play(this, mCourseViewModel, it.id)
                     else -> {
                         /* do nothing */
                     }

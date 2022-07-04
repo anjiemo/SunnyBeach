@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/ll_trailer_tips_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/alivc_common_bg_black_alpha_90">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_trailer_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alivc_player_trailer_tips"
+                android:textColor="@color/alivc_common_font_white"
+                android:textSize="@dimen/alivc_common_font_18" />
+
+            <TextView
+                android:id="@+id/tv_trailer_open"
+                android:layout_width="@dimen/alivc_common_width_tv_111"
+                android:layout_height="@dimen/alivc_common_height_group_38"
+                android:layout_marginTop="@dimen/alivc_common_margin_25"
+                android:background="@drawable/alivc_player_red_rectangle_bg_trailer_shape"
+                android:gravity="center"
+                android:text="@string/alivc_player_trailer_open"
+                android:textColor="@color/alivc_common_font_white"
+                android:textSize="@dimen/alivc_common_font_14" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_trailer_play_again"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/alivc_common_padding_10">
+
+            <ImageView
+                android:layout_width="@dimen/alivc_common_height_icon_15"
+                android:layout_height="@dimen/alivc_common_height_icon_15"
+                android:layout_marginRight="@dimen/alivc_common_padding_6"
+                android:scaleType="centerInside"
+                android:src="@drawable/alivc_player_icon_trailer_play_again" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alivc_player_trailer_play_again"
+                android:textColor="@color/alivc_common_font_white"
+                android:textSize="@dimen/alivc_common_font_14" />
+
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_trailer_play_tips_root"
+        android:layout_width="@dimen/alivc_common_height_group_160"
+        android:layout_height="@dimen/alivc_common_height_group_38"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/alivc_common_margin_10"
+        android:background="@drawable/alivc_player_bg_trailer_play_tips"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/alivc_player_icon_trailer_vip_tips" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/alivc_common_margin_3"
+            android:layout_marginRight="@dimen/alivc_common_margin_5"
+            android:textColor="@color/alivc_common_font_white"
+            android:text="@string/alivc_player_trailer_player_tips"
+            android:textSize="@dimen/alivc_common_font_14" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/alivc_player_icon_right_back_arrow" />
+
+    </LinearLayout>
+
+</FrameLayout>
