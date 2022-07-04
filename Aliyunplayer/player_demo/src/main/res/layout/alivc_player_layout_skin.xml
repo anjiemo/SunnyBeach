@@ -44,7 +44,6 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/alivc_icon_play_share" />
 
-
             <ImageView
                 android:id="@+id/iv_download"
                 android:layout_width="@dimen/alivc_common_height_icon_24"
@@ -79,11 +78,16 @@
 
     <TextView
         android:id="@+id/tv_download_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/alivc_common_margin_20"
+        android:layout_marginStart="@dimen/alivc_common_margin_20"
+        android:layout_marginLeft="@dimen/alivc_common_margin_20"
+        android:layout_marginTop="@dimen/alivc_common_margin_20"
+        android:layout_marginEnd="@dimen/alivc_common_margin_20"
+        android:layout_marginRight="@dimen/alivc_common_margin_20"
+        android:layout_marginBottom="@dimen/alivc_common_margin_20"
         android:background="@drawable/aliyun_player_download_list_bg_shape"
         android:gravity="center"
         android:padding="@dimen/alivc_common_padding_10"
