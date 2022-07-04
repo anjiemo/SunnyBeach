@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottom_dialog_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/alivc_common_height_group_50"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/bottom_dialog_list_item_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/alivc_common_padding_20"
+        android:textColor="@android:color/white"
+        android:layout_gravity="left|center_vertical"
+        android:ellipsize="middle"
+        android:singleLine="true" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/bottom_dialog_list_item_value"
+        android:layout_gravity="right|center_vertical"
+        android:paddingRight="@dimen/alivc_common_padding_20"
+        android:textColor="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="middle"
+        android:singleLine="true" />
+</LinearLayout>

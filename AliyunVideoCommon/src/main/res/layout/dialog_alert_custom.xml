@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/contentWrap"
+        android:layout_width="@dimen/alivc_common_alert_dialog_w"
+        android:layout_height="@dimen/alivc_common_alert_dialog_h"
+        android:background="@android:color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/alivc_common_padding_20">
+
+        <ImageView
+            android:id="@+id/iv_dialog_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/alivc_common_margin_10"
+            android:src="@mipmap/icon_delete_tips" />
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_dialog_message"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center_horizontal"
+                android:text="@string/alivc_common_creating_video_remind"
+                android:textColor="@color/alivc_common_font_gray_333"
+                android:textSize="@dimen/alivc_common_font_16" />
+        </ScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_line_1px"
+            android:background="@color/alivc_common_line_gray_bright" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_height_group_45">
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/alivc_common_cancel"
+                android:textSize="@dimen/alivc_common_font_16" />
+
+            <TextView
+                android:id="@+id/tv_confirm"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/alivc_common_confirm"
+                android:textColor="@color/alivc_common_font_cyan_light"
+                android:textSize="@dimen/alivc_common_font_16" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</merge>

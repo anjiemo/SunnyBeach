@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--底部按钮-->
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_line_1dp"
+            android:background="@color/alivc_common_line_cyan_light" />
+
+        <!--确定，取消-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_height_group_50"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/tv_confirm_config"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="@string/alivc_player_confirm_config" />
+
+            <TextView
+                android:id="@+id/tv_normal_config"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/alivc_common_bg_cyan_light"
+                android:gravity="center"
+                android:text="@string/alivc_player_normal_config" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <!--底部按钮-->
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll_bottom"
+        android:overScrollMode="never"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--标题-->
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/alivc_player_setting_title"
+                android:textColor="@color/alivc_common_white"
+                android:layout_marginTop="@dimen/alivc_common_margin_40"
+                android:textSize="@dimen/alivc_common_font_18" />
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/alivc_common_padding_10"
+                android:layout_alignTop="@id/tv_title"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/tv_play_source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_title"
+                android:layout_marginLeft="@dimen/alivc_common_margin_20"
+                android:layout_marginTop="@dimen/alivc_common_margin_25"
+                android:layout_marginRight="@dimen/alivc_common_margin_20"
+                android:layout_marginBottom="@dimen/alivc_common_margin_16"
+                android:text="@string/alivc_player_type_title"
+                android:textColor="@color/alivc_common_white"
+                android:textSize="@dimen/alivc_common_font_14" />
+
+            <HorizontalScrollView
+                android:id="@+id/horizontal_scrollview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_play_source"
+                android:layout_marginTop="@dimen/alivc_common_margin_15"
+                android:layout_marginBottom="@dimen/alivc_common_margin_30"
+                android:overScrollMode="never"
+                android:layout_marginLeft="@dimen/alivc_common_margin_20"
+                android:layout_marginRight="@dimen/alivc_common_margin_20"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_btn_play_type_url"
+                        style="@style/AliPlayerSettingRadioButton"
+                        android:layout_width="@dimen/alivc_common_width_tv_100"
+                        android:layout_height="@dimen/alivc_common_height_group_36"
+                        android:text="@string/alivc_player_setting_play_type_url" />
+
+                    <RadioButton
+                        android:id="@+id/radio_btn_play_type_sts"
+                        style="@style/AliPlayerSettingRadioButton"
+                        android:layout_width="@dimen/alivc_common_width_tv_100"
+                        android:layout_height="@dimen/alivc_common_height_group_36"
+                        android:layout_marginLeft="@dimen/alivc_common_margin_16"
+                        android:layout_marginRight="@dimen/alivc_common_margin_16"
+                        android:text="@string/alivc_player_setting_play_type_sts" />
+
+                    <RadioButton
+                        android:id="@+id/radio_btn_play_type_mps"
+                        style="@style/AliPlayerSettingRadioButton"
+                        android:layout_width="@dimen/alivc_common_width_tv_100"
+                        android:layout_height="@dimen/alivc_common_height_group_36"
+                        android:text="@string/alivc_player_setting_play_type_mps" />
+
+                    <RadioButton
+                        android:id="@+id/radio_btn_play_type_auth"
+                        style="@style/AliPlayerSettingRadioButton"
+                        android:layout_width="@dimen/alivc_common_width_tv_100"
+                        android:layout_height="@dimen/alivc_common_height_group_36"
+                        android:layout_marginLeft="@dimen/alivc_common_margin_16"
+                        android:layout_marginRight="@dimen/alivc_common_margin_16"
+                        android:text="@string/alivc_player_setting_play_type_auth" />
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <!--输入内容-->
+            <FrameLayout
+                android:id="@+id/framelayout_input_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/horizontal_scrollview">
+
+            </FrameLayout>
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

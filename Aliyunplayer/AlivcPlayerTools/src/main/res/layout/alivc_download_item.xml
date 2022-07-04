@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_download_item_root_view"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_gravity="center_vertical"
+    android:layout_height="@dimen/alivc_common_height_group_68">
+
+    <CheckBox
+        android:id="@+id/cb_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/alivc_common_margin_15"
+        android:visibility="gone"
+        android:enabled="false"
+        android:button="@null"
+        android:background="@drawable/alivc_checkbox_selector" />
+
+    <FrameLayout
+        android:id="@+id/rl_download_video_cover_stats"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/alivc_common_margin_12"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_video_cover"
+            android:layout_width="@dimen/alivc_common_width_icon_120"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/iv_video_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_video_download_info_stats"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/alivc_common_margin_12"
+        android:layout_marginRight="@dimen/alivc_common_margin_15"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_video_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/alivc_common_margin_8"
+            android:textSize="@dimen/alivc_common_font_14"
+            android:textColor="@android:color/white"
+            android:singleLine="true"
+            android:lines="1"
+            android:text="Title" />
+
+        <RelativeLayout
+            android:id="@+id/ll_download_info"
+            android:layout_below="@id/tv_video_title"
+            android:layout_marginTop="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_download_video_stats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/alivc_common_font_14"
+                android:textColor="@color/alivc_common_font_cyan_light"
+                android:layout_alignParentLeft="true"
+                android:text=" Stats " />
+
+            <TextView
+                android:id="@+id/tv_download_video_current_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/alivc_common_font_14"
+                android:textColor="@android:color/white"
+                android:layout_toRightOf="@id/tv_download_video_stats"
+                android:visibility="gone"
+                android:text=" Speed " />
+
+            <TextView
+                android:id="@+id/tv_video_total_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:textSize="@dimen/alivc_common_font_14"
+                android:textColor="@android:color/white"
+                android:layout_alignParentRight="true"
+                android:text="Total Size" />
+
+        </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_download_video"
+            style="@style/progress_style"
+            android:layout_below="@id/ll_download_info"
+            android:layout_marginTop="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+</LinearLayout>

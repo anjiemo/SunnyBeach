@@ -1,0 +1,20 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion externalCompileSdkVersion
+
+    defaultConfig {
+        minSdkVersion externalMinSdkVersion
+        targetSdkVersion externalTargetSdkVersion
+    }
+}
+
+dependencies {
+    implementation externalGlide
+    implementation externalAppcompat
+    implementation externalMaterial
+    implementation externalConstraintlayout
+    implementation externalOKHTTP
+    implementation externalGSON
+
+}
