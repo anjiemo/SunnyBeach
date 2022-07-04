@@ -9,3 +9,5 @@ captures
 *.iml
 .DS_Store
 local.properties
+
+app/release
