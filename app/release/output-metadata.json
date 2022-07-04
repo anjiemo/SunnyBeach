@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "cn.cqautotest.sunnybeach",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 14,
+      "versionName": "5.3.3",
+      "outputFile": "SunnyBeach-kotlin_v5.3.3_release_0702.apk"
+    }
+  ],
+  "elementType": "File"
+}
