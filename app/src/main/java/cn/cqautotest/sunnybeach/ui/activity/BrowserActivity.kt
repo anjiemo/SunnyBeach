@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.text.TextUtils
-import android.view.KeyEvent
 import android.view.View
 import android.webkit.WebView
 import android.widget.ProgressBar
@@ -151,15 +150,8 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
             .show()
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        browserView?.apply {
-            if (keyCode == KeyEvent.KEYCODE_BACK && canGoBack()) {
-                // 后退网页并且拦截该事件
-                goBack()
-                return true
-            }
-        }
-        return super.onKeyDown(keyCode, event)
+    override fun onBackPressed() {
+        browserView.takeIf { it != null && it.canGoBack() }?.goBack() ?: super.onBackPressed()
     }
 
     /**
@@ -185,6 +177,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
          * 网页加载错误时回调，这个方法会在 onPageFinished 之前调用
          */
         override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
+            Timber.d("onReceivedError：===> errorCode is $errorCode description is $description failingUrl is $failingUrl")
             // 这里为什么要用延迟呢？因为加载出错之后会先调用 onReceivedError 再调用 onPageFinished
             post {
                 showError { reload() }

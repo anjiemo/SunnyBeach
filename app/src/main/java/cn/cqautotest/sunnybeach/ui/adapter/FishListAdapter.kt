@@ -127,9 +127,8 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
         adapterDelegate.onViewAttachedToWindow(holder)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: FishListAdapter.FishListViewHolder, position: Int) {
-        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
         holder.onBinding(getItem(position), position)
     }
 

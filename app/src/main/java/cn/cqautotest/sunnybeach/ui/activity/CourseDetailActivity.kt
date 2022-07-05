@@ -16,7 +16,9 @@ import cn.cqautotest.sunnybeach.model.course.CourseChapter
 import cn.cqautotest.sunnybeach.ui.adapter.CourseChapterListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.CourseVideoPlayHelper
+import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
+import com.bumptech.glide.Glide
 import com.dylanc.longan.intentExtras
 import kotlinx.coroutines.flow.collectLatest
 
@@ -42,6 +44,10 @@ class CourseDetailActivity : PagingActivity() {
     @SuppressLint("SetTextI18n")
     override fun initView() {
         super.initView()
+        Glide.with(this)
+            .load(courseItem.cover)
+            .into(mBinding.ivCover)
+        mBinding.pagingRecyclerView.addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
         val price = courseItem.price
         mBinding.tvBuyCourse.text = if (price.isZero) "已购买" else "购买 ¥ ${courseItem.price}"
     }
