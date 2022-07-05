@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:paddingVertical="@dimen/dp_10"
+    android:background="@drawable/item_selector_ic"
+    android:paddingVertical="@dimen/dp_24"
     android:paddingStart="@dimen/dp_40"
     android:paddingEnd="@dimen/dp_10">
 
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:textColor="@color/black"
-        android:textSize="@dimen/sp_18"
+        android:textSize="@dimen/sp_16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -374,9 +374,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                 Glide.with(holder.itemView)
                     .load(R.drawable.clear_ic)
                     .into(ivClear)
-                ivPhoto.setFixOnClickListener {
-                    previewImageListener.invoke(it, holder.bindingAdapterPosition)
-                }
+                ivPhoto.setFixOnClickListener { previewImageListener.invoke(it, holder.bindingAdapterPosition) }
                 ivClear.setFixOnClickListener {
                     mData.removeAt(holder.bindingAdapterPosition)
                     notifyItemRemoved(holder.bindingAdapterPosition)
@@ -387,7 +385,6 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             override fun getItemCount(): Int = mData.size
         }
 
-        private class ImagePreviewViewHolder(val binding: ImageChooseItemBinding) :
-            RecyclerView.ViewHolder(binding.root)
+        private class ImagePreviewViewHolder(val binding: ImageChooseItemBinding) : RecyclerView.ViewHolder(binding.root)
     }
 }
