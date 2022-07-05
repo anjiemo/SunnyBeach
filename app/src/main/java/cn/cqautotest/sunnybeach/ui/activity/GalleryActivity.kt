@@ -126,9 +126,11 @@ class GalleryActivity : AppActivity() {
             val wallpaperManager = WallpaperManager.getInstance(context)
             settingWallpaperTv.setOnClickListener {
                 toast("开始准备壁纸...")
+                showDialog()
                 lifecycleScope.launchWhenCreated {
                     val imageFile = DownloadHelper.ofType<File>(activity, getImageUri())
                     val success = imageFile.takeUnless { it == null }?.let { wallpaperManager.setWallpaper(it.inputStream()) } ?: false
+                    hideDialog()
                     toast(if (success) "壁纸设置成功" else "壁纸设置失败")
                 }
             }

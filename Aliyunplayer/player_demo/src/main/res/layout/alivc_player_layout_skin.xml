@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/alivc_common_theme_primary_darker">
+    android:background="@color/alivc_common_theme_primary_darker"
+    tools:context="com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity">
 
     <com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView
         android:id="@+id/video_view"
@@ -20,7 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_video_title"
@@ -92,7 +95,8 @@
         android:gravity="center"
         android:padding="@dimen/alivc_common_padding_10"
         android:text="@string/alivc_download_list_button"
-        android:textColor="@color/alivc_common_white" />
+        android:textColor="@color/alivc_common_white"
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/download_progress"

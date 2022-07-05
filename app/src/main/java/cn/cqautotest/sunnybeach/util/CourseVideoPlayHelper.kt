@@ -29,8 +29,8 @@ object CourseVideoPlayHelper {
         activity.takeIfLogin { activity.getCoursePlayAuth(courseViewModel, videoId) }
     }
 
-    private fun AppCompatActivity.getCoursePlayAuth(courseViewModel: CourseViewModel, chapterId: String) {
-        courseViewModel.getCoursePlayAuth(chapterId).observe(this) { result ->
+    private fun AppCompatActivity.getCoursePlayAuth(courseViewModel: CourseViewModel, _videoId: String) {
+        courseViewModel.getCoursePlayAuth(_videoId).observe(this) { result ->
             result.onSuccess {
                 val videoId = it.videoId
                 val playAuth = it.playAuth

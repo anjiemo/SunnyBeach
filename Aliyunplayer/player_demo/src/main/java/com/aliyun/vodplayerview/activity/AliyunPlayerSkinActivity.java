@@ -408,7 +408,7 @@ public class AliyunPlayerSkinActivity extends BaseActivity {
     }
 
     private void initAliyunPlayerView() {
-        //保持屏幕敞亮
+        //保持屏幕常亮
         mAliyunVodPlayerView.setKeepScreenOn(true);
         mAliyunVodPlayerView.setTheme(Theme.Blue);
         mAliyunVodPlayerView.setAutoPlay(true);
@@ -720,7 +720,7 @@ public class AliyunPlayerSkinActivity extends BaseActivity {
 
     private static class MyPrepareListener implements IPlayer.OnPreparedListener {
 
-        private WeakReference<AliyunPlayerSkinActivity> activityWeakReference;
+        private final WeakReference<AliyunPlayerSkinActivity> activityWeakReference;
 
         public MyPrepareListener(AliyunPlayerSkinActivity skinActivity) {
             activityWeakReference = new WeakReference<>(skinActivity);
@@ -776,7 +776,7 @@ public class AliyunPlayerSkinActivity extends BaseActivity {
 
     private static class MyCompletionListener implements IPlayer.OnCompletionListener {
 
-        private WeakReference<AliyunPlayerSkinActivity> activityWeakReference;
+        private final WeakReference<AliyunPlayerSkinActivity> activityWeakReference;
 
         public MyCompletionListener(AliyunPlayerSkinActivity skinActivity) {
             activityWeakReference = new WeakReference<AliyunPlayerSkinActivity>(skinActivity);
@@ -853,7 +853,7 @@ public class AliyunPlayerSkinActivity extends BaseActivity {
 
     private static class MyFrameInfoListener implements IPlayer.OnRenderingStartListener {
 
-        private WeakReference<AliyunPlayerSkinActivity> activityWeakReference;
+        private final WeakReference<AliyunPlayerSkinActivity> activityWeakReference;
 
         public MyFrameInfoListener(AliyunPlayerSkinActivity skinActivity) {
             activityWeakReference = new WeakReference<>(skinActivity);
@@ -892,7 +892,7 @@ public class AliyunPlayerSkinActivity extends BaseActivity {
      */
     private static class MyDownloadInfoListener implements AliyunDownloadInfoListener {
 
-        private WeakReference<AliyunPlayerSkinActivity> weakReference;
+        private final WeakReference<AliyunPlayerSkinActivity> weakReference;
 
         public MyDownloadInfoListener(AliyunPlayerSkinActivity aliyunPlayerSkinActivity) {
             weakReference = new WeakReference<>(aliyunPlayerSkinActivity);
@@ -1222,7 +1222,8 @@ public class AliyunPlayerSkinActivity extends BaseActivity {
         if (mAliyunVodPlayerView != null) {
             int orientation = getResources().getConfiguration().orientation;
             if (mDownloadListTextView != null) {
-                mDownloadListTextView.setVisibility(orientation == Configuration.ORIENTATION_PORTRAIT ? View.VISIBLE : View.GONE);
+                // 不显示下载按钮
+                // mDownloadListTextView.setVisibility(orientation == Configuration.ORIENTATION_PORTRAIT ? View.VISIBLE : View.GONE);
             }
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                 this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -1289,7 +1290,7 @@ public class AliyunPlayerSkinActivity extends BaseActivity {
 
     private static class MyOnScreenCostingSingleTagListener implements OnScreenCostingSingleTagListener {
 
-        private WeakReference<AliyunPlayerSkinActivity> weakReference;
+        private final WeakReference<AliyunPlayerSkinActivity> weakReference;
 
         private MyOnScreenCostingSingleTagListener(AliyunPlayerSkinActivity aliyunPlayerSkinActivity) {
             weakReference = new WeakReference<>(aliyunPlayerSkinActivity);
@@ -1373,7 +1374,8 @@ public class AliyunPlayerSkinActivity extends BaseActivity {
                 currentScreenMode = currentMode;
             }
         }
-        mDownloadListTextView.setVisibility(currentMode == AliyunScreenMode.Small ? View.VISIBLE : View.GONE);
+        // 不显示下载按钮
+        // mDownloadListTextView.setVisibility(currentMode == AliyunScreenMode.Small ? View.VISIBLE : View.GONE);
     }
 
     /**
