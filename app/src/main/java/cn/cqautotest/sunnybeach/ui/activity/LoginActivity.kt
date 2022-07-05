@@ -29,7 +29,6 @@ import cn.cqautotest.sunnybeach.ktx.textString
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.InputTextManager
 import cn.cqautotest.sunnybeach.manager.UserManager
-import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.other.KeyboardWatcher
 import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment
 import cn.cqautotest.sunnybeach.util.VERIFY_CODE_URL
@@ -40,12 +39,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.bar.TitleBar
-import com.hjq.gson.factory.GsonFactory
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengClient
 import com.hjq.umeng.UmengLogin
 import com.hjq.widget.view.SubmitButton
-import timber.log.Timber
 
 /**
  *    author : Android 轮子哥 & A Lonely Cat
@@ -90,9 +87,6 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
     private val animTime: Int = 300
 
     private val mUserViewModel by viewModels<UserViewModel>()
-
-    private var userAccount = ""
-    private var userPassword = ""
 
     override fun getLayoutId() = R.layout.login_activity
 
@@ -185,33 +179,7 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
                 .circleCrop()
                 .into(mBinding.ivLoginLogo)
         }
-        mUserViewModel.userBasicInfo.observe(this) { userBasicInfo: UserBasicInfo? ->
-            Timber.d(GsonFactory.getSingletonGson().toJson(userBasicInfo))
-            // 如果是未登录状态，则重置登录按钮
-            if (userBasicInfo == null) {
-                loadVerifyCode()
-                commitView?.showError()
-                mBinding.etLoginVerifyCode.clearText()
-                return@observe
-            }
-            commitView?.showSucceed()
-            // 默认记住账号
-            UserManager.saveCurrLoginAccount(userAccount)
-            // 是否记住密码
-            val rememberPwd = mBinding.cbRememberPwd.isChecked
-            UserManager.saveCurrLoginAccountPassword(if (rememberPwd) userPassword else "")
-            postDelayed({
-                val am = ActivityManager.getInstance()
-                takeIf { getBoolean(FROM_HOME) }?.let { am.finishActivity(HomeActivity::class.java) }
-                val topActivity = am.getTopActivity()
-                if (topActivity is LoginActivity) {
-                    HomeActivity.start(this, MyMeFragment::class.java)
-                }
-                finish()
-            }, 1000)
-        }
     }
-
 
     /**
      * 加载验证码图片
@@ -275,11 +243,13 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
 
             commitView?.showProgress()
             // 用户账号
-            userAccount = phoneView?.text.toString()
+            val userAccount = phoneView?.text.toString()
             // 用户密码
-            userPassword = passwordView?.text.toString()
+            val userPassword = passwordView?.text.toString()
+            // 验证码
+            val verifyCode = mBinding.etLoginVerifyCode.text.toString()
             // 登录
-            mUserViewModel.login(userAccount, userPassword, mBinding.etLoginVerifyCode.text.toString())
+            login(userAccount, userPassword, verifyCode)
             return
         }
         if (view === qqView || view === weChatView) {
@@ -306,6 +276,47 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
                 }
             }
             UmengClient.login(this, platform, this)
+        }
+    }
+
+    /**
+     * 登录账号
+     * userAccount：用户账号（手机号）
+     * userPassword：用户密码（不低于5位的密码）
+     * verifyCode：人类验证码（图片验证码）
+     */
+    private fun login(userAccount: String, userPassword: String, verifyCode: String) {
+        mUserViewModel.login(userAccount, userPassword, verifyCode).observe(this) { result ->
+            result.onSuccess { userBasicInfo ->
+                // 将基本信息缓存到本地
+                UserManager.saveUserBasicInfo(userBasicInfo)
+                // 默认记住账号
+                UserManager.saveCurrLoginAccount(userAccount)
+                // 是否记住密码
+                val rememberPwd = mBinding.cbRememberPwd.isChecked
+                UserManager.saveCurrLoginAccountPassword(if (rememberPwd) userPassword else "")
+                commitView?.showSucceed()
+                // 延迟跳转到首页，等待动画展示完成
+                postDelayed({
+                    val am = ActivityManager.getInstance()
+                    takeIf { getBoolean(FROM_HOME) }?.let { am.finishActivity(HomeActivity::class.java) }
+                    val topActivity = am.getTopActivity()
+                    if (topActivity is LoginActivity) {
+                        HomeActivity.start(this, MyMeFragment::class.java)
+                    }
+                    finish()
+                }, 1000)
+            }.onFailure {
+                // 设置为非自动登录状态
+                UserManager.setupAutoLogin(false)
+                // 重新加载人类验证码
+                loadVerifyCode()
+                // 清空验证码输入
+                mBinding.etLoginVerifyCode.clearText()
+                // 提示错误信息
+                toast(it.message)
+                commitView?.showError()
+            }
         }
     }
 

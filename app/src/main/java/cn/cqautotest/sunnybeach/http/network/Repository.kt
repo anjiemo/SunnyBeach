@@ -131,20 +131,22 @@ object Repository {
         null
     }
 
-    suspend fun login(userAccount: String, password: String, captcha: String) = try {
+    fun login(userAccount: String, password: String, captcha: String) = launchAndGetData {
         val user = User(userAccount, password.lowercaseMd5)
-        val result = UserNetwork.login(captcha, user)
-        if (result.isSuccess()) {
-            val userBasicInfo = checkToken()
-            // 将基本信息缓存到本地
-            UserManager.saveUserBasicInfo(userBasicInfo)
-            UserManager.setupAutoLogin(userBasicInfo != null)
-            userBasicInfo ?: throw NotLoginException()
-        } else throw ServiceException()
-    } catch (t: Throwable) {
-        t.printStackTrace()
-        UserManager.setupAutoLogin(false)
-        null
+        val loginResult = UserNetwork.login(captcha, user)
+        val checkTokenResult = UserNetwork.checkToken()
+        val loginCode = loginResult.getCode()
+        val checkTokenCode = checkTokenResult.getCode()
+        val loginSuccess = loginResult.isSuccess()
+        val checkSuccess = checkTokenResult.isSuccess()
+        val loginMsg = loginResult.getMessage()
+        val checkTokenMsg = checkTokenResult.getMessage()
+        when {
+            loginSuccess && checkSuccess -> ApiResponse(loginCode, true, loginMsg, checkTokenResult.getData())
+            loginSuccess.not() -> ApiResponse(loginCode, false, loginResult.getMessage(), null)
+            checkSuccess.not() -> ApiResponse(checkTokenCode, false, checkTokenMsg, null)
+            else -> ApiResponse(loginCode, false, loginMsg, null)
+        }
     }
 
     fun queryUserAvatar(account: String) = launchAndGetData { UserNetwork.queryUserAvatar(account) }
