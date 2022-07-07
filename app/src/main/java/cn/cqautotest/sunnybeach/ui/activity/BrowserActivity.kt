@@ -93,7 +93,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
             setBrowserChromeClient(AppBrowserChromeClient(this))
             val url = getString(INTENT_KEY_IN_URL)!!
             val isFeedback = getBoolean(IS_FEED_BACK)
-            if (isFeedback) {
+            val newUrl = if (isFeedback) {
                 val openId = getString(OPEN_ID)
                 val nickName = getString(NICK_NAME)
                 val avatar = getString(AVATAR_URL)
@@ -103,10 +103,11 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
                     .add("avatar", avatar.orEmpty())
                     .add("openid", openId.orEmpty())
                     .build().toQueryParams()
-                postUrl(url, queryParams.toByteArray())
+                "$url?$queryParams"
             } else {
-                loadUrl(url)
+                url
             }
+            loadUrl(newUrl)
         }
     }
 

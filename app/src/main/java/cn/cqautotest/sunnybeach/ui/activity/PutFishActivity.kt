@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Color
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -24,12 +23,14 @@ import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.other.IntentKey
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
+import com.dylanc.longan.activity
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.bar.TitleBar
 import kotlinx.coroutines.*
@@ -52,7 +53,8 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
 
     private val mBinding: PutFishActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
-    private val mPreviewAdapter by lazy { ImagePreviewAdapter() }
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mPreviewAdapter by lazy { ImagePreviewAdapter(mAdapterDelegate) }
     private var mTopicId: String? = null
     private var mLinkUrl: String? = null
 
@@ -76,85 +78,88 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
 
     @SuppressLint("SetTextI18n")
     override fun initEvent() {
-        val etInputContent = mBinding.etInputContent
-        etInputContent.requestFocus()
-        postDelayed({ showKeyboard(etInputContent) }, 100)
-        mBinding.rlChooseFishPond.setFixOnClickListener {
-            // 选择鱼塘
-            startActivityForResult(FishPondSelectionActivity::class.java) { resultCode, data ->
-                if (resultCode == Activity.RESULT_OK) {
-                    if (data != null) {
-                        val fishPondTopicListItem = fromJsonByTypeToken<FishPondTopicList.TopicItem>(data.getStringExtra(IntentKey.OTHER))
-                        mTopicId = fishPondTopicListItem.id
-                        val tvChooseFishPondDesc = mBinding.tvChooseFishPondDesc
-                        mBinding.tvChooseFishPond.text = "#${fishPondTopicListItem.topicName}#"
-                        tvChooseFishPondDesc.clearText()
-                    } else {
-                        resetTopicSelection()
+        with(mBinding) {
+            etInputContent.requestFocus()
+            postDelayed({ showKeyboard(etInputContent) }, 100)
+            rlChooseFishPond.setFixOnClickListener {
+                // 选择鱼塘
+                startActivityForResult(FishPondSelectionActivity::class.java) { resultCode, data ->
+                    if (resultCode == Activity.RESULT_OK) {
+                        if (data != null) {
+                            val fishPondTopicListItem =
+                                fromJsonByTypeToken<FishPondTopicList.TopicItem>(data.getStringExtra(IntentKey.OTHER))
+                            mTopicId = fishPondTopicListItem.id
+                            tvChooseFishPond.text = "#${fishPondTopicListItem.topicName}#"
+                            tvChooseFishPondDesc.clearText()
+                        } else {
+                            resetTopicSelection()
+                        }
                     }
                 }
             }
-        }
-        mBinding.ivEmoji.setFixOnClickListener {
-            // 键盘显示的时候隐藏表情列表，键盘隐藏的时候显示表情列表
-            toggleSoftInput(etInputContent)
-        }
-        mBinding.keyboardLayout.setKeyboardListener { isActive, _ ->
-            val navigationBarHeight = ImmersionBar.getNavigationBarHeight(this)
-            // Timber.d("initEvent：===> navigationBarHeight is $navigationBarHeight")
-
-            val keyboardHeight = etInputContent.requireKeyboardHeight()
-            // Timber.d("initEvent：===> keyboardHeight is $keyboardHeight")
-            val rvEmojiList = mBinding.rvEmojiList
-            if (isActive) {
-                rvEmojiList.updateLayoutParams {
-                    // 此处应该减去底部导航栏的高度，否则在经典导航栏模式下高度过剩
-                    height = keyboardHeight - navigationBarHeight
-                }
+            ivEmoji.setFixOnClickListener {
+                // 键盘显示的时候隐藏表情列表，键盘隐藏的时候显示表情列表
+                toggleSoftInput(etInputContent)
             }
-            val emojiIcon = if (isActive) R.mipmap.ic_emoji_normal else R.mipmap.ic_keyboard
-            Glide.with(this)
-                .load(emojiIcon)
-                .into(mBinding.ivEmoji)
-        }
-        mBinding.rvEmojiList.setOnEmojiClickListener { emoji, _ ->
-            val cursor = etInputContent.selectionStart
-            etInputContent.text.insert(cursor, emoji)
-        }
-        mBinding.ivImage.setFixOnClickListener {
-            // 选择图片，跳转至图片选择界面
-            ImageSelectActivity.start(this, MAX_SELECT_IMAGE_COUNT, this)
-        }
-        mBinding.ivLink.setFixOnClickListener {
-            // 弹出链接输入对话框，添加 url 链接
-            InputDialog.Builder(this)
-                .setTitle("添加链接")
-                .setHint("http(s)://")
-                .setContent(mLinkUrl)
-                .setCanceledOnTouchOutside(false)
-                .setListener { _, content ->
-                    mLinkUrl = content
-                    simpleToast(content)
-                }.show()
-        }
-        mBinding.etInputContent.setFixOnClickListener {
-            mBinding.keyboardLayout.postDelayed({
-                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-            }, 250)
-        }
-        val normalColor = Color.parseColor("#CBD0D3")
-        val overflowColor = Color.RED
-        mBinding.etInputContent.addTextChangedListener {
+            keyboardLayout.setKeyboardListener { isActive, _ ->
+                val navigationBarHeight = ImmersionBar.getNavigationBarHeight(activity)
+                // Timber.d("initEvent：===> navigationBarHeight is $navigationBarHeight")
+
+                val keyboardHeight = etInputContent.requireKeyboardHeight()
+                // Timber.d("initEvent：===> keyboardHeight is $keyboardHeight")
+                if (isActive) {
+                    rvEmojiList.updateLayoutParams {
+                        // 此处应该减去底部导航栏的高度，否则在经典导航栏模式下高度过剩
+                        height = keyboardHeight - navigationBarHeight
+                    }
+                }
+                val emojiIcon = if (isActive) R.mipmap.ic_emoji_normal else R.mipmap.ic_keyboard
+                Glide.with(context)
+                    .load(emojiIcon)
+                    .into(ivEmoji)
+            }
+            rvEmojiList.setOnEmojiClickListener { emoji, _ ->
+                val cursor = etInputContent.selectionStart
+                etInputContent.text.insert(cursor, emoji)
+            }
+            ivImage.setFixOnClickListener {
+                // 选择图片，跳转至图片选择界面
+                ImageSelectActivity.start(this@PutFishActivity, MAX_SELECT_IMAGE_COUNT, this@PutFishActivity)
+            }
+            ivLink.setFixOnClickListener {
+                // 弹出链接输入对话框，添加 url 链接
+                InputDialog.Builder(context)
+                    .setTitle("添加链接")
+                    .setHint("http(s)://")
+                    .setContent(mLinkUrl)
+                    .setCanceledOnTouchOutside(false)
+                    .setListener { _, content ->
+                        mLinkUrl = content
+                        simpleToast(content)
+                    }.show()
+            }
+            etInputContent.setFixOnClickListener {
+                keyboardLayout.postDelayed({
+                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+                }, 250)
+            }
+            val normalColor = Color.parseColor("#CBD0D3")
+            val overflowColor = Color.RED
             // 最大字符输入长度
             val maxInputTextLength = INPUT_MAX_LENGTH
             // 最小字符输入长度
             val minInputTextLength = 5
-            val inputLength = mBinding.etInputContent.length()
-            // 判断输入的字符长度是否溢出
-            val isOverflow = (maxInputTextLength - inputLength) < 0
-            mBinding.tvInputLength.text = "${inputLength}/$maxInputTextLength"
-            // 判断输入的字符串长度是否超过最大长度
-            mBinding.tvInputLength.setTextColor(if (inputLength < minInputTextLength || isOverflow) overflowColor else normalColor)
+            etInputContent.addTextChangedListener {
+                val inputLength = etInputContent.length()
+                // 判断输入的字符长度是否溢出
+                val isOverflow = (maxInputTextLength - inputLength) < 0
+                mBinding.tvInputLength.text = "${inputLength}/$maxInputTextLength"
+                // 判断输入的字符串长度是否超过最大长度
+                mBinding.tvInputLength.setTextColor(if (inputLength < minInputTextLength || isOverflow) overflowColor else normalColor)
+            }
+        }
+        mAdapterDelegate.setOnItemClickListener { _, position ->
+            ImagePreviewActivity.start(this, mPreviewAdapter.getData(), position)
         }
     }
 
@@ -320,6 +325,70 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         hideKeyboard()
     }
 
+    private class ImagePreviewViewHolder(val binding: ImageChooseItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<ImageChooseItemBinding>())
+
+        fun onBinding(item: String?, position: Int) {
+            item ?: return
+            with(binding) {
+                Glide.with(itemView)
+                    .load(item)
+                    .into(ivPhoto)
+                Glide.with(itemView)
+                    .load(R.drawable.clear_ic)
+                    .into(ivClear)
+                ivClear.setFixOnClickListener { v ->
+                    (bindingAdapter as? ImagePreviewAdapter)?.let {
+                        val data = it.getDataSource()
+                        data.removeAt(bindingAdapterPosition)
+                        it.notifyItemRemoved(bindingAdapterPosition)
+                        it.clearImageListener.invoke(v, bindingAdapterPosition)
+                    }
+                }
+            }
+        }
+    }
+
+    private class ImagePreviewAdapter(
+        private val adapterDelegate: AdapterDelegate,
+        private val mData: MutableList<String> = arrayListOf()
+    ) :
+        RecyclerView.Adapter<ImagePreviewViewHolder>() {
+
+        var previewImageListener: (view: View, position: Int) -> Unit = { _, _ -> }
+        var clearImageListener: (view: View, position: Int) -> Unit = { _, _ -> }
+
+        @SuppressLint("NotifyDataSetChanged")
+        fun setData(data: List<String>) {
+            mData.clear()
+            mData.addAll(data)
+            notifyDataSetChanged()
+        }
+
+        fun getData() = mData.toList()
+
+        context (RecyclerView.ViewHolder)
+        fun getDataSource() = mData
+
+        fun setOnItemClickListener(
+            previewImage: (view: View, position: Int) -> Unit,
+            clearImage: (view: View, position: Int) -> Unit
+        ) {
+            previewImageListener = previewImage
+            clearImageListener = clearImage
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImagePreviewViewHolder = ImagePreviewViewHolder(parent)
+
+        override fun onBindViewHolder(holder: ImagePreviewViewHolder, position: Int) {
+            holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
+            holder.onBinding(mData.getOrNull(position), position)
+        }
+
+        override fun getItemCount(): Int = mData.size
+    }
+
     companion object {
 
         private const val MAX_SELECT_IMAGE_COUNT = 9
@@ -331,60 +400,5 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         private const val TIMES = IMAGE_FILE_MAX_SIZE / MemoryConstants.KB
 
         private const val INPUT_MAX_LENGTH = 1024
-
-        private class ImagePreviewAdapter(private val mData: MutableList<String> = arrayListOf()) :
-            RecyclerView.Adapter<ImagePreviewViewHolder>() {
-
-            private var previewImageListener: (view: View, position: Int) -> Unit = { _, _ -> }
-            private var clearImageListener: (view: View, position: Int) -> Unit = { _, _ -> }
-
-            @SuppressLint("NotifyDataSetChanged")
-            fun setData(data: List<String>) {
-                mData.clear()
-                mData.addAll(data)
-                notifyDataSetChanged()
-            }
-
-            fun getData() = mData.toList()
-
-            fun setOnItemClickListener(
-                previewImage: (view: View, position: Int) -> Unit,
-                clearImage: (view: View, position: Int) -> Unit
-            ) {
-                previewImageListener = previewImage
-                clearImageListener = clearImage
-            }
-
-            override fun onCreateViewHolder(
-                parent: ViewGroup,
-                viewType: Int
-            ): ImagePreviewViewHolder {
-                val inflater = LayoutInflater.from(parent.context)
-                val binding = ImageChooseItemBinding.inflate(inflater, parent, false)
-                return ImagePreviewViewHolder(binding)
-            }
-
-            override fun onBindViewHolder(holder: ImagePreviewViewHolder, position: Int) {
-                val item = mData.getOrNull(position) ?: return
-                val ivPhoto = holder.binding.ivPhoto
-                val ivClear = holder.binding.ivClear
-                Glide.with(holder.itemView)
-                    .load(item)
-                    .into(ivPhoto)
-                Glide.with(holder.itemView)
-                    .load(R.drawable.clear_ic)
-                    .into(ivClear)
-                ivPhoto.setFixOnClickListener { previewImageListener.invoke(it, holder.bindingAdapterPosition) }
-                ivClear.setFixOnClickListener {
-                    mData.removeAt(holder.bindingAdapterPosition)
-                    notifyItemRemoved(holder.bindingAdapterPosition)
-                    clearImageListener.invoke(it, holder.bindingAdapterPosition)
-                }
-            }
-
-            override fun getItemCount(): Int = mData.size
-        }
-
-        private class ImagePreviewViewHolder(val binding: ImageChooseItemBinding) : RecyclerView.ViewHolder(binding.root)
     }
 }

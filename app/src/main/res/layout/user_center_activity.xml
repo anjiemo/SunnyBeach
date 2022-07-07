@@ -96,11 +96,11 @@
                     android:gravity="center"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    app:shape_solidDisabledColor="@color/btn_bg_disable_color"
                     android:text="成为VIP"
                     android:textColor="@color/white"
                     app:shape_radius="@dimen/dp_3"
-                    app:shape_solidColor="@color/pink" />
+                    app:shape_solidColor="@color/pink"
+                    app:shape_solidDisabledColor="@color/btn_bg_disable_color" />
 
             </LinearLayout>
 
@@ -335,11 +335,11 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginEnd="20dp"
-                    android:src="@mipmap/ic_default_avatar"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_arrows"
-                    app:layout_constraintVertical_bias="0.3" />
+                    app:layout_constraintVertical_bias="0.3"
+                    tools:src="@mipmap/launcher_ic" />
 
             </com.hjq.shape.layout.ShapeConstraintLayout>
 

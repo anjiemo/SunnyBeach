@@ -54,16 +54,13 @@
 
         </com.hjq.shape.layout.ShapeFrameLayout>
 
-        <com.hjq.shape.view.ShapeTextView
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:paddingHorizontal="@dimen/dp_18"
             android:paddingVertical="@dimen/dp_16"
-            android:text="课程目录"
-            app:shape_solidColor="@color/white"
-            app:shape_topLeftRadius="@dimen/dp_14"
-            app:shape_topRightRadius="@dimen/dp_14" />
+            android:text="课程目录" />
 
         <cn.cqautotest.sunnybeach.widget.StatusLayout
             android:id="@id/paging_status_layout"
