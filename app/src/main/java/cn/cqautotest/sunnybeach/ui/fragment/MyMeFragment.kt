@@ -39,18 +39,15 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     override fun initData() {}
 
-    override fun onFragmentResume(first: Boolean) {
-        super.onFragmentResume(first)
-        val meContent = mBinding.meContent
-        checkToken {
-            val userBasicInfo = it.getOrNull()
-            meContent.imageAvatar.loadAvatar(UserManager.currUserIsVip(), userBasicInfo?.avatar)
-            meContent.textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
+    override fun onResume() {
+        super.onResume()
+        with(mBinding.meContent) {
+            checkToken {
+                val userBasicInfo = it.getOrNull()
+                imageAvatar.loadAvatar(UserManager.currUserIsVip(), userBasicInfo?.avatar)
+                textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
+            }
         }
-    }
-
-    override fun onActivityResume() {
-        super.onActivityResume()
         mMsgViewModel.getUnReadMsgCount().observe(viewLifecycleOwner) {
             val unReadMsgCount = it.getOrNull() ?: return@observe
             badgeDrawable.isVisible = unReadMsgCount.hasUnReadMsg

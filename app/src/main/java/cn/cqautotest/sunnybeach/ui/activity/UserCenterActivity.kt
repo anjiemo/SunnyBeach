@@ -90,7 +90,7 @@ class UserCenterActivity : AppActivity() {
 
     private fun String.manicured(): String {
         val matcher = pattern.matcher(this)
-        return matcher.replaceAll("$1    $2    $3    $4    $5    $6")
+        return matcher.replaceAll("$1\u3000$2\u3000$3\u3000$4\u3000$5\u3000$6")
     }
 
     override fun onResume() {
@@ -113,6 +113,7 @@ class UserCenterActivity : AppActivity() {
 
     override fun initEvent() {
         mBinding.apply {
+            clScanQrCode.setFixOnClickListener { SobCardActivity.start(context, UserManager.loadCurrUserId()) }
             llUserInfoContainer.setFixOnClickListener {
                 takeIfLogin { userBasicInfo ->
                     val userId = userBasicInfo.id
@@ -120,11 +121,10 @@ class UserCenterActivity : AppActivity() {
                 }
             }
             ivAvatar.setFixOnClickListener {
-                ImageSelectActivity.start(this@UserCenterActivity, SINGLE_SELECT) {
-                    val imageFilePath = it.toList().firstOrNull() ?: run {
-                        return@start
+                ImageSelectActivity.start(this@UserCenterActivity, SINGLE_SELECT) { imageList ->
+                    imageList.toList().firstOrNull()?.let { imageFilePath ->
+                        onAvatarSelected(File(imageFilePath))
                     }
-                    onAvatarSelected(File(imageFilePath))
                 }
             }
             ivBecomeVip.setFixOnClickListener { startActivity<VipActivity>() }
@@ -210,28 +210,32 @@ class UserCenterActivity : AppActivity() {
 
     private fun queryUserInfo() {
         loadUserBasicInfo()
-        mUserViewModel.queryUserInfo().observe(this) {
-            mPersonCenterInfo = it.getOrNull() ?: return@observe
-            val userId = mPersonCenterInfo.userId
-            Timber.d("initData：===> formatted userId is $userId")
-            mBinding.tvSobId.text = userId.manicured()
+        with(mBinding) {
+            mUserViewModel.queryUserInfo().observe(this@UserCenterActivity) {
+                mPersonCenterInfo = it.getOrNull() ?: return@observe
+                val userId = mPersonCenterInfo.userId
+                Timber.d("initData：===> formatted userId is $userId")
+                tvSobId.text = userId.manicured()
 
-            val company = mPersonCenterInfo.company.ifNullOrEmpty { "无业" }
-            val job = mPersonCenterInfo.position.ifNullOrEmpty { "游民" }
+                val company = mPersonCenterInfo.company.ifNullOrEmpty { "无业" }
+                val job = mPersonCenterInfo.position.ifNullOrEmpty { "游民" }
 
-            userCenterContent.apply {
-                sbSettingCompany.setRightText(company)
+                userCenterContent.apply {
+                    sbSettingCompany.setRightText(company)
 
-                sbSettingJob.setRightText(job)
-                sbSettingSkill.setRightText(mPersonCenterInfo.goodAt)
-                sbSettingCoordinate.setRightText(mPersonCenterInfo.area)
-                sbSettingSign.setRightText(mPersonCenterInfo.sign)
+                    sbSettingJob.setRightText(job)
+                    sbSettingSkill.setRightText(mPersonCenterInfo.goodAt)
+                    sbSettingCoordinate.setRightText(mPersonCenterInfo.area)
+                    sbSettingSign.setRightText(mPersonCenterInfo.sign)
 
-                sbSettingPhone.setRightText(mPersonCenterInfo.phoneNum)
-                sbSettingEmail.setRightText(mPersonCenterInfo.email)
+                    sbSettingPhone.setRightText(mPersonCenterInfo.phoneNum)
+                    sbSettingEmail.setRightText(mPersonCenterInfo.email)
+                }
+                val qrBitmap = generateQRCode("${SUNNY_BEACH_VIEW_USER_URL_PRE}${mPersonCenterInfo.userId}")
+                Glide.with(context)
+                    .load(qrBitmap)
+                    .into(ivSobQrCode)
             }
-
-            mBinding.ivSobQrCode.setImageBitmap(generateQRCode("${SUNNY_BEACH_VIEW_USER_URL_PRE}${mPersonCenterInfo.userId}"))
         }
     }
 
