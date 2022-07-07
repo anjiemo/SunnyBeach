@@ -35,12 +35,12 @@ class ImagePreviewActivity : AppActivity(), BaseAdapter.OnItemClickListener {
             start(context, images)
         }
 
-        fun start(context: Context, urls: MutableList<String?>) {
+        fun start(context: Context, urls: List<String?>) {
             start(context, urls, 0)
         }
 
         @Log
-        fun start(context: Context, urls: MutableList<String?>, index: Int) {
+        fun start(context: Context, urls: List<String?>, index: Int) {
             var finalUrls: List<String?> = urls
             if (finalUrls.isEmpty()) {
                 return

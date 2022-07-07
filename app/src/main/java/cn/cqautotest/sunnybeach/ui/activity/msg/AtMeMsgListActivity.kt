@@ -13,6 +13,7 @@ import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.AtMeMsgAdapter
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
@@ -55,6 +56,10 @@ class AtMeMsgListActivity : PagingActivity(), OnBack2TopListener {
             mAtMeMsgAdapter.snapshotList[position]?.let {
                 mMsgViewModel.readAtMeMsg(it.id).observe(this) {}
                 when (it.type) {
+                    "article" -> {
+                        val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${it.exId}"
+                        BrowserActivity.start(this, url)
+                    }
                     "moment" -> FishPondDetailActivity.start(this, it.exId)
                     "wenda" -> {
                         val url = "$SUNNY_BEACH_QA_URL_PRE${it.exId}"

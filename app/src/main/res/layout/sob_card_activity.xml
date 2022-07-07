@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DC3086DD"
+    tools:context=".ui.activity.SobCardActivity">
+
+    <com.hjq.bar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="999dp"
+        app:barStyle="transparent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp_40"
+            android:orientation="vertical"
+            android:paddingTop="?actionBarSize"
+            android:paddingBottom="@dimen/dp_400">
+
+            <com.hjq.widget.layout.RatioFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_20"
+                android:layout_marginBottom="@dimen/dp_20"
+                app:sizeRatio="7:4">
+
+                <com.hjq.shape.layout.ShapeConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:shape_centerColor="#67AEE3"
+                    app:shape_endColor="#71CCD7"
+                    app:shape_radius="@dimen/dp_10"
+                    app:shape_startColor="#5F96ED"
+                    app:shape_strokeCenterColor="#5DF0C6"
+                    app:shape_strokeEndColor="#69F854"
+                    app:shape_strokeStartColor="#4AD975"
+                    app:shape_strokeWidth="@dimen/dp_1">
+
+                    <ImageView
+                        android:id="@+id/iv_logo"
+                        android:layout_width="@dimen/dp_30"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_marginStart="@dimen/dp_20"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:contentDescription="sob logo"
+                        android:src="@drawable/ic_sob_logo"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:layout_marginEnd="@dimen/dp_20"
+                        android:text="沙\u3000滩\u3000证"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp_22"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_logo"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@id/iv_logo"
+                        app:layout_constraintTop_toTopOf="@id/iv_logo" />
+
+                    <TextView
+                        android:id="@+id/tv_nick_name_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_20"
+                        android:text="昵称"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp_7"
+                        app:layout_constraintStart_toStartOf="@id/iv_logo"
+                        app:layout_constraintTop_toBottomOf="@id/iv_logo" />
+
+                    <TextView
+                        android:id="@+id/tv_nick_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_6"
+                        android:text="A Lonely Cat"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@id/iv_logo"
+                        app:layout_constraintTop_toBottomOf="@id/tv_nick_name_hint" />
+
+                    <TextView
+                        android:id="@+id/tv_sob_id_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_30"
+                        android:text="沙滩ID"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp_7"
+                        app:layout_constraintStart_toStartOf="@id/iv_logo"
+                        app:layout_constraintTop_toBottomOf="@id/tv_nick_name" />
+
+                    <TextView
+                        android:id="@+id/tv_sob_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_6"
+                        tools:text="1204\u30007365\u30000227\u30004318\u3000336"
+                        android:textColor="@color/black"
+                        app:layout_constraintStart_toStartOf="@id/iv_logo"
+                        app:layout_constraintTop_toBottomOf="@id/tv_sob_id_hint" />
+
+                    <ImageView
+                        android:id="@+id/iv_sob_qr_code"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="@dimen/dp_50"
+                        android:layout_marginEnd="@dimen/dp_20"
+                        android:src="@mipmap/launcher_ic"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_sob_id"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_nick_name" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:text="沙滩证二维码"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp_7"
+                        app:layout_constraintEnd_toEndOf="@id/iv_sob_qr_code"
+                        app:layout_constraintStart_toStartOf="@id/iv_sob_qr_code"
+                        app:layout_constraintTop_toBottomOf="@id/iv_sob_qr_code" />
+
+                </com.hjq.shape.layout.ShapeConstraintLayout>
+
+            </com.hjq.widget.layout.RatioFrameLayout>
+
+            <com.hjq.widget.layout.RatioFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_20"
+                app:sizeRatio="7:4">
+
+                <com.hjq.shape.layout.ShapeConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:shape_centerColor="#67AEE3"
+                    app:shape_endColor="#71CCD7"
+                    app:shape_radius="@dimen/dp_10"
+                    app:shape_startColor="#5F96ED"
+                    app:shape_strokeCenterColor="#5DF0C6"
+                    app:shape_strokeEndColor="#69F854"
+                    app:shape_strokeStartColor="#4AD975"
+                    app:shape_strokeWidth="@dimen/dp_1" />
+
+            </com.hjq.widget.layout.RatioFrameLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</FrameLayout>
