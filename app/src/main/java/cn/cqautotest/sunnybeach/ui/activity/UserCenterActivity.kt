@@ -1,8 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -26,10 +24,6 @@ import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.dylanc.longan.lifecycleOwner
-import com.huawei.hms.hmsscankit.ScanUtil
-import com.huawei.hms.hmsscankit.WriterException
-import com.huawei.hms.ml.scan.HmsBuildBitmapOption
-import com.huawei.hms.ml.scan.HmsScan
 import com.scwang.smart.refresh.layout.wrapper.RefreshHeaderWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -231,7 +225,7 @@ class UserCenterActivity : AppActivity() {
                     sbSettingPhone.setRightText(mPersonCenterInfo.phoneNum)
                     sbSettingEmail.setRightText(mPersonCenterInfo.email)
                 }
-                val qrBitmap = generateQRCode("${SUNNY_BEACH_VIEW_USER_URL_PRE}${mPersonCenterInfo.userId}")
+                val qrBitmap = "${SUNNY_BEACH_VIEW_USER_URL_PRE}${mPersonCenterInfo.userId}".toQrCodeBitmapOrNull()
                 Glide.with(context)
                     .load(qrBitmap)
                     .into(ivSobQrCode)
@@ -242,28 +236,6 @@ class UserCenterActivity : AppActivity() {
     private fun loadUserBasicInfo() {
         val userBasicInfo = UserManager.loadUserBasicInfo()
         userBasicInfo?.let { mUserBasicInfo = it }
-    }
-
-    private fun generateQRCode(
-        content: String,
-        size: Int = 400,
-        bgColor: Int = Color.WHITE,
-        qrColor: Int = Color.BLACK,
-        margin: Int = 2
-    ): Bitmap? {
-        val type = HmsScan.QRCODE_SCAN_TYPE
-        val options = HmsBuildBitmapOption.Creator()
-            .setBitmapBackgroundColor(bgColor)
-            .setBitmapColor(qrColor)
-            .setBitmapMargin(margin)
-            .create()
-        return try {
-            // 如果未设置HmsBuildBitmapOption对象，生成二维码参数options置null。
-            ScanUtil.buildBitmap(content, type, size, size, options)
-        } catch (e: WriterException) {
-            e.printStackTrace()
-            null
-        }
     }
 
     private fun getAllowance() {
