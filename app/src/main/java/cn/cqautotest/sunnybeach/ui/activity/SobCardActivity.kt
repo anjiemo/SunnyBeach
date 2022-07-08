@@ -5,7 +5,11 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SobCardActivityBinding
+import cn.cqautotest.sunnybeach.ktx.context
 import cn.cqautotest.sunnybeach.ktx.startActivity
+import cn.cqautotest.sunnybeach.ktx.toQrCodeBitmapOrNull
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_VIEW_USER_URL_PRE
+import com.bumptech.glide.Glide
 import com.dylanc.longan.intentExtras
 import java.util.regex.Pattern
 
@@ -25,6 +29,9 @@ class SobCardActivity : AppActivity() {
     override fun initView() {
         with(mBinding) {
             tvSobId.text = mSobId.manicured()
+            Glide.with(context)
+                .load("$SUNNY_BEACH_VIEW_USER_URL_PRE${mSobId}".toQrCodeBitmapOrNull())
+                .into(ivSobQrCode)
         }
     }
 
@@ -40,6 +47,8 @@ class SobCardActivity : AppActivity() {
     override fun initEvent() {
 
     }
+
+    override fun isStatusBarDarkFont() = true
 
     companion object {
 
