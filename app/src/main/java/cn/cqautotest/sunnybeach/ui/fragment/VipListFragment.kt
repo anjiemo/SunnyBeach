@@ -10,7 +10,9 @@ import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.isEmpty
 import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.ui.activity.CopyActivity
+import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.VipUserListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
@@ -26,7 +28,8 @@ class VipListFragment : AppFragment<CopyActivity>(), StatusAction, OnRefreshList
 
     private val mBinding: VipListFragmentBinding by viewBinding()
     private val mUserViewModel by viewModels<UserViewModel>()
-    private val mVipUserListAdapter = VipUserListAdapter()
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mVipUserListAdapter = VipUserListAdapter(mAdapterDelegate)
 
     override fun getLayoutId(): Int = R.layout.vip_list_fragment
 
@@ -62,6 +65,11 @@ class VipListFragment : AppFragment<CopyActivity>(), StatusAction, OnRefreshList
 
     override fun initEvent() {
         mBinding.refreshLayout.setOnRefreshListener(this)
+        mAdapterDelegate.setOnItemClickListener { _, position ->
+            mVipUserListAdapter.getData().getOrNull(position)?.let {
+                ViewUserActivity.start(requireContext(), it.userId)
+            }
+        }
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
