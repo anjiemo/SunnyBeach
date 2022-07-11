@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:barStyle="light"
+        app:rightTitle="开通   "
+        app:rightTitleColor="#f56c6c"
         app:title="正式会员" />
 
     <cn.cqautotest.sunnybeach.widget.RoundRelativeLayout
