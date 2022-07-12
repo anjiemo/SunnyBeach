@@ -23,6 +23,7 @@ import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.other.IntentKey
+import cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
@@ -189,8 +190,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         val dispatcher = Dispatchers.IO
         // 异常处理
         val exceptionHandler = CoroutineExceptionHandler { _, cause ->
-            hideDialog()
-            view?.isEnabled = true
+            finishPutFish()
             when (cause) {
                 is CancellationException -> {}
                 else -> toast("发布失败\uD83D\uDE2D ${cause.message}")
@@ -199,11 +199,21 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         // 上传图片，此处的 path 为客户端本地的路径，需要上传到服务器上，获取网络 url 路径
         val uploadedImages = arrayListOf<Pair<Int, String>>()
         lifecycleScope.launchWhenCreated {
-            // 阻塞当前协程，直到内部的协程结束任务或引发异常，以便我们在图片上传之前不会执行发布动态的操作
-            coroutineScope { zipAndUploadImages(dispatcher, images, uploadedImages, exceptionHandler) }
-            Timber.d("onRightClick：===> uploadedImages size is ${uploadedImages.size}")
-            // 3、发布摸鱼（需要按照选择的图片顺序进行排序，否则图片列表是乱序的）
-            putFish(content, uploadedImages.sortedBy { it.first }.map { it.second })
+            withContext(dispatcher) {
+                // 1、压缩图片
+                // 2、上传图片
+                // 阻塞当前协程，直到内部的协程结束任务或引发异常，以便我们在图片上传之前不会执行发布动态的操作
+                coroutineScope { zipAndUploadImages(dispatcher, images, uploadedImages, exceptionHandler) }
+                Timber.d("onRightClick：===> uploadedImages size is ${uploadedImages.size}")
+                // 如果待上传的图片列表大小和已上传的图片列表大小不相等则代表有图片上传失败了，我们直接终止摸鱼动态的发布
+                if (images.size != uploadedImages.size) {
+                    finishPutFish()
+                    // 有图片上传失败，取消当前协程
+                    cancel()
+                }
+                // 3、发布摸鱼（需要按照选择的图片顺序进行排序，否则图片列表是乱序的）
+                withContext(Dispatchers.Main) { putFish(content, uploadedImages.sortedBy { it.first }.map { it.second }) }
+            }
         }
     }
 
@@ -263,6 +273,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
      * 发布动态内容（包括文字和图片）
      */
     private fun putFish(content: String, imageUrls: List<String>) {
+        Timber.d("putFish：===> imageUrls is ${imageUrls.toJson()}")
         // 2021/9/12 填充 “链接”（客户端暂不支持），
         val map = mapOf(
             "content" to content,
@@ -272,8 +283,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         )
         // 图片上传完成，可以发布摸鱼
         mFishPondViewModel.putFish(map).observe(this) { result ->
-            hideDialog()
-            getTitleBar()?.rightView?.isEnabled = true
+            finishPutFish()
             result.onSuccess {
                 // 重置界面状态
                 mTopicId = null
@@ -287,6 +297,16 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             }.onFailure {
                 simpleToast("发布失败😭 ${it.message}")
             }
+        }
+    }
+
+    /**
+     * 结束发布摸鱼操作
+     */
+    private fun finishPutFish() {
+        post {
+            hideDialog()
+            getTitleBar()?.rightView?.isEnabled = true
         }
     }
 
