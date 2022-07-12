@@ -183,7 +183,9 @@ object Repository {
         val part = MultipartBody.Part.createFormData("image", fileName, requestBody)
         val result = FishNetwork.uploadFishImage(part)
         Timber.d("result is ${result.toJson()}")
-        if (result.isSuccess()) Result.success(result.getData()) else result.toErrorResult()
+        val imageUrl = result.getData()
+        Timber.d("uploadFishImage：===> file name is $fileName imageUrl is $imageUrl")
+        if (result.isSuccess() && imageUrl != null) Result.success(imageUrl) else result.toErrorResult()
     } catch (t: Throwable) {
         t.printStackTrace()
         Result.failure(t)
