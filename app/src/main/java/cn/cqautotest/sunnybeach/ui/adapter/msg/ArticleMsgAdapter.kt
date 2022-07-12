@@ -1,16 +1,16 @@
 package cn.cqautotest.sunnybeach.ui.adapter.msg
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
-import androidx.core.text.HtmlCompat
+import androidx.core.text.parseAsHtml
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.ArticleMsgListItemBinding
-import cn.cqautotest.sunnybeach.ktx.asViewBinding
-import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
-import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.model.msg.ArticleMsg
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import com.blankj.utilcode.util.TimeUtils
+import com.google.android.material.badge.BadgeUtils
 
 /**
  * author : A Lonely Cat
@@ -25,14 +25,23 @@ class ArticleMsgAdapter(private val adapterDelegate: AdapterDelegate) :
 
         constructor(parent: ViewGroup) : this(parent.asViewBinding<ArticleMsgListItemBinding>())
 
+        @SuppressLint("UnsafeOptInUsageError")
         fun onBinding(item: ArticleMsg.Content?, position: Int) {
             item ?: return
             with(binding) {
                 ivAvatar.loadAvatar(false, item.avatar)
+                ivAvatar.post {
+                    createDefaultStyleBadge(context, 0).apply {
+                        BadgeUtils.attachBadgeDrawable(this, ivAvatar)
+                        horizontalOffset = 12
+                        verticalOffset = 12
+                        isVisible = item.isRead.not()
+                    }
+                }
                 cbNickName.text = item.nickname
                 val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
                 tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.createTime, sdf)
-                tvReplyMsg.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                tvReplyMsg.text = item.content.parseAsHtml()
                 tvChildReplyMsg.text = item.title
             }
         }

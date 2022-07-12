@@ -1,15 +1,15 @@
 package cn.cqautotest.sunnybeach.ui.adapter.msg
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
-import androidx.core.text.HtmlCompat
+import androidx.core.text.parseAsHtml
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.LikeMsgListItemBinding
-import cn.cqautotest.sunnybeach.ktx.asViewBinding
-import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
-import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.model.msg.LikeMsg
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
+import com.google.android.material.badge.BadgeUtils
 
 /**
  * author : A Lonely Cat
@@ -24,14 +24,23 @@ class LikeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
 
         constructor(parent: ViewGroup) : this(parent.asViewBinding<LikeMsgListItemBinding>())
 
+        @SuppressLint("UnsafeOptInUsageError")
         fun onBinding(item: LikeMsg.Content?, position: Int) {
             item ?: return
             with(binding) {
                 ivAvatar.loadAvatar(false, item.avatar)
+                ivAvatar.post {
+                    createDefaultStyleBadge(context, 0).apply {
+                        BadgeUtils.attachBadgeDrawable(this, ivAvatar)
+                        horizontalOffset = 12
+                        verticalOffset = 12
+                        isVisible = item.isRead.not()
+                    }
+                }
                 cbNickName.text = item.nickname
                 tvDesc.text = item.timeText
                 tvReplyMsg.height = 0
-                tvChildReplyMsg.text = HtmlCompat.fromHtml(item.title, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                tvChildReplyMsg.text = item.title.parseAsHtml()
             }
         }
     }

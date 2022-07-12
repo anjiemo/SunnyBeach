@@ -1,20 +1,20 @@
 package cn.cqautotest.sunnybeach.ui.adapter.msg
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.text.SpannableString
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.ViewGroup
-import androidx.core.text.HtmlCompat
 import androidx.core.text.buildSpannedString
+import androidx.core.text.parseAsHtml
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.QaMsgListItemBinding
-import cn.cqautotest.sunnybeach.ktx.asViewBinding
-import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
-import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.model.msg.QaMsg
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
+import com.google.android.material.badge.BadgeUtils
 
 /**
  * author : A Lonely Cat
@@ -29,15 +29,24 @@ class QaMsgAdapter(private val adapterDelegate: AdapterDelegate) :
 
         constructor(parent: ViewGroup) : this(parent.asViewBinding<QaMsgListItemBinding>())
 
+        @SuppressLint("UnsafeOptInUsageError")
         fun onBinding(item: QaMsg.Content?, position: Int) {
             item ?: return
             with(binding) {
                 cbNickName.text = item.nickname
                 ivAvatar.loadAvatar(false, item.avatar)
+                ivAvatar.post {
+                    createDefaultStyleBadge(context, 0).apply {
+                        BadgeUtils.attachBadgeDrawable(this, ivAvatar)
+                        horizontalOffset = 12
+                        verticalOffset = 12
+                        isVisible = item.isRead.not()
+                    }
+                }
                 tvDesc.text = item.timeText
                 tvReplyMsg.height = 0
                 val preText = "回答了朕的提问：「"
-                val qaTitle = HtmlCompat.fromHtml(item.title, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                val qaTitle = item.title.parseAsHtml()
                 val suffixText = "」去看看问题解决了吗？"
                 tvChildReplyMsg.text = buildSpannedString {
                     append(preText + qaTitle + suffixText)
