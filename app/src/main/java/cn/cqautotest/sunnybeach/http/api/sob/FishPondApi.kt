@@ -25,7 +25,7 @@ interface FishPondApi {
      */
     @Multipart
     @POST("ct/image/mo_yu")
-    suspend fun uploadFishImage(@Part part: MultipartBody.Part): ApiResponse<String>
+    suspend fun uploadFishImage(@Part part: MultipartBody.Part): ApiResponse<String?>
 
     /**
      * 发布动态
