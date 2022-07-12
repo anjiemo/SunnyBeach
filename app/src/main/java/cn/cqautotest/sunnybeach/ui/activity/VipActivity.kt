@@ -11,6 +11,7 @@ import cn.cqautotest.sunnybeach.ktx.clearTooltipText
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
 import cn.cqautotest.sunnybeach.ui.fragment.VipIntroFragment
 import cn.cqautotest.sunnybeach.ui.fragment.VipListFragment
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_TAOBAO_SHOP_VIP
 import com.blankj.utilcode.util.AppUtils
 import com.hjq.bar.TitleBar
 import com.hjq.base.FragmentPagerAdapter
@@ -50,13 +51,19 @@ class VipActivity : AppActivity() {
             .show()
     }
 
+    /**
+     * 尝试打开淘宝 APP
+     */
     private fun tryOpenTaobaoApp() {
         val installTaobaoApp = AppUtils.isAppInstalled("com.taobao.taobao")
         takeIf { installTaobaoApp }?.let { openTaobaoApp() } ?: toast("您的设备似乎没有安装淘宝APP哦~")
     }
 
+    /**
+     * 打开淘宝 APP
+     */
     private fun openTaobaoApp() {
-        val uri = Uri.parse("https://item.taobao.com/item.htm?id=673527744707&mt=")
+        val uri = Uri.parse(SUNNY_BEACH_TAOBAO_SHOP_VIP)
         startActivity(Intent(Intent.ACTION_VIEW, uri).apply {
             setClassName("com.taobao.taobao", "com.taobao.tao.detail.activity.DetailActivity")
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

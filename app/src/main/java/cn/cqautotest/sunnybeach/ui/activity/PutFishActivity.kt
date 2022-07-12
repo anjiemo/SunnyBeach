@@ -172,6 +172,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     override fun onRightClick(titleBar: TitleBar) {
         val view = titleBar.rightView
         view?.isEnabled = false
+
         // 校验内容是否合法，发布信息
         val inputLength = mBinding.etInputContent.length()
         val textLengthIsOk = inputLength in 5..INPUT_MAX_LENGTH
@@ -186,6 +187,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         val images = mPreviewAdapter.getData().toList()
         showDialog()
         val dispatcher = Dispatchers.IO
+        // 异常处理
         val exceptionHandler = CoroutineExceptionHandler { _, cause ->
             hideDialog()
             view?.isEnabled = true
@@ -195,13 +197,13 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             }
         }
         // 上传图片，此处的 path 为客户端本地的路径，需要上传到服务器上，获取网络 url 路径
-        val uploadedImages = arrayListOf<String>()
+        val uploadedImages = arrayListOf<Pair<Int, String>>()
         lifecycleScope.launchWhenCreated {
             // 阻塞当前协程，直到内部的协程结束任务或引发异常，以便我们在图片上传之前不会执行发布动态的操作
             coroutineScope { zipAndUploadImages(dispatcher, images, uploadedImages, exceptionHandler) }
             Timber.d("onRightClick：===> uploadedImages size is ${uploadedImages.size}")
-            // 3、发布摸鱼
-            putFish(content, uploadedImages)
+            // 3、发布摸鱼（需要按照选择的图片顺序进行排序，否则图片列表是乱序的）
+            putFish(content, uploadedImages.sortedBy { it.first }.map { it.second })
         }
     }
 
@@ -214,32 +216,33 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     private fun CoroutineScope.zipAndUploadImages(
         dispatcher: CoroutineDispatcher,
         images: List<String>,
-        uploadedImages: ArrayList<String>,
+        uploadedImages: ArrayList<Pair<Int, String>>,
         exceptionHandler: CoroutineExceptionHandler
     ) {
-        for (image in images) {
-            flowOf(image)
-                // 把需要上传的图片文件复制到缓存目录
-                .map { filePath ->
-                    Timber.d("onRightClick：===> filePath is $filePath")
-                    File(filePath).copyToCacheDirOrThrow()
-                }
-                // 压缩图片文件
-                .map { zipImageFile(it).getOrThrow() }
-                // 上传摸鱼图片
-                .map { Repository.uploadFishImage(it).getOrThrow() }
-                .flowOn(dispatcher)
-                // 添加到已上传的图片 url 集合
-                .onEach { uploadedImages.add(it) }
-                // 服务器错误时，重试三次，每次间隔 100ms
-                .retryWhen { cause, attempt ->
-                    val retry = (cause is ServiceException) && attempt < 3
-                    takeIf { retry }?.let { delay(100) }
-                    retry
-                }
-                .catch { exceptionHandler.handleException(dispatcher, it) }
-                .launchIn(this)
-        }
+        images.mapIndexed { index, filePath -> Pair(index, filePath) }
+            .forEach { imageMap ->
+                flowOf(imageMap)
+                    // 把需要上传的图片文件复制到缓存目录
+                    .map { (index, filePath) ->
+                        Timber.d("onRightClick：===> filePath is $filePath")
+                        Pair(index, File(filePath).copyToCacheDirOrThrow())
+                    }
+                    // 压缩图片文件
+                    .map { (index, filePath) -> Pair(index, zipImageFile(filePath).getOrThrow()) }
+                    // 上传摸鱼图片
+                    .map { (index, filePath) -> Pair(index, Repository.uploadFishImage(filePath).getOrThrow()) }
+                    .flowOn(dispatcher)
+                    // 添加到已上传的图片 url 集合
+                    .onEach { imagePair -> uploadedImages.add(imagePair) }
+                    // 服务器错误时，重试三次，每次间隔 100ms
+                    .retryWhen { cause, attempt ->
+                        val retry = (cause is ServiceException) && attempt < 3
+                        takeIf { retry }?.let { delay(100) }
+                        retry
+                    }
+                    .catch { exceptionHandler.handleException(dispatcher, it) }
+                    .launchIn(this)
+            }
     }
 
     /**

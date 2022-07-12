@@ -55,7 +55,9 @@ data class MomentMsg(
         val title: String,
         @SerializedName("uid")
         val uid: String
-    ) : IMsgContent
+    ) : IMsgContent {
+        val isRead get() = hasRead == "1"
+    }
 
     data class Pageable(
         @SerializedName("offset")

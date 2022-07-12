@@ -17,6 +17,7 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.OnDoubleClickListener
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
+import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
@@ -69,7 +70,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     override fun getLayoutId() = R.layout.home_activity
 
     override fun initView() {
-        supportActionBar?.hide()
+        hideSupportActionBar()
         navigationAdapter = NavigationAdapter(this).apply {
             addMenuItem(R.string.home_fish_pond_message, R.drawable.home_fish_pond_selector)
             addMenuItem(R.string.home_nav_qa, R.drawable.home_qa_selector)

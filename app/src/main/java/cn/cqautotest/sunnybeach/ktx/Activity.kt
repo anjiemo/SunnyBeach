@@ -5,7 +5,10 @@ package cn.cqautotest.sunnybeach.ktx
 import android.app.Activity
 import android.content.res.Configuration
 import android.content.res.Resources
+import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.KeyboardUtils
+
+fun AppCompatActivity.hideSupportActionBar() = supportActionBar?.hide()
 
 fun Activity.hideKeyboard() {
     KeyboardUtils.hideSoftInput(this)

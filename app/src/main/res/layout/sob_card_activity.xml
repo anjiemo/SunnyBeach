@@ -23,8 +23,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dp_40"
             android:orientation="vertical"
-            android:paddingTop="?actionBarSize"
-            android:paddingBottom="@dimen/dp_400">
+            android:paddingTop="?actionBarSize">
 
             <com.hjq.widget.layout.RatioFrameLayout
                 android:layout_width="match_parent"
