@@ -52,6 +52,9 @@ const val SUNNY_BEACH_USER_BASIC_INFO = "sunny_beach_user_basic_info"
 
 const val SUNNY_BEACH_USER_ACCOUNT_ENCRYPT_INFO = "sunny_beach_user_account_encrypt_info"
 
+//
+const val SUNNY_BEACH_TAOBAO_SHOP_VIP = "https://item.taobao.com/item.htm?id=673527744707&mt="
+
 // ==================反馈相关==================
 // 反馈Url地址
 const val MAKE_COMPLAINTS_URL = "https://support.qq.com/product/333302"

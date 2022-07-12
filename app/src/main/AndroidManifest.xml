@@ -404,31 +404,38 @@
         <!-- 文章消息列表页 -->
         <activity
             android:name=".ui.activity.msg.ArticleMsgListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppMaterialComponentsTheme" />
 
         <!-- 点赞消息列表页 -->
         <activity
             android:name=".ui.activity.msg.LikeMsgListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppMaterialComponentsTheme" />
 
         <!-- 摸鱼消息列表页 -->
         <activity
             android:name=".ui.activity.msg.FishMsgListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppMaterialComponentsTheme" />
+
         <!-- At我 消息列表页 -->
         <activity
             android:name=".ui.activity.msg.AtMeMsgListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppMaterialComponentsTheme" />
 
         <!-- 问答消息列表页 -->
         <activity
             android:name=".ui.activity.msg.QaMsgListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppMaterialComponentsTheme" />
 
         <!-- 系统消息列表页 -->
         <activity
             android:name=".ui.activity.msg.SystemMsgListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppMaterialComponentsTheme" />
 
         <!-- Vip 介绍页 -->
         <activity

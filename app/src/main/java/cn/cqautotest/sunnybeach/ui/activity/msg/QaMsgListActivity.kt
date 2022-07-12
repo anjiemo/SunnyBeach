@@ -7,6 +7,7 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.QaMsgListActivityBinding
 import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
@@ -35,6 +36,7 @@ class QaMsgListActivity : PagingActivity(), OnBack2TopListener {
     override fun getLayoutId(): Int = R.layout.qa_msg_list_activity
 
     override fun initView() {
+        hideSupportActionBar()
         super.initView()
         mBinding.pagingRecyclerView.addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
     }

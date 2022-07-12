@@ -53,7 +53,9 @@ data class QaMsg(
         val uid: String,
         @SerializedName("wendaId")
         val wendaId: String
-    ) : IMsgContent
+    ) : IMsgContent {
+        val isRead get() = hasRead == "1"
+    }
 
     data class Pageable(
         @SerializedName("offset")

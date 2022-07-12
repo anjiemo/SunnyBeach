@@ -9,10 +9,7 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SystemMsgListActivityBinding
-import cn.cqautotest.sunnybeach.ktx.dp
-import cn.cqautotest.sunnybeach.ktx.loadStateListener
-import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
-import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.SystemMsgAdapter
@@ -40,6 +37,7 @@ class SystemMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
     override fun getLayoutId(): Int = R.layout.system_msg_list_activity
 
     override fun initView() {
+        hideSupportActionBar()
         mBinding.rvSystemMsgList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = mSystemMsgAdapter

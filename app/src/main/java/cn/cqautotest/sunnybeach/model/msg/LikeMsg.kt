@@ -53,7 +53,9 @@ data class LikeMsg(
         val uid: String,
         @SerializedName("url")
         val url: String
-    ) : IMsgContent
+    ) : IMsgContent {
+        val isRead get() = hasRead == "1"
+    }
 
     data class Pageable(
         @SerializedName("offset")
