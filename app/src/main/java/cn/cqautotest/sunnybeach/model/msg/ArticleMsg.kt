@@ -44,7 +44,7 @@ data class ArticleMsg(
         @SerializedName("createTime")
         val createTime: String,
         @SerializedName("hasRead")
-        val hasRead: String,
+        var hasRead: String,
         @SerializedName("_id")
         val id: String,
         @SerializedName("nickname")

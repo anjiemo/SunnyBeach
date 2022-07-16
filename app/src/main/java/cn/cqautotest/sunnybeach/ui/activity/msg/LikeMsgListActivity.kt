@@ -12,6 +12,7 @@ import cn.cqautotest.sunnybeach.databinding.LikeMsgListActivityBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.LikeMsgAdapter
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
@@ -52,11 +53,12 @@ class LikeMsgListActivity : PagingActivity(), OnBack2TopListener {
 
     override fun initEvent() {
         super.initEvent()
-        getTitleBar()?.setDoubleClickListener {
-            onBack2Top()
-        }
-        mAdapterDelegate.setOnItemClickListener { _, _ ->
-
+        getTitleBar()?.setDoubleClickListener { onBack2Top() }
+        mAdapterDelegate.setOnItemClickListener { _, position ->
+            mLikeMsgAdapter.snapshotList[position]?.let {
+                it.hasRead = "1"
+                mLikeMsgAdapter.notifyItemChanged(position)
+            }
         }
     }
 

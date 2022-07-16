@@ -57,6 +57,8 @@ class FishMsgListActivity : PagingActivity(), OnBack2TopListener {
         getTitleBar()?.setDoubleClickListener { onBack2Top() }
         mAdapterDelegate.setOnItemClickListener { _, position ->
             mMomentMsgAdapter.snapshotList[position]?.let {
+                it.hasRead = "1"
+                mMomentMsgAdapter.notifyItemChanged(position)
                 mMsgViewModel.readMomentMsg(it.id).observe(this) {}
                 FishPondDetailActivity.start(this, it.momentId)
             }
