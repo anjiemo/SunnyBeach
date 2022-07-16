@@ -1,7 +1,5 @@
 package cn.cqautotest.sunnybeach.app
 
-import android.content.Intent
-import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import cn.cqautotest.sunnybeach.R
@@ -118,9 +116,7 @@ abstract class AppActivity : BaseActivity(), Init,
     /**
      * 是否使用沉浸式状态栏
      */
-    protected open fun isStatusBarEnabled(): Boolean {
-        return true
-    }
+    protected open fun isStatusBarEnabled() = true
 
     /**
      * 状态栏字体深色模式
@@ -173,16 +169,6 @@ abstract class AppActivity : BaseActivity(), Init,
 
     override fun onLeftClick(titleBar: TitleBar) {
         onBackPressed()
-    }
-
-    override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
-        super.startActivityForResult(intent, requestCode, options)
-        overridePendingTransition(R.anim.right_in_activity, R.anim.right_out_activity)
-    }
-
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.left_in_activity, R.anim.left_out_activity)
     }
 
     /**
