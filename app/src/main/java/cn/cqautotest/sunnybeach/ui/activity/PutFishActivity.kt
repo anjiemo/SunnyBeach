@@ -416,11 +416,8 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
 
         private const val MAX_SELECT_IMAGE_COUNT = 9
 
-        // 图片文件大小的阈值（4MB）
-        private const val IMAGE_FILE_MAX_SIZE = 4 * MemoryConstants.MB
-
-        // 计算出图片文件的阈值是 KB 的多少倍
-        private const val TIMES = IMAGE_FILE_MAX_SIZE / MemoryConstants.KB
+        // 超过 800 kb 的图片将会被压缩（目前网站最大只支持 1000 kb）
+        private const val TIMES = 800 * MemoryConstants.KB
 
         private const val INPUT_MAX_LENGTH = 1024
     }
