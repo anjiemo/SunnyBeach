@@ -27,7 +27,7 @@ private val mDrawableCacheMap = SparseArrayCompat<BadgeDrawable>()
 @SuppressLint("UnsafeOptInUsageError")
 fun View.setUnReadCount(unReadCount: Int) {
     val anchor = this
-    val viewId = id
+    val viewId = hashCode()
     // 通过 View 的 id 从缓存里获取 BadgeDrawable
     val drawable = mDrawableCacheMap[viewId]
     if (drawable == null) {

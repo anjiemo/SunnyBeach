@@ -10,11 +10,12 @@
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:elevation="999dp"
+        app:barStyle="transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="课程详情" />
+        app:leftIconTint="@color/white" />
 
     <ImageView
         android:id="@+id/iv_cover"
