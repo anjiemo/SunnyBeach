@@ -4,6 +4,7 @@ import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.ArticleDetail
 import cn.cqautotest.sunnybeach.model.UserArticle
+import cn.cqautotest.sunnybeach.other.AppConfig
 import com.blankj.utilcode.util.FileUtils
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -57,8 +58,23 @@ class Test {
     fun printApkSize() {
         val methodTag = "printApkMd5"
         val apkFile = findApkFileOrNull() ?: return println("未在项目目录中获取到 apk 文件，请先生成")
-        val apkFileLength = apkFile.length()
-        println("$methodTag：===> apkFileLength is $apkFileLength")
+        val apkSize = apkFile.length()
+        println("$methodTag：===> apkSize is $apkSize")
+    }
+
+    /**
+     * 打印 APP 配置信息
+     */
+    @Test
+    fun printAppConfig() {
+        val methodTag = "printAppConfig"
+        val apkFile = findApkFileOrNull() ?: return
+        val appVersionName = AppConfig.getVersionName()
+        val appVersionCode = AppConfig.getVersionCode()
+        val apkSize = apkFile.length()
+        val apkHash = FileUtils.getFileMD5ToString(apkFile).lowercase()
+        val appConfig = mapOf("versionName" to appVersionName, "versionCode" to appVersionCode, "apkSize" to apkSize, "apkHash" to apkHash)
+        println("$methodTag：===> appConfig is ${appConfig.toJson()}")
     }
 
     /**
