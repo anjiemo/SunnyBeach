@@ -55,12 +55,12 @@ class QaMsgListActivity : PagingActivity(), OnBack2TopListener {
 
     override fun initEvent() {
         super.initEvent()
-        getTitleBar()?.setDoubleClickListener {
-            onBack2Top()
-        }
+        getTitleBar()?.setDoubleClickListener { onBack2Top() }
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到问答详情界面
             mQaMsgAdapter.snapshotList[position]?.let {
+                it.hasRead = "1"
+                mQaMsgAdapter.notifyItemChanged(position)
                 val url = "$SUNNY_BEACH_QA_URL_PRE${it.wendaId}"
                 BrowserActivity.start(this, url)
             }
