@@ -34,7 +34,6 @@ abstract class PagingActivity : AppActivity(), StatusAction {
         mPagingUiDelegate.initView()
     }
 
-    @CallSuper
     override fun initData() {
         lifecycleScope.launchWhenCreated { loadListData() }
     }
