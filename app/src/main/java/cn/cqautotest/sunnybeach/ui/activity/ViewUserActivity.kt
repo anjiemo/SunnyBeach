@@ -14,14 +14,21 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.ViewUserActivityBinding
 import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
+import cn.cqautotest.sunnybeach.model.UserInfo
 import cn.cqautotest.sunnybeach.other.FriendsStatus
 import cn.cqautotest.sunnybeach.other.IntentKey
+import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.ui.fragment.UserMediaFragment
 import cn.cqautotest.sunnybeach.util.I_LOVE_ANDROID_SITE_BASE_URL
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_SITE_BASE_URL
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_VIEW_USER_URL_PRE
 import cn.cqautotest.sunnybeach.util.StringUtil
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.dylanc.longan.lifecycleOwner
+import com.hjq.bar.TitleBar
+import com.hjq.umeng.Platform
+import com.hjq.umeng.UmengShare
+import com.umeng.socialize.media.UMWeb
 import timber.log.Timber
 
 /**
@@ -35,6 +42,7 @@ class ViewUserActivity : AppActivity() {
     private val mBinding by viewBinding<ViewUserActivityBinding>()
     private val mUserViewModel by viewModels<UserViewModel>()
     private var mFriendsStatus = FriendsStatus.FOLLOW
+    private var mUserInfo: UserInfo? = null
 
     override fun getLayoutId(): Int = R.layout.view_user_activity
 
@@ -96,6 +104,8 @@ class ViewUserActivity : AppActivity() {
         with(mBinding) {
             mUserViewModel.getUserInfo(userId).observe(lifecycleOwner) {
                 val userInfo = it.getOrNull() ?: return@observe
+                titleBar.rightTitle = "分享"
+                mUserInfo = userInfo
                 ivAvatar.setFixOnClickListener { ImagePreviewActivity.start(context, userInfo.avatar) }
                 ivAvatar.loadAvatar(userInfo.vip, userInfo.avatar)
                 tvNickName.text = userInfo.nickname
@@ -157,6 +167,28 @@ class ViewUserActivity : AppActivity() {
                 }
             }
         }
+    }
+
+    override fun onRightClick(titleBar: TitleBar) {
+        val userId = mUserInfo?.userId ?: return
+        val content = UMWeb(SUNNY_BEACH_VIEW_USER_URL_PRE + userId)
+        // 分享
+        ShareDialog.Builder(this)
+            .setShareLink(content)
+            .setListener(object : UmengShare.OnShareListener {
+                override fun onSucceed(platform: Platform?) {
+                    toast("分享成功")
+                }
+
+                override fun onError(platform: Platform?, t: Throwable) {
+                    toast(t.message)
+                }
+
+                override fun onCancel(platform: Platform?) {
+                    toast("分享取消")
+                }
+            })
+            .show()
     }
 
     companion object {
