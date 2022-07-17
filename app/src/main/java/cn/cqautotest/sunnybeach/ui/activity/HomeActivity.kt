@@ -105,7 +105,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         }
         onNewIntent(intent)
 
-        toast("若发现BUG，可在意见反馈界面中反馈")
+        toast("若有BUG，请及时反馈")
 
         // 设置当前用户的阳光沙滩账号id，用于标识某位同学的APP发生了故障
         CrashReport.setUserId(UserManager.loadCurrUserId())

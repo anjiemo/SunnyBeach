@@ -6,12 +6,10 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.CreationCenterActivityBinding
-import cn.cqautotest.sunnybeach.ktx.checkToken
-import cn.cqautotest.sunnybeach.ktx.dp
-import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
-import cn.cqautotest.sunnybeach.ktx.takeIfLogin
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.adapter.AchievementAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.GridSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 
@@ -25,7 +23,8 @@ class CreationCenterActivity : AppActivity() {
 
     private val mBinding by viewBinding(CreationCenterActivityBinding::bind)
     private val mUserViewModel by viewModels<UserViewModel>()
-    private val mAchievementAdapter = AchievementAdapter()
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mAchievementAdapter = AchievementAdapter(mAdapterDelegate)
 
     override fun getLayoutId(): Int = R.layout.creation_center_activity
 
@@ -48,6 +47,9 @@ class CreationCenterActivity : AppActivity() {
                 val userId = userBasicInfo.id
                 ViewUserActivity.start(this, userId)
             }
+        }
+        mAdapterDelegate.setOnItemClickListener { _, position ->
+            takeIf { position == mAchievementAdapter.lastIndex }?.let { startActivity<SobIEDetailActivity>() }
         }
     }
 

@@ -58,6 +58,8 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         with(mBinding.meContent) {
             // 跳转到用户中心
             llUserInfoContainer.setFixOnClickListener { takeIfLogin { requireContext().startActivity<UserCenterActivity>() } }
+            // 小默文章列表
+            hotArticleListContainer.setFixOnClickListener { requireContext().startActivity<HotArticleListActivity>() }
             // 跳转到富豪榜列表
             richListContainer.setFixOnClickListener { requireContext().startActivity<RichListActivity>() }
             // 跳转到消息中心

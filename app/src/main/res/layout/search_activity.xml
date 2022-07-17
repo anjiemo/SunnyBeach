@@ -42,7 +42,11 @@
                 android:imeOptions="actionSearch"
                 android:paddingHorizontal="@dimen/dp_10"
                 android:singleLine="true"
-                android:textSize="@dimen/sp_12" />
+                android:textSize="@dimen/sp_12">
+
+                <requestFocus />
+
+            </com.hjq.shape.view.ShapeEditText>
 
         </com.hjq.shape.layout.ShapeLinearLayout>
 

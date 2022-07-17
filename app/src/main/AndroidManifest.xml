@@ -488,17 +488,30 @@
             android:exported="true"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <!-- 收藏列表页 -->
         <activity
             android:name=".ui.activity.CollectionListActivity"
             android:screenOrientation="portrait" />
+
         <!-- 收藏详情列表页 -->
         <activity
             android:name=".ui.activity.CollectionDetailListActivity"
             android:screenOrientation="portrait" />
+
         <!-- 阳光沙滩证详情页 -->
         <activity
             android:name=".ui.activity.SobCardActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 热门（小默）文章列表界面 -->
+        <activity
+            android:name=".ui.activity.HotArticleListActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 用户 Sob 币的收支（Income & Expenditures）明细列表界面 -->
+        <activity
+            android:name=".ui.activity.SobIEDetailActivity"
             android:screenOrientation="portrait" />
 
         <service

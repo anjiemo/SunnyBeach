@@ -10,6 +10,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import cn.cqautotest.sunnybeach.http.network.Repository
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.*
 import cn.cqautotest.sunnybeach.paging.source.RichPagingSource
 import com.blankj.utilcode.util.RegexUtils
@@ -81,6 +82,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
      * 获取注册的手机验证码（注册）
      */
     fun sendRegisterSmsVerifyCode(smsInfo: SmsInfo) = Repository.sendRegisterSmsVerifyCode(smsInfo)
+
+    /**
+     * 获取当前用户 Sob 币的收支（Income & Expenditures）明细列表
+     */
+    fun getMeSobIEDetailList(page: Int) = Repository.getSobIEDetailList(UserManager.loadCurrUserId(), page)
 
     /**
      * 获取用户 Sob 币的收支（Income & Expenditures）明细列表
