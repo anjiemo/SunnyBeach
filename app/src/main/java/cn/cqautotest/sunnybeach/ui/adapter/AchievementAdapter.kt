@@ -8,7 +8,9 @@ import androidx.collection.set
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.CreationCenterAchievementItemBinding
 import cn.cqautotest.sunnybeach.ktx.asViewBinding
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.setRoundRectBg
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import java.text.DecimalFormat
 
 /**
@@ -17,7 +19,7 @@ import java.text.DecimalFormat
  * time   : 2022/03/08
  * desc   : 个人中心成就数据的适配器
  */
-class AchievementAdapter : RecyclerView.Adapter<AchievementAdapter.ViewHolder>() {
+class AchievementAdapter(private val adapterDelegate: AdapterDelegate) : RecyclerView.Adapter<AchievementAdapter.ViewHolder>() {
 
     // SparseArrays 将整数映射到对象。
     // 与普通的对象数组不同，索引中可能存在间隙。
@@ -67,6 +69,7 @@ class AchievementAdapter : RecyclerView.Adapter<AchievementAdapter.ViewHolder>()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
         val item = mData.valueAt(position)
         holder.onBinding(item, position)
     }
