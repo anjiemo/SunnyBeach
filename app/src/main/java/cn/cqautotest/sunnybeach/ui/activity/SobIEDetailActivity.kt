@@ -7,6 +7,12 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SobIeDeatilActivityBinding
 import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import timber.log.Timber
 
 /**
@@ -23,7 +29,35 @@ class SobIEDetailActivity : AppActivity() {
     override fun getLayoutId() = R.layout.sob_ie_deatil_activity
 
     override fun initView() {
+        with(mBinding.lineChart) {
+            initLineChart()
+            initLineData()
+        }
+    }
 
+    private fun LineChart.initLineData() {
+        val yValues = arrayListOf<Entry>()
+        repeat(20) {
+            yValues.add(Entry(it * 1f, (10..20).random() * 1f))
+        }
+        val lineDataSet = LineDataSet(yValues, "收入").also {
+            it.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+        }
+        data = LineData(lineDataSet)
+        invalidate()
+    }
+
+    private fun LineChart.initLineChart() {
+        xAxis.apply {
+            position = XAxis.XAxisPosition.BOTTOM
+            setDrawGridLines(false)
+            labelCount = 20
+            val xLabels = arrayListOf<String>()
+            repeat(20) { xLabels.add((it + 1).toString()) }
+            valueFormatter = IndexAxisValueFormatter(xLabels)
+        }
+        axisLeft.setDrawGridLines(false)
+        axisRight.isEnabled = false
     }
 
     override fun initData() {

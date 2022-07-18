@@ -336,4 +336,7 @@ dependencies {
 
     // Android下打造通用便捷的PopupWindow弹窗库：https://github.com/razerdp/BasePopup
     implementation 'io.github.razerdp:BasePopup:3.2.0'
+
+    // 一个强大的🚀Android 图表视图/图形视图库，支持折线图、雷达图、气泡图和烛台图以及缩放、平移和动画：https://github.com/PhilJay/MPAndroidChart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
