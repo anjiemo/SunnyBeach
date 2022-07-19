@@ -64,7 +64,8 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
                 simpleGridLayout.isVisible = imageCount != 0
                 // tvCreateTime.text = item.createTime
                 with(listMenuItem) {
-                    llShare.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, position) }
+                    llShare.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, bindingAdapterPosition) }
+                    llGreat.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, bindingAdapterPosition) }
                     tvComment.text = item.viewCount.toString()
                     tvGreat.text = with(item.thumbUp) {
                         if (this == 0) "点赞" else toString()
