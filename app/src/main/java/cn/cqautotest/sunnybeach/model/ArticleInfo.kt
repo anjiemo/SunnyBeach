@@ -18,7 +18,7 @@ class ArticleInfo : Page<ArticleInfo.ArticleItem>() {
         @SerializedName("nickName")
         val nickName: String = "",
         @SerializedName("thumbUp")
-        val thumbUp: Int = 0,
+        var thumbUp: Int = 0,
         @SerializedName("title")
         val title: String = "",
         @SerializedName("type")

@@ -69,6 +69,7 @@ class ArticleListFragment : PagingTitleBarFragment<HomeActivity>(), OnBack2TopLi
         mArticleAdapter.setOnMenuItemClickListener { view, item, _ ->
             when (view.id) {
                 R.id.ll_share -> shareArticle(item)
+                // R.id.ll_great -> articleLikes(item, position)
             }
         }
         mArticleAdapter.setOnNineGridClickListener { sources, index ->
