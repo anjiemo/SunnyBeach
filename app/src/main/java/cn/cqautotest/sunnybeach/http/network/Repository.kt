@@ -39,6 +39,8 @@ object Repository {
 
     fun getArticleDetailById(articleId: String) = launchAndGetData { ArticleNetwork.getArticleDetailById(articleId) }
 
+    fun articleLikes(articleId: String) = launchAndGetData { ArticleNetwork.articleLikes(articleId) }
+
     fun getCoursePlayAuth(videoId: String) = launchAndGetData { CourseNetwork.getCoursePlayAuth(videoId) }
 
     fun report(reportType: ReportType, contentId: String, url: String, why: String): LiveData<Result<String>> {

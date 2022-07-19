@@ -23,6 +23,8 @@ class ArticleViewModel : ViewModel() {
 
     fun getArticleDetailById(articleId: String) = Repository.getArticleDetailById(articleId)
 
+    fun articleLikes(articleId: String) = Repository.articleLikes(articleId)
+
     fun getUserArticleList(userId: String): Flow<PagingData<UserArticle.UserArticleItem>> {
         return Pager(config = PagingConfig(30),
             pagingSourceFactory = {

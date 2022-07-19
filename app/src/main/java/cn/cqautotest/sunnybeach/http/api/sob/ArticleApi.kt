@@ -6,6 +6,7 @@ import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.ArticleDetail
 import cn.cqautotest.sunnybeach.model.UserArticle
 import retrofit2.http.GET
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 @SobBaseUrl
@@ -25,6 +26,9 @@ interface ArticleApi {
         @Path("userId") userId: String,
         @Path("page") page: Int
     ): ApiResponse<UserArticle>
+
+    @PUT("ct/article/thumb-up/{articleId}")
+    suspend fun articleLikes(@Path("articleId") articleId: String): ApiResponse<Int>
 
     companion object : ArticleApi by ServiceCreator.create()
 }
