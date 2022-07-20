@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_selector_ic"
+    android:descendantFocusability="afterDescendants"
     android:orientation="horizontal"
     android:padding="10dp">
 
@@ -92,6 +93,7 @@
             android:id="@+id/tv_child_reply_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autoLink="all"
             android:tag="tv_reply_msg"
             tools:text="A Lonely Cat" />
 

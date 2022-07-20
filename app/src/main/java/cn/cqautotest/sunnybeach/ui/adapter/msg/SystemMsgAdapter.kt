@@ -1,7 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.adapter.msg
 
 import android.view.ViewGroup
-import androidx.core.text.HtmlCompat
+import androidx.core.text.parseAsHtml
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
@@ -30,17 +30,21 @@ class SystemMsgAdapter(private val adapterDelegate: AdapterDelegate) :
         fun onBinding(item: SystemMsg.Content?, position: Int) {
             item ?: return
             with(binding) {
+                val goldIcon = when (item.exType) {
+                    "sobTrade" -> R.mipmap.ic_gold_currency_2
+                    "wendaComment" -> R.mipmap.ic_gold_currency_3
+                    "article" -> R.mipmap.ic_gold_currency_4
+                    else -> R.mipmap.ic_gold_currency_5
+                }
                 Glide.with(root)
-                    .load(R.mipmap.ic_gold)
-                    .placeholder(R.mipmap.ic_gold)
-                    .error(R.mipmap.ic_gold)
+                    .load(goldIcon)
                     .circleCrop()
                     .into(ivAvatar)
                 cbNickName.text = item.title
                 val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
                 tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.publishTime, sdf)
                 tvReplyMsg.height = 0
-                tvChildReplyMsg.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                tvChildReplyMsg.text = item.content.parseAsHtml()
             }
         }
     }

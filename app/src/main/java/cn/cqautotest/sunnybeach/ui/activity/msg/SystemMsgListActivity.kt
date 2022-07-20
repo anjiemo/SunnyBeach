@@ -65,9 +65,11 @@ class SystemMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         mAdapterDelegate.setOnItemClickListener { _, position ->
             mSystemMsgAdapter.snapshotList[position]?.let {
                 val url = when (it.exType) {
+                    // 文章
                     "article" -> "$SUNNY_BEACH_ARTICLE_URL_PRE${it.exId}"
                     // 登录奖励
                     "sobTrade" -> null
+                    // 问答评论
                     "wendaComment" -> "$SUNNY_BEACH_QA_URL_PRE${it.exId}"
                     else -> null
                 }
