@@ -12,6 +12,20 @@ import retrofit2.http.*
 interface UserApi {
 
     /**
+     * 查询积分规则
+     * item 参数格式：请求方法:请求路径(不含参数)，例：PUT:/uc/ucenter/cover
+     *
+     * 返回字段说明：
+     * label：表示的人看的标签，这是个什么项
+     * sob：表示积分数量，正数为加，负数为减
+     * enable：1表示当前规则开启，0表示不执行当前规则
+     * tax：为税费
+     * mark：为备注说明
+     */
+    @GET("ast/sob-rule")
+    suspend fun queryIntegralRule(@Query("item") item: String): ApiResponse<IntegralRule>
+
+    /**
      * 举报
      * 本接口详细描述请参见：https://www.sunofbeach.net/a/1529277017319542785
      */

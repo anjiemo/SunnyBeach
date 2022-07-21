@@ -21,5 +21,7 @@ data class UserInfo(
     @SerializedName("userId")
     val userId: String,
     @SerializedName("vip")
-    val vip: Boolean
+    val vip: Boolean,
+    @SerializedName("cover")
+    val cover: String
 )
