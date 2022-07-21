@@ -42,6 +42,7 @@ class AtMeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
                 val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
                 tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.publishTime, sdf)
                 tvReplyMsg.height = 0
+                tvChildReplyMsg.setDefaultEmojiParser()
                 tvChildReplyMsg.text = item.content.parseAsHtml()
             }
         }

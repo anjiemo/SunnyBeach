@@ -40,6 +40,7 @@ class LikeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
                 cbNickName.text = item.nickname
                 tvDesc.text = item.timeText
                 tvReplyMsg.height = 0
+                tvChildReplyMsg.setDefaultEmojiParser()
                 tvChildReplyMsg.text = item.title.parseAsHtml()
             }
         }
