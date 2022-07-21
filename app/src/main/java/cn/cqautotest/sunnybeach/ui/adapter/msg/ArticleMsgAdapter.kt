@@ -41,8 +41,10 @@ class ArticleMsgAdapter(private val adapterDelegate: AdapterDelegate) :
                 cbNickName.text = item.nickname
                 val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
                 tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.createTime, sdf)
+                tvReplyMsg.setDefaultEmojiParser()
                 tvReplyMsg.text = item.content.parseAsHtml()
-                tvChildReplyMsg.text = item.title
+                tvChildReplyMsg.setDefaultEmojiParser()
+                tvChildReplyMsg.text = item.title.parseAsHtml()
             }
         }
     }

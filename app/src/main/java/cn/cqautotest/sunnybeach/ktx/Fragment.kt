@@ -2,22 +2,18 @@ package cn.cqautotest.sunnybeach.ktx
 
 import androidx.fragment.app.Fragment
 import cn.cqautotest.sunnybeach.execption.NotLoginException
-import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
-import com.dylanc.longan.viewLifecycleScope
 
 /**
  * 解析当前用户的 Token
  */
-fun Fragment.checkToken(block: suspend (Result<UserBasicInfo>) -> Unit) {
-    viewLifecycleScope.launchWhenCreated {
-        when (val result = Repository.checkToken()) {
-            null -> block.invoke(Result.failure(NotLoginException()))
-            else -> block.invoke(Result.success(result))
-        }
+fun Fragment.checkToken(block: (Result<UserBasicInfo>) -> Unit) {
+    when (val result = UserManager.loadUserBasicInfo()) {
+        null -> block.invoke(Result.failure(NotLoginException()))
+        else -> block.invoke(Result.success(result))
     }
 }
 
@@ -26,7 +22,7 @@ fun Fragment.checkToken(block: suspend (Result<UserBasicInfo>) -> Unit) {
  * 如果没有登录则跳转至登录界面，否则执行 block Lambda 中的代码
  */
 private var isShowing = false
-fun Fragment.takeIfLogin(block: suspend (userBasicInfo: UserBasicInfo) -> Unit) {
+fun Fragment.takeIfLogin(block: (userBasicInfo: UserBasicInfo) -> Unit) {
     checkToken {
         when (val userBasicInfo = it.getOrNull()) {
             null -> {

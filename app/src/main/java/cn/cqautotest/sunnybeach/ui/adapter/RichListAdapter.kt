@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
@@ -15,6 +16,7 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.RichList
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import com.bumptech.glide.Glide
+import com.dylanc.longan.application
 
 /**
  * author : A Lonely Cat
@@ -34,6 +36,7 @@ class RichListAdapter(private val adapterDelegate: AdapterDelegate) :
             item ?: return
             with(binding) {
                 tvNumber.text = (position + 1).toString()
+                tvNumber.setTextColor(getTextColorByPosition(position))
                 flAvatarContainer.background = UserManager.getAvatarPendant(item.vip)
                 Glide.with(itemView)
                     .load(item.avatar)
@@ -55,13 +58,20 @@ class RichListAdapter(private val adapterDelegate: AdapterDelegate) :
                 }
             }
         }
+
+        private fun getTextColorByPosition(position: Int): Int = when (position) {
+            0 -> Color.parseColor("#e3a815")
+            1 -> Color.parseColor("#b8b8b8")
+            2 -> Color.parseColor("#cc947a")
+            else -> ContextCompat.getColor(application, R.color.default_font_color)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RichListViewHolder = RichListViewHolder(parent)
 
     override fun onBindViewHolder(holder: RichListViewHolder, position: Int) {
-        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
-        holder.onBinding(getItem(position), position)
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
+        holder.onBinding(getItem(position), holder.bindingAdapterPosition)
     }
 
     companion object {
