@@ -2,9 +2,7 @@ package cn.cqautotest.sunnybeach.ktx
 
 import android.content.Context
 import androidx.core.app.ComponentActivity
-import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.execption.NotLoginException
-import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
@@ -13,12 +11,10 @@ import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
 /**
  * 解析当前用户的 Token
  */
-fun ComponentActivity.checkToken(block: suspend (userBasicInfo: Result<UserBasicInfo>) -> Unit) {
-    lifecycleScope.launchWhenCreated {
-        when (val result = Repository.checkToken()) {
-            null -> block.invoke(Result.failure(NotLoginException()))
-            else -> block.invoke(Result.success(result))
-        }
+fun ComponentActivity.checkToken(block: (userBasicInfo: Result<UserBasicInfo>) -> Unit) {
+    when (val result = UserManager.loadUserBasicInfo()) {
+        null -> block.invoke(Result.failure(NotLoginException()))
+        else -> block.invoke(Result.success(result))
     }
 }
 
@@ -27,7 +23,7 @@ fun ComponentActivity.checkToken(block: suspend (userBasicInfo: Result<UserBasic
  * 如果没有登录则跳转至登录界面，否则执行 block Lambda 中的代码
  */
 private var isShowing = false
-fun ComponentActivity.takeIfLogin(block: suspend (userBasicInfo: UserBasicInfo) -> Unit) {
+fun ComponentActivity.takeIfLogin(block: (userBasicInfo: UserBasicInfo) -> Unit) {
     checkToken {
         when (val userBasicInfo = it.getOrNull()) {
             null -> {

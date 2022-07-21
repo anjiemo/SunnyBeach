@@ -42,7 +42,9 @@ class MomentMsgAdapter(private val adapterDelegate: AdapterDelegate) :
                 tvDesc.text = item.content
                 val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
                 tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.createTime, sdf)
-                tvReplyMsg.text = item.content
+                tvReplyMsg.setDefaultEmojiParser()
+                tvReplyMsg.text = item.content.parseAsHtml()
+                tvChildReplyMsg.setDefaultEmojiParser()
                 tvChildReplyMsg.text = item.title.parseAsHtml()
             }
         }
