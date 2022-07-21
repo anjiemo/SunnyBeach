@@ -12,6 +12,8 @@ import okhttp3.MultipartBody
  */
 object UserNetwork {
 
+    suspend fun queryIntegralRule(item: String) = UserApi.queryIntegralRule(item)
+
     suspend fun report(report: Report) = UserApi.report(report)
 
     suspend fun modifyAvatar(avatarUrl: String) = UserApi.modifyAvatar(avatarUrl)

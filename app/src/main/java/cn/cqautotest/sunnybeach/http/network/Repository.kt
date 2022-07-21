@@ -14,6 +14,7 @@ import cn.cqautotest.sunnybeach.model.*
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import cn.cqautotest.sunnybeach.model.weather.Place
 import cn.cqautotest.sunnybeach.model.weather.Weather
+import com.hjq.http.model.HttpMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -36,6 +37,8 @@ object Repository {
     private const val NOT_LOGIN_CODE = 11126
 
     private val cachePhotoIdList = arrayListOf<WallpaperBean.Res.Vertical>()
+
+    fun queryIntegralRule(method: HttpMethod, path: String) = launchAndGetData { UserNetwork.queryIntegralRule("$method:$path") }
 
     fun getArticleDetailById(articleId: String) = launchAndGetData { ArticleNetwork.getArticleDetailById(articleId) }
 
