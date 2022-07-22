@@ -2,7 +2,9 @@ package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -25,6 +27,7 @@ import cn.cqautotest.sunnybeach.viewmodel.SearchViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.dylanc.longan.safeArguments
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
  * author : A Lonely Cat
@@ -81,10 +84,11 @@ class SearchListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack
     }
 
     private fun loadSearchResultList(keywords: String) {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            mSearchViewModel.searchByKeywords(keyword = keywords, searchType = searchType, sortType = SortType.NO_SORT).collectLatest {
-                onBack2Top()
-                mSearchResultListAdapter.submitData(it)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mSearchViewModel.searchByKeywords(keyword = keywords, searchType = searchType, sortType = SortType.NO_SORT).collectLatest {
+                    mSearchResultListAdapter.submitData(it)
+                }
             }
         }
     }

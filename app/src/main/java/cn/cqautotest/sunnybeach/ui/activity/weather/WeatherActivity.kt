@@ -1,48 +1,51 @@
 package cn.cqautotest.sunnybeach.ui.activity.weather
 
 import android.content.Intent
-import android.graphics.Color
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.core.view.updatePadding
 import androidx.drawerlayout.widget.DrawerLayout
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.WeatherActivityBinding
+import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.weather.DailyResponse
 import cn.cqautotest.sunnybeach.model.weather.Weather
 import cn.cqautotest.sunnybeach.model.weather.getSky
 import cn.cqautotest.sunnybeach.viewmodel.weather.WeatherViewModel
+import com.gyf.immersionbar.ImmersionBar
 
-class WeatherActivity : AppCompatActivity() {
+class WeatherActivity : AppActivity() {
 
     val viewModel by viewModels<WeatherViewModel>()
     val binding by viewBinding<WeatherActivityBinding>()
     private val mSkyConList = arrayListOf<DailyResponse.Skycon>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.weather_activity)
-        val decorView = window.decorView
-        decorView.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-        window.statusBarColor = Color.TRANSPARENT
+    override fun getLayoutId() = R.layout.weather_activity
+
+    override fun initView() {
+        val actionBarHeight = ImmersionBar.getActionBarHeight(this)
+        val statusBarHeight = ImmersionBar.getStatusBarHeight(this)
+        val paddingTop = actionBarHeight - statusBarHeight + 10.dp
+        findViewById<View>(R.id.actionBarLayout)?.updatePadding(0, paddingTop, 0, 10.dp)
+    }
+
+    override fun initData() {
         viewModel.locationLng = viewModel.locationLng.ifEmpty { intent.getStringExtra("location_lng").orEmpty() }
         viewModel.locationLat = viewModel.locationLat.ifEmpty { intent.getStringExtra("location_lat").orEmpty() }
         viewModel.placeName = viewModel.placeName.ifEmpty { intent.getStringExtra("placeName").orEmpty() }
         viewModel.refreshWeather(viewModel.locationLng, viewModel.locationLat)
-        initEvent()
     }
 
-    private fun initEvent() {
+    override fun initEvent() {
         binding.now.navBtn.setOnClickListener {
             binding.drawerLayout.openDrawer(GravityCompat.START)
         }

@@ -40,7 +40,7 @@ class SearchActivity : AppActivity() {
 
     override fun initView() {
         with(mBinding) {
-            postDelayed({ searchView.requestFocus() }, 300)
+            showKeyboard(mBinding.searchView)
             viewPager2.apply {
                 reduceDragSensitivity()
                 adapter = object : FragmentStateAdapter(this@SearchActivity) {
@@ -52,7 +52,7 @@ class SearchActivity : AppActivity() {
                         SearchType.SHARE,
                     )
 
-                    override fun getItemCount(): Int = typeList.size
+                    override fun getItemCount() = typeList.size
 
                     override fun createFragment(position: Int): Fragment = SearchListFragment.newInstance(typeList[position])
                 }
