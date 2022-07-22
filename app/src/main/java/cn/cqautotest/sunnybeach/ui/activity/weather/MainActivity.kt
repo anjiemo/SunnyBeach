@@ -1,16 +1,25 @@
 package cn.cqautotest.sunnybeach.ui.activity.weather
 
 import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import androidx.core.view.updatePadding
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.ktx.dp
+import com.gyf.immersionbar.ImmersionBar
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
+    override fun getLayoutId() = R.layout.main_activity
+
+    override fun initView() {
+        val actionBarHeight = ImmersionBar.getActionBarHeight(this)
+        val statusBarHeight = ImmersionBar.getStatusBarHeight(this)
+        val paddingTop = actionBarHeight - statusBarHeight + 10.dp
+        findViewById<View>(R.id.actionBarLayout)?.updatePadding(0, paddingTop, 0, 10.dp)
     }
+
+    override fun initData() {}
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
