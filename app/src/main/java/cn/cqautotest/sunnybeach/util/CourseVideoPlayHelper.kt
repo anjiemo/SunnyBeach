@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import cn.cqautotest.sunnybeach.execption.NotLoginException
-import cn.cqautotest.sunnybeach.ktx.showLoginDialog
 import cn.cqautotest.sunnybeach.ktx.takeIfLogin
+import cn.cqautotest.sunnybeach.ktx.tryShowLoginDialog
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
 import com.aliyun.player.alivcplayerexpand.constants.GlobalPlayerConfig
 import com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity
@@ -40,7 +40,7 @@ object CourseVideoPlayHelper {
                 startPlay()
             }.onFailure {
                 when (it) {
-                    is NotLoginException -> showLoginDialog()
+                    is NotLoginException -> tryShowLoginDialog()
                     else -> toast("播放凭证获取失败")
                 }
             }

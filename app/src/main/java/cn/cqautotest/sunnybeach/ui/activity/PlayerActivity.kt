@@ -52,7 +52,7 @@ class PlayerActivity : AppActivity() {
                 startPlay()
             }.onFailure {
                 when (it) {
-                    is NotLoginException -> showLoginDialog()
+                    is NotLoginException -> tryShowLoginDialog()
                     else -> toast("播放凭证获取失败")
                 }
             }
