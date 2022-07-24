@@ -6,7 +6,10 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.CreationCenterActivityBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.checkToken
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.takeIfLogin
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.adapter.AchievementAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
@@ -49,7 +52,7 @@ class CreationCenterActivity : AppActivity() {
             }
         }
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            takeIf { position == mAchievementAdapter.lastIndex }?.let { startActivity<SobIEDetailActivity>() }
+            // takeIf { position == mAchievementAdapter.lastIndex }?.let { startActivity<SobIEDetailActivity>() }
         }
     }
 

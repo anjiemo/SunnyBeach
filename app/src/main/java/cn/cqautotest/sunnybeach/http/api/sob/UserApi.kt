@@ -4,7 +4,7 @@ import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.annotation.baseurl.SobBaseUrl
 
 import cn.cqautotest.sunnybeach.model.*
-import cn.cqautotest.sunnybeach.model.msg.IEDetail
+import cn.cqautotest.sunnybeach.model.msg.SobIEDetail
 import okhttp3.MultipartBody
 import retrofit2.http.*
 
@@ -106,7 +106,7 @@ interface UserApi {
     suspend fun getSobIEDetailList(
         @Path("userId") userId: String,
         @Path("page") page: Int
-    ): ApiResponse<IEDetail>
+    ): ApiResponse<SobIEDetail>
 
     /**
      * 获取VIP列表
