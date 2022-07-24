@@ -17,4 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_200" />
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view_tag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </LinearLayout>
