@@ -6,6 +6,7 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SobIeDeatilActivityBinding
 import cn.cqautotest.sunnybeach.ktx.simpleToast
+import cn.cqautotest.sunnybeach.ui.fragment.sobie.SobIEDetailListFragment
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -32,6 +33,9 @@ class SobIEDetailActivity : AppActivity() {
         with(mBinding.lineChart) {
             initLineChart()
             initLineData()
+            supportFragmentManager.beginTransaction().apply {
+                add(SobIEDetailListFragment.newInstance(), "SobIEDetailListFragmentTag")
+            }.commitAllowingStateLoss()
         }
     }
 
