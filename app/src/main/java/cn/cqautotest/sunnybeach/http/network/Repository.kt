@@ -329,7 +329,10 @@ object Repository {
                 Timber.d("launchAndGet：===> result is ${result.toJson()}")
                 if (result.isSuccess()) Result.success(onSuccess.invoke(result))
                 else when (result.getCode()) {
-                    NOT_LOGIN_CODE -> Result.failure(NotLoginException(result.getMessage()))
+                    NOT_LOGIN_CODE -> {
+                        checkToken()
+                        Result.failure(NotLoginException(result.getMessage()))
+                    }
                     else -> Result.failure(ServiceException(result.getMessage()))
                 }
             }
