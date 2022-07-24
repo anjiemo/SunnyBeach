@@ -27,7 +27,6 @@ import cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
-import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
@@ -314,6 +313,8 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
      * 根据原始图片文件路径压缩图片文件到指定路径
      */
     private suspend fun zipImageFile(imgFile: File): Result<File> = suspendCoroutine { con ->
+        // val unZipFileSize = Formatter.formatFileSize(this, imgFile.length())
+        // Timber.d("zipImageFile：===> unZipFileSize is $unZipFileSize")
         Luban.with(this)
             .load(imgFile)
             .ignoreBy(TIMES)
@@ -327,6 +328,8 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                 }
 
                 override fun onSuccess(file: File) {
+                    // val zippedFileSize = Formatter.formatFileSize(context, file.length())
+                    // Timber.d("zipImageFile：===> zippedFileSize is $zippedFileSize")
                     con.resume(Result.success(file))
                 }
 
@@ -417,7 +420,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         private const val MAX_SELECT_IMAGE_COUNT = 9
 
         // 超过 800 kb 的图片将会被压缩（目前网站最大只支持 1000 kb）
-        private const val TIMES = 800 * MemoryConstants.KB
+        private const val TIMES = 800
 
         private const val INPUT_MAX_LENGTH = 1024
     }
