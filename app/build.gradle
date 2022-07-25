@@ -163,10 +163,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.activity:activity-ktx:1.4.0'
     implementation 'androidx.fragment:fragment-ktx:1.3.6'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
 
     // Room 数据库：https://developer.android.com/jetpack/androidx/releases/room
     // CodeLab：https://developer.android.com/codelabs/android-room-with-a-view-kotlin#0
@@ -328,8 +328,8 @@ dependencies {
     implementation 'com.huawei.hms:scan:2.4.0.301'
 
     // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
-    implementation "com.google.dagger:hilt-android:2.42"
-    kapt "com.google.dagger:hilt-android-compiler:2.42"
+    implementation "com.google.dagger:hilt-android:2.43"
+    kapt "com.google.dagger:hilt-android-compiler:2.43"
 
     // // 从图片中提取具有代表性的调色板：https://developer.android.com/jetpack/androidx/releases/palette
     // implementation 'androidx.palette:palette:1.0.0'
@@ -339,7 +339,4 @@ dependencies {
 
     // 一个强大的🚀Android 图表视图/图形视图库，支持折线图、雷达图、气泡图和烛台图以及缩放、平移和动画：https://github.com/PhilJay/MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
-    // Android 自动生成表格框架：https://github.com/huangyanbin/smartTable
-    implementation 'com.github.huangyanbin:SmartTable:2.2.0'
 }
