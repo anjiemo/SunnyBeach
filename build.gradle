@@ -8,7 +8,7 @@ buildscript {
     apply from : 'maven.gradle'
     apply from: 'thirdparty-lib/config.gradle'
 
-    ext.kotlin_version = "1.7.0"
+    ext.kotlin_version = "1.7.10"
     ext.agcp_version  = "1.6.0.300"
 
     repositories {
