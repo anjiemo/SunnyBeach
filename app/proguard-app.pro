@@ -23,10 +23,3 @@
 -keepclassmembernames class ** {
     @cn.cqautotest.sunnybeach.aop.Log <methods>;
 }
-
-#SmartTable
--keepattributes *Annotation*
--keepclassmembers class ** {
-    @com.bin.david.form.annotation.SmartTable<fields>;
-}
--keep enum com.bin.david.form.annotation.ColumnType { *; }
