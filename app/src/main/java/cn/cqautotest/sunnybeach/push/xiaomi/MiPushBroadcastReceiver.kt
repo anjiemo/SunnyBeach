@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.push.xiaomi
 import android.content.Context
 import android.text.TextUtils
 import cn.cqautotest.sunnybeach.ktx.fromJson
-import cn.cqautotest.sunnybeach.ktx.fromJsonByTypeToken
 import cn.cqautotest.sunnybeach.ktx.getOrNull
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.manager.ActivityManager
@@ -76,7 +75,7 @@ open class MiPushBroadcastReceiver : PushMessageReceiver() {
      *   }
      */
     private fun parseMourningCalendar(jsonData: String) {
-        val mourningCalendarList = fromJsonByTypeToken<List<MourningCalendar>>(jsonData)
+        val mourningCalendarList = fromJson<List<MourningCalendar>>(jsonData)
         // 如果栈顶有 Activity 且为 HomeActivity ，则设置哀悼日历
         executeWithHomeActivity { mAppViewModel.setMourningCalendarList(mourningCalendarList) }
     }
