@@ -10,5 +10,7 @@ captures
 .DS_Store
 local.properties
 
-app/release
-app/debug
+/app/release
+/app/debug
+/app/release.jks
+/app/gradle.properties
