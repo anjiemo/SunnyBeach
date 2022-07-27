@@ -12,3 +12,6 @@ local.properties
 
 app/release
 app/debug
+
+app/gradle.properties
+app/release.jks
