@@ -1,5 +1,5 @@
 import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.ktx.fromJsonByTypeToken
+import cn.cqautotest.sunnybeach.ktx.fromJson
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.ArticleDetail
@@ -187,7 +187,7 @@ class Test {
             mkdirs()
         }
         val linkPre = ""
-        val imageList: List<Pair<String, String>> = fromJsonByTypeToken(File("img", "imageMap.json").readText())
+        val imageList: List<Pair<String, String>> = fromJson(File("img", "imageMap.json").readText())
         val listArticleFile = listArticleFile()
         for (file in listArticleFile) {
             val content = file.readText()

@@ -23,7 +23,6 @@ import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.other.IntentKey
-import cn.cqautotest.sunnybeach.ui.adapter.ImagePreviewAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
@@ -87,7 +86,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                     if (resultCode == Activity.RESULT_OK) {
                         if (data != null) {
                             val fishPondTopicListItem =
-                                fromJsonByTypeToken<FishPondTopicList.TopicItem>(data.getStringExtra(IntentKey.OTHER))
+                                fromJson<FishPondTopicList.TopicItem>(data.getStringExtra(IntentKey.OTHER))
                             mTopicId = fishPondTopicListItem.id
                             tvChooseFishPond.text = "#${fishPondTopicListItem.topicName}#"
                             tvChooseFishPondDesc.clearText()
