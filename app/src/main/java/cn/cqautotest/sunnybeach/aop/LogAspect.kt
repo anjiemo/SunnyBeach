@@ -133,7 +133,7 @@ class LogAspect {
         log(log.value, builder.toString())
     }
 
-    private fun log(tag: String?, msg: String?) {
+    private fun log(tag: String, msg: String?) {
         Timber.tag(tag)
         Timber.d(msg)
     }
