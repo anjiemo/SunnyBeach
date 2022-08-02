@@ -18,6 +18,7 @@ import cn.cqautotest.sunnybeach.action.OnDoubleClickListener
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
+import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
@@ -80,6 +81,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             setOnNavigationListener(this@HomeActivity)
             navigationView?.adapter = this
         }
+        startActivity<TestKeyboardActivity>()
     }
 
     private fun NavigationAdapter.addMenuItem(text: String, drawable: Drawable) {

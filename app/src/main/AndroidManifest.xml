@@ -514,6 +514,10 @@
             android:name=".ui.activity.SobIEDetailActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.activity.TestKeyboardActivity"
+            android:windowSoftInputMode="adjustResize" />
+
         <service
             android:name="com.xiaomi.push.service.XMPushService"
             android:enabled="true"
