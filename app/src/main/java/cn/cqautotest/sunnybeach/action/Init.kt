@@ -8,6 +8,13 @@ package cn.cqautotest.sunnybeach.action
  */
 interface Init {
 
+    fun callAllInit() {
+        initView()
+        initData()
+        initEvent()
+        initObserver()
+    }
+
     fun initView() {}
 
     fun initData() {}
