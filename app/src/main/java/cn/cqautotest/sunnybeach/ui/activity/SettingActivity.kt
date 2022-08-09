@@ -246,24 +246,12 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
             }
             R.id.sb_setting_exit -> {
 
-                // 清除用户信息
-                UserManager.exitUserAccount()
-                // 清除 WebView 的 Cookie
-                val cookieManager = CookieManager.getInstance()
-                cookieManager.removeAllCookies(null)
-                val database = AppApplication.getDatabase()
-                val cookieDao = database.cookieDao()
-                lifecycleScope.launchWhenCreated {
-                    // 清除App本地缓存的 Cookie（必须在非主线程操作）
-                    withContext(Dispatchers.IO) { cookieDao.clearCookies() }
-                }
-                // 退出账号并清除用户基本信息数据
-                mUserViewModel.logout().observe(this) {
-                    SobCacheManager.onAccountLoginOut()
-                    LoginActivity.start(this, UserManager.getCurrLoginAccount(), UserManager.getCurrLoginAccountPassword())
-                    // 进行内存优化，销毁除登录页之外的所有界面
-                    ActivityManager.getInstance().finishAllActivities(LoginActivity::class.java)
-                }
+                MessageDialog.Builder(this)
+                    .setTitle("退出账号")
+                    .setMessage("确定退出当前账号")
+                    .setConfirm("确定")
+                    .setCancel("取消")
+                    .setListener { logout() }.show()
                 if (true) {
                     return
                 }
@@ -272,12 +260,37 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                     .api(LogoutApi())
                     .request(object : HttpCallback<HttpData<Void?>>(this) {
                         override fun onSucceed(data: HttpData<Void?>) {
-                            LoginActivity.start(context, UserManager.getCurrLoginAccount(), UserManager.getCurrLoginAccountPassword())
+                            LoginActivity.start(
+                                context,
+                                UserManager.getCurrLoginAccount(),
+                                UserManager.getCurrLoginAccountPassword()
+                            )
                             // 进行内存优化，销毁除登录页之外的所有界面
                             ActivityManager.getInstance().finishAllActivities(LoginActivity::class.java)
                         }
                     })
             }
+        }
+    }
+
+    private fun logout() {
+        // 清除用户信息
+        UserManager.exitUserAccount()
+        // 清除 WebView 的 Cookie
+        val cookieManager = CookieManager.getInstance()
+        cookieManager.removeAllCookies(null)
+        val database = AppApplication.getDatabase()
+        val cookieDao = database.cookieDao()
+        lifecycleScope.launchWhenCreated {
+            // 清除App本地缓存的 Cookie（必须在非主线程操作）
+            withContext(Dispatchers.IO) { cookieDao.clearCookies() }
+        }
+        // 退出账号并清除用户基本信息数据
+        mUserViewModel.logout().observe(this) {
+            SobCacheManager.onAccountLoginOut()
+            LoginActivity.start(this, UserManager.getCurrLoginAccount(), UserManager.getCurrLoginAccountPassword())
+            // 进行内存优化，销毁除登录页之外的所有界面
+            ActivityManager.getInstance().finishAllActivities(LoginActivity::class.java)
         }
     }
 
