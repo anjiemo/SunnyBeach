@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
-import com.huawei.hms.scankit.p.T
 
 fun Context.asInflater(): LayoutInflater = LayoutInflater.from(this)
 
