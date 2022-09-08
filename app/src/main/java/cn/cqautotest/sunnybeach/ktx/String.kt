@@ -14,13 +14,15 @@ fun String?.toQrCodeBitmapOrNull(
     size: Int = 400,
     bgColor: Int = Color.WHITE,
     qrColor: Int = Color.BLACK,
-    margin: Int = 2
+    margin: Int = 2,
+    qrLogoBitmap: Bitmap? = null
 ): Bitmap? {
     val type = HmsScan.QRCODE_SCAN_TYPE
     val options = HmsBuildBitmapOption.Creator()
         .setBitmapBackgroundColor(bgColor)
         .setBitmapColor(qrColor)
         .setBitmapMargin(margin)
+        .setQRLogoBitmap(qrLogoBitmap)
         .create()
     return try {
         // 如果未设置HmsBuildBitmapOption对象，生成二维码参数options置null。
