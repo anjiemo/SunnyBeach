@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.ImageChooseItemBinding
 import cn.cqautotest.sunnybeach.databinding.PutFishActivityBinding
 import cn.cqautotest.sunnybeach.execption.ServiceException
@@ -53,7 +54,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     private val mBinding: PutFishActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
     private val mAdapterDelegate = AdapterDelegate()
-    private val mPreviewAdapter by lazy { ImagePreviewAdapter(mAdapterDelegate) }
+    private val mPreviewAdapter = ImagePreviewAdapter(mAdapterDelegate)
     private var mTopicId: String? = null
     private var mLinkUrl: String? = null
 
@@ -83,16 +84,15 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             rlChooseFishPond.setFixOnClickListener {
                 // 选择鱼塘
                 startActivityForResult(FishPondSelectionActivity::class.java) { resultCode, data ->
-                    if (resultCode == Activity.RESULT_OK) {
-                        if (data != null) {
-                            val fishPondTopicListItem =
-                                fromJson<FishPondTopicList.TopicItem>(data.getStringExtra(IntentKey.OTHER))
-                            mTopicId = fishPondTopicListItem.id
-                            tvChooseFishPond.text = "#${fishPondTopicListItem.topicName}#"
-                            tvChooseFishPondDesc.clearText()
-                        } else {
-                            resetTopicSelection()
-                        }
+                    takeUnless { resultCode == Activity.RESULT_OK }?.let { return@startActivityForResult }
+                    if (data != null) {
+                        val fishPondTopicListItem =
+                            fromJson<FishPondTopicList.TopicItem>(data.getStringExtra(IntentKey.OTHER))
+                        mTopicId = fishPondTopicListItem.id
+                        tvChooseFishPond.text = "#${fishPondTopicListItem.topicName}#"
+                        tvChooseFishPondDesc.clearText()
+                    } else {
+                        resetTopicSelection()
                     }
                 }
             }
@@ -183,7 +183,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
 
         // 摸鱼内容
         val content = mBinding.etInputContent.textString
-        val images = mPreviewAdapter.getData().toList()
+        val images = mPreviewAdapter.getData()
         showDialog()
         val dispatcher = Dispatchers.IO
         // 异常处理
@@ -210,7 +210,9 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                     cancel()
                 }
                 // 3、发布摸鱼（需要按照选择的图片顺序进行排序，否则图片列表是乱序的）
-                withContext(Dispatchers.Main) { putFish(content, uploadedImages.sortedBy { it.first }.map { it.second }) }
+                withContext(Dispatchers.Main) {
+                    putFish(content, uploadedImages.sortedBy { it.first }.map { it.second })
+                }
             }
         }
     }
@@ -272,7 +274,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
      */
     private fun putFish(content: String, imageUrls: List<String>) {
         Timber.d("putFish：===> imageUrls is ${imageUrls.toJson()}")
-        // 2021/9/12 填充 “链接”（客户端暂不支持），
+        // 2021/9/12 填充 “链接”（客户端暂不支持）
         val map = mapOf(
             "content" to content,
             "topicId" to mTopicId,
@@ -314,7 +316,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     private suspend fun zipImageFile(imgFile: File): Result<File> = suspendCoroutine { con ->
         // val unZipFileSize = Formatter.formatFileSize(this, imgFile.length())
         // Timber.d("zipImageFile：===> unZipFileSize is $unZipFileSize")
-        Luban.with(this)
+        Luban.with(AppApplication.getInstance())
             .load(imgFile)
             .ignoreBy(TIMES)
             .filter { it.isNotBlank() }
@@ -341,7 +343,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     }
 
     override fun onSelected(data: MutableList<String>) {
-        mPreviewAdapter.setData(data.toMutableList())
+        mPreviewAdapter.setData(data.toList())
         Timber.d("===> images path is $data")
     }
 
@@ -404,7 +406,8 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             clearImageListener = clearImage
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImagePreviewViewHolder = ImagePreviewViewHolder(parent)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImagePreviewViewHolder =
+            ImagePreviewViewHolder(parent)
 
         override fun onBindViewHolder(holder: ImagePreviewViewHolder, position: Int) {
             holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
