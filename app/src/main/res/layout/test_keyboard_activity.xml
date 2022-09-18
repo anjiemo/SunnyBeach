@@ -10,43 +10,71 @@
     tools:context=".ui.activity.TestKeyboardActivity">
 
     <LinearLayout
-        android:id="@+id/ll_input_container"
+        android:id="@+id/ll_comment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
 
-        <com.hjq.shape.view.ShapeEditText
-            android:id="@+id/et_input_content"
-            android:layout_width="0px"
+        <LinearLayout
+            android:id="@+id/ll_input_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="请友善评论..."
-            android:paddingHorizontal="14dp"
-            android:paddingVertical="10dp"
-            app:shape_radius="8dp"
-            app:shape_solidColor="@color/common_window_background_color" />
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-        <ImageView
-            android:id="@+id/iv_emoji"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:padding="4dp"
-            android:src="@mipmap/ic_emoji_normal" />
+            <com.hjq.shape.view.ShapeEditText
+                android:id="@+id/et_input_content"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="请友善评论..."
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="10dp"
+                app:shape_radius="8dp"
+                app:shape_solidColor="@color/common_window_background_color" />
 
-        <com.hjq.shape.view.ShapeTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="10dp"
-            android:text="评论"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            app:shape_radius="6dp"
-            app:shape_solidColor="#0084ff" />
+            <ImageView
+                android:id="@+id/iv_emoji"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:padding="4dp"
+                android:src="@mipmap/ic_emoji_normal" />
+
+            <com.hjq.shape.view.ShapeTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="10dp"
+                android:text="评论"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:shape_radius="6dp"
+                app:shape_solidColor="#0084ff" />
+
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:background="@color/yellow"
+            android:layout_height="0px"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:background="@color/yellow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_emoji"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 

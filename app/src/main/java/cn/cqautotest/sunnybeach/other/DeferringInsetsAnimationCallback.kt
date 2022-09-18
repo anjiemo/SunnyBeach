@@ -34,7 +34,7 @@ class DeferringInsetsAnimationCallback(private val view: View) : WindowInsetsAni
                 Timber.d("onProgress：===> imeHeight is $imeHeight")
                 Timber.d("onProgress：===> statusBarHeight is $statusBarHeight")
                 Timber.d("onProgress：===> offset is $offset")
-                bottomMargin = offset
+                height = offset
             }
         }
         return insets
