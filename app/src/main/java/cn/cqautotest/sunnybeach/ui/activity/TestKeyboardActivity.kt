@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.Init
@@ -31,7 +32,7 @@ class TestKeyboardActivity : AppActivity(), Init {
 
     override fun initEvent() {
         mBinding.apply {
-            val view = llInputContainer
+            val view = tvEmoji
             view.post {
                 val statusBarHeight = ImmersionBar.getStatusBarHeight(activity)
                 val navigationBarHeight = ImmersionBar.getNavigationBarHeight(activity)
@@ -44,6 +45,9 @@ class TestKeyboardActivity : AppActivity(), Init {
                 mKeyboardVisible = isActive
                 Timber.d("initEvent：===> keyboardHeight is $keyboardHeight")
                 if (isActive) {
+                    llCommentContainer.updateLayoutParams {
+                        height = keyboardHeight
+                    }
                     ivEmoji.setImageResource(R.mipmap.ic_emoji_normal)
                 } else {
                     ivEmoji.setImageResource(R.mipmap.ic_keyboard)
