@@ -5,8 +5,6 @@ import cn.cqautotest.sunnybeach.http.interceptor.accountInterceptor
 import cn.cqautotest.sunnybeach.http.interceptor.loggingInterceptor
 import cn.cqautotest.sunnybeach.manager.LocalCookieManager
 import cn.cqautotest.sunnybeach.util.BASE_URL
-import cn.cqautotest.sunnybeach.util.CAI_YUN_BASE_URL
-import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_API_BASE_URL
 import com.hjq.gson.factory.GsonFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -26,7 +24,7 @@ object ServiceCreator {
 
     val client by lazy {
         OkHttpClient.Builder()
-            .addInterceptor(BaseUrlInterceptor(setOf(SUNNY_BEACH_API_BASE_URL, CAI_YUN_BASE_URL, BASE_URL)))
+            .addInterceptor(BaseUrlInterceptor { retrofit })
             .addInterceptor(accountInterceptor)
             .addInterceptor(loggingInterceptor)
             .cookieJar(cookieManager)
