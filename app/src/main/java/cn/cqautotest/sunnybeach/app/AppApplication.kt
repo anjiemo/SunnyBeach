@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.Network
 import android.os.Build
@@ -34,7 +33,6 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonToken
 import com.hjq.bar.TitleBar
-import com.hjq.bar.style.RippleBarStyle
 import com.hjq.gson.factory.GsonFactory
 import com.hjq.http.EasyConfig
 import com.hjq.http.config.IRequestApi
@@ -53,7 +51,7 @@ import java.io.InputStream
 import java.util.concurrent.TimeUnit
 
 /**
- *    author : Android 轮子哥
+ *    author : Android 轮子哥 & A Lonely Cat
  *    github : https://github.com/getActivity/AndroidProject-Kotlin
  *    time   : 2018/10/18
  *    desc   : 应用入口
@@ -109,11 +107,7 @@ class AppApplication : Application(), Configuration.Provider {
          */
         fun initSdk(application: Application) {
             // 设置标题栏初始化器
-            TitleBar.setDefaultStyle(object : RippleBarStyle() {
-                override fun getTitleBarBackground(context: Context): Drawable {
-                    return ContextCompat.getDrawable(context, R.drawable.shape_gradient)!!
-                }
-            })
+            TitleBar.setDefaultStyle(TitleBarStyle())
 
             // 设置全局的 Header 构建器
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context: Context, _: RefreshLayout ->

@@ -194,7 +194,7 @@ dependencies {
     implementation 'com.github.getActivity:XXPermissions:13.2'
 
     // 标题栏框架：https://github.com/getActivity/TitleBar
-    implementation 'com.github.getActivity:TitleBar:9.3'
+    implementation 'com.github.getActivity:TitleBar:9.5'
 
     // 吐司框架：https://github.com/getActivity/ToastUtils
     implementation 'com.github.getActivity:ToastUtils:10.0'
