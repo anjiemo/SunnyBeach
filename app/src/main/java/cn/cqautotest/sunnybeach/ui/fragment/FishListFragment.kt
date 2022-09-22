@@ -7,7 +7,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
@@ -81,6 +80,16 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             adapter = concatAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
         }
+        // 创建悬浮窗
+        FloatWindowHelper.attachTo(requireActivity()) {
+            takeIfLogin {
+                startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
+                    if (resultCode == Activity.RESULT_OK) {
+                        mFishListAdapter.refresh()
+                    }
+                }
+            }
+        }
     }
 
     override fun initData() {
@@ -101,7 +110,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     override fun initEvent() {
-        val ivPublishContent = mBinding.ivPublishContent
         mBinding.titleBar.setDoubleClickListener {
             onBack2Top()
         }
@@ -119,54 +127,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         }
         mFishListAdapter.setOnNineGridClickListener { sources, index ->
             ImagePreviewActivity.start(requireContext(), sources.toMutableList(), index)
-        }
-        mBinding.rvFishPondList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-            /**
-             * 当前是否显示
-             */
-            private var mIsShowing = true
-
-            /**
-             * 当前是否向上滑动
-             */
-            private var mIsUp = false
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                when (newState) {
-                    // RecyclerView 当前未滚动
-                    RecyclerView.SCROLL_STATE_IDLE -> {
-                        // 如果手指是向下滑动且当前没有显示 --> 显示悬浮按钮
-                        if (mIsUp.not() && mIsShowing.not()) {
-                            ivPublishContent.show()
-                            mIsShowing = true
-                        }
-                    }
-                    // 1、RecyclerView 当前正被外部输入（例如用户触摸输入）拖动
-                    // 2、RecyclerView 当前正在动画到最终位置，而不受外部控制
-                    RecyclerView.SCROLL_STATE_DRAGGING, RecyclerView.SCROLL_STATE_SETTLING -> {
-                        // 如果当前已经显示了悬浮按钮 --> 隐藏
-                        if (mIsShowing) {
-                            ivPublishContent.hide()
-                        }
-                        mIsShowing = false
-                    }
-                }
-            }
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                // Timber.d("onScrolled：===> dy is $dy")
-                mIsUp = dy > 0
-            }
-        })
-        ivPublishContent.setFixOnClickListener {
-            takeIfLogin {
-                startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
-                    if (resultCode == Activity.RESULT_OK) {
-                        mFishListAdapter.refresh()
-                    }
-                }
-            }
         }
     }
 
@@ -223,6 +183,23 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
             .create()
         MyScanUtil.startScan(requireActivity(), REQUEST_CODE_SCAN_ONE, options)
+    }
+
+    override fun onFragmentResume(first: Boolean) {
+        super.onFragmentResume(first)
+        // 当前 Fragment 首次 Resume 的时候已经显示悬浮窗了，无需再次显示
+        takeIf { first }?.let { return }
+        FloatWindowHelper.showFrom(requireActivity())
+    }
+
+    override fun onPause() {
+        super.onPause()
+        FloatWindowHelper.hideFrom(requireActivity())
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        FloatWindowHelper.deathFrom(requireActivity())
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlFishPondHint
