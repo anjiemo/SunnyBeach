@@ -21,7 +21,6 @@ import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.MourningCalendar
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
-import cn.cqautotest.sunnybeach.ui.activity.PutFishActivity
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
@@ -79,16 +78,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             layoutManager = LinearLayoutManager(context)
             adapter = concatAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
-        }
-        // 创建悬浮窗
-        FloatWindowHelper.attachTo(requireActivity()) {
-            takeIfLogin {
-                startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
-                    if (resultCode == Activity.RESULT_OK) {
-                        mFishListAdapter.refresh()
-                    }
-                }
-            }
         }
     }
 
@@ -167,13 +156,15 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     override fun initObserver() {
         mAppViewModel.mourningCalendarListLiveData.observe(viewLifecycleOwner) { setMourningStyleByDate(it) }
+        mFishPondViewModel.fishListStateLiveData.observe(viewLifecycleOwner) { mFishListAdapter.refresh() }
     }
 
     private fun setMourningStyleByDate(mourningCalendarList: List<MourningCalendar>) {
         val sdf = SimpleDateFormat("MM月dd日", Locale.getDefault())
         val formatDate = sdf.format(System.currentTimeMillis())
         val rootView = requireView()
-        mourningCalendarList.find { it.date == formatDate }?.let { rootView.setMourningStyle() } ?: rootView.removeMourningStyle()
+        mourningCalendarList.find { it.date == formatDate }?.let { rootView.setMourningStyle() }
+            ?: rootView.removeMourningStyle()
     }
 
     @Permissions(Permission.CAMERA)
@@ -183,23 +174,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
             .create()
         MyScanUtil.startScan(requireActivity(), REQUEST_CODE_SCAN_ONE, options)
-    }
-
-    override fun onFragmentResume(first: Boolean) {
-        super.onFragmentResume(first)
-        // 当前 Fragment 首次 Resume 的时候已经显示悬浮窗了，无需再次显示
-        takeIf { first }?.let { return }
-        FloatWindowHelper.showFrom(requireActivity())
-    }
-
-    override fun onPause() {
-        super.onPause()
-        FloatWindowHelper.hideFrom(requireActivity())
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        FloatWindowHelper.deathFrom(requireActivity())
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlFishPondHint

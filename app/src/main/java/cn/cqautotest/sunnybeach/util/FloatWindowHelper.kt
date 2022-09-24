@@ -31,10 +31,10 @@ object FloatWindowHelper {
                 layoutParams = ViewGroup.LayoutParams(58.dp, 59.dp)
                 updatePadding(4.dp, 4.dp, 4.dp, 4.dp)
                 setImageResource(R.mipmap.ic_publish_content)
-                setFixOnClickListener(block)
+                setFixOnClickListener { block.invoke(it) }
             })
             // 设置浮窗的标签，用于区分多个浮窗
-            .setTag(activity.localClassName)
+            .setTag(activity::class.java.simpleName)
             // 设置吸附方式，共15种模式，详情参考SidePattern
             .setSidePattern(SidePattern.RESULT_HORIZONTAL)
             // 设置浮窗固定坐标，ps：设置固定坐标，Gravity属性和offset属性将无效
@@ -56,20 +56,20 @@ object FloatWindowHelper {
      * 显示来自 Activity 的悬浮窗
      */
     fun showFrom(activity: Activity) {
-        EasyFloat.show(activity.localClassName)
+        EasyFloat.show(activity::class.java.simpleName)
     }
 
     /**
      * 隐藏来自 Activity 的悬浮窗
      */
     fun hideFrom(activity: Activity) {
-        EasyFloat.hide(activity.localClassName)
+        EasyFloat.hide(activity::class.java.simpleName)
     }
 
     /**
      * 从 Activity 中分离
      */
     fun deathFrom(activity: Activity) {
-        EasyFloat.dismiss(activity.localClassName, true)
+        EasyFloat.dismiss(activity::class.java.simpleName, true)
     }
 }

@@ -6,9 +6,12 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
@@ -18,6 +21,7 @@ import cn.cqautotest.sunnybeach.action.OnDoubleClickListener
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
+import cn.cqautotest.sunnybeach.ktx.takeIfLogin
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
@@ -26,11 +30,14 @@ import cn.cqautotest.sunnybeach.other.DoubleClickHelper
 import cn.cqautotest.sunnybeach.ui.adapter.NavigationAdapter
 import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog
 import cn.cqautotest.sunnybeach.ui.fragment.*
+import cn.cqautotest.sunnybeach.util.FloatWindowHelper
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
+import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.base.FragmentPagerAdapter
 import com.tencent.bugly.crashreport.CrashReport
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -63,6 +70,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     private var navigationAdapter: NavigationAdapter? = null
     private var pagerAdapter: FragmentPagerAdapter<AppFragment<*>>? = null
     private val updateDialog by lazy { UpdateDialog.Builder(this) }
+    private val mFishPondViewModel by viewModels<FishPondViewModel>()
 
     @Inject
     lateinit var mAppViewModel: AppViewModel
@@ -71,6 +79,24 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
 
     override fun initView() {
         hideSupportActionBar()
+        attachFloatWindow()
+        supportFragmentManager.registerFragmentLifecycleCallbacks(object :
+            FragmentManager.FragmentLifecycleCallbacks() {
+            override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
+                super.onFragmentResumed(fm, f)
+                val showFragment = pagerAdapter?.getShowFragment()
+                Timber.d("attachFloatWindow：===> showFragment is $showFragment f is $f")
+                when (showFragment) {
+                    is FishListFragment -> FloatWindowHelper.showFrom(this@HomeActivity)
+                    else -> FloatWindowHelper.hideFrom(this@HomeActivity)
+                }
+            }
+
+            override fun onFragmentPaused(fm: FragmentManager, f: Fragment) {
+                super.onFragmentPaused(fm, f)
+                takeIf { f is FishListFragment }?.let { FloatWindowHelper.hideFrom(this@HomeActivity) }
+            }
+        }, false)
         navigationAdapter = NavigationAdapter(this).apply {
             addMenuItem(R.string.home_fish_pond_message, R.drawable.home_fish_pond_selector)
             addMenuItem(R.string.home_nav_qa, R.drawable.home_qa_selector)
@@ -153,6 +179,18 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         }
     }
 
+    private fun attachFloatWindow() {
+        FloatWindowHelper.attachTo(this) {
+            takeIfLogin {
+                startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
+                    if (resultCode == Activity.RESULT_OK) {
+                        mFishPondViewModel.refreshFishList()
+                    }
+                }
+            }
+        }
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         viewPager?.let {
@@ -229,6 +267,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         viewPager?.adapter = null
         navigationView?.adapter = null
         navigationAdapter?.setOnNavigationListener(null)
+        FloatWindowHelper.deathFrom(this)
     }
 
     override fun isStatusBarDarkFont(): Boolean {
