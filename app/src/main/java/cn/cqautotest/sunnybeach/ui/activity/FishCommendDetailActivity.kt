@@ -116,7 +116,7 @@ class FishCommendDetailActivity : AppActivity() {
      * 去回复评论
      */
     private fun goToReplyComment(commentId: String, targetUserName: String, targetUserId: String) {
-        takeIfLogin { showCommentPopupFragment(targetUserName, commentId, targetUserId) }
+        ifLoginThen { showCommentPopupFragment(targetUserName, commentId, targetUserId) }
     }
 
     private fun showCommentPopupFragment(targetUserName: String, commentId: String, targetUserId: String) {

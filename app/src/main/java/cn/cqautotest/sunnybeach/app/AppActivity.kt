@@ -205,7 +205,7 @@ abstract class AppActivity : BaseActivity(), Init,
         //     ActivityManager.getInstance().finishAllActivities()
         //     return
         // }
-        checkToken { }
+        checkToken()
     }
 
     override fun onDestroy() {
