@@ -57,17 +57,17 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     override fun initEvent() {
         with(mBinding.meContent) {
             // 跳转到用户中心
-            llUserInfoContainer.setFixOnClickListener { takeIfLogin { requireContext().startActivity<UserCenterActivity>() } }
+            llUserInfoContainer.setFixOnClickListener { ifLoginThen { requireContext().startActivity<UserCenterActivity>() } }
             // 小默文章列表
             hotArticleListContainer.setFixOnClickListener { requireContext().startActivity<HotArticleListActivity>() }
             // 跳转到富豪榜列表
             richListContainer.setFixOnClickListener { requireContext().startActivity<RichListActivity>() }
             // 跳转到消息中心
-            messageCenterContainer.setFixOnClickListener { takeIfLogin { requireContext().startActivity<MessageCenterActivity>() } }
+            messageCenterContainer.setFixOnClickListener { ifLoginThen { requireContext().startActivity<MessageCenterActivity>() } }
             // 跳转到创作中心
-            creationCenterContainer.setFixOnClickListener { takeIfLogin { requireContext().startActivity<CreationCenterActivity>() } }
+            creationCenterContainer.setFixOnClickListener { ifLoginThen { requireContext().startActivity<CreationCenterActivity>() } }
             // 我的收藏
-            collectionContainer.setFixOnClickListener { takeIfLogin { requireContext().startActivity<CollectionListActivity>() } }
+            collectionContainer.setFixOnClickListener { ifLoginThen { requireContext().startActivity<CollectionListActivity>() } }
             // 跳转到高清壁纸
             wallpaperContainer.setFixOnClickListener { requireContext().startActivity<WallpaperActivity>() }
             // 跳转到天气预报

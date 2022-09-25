@@ -109,7 +109,7 @@ class UserCenterActivity : AppActivity() {
         mBinding.apply {
             clScanQrCode.setFixOnClickListener { SobCardActivity.start(context, UserManager.loadCurrUserId()) }
             llUserInfoContainer.setFixOnClickListener {
-                takeIfLogin { userBasicInfo ->
+                ifLoginThen { userBasicInfo ->
                     val userId = userBasicInfo.id
                     ViewUserActivity.start(it.context, userId)
                 }

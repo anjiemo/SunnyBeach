@@ -16,12 +16,15 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.action.FloatWindowAction
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.OnDoubleClickListener
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
-import cn.cqautotest.sunnybeach.ktx.takeIfLogin
+import cn.cqautotest.sunnybeach.ktx.ifLogin
+import cn.cqautotest.sunnybeach.ktx.otherwise
+import cn.cqautotest.sunnybeach.ktx.tryShowLoginDialog
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
@@ -30,7 +33,6 @@ import cn.cqautotest.sunnybeach.other.DoubleClickHelper
 import cn.cqautotest.sunnybeach.ui.adapter.NavigationAdapter
 import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog
 import cn.cqautotest.sunnybeach.ui.fragment.*
-import cn.cqautotest.sunnybeach.util.FloatWindowHelper
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.gyf.immersionbar.ImmersionBar
@@ -47,7 +49,7 @@ import javax.inject.Inject
  *    desc   : 首页界面
  */
 @AndroidEntryPoint
-class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDoubleClickListener {
+class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDoubleClickListener, FloatWindowAction {
 
     companion object {
 
@@ -71,6 +73,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     private var pagerAdapter: FragmentPagerAdapter<AppFragment<*>>? = null
     private val updateDialog by lazy { UpdateDialog.Builder(this) }
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
+    private var mIsFloatCreated = false
 
     @Inject
     lateinit var mAppViewModel: AppViewModel
@@ -79,22 +82,18 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
 
     override fun initView() {
         hideSupportActionBar()
-        attachFloatWindow()
+        mIsFloatCreated = false
         supportFragmentManager.registerFragmentLifecycleCallbacks(object :
             FragmentManager.FragmentLifecycleCallbacks() {
+
             override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
                 super.onFragmentResumed(fm, f)
                 val showFragment = pagerAdapter?.getShowFragment()
                 Timber.d("attachFloatWindow：===> showFragment is $showFragment f is $f")
                 when (showFragment) {
-                    is FishListFragment -> FloatWindowHelper.showFrom(this@HomeActivity)
-                    else -> FloatWindowHelper.hideFrom(this@HomeActivity)
+                    is FishListFragment -> attachOrShowFloatWindow()
+                    else -> hideFloatWindow()
                 }
-            }
-
-            override fun onFragmentPaused(fm: FragmentManager, f: Fragment) {
-                super.onFragmentPaused(fm, f)
-                takeIf { f is FishListFragment }?.let { FloatWindowHelper.hideFrom(this@HomeActivity) }
             }
         }, false)
         navigationAdapter = NavigationAdapter(this).apply {
@@ -179,14 +178,26 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         }
     }
 
-    private fun attachFloatWindow() {
-        FloatWindowHelper.attachTo(this) {
-            takeIfLogin {
-                startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
-                    if (resultCode == Activity.RESULT_OK) {
-                        mFishPondViewModel.refreshFishList()
+    /**
+     * 附加或显示发布摸鱼动态悬浮窗，创建了就直接显示，否则创建后显示
+     */
+    private fun attachOrShowFloatWindow() {
+        when (mIsFloatCreated) {
+            true -> showFloatWindow()
+            else -> {
+                attachFloatWindow {
+                    // 操作按钮点击回调，判断是否已经登录过账号
+                    ifLogin {
+                        startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
+                            if (resultCode == Activity.RESULT_OK) {
+                                mFishPondViewModel.refreshFishList()
+                            }
+                        }
+                    } otherwise {
+                        tryShowLoginDialog()
                     }
                 }
+                mIsFloatCreated = true
             }
         }
     }
@@ -267,7 +278,8 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         viewPager?.adapter = null
         navigationView?.adapter = null
         navigationAdapter?.setOnNavigationListener(null)
-        FloatWindowHelper.deathFrom(this)
+        deathFloatWindow()
+        mIsFloatCreated = false
     }
 
     override fun isStatusBarDarkFont(): Boolean {

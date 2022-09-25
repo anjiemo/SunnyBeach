@@ -34,37 +34,37 @@ class MessageCenterActivity : AppActivity() {
 
     override fun initEvent() {
         mBinding.articleContainer.setFixOnClickListener {
-            takeIfLogin {
+            ifLoginThen {
                 // 文章评论消息列表
                 startActivity<ArticleMsgListActivity>()
             }
         }
         mBinding.likeContainer.setFixOnClickListener {
-            takeIfLogin {
+            ifLoginThen {
                 // 点赞消息列表
                 startActivity<LikeMsgListActivity>()
             }
         }
         mBinding.fishContainer.setFixOnClickListener {
-            takeIfLogin {
+            ifLoginThen {
                 // 摸鱼评论消息列表
                 startActivity<FishMsgListActivity>()
             }
         }
         mBinding.atMeContainer.setFixOnClickListener {
-            takeIfLogin {
+            ifLoginThen {
                 // @我消息列表
                 startActivity<AtMeMsgListActivity>()
             }
         }
         mBinding.qaContainer.setFixOnClickListener {
-            takeIfLogin {
+            ifLoginThen {
                 // 问答消息列表
                 startActivity<QaMsgListActivity>()
             }
         }
         mBinding.systemContainer.setFixOnClickListener {
-            takeIfLogin {
+            ifLoginThen {
                 // 系统消息列表
                 startActivity<SystemMsgListActivity>()
             }
@@ -89,7 +89,7 @@ class MessageCenterActivity : AppActivity() {
     }
 
     override fun onRightClick(titleBar: TitleBar) {
-        takeIfLogin {
+        ifLoginThen {
             // 先在 UI 上响应给用户，再去网络请求
             setUnReadCountByMenu(UnReadMsgCount())
             // 设置消息全部已读
