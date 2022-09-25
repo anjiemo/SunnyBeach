@@ -23,15 +23,15 @@ import com.lzf.easyfloat.utils.DisplayUtils
 object FloatWindowHelper {
 
     /**
-     * 附加到指定 Activity，block 为按钮点击的回调
+     * 附加到指定 Activity，action 为按钮点击的回调
      */
-    fun attachTo(activity: Activity, block: (View) -> Unit) {
+    fun attachTo(activity: Activity, action: (View) -> Unit) {
         EasyFloat.with(activity)
             .setLayout(ImageView(activity).apply {
                 layoutParams = ViewGroup.LayoutParams(58.dp, 59.dp)
                 updatePadding(4.dp, 4.dp, 4.dp, 4.dp)
                 setImageResource(R.mipmap.ic_publish_content)
-                setFixOnClickListener { block.invoke(it) }
+                setFixOnClickListener { action.invoke(it) }
             })
             // 设置浮窗的标签，用于区分多个浮窗
             .setTag(activity::class.java.simpleName)

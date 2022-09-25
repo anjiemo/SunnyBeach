@@ -151,7 +151,7 @@ class ViewUserActivity : AppActivity() {
         val userId = getUserId()
         with(mBinding) {
             tvFollow.setFixOnClickListener {
-                takeIfLogin {
+                ifLoginThen {
                     // 关注
                     if (mFriendsStatus.isNeedFollow) {
                         // 需要关注

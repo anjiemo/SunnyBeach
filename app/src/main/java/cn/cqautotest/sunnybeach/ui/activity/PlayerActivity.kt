@@ -38,7 +38,7 @@ class PlayerActivity : AppActivity() {
     override fun initData() {
         GlobalPlayerConfig.mCurrentPlayType = GlobalPlayerConfig.PLAYTYPE.AUTH
         GlobalPlayerConfig.PlayConfig.mEnableAccurateSeekModule = true
-        takeIfLogin { getCoursePlayAuth() }
+        ifLoginThen { getCoursePlayAuth() }
     }
 
     private fun getCoursePlayAuth() {

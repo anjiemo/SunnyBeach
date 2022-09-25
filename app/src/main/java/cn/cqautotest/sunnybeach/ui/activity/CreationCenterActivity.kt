@@ -8,8 +8,8 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.CreationCenterActivityBinding
 import cn.cqautotest.sunnybeach.ktx.checkToken
 import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.ifLoginThen
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
-import cn.cqautotest.sunnybeach.ktx.takeIfLogin
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.adapter.AchievementAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
@@ -46,7 +46,7 @@ class CreationCenterActivity : AppActivity() {
 
     override fun initEvent() {
         mBinding.llUserInfoContainer.setFixOnClickListener {
-            takeIfLogin { userBasicInfo ->
+            ifLoginThen { userBasicInfo ->
                 val userId = userBasicInfo.id
                 ViewUserActivity.start(this, userId)
             }

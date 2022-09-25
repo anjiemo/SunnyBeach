@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import cn.cqautotest.sunnybeach.execption.NotLoginException
-import cn.cqautotest.sunnybeach.ktx.takeIfLogin
+import cn.cqautotest.sunnybeach.ktx.ifLoginThen
 import cn.cqautotest.sunnybeach.ktx.tryShowLoginDialog
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
 import com.aliyun.player.alivcplayerexpand.constants.GlobalPlayerConfig
@@ -26,7 +26,7 @@ object CourseVideoPlayHelper {
     fun play(activity: AppCompatActivity, courseViewModel: CourseViewModel, videoId: String) {
         GlobalPlayerConfig.mCurrentPlayType = GlobalPlayerConfig.PLAYTYPE.AUTH
         GlobalPlayerConfig.PlayConfig.mEnableAccurateSeekModule = true
-        activity.takeIfLogin { activity.getCoursePlayAuth(courseViewModel, videoId) }
+        activity.ifLoginThen { activity.getCoursePlayAuth(courseViewModel, videoId) }
     }
 
     private fun AppCompatActivity.getCoursePlayAuth(courseViewModel: CourseViewModel, _videoId: String) {
