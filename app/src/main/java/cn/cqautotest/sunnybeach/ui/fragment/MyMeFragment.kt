@@ -13,6 +13,7 @@ import cn.cqautotest.sunnybeach.ui.activity.*
 import cn.cqautotest.sunnybeach.ui.activity.weather.MainActivity
 import cn.cqautotest.sunnybeach.util.MAKE_COMPLAINTS_URL
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
+import com.dylanc.longan.viewLifecycleScope
 import com.google.android.material.badge.BadgeUtils
 
 /**
@@ -42,10 +43,12 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     override fun onResume() {
         super.onResume()
         with(mBinding.meContent) {
-            checkToken {
-                val userBasicInfo = it.getOrNull()
-                imageAvatar.loadAvatar(UserManager.currUserIsVip(), userBasicInfo?.avatar)
-                textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
+            viewLifecycleScope.launchWhenCreated {
+                checkToken {
+                    val userBasicInfo = it.getOrNull()
+                    imageAvatar.loadAvatar(UserManager.currUserIsVip(), userBasicInfo?.avatar)
+                    textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
+                }
             }
         }
         mMsgViewModel.getUnReadMsgCount().observe(viewLifecycleOwner) {
@@ -74,14 +77,16 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
             weatherContainer.setFixOnClickListener { requireContext().startActivity<MainActivity>() }
             // 跳转到意见反馈
             feedbackContainer.setFixOnClickListener {
-                checkToken {
-                    // check userBasicInfo is null, anonymous feedback if empty.
-                    val userBasicInfo = UserManager.loadUserBasicInfo() ?: run {
-                        BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
-                        return@checkToken
+                viewLifecycleScope.launchWhenCreated {
+                    checkToken {
+                        // check userBasicInfo is null, anonymous feedback if empty.
+                        val userBasicInfo = UserManager.loadUserBasicInfo() ?: run {
+                            BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
+                            return@checkToken
+                        }
+                        val (avatar, _, _, id, _, _, nickname, _, _) = userBasicInfo
+                        BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL, true, id, nickname, avatar)
                     }
-                    val (avatar, _, _, id, _, _, nickname, _, _) = userBasicInfo
-                    BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL, true, id, nickname, avatar)
                 }
             }
             // 跳转到设置
