@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -57,10 +58,12 @@ class CreationCenterActivity : AppActivity() {
     }
 
     override fun initObserver() {
-        checkToken {
-            val userBasicInfo = it.getOrNull()
-            mBinding.imageAvatar.loadAvatar(UserManager.currUserIsVip(), userBasicInfo?.avatar)
-            mBinding.textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
+        lifecycleScope.launchWhenCreated {
+            checkToken {
+                val userBasicInfo = it.getOrNull()
+                mBinding.imageAvatar.loadAvatar(UserManager.currUserIsVip(), userBasicInfo?.avatar)
+                mBinding.textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
+            }
         }
         mUserViewModel.getAchievement().observe(this) {
             val userAchievement = it.getOrNull() ?: return@observe
