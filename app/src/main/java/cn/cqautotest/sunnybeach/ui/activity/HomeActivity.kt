@@ -12,6 +12,7 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
@@ -186,15 +187,17 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             true -> showFloatWindow()
             else -> {
                 attachFloatWindow {
-                    // 操作按钮点击回调，判断是否已经登录过账号
-                    ifLogin {
-                        startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
-                            if (resultCode == Activity.RESULT_OK) {
-                                mFishPondViewModel.refreshFishList()
+                    lifecycleScope.launchWhenCreated {
+                        // 操作按钮点击回调，判断是否已经登录过账号
+                        ifLogin {
+                            startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
+                                if (resultCode == Activity.RESULT_OK) {
+                                    mFishPondViewModel.refreshFishList()
+                                }
                             }
+                        } otherwise {
+                            tryShowLoginDialog()
                         }
-                    } otherwise {
-                        tryShowLoginDialog()
                     }
                 }
                 mIsFloatCreated = true

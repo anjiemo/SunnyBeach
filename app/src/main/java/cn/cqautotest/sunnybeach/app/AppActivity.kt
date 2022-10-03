@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.app
 
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
+import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.Init
 import cn.cqautotest.sunnybeach.action.TitleBarAction
@@ -205,7 +206,7 @@ abstract class AppActivity : BaseActivity(), Init,
         //     ActivityManager.getInstance().finishAllActivities()
         //     return
         // }
-        checkToken()
+        lifecycleScope.launchWhenCreated { checkToken() }
     }
 
     override fun onDestroy() {
