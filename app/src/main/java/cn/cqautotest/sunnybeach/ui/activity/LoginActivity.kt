@@ -26,7 +26,6 @@ import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.ktx.clearText
 import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.ktx.textString
-import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.InputTextManager
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.other.KeyboardWatcher
@@ -139,7 +138,8 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
      * 尝试加载用户头像，如果用户账号不是手机号则不查询头像
      */
     private fun tryLoadUserAvatar() {
-        UserManager.getCurrLoginAccount().takeIf { RegexUtils.isMobileExact(it) }?.let { mUserViewModel.queryUserAvatar(it) }
+        UserManager.getCurrLoginAccount().takeIf { RegexUtils.isMobileExact(it) }
+            ?.let { mUserViewModel.queryUserAvatar(it) }
     }
 
     override fun initEvent() {
@@ -297,15 +297,7 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
                 UserManager.saveCurrLoginAccountPassword(if (rememberPwd) userPassword else "")
                 commitView?.showSucceed()
                 // 延迟跳转到首页，等待动画展示完成
-                postDelayed({
-                    val am = ActivityManager.getInstance()
-                    takeIf { getBoolean(FROM_HOME) }?.let { am.finishActivity(HomeActivity::class.java) }
-                    val topActivity = am.getTopActivity()
-                    if (topActivity is LoginActivity) {
-                        HomeActivity.start(this, MyMeFragment::class.java)
-                    }
-                    finish()
-                }, 1000)
+                postDelayed({ finish() }, 1000)
             }.onFailure {
                 // 设置为非自动登录状态
                 UserManager.setupAutoLogin(false)
