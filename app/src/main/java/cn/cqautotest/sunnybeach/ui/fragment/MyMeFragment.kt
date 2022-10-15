@@ -38,12 +38,9 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     override fun initView() {}
 
-    override fun initData() {}
-
-    override fun onResume() {
-        super.onResume()
+    override fun initData() {
         with(mBinding.meContent) {
-            viewLifecycleScope.launchWhenCreated {
+            viewLifecycleScope.launchWhenResumed {
                 checkToken {
                     val userBasicInfo = it.getOrNull()
                     imageAvatar.loadAvatar(UserManager.currUserIsVip(), userBasicInfo?.avatar)
@@ -51,6 +48,10 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
         mMsgViewModel.getUnReadMsgCount().observe(viewLifecycleOwner) {
             val unReadMsgCount = it.getOrNull() ?: return@observe
             badgeDrawable.isVisible = unReadMsgCount.hasUnReadMsg
