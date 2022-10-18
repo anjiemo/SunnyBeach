@@ -13,6 +13,8 @@ import cn.cqautotest.sunnybeach.ui.activity.*
 import cn.cqautotest.sunnybeach.ui.activity.weather.MainActivity
 import cn.cqautotest.sunnybeach.util.MAKE_COMPLAINTS_URL
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dylanc.longan.viewLifecycleScope
 import com.google.android.material.badge.BadgeUtils
 import timber.log.Timber
@@ -37,11 +39,16 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     override fun getLayoutId(): Int = R.layout.my_me_fragment
 
-    override fun initView() {}
-
-    override fun initData() {
-
+    override fun initView() {
+        mBinding.meContent.apply {
+            Glide.with(context)
+                .load(R.mipmap.ic_vip_banner_bg)
+                .transform(RoundedCorners(10.dp))
+                .into(ivVipBanner)
+        }
     }
+
+    override fun initData() {}
 
     override fun onResume() {
         super.onResume()
@@ -67,6 +74,8 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         with(mBinding.meContent) {
             // 跳转到用户中心
             llUserInfoContainer.setFixOnClickListener { ifLoginThen { requireContext().startActivity<UserCenterActivity>() } }
+            // 会员详情
+            tvMembershipDetail.setFixOnClickListener { requireContext().startActivity<VipActivity>() }
             // 小默文章列表
             hotArticleListContainer.setFixOnClickListener { requireContext().startActivity<HotArticleListActivity>() }
             // 跳转到富豪榜列表
