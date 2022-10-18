@@ -29,7 +29,6 @@ import cn.cqautotest.sunnybeach.ktx.textString
 import cn.cqautotest.sunnybeach.manager.InputTextManager
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.other.KeyboardWatcher
-import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment
 import cn.cqautotest.sunnybeach.util.VERIFY_CODE_URL
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.wxapi.WXEntryActivity
@@ -194,7 +193,7 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
 
     override fun onLeftClick(titleBar: TitleBar) {
         // 用户点击了跳过按钮
-        HomeActivity.start(this, MyMeFragment::class.java)
+        HomeActivity.start(this)
         finish()
     }
 

@@ -15,6 +15,7 @@ import cn.cqautotest.sunnybeach.util.MAKE_COMPLAINTS_URL
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import com.dylanc.longan.viewLifecycleScope
 import com.google.android.material.badge.BadgeUtils
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -39,22 +40,26 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     override fun initView() {}
 
     override fun initData() {
-        with(mBinding.meContent) {
-            viewLifecycleScope.launchWhenResumed {
-                checkToken {
-                    val userBasicInfo = it.getOrNull()
-                    imageAvatar.loadAvatar(UserManager.currUserIsVip(), userBasicInfo?.avatar)
-                    textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
-                }
-            }
-        }
+
     }
 
     override fun onResume() {
         super.onResume()
+        with(mBinding.meContent) {
+            viewLifecycleScope.launchWhenCreated {
+                checkToken {
+                    val userBasicInfo = it.getOrNull()
+                    Timber.d("initData：===> userBasicInfo is $userBasicInfo")
+                    val isVip = userBasicInfo?.isVip.equals("1")
+                    imageAvatar.loadAvatar(isVip, userBasicInfo?.avatar)
+                    textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
+                    textNickName.isSelected = isVip
+                }
+            }
+        }
         mMsgViewModel.getUnReadMsgCount().observe(viewLifecycleOwner) {
-            val unReadMsgCount = it.getOrNull() ?: return@observe
-            badgeDrawable.isVisible = unReadMsgCount.hasUnReadMsg
+            val unReadMsgCount = it.getOrNull()
+            badgeDrawable.isVisible = unReadMsgCount?.hasUnReadMsg ?: false
         }
     }
 

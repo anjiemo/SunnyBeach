@@ -30,7 +30,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
+            <com.hjq.shape.view.ShapeTextView
                 android:id="@+id/text_nick_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -39,7 +39,8 @@
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                app:shape_textSelectedColor="@color/pink" />
 
             <TextView
                 android:layout_width="match_parent"
