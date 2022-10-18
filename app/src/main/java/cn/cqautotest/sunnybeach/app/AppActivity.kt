@@ -2,13 +2,11 @@ package cn.cqautotest.sunnybeach.app
 
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
-import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.Init
 import cn.cqautotest.sunnybeach.action.TitleBarAction
 import cn.cqautotest.sunnybeach.action.ToastAction
 import cn.cqautotest.sunnybeach.http.model.HttpData
-import cn.cqautotest.sunnybeach.ktx.checkToken
 import cn.cqautotest.sunnybeach.ui.dialog.WaitDialog
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.bar.TitleBar
@@ -206,7 +204,6 @@ abstract class AppActivity : BaseActivity(), Init,
         //     ActivityManager.getInstance().finishAllActivities()
         //     return
         // }
-        lifecycleScope.launchWhenCreated { checkToken() }
     }
 
     override fun onDestroy() {
