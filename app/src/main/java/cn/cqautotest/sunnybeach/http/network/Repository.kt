@@ -125,7 +125,7 @@ object Repository {
 
     suspend fun checkToken() = try {
         val result = UserNetwork.checkToken()
-        val userBasicInfo = result.getOrNull() ?: throw ServiceException()
+        val userBasicInfo = result.getOrNull()
         UserManager.saveUserBasicInfo(userBasicInfo)
         UserManager.setupAutoLogin(true)
         userBasicInfo

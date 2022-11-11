@@ -80,6 +80,8 @@ class FishPondDetailActivity : PagingActivity() {
         mBinding.pagingRecyclerView.apply {
             adapter = concatAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
+            // 移除 RecyclerView 的默认动画
+            itemAnimator = null
         }
     }
 
