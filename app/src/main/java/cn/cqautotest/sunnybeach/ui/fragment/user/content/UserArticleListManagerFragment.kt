@@ -1,7 +1,8 @@
-package cn.cqautotest.sunnybeach.ui.fragment.user.media
+package cn.cqautotest.sunnybeach.ui.fragment.user.content
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
+import androidx.paging.PagingDataAdapter
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -9,8 +10,9 @@ import cn.cqautotest.sunnybeach.app.PagingFragment
 import cn.cqautotest.sunnybeach.databinding.UserArticleListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.ktx.toJson
+import cn.cqautotest.sunnybeach.model.ArticleSearchFilter
 import cn.cqautotest.sunnybeach.model.UserArticle
-import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.adapter.UserArticleAdapter
@@ -19,6 +21,7 @@ import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.ArticleViewModel
+import com.dylanc.longan.arguments
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
 import com.umeng.socialize.media.UMImage
@@ -28,19 +31,20 @@ import kotlinx.coroutines.flow.collectLatest
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
- * time   : 2021/10/31
- * desc   : 用户文章列表 Fragment
+ * time   : 2022/11/27
+ * desc   : 用户文章列表管理 Fragment
  */
-class UserArticleListFragment : PagingFragment<AppActivity>() {
+class UserArticleListManagerFragment : PagingFragment<AppActivity>() {
 
     private val mBinding by viewBinding<UserArticleListFragmentBinding>()
     private val mAdapterDelegate = AdapterDelegate()
     private val mUserArticleAdapter = UserArticleAdapter(mAdapterDelegate)
     private val mArticleViewModel by activityViewModels<ArticleViewModel>()
+    private val searchFilter by arguments(SEARCH_FILTER, ArticleSearchFilter())
 
-    override fun getPagingAdapter() = mUserArticleAdapter
+    override fun getPagingAdapter(): PagingDataAdapter<*, *> = mUserArticleAdapter
 
-    override fun getLayoutId(): Int = R.layout.user_article_list_fragment
+    override fun getLayoutId(): Int = R.layout.published_article_list_fragment
 
     override fun initView() {
         super.initView()
@@ -48,8 +52,7 @@ class UserArticleListFragment : PagingFragment<AppActivity>() {
     }
 
     override suspend fun loadListData() {
-        val userId = arguments?.getString(IntentKey.ID, "").orEmpty()
-        mArticleViewModel.getUserArticleList(userId).collectLatest { mUserArticleAdapter.submitData(it) }
+        mArticleViewModel.searchUserArticleList(searchFilter).collectLatest { mUserArticleAdapter.submitData(it) }
     }
 
     override fun initEvent() {
@@ -98,12 +101,13 @@ class UserArticleListFragment : PagingFragment<AppActivity>() {
 
     companion object {
 
-        @JvmStatic
-        fun newInstance(userId: String): UserArticleListFragment {
-            val fragment = UserArticleListFragment()
+        private const val SEARCH_FILTER = "SEARCH_FILTER"
+
+        fun newInstance(articleSearchFilter: ArticleSearchFilter = ArticleSearchFilter()): UserArticleListManagerFragment {
             val args = Bundle().apply {
-                putString(IntentKey.ID, userId)
+                putString(SEARCH_FILTER, articleSearchFilter.toJson())
             }
+            val fragment = UserArticleListManagerFragment()
             fragment.arguments = args
             return fragment
         }

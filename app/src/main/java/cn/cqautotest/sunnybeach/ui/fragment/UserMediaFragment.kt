@@ -28,13 +28,13 @@ class UserMediaFragment : AppFragment<AppActivity>() {
     override fun getLayoutId(): Int = R.layout.user_media_fragment
 
     override fun initView() {
-        val tabLayout = mBinding.tabLayout
-        val viewPager = mBinding.viewPager
-        viewPager.apply {
-            adapter = mPagerAdapter
-            mPagerAdapter.startUpdate(this)
+        mBinding.apply {
+            viewPager.apply {
+                adapter = mPagerAdapter
+                mPagerAdapter.startUpdate(this)
+            }
+            tabLayout.setupWithViewPager(viewPager)
         }
-        tabLayout.setupWithViewPager(viewPager)
     }
 
     override fun initData() {

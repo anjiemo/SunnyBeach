@@ -81,6 +81,18 @@
 
     </LinearLayout>
 
+    <com.hjq.widget.view.SlantedTextView
+        android:id="@+id/stv_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dp_15"
+        android:paddingVertical="@dimen/dp_10"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <cn.cqautotest.sunnybeach.widget.SimpleGridLayout
         android:id="@+id/simple_grid_layout"
         android:layout_width="0dp"

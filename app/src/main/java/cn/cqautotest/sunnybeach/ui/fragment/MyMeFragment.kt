@@ -82,6 +82,8 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
             richListContainer.setFixOnClickListener { requireContext().startActivity<RichListActivity>() }
             // 跳转到消息中心
             messageCenterContainer.setFixOnClickListener { ifLoginThen { requireContext().startActivity<MessageCenterActivity>() } }
+            // 跳转到用户内容管理界面
+            userContentManagerContainer.setFixOnClickListener { ifLoginThen { requireContext().startActivity<UserContentManagerActivity>() } }
             // 跳转到创作中心
             creationCenterContainer.setFixOnClickListener { ifLoginThen { requireContext().startActivity<CreationCenterActivity>() } }
             // 我的收藏

@@ -513,6 +513,10 @@
         <activity
             android:name=".ui.activity.SobIEDetailActivity"
             android:screenOrientation="portrait" />
+        <!-- 用户内容列表管理界面 -->
+        <activity
+            android:name=".ui.activity.UserContentManagerActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name="com.xiaomi.push.service.XMPushService"
