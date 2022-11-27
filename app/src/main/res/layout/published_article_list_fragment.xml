@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragment.user.content.UserArticleListManagerFragment">
+
+    <cn.cqautotest.sunnybeach.widget.StatusLayout
+        android:id="@id/paging_status_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@id/paging_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@id/paging_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1px"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="20"
+                tools:listitem="@layout/article_list_item" />
+
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    </cn.cqautotest.sunnybeach.widget.StatusLayout>
+
+</FrameLayout>
