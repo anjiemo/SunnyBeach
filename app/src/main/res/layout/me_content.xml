@@ -215,7 +215,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/userContentManagerContainer"
+        android:id="@+id/userArticleListContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
@@ -230,13 +230,13 @@
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:padding="8dp"
-            android:src="@drawable/ic_content_manager" />
+            android:src="@mipmap/ic_article" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="内容管理" />
+            android:text="我的文章" />
 
     </LinearLayout>
 

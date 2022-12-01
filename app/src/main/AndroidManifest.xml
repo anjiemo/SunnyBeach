@@ -515,7 +515,7 @@
             android:screenOrientation="portrait" />
         <!-- 用户内容列表管理界面 -->
         <activity
-            android:name=".ui.activity.UserContentManagerActivity"
+            android:name=".ui.activity.MineArticleListActivity"
             android:screenOrientation="portrait" />
 
         <service
