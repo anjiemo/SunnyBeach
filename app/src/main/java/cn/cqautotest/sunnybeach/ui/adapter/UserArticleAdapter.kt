@@ -68,6 +68,7 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
                     ArticleSearchFilter.ArticleState.UNDER_REVIEW -> ArticleSearchFilter.ArticleState.UNDER_REVIEW.typeName
                     ArticleSearchFilter.ArticleState.FAILED -> ArticleSearchFilter.ArticleState.FAILED.typeName
                 }
+                stvState.isVisible = true
                 stvState.setText(stateName)
                 stvState.setTextColor(getTextColorByState(articleState))
                 stvState.setColorBackground(getBgColorByState(articleState))
