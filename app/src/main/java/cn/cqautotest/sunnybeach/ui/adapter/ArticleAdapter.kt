@@ -17,7 +17,6 @@ import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.NineGridAdapterDelegate
 import com.blankj.utilcode.util.TimeUtils
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -30,7 +29,6 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<ArticleInfo.ArticleItem, ArticleAdapter.ArticleViewHolder>(diffCallback) {
 
     private val nineGridAdapterDelegate = NineGridAdapterDelegate()
-    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.SIMPLIFIED_CHINESE)
 
     private var mMenuItemClickListener: (view: View, item: ArticleInfo.ArticleItem, position: Int) -> Unit =
         { _, _, _ -> }
@@ -55,7 +53,7 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
                 ivAvatar.setFixOnClickListener { takeIf { userId.isNotEmpty() }?.let { ViewUserActivity.start(context, userId) } }
                 ivAvatar.loadAvatar(item.vip, item.avatar)
                 tvArticleTitle.text = item.title
-                tvNickName.text = "${item.nickName} · ${TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)}"
+                tvNickName.text = "${item.nickName} · ${TimeUtils.getFriendlyTimeSpanByNow(item.createTime)}"
                 tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
                 val covers = item.covers
                 val imageCount = covers.size
