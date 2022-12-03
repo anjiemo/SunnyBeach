@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.http.network
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import cn.cqautotest.sunnybeach.db.dao.PlaceDao
+import cn.cqautotest.sunnybeach.execption.NotBuyException
 import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.ktx.getOrNull
@@ -43,6 +44,18 @@ object Repository {
     fun getArticleDetailById(articleId: String) = launchAndGetData { ArticleNetwork.getArticleDetailById(articleId) }
 
     fun articleLikes(articleId: String) = launchAndGetData { ArticleNetwork.articleLikes(articleId) }
+
+    suspend fun checkCourseHasBuy(courseId: String): Result<Boolean> = try {
+        val result = CourseNetwork.checkCourseHasBuy(courseId)
+        if (result.isSuccess()) {
+            Result.success(true)
+        } else {
+            throw NotBuyException(result.getMessage())
+        }
+    } catch (t: Throwable) {
+        t.printStackTrace()
+        Result.failure(t)
+    }
 
     fun getCoursePlayAuth(videoId: String) = launchAndGetData { CourseNetwork.getCoursePlayAuth(videoId) }
 

@@ -3,24 +3,34 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.CheckNet
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.CourseDetailActivityBinding
+import cn.cqautotest.sunnybeach.execption.NotBuyException
+import cn.cqautotest.sunnybeach.execption.NotLoginException
+import cn.cqautotest.sunnybeach.execption.ServiceException
+import cn.cqautotest.sunnybeach.http.network.CourseNetwork
+import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.course.Course
 import cn.cqautotest.sunnybeach.model.course.CourseChapter
+import cn.cqautotest.sunnybeach.model.course.CoursePlayAuth
 import cn.cqautotest.sunnybeach.ui.adapter.CourseChapterListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
-import cn.cqautotest.sunnybeach.util.CourseVideoPlayHelper
+import cn.cqautotest.sunnybeach.util.CourseVideoPlayHelper.startPlay
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
+import com.aliyun.player.alivcplayerexpand.constants.GlobalPlayerConfig
 import com.bumptech.glide.Glide
 import com.dylanc.longan.intentExtras
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -62,7 +72,7 @@ class CourseDetailActivity : PagingActivity() {
         mAdapterDelegate.setOnItemClickListener { _, position ->
             mCourseChapterListAdapter.snapshotList[position]?.let {
                 when (it) {
-                    is CourseChapter.CourseChapterItem.Children -> CourseVideoPlayHelper.play(this, mCourseViewModel, it.id)
+                    is CourseChapter.CourseChapterItem.Children -> playCourseVideo(it.courseId, it.id)
                     else -> {
                         /* do nothing */
                     }
@@ -78,6 +88,43 @@ class CourseDetailActivity : PagingActivity() {
                 showPayDialog()
             }
         }
+    }
+
+    private fun playCourseVideo(courseId: String, videoId: String) {
+        lifecycleScope.launchWhenCreated {
+            flow {
+                // 1、先校验是否有登录
+                Repository.checkToken() ?: throw NotLoginException()
+                // 2、校验是否有购买该课程
+                Repository.checkCourseHasBuy(courseId).getOrThrow()
+                // 3、获取课程视频播放凭证
+                val result = CourseNetwork.getCoursePlayAuth(videoId)
+                val coursePlayAuth = result.getOrNull() ?: throw ServiceException(result.getMessage())
+                emit(coursePlayAuth)
+            }.flowOn(Dispatchers.IO)
+                .catch {
+                    Timber.e(it)
+                    when (it) {
+                        is NotLoginException -> tryShowLoginDialog()
+                        // 可以提示并引导用户去购买课程
+                        is NotBuyException -> toast(it.message)
+                        else -> toast(it.message)
+                    }
+                }.collectLatest {
+                    setupAuthVideoConfig(it)
+                    startPlay()
+                }
+        }
+    }
+
+    /**
+     * 设置授权视频配置
+     */
+    private fun setupAuthVideoConfig(coursePlayAuth: CoursePlayAuth) {
+        GlobalPlayerConfig.mCurrentPlayType = GlobalPlayerConfig.PLAYTYPE.AUTH
+        GlobalPlayerConfig.PlayConfig.mEnableAccurateSeekModule = true
+        GlobalPlayerConfig.mVid = coursePlayAuth.videoId
+        GlobalPlayerConfig.mPlayAuth = coursePlayAuth.playAuth
     }
 
     private fun showPayDialog() {
