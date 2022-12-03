@@ -24,8 +24,6 @@ import timber.log.Timber
 object CourseVideoPlayHelper {
 
     fun play(activity: AppCompatActivity, courseViewModel: CourseViewModel, videoId: String) {
-        GlobalPlayerConfig.mCurrentPlayType = GlobalPlayerConfig.PLAYTYPE.AUTH
-        GlobalPlayerConfig.PlayConfig.mEnableAccurateSeekModule = true
         activity.ifLoginThen { activity.getCoursePlayAuth(courseViewModel, videoId) }
     }
 
@@ -35,6 +33,8 @@ object CourseVideoPlayHelper {
                 val videoId = it.videoId
                 val playAuth = it.playAuth
                 Timber.d("getCoursePlayAuth：===> videoId is $videoId playAuth is $playAuth")
+                GlobalPlayerConfig.mCurrentPlayType = GlobalPlayerConfig.PLAYTYPE.AUTH
+                GlobalPlayerConfig.PlayConfig.mEnableAccurateSeekModule = true
                 GlobalPlayerConfig.mVid = videoId
                 GlobalPlayerConfig.mPlayAuth = playAuth
                 startPlay()
@@ -50,7 +50,7 @@ object CourseVideoPlayHelper {
     /**
      * 开启播放界面
      */
-    private fun Activity.startPlay() {
+    fun Activity.startPlay() {
         val intent = Intent(this, AliyunPlayerSkinActivity::class.java)
         startActivityForResult(intent, 0)
     }
