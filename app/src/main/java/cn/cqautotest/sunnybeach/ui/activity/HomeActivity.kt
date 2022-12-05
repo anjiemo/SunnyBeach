@@ -258,6 +258,9 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     }
 
     override fun onBackPressed() {
+        // 退出 App 前，先回到首页 Fragment，防止用户误触
+        viewPager?.currentItem?.takeUnless { it == 0 }?.let { return switchFragment(0) }
+
         if (!DoubleClickHelper.isOnDoubleClick()) {
             toast(R.string.home_exit_hint)
             return
