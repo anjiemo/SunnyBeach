@@ -40,9 +40,10 @@ class PlayerActivity : AppActivity() {
 
     private val mCourseViewModel by viewModels<CourseViewModel>()
     private val mBinding by viewBinding(PlayerActivityBinding::bind)
-    private val coursePlayAuthJson by intentExtras<String>(COURSE_PLAY_AUTH)
-    private val coursePlayAuth by lazy { fromJson<CoursePlayAuth>(coursePlayAuthJson) }
-    private val screenOrientation by intentExtras(SCREEN_ORIENTATION, DEFAULT_SCREEN_ORIENTATION)
+    private val mCoursePlayAuthJson by intentExtras<String>(COURSE_PLAY_AUTH)
+    private val mCoursePlayAuth by lazy { fromJson<CoursePlayAuth>(mCoursePlayAuthJson) }
+    private val mVideoTitle by intentExtras(VIDEO_TITLE, "")
+    private val mScreenOrientation by intentExtras(SCREEN_ORIENTATION, DEFAULT_SCREEN_ORIENTATION)
     private lateinit var mAliPlayer: AliPlayer
     private val mHideMediaControllerTask = Runnable {
         hideMediaController()
@@ -58,9 +59,10 @@ class PlayerActivity : AppActivity() {
 
     override fun initView() {
         // 设置初始的屏幕方向
-        requestedOrientation = screenOrientation
+        requestedOrientation = mScreenOrientation
         mBinding.flVideoContainer.updatePadding(top = ImmersionBar.getStatusBarHeight(this))
         mAliPlayer = createPlayer()
+        mBinding.tvTitle.text = mVideoTitle
     }
 
     private fun createPlayer() = AliPlayerFactory.createAliPlayer(this)
@@ -209,8 +211,8 @@ class PlayerActivity : AppActivity() {
      * 开启播放界面
      */
     private fun startPlay() {
-        val videoId = coursePlayAuth.videoId
-        val playAuth = coursePlayAuth.playAuth
+        val videoId = mCoursePlayAuth.videoId
+        val playAuth = mCoursePlayAuth.playAuth
         Timber.d("startPlay：===> videoId is $videoId playAuth is $playAuth")
         mAliPlayer.setDataSource(VidAuth().apply {
             vid = videoId
@@ -291,14 +293,21 @@ class PlayerActivity : AppActivity() {
 
         private const val COURSE_PLAY_AUTH = "COURSE_PLAY_AUTH"
         private const val SCREEN_ORIENTATION = "SCREEN_ORIENTATION"
+        private const val VIDEO_TITLE = "VIDEO_TITLE"
 
         // 默认屏幕方向
         private const val DEFAULT_SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
         @Log
-        fun start(context: Context, coursePlayAuth: CoursePlayAuth, screenOrientation: Int = DEFAULT_SCREEN_ORIENTATION) {
+        fun start(
+            context: Context,
+            coursePlayAuth: CoursePlayAuth,
+            videoTitle: String = "",
+            screenOrientation: Int = DEFAULT_SCREEN_ORIENTATION
+        ) {
             context.startActivity<PlayerActivity> {
                 putExtra(COURSE_PLAY_AUTH, coursePlayAuth.toJson())
+                putExtra(VIDEO_TITLE, videoTitle)
                 putExtra(SCREEN_ORIENTATION, screenOrientation)
             }
         }
