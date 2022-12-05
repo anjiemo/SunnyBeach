@@ -128,7 +128,10 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
         }
 
         // 自动填充手机号和密码
-        phoneView?.setText(getString(INTENT_KEY_IN_PHONE))
+        phoneView?.let {
+            it.setText(getString(INTENT_KEY_IN_PHONE))
+            it.setSelection(it.length())
+        }
         passwordView?.setText(getString(INTENT_KEY_IN_PASSWORD))
         tryLoadUserAvatar()
     }

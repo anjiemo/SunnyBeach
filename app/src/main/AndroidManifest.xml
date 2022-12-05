@@ -440,16 +440,19 @@
         <!-- Vip 介绍页 -->
         <activity
             android:name=".ui.activity.VipActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 创作中心页 -->
         <activity
             android:name=".ui.activity.CreationCenterActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 扫码界面 -->
         <activity
             android:name=".ui.activity.ScanCodeActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 课程详情页 -->
@@ -458,7 +461,10 @@
             android:screenOrientation="portrait" />
 
         <!-- 课程视频播放页 -->
-        <activity android:name=".ui.activity.PlayerActivity" />
+        <activity
+            android:name=".ui.activity.PlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|navigation"
+            android:launchMode="singleTop" />
 
         <!-- 壁纸发现页 -->
         <activity

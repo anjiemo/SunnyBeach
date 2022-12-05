@@ -30,7 +30,7 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<UserArticle.UserArticleItem, UserArticleAdapter.ArticleViewHolder>(diffCallback) {
 
     private val nineGridAdapterDelegate = NineGridAdapterDelegate()
-    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.SIMPLIFIED_CHINESE)
+    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
     private var mMenuItemClickListener: (view: View, item: UserArticle.UserArticleItem, position: Int) -> Unit =
         { _, _, _ -> }
