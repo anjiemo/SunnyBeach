@@ -19,13 +19,10 @@ import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.course.Course
 import cn.cqautotest.sunnybeach.model.course.CourseChapter
-import cn.cqautotest.sunnybeach.model.course.CoursePlayAuth
 import cn.cqautotest.sunnybeach.ui.adapter.CourseChapterListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
-import cn.cqautotest.sunnybeach.util.CourseVideoPlayHelper.startPlay
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
-import com.aliyun.player.alivcplayerexpand.constants.GlobalPlayerConfig
 import com.bumptech.glide.Glide
 import com.dylanc.longan.intentExtras
 import kotlinx.coroutines.Dispatchers
@@ -111,20 +108,9 @@ class CourseDetailActivity : PagingActivity() {
                         else -> toast(it.message)
                     }
                 }.collectLatest {
-                    setupAuthVideoConfig(it)
-                    startPlay()
+                    PlayerActivity.start(this@CourseDetailActivity, it)
                 }
         }
-    }
-
-    /**
-     * 设置授权视频配置
-     */
-    private fun setupAuthVideoConfig(coursePlayAuth: CoursePlayAuth) {
-        GlobalPlayerConfig.mCurrentPlayType = GlobalPlayerConfig.PLAYTYPE.AUTH
-        GlobalPlayerConfig.PlayConfig.mEnableAccurateSeekModule = true
-        GlobalPlayerConfig.mVid = coursePlayAuth.videoId
-        GlobalPlayerConfig.mPlayAuth = coursePlayAuth.playAuth
     }
 
     private fun showPayDialog() {
