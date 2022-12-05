@@ -69,7 +69,7 @@ class CourseDetailActivity : PagingActivity() {
         mAdapterDelegate.setOnItemClickListener { _, position ->
             mCourseChapterListAdapter.snapshotList[position]?.let {
                 when (it) {
-                    is CourseChapter.CourseChapterItem.Children -> playCourseVideo(it.courseId, it.id)
+                    is CourseChapter.CourseChapterItem.Children -> playCourseVideo(it.courseId, it.id, it.title)
                     else -> {
                         /* do nothing */
                     }
@@ -87,7 +87,7 @@ class CourseDetailActivity : PagingActivity() {
         }
     }
 
-    private fun playCourseVideo(courseId: String, videoId: String) {
+    private fun playCourseVideo(courseId: String, videoId: String, videoTitle: String) {
         lifecycleScope.launchWhenCreated {
             flow {
                 // 1、先校验是否有登录
@@ -108,7 +108,7 @@ class CourseDetailActivity : PagingActivity() {
                         else -> toast(it.message)
                     }
                 }.collectLatest {
-                    PlayerActivity.start(this@CourseDetailActivity, it)
+                    PlayerActivity.start(this@CourseDetailActivity, it, videoTitle)
                 }
         }
     }
