@@ -1,18 +1,31 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.view.SurfaceHolder
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
+import by.kirich1409.viewbindingdelegate.viewBinding
+import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
-import cn.cqautotest.sunnybeach.execption.NotLoginException
+import cn.cqautotest.sunnybeach.databinding.PlayerActivityBinding
 import cn.cqautotest.sunnybeach.ktx.*
-import cn.cqautotest.sunnybeach.model.course.CourseChapter
+import cn.cqautotest.sunnybeach.model.course.CoursePlayAuth
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
-import com.aliyun.player.alivcplayerexpand.constants.GlobalPlayerConfig
-import com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity
+import com.aliyun.player.AliPlayer
+import com.aliyun.player.AliPlayerFactory
+import com.aliyun.player.IPlayer
+import com.aliyun.player.bean.InfoCode
+import com.aliyun.player.source.VidAuth
 import com.dylanc.longan.intentExtras
+import com.gyf.immersionbar.ImmersionBar
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 /**
  * author : A Lonely Cat
@@ -26,60 +39,267 @@ import timber.log.Timber
 class PlayerActivity : AppActivity() {
 
     private val mCourseViewModel by viewModels<CourseViewModel>()
-    private val courseChapterItemChildJson by intentExtras<String>(COURSE_CHAPTER_ITEM_CHILD)
-    private val item by lazy { fromJson<CourseChapter.CourseChapterItem.Children>(courseChapterItemChildJson) }
+    private val mBinding by viewBinding(PlayerActivityBinding::bind)
+    private val coursePlayAuthJson by intentExtras<String>(COURSE_PLAY_AUTH)
+    private val coursePlayAuth by lazy { fromJson<CoursePlayAuth>(coursePlayAuthJson) }
+    private val screenOrientation by intentExtras(SCREEN_ORIENTATION, DEFAULT_SCREEN_ORIENTATION)
+    private lateinit var mAliPlayer: AliPlayer
+    private val mHideMediaControllerTask = Runnable {
+        hideMediaController()
+    }
 
-    override fun getLayoutId(): Int = 0
+    // 是否在后台
+    private var mIsOnBackground = false
+
+    // 是否暂停
+    private var mIsPause = false
+
+    override fun getLayoutId(): Int = R.layout.player_activity
 
     override fun initView() {
-
+        // 设置初始的屏幕方向
+        requestedOrientation = screenOrientation
+        mBinding.flVideoContainer.updatePadding(top = ImmersionBar.getStatusBarHeight(this))
+        mAliPlayer = createPlayer()
     }
+
+    private fun createPlayer() = AliPlayerFactory.createAliPlayer(this)
 
     override fun initData() {
-        GlobalPlayerConfig.mCurrentPlayType = GlobalPlayerConfig.PLAYTYPE.AUTH
-        GlobalPlayerConfig.PlayConfig.mEnableAccurateSeekModule = true
-        ifLoginThen { getCoursePlayAuth() }
+
     }
 
-    private fun getCoursePlayAuth() {
-        mCourseViewModel.getCoursePlayAuth(item.id).observe(this) { result ->
-            result.onSuccess {
-                val videoId = it.videoId
-                val playAuth = it.playAuth
-                Timber.d("getCoursePlayAuth：===> videoId is $videoId playAuth is $playAuth")
-                GlobalPlayerConfig.mVid = videoId
-                GlobalPlayerConfig.mPlayAuth = playAuth
-                startPlay()
-            }.onFailure {
-                when (it) {
-                    is NotLoginException -> tryShowLoginDialog()
-                    else -> toast("播放凭证获取失败")
+    @SuppressLint("ClickableViewAccessibility")
+    override fun initEvent() {
+        mAliPlayer.isAutoPlay = true
+        mAliPlayer.initAliPlayerListener()
+        mBinding.apply {
+            surfaceView.holder.addCallback(object : SurfaceHolder.Callback {
+
+                override fun surfaceCreated(holder: SurfaceHolder) {
+                    mAliPlayer.setSurface(holder.surface)
                 }
+
+                override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
+                    mAliPlayer.surfaceChanged()
+                }
+
+                override fun surfaceDestroyed(holder: SurfaceHolder) {
+                    mAliPlayer.setSurface(null)
+                }
+            })
+            ivBack.setFixOnClickListener {
+                finish()
+            }
+            flVideoContainer.setFixOnClickListener {
+                toggleMediaController()
+                autoHideMediaController()
+            }
+            ivPlay.setFixOnClickListener {
+                onPauseClick()
+                autoHideMediaController()
+            }
+            seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+
+                override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar) {
+
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar) {
+                    mAliPlayer.seekTo(seekBar.progress.toLong(), IPlayer.SeekMode.Inaccurate)
+                    autoHideMediaController()
+                }
+            })
+            ivFullScreen.setFixOnClickListener {
+                toggleScreenOrientation()
+                autoHideMediaController()
             }
         }
+        startPlay()
+    }
+
+    private fun toggleScreenOrientation() {
+        requestedOrientation = when (requestedOrientation) {
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            else -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
+    }
+
+    private fun AliPlayer.initAliPlayerListener() {
+        setOnErrorListener {
+            // 错误码
+            val errorCode = it.code
+            // 错误描述
+            val errorMsg = it.msg
+            // 出错后需要停止播放器
+            stop()
+        }
+        setOnPreparedListener {
+            // 调用aliPlayer.prepare()方法后，播放器开始读取并解析数据。成功后，会回调此接口。
+            mBinding.apply {
+                seekBar.max = mAliPlayer.duration.toInt()
+                seekBar.progress = 0
+            }
+            // 一般调用start开始播放视频。
+            takeUnless { mIsPause || mIsOnBackground }?.let {
+                start()
+                updatePlayBtnState()
+                autoHideMediaController()
+            }
+        }
+        setOnCompletionListener {
+            // 播放完成之后，就会回调到此接口。
+            // 一般调用stop停止播放视频。
+            stop()
+        }
+        setOnInfoListener {
+            // 播放器中的一些信息，包括：当前进度、缓存位置等等。
+            // 信息码
+            val code = it.code
+            // 信息内容
+            val msg = it.extraMsg
+            // 信息值
+            val value = it.extraValue
+
+            // 当前进度：InfoCode.CurrentPosition
+            // 当前缓存位置：InfoCode.BufferedPosition
+            Timber.d("initEvent：===> value is $value")
+            when (it.code) {
+                InfoCode.CurrentPosition -> {
+                    // extraValue为当前播放进度，单位为毫秒
+                    val extraValue = value.toInt()
+                    mBinding.seekBar.progress = extraValue
+                }
+                else -> {}
+            }
+        }
+        setOnLoadingStatusListener(object : IPlayer.OnLoadingStatusListener {
+
+            override fun onLoadingBegin() {
+                // 开始加载。画面和声音不足以播放。
+                // 一般在此处显示圆形加载。
+                showLoading()
+            }
+
+            override fun onLoadingProgress(percent: Int, netSpeed: Float) {
+                // 加载进度。百分比和网速。
+            }
+
+            override fun onLoadingEnd() {
+                // 结束加载。画面和声音可以播放。
+                // 一般在此处隐藏圆形加载。
+                hideLoading()
+            }
+        })
+    }
+
+    private fun showLoading() {
+        mBinding.progressBar.isVisible = true
+    }
+
+    private fun hideLoading() {
+        mBinding.progressBar.isVisible = false
     }
 
     /**
      * 开启播放界面
      */
     private fun startPlay() {
-        val intent = Intent(this, AliyunPlayerSkinActivity::class.java)
-        startActivityForResult(intent, 0)
+        val videoId = coursePlayAuth.videoId
+        val playAuth = coursePlayAuth.playAuth
+        Timber.d("startPlay：===> videoId is $videoId playAuth is $playAuth")
+        mAliPlayer.setDataSource(VidAuth().apply {
+            vid = videoId
+            setPlayAuth(playAuth)
+            region = "cn-shanghai"
+        })
+        mAliPlayer.prepare()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        finish()
+    private fun onPauseClick() {
+        if (mIsPause) {
+            resumePlay()
+        } else {
+            pausePlay()
+        }
+    }
+
+    /**
+     * 暂停播放
+     */
+    private fun pausePlay() {
+        mIsPause = true
+        updatePlayBtnState()
+        mAliPlayer.pause()
+    }
+
+    /**
+     * 恢复播放
+     */
+    private fun resumePlay() {
+        mIsPause = false
+        updatePlayBtnState()
+        mAliPlayer.start()
+    }
+
+    private fun updatePlayBtnState() {
+        mBinding.ivPlay.isSelected = !mIsPause
+    }
+
+    private fun mediaControllerIsVisible() = mBinding.llMediaController.isVisible
+
+    private fun toggleMediaController() {
+        if (mediaControllerIsVisible()) hideMediaController() else showMediaController()
+    }
+
+    private fun hideMediaController() {
+        mBinding.llMediaController.isVisible = false
+    }
+
+    private fun showMediaController() {
+        mBinding.llMediaController.isVisible = true
+    }
+
+    private fun autoHideMediaController() {
+        removeCallbacks(mHideMediaControllerTask)
+        postDelayed(mHideMediaControllerTask, TimeUnit.SECONDS.toMillis(3))
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mIsOnBackground = true
+        pausePlay()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mIsOnBackground = false
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mAliPlayer.stop()
+        mAliPlayer.release()
+        mAliPlayer.setSurface(null)
     }
 
     companion object {
 
-        private const val COURSE_CHAPTER_ITEM_CHILD = "courseChapterItemChild"
+        private const val COURSE_PLAY_AUTH = "COURSE_PLAY_AUTH"
+        private const val SCREEN_ORIENTATION = "SCREEN_ORIENTATION"
+
+        // 默认屏幕方向
+        private const val DEFAULT_SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
         @Log
-        fun start(context: Context, item: CourseChapter.CourseChapterItem.Children) {
+        fun start(context: Context, coursePlayAuth: CoursePlayAuth, screenOrientation: Int = DEFAULT_SCREEN_ORIENTATION) {
             context.startActivity<PlayerActivity> {
-                putExtra(COURSE_CHAPTER_ITEM_CHILD, item.toJson())
+                putExtra(COURSE_PLAY_AUTH, coursePlayAuth.toJson())
+                putExtra(SCREEN_ORIENTATION, screenOrientation)
             }
         }
     }

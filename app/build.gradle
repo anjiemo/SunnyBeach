@@ -154,9 +154,10 @@ dependencies {
     implementation project(':library:umeng')
     // 网络封装
     implementation project(':library:network')
+
     // 阿里云视频播放器SDK
-    implementation project(':Aliyunplayer:player_demo')
-    implementation project(':Aliyunplayer:AlivcPlayerTools')
+    // implementation project(':Aliyunplayer:player_demo')
+    // implementation project(':Aliyunplayer:AlivcPlayerTools')
 
     // 单元测试
     testImplementation 'junit:junit:4.13.2'
@@ -341,4 +342,7 @@ dependencies {
 
     // 浮窗从未如此简单：https://github.com/princekin-f/EasyFloat
     implementation 'com.github.princekin-f:EasyFloat:2.0.4'
+
+    // 阿里云视频播放器 SDK：https://help.aliyun.com/document_detail/124711.html?spm=a2c4g.11186623.0.0.7bd24addVQH3VE
+    implementation 'com.aliyun.sdk.android:AliyunPlayer:5.4.9.2-full'
 }
