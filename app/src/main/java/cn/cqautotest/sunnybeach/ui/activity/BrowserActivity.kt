@@ -112,7 +112,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
             } else {
                 url
             }
-            loadUrl("https://cupfox.app/")
+            loadUrl(newUrl)
         }
     }
 
