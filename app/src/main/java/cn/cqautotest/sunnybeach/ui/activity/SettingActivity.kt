@@ -76,7 +76,10 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
             R.id.sb_setting_auto,
             R.id.sb_setting_exit
         )
-        mBinding.sbSettingExit.isVisible = UserManager.isLogin()
+        mBinding.apply {
+            sbSettingExit.isVisible = UserManager.isLogin()
+            tvCurrentVersion.text = getString(R.string.current_version, AppConfig.getVersionName())
+        }
     }
 
     override fun initData() {

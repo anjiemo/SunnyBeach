@@ -14,11 +14,11 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <com.hjq.widget.layout.SettingBar
@@ -35,6 +35,7 @@
                 android:id="@+id/sb_setting_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="48dp"
                 app:bar_leftText="@string/setting_update">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -80,6 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_6"
+                android:minHeight="48dp"
                 app:bar_leftText="@string/setting_auto">
 
                 <com.hjq.widget.view.SwitchButton
@@ -103,8 +105,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_6"
+                android:minHeight="48dp"
                 app:bar_leftText="@string/setting_exit"
                 app:bar_leftTextColor="@color/red" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_current_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="@dimen/dp_40"
+                android:layout_marginVertical="@dimen/dp_20"
+                android:text="@string/current_version"
+                android:textColor="#8B919E"
+                android:textSize="@dimen/sp_12" />
 
         </LinearLayout>
 
