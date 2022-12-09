@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
+import android.webkit.ConsoleMessage
 import android.webkit.WebView
 import android.widget.ProgressBar
 import cn.cqautotest.sunnybeach.R
@@ -111,7 +112,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
             } else {
                 url
             }
-            loadUrl(newUrl)
+            loadUrl("https://cupfox.app/")
         }
     }
 
@@ -278,6 +279,11 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
     }
 
     private inner class AppBrowserChromeClient constructor(view: BrowserView) : BrowserChromeClient(view) {
+
+        override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
+            Timber.d("onConsoleMessage：===> " + consoleMessage?.message())
+            return true
+        }
 
         /**
          * 收到网页标题
