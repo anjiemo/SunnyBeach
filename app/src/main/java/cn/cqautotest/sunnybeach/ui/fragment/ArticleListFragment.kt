@@ -7,6 +7,7 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.app.PagingTitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.ArticleListFragmentBinding
+import cn.cqautotest.sunnybeach.ktx.context
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.snapshotList
@@ -20,9 +21,11 @@ import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
+import cn.cqautotest.sunnybeach.util.UmengReportKey
 import cn.cqautotest.sunnybeach.viewmodel.ArticleViewModel
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
+import com.umeng.analytics.MobclickAgent
 import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
 import kotlinx.coroutines.flow.collectLatest
@@ -58,8 +61,13 @@ class ArticleListFragment : PagingTitleBarFragment<HomeActivity>(), OnBack2TopLi
     @SuppressLint("InflateParams")
     override fun initEvent() {
         super.initEvent()
-        mBinding.topLayout.setOnClickListener { }
-        mBinding.searchContainer.setFixOnClickListener { SearchActivity.start(requireActivity(), it) }
+        mBinding.apply {
+            topLayout.setOnClickListener { }
+            searchContainer.setFixOnClickListener {
+                MobclickAgent.onEvent(context, UmengReportKey.HOME_SEARCH)
+                SearchActivity.start(requireActivity(), it)
+            }
+        }
         mAdapterDelegate.setOnItemClickListener { _, position ->
             mArticleAdapter.snapshotList[position]?.let {
                 val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${it.id}"
