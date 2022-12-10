@@ -85,3 +85,51 @@ const val SOB_PASSWORD = "sob_password"
 
 // 记住密码
 const val SOB_REMEMBER_PWD = "sob_remember_pwd"
+
+/**
+ * 友盟上报 Key
+ */
+interface UmengReportKey {
+
+    companion object {
+
+        // 首页搜索文章
+        const val HOME_SEARCH = "HOME_SEARCH"
+
+        // 用户中心
+        const val USER_CENTER = "USER_CENTER"
+
+        // 购买VIP
+        const val BUY_VIP = "BUY_VIP"
+
+        // 加入VIP
+        const val JOIN_VIP = "JOIN_VIP"
+
+        // 沙滩证
+        const val VIEW_SOB_CARD = "VIE_SOB_CARD"
+
+        // 富豪榜
+        const val RICH_LIST = "RICH_LIST"
+
+        // 天气预报
+        const val WEATHER_FORECAST = "WEATHER_FORECAST"
+
+        // 小默文章
+        const val ANJIEMO_ARTICLE = "ANJIEMO_ARTICLE"
+
+        // 我的文章
+        const val MINE_ARTICLE = "MINE_ARTICLE"
+
+        // 创作中心
+        const val CREATION_CENTER = "CREATION_CENTER"
+
+        // 我的收藏
+        const val COLLECTIONS = "COLLECTIONS"
+
+        // 查看高清壁纸
+        const val VIEW_HD_WALLPAPER = "VIEW_HD_WALLPAPER"
+
+        // 加入QQ群
+        const val JOIN_QQ_GROUP = "JOIN_QQ_GROUP"
+    }
+}

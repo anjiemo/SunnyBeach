@@ -12,9 +12,11 @@ import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
 import cn.cqautotest.sunnybeach.ui.fragment.VipIntroFragment
 import cn.cqautotest.sunnybeach.ui.fragment.VipListFragment
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_TAOBAO_SHOP_VIP
+import cn.cqautotest.sunnybeach.util.UmengReportKey
 import com.blankj.utilcode.util.AppUtils
 import com.hjq.bar.TitleBar
 import com.hjq.base.FragmentPagerAdapter
+import com.umeng.analytics.MobclickAgent
 
 /**
  * author : A Lonely Cat
@@ -47,7 +49,10 @@ class VipActivity : AppActivity() {
             .setMessage("即将打开淘宝店铺，请确认")
             .setConfirm("立即打开")
             .setCancel("我再想想")
-            .setListener { tryOpenTaobaoApp() }
+            .setListener {
+                MobclickAgent.onEvent(this, UmengReportKey.BUY_VIP)
+                tryOpenTaobaoApp()
+            }
             .show()
     }
 

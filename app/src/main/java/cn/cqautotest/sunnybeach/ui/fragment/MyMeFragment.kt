@@ -15,11 +15,13 @@ import cn.cqautotest.sunnybeach.ui.activity.*
 import cn.cqautotest.sunnybeach.ui.activity.weather.MainActivity
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
 import cn.cqautotest.sunnybeach.util.MAKE_COMPLAINTS_URL
+import cn.cqautotest.sunnybeach.util.UmengReportKey
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dylanc.longan.viewLifecycleScope
 import com.google.android.material.badge.BadgeUtils
+import com.umeng.analytics.MobclickAgent
 import timber.log.Timber
 
 /**
@@ -76,28 +78,63 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     override fun initEvent() {
         with(mBinding.meContent) {
             // 跳转到用户中心
-            llUserInfoContainer.setFixOnClickListener { ifLoginThen { requireContext().startActivity<UserCenterActivity>() } }
+            llUserInfoContainer.setFixOnClickListener {
+                ifLoginThen {
+                    MobclickAgent.onEvent(context, UmengReportKey.USER_CENTER)
+                    context.startActivity<UserCenterActivity>()
+                }
+            }
             // 会员详情
-            tvMembershipDetail.setFixOnClickListener { requireContext().startActivity<VipActivity>() }
+            tvMembershipDetail.setFixOnClickListener {
+                MobclickAgent.onEvent(context, UmengReportKey.JOIN_VIP)
+                context.startActivity<VipActivity>()
+            }
 
             // 跳转到消息中心
             messageCenterContainer.setFixOnClickListener { ifLoginThen { requireContext().startActivity<MessageCenterActivity>() } }
             // 跳转到富豪榜列表
-            richListContainer.setFixOnClickListener { requireContext().startActivity<RichListActivity>() }
+            richListContainer.setFixOnClickListener {
+                MobclickAgent.onEvent(context, UmengReportKey.RICH_LIST)
+                context.startActivity<RichListActivity>()
+            }
             // 跳转到天气预报
-            weatherContainer.setFixOnClickListener { requireContext().startActivity<MainActivity>() }
+            weatherContainer.setFixOnClickListener {
+                MobclickAgent.onEvent(context, UmengReportKey.WEATHER_FORECAST)
+                context.startActivity<MainActivity>()
+            }
 
             // 小默文章列表
-            hotArticleListContainer.setFixOnClickListener { requireContext().startActivity<HotArticleListActivity>() }
+            hotArticleListContainer.setFixOnClickListener {
+                MobclickAgent.onEvent(context, UmengReportKey.ANJIEMO_ARTICLE)
+                context.startActivity<HotArticleListActivity>()
+            }
             // 跳转到用户内容管理界面
-            userArticleListContainer.setFixOnClickListener { ifLoginThen { requireContext().startActivity<MineArticleListActivity>() } }
+            userArticleListContainer.setFixOnClickListener {
+                ifLoginThen {
+                    MobclickAgent.onEvent(context, UmengReportKey.MINE_ARTICLE)
+                    context.startActivity<MineArticleListActivity>()
+                }
+            }
             // 跳转到创作中心
-            creationCenterContainer.setFixOnClickListener { ifLoginThen { requireContext().startActivity<CreationCenterActivity>() } }
+            creationCenterContainer.setFixOnClickListener {
+                ifLoginThen {
+                    MobclickAgent.onEvent(context, UmengReportKey.CREATION_CENTER)
+                    context.startActivity<CreationCenterActivity>()
+                }
+            }
             // 我的收藏
-            collectionContainer.setFixOnClickListener { ifLoginThen { requireContext().startActivity<CollectionListActivity>() } }
+            collectionContainer.setFixOnClickListener {
+                ifLoginThen {
+                    MobclickAgent.onEvent(context, UmengReportKey.COLLECTIONS)
+                    context.startActivity<CollectionListActivity>()
+                }
+            }
 
             // 跳转到高清壁纸
-            wallpaperContainer.setFixOnClickListener { requireContext().startActivity<WallpaperActivity>() }
+            wallpaperContainer.setFixOnClickListener {
+                MobclickAgent.onEvent(context, UmengReportKey.VIEW_HD_WALLPAPER)
+                context.startActivity<WallpaperActivity>()
+            }
             // 加入QQ群聊
             joinQQGroupContainer.setFixOnClickListener {
                 MessageDialog.Builder(requireContext())
@@ -106,6 +143,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
                     .setConfirm("我要加群")
                     .setCancel("点错了")
                     .setListener {
+                        MobclickAgent.onEvent(context, UmengReportKey.JOIN_QQ_GROUP)
                         when (joinQQGroup()) {
                             true -> toast("正在唤起手Q...")
                             else -> toast("未安装手Q或安装的版本不支持")
@@ -118,16 +156,16 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
                     checkToken {
                         // check userBasicInfo is null, anonymous feedback if empty.
                         val userBasicInfo = UserManager.loadUserBasicInfo() ?: run {
-                            BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL)
+                            BrowserActivity.start(context, MAKE_COMPLAINTS_URL)
                             return@checkToken
                         }
                         val (avatar, _, _, id, _, _, nickname, _, _) = userBasicInfo
-                        BrowserActivity.start(requireContext(), MAKE_COMPLAINTS_URL, true, id, nickname, avatar)
+                        BrowserActivity.start(context, MAKE_COMPLAINTS_URL, true, id, nickname, avatar)
                     }
                 }
             }
             // 跳转到设置
-            settingContainer.setFixOnClickListener { requireContext().startActivity<SettingActivity>() }
+            settingContainer.setFixOnClickListener { context.startActivity<SettingActivity>() }
         }
     }
 
