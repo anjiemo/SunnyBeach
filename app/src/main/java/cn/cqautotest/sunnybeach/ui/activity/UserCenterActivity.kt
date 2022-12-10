@@ -16,6 +16,7 @@ import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.dialog.AddressDialog
 import cn.cqautotest.sunnybeach.ui.dialog.SendVerifyCodeDialog
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_VIEW_USER_URL_PRE
+import cn.cqautotest.sunnybeach.util.UmengReportKey
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.constant.RegexConstants
@@ -25,6 +26,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.dylanc.longan.lifecycleOwner
 import com.scwang.smart.refresh.layout.wrapper.RefreshHeaderWrapper
+import com.umeng.analytics.MobclickAgent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -110,6 +112,7 @@ class UserCenterActivity : AppActivity() {
             clScanQrCode.setFixOnClickListener { SobCardActivity.start(context, UserManager.loadCurrUserId()) }
             llUserInfoContainer.setFixOnClickListener {
                 ifLoginThen { userBasicInfo ->
+                    MobclickAgent.onEvent(context, UmengReportKey.JOIN_VIP)
                     val userId = userBasicInfo.id
                     ViewUserActivity.start(it.context, userId)
                 }
@@ -121,7 +124,10 @@ class UserCenterActivity : AppActivity() {
                     }
                 }
             }
-            ivBecomeVip.setFixOnClickListener { startActivity<VipActivity>() }
+            ivBecomeVip.setFixOnClickListener {
+                MobclickAgent.onEvent(context, UmengReportKey.VIEW_SOB_CARD)
+                startActivity<VipActivity>()
+            }
             tvGetAllowance.setFixOnClickListener { getAllowance() }
             userCenterContent.apply {
                 // region 公司、职位、技能、坐标、签名
