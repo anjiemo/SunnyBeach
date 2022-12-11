@@ -11,6 +11,7 @@ import cn.cqautotest.sunnybeach.databinding.QaListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
 import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.other.QaType
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.QaListAdapter
@@ -30,6 +31,7 @@ class QaListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopListener
 
     private val mBinding by viewBinding<QaListFragmentBinding>()
     private val mQaViewModel by activityViewModels<QaViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mQaListAdapter = QaListAdapter(mAdapterDelegate)
 
@@ -59,6 +61,11 @@ class QaListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopListener
                 BrowserActivity.start(requireContext(), url)
             }
         }
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 
     override fun isStatusBarEnabled(): Boolean {

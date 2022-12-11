@@ -40,6 +40,7 @@ import com.hjq.http.model.HttpHeaders
 import com.hjq.http.model.HttpParams
 import com.hjq.toast.ToastUtils
 import com.hjq.umeng.UmengClient
+import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.tencent.bugly.crashreport.CrashReport
@@ -111,7 +112,7 @@ class AppApplication : Application(), Configuration.Provider {
 
             // 设置全局的 Header 构建器
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context: Context, _: RefreshLayout ->
-                MaterialHeader(context).setColorSchemeColors(ContextCompat.getColor(context, R.color.common_accent_color))
+                ClassicsHeader(context)
             }
             // 设置全局的 Footer 构建器
             SmartRefreshLayout.setDefaultRefreshFooterCreator { context: Context, _: RefreshLayout ->

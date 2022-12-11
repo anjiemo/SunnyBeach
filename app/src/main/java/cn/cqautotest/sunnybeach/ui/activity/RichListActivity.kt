@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.ui.activity
 import androidx.activity.viewModels
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.PagingActivity
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.ui.adapter.RichListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.collectLatest
 class RichListActivity : PagingActivity() {
 
     private val mUserViewModel by viewModels<UserViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mRichListAdapter = RichListAdapter(AdapterDelegate())
 
     override fun getPagingAdapter() = mRichListAdapter
@@ -25,5 +27,10 @@ class RichListActivity : PagingActivity() {
 
     override suspend fun loadListData() {
         mUserViewModel.getRichList().collectLatest { mRichListAdapter.submitData(it) }
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 }
