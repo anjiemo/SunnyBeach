@@ -4,6 +4,7 @@ import androidx.activity.viewModels
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.model.UserArticle
 import cn.cqautotest.sunnybeach.ui.adapter.UserArticleAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
@@ -25,6 +26,7 @@ import kotlinx.coroutines.flow.collectLatest
 class HotArticleListActivity : PagingActivity() {
 
     private val mHotArticleViewModel by viewModels<ArticleViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mHotArticleAdapter = UserArticleAdapter(mAdapterDelegate)
 
@@ -80,5 +82,10 @@ class HotArticleListActivity : PagingActivity() {
                 }
             })
             .show()
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 }

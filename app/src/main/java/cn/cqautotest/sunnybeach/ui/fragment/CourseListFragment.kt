@@ -12,6 +12,7 @@ import cn.cqautotest.sunnybeach.databinding.CourseListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
 import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.ui.activity.CourseDetailActivity
 import cn.cqautotest.sunnybeach.ui.adapter.CourseListAdapter
@@ -31,8 +32,8 @@ import kotlinx.coroutines.flow.collectLatest
 class CourseListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopListener {
 
     private val mBinding: CourseListFragmentBinding by viewBinding()
-
     private val mCourseViewModel by activityViewModels<CourseViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mCourseListAdapter = CourseListAdapter(mAdapterDelegate)
 
@@ -69,6 +70,11 @@ class CourseListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopList
         mAdapterDelegate.setOnItemClickListener { _, position ->
             mCourseListAdapter.snapshotList[position]?.let { CourseDetailActivity.start(requireContext(), it) }
         }
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 
     override fun isStatusBarEnabled(): Boolean {
