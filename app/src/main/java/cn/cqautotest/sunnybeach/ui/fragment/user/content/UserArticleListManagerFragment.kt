@@ -12,6 +12,7 @@ import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.ArticleSearchFilter
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.model.UserArticle
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
@@ -37,9 +38,10 @@ import kotlinx.coroutines.flow.collectLatest
 class UserArticleListManagerFragment : PagingFragment<AppActivity>() {
 
     private val mBinding by viewBinding<UserArticleListFragmentBinding>()
+    private val mArticleViewModel by activityViewModels<ArticleViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mUserArticleAdapter = UserArticleAdapter(mAdapterDelegate)
-    private val mArticleViewModel by activityViewModels<ArticleViewModel>()
     private val searchFilter by arguments(SEARCH_FILTER, ArticleSearchFilter())
 
     override fun getPagingAdapter(): PagingDataAdapter<*, *> = mUserArticleAdapter
@@ -97,6 +99,11 @@ class UserArticleListManagerFragment : PagingFragment<AppActivity>() {
                 }
             })
             .show()
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 
     companion object {

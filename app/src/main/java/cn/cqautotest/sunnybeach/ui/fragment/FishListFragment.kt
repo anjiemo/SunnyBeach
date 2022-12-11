@@ -19,6 +19,7 @@ import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.MourningCalendar
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
@@ -57,10 +58,11 @@ import javax.inject.Inject
 class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener {
 
     private val mBinding: FishListFragmentBinding by viewBinding()
-
     @Inject
     lateinit var mAppViewModel: AppViewModel
+
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mFishListAdapter = FishListAdapter(mAdapterDelegate)
     private val loadStateListener = loadStateListener(mFishListAdapter) { mBinding.refreshLayout.finishRefresh() }
@@ -174,6 +176,11 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
             .create()
         MyScanUtil.startScan(requireActivity(), REQUEST_CODE_SCAN_ONE, options)
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlFishPondHint
