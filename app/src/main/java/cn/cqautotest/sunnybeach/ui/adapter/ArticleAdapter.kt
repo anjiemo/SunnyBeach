@@ -51,10 +51,10 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
             with(binding) {
                 val userId = item.userId
                 ivAvatar.setFixOnClickListener { takeIf { userId.isNotEmpty() }?.let { ViewUserActivity.start(context, userId) } }
-                ivAvatar.loadAvatar(item.vip, item.avatar)
+                ivAvatar.loadAvatar(item.isVip, item.avatar)
                 tvArticleTitle.text = item.title
                 tvNickName.text = "${item.nickName} · ${TimeUtils.getFriendlyTimeSpanByNow(item.createTime)}"
-                tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
+                tvNickName.setTextColor(UserManager.getNickNameColor(item.isVip))
                 val covers = item.covers
                 val imageCount = covers.size
                 simpleGridLayout.setOnNineGridClickListener(nineGridAdapterDelegate)

@@ -1,13 +1,12 @@
 package cn.cqautotest.sunnybeach.ui.activity.msg
 
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
-import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.SystemMsgListActivityBinding
 import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
@@ -26,13 +25,15 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/10/24
  * desc   : 系统消息列表界面
  */
-class SystemMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
+class SystemMsgListActivity : PagingActivity(), StatusAction, OnBack2TopListener {
 
     private val mBinding by viewBinding<SystemMsgListActivityBinding>()
     private val mMsgViewModel by viewModels<MsgViewModel>()
     private val mAdapterDelegate = AdapterDelegate()
     private val mSystemMsgAdapter = SystemMsgAdapter(mAdapterDelegate)
     private val loadStateListener = loadStateListener(mSystemMsgAdapter) { mBinding.refreshLayout.finishRefresh() }
+
+    override fun getPagingAdapter() = mSystemMsgAdapter
 
     override fun getLayoutId(): Int = R.layout.system_msg_list_activity
 
@@ -45,12 +46,8 @@ class SystemMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         }
     }
 
-    override fun initData() {
-        lifecycleScope.launchWhenCreated {
-            mMsgViewModel.getSystemMsgList().collectLatest {
-                mSystemMsgAdapter.submitData(it)
-            }
-        }
+    override suspend fun loadListData() {
+        mMsgViewModel.getSystemMsgList().collectLatest { mSystemMsgAdapter.submitData(it) }
     }
 
     override fun initEvent() {

@@ -12,6 +12,7 @@ import cn.cqautotest.sunnybeach.ktx.toErrorResult
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.*
+import cn.cqautotest.sunnybeach.model.msg.UnReadMsgCount
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import cn.cqautotest.sunnybeach.model.weather.Place
 import cn.cqautotest.sunnybeach.model.weather.Weather
@@ -19,6 +20,9 @@ import com.hjq.http.model.HttpMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -253,7 +257,14 @@ object Repository {
     /**
      * 获取未读消息数量
      */
-    fun getUnReadMsgCount() = launchAndGetData { MsgNetwork.getUnReadMsgCount() }
+    fun getUnReadMsgCount(): Flow<UnReadMsgCount> {
+        return flow {
+            val result = MsgNetwork.getUnReadMsgCount()
+            val responseData = result.getData()
+            takeUnless { result.isSuccess() }?.let { result.toErrorResult<UnReadMsgCount, UnReadMsgCount>().getOrThrow() }
+            emit(responseData)
+        }.flowOn(Dispatchers.IO)
+    }
 
     fun searchPlaces(query: String) = liveData(build = { WeatherNetwork.searchPlace(query) }) { placeResponse ->
         Timber.d("searchPlaces：===> query status is ${placeResponse.status}|${placeResponse.places[0].name}")
