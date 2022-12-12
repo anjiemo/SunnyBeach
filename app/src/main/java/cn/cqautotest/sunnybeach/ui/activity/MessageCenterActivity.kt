@@ -1,6 +1,9 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -10,6 +13,8 @@ import cn.cqautotest.sunnybeach.model.msg.UnReadMsgCount
 import cn.cqautotest.sunnybeach.ui.activity.msg.*
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import com.hjq.bar.TitleBar
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
  * author : A Lonely Cat
@@ -29,7 +34,13 @@ class MessageCenterActivity : AppActivity() {
     }
 
     override fun initData() {
-
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mMsgViewModel.getUnReadMsgCount().collectLatest {
+                    setUnReadCountByMenu(it)
+                }
+            }
+        }
     }
 
     override fun initEvent() {
@@ -68,14 +79,6 @@ class MessageCenterActivity : AppActivity() {
                 // 系统消息列表
                 startActivity<SystemMsgListActivity>()
             }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mMsgViewModel.getUnReadMsgCount().observe(this) {
-            val unReadMsgCount = it.getOrNull() ?: return@observe
-            setUnReadCountByMenu(unReadMsgCount)
         }
     }
 

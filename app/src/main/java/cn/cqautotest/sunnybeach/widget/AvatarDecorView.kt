@@ -71,7 +71,6 @@ class AvatarDecorView @JvmOverloads constructor(
         block.invoke(decorDrawable)
         GlideApp.with(this)
             .load(resource)
-            .placeholder(R.mipmap.ic_default_avatar)
             .error(R.mipmap.ic_default_avatar)
             .circleCrop()
             .into(this)

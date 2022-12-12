@@ -27,7 +27,7 @@ class ArticleInfo : Page<ArticleInfo.ArticleItem>() {
         val userId: String = "",
         @SerializedName("viewCount")
         val viewCount: Int = 0,
-        @SerializedName("vip")
-        val vip: Boolean = false
+        @SerializedName("isVip")
+        val isVip: Boolean = false
     )
 }

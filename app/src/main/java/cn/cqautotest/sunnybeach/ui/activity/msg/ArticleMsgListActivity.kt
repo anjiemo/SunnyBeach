@@ -1,9 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity.msg
 
 import androidx.activity.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
@@ -20,7 +17,6 @@ import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 /**
  * author : A Lonely Cat
@@ -43,10 +39,6 @@ class ArticleMsgListActivity : PagingActivity(), OnBack2TopListener {
         hideSupportActionBar()
         super.initView()
         mBinding.pagingRecyclerView.addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
-    }
-
-    override fun initData() {
-        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.RESUMED) { loadListData() } }
     }
 
     override suspend fun loadListData() {

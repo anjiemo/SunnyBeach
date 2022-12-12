@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.action.FloatWindowAction
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.Permissions
@@ -22,6 +23,7 @@ import cn.cqautotest.sunnybeach.model.MourningCalendar
 import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
+import cn.cqautotest.sunnybeach.ui.activity.PutFishActivity
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
@@ -32,6 +34,7 @@ import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.blankj.utilcode.util.VibrateUtils
+import com.dylanc.longan.viewLifecycleScope
 import com.hjq.bar.TitleBar
 import com.hjq.permissions.Permission
 import com.hjq.umeng.Platform
@@ -55,9 +58,10 @@ import javax.inject.Inject
  * desc   : 摸鱼动态列表 Fragment
  */
 @AndroidEntryPoint
-class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener {
+class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener, FloatWindowAction {
 
     private val mBinding: FishListFragmentBinding by viewBinding()
+
     @Inject
     lateinit var mAppViewModel: AppViewModel
 
@@ -80,6 +84,20 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             layoutManager = LinearLayoutManager(context)
             adapter = concatAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
+        }
+        requireActivity().attachFloatWindow {
+            viewLifecycleScope.launchWhenCreated {
+                // 操作按钮点击回调，判断是否已经登录过账号
+                ifLogin {
+                    startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
+                        if (resultCode == Activity.RESULT_OK) {
+                            mFishPondViewModel.refreshFishList()
+                        }
+                    }
+                } otherwise {
+                    requireActivity().tryShowLoginDialog()
+                }
+            }
         }
     }
 
@@ -190,9 +208,15 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         return !super.isStatusBarEnabled()
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity?.showFloatWindow()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         mFishListAdapter.removeLoadStateListener(loadStateListener)
+        activity?.deathFloatWindow()
     }
 
     override fun onBack2Top() {
