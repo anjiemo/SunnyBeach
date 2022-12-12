@@ -6,41 +6,33 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
-import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
+import androidx.viewpager2.widget.ViewPager2
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.FloatWindowAction
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.OnDoubleClickListener
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
+import cn.cqautotest.sunnybeach.ktx.checkToken
 import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
-import cn.cqautotest.sunnybeach.ktx.ifLogin
-import cn.cqautotest.sunnybeach.ktx.otherwise
-import cn.cqautotest.sunnybeach.ktx.tryShowLoginDialog
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
 import cn.cqautotest.sunnybeach.other.AppConfig
 import cn.cqautotest.sunnybeach.other.DoubleClickHelper
+import cn.cqautotest.sunnybeach.ui.adapter.HomeFragmentAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.NavigationAdapter
 import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog
-import cn.cqautotest.sunnybeach.ui.fragment.*
+import cn.cqautotest.sunnybeach.ui.fragment.FishListFragment
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
-import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.gyf.immersionbar.ImmersionBar
-import com.hjq.base.FragmentPagerAdapter
 import com.tencent.bugly.crashreport.CrashReport
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -68,13 +60,11 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         }
     }
 
-    private val viewPager: ViewPager? by lazy { findViewById(R.id.vp_home_pager) }
+    private val viewPager2: ViewPager2? by lazy { findViewById(R.id.vp_home_pager2) }
     private val navigationView: RecyclerView? by lazy { findViewById(R.id.rv_home_navigation) }
     private var navigationAdapter: NavigationAdapter? = null
-    private var pagerAdapter: FragmentPagerAdapter<AppFragment<*>>? = null
+    private var pagerAdapter: HomeFragmentAdapter? = null
     private val updateDialog by lazy { UpdateDialog.Builder(this) }
-    private val mFishPondViewModel by viewModels<FishPondViewModel>()
-    private var mIsFloatCreated = false
 
     @Inject
     lateinit var mAppViewModel: AppViewModel
@@ -83,20 +73,12 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
 
     override fun initView() {
         hideSupportActionBar()
-        mIsFloatCreated = false
-        supportFragmentManager.registerFragmentLifecycleCallbacks(object :
-            FragmentManager.FragmentLifecycleCallbacks() {
-
-            override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
-                super.onFragmentResumed(fm, f)
-                val showFragment = pagerAdapter?.getShowFragment()
-                Timber.d("attachFloatWindow：===> showFragment is $showFragment f is $f")
-                when (showFragment) {
-                    is FishListFragment -> attachOrShowFloatWindow()
-                    else -> hideFloatWindow()
-                }
-            }
-        }, false)
+        pagerAdapter = HomeFragmentAdapter(this).also { pagerAdapter = it }
+        viewPager2?.let {
+            it.isUserInputEnabled = false
+            it.adapter = HomeFragmentAdapter(this).apply { pagerAdapter = this }
+                .also { adapter -> it.offscreenPageLimit = adapter.itemCount }
+        }
         navigationAdapter = NavigationAdapter(this).apply {
             addMenuItem(R.string.home_fish_pond_message, R.drawable.home_fish_pond_selector)
             addMenuItem(R.string.home_nav_qa, R.drawable.home_qa_selector)
@@ -120,27 +102,23 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     }
 
     override fun initData() {
-        pagerAdapter = FragmentPagerAdapter<AppFragment<*>>(this).apply {
-            addFragment(FishListFragment.newInstance())
-            addFragment(QaListFragment.newInstance())
-            // addFragment(EmptyFragment.newInstance())
-            addFragment(ArticleListFragment.newInstance())
-            addFragment(CourseListFragment.newInstance())
-            addFragment(MyMeFragment.newInstance())
-            viewPager?.adapter = this
-        }
         onNewIntent(intent)
 
         toast("若有BUG，请及时反馈")
+
+        lifecycleScope.launchWhenResumed { checkToken() }
 
         // 设置当前用户的阳光沙滩账号id，用于标识某位同学的APP发生了故障
         CrashReport.setUserId(UserManager.loadCurrUserId())
     }
 
     override fun initEvent() {
-        viewPager?.addOnPageChangeListener(object : SimpleOnPageChangeListener() {
+        viewPager2?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 navigationAdapter?.setSelectedPosition(position)
+                // 只有首页鱼塘才显示发布摸鱼按钮
+                takeIf { position == 0 }?.let { showFloatWindow() }
+                takeUnless { position == 0 }?.let { hideFloatWindow() }
             }
         })
         navigationAdapter?.setOnDoubleClickListener(this)
@@ -179,35 +157,9 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         }
     }
 
-    /**
-     * 附加或显示发布摸鱼动态悬浮窗，创建了就直接显示，否则创建后显示
-     */
-    private fun attachOrShowFloatWindow() {
-        when (mIsFloatCreated) {
-            true -> showFloatWindow()
-            else -> {
-                attachFloatWindow {
-                    lifecycleScope.launchWhenCreated {
-                        // 操作按钮点击回调，判断是否已经登录过账号
-                        ifLogin {
-                            startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
-                                if (resultCode == Activity.RESULT_OK) {
-                                    mFishPondViewModel.refreshFishList()
-                                }
-                            }
-                        } otherwise {
-                            tryShowLoginDialog()
-                        }
-                    }
-                }
-                mIsFloatCreated = true
-            }
-        }
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        viewPager?.let {
+        viewPager2?.let {
             // 保存当前 Fragment 索引位置
             outState.putInt(INTENT_KEY_IN_FRAGMENT_INDEX, it.currentItem)
         }
@@ -225,18 +177,15 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         }
         when (fragmentIndex) {
             0, 1, 2, 3, 4 -> {
-                viewPager?.currentItem = fragmentIndex
+                viewPager2?.currentItem = fragmentIndex
                 navigationAdapter?.setSelectedPosition(fragmentIndex)
             }
         }
     }
 
     override fun onDoubleClick(v: View, position: Int) {
-        val fragment: AppFragment<*> = pagerAdapter?.getItem(position) ?: return
         // 如果当前显示的 Fragment 是可以回到顶部的，则调用回到顶部的方法
-        if (fragment is OnBack2TopListener) {
-            (fragment as OnBack2TopListener).onBack2Top()
-        }
+        pagerAdapter?.getItem(position)?.let { (it as? OnBack2TopListener)?.onBack2Top() }
     }
 
     /**
@@ -245,7 +194,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     override fun onNavigationItemSelected(position: Int): Boolean {
         return when (position) {
             0, 1, 2, 3, 4 -> {
-                viewPager?.currentItem = position
+                viewPager2?.currentItem = position
                 true
             }
             else -> false
@@ -259,7 +208,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
 
     override fun onBackPressed() {
         // 退出 App 前，先回到首页 Fragment，防止用户误触
-        viewPager?.currentItem?.takeUnless { it == 0 }?.let { return switchFragment(0) }
+        viewPager2?.currentItem?.takeUnless { it == 0 }?.let { return switchFragment(0) }
 
         if (!DoubleClickHelper.isOnDoubleClick()) {
             toast(R.string.home_exit_hint)
@@ -274,18 +223,18 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         }, 300)
     }
 
+    /**
+     * NB! Please keep this method, although it does not appear to do anything, it is important and necessary to keep it.
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        pagerAdapter?.getShowFragment()?.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        viewPager?.adapter = null
+        viewPager2?.adapter = null
         navigationView?.adapter = null
         navigationAdapter?.setOnNavigationListener(null)
-        deathFloatWindow()
-        mIsFloatCreated = false
     }
 
     override fun isStatusBarDarkFont(): Boolean {

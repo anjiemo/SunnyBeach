@@ -1,9 +1,10 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -22,6 +23,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dylanc.longan.viewLifecycleScope
 import com.google.android.material.badge.BadgeUtils
 import com.umeng.analytics.MobclickAgent
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
@@ -30,7 +33,6 @@ import timber.log.Timber
  * time   : 2021/06/20
  * desc   : 个人中心界面
  */
-@SuppressLint("UnsafeOptInUsageError")
 class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     private val mBinding: MyMeFragmentBinding by viewBinding()
@@ -53,25 +55,25 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         }
     }
 
-    override fun initData() {}
-
-    override fun onResume() {
-        super.onResume()
-        with(mBinding.meContent) {
-            viewLifecycleScope.launchWhenCreated {
-                checkToken {
-                    val userBasicInfo = it.getOrNull()
-                    Timber.d("initData：===> userBasicInfo is $userBasicInfo")
-                    val isVip = userBasicInfo?.isVip.equals("1")
+    override fun initData() {
+        viewLifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mMsgViewModel.getUnReadMsgCount().collectLatest {
+                    badgeDrawable.isVisible = it.hasUnReadMsg
+                }
+            }
+        }
+        viewLifecycleScope.launch {
+            checkToken {
+                val userBasicInfo = it.getOrNull()
+                Timber.d("initData：===> userBasicInfo is $userBasicInfo")
+                val isVip = userBasicInfo?.isVip.equals("1")
+                mBinding.meContent.apply {
                     imageAvatar.loadAvatar(isVip, userBasicInfo?.avatar)
                     textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
                     textNickName.isSelected = isVip
                 }
             }
-        }
-        mMsgViewModel.getUnReadMsgCount().observe(viewLifecycleOwner) {
-            val unReadMsgCount = it.getOrNull()
-            badgeDrawable.isVisible = unReadMsgCount?.hasUnReadMsg ?: false
         }
     }
 
