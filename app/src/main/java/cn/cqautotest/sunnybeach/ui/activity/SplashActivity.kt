@@ -4,10 +4,12 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.http.api.other.UserInfoApi
 import cn.cqautotest.sunnybeach.http.model.HttpData
+import cn.cqautotest.sunnybeach.ktx.checkToken
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.other.AppConfig
 import com.airbnb.lottie.LottieAnimationView
@@ -31,11 +33,10 @@ class SplashActivity : AppActivity() {
     private val lottieView: LottieAnimationView? by lazy { findViewById(R.id.lav_splash_lottie) }
     private val debugView: SlantedTextView? by lazy { findViewById(R.id.iv_splash_debug) }
 
-    override fun getLayoutId(): Int {
-        return R.layout.splash_activity
-    }
+    override fun getLayoutId(): Int = R.layout.splash_activity
 
     override fun initView() {
+        lifecycleScope.launchWhenCreated { checkToken() }
         if (AppConfig.isDebug()) {
             HomeActivity.start(context)
             return

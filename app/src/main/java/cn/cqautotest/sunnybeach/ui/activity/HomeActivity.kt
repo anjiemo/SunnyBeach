@@ -9,7 +9,6 @@ import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import cn.cqautotest.sunnybeach.R
@@ -18,7 +17,6 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.OnDoubleClickListener
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
-import cn.cqautotest.sunnybeach.ktx.checkToken
 import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.UserManager
@@ -106,8 +104,6 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         onNewIntent(intent)
 
         toast("若有BUG，请及时反馈")
-
-        lifecycleScope.launchWhenResumed { checkToken() }
 
         // 设置当前用户的阳光沙滩账号id，用于标识某位同学的APP发生了故障
         CrashReport.setUserId(UserManager.loadCurrUserId())

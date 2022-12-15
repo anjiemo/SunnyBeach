@@ -277,8 +277,6 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
     }
 
     private fun logout() {
-        // 清除用户信息
-        UserManager.exitUserAccount()
         // 清除 WebView 的 Cookie
         val cookieManager = CookieManager.getInstance()
         cookieManager.removeAllCookies(null)
@@ -290,11 +288,12 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
         }
         // 退出账号并清除用户基本信息数据
         mUserViewModel.logout().observe(this) {
+            // 清除用户信息
+            UserManager.exitUserAccount()
             SobCacheManager.onAccountLoginOut()
             HomeActivity.start(this)
-            LoginActivity.start(this, UserManager.getCurrLoginAccount(), UserManager.getCurrLoginAccountPassword())
-            // 进行内存优化，销毁除首页和登录页之外的所有界面
-            ActivityManager.getInstance().finishAllActivities(HomeActivity::class.java, LoginActivity::class.java)
+            // 进行内存优化，销毁除首页之外的所有界面
+            ActivityManager.getInstance().finishAllActivities(HomeActivity::class.java)
         }
     }
 
