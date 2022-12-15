@@ -1,7 +1,9 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
@@ -23,9 +25,12 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dylanc.longan.viewLifecycleScope
 import com.google.android.material.badge.BadgeUtils
 import com.umeng.analytics.MobclickAgent
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * author : A Lonely Cat
@@ -43,6 +48,10 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
             BadgeUtils.attachBadgeDrawable(this, meContent.ivMsgCenter)
         }
     }
+    private var mCallback: Runnable? = null
+    private val mLoginLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+        takeIf { activityResult.resultCode == Activity.RESULT_OK }?.let { mCallback?.run() }
+    }
 
     override fun getLayoutId(): Int = R.layout.my_me_fragment
 
@@ -58,22 +67,25 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     override fun initData() {
         viewLifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                updateUserInfoUI()
                 mMsgViewModel.getUnReadMsgCount().collectLatest {
                     badgeDrawable.isVisible = it.hasUnReadMsg
                 }
             }
         }
-        viewLifecycleScope.launch {
-            checkToken {
-                val userBasicInfo = it.getOrNull()
-                Timber.d("initData：===> userBasicInfo is $userBasicInfo")
-                val isVip = userBasicInfo?.isVip.equals("1")
-                mBinding.meContent.apply {
-                    imageAvatar.loadAvatar(isVip, userBasicInfo?.avatar)
-                    textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
-                    textNickName.isSelected = isVip
-                }
-            }
+    }
+
+    /**
+     * 更新用户信息
+     */
+    private fun updateUserInfoUI() {
+        val userBasicInfo = UserManager.loadUserBasicInfo()
+        Timber.d("initData：===> userBasicInfo is $userBasicInfo")
+        val isVip = userBasicInfo?.isVip.equals("1")
+        mBinding.meContent.apply {
+            imageAvatar.loadAvatar(isVip, userBasicInfo?.avatar)
+            textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
+            textNickName.isSelected = isVip
         }
     }
 
@@ -81,9 +93,9 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
         with(mBinding.meContent) {
             // 跳转到用户中心
             llUserInfoContainer.setFixOnClickListener {
-                ifLoginThen {
-                    MobclickAgent.onEvent(context, UmengReportKey.USER_CENTER)
-                    context.startActivity<UserCenterActivity>()
+                MobclickAgent.onEvent(context, UmengReportKey.USER_CENTER)
+                viewLifecycleScope.launchWhenCreated {
+                    afterWaitingForLogin { context.startActivity<UserCenterActivity>() }
                 }
             }
             // 会员详情
@@ -93,7 +105,11 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
             }
 
             // 跳转到消息中心
-            messageCenterContainer.setFixOnClickListener { ifLoginThen { requireContext().startActivity<MessageCenterActivity>() } }
+            messageCenterContainer.setFixOnClickListener {
+                viewLifecycleScope.launchWhenCreated {
+                    afterWaitingForLogin { context.startActivity<MessageCenterActivity>() }
+                }
+            }
             // 跳转到富豪榜列表
             richListContainer.setFixOnClickListener {
                 MobclickAgent.onEvent(context, UmengReportKey.RICH_LIST)
@@ -104,7 +120,6 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
                 MobclickAgent.onEvent(context, UmengReportKey.WEATHER_FORECAST)
                 context.startActivity<MainActivity>()
             }
-
             // 小默文章列表
             hotArticleListContainer.setFixOnClickListener {
                 MobclickAgent.onEvent(context, UmengReportKey.ANJIEMO_ARTICLE)
@@ -112,26 +127,25 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
             }
             // 跳转到用户内容管理界面
             userArticleListContainer.setFixOnClickListener {
-                ifLoginThen {
-                    MobclickAgent.onEvent(context, UmengReportKey.MINE_ARTICLE)
-                    context.startActivity<MineArticleListActivity>()
+                MobclickAgent.onEvent(context, UmengReportKey.MINE_ARTICLE)
+                viewLifecycleScope.launchWhenCreated {
+                    afterWaitingForLogin { context.startActivity<MineArticleListActivity>() }
                 }
             }
             // 跳转到创作中心
             creationCenterContainer.setFixOnClickListener {
-                ifLoginThen {
-                    MobclickAgent.onEvent(context, UmengReportKey.CREATION_CENTER)
-                    context.startActivity<CreationCenterActivity>()
+                MobclickAgent.onEvent(context, UmengReportKey.CREATION_CENTER)
+                viewLifecycleScope.launchWhenCreated {
+                    afterWaitingForLogin { context.startActivity<CreationCenterActivity>() }
                 }
             }
             // 我的收藏
             collectionContainer.setFixOnClickListener {
-                ifLoginThen {
-                    MobclickAgent.onEvent(context, UmengReportKey.COLLECTIONS)
-                    context.startActivity<CollectionListActivity>()
+                MobclickAgent.onEvent(context, UmengReportKey.COLLECTIONS)
+                viewLifecycleScope.launchWhenCreated {
+                    afterWaitingForLogin { context.startActivity<CollectionListActivity>() }
                 }
             }
-
             // 跳转到高清壁纸
             wallpaperContainer.setFixOnClickListener {
                 MobclickAgent.onEvent(context, UmengReportKey.VIEW_HD_WALLPAPER)
@@ -154,20 +168,44 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
             }
             // 跳转到意见反馈
             feedbackContainer.setFixOnClickListener {
-                viewLifecycleScope.launchWhenCreated {
-                    checkToken {
-                        // check userBasicInfo is null, anonymous feedback if empty.
-                        val userBasicInfo = UserManager.loadUserBasicInfo() ?: run {
-                            BrowserActivity.start(context, MAKE_COMPLAINTS_URL)
-                            return@checkToken
-                        }
-                        val (avatar, _, _, id, _, _, nickname, _, _) = userBasicInfo
-                        BrowserActivity.start(context, MAKE_COMPLAINTS_URL, true, id, nickname, avatar)
-                    }
+                // check userBasicInfo is null, anonymous feedback if empty.
+                when (val userInfo = UserManager.loadUserBasicInfo()) {
+                    null -> BrowserActivity.start(context, MAKE_COMPLAINTS_URL)
+                    else -> BrowserActivity.start(context, MAKE_COMPLAINTS_URL, true, userInfo.id, userInfo.nickname, userInfo.avatar)
                 }
             }
             // 跳转到设置
             settingContainer.setFixOnClickListener { context.startActivity<SettingActivity>() }
+        }
+    }
+
+    /**
+     * 等待登录后执行给定的 Lambda
+     */
+    private suspend fun afterWaitingForLogin(block: () -> Unit) = suspendCoroutine { continuation ->
+        when (UserManager.isLogin()) {
+            true -> {
+                block.invoke()
+                continuation.resume(Unit)
+            }
+            else -> loginOrElse {
+                block.invoke()
+                continuation.resume(Unit)
+            }
+        }
+    }
+
+    /**
+     * 去登录或者执行 Runnable
+     */
+    private fun loginOrElse(callback: Runnable? = null) {
+        mCallback = callback
+        when (UserManager.loadUserBasicInfo()) {
+            null -> {
+                mLoginLauncher.launch(LoginActivity.createIntent(requireContext()))
+                toast(R.string.please_login_first)
+            }
+            else -> callback?.run()
         }
     }
 
@@ -204,6 +242,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     }
 
     companion object {
+
         @JvmStatic
         fun newInstance() = MyMeFragment()
     }

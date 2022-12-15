@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
@@ -24,7 +25,6 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.LoginActivityBinding
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.ktx.clearText
-import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.ktx.textString
 import cn.cqautotest.sunnybeach.manager.InputTextManager
 import cn.cqautotest.sunnybeach.manager.UserManager
@@ -58,12 +58,18 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
         private const val INTENT_KEY_IN_PASSWORD: String = "password"
 
         @Log
+        fun createIntent(
+            context: Context,
+            phone: String? = UserManager.getCurrLoginAccount(),
+            password: String? = UserManager.getCurrLoginAccountPassword()
+        ) = Intent(context, LoginActivity::class.java).apply {
+            putExtra(FROM_HOME, (context as? HomeActivity) != null)
+            putExtra(INTENT_KEY_IN_PHONE, phone)
+            putExtra(INTENT_KEY_IN_PASSWORD, password)
+        }
+
         fun start(context: Context, phone: String?, password: String?) {
-            context.startActivity<LoginActivity> {
-                putExtra(FROM_HOME, (context as? HomeActivity) != null)
-                putExtra(INTENT_KEY_IN_PHONE, phone)
-                putExtra(INTENT_KEY_IN_PASSWORD, password)
-            }
+            context.startActivity(createIntent(context, phone, password))
         }
     }
 
@@ -299,7 +305,10 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
                 UserManager.saveCurrLoginAccountPassword(if (rememberPwd) userPassword else "")
                 commitView?.showSucceed()
                 // 延迟跳转到首页，等待动画展示完成
-                postDelayed({ finish() }, 1000)
+                postDelayed({
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }, 1000)
             }.onFailure {
                 // 设置为非自动登录状态
                 UserManager.setupAutoLogin(false)
