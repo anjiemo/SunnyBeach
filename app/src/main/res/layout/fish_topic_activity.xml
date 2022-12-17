@@ -31,6 +31,7 @@
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="@dimen/dp_80"
                 android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_16"
                 app:layout_constraintEnd_toStartOf="@id/tv_topic_name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
