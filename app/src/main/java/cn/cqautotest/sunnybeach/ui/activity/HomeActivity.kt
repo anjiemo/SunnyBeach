@@ -113,9 +113,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         viewPager2?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 navigationAdapter?.setSelectedPosition(position)
-                // 只有首页鱼塘才显示发布摸鱼按钮
-                takeIf { position == 0 }?.let { showFloatWindow() }
-                takeUnless { position == 0 }?.let { hideFloatWindow() }
+                switchFloatByPosition(position)
             }
         })
         navigationAdapter?.setOnDoubleClickListener(this)
@@ -172,12 +170,19 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         if (fragmentIndex == -1) {
             return
         }
+        switchFloatByPosition(fragmentIndex)
         when (fragmentIndex) {
             0, 1, 2, 3, 4 -> {
                 viewPager2?.currentItem = fragmentIndex
                 navigationAdapter?.setSelectedPosition(fragmentIndex)
             }
         }
+    }
+
+    private fun switchFloatByPosition(position: Int) {
+        // 只有首页鱼塘才显示发布摸鱼按钮
+        takeIf { position == 0 }?.let { showFloatWindow() }
+        takeUnless { position == 0 }?.let { hideFloatWindow() }
     }
 
     override fun onDoubleClick(v: View, position: Int) {

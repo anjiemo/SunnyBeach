@@ -3,10 +3,12 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.FloatWindowAction
@@ -21,12 +23,11 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.MourningCalendar
 import cn.cqautotest.sunnybeach.model.RefreshStatus
-import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
-import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
-import cn.cqautotest.sunnybeach.ui.activity.PutFishActivity
-import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
+import cn.cqautotest.sunnybeach.ui.activity.*
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.FishCategoryAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.RecommendFishTopicListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.*
@@ -67,9 +68,17 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
     private val mRefreshStatus = RefreshStatus()
-    private val mAdapterDelegate = AdapterDelegate()
-    private val mFishListAdapter = FishListAdapter(mAdapterDelegate)
+    private val mRecommendFishTopicListAdapterDelegate = AdapterDelegate()
+    private val mFishListAdapterDelegate = AdapterDelegate()
+    private val mFishCategoryAdapter = FishCategoryAdapter(mRecommendFishTopicListAdapterDelegate)
+    private val mRecommendFishTopicListAdapter = RecommendFishTopicListAdapter(mFishCategoryAdapter)
+    private val mFishListAdapter = FishListAdapter(mFishListAdapterDelegate)
     private val loadStateListener = loadStateListener(mFishListAdapter) { mBinding.refreshLayout.finishRefresh() }
+    private val mFishCategoryAdapterDataObserver = object : RecyclerView.AdapterDataObserver() {
+        override fun onChanged() {
+            mBinding.tvRecommend.isVisible = mFishCategoryAdapter.isNotEmpty()
+        }
+    }
 
     override fun getLayoutId(): Int = R.layout.fish_list_fragment
 
@@ -79,11 +88,13 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         // avoiding the problem that the PagingAdapter cannot return to the top after being refreshed.
         // But it needs to be used in conjunction with ConcatAdapter, and must appear before PagingAdapter.
         val emptyAdapter = EmptyAdapter()
-        val concatAdapter = ConcatAdapter(emptyAdapter, mFishListAdapter)
-        mBinding.rvFishPondList.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = concatAdapter
-            addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
+        val concatAdapter = ConcatAdapter(emptyAdapter, mRecommendFishTopicListAdapter, mFishListAdapter)
+        mBinding.apply {
+            rvFishPondList.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = concatAdapter
+                addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
+            }
         }
         requireActivity().attachFloatWindow {
             viewLifecycleScope.launchWhenCreated {
@@ -102,6 +113,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     override fun initData() {
+        loadCategoryList()
         loadFishList()
         mAppViewModel.getMourningCalendar().observe(viewLifecycleOwner) {
             val result = it.getOrNull() ?: return@observe
@@ -109,8 +121,14 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         }
     }
 
+    private fun loadCategoryList() {
+        mFishPondViewModel.loadTopicList().observe(viewLifecycleOwner) {
+            mFishCategoryAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.from(it.getOrNull().orEmpty()))
+        }
+    }
+
     private fun loadFishList() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+        viewLifecycleScope.launchWhenCreated {
             mFishPondViewModel.getFishListByCategoryId("recommend").collectLatest {
                 onBack2Top()
                 mFishListAdapter.submitData(it)
@@ -119,13 +137,21 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     override fun initEvent() {
-        mBinding.titleBar.setDoubleClickListener {
-            onBack2Top()
+        mBinding.apply {
+            titleBar.setDoubleClickListener {
+                onBack2Top()
+            }
+            refreshLayout.setOnRefreshListener {
+                loadCategoryList()
+                mFishListAdapter.refresh()
+            }
         }
-        mBinding.refreshLayout.setOnRefreshListener { mFishListAdapter.refresh() }
         // 需要在 View 销毁的时候移除 listener
         mFishListAdapter.addLoadStateListener(loadStateListener)
-        mAdapterDelegate.setOnItemClickListener { _, position ->
+        mRecommendFishTopicListAdapterDelegate.setOnItemClickListener { _, position ->
+            mFishCategoryAdapter.snapshotList[position]?.let { FishTopicActivity.start(requireContext(), it) }
+        }
+        mFishListAdapterDelegate.setOnItemClickListener { _, position ->
             mFishListAdapter.snapshotList[position]?.let { FishPondDetailActivity.start(requireContext(), it.id) }
         }
         mFishListAdapter.setOnMenuItemClickListener { view, item, position ->
@@ -177,6 +203,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     override fun initObserver() {
         mAppViewModel.mourningCalendarListLiveData.observe(viewLifecycleOwner) { setMourningStyleByDate(it) }
         mFishPondViewModel.fishListStateLiveData.observe(viewLifecycleOwner) { mFishListAdapter.refresh() }
+        mFishCategoryAdapter.registerAdapterDataObserver(mFishCategoryAdapterDataObserver)
     }
 
     private fun setMourningStyleByDate(mourningCalendarList: List<MourningCalendar>) {
@@ -292,6 +319,11 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
      * Sob site userId is long type, we need check.
      */
     private fun checkUserId(userId: String) = userId.isNotBlank() && userId.toLongOrNull() != null
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mFishCategoryAdapter.unregisterAdapterDataObserver(mFishCategoryAdapterDataObserver)
+    }
 
     companion object {
 
