@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.FishTopicActivity">
+
+    <com.hjq.bar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="999dp"
+        app:barStyle="transparent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/diamond_bg"
+            android:orientation="vertical"
+            android:paddingTop="?android:attr/actionBarSize">
+
+            <ImageView
+                android:id="@+id/iv_cover"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_80"
+                android:layout_marginStart="@dimen/dp_10"
+                app:layout_constraintEnd_toStartOf="@id/tv_topic_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_topic_name"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintBottom_toTopOf="@id/tv_topic_desc"
+                app:layout_constraintStart_toEndOf="@id/iv_cover"
+                app:layout_constraintTop_toTopOf="@id/iv_cover" />
+
+            <TextView
+                android:id="@+id/tv_topic_desc"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintBottom_toBottomOf="@id/iv_cover"
+                app:layout_constraintStart_toStartOf="@id/tv_topic_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_topic_name" />
+
+            <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/tv_join"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:paddingHorizontal="@dimen/dp_20"
+                android:paddingVertical="@dimen/dp_6"
+                android:text="加入"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/iv_cover"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_cover"
+                app:shape_radius="999dp"
+                app:shape_solidColor="@color/follow_btn_text_normal_color"
+                app:shape_solidSelectedColor="@color/transparent"
+                app:shape_strokeSelectedColor="@color/white"
+                app:shape_strokeWidth="@dimen/dp_1" />
+
+            <TextView
+                android:id="@+id/tv_summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_10"
+                android:layout_marginVertical="@dimen/dp_10"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_cover" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <cn.cqautotest.sunnybeach.widget.StatusLayout
+            android:id="@+id/paging_status_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:id="@+id/paging_refresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/paging_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="20"
+                    tools:listitem="@layout/fish_pond_list_item" />
+
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+        </cn.cqautotest.sunnybeach.widget.StatusLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
