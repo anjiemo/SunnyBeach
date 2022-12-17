@@ -10,6 +10,7 @@ import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
 import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.MomentMsgAdapter
@@ -27,6 +28,7 @@ class FishMsgListActivity : PagingActivity(), OnBack2TopListener {
 
     private val mBinding by viewBinding<FishMsgListActivityBinding>()
     private val mMsgViewModel by viewModels<MsgViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mMomentMsgAdapter = MomentMsgAdapter(mAdapterDelegate)
 
@@ -55,6 +57,11 @@ class FishMsgListActivity : PagingActivity(), OnBack2TopListener {
                 FishPondDetailActivity.start(this, it.momentId)
             }
         }
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 
     override fun onBack2Top() {

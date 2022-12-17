@@ -5,10 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
-import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.SystemMsgListActivityBinding
 import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.SystemMsgAdapter
@@ -25,10 +25,11 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/10/24
  * desc   : 系统消息列表界面
  */
-class SystemMsgListActivity : PagingActivity(), StatusAction, OnBack2TopListener {
+class SystemMsgListActivity : PagingActivity(), OnBack2TopListener {
 
     private val mBinding by viewBinding<SystemMsgListActivityBinding>()
     private val mMsgViewModel by viewModels<MsgViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mSystemMsgAdapter = SystemMsgAdapter(mAdapterDelegate)
     private val loadStateListener = loadStateListener(mSystemMsgAdapter) { mBinding.refreshLayout.finishRefresh() }
@@ -73,6 +74,11 @@ class SystemMsgListActivity : PagingActivity(), StatusAction, OnBack2TopListener
                 url?.let { BrowserActivity.start(this, it) }
             }
         }
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 
     override fun onBack2Top() {

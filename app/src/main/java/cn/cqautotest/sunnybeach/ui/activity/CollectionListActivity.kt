@@ -7,6 +7,7 @@ import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.CollectionListActivityBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.ui.adapter.CollectionListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
@@ -23,6 +24,7 @@ class CollectionListActivity : PagingActivity() {
 
     private val mBinding by viewBinding<CollectionListActivityBinding>()
     private val mCollectionViewModel by viewModels<CollectionViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mCollectionListAdapter = CollectionListAdapter(mAdapterDelegate)
 
@@ -43,5 +45,10 @@ class CollectionListActivity : PagingActivity() {
         mAdapterDelegate.setOnItemClickListener { _, position ->
             getPagingAdapter().snapshotList[position]?.let { CollectionDetailListActivity.start(this, it) }
         }
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 }
