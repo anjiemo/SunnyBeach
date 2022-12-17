@@ -43,6 +43,10 @@ object Repository {
 
     private val cachePhotoIdList = arrayListOf<WallpaperBean.Res.Vertical>()
 
+    fun unfollowFishTopic(topicId: String) = launchAndGetMsg { FishNetwork.unfollowFishTopic(topicId = topicId) }
+
+    fun followFishTopic(topicId: String) = launchAndGetMsg { FishNetwork.followFishTopic(topicId = topicId) }
+
     fun queryIntegralRule(method: HttpMethod, path: String) = launchAndGetData { UserNetwork.queryIntegralRule("$method:$path") }
 
     fun getArticleDetailById(articleId: String) = launchAndGetData { ArticleNetwork.getArticleDetailById(articleId) }

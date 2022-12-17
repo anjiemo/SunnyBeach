@@ -28,4 +28,8 @@ object FishNetwork {
     suspend fun loadTopicList() = FishPondApi.loadTopicList()
 
     suspend fun loadUserFishList(userId: String, page: Int) = FishPondApi.loadUserFishList(userId, page)
+
+    suspend fun unfollowFishTopic(topicId: String) = FishPondApi.unfollowFishTopic(topicId)
+
+    suspend fun followFishTopic(topicId: String) = FishPondApi.followFishTopic(topicId)
 }

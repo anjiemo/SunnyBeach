@@ -18,8 +18,10 @@ import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.bumptech.glide.Glide
+import com.dylanc.longan.lifecycleOwner
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -34,6 +36,7 @@ class FishTopicActivity : PagingActivity() {
     private val mRefreshStatus = RefreshStatus()
     private val mTopicItemJson by lazy { intent.getStringExtra(FISH_TOPIC_ITEM) }
     private val mTopicItem by lazy { fromJson<FishPondTopicList.TopicItem>(mTopicItemJson) }
+    private var mHasFollowed = false
     private val mFishListAdapterDelegate = AdapterDelegate()
     private val mFishListAdapter = FishListAdapter(mFishListAdapterDelegate)
 
@@ -43,6 +46,8 @@ class FishTopicActivity : PagingActivity() {
 
     override fun initView() {
         super.initView()
+        mHasFollowed = mTopicItem.hasFollowed
+        Timber.d("initView：===> mTopicItem is ${mTopicItem.toJson()}")
         mBinding.apply {
             Glide.with(context)
                 .load(mTopicItem.cover)
@@ -50,8 +55,7 @@ class FishTopicActivity : PagingActivity() {
             tvTopicName.text = mTopicItem.topicName
             tvSummary.text = "🐟 ${mTopicItem.contentCount} · 滩友 ${mTopicItem.followCount}"
             tvTopicDesc.text = mTopicItem.description
-            tvJoin.text = if (mTopicItem.hasFollowed) "已加入" else "加入"
-            tvJoin.isSelected = mTopicItem.hasFollowed
+            updateTopicFollowState()
             pagingRecyclerView.addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
         }
     }
@@ -63,6 +67,43 @@ class FishTopicActivity : PagingActivity() {
     override suspend fun loadListData() {
         mFishPondViewModel.getFishListByCategoryId(mTopicItem.id).collectLatest {
             mFishListAdapter.submitData(it)
+        }
+    }
+
+    override fun initEvent() {
+        mBinding.apply {
+            tvJoin.setFixOnClickListener {
+                toggleFollow()
+            }
+        }
+    }
+
+    private fun toggleFollow() {
+        if (mHasFollowed) {
+            mFishPondViewModel.unfollowFishTopic(mTopicItem.id).observe(lifecycleOwner) { result ->
+                result.onSuccess {
+                    mHasFollowed = false
+                    updateTopicFollowState()
+                }.onFailure {
+                    toast(it.message)
+                }
+            }
+        } else {
+            mFishPondViewModel.followFishTopic(mTopicItem.id).observe(lifecycleOwner) { result ->
+                result.onSuccess {
+                    mHasFollowed = true
+                    updateTopicFollowState()
+                }.onFailure {
+                    toast(it.message)
+                }
+            }
+        }
+    }
+
+    private fun updateTopicFollowState() {
+        mBinding.apply {
+            tvJoin.text = if (mHasFollowed) "已加入" else "加入"
+            tvJoin.isSelected = mHasFollowed
         }
     }
 
