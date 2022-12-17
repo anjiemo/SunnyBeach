@@ -32,6 +32,10 @@ class FishPondViewModel : ViewModel() {
         _fishListStateLiveData.value = Unit
     }
 
+    fun unfollowFishTopic(topicId: String) = Repository.unfollowFishTopic(topicId)
+
+    fun followFishTopic(topicId: String) = Repository.followFishTopic(topicId)
+
     fun loadTopicList() = Repository.loadTopicList()
 
     fun dynamicLikes(momentId: String) = Repository.dynamicLikes(momentId)
