@@ -12,6 +12,7 @@ import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.FishTopicActivityBinding
 import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
@@ -30,6 +31,7 @@ class FishTopicActivity : PagingActivity() {
 
     private val mBinding by viewBinding(FishTopicActivityBinding::bind)
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mTopicItemJson by lazy { intent.getStringExtra(FISH_TOPIC_ITEM) }
     private val mTopicItem by lazy { fromJson<FishPondTopicList.TopicItem>(mTopicItemJson) }
     private val mFishListAdapterDelegate = AdapterDelegate()
@@ -62,6 +64,11 @@ class FishTopicActivity : PagingActivity() {
         mFishPondViewModel.getFishListByCategoryId(mTopicItem.id).collectLatest {
             mFishListAdapter.submitData(it)
         }
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 
     companion object {
