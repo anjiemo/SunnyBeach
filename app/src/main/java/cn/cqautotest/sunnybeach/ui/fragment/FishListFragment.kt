@@ -243,6 +243,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     override fun onDestroyView() {
         super.onDestroyView()
         mFishListAdapter.removeLoadStateListener(loadStateListener)
+        mFishCategoryAdapter.unregisterAdapterDataObserver(mFishCategoryAdapterDataObserver)
         activity?.deathFloatWindow()
     }
 
@@ -319,11 +320,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
      * Sob site userId is long type, we need check.
      */
     private fun checkUserId(userId: String) = userId.isNotBlank() && userId.toLongOrNull() != null
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mFishCategoryAdapter.unregisterAdapterDataObserver(mFishCategoryAdapterDataObserver)
-    }
 
     companion object {
 
