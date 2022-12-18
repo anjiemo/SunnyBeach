@@ -1,11 +1,14 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.PagingDataAdapter
+import androidx.palette.graphics.Palette
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.PagingActivity
@@ -15,20 +18,28 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
+import cn.cqautotest.sunnybeach.other.RoundRectDrawable
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_FISH_URL_PRE
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
+import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.VibrateUtils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.dylanc.longan.lifecycleOwner
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
 import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -38,7 +49,7 @@ import timber.log.Timber
  * time   : 2022/12/17
  * desc   : 鱼塘话题 Activity
  */
-class FishTopicActivity : PagingActivity() {
+class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
 
     private val mBinding by viewBinding(FishTopicActivityBinding::bind)
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
@@ -60,6 +71,8 @@ class FishTopicActivity : PagingActivity() {
         mBinding.apply {
             Glide.with(context)
                 .load(mTopicItem.cover)
+                .transform(RoundedCorners(4.dp))
+                .addListener(this@FishTopicActivity)
                 .into(ivCover)
             tvTopicName.text = mTopicItem.topicName
             tvSummary.text = "🐟 ${mTopicItem.contentCount} · 滩友 ${mTopicItem.followCount}"
@@ -166,6 +179,38 @@ class FishTopicActivity : PagingActivity() {
     override fun showLoading(id: Int) {
         takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
         mRefreshStatus.isFirstRefresh = false
+    }
+
+    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+        // There is no processing here.
+        return false
+    }
+
+    override fun onResourceReady(
+        resource: Drawable?,
+        model: Any?,
+        target: Target<Drawable>?,
+        dataSource: DataSource?,
+        isFirstResource: Boolean
+    ): Boolean {
+        // We're not dealing with that here, we just want to get the resource at the end of the load, that's all.
+        onResourceChanged(resource)
+        return false
+    }
+
+    private fun onResourceChanged(resource: Drawable?) {
+        lifecycleScope.launchWhenCreated {
+            flow {
+                val bitmap = ConvertUtils.drawable2Bitmap(resource)
+                emit(bitmap)
+            }
+                .map { Palette.from(it).generate() }
+                .map { it.getLightVibrantColor(Color.TRANSPARENT) }
+                .catch { Timber.e(it) }
+                // 以上 Palette.from(it).generate() 为同步方法，需要在子线程调用
+                .flowOn(Dispatchers.IO)
+                .collectLatest { bgColor -> mBinding.ivCover.background = RoundRectDrawable(4.dp, bgColor) }
+        }
     }
 
     companion object {
