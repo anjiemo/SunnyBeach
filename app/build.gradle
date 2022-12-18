@@ -333,7 +333,7 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:2.43"
 
     // // 从图片中提取具有代表性的调色板：https://developer.android.com/jetpack/androidx/releases/palette
-    // implementation 'androidx.palette:palette:1.0.0'
+    implementation 'androidx.palette:palette:1.0.0'
 
     // Android下打造通用便捷的PopupWindow弹窗库：https://github.com/razerdp/BasePopup
     implementation 'io.github.razerdp:BasePopup:3.2.0'
