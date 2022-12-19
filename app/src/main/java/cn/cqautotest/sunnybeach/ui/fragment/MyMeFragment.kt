@@ -94,8 +94,12 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
             // 跳转到用户中心
             llUserInfoContainer.setFixOnClickListener {
                 MobclickAgent.onEvent(context, UmengReportKey.USER_CENTER)
-                viewLifecycleScope.launchWhenCreated {
-                    afterWaitingForLogin { context.startActivity<UserCenterActivity>() }
+                when (UserManager.loadUserBasicInfo()) {
+                    null -> {
+                        mLoginLauncher.launch(LoginActivity.createIntent(requireContext()))
+                        toast(R.string.please_login_first)
+                    }
+                    else -> context.startActivity<UserCenterActivity>()
                 }
             }
             // 会员详情
