@@ -173,7 +173,10 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         switchFloatByPosition(fragmentIndex)
         when (fragmentIndex) {
             0, 1, 2, 3, 4 -> {
-                viewPager2?.currentItem = fragmentIndex
+                val lastIndex = viewPager2?.currentItem ?: 0
+                // 是否为相邻的两个 item，只有相邻的两个 item 才执行平滑过渡动画
+                val isAdjacent = abs(fragmentIndex - lastIndex) == 1
+                viewPager2?.setCurrentItem(fragmentIndex, isAdjacent)
                 navigationAdapter?.setSelectedPosition(fragmentIndex)
             }
         }
