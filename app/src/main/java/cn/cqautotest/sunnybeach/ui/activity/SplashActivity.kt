@@ -10,7 +10,6 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.http.api.other.UserInfoApi
 import cn.cqautotest.sunnybeach.http.model.HttpData
 import cn.cqautotest.sunnybeach.ktx.checkToken
-import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.other.AppConfig
 import com.airbnb.lottie.LottieAnimationView
 import com.blankj.utilcode.util.DeviceUtils
@@ -48,11 +47,7 @@ class SplashActivity : AppActivity() {
         lottieView?.addAnimatorListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) {
                 lottieView?.removeAnimatorListener(this)
-                if (UserManager.isAutoLogin() && UserManager.isLogin()) {
-                    HomeActivity.start(context)
-                } else {
-                    LoginActivity.start(context, UserManager.getCurrLoginAccount(), UserManager.getCurrLoginAccountPassword())
-                }
+                HomeActivity.start(context)
                 finish()
             }
         })
