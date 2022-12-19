@@ -25,8 +25,12 @@
     <!-- 定位权限（用于 WebView 定位）-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!--震动权限-->
+
+    <!-- 震动权限 -->
     <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- 系统悬浮窗权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <!-- region MiPush -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
