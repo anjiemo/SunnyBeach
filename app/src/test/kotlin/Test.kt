@@ -238,7 +238,7 @@ class Test {
                     jsonMap["content"] = content
                     val newContent = jsonMap.toJson()
                     val mediaType = "application/json".toMediaTypeOrNull()
-                    val requestBody = RequestBody.create(mediaType, newContent)
+                    val requestBody = RequestBody.create(mediaType, newContent.orEmpty())
                     println("updateUserArticleList：===> requestBody is ${requestBody.toJson()}")
                     headerArr.forEach { addHeader(it.first, it.second) }
                     this.method("PUT", requestBody)
@@ -285,7 +285,7 @@ class Test {
                 println("test：===> result is $it")
             }
         }
-        imageMapFile.writeText(imageList.toJson())
+        imageMapFile.writeText(imageList.toJson().orEmpty())
     }
 
     private suspend fun paging(
