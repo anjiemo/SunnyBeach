@@ -77,15 +77,15 @@
                 app:bar_rightDrawable="@drawable/arrows_right_ic" />
 
             <com.hjq.widget.layout.SettingBar
-                android:id="@+id/sb_setting_auto"
+                android:id="@+id/sb_setting_time_float_window"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_6"
                 android:minHeight="48dp"
-                app:bar_leftText="@string/setting_auto">
+                app:bar_leftText="@string/setting_time_float_window">
 
                 <com.hjq.widget.view.SwitchButton
-                    android:id="@+id/sb_setting_switch"
+                    android:id="@+id/sb_setting_time_float_window_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"

@@ -195,7 +195,7 @@
     <string name="setting_me_pay">打赏作者</string>
     <string name="setting_about">关于我们</string>
 
-    <string name="setting_auto">自动登录</string>
+    <string name="setting_time_float_window">时间悬浮窗</string>
     <string name="setting_cache">清空缓存</string>
 
     <string name="setting_exit">退出登录</string>

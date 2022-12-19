@@ -2,12 +2,15 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.view.Gravity
 import android.view.View
 import android.webkit.CookieManager
+import android.widget.TextClock
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -19,6 +22,7 @@ import cn.cqautotest.sunnybeach.databinding.SettingActivityBinding
 import cn.cqautotest.sunnybeach.db.SobCacheManager
 import cn.cqautotest.sunnybeach.http.api.other.LogoutApi
 import cn.cqautotest.sunnybeach.http.model.HttpData
+import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.AppManager
@@ -26,6 +30,7 @@ import cn.cqautotest.sunnybeach.manager.CacheDataManager
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
 import cn.cqautotest.sunnybeach.other.AppConfig
+import cn.cqautotest.sunnybeach.other.RoundRectDrawable
 import cn.cqautotest.sunnybeach.ui.dialog.*
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
@@ -35,6 +40,10 @@ import com.hjq.http.EasyHttp
 import com.hjq.http.listener.HttpCallback
 import com.hjq.widget.layout.SettingBar
 import com.hjq.widget.view.SwitchButton
+import com.lzf.easyfloat.EasyFloat
+import com.lzf.easyfloat.enums.ShowPattern
+import com.lzf.easyfloat.enums.SidePattern
+import com.lzf.easyfloat.utils.DisplayUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -52,7 +61,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
     private val mBinding: SettingActivityBinding by viewBinding()
     private val languageView: SettingBar? by lazy { findViewById(R.id.sb_setting_language) }
     private val cleanCacheView: SettingBar? by lazy { findViewById(R.id.sb_setting_cache) }
-    private val autoSwitchView: SwitchButton? by lazy { findViewById(R.id.sb_setting_switch) }
+    private val timeFloatWindowSwitchView: SwitchButton? by lazy { findViewById(R.id.sb_setting_time_float_window_switch) }
 
     @Inject
     lateinit var mAppViewModel: AppViewModel
@@ -64,8 +73,8 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
     override fun getLayoutId(): Int = R.layout.setting_activity
 
     override fun initView() {
-        // 设置切换按钮的监听
-        autoSwitchView?.setOnCheckedChangeListener(this)
+        // 设置时间悬浮窗切换按钮的监听
+        timeFloatWindowSwitchView?.setOnCheckedChangeListener(this)
         setOnClickListener(
             R.id.sb_setting_language,
             R.id.sb_setting_update,
@@ -73,7 +82,6 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
             R.id.sb_setting_me_pay,
             R.id.sb_setting_about,
             R.id.sb_setting_cache,
-            R.id.sb_setting_auto,
             R.id.sb_setting_exit
         )
         mBinding.apply {
@@ -86,7 +94,6 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
         // 获取应用缓存大小
         cleanCacheView?.setRightText(CacheDataManager.getTotalCacheSize(this))
         languageView?.setRightText("简体中文")
-        mBinding.sbSettingSwitch.setChecked(true)
         // 检查更新
         mAppViewModel.checkAppUpdate().observe(this) {
             isAutoCheckAppVersion = true
@@ -168,11 +175,14 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
         mBinding.tvSettingUpdate.isVisible = true
     }
 
-    @SingleClick
     override fun onClick(view: View) {
+        onSingClick(view)
+    }
+
+    @SingleClick
+    private fun onSingClick(view: View) {
         when (view.id) {
             R.id.sb_setting_language -> {
-
                 // 底部选择框
                 MenuDialog.Builder(this) // 设置点击按钮后不关闭对话框
                     //.setAutoDismiss(false)
@@ -193,13 +203,11 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                 }
             }
             R.id.sb_setting_phone -> {
-
                 SafeDialog.Builder(this)
                     .setListener { _, _, code -> PhoneResetActivity.start(this, code) }
                     .show()
             }
             R.id.sb_setting_agreement -> {
-
                 BrowserActivity.start(this, "https://github.com/anjiemo/SunnyBeach")
             }
             R.id.sb_setting_me_pay -> {
@@ -230,25 +238,15 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
                     .show()
             }
             R.id.sb_setting_about -> {
-
                 startActivity<AboutActivity>()
             }
-            R.id.sb_setting_auto -> {
-
-                autoSwitchView?.let {
-                    // 自动登录
-                    it.setChecked(!it.isChecked())
-                }
-            }
             R.id.sb_setting_cache -> {
-
                 mAppViewModel.clearCacheMemory().observe(this) {
                     val totalCacheSize = it.getOrNull() ?: return@observe
                     mBinding.sbSettingCache.setRightText(totalCacheSize)
                 }
             }
             R.id.sb_setting_exit -> {
-
                 MessageDialog.Builder(this)
                     .setTitle("退出账号")
                     .setMessage("确定退出当前账号")
@@ -301,8 +299,58 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
      * [SwitchButton.OnCheckedChangeListener]
      */
     override fun onCheckedChanged(button: SwitchButton, checked: Boolean) {
-        // 设置是否自动登录
+        when (button.id) {
+            R.id.sb_setting_time_float_window_switch -> toggleTimeFloatWindow(checked)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateFloatWindowSwitchState()
+    }
+
+    private fun updateFloatWindowSwitchState() {
+        mBinding.sbSettingTimeFloatWindowSwitch.setChecked(EasyFloat.isShow(TIME_FLOAT_WINDOW_FLAG))
+    }
+
+    private fun toggleTimeFloatWindow(checked: Boolean) {
+        if (checked) {
+            showTimeFloatWindow()
+        } else {
+            hideTimeFloatWindow()
+        }
+    }
+
+    private fun hideTimeFloatWindow() {
+        EasyFloat.dismiss(TIME_FLOAT_WINDOW_FLAG, true)
+    }
+
+    private fun showTimeFloatWindow() {
+        EasyFloat.with(this)
+            .setLayout(TextClock(this).apply {
+                format12Hour = "HH:mm:ss"
+                format24Hour = "HH:mm:ss"
+                background = RoundRectDrawable(4.dp, Color.parseColor("#F1F3F4"))
+                updatePadding(6.dp, 4.dp, 6.dp, 4.dp)
+            })
+            // 设置浮窗显示类型，默认只在当前Activity显示，可选一直显示、仅前台显示
+            .setShowPattern(ShowPattern.ALL_TIME)
+            .setTag(TIME_FLOAT_WINDOW_FLAG)
+            // 设置吸附方式，共15种模式，详情参考SidePattern
+            .setSidePattern(SidePattern.RESULT_HORIZONTAL)
+            // 设置浮窗的对齐方式和坐标偏移量
+            .setGravity(gravity = Gravity.END or Gravity.TOP, offsetY = 100.dp)
+            // 设置当布局大小变化后，整体view的位置对齐方式
+            .setLayoutChangedGravity(Gravity.END)
+            // 设置系统浮窗的有效显示高度（不包含虚拟导航栏的高度），基本用不到，除非有虚拟导航栏适配问题
+            .setDisplayHeight { context -> DisplayUtils.rejectedNavHeight(context) }
+            .show()
     }
 
     override fun isStatusBarDarkFont() = false
+
+    companion object {
+
+        private const val TIME_FLOAT_WINDOW_FLAG = "TIME_FLOAT_WINDOW_FLAG"
+    }
 }
