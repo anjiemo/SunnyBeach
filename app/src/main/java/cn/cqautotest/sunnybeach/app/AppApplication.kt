@@ -215,6 +215,8 @@ class AppApplication : Application(), Configuration.Provider {
                 .registry
                 .replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
 
+            // Aria.init(application)
+
             initCacheCleanWork(application)
         }
 

@@ -76,7 +76,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         viewPager2?.let {
             it.isUserInputEnabled = false
             it.adapter = HomeFragmentAdapter(this).apply { pagerAdapter = this }
-                .also { adapter -> it.offscreenPageLimit = adapter.itemCount }
+            it.offscreenPageLimit = 1
         }
         navigationAdapter = NavigationAdapter(this).apply {
             addMenuItem(R.string.home_fish_pond_message, R.drawable.home_fish_pond_selector)
