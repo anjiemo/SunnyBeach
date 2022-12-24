@@ -145,6 +145,7 @@ dependencies {
     def markwon_version = "4.6.2"
     def prism_version = "2.0.0"
     def qmui_arch_version = '2.0.1'
+    def aria_version = '3.8.16'
 
     // 基类封装
     implementation project(':library:base')
@@ -346,4 +347,13 @@ dependencies {
 
     // 阿里云视频播放器 SDK：https://help.aliyun.com/document_detail/124711.html?spm=a2c4g.11186623.0.0.7bd24addVQH3VE
     implementation 'com.aliyun.sdk.android:AliyunPlayer:5.4.9.2-full'
+
+    implementation "me.laoyuyu.aria:core:$aria_version"
+    annotationProcessor "me.laoyuyu.aria:compiler:$aria_version"
+    // 如果需要使用ftp，请增加该组件
+    implementation "me.laoyuyu.aria:ftp:$aria_version"
+    // 如果需要使用ftp，请增加该组件
+    implementation "me.laoyuyu.aria:sftp:$aria_version"
+    // 如果需要使用m3u8下载功能，请增加该组件
+    implementation "me.laoyuyu.aria:m3u8:$aria_version"
 }

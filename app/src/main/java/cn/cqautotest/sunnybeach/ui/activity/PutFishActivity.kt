@@ -196,7 +196,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         }
         // 上传图片，此处的 path 为客户端本地的路径，需要上传到服务器上，获取网络 url 路径
         val uploadedImages = arrayListOf<Pair<Int, String>>()
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             withContext(dispatcher) {
                 // 1、压缩图片
                 // 2、上传图片
@@ -229,26 +229,26 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         uploadedImages: ArrayList<Pair<Int, String>>,
         exceptionHandler: CoroutineExceptionHandler
     ) {
-        images.mapIndexed { index, filePath -> Pair(index, filePath) }
+        images.withIndex()
             .forEach { imageMap ->
                 flowOf(imageMap)
-                    // 把需要上传的图片文件复制到缓存目录
-                    .map { (index, filePath) ->
-                        Timber.d("onRightClick：===> filePath is $filePath")
-                        Pair(index, File(filePath).copyToCacheDirOrThrow())
+                    .onEach { (index, filePath) ->
+                        Timber.d("zipAndUploadImages：===> filePath is $filePath")
+                        // 把需要上传的图片文件复制到缓存目录
+                        val cacheFilePath = File(filePath).copyToCacheDirOrThrow()
+                        // 压缩图片文件
+                        val zippedFilePath = zipImageFile(cacheFilePath).getOrThrow()
+                        // 上传摸鱼图片
+                        val onlineImgUrl = Repository.uploadFishImage(zippedFilePath).getOrThrow()
+                        // 添加到已上传的图片 url 集合
+                        uploadedImages.add(index to onlineImgUrl)
                     }
-                    // 压缩图片文件
-                    .map { (index, filePath) -> Pair(index, zipImageFile(filePath).getOrThrow()) }
-                    // 上传摸鱼图片
-                    .map { (index, filePath) -> Pair(index, Repository.uploadFishImage(filePath).getOrThrow()) }
                     .flowOn(dispatcher)
-                    // 添加到已上传的图片 url 集合
-                    .onEach { imagePair -> uploadedImages.add(imagePair) }
                     // 服务器错误时，重试三次，每次间隔 100ms
                     .retryWhen { cause, attempt ->
-                        val retry = (cause is ServiceException) && attempt < 3
-                        takeIf { retry }?.let { delay(100) }
-                        retry
+                        val needRetry = (cause is ServiceException) && attempt < 3
+                        if (needRetry) delay(100L)
+                        needRetry
                     }
                     .catch { exceptionHandler.handleException(dispatcher, it) }
                     .launchIn(this)
