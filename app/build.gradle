@@ -138,11 +138,21 @@ android {
 }
 
 task printReleaseAppConfig() {
-    printAppConfig("release")
+    doLast {
+        printAppConfig("release")
+    }
+}
+
+task printPreviewAppConfig() {
+    doLast {
+        printAppConfig("preview")
+    }
 }
 
 task printDebugAppConfig() {
-    printAppConfig("debug")
+    doLast {
+        printAppConfig("debug")
+    }
 }
 
 def printAppConfig(final variantName) {
