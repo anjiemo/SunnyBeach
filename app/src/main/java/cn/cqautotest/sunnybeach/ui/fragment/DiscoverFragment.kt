@@ -13,11 +13,11 @@ import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBannerBean
+import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.ui.activity.GalleryActivity
 import cn.cqautotest.sunnybeach.ui.adapter.WallpaperListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.CustomAnimation
-import cn.cqautotest.sunnybeach.util.GridSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.PhotoViewModel
 import com.bumptech.glide.Glide
 import com.youth.banner.adapter.BannerImageAdapter
@@ -56,7 +56,7 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
         }
         mBinding.pagingRecyclerView.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
-            addItemDecoration(GridSpaceItemDecoration(4.dp))
+            addItemDecoration(GridSpaceDecoration(8.dp))
         }
     }
 
