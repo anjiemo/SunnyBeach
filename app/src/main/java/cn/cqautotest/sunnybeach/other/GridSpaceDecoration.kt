@@ -1,38 +1,37 @@
 package cn.cqautotest.sunnybeach.other
 
-import android.graphics.Canvas
 import android.graphics.Rect
 import android.view.View
+import androidx.annotation.Px
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/AndroidProject-Kotlin
- *    time   : 2019/07/25
- *    desc   : 图片选择列表分割线
+ *    author : anjiemo
+ *    github : https://gitee.com/anjiemo/SunnyBeach
+ *    time   : 2022/12/23
+ *    desc   : 网格列表分割线，参考：https://stackoverflow.com/questions/28531996/android-recyclerview-gridlayoutmanager-column-spacing/28533234#30701422
  */
-class GridSpaceDecoration constructor(private val space: Int) : ItemDecoration() {
+class GridSpaceDecoration(@Px private val space: Int, private val includeEdge: Boolean = true) : RecyclerView.ItemDecoration() {
 
-    override fun onDraw(canvas: Canvas, recyclerView: RecyclerView, state: RecyclerView.State) {}
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+        val position: Int = parent.getChildAdapterPosition(view)
+        val spanCount: Int = (parent.layoutManager as GridLayoutManager).spanCount
+        val column = position % spanCount // item column
 
-    override fun onDrawOver(canvas: Canvas, recyclerView: RecyclerView, state: RecyclerView.State) {}
-
-    override fun getItemOffsets(rect: Rect, view: View, recyclerView: RecyclerView, state: RecyclerView.State) {
-        val position: Int = recyclerView.getChildAdapterPosition(view)
-        val spanCount: Int = (recyclerView.layoutManager as GridLayoutManager).spanCount
-
-        // 每一行的最后一个才留出右边间隙
-        if ((position + 1) % spanCount == 0) {
-            rect.right = space
+        if (includeEdge) {
+            outRect.left = space - column * space / spanCount // space - column * ((1f / spanCount) * space)
+            outRect.right = (column + 1) * space / spanCount // (column + 1) * ((1f / spanCount) * space)
+            if (position < spanCount) { // top edge
+                outRect.top = space
+            }
+            outRect.bottom = space // item bottom
+        } else {
+            outRect.left = column * space / spanCount // column * ((1f / spanCount) * space)
+            outRect.right = space - (column + 1) * space / spanCount // space - (column + 1) * ((1f / spanCount) * space)
+            if (position >= spanCount) {
+                outRect.top = space // item top
+            }
         }
-
-        // 只有第一行才留出顶部间隙
-        if (position < spanCount) {
-            rect.top = space
-        }
-        rect.bottom = space
-        rect.left = space
     }
 }
