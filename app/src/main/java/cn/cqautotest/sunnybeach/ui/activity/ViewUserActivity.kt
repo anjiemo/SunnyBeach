@@ -29,6 +29,7 @@ import com.hjq.bar.TitleBar
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
 import com.umeng.socialize.media.UMWeb
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 /**
@@ -37,6 +38,7 @@ import timber.log.Timber
  * time   : 2021/10/29
  * desc   : 查看用户信息界面
  */
+@AndroidEntryPoint
 class ViewUserActivity : AppActivity() {
 
     private val mBinding by viewBinding<ViewUserActivityBinding>()
@@ -137,7 +139,7 @@ class ViewUserActivity : AppActivity() {
             mUserViewModel.followState(userId).observe(lifecycleOwner) {
                 val state = it.getOrNull() ?: return@observe
                 mFriendsStatus = FriendsStatus.valueOfCode(state)
-                tvFollow.text = if (userId == currUserId) "编辑" else mFriendsStatus.desc
+                tvFollow.text = mFriendsStatus.desc
                 tvFollow.setRoundRectBg(mFriendsStatus.color, 3.dp)
             }
         }

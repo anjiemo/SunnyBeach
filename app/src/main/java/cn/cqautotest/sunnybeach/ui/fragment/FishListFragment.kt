@@ -19,7 +19,6 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.*
-import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.MourningCalendar
 import cn.cqautotest.sunnybeach.model.RefreshStatus
@@ -29,22 +28,16 @@ import cn.cqautotest.sunnybeach.ui.adapter.FishCategoryAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.RecommendFishTopicListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
-import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import com.blankj.utilcode.util.VibrateUtils
 import com.dylanc.longan.viewLifecycleScope
 import com.hjq.bar.TitleBar
 import com.hjq.permissions.Permission
-import com.hjq.umeng.Platform
-import com.hjq.umeng.UmengShare
 import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
-import com.umeng.socialize.media.UMImage
-import com.umeng.socialize.media.UMWeb
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -66,6 +59,9 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     @Inject
     lateinit var mAppViewModel: AppViewModel
+
+    @Inject
+    lateinit var mMultiOperationHelper: MultiOperationHelper
 
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
     private val mRefreshStatus = RefreshStatus()
@@ -167,38 +163,11 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     private fun dynamicLikes(item: Fish.FishItem, position: Int) {
-        val thumbUpList = item.thumbUpList
-        val currUserId = UserManager.loadCurrUserId()
-        takeIf { thumbUpList.contains(currUserId) }?.let { toast("请不要重复点赞") }?.also { return }
-        thumbUpList.add(currUserId)
-        mFishListAdapter.notifyItemChanged(position)
-        VibrateUtils.vibrate(80)
-        mFishPondViewModel.dynamicLikes(item.id).observe(viewLifecycleOwner) {}
+        mMultiOperationHelper.dynamicLikes(viewLifecycleOwner, mFishPondViewModel, mFishListAdapter, item, position)
     }
 
     private fun shareFish(item: Fish.FishItem) {
-        val momentId = item.id
-        val content = UMWeb(SUNNY_BEACH_FISH_URL_PRE + momentId)
-        content.title = "我分享了一条摸鱼动态，快来看看吧~"
-        content.setThumb(UMImage(requireContext(), R.mipmap.launcher_ic))
-        content.description = getString(R.string.app_name)
-        // 分享
-        ShareDialog.Builder(requireActivity())
-            .setShareLink(content)
-            .setListener(object : UmengShare.OnShareListener {
-                override fun onSucceed(platform: Platform?) {
-                    toast("分享成功")
-                }
-
-                override fun onError(platform: Platform?, t: Throwable) {
-                    toast(t.message)
-                }
-
-                override fun onCancel(platform: Platform?) {
-                    toast("分享取消")
-                }
-            })
-            .show()
+        mMultiOperationHelper.shareFish(item.id)
     }
 
     override fun initObserver() {

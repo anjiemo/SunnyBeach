@@ -100,7 +100,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
                 tvLinkTitle.text = item.linkTitle
                 tvLinkUrl.text = linkUrl
                 val currUserId = UserManager.loadCurrUserId()
-                val like = item.thumbUpList.contains(currUserId)
+                val like = currUserId in item.thumbUpList
                 val defaultColor = ContextCompat.getColor(context, R.color.menu_default_font_color)
                 val likeColor = ContextCompat.getColor(context, R.color.menu_like_font_color)
                 with(listMenuItem) {
