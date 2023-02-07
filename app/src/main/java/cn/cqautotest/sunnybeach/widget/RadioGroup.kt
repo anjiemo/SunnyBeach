@@ -25,8 +25,8 @@ class RadioGroup @JvmOverloads constructor(
     var onSelected: ((View) -> Unit) = {}
 
     init {
-        val attributes = context.obtainStyledAttributes(attrs, R.styleable.RadiusGroup)
-        defaultSelectId = attributes.getResourceId(R.styleable.RadiusGroup_defaultSelectId, View.NO_ID)
+        val attributes = context.obtainStyledAttributes(attrs, R.styleable.RadioGroup)
+        defaultSelectId = attributes.getResourceId(R.styleable.RadioGroup_defaultSelectId, View.NO_ID)
         attributes.recycle()
     }
 
