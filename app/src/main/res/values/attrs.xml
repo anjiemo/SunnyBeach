@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="RadiusGroup">
+    <declare-styleable name="RadioGroup">
         <!-- 默认选中的View id -->
         <attr name="defaultSelectId" format="reference" />
     </declare-styleable>
