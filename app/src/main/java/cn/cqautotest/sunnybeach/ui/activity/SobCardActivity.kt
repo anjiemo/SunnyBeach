@@ -1,6 +1,8 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.Context
+import android.graphics.Bitmap
+import androidx.core.view.drawToBitmap
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -10,8 +12,9 @@ import cn.cqautotest.sunnybeach.ktx.context
 import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.ktx.toQrCodeBitmapOrNull
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_VIEW_USER_URL_PRE
-import com.blankj.utilcode.util.ConvertUtils
+import com.blankj.utilcode.util.ImageUtils
 import com.blankj.utilcode.util.IntentUtils
+import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
 import com.dylanc.longan.intentExtras
 import com.hjq.bar.TitleBar
@@ -62,10 +65,11 @@ class SobCardActivity : AppActivity() {
         mShareSobCardJob?.cancel()
         mShareSobCardJob = lifecycleScope.launch {
             val sobCardFile = withContext(Dispatchers.IO) {
-                // 默认有黑色的背景
-                val bitmap = ConvertUtils.view2Bitmap(mBinding.flSobCard)
-                val bitmapBytes = ConvertUtils.bitmap2Bytes(bitmap)
-                File.createTempFile("sob_", null).also { it.writeBytes(bitmapBytes) }
+                val bitmap = mBinding.flSobCard.drawToBitmap()
+                File(PathUtils.getExternalDcimPath(), "sob_image_share_${System.currentTimeMillis()}.png").also {
+                    ImageUtils.save(bitmap, it, Bitmap.CompressFormat.PNG)
+                    withContext(Dispatchers.Main) { toast("图片已保存到本地相册") }
+                }
             }
             val intent = IntentUtils.getShareImageIntent(sobCardFile)
             startActivity(intent)

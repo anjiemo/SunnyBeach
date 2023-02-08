@@ -27,6 +27,7 @@ class AboutActivity : AppActivity() {
     override fun initEvent() {
         mBinding.tvCopyLink.setFixOnClickListener {
             ClipboardUtils.copyText(SUNNY_BEACH_GITHUB_URL)
+            toast("已复制项目地址到剪贴板")
         }
     }
 }
