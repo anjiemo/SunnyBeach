@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hjq.shape.layout.ShapeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.activity.SobCardActivity">
 
     <com.hjq.bar.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="999dp"
-        app:barStyle="transparent"
-        app:leftIconTint="@color/black" />
+        app:leftIconTint="@color/black"
+        app:rightIcon="@drawable/share_ic"
+        app:rightIconHeight="@dimen/dp_18"
+        app:rightIconTint="@color/black"
+        app:rightIconWidth="@dimen/dp_18" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -21,11 +24,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dp_40"
             android:orientation="vertical"
             android:paddingTop="?actionBarSize">
 
             <com.hjq.widget.layout.RatioFrameLayout
+                android:id="@+id/fl_sob_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_20"
@@ -67,8 +70,8 @@
                         android:textSize="@dimen/sp_22"
                         app:layout_constraintBottom_toBottomOf="@id/iv_logo"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintStart_toEndOf="@id/iv_logo"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/iv_logo" />
 
                     <TextView
@@ -229,4 +232,4 @@
 
     </androidx.core.widget.NestedScrollView>
 
-</com.hjq.shape.layout.ShapeFrameLayout>
+</LinearLayout>

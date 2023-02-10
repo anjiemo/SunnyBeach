@@ -2,6 +2,9 @@
 
 package cn.cqautotest.sunnybeach.util
 
+// 阳光沙滩 GitHub 项目地址
+const val SUNNY_BEACH_GITHUB_URL = "https://github.com/anjiemo/SunnyBeach"
+
 const val USER_SETTING = "userSetting"
 
 const val IS_FIRST = "isFirst"
@@ -52,7 +55,7 @@ const val SUNNY_BEACH_USER_BASIC_INFO = "sunny_beach_user_basic_info"
 
 const val SUNNY_BEACH_USER_ACCOUNT_ENCRYPT_INFO = "sunny_beach_user_account_encrypt_info"
 
-//
+// 阳光沙滩淘宝店铺地址
 const val SUNNY_BEACH_TAOBAO_SHOP_VIP = "https://item.taobao.com/item.htm?id=673527744707&mt="
 
 // ==================反馈相关==================
