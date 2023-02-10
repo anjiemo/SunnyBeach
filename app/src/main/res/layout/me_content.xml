@@ -69,9 +69,11 @@
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/fl_vip_banner_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:foreground="?android:attr/selectableItemBackground"
         android:paddingHorizontal="8dp">
 
         <ImageView

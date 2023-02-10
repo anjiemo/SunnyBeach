@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dylanc.longan.viewLifecycleScope
 import com.google.android.material.badge.BadgeUtils
+import com.google.android.material.badge.ExperimentalBadgeUtils
 import com.umeng.analytics.MobclickAgent
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.flow.collectLatest
@@ -38,6 +39,7 @@ import kotlin.coroutines.suspendCoroutine
  * time   : 2021/06/20
  * desc   : 个人中心界面
  */
+@ExperimentalBadgeUtils
 class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     private val mBinding: MyMeFragmentBinding by viewBinding()
@@ -103,7 +105,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
                 }
             }
             // 会员详情
-            tvMembershipDetail.setFixOnClickListener {
+            flVipBannerContainer.setFixOnClickListener {
                 MobclickAgent.onEvent(context, UmengReportKey.JOIN_VIP)
                 context.startActivity<VipActivity>()
             }
