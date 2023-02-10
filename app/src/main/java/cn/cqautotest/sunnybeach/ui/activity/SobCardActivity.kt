@@ -1,6 +1,9 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.Context
+import android.graphics.Bitmap
+import androidx.core.view.drawToBitmap
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -9,8 +12,17 @@ import cn.cqautotest.sunnybeach.ktx.context
 import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.ktx.toQrCodeBitmapOrNull
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_VIEW_USER_URL_PRE
+import com.blankj.utilcode.util.ImageUtils
+import com.blankj.utilcode.util.IntentUtils
+import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
 import com.dylanc.longan.intentExtras
+import com.hjq.bar.TitleBar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
 import java.util.regex.Pattern
 
 /**
@@ -23,6 +35,7 @@ class SobCardActivity : AppActivity() {
 
     private val mBinding by viewBinding<SobCardActivityBinding>()
     private val mSobId by intentExtras(SOB_ID, "")
+    private var mShareSobCardJob: Job? = null
 
     override fun getLayoutId() = R.layout.sob_card_activity
 
@@ -46,6 +59,21 @@ class SobCardActivity : AppActivity() {
 
     override fun initEvent() {
 
+    }
+
+    override fun onRightClick(titleBar: TitleBar) {
+        mShareSobCardJob?.cancel()
+        mShareSobCardJob = lifecycleScope.launch {
+            val sobCardFile = withContext(Dispatchers.IO) {
+                val bitmap = mBinding.flSobCard.drawToBitmap()
+                File(PathUtils.getExternalDcimPath(), "sob_image_share_${System.currentTimeMillis()}.png").also {
+                    ImageUtils.save(bitmap, it, Bitmap.CompressFormat.PNG)
+                    withContext(Dispatchers.Main) { toast("图片已保存到本地相册") }
+                }
+            }
+            val intent = IntentUtils.getShareImageIntent(sobCardFile)
+            startActivity(intent)
+        }
     }
 
     override fun isStatusBarDarkFont() = true
