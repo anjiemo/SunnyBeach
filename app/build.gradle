@@ -385,8 +385,8 @@ dependencies {
     // implementation "com.qmuiteam:arch:$qmui_arch_version"
     // kapt "com.qmuiteam:arch-compiler:$qmui_arch_version"
     // 华为统一扫码服务：https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/service-introduction-0000001050041994
-    implementation 'com.huawei.agconnect:agconnect-core:1.5.2.300'
-    implementation 'com.huawei.hms:scan:2.4.0.301'
+    implementation 'com.huawei.agconnect:agconnect-core:1.6.0.300'
+    implementation 'com.huawei.hms:scan:2.6.0.300'
 
     // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
     implementation "com.google.dagger:hilt-android:2.43"
