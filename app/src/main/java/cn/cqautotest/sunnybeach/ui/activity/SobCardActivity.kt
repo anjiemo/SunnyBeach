@@ -2,19 +2,25 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.core.view.drawToBitmap
+import android.graphics.Color
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SobCardActivityBinding
-import cn.cqautotest.sunnybeach.ktx.context
-import cn.cqautotest.sunnybeach.ktx.startActivity
-import cn.cqautotest.sunnybeach.ktx.toQrCodeBitmapOrNull
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_VIEW_USER_URL_PRE
+import cn.cqautotest.sunnybeach.util.SharePosterDelegate
 import com.blankj.utilcode.util.ImageUtils
 import com.blankj.utilcode.util.IntentUtils
 import com.blankj.utilcode.util.PathUtils
+import com.blankj.utilcode.util.SizeUtils
 import com.bumptech.glide.Glide
 import com.dylanc.longan.intentExtras
 import com.hjq.bar.TitleBar
@@ -40,10 +46,12 @@ class SobCardActivity : AppActivity() {
     override fun getLayoutId() = R.layout.sob_card_activity
 
     override fun initView() {
-        with(mBinding) {
+        with(mBinding.includeSobCardFront) {
             tvSobId.text = mSobId.manicured()
+            val qrContent = "$SUNNY_BEACH_VIEW_USER_URL_PRE${mSobId}"
+            val bitmap = qrContent.toQrCodeBitmapOrNull(size = 100.dp, bgColor = Color.TRANSPARENT, qrColor = Color.WHITE, margin = 0)
             Glide.with(context)
-                .load("$SUNNY_BEACH_VIEW_USER_URL_PRE${mSobId}".toQrCodeBitmapOrNull())
+                .load(bitmap.setTintColor(Color.WHITE))
                 .into(ivSobQrCode)
         }
     }
@@ -64,19 +72,37 @@ class SobCardActivity : AppActivity() {
     override fun onRightClick(titleBar: TitleBar) {
         mShareSobCardJob?.cancel()
         mShareSobCardJob = lifecycleScope.launch {
-            val sobCardFile = withContext(Dispatchers.IO) {
-                val bitmap = mBinding.flSobCard.drawToBitmap()
-                File(PathUtils.getExternalDcimPath(), "sob_image_share_${System.currentTimeMillis()}.png").also {
-                    ImageUtils.save(bitmap, it, Bitmap.CompressFormat.PNG)
-                    withContext(Dispatchers.Main) { toast("图片已保存到本地相册") }
-                }
+            (window?.decorView as? ViewGroup)?.let { viewContainer ->
+                object : SharePosterDelegate(viewContainer) {
+
+                    override fun updateViewConfig(view: View) {
+                        mBinding.includeSobCardFront.run {
+                            view.findViewById<ImageView>(R.id.iv_sob_qr_code).setImageDrawable(ivSobQrCode.drawable)
+                            view.findViewById<TextView>(R.id.tv_sob_id).text = tvSobId.text.replace("\u3000".toRegex(), "  ")
+                        }
+                    }
+
+                    override fun View.updateViewLayoutParams() {
+                        updateLayoutParams<MarginLayoutParams> {
+                            width = SizeUtils.dp2px(300f)
+                            height = ViewGroup.LayoutParams.WRAP_CONTENT
+                        }
+                    }
+
+                    override suspend fun onComplete(bitmap: Bitmap?) {
+                        val sobCardFile = withContext(Dispatchers.IO) {
+                            File(PathUtils.getExternalDcimPath(), "sob_image_share_${System.currentTimeMillis()}.png").also {
+                                ImageUtils.save(bitmap, it, Bitmap.CompressFormat.PNG)
+                                withContext(Dispatchers.Main) { toast("图片已保存到本地相册") }
+                            }
+                        }
+                        val intent = IntentUtils.getShareImageIntent(sobCardFile)
+                        startActivity(intent)
+                    }
+                }.inflateView(R.layout.share_sob_card)
             }
-            val intent = IntentUtils.getShareImageIntent(sobCardFile)
-            startActivity(intent)
         }
     }
-
-    override fun isStatusBarDarkFont() = true
 
     companion object {
 

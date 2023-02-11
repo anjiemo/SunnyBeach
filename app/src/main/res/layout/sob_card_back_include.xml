@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:shape_angle="45"
+    app:shape_centerColor="#FABB7AEA"
+    app:shape_endColor="#E6FF4DE3"
+    app:shape_radius="@dimen/dp_10"
+    app:shape_startColor="#4C66FB"
+    tools:showIn="@layout/sob_card_activity">
+
+    <com.hjq.shape.view.ShapeImageView
+        android:id="@+id/iv_sob_logo"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginEnd="@dimen/dp_40"
+        android:src="@drawable/ic_sob_logo"
+        app:layout_constraintBottom_toTopOf="@id/tv_sob_title"
+        app:layout_constraintEnd_toStartOf="@id/iv_app_logo"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="&amp;"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/iv_sob_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_sob_logo" />
+
+    <com.hjq.shape.view.ShapeImageView
+        android:id="@+id/iv_app_logo"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:src="@mipmap/launcher_ic"
+        app:layout_constraintBottom_toBottomOf="@id/iv_sob_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_sob_logo"
+        app:layout_constraintTop_toTopOf="@id/iv_sob_logo" />
+
+    <TextView
+        android:id="@+id/tv_sob_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_30"
+        android:gravity="center"
+        android:text="沙\u3000滩\u3000证"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_sob_logo" />
+
+</com.hjq.shape.layout.ShapeConstraintLayout>
