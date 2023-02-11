@@ -20,6 +20,15 @@ import com.blankj.utilcode.util.TouchUtils
 import com.dylanc.longan.rootWindowInsetsCompat
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
+
+suspend fun View?.waitViewDrawFinished() {
+    this ?: return
+    suspendCancellableCoroutine { continuation ->
+        post { continuation.resume(Unit) }
+    }
+}
 
 // BadgeDrawable 内部是弱引用持有 View，我们不关心 View 的释放问题
 private val mDrawableCacheMap = SparseArrayCompat<BadgeDrawable>()
