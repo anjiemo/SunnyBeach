@@ -215,10 +215,6 @@ dependencies {
     // 网络封装
     implementation project(':library:network')
 
-    // 阿里云视频播放器SDK
-    // implementation project(':Aliyunplayer:player_demo')
-    // implementation project(':Aliyunplayer:AlivcPlayerTools')
-
     // 单元测试
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

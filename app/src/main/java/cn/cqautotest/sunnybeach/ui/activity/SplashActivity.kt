@@ -19,6 +19,7 @@ import com.gyf.immersionbar.ImmersionBar
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.HttpCallback
 import com.hjq.widget.view.SlantedTextView
+import kotlinx.coroutines.launch
 import java.util.*
 
 /**
@@ -35,7 +36,7 @@ class SplashActivity : AppActivity() {
     override fun getLayoutId(): Int = R.layout.splash_activity
 
     override fun initView() {
-        lifecycleScope.launchWhenCreated { checkToken() }
+        lifecycleScope.launch { checkToken() }
         if (AppConfig.isDebug()) {
             HomeActivity.start(context)
             return
