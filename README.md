@@ -2,7 +2,16 @@
 
 #### 阳光沙滩社区：[<font color="#FA7299">A Lonely Cat</font>](https://www.sunofbeach.net/u/1204736502274318336)
 
-![阳光沙滩社区个人主页](https://gitee.com/anjiemo/figure-bed/raw/master/img/20210624130828.png)
+<img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210624130828.png" alt="阳光沙滩社区个人主页" style="zoom:50%;" />
+
+#### 项目体验
+
+* [蒲公英下载地址](https://www.pgyer.com/sob-app)
+  ![蒲公英渠道扫码下载](https://www.pgyer.com/app/qrcode/sob-app)
+
+* [蓝奏云下载地址](https://wwa.lanzoui.com/b02zz8dva)（密码：5qlt）
+
+#### [优化、BUG或建议请点这里](https://support.qq.com/product/333302)
 
 #### 关于我们
 
@@ -25,15 +34,39 @@
 该项目使用Kotlin、Java语言进行开发，采用MVVM架构 +
 Google [Jetpack](https://developer.android.google.cn/jetpack)组件搭建项目，主要使用阳光沙滩社区开放Api实现相关功能，正在持续更新中...
 
-#### 项目体验
-
-* [点击下载 Apk 进行体验](https://wwa.lanzoui.com/b02zz8dva)（密码：5qlt）
-
-#### [请点击这里进行意见反馈](https://support.qq.com/product/333302)
-
 #### 技术栈
 
 Kotlin、Glide、EasyHttp、Retrofit、OkHttp、BRVAH、XXPermissions、AndroidUtilCode、Room、UmengSDK、MiPush等...
+
+#### 快速开始
+
+- clone 本项目源码并用 AndroidStudio 打开
+- 将项目视图切换为 Project 视图
+- 复制您的 app 签名文件到 app 模块下
+
+Tips：如果您还没有创建自己的 app 签名文件，建议先生成自己的 app 签名文件。
+
+不会生成 app 签名文件？[请点这里](https://www.jianshu.com/p/a1f8e5896aa2)
+
+如果您不想生成，那么建议您使用项目中的 AppSignature.jks 文件作为本项目的签名文件，并填写如下信息到 app 模块下的 gradle.properties 文件中。
+
+<br>
+
+gradle.properties
+
+```properties
+StoreFile=AppSignature.jks
+StorePassword=AndroidProject
+KeyAlias=AndroidProject
+KeyPassword=AndroidProject
+```
+
+- 在 app 模块下创建 gradle.properties 文件并填写您的签名信息（已添加到 gitignore 忽略文件中，进行 git 提交时不会泄露您的秘钥信息）
+- 将项目根目录下 configs.gradle 文件中的 UMENG_APP_KEY、QQ_APP_ID、QQ_APP_SECRET、WX_APP_ID、WX_APP_SECRET、BUGLY_ID
+  替换为自己的相关信息
+- 点击 AndroidStudio 右上角 <font color="blue">Sync Now</font> 按钮进行同步，并等待同步完成即可
+
+Tips：建议使用最新版本的 AndroidStudio 运行本项目。
 
 #### 项目截图
 
