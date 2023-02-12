@@ -1,18 +1,14 @@
 package cn.cqautotest.sunnybeach.ui.activity.msg
 
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
-import cn.cqautotest.sunnybeach.action.StatusAction
-import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.SystemMsgListActivityBinding
-import cn.cqautotest.sunnybeach.ktx.dp
-import cn.cqautotest.sunnybeach.ktx.loadStateListener
-import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
-import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.SystemMsgAdapter
@@ -29,17 +25,21 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/10/24
  * desc   : 系统消息列表界面
  */
-class SystemMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
+class SystemMsgListActivity : PagingActivity(), OnBack2TopListener {
 
     private val mBinding by viewBinding<SystemMsgListActivityBinding>()
     private val mMsgViewModel by viewModels<MsgViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mSystemMsgAdapter = SystemMsgAdapter(mAdapterDelegate)
     private val loadStateListener = loadStateListener(mSystemMsgAdapter) { mBinding.refreshLayout.finishRefresh() }
 
+    override fun getPagingAdapter() = mSystemMsgAdapter
+
     override fun getLayoutId(): Int = R.layout.system_msg_list_activity
 
     override fun initView() {
+        hideSupportActionBar()
         mBinding.rvSystemMsgList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = mSystemMsgAdapter
@@ -47,12 +47,8 @@ class SystemMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         }
     }
 
-    override fun initData() {
-        lifecycleScope.launchWhenCreated {
-            mMsgViewModel.getSystemMsgList().collectLatest {
-                mSystemMsgAdapter.submitData(it)
-            }
-        }
+    override suspend fun loadListData() {
+        mMsgViewModel.getSystemMsgList().collectLatest { mSystemMsgAdapter.submitData(it) }
     }
 
     override fun initEvent() {
@@ -67,15 +63,22 @@ class SystemMsgListActivity : AppActivity(), StatusAction, OnBack2TopListener {
         mAdapterDelegate.setOnItemClickListener { _, position ->
             mSystemMsgAdapter.snapshotList[position]?.let {
                 val url = when (it.exType) {
+                    // 文章
                     "article" -> "$SUNNY_BEACH_ARTICLE_URL_PRE${it.exId}"
                     // 登录奖励
                     "sobTrade" -> null
+                    // 问答评论
                     "wendaComment" -> "$SUNNY_BEACH_QA_URL_PRE${it.exId}"
                     else -> null
                 }
                 url?.let { BrowserActivity.start(this, it) }
             }
         }
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 
     override fun onBack2Top() {

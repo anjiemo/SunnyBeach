@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_adv_picture_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/iv_adv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/alivc_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/tv_count_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/alivc_common_margin_6"
+            android:layout_marginRight="@dimen/alivc_common_margin_4"
+            android:background="@drawable/alivc_fillet_bg_shape"
+            android:gravity="center"
+            android:paddingLeft="@dimen/alivc_common_padding_10"
+            android:paddingTop="@dimen/alivc_common_padding_2"
+            android:paddingRight="@dimen/alivc_common_padding_10"
+            android:paddingBottom="@dimen/alivc_common_padding_2"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+</merge>

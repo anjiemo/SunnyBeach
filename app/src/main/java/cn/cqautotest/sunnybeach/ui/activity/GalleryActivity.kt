@@ -4,7 +4,7 @@ import android.app.Activity
 import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.view.View
@@ -12,10 +12,8 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.graphics.ColorUtils
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.palette.graphics.Palette
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -31,8 +29,7 @@ import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.PhotoAdapter
 import cn.cqautotest.sunnybeach.util.DownloadHelper
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
-import com.blankj.utilcode.util.IntentUtils
-import com.blankj.utilcode.util.ScreenUtils
+import com.blankj.utilcode.util.*
 import com.dylanc.longan.activity
 import com.dylanc.longan.context
 import com.gyf.immersionbar.ImmersionBar
@@ -60,7 +57,7 @@ class GalleryActivity : AppActivity() {
     private var mCurrentPageIndex = 0
     private var isShow = true
 
-    override fun getLayoutId(): Int = R.layout.gallery_activity
+    override fun getLayoutId() = R.layout.gallery_activity
 
     override fun initView() {
         // 隐藏状态栏，全屏浏览壁纸
@@ -69,6 +66,8 @@ class GalleryActivity : AppActivity() {
             orientation = ViewPager2.ORIENTATION_VERTICAL
             adapter = mPhotoAdapter
         }
+        val arr = arrayOf(1, 2, 3, 4)
+        arr.reverse()
     }
 
     override fun initData() {
@@ -115,21 +114,37 @@ class GalleryActivity : AppActivity() {
                 }
             }
             downLoadPhotoTv.setOnClickListener {
-                // 打开指定的一张照片
-                val verticalPhoto = getCurrentVerticalPhotoBean()
-                Intent(Intent.ACTION_VIEW).apply {
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    setDataAndType(Uri.parse(verticalPhoto.img), "image/*")
-                    startActivity(this)
+                lifecycleScope.launchWhenCreated {
+                    simpleToast("正在下载图片，请稍后...")
+                    // 下载图片文件
+                    val verticalPhotoBean = getCurrentVerticalPhotoBean()
+                    val oldFile = DownloadHelper.ofType<File>(context, getImageUri()) ?: return@launchWhenCreated simpleToast("图片下载失败")
+                    val imageType = ImageUtils.getImageType(oldFile)
+                    val fileExtension = imageType.value
+                    val newFile = File(PathUtils.getExternalPicturesPath(), "${verticalPhotoBean.id}.$fileExtension")
+                    Timber.d("downloadPhotoFile：===> oldFile path is ${oldFile.path}")
+                    Timber.d("downloadPhotoFile：===> newFile path is ${newFile.path}")
+                    val success = FileUtils.copy(oldFile, newFile)
+                    // 刷新媒体库
+                    MediaScannerConnection.scanFile(context, arrayOf(newFile.path), arrayOf("image/$fileExtension")) { _, _ -> }
+                    simpleToast(if (success) "文件下载成功" else "文件下载失败")
+                    // 打开指定的一张照片
+                    Intent(Intent.ACTION_VIEW).apply {
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        setDataAndType(UriUtils.file2Uri(newFile), "image/*")
+                        startActivity(this)
+                    }
                 }
             }
             val wallpaperManager = WallpaperManager.getInstance(context)
             settingWallpaperTv.setOnClickListener {
-                toast("开始准备壁纸...")
+                simpleToast("开始准备壁纸...")
+                showDialog()
                 lifecycleScope.launchWhenCreated {
                     val imageFile = DownloadHelper.ofType<File>(activity, getImageUri())
                     val success = imageFile.takeUnless { it == null }?.let { wallpaperManager.setWallpaper(it.inputStream()) } ?: false
-                    toast(if (success) "壁纸设置成功" else "壁纸设置失败")
+                    hideDialog()
+                    simpleToast(if (success) "壁纸设置成功" else "壁纸设置失败")
                 }
             }
         }
@@ -147,32 +162,32 @@ class GalleryActivity : AppActivity() {
         }
     }
 
-    private fun fixStatusBar(bitmap: Bitmap) {
-        val left = 0
-        val top = 0
-        val right = ScreenUtils.getAppScreenWidth()
-        val bottom = ImmersionBar.getStatusBarHeight(this)
-        Palette.from(bitmap)
-            .maximumColorCount(3)
-            .setRegion(left, top, right, bottom)
-            .generate {
-                it?.let { palette ->
-                    var mostPopularSwatch: Palette.Swatch? = null
-                    for (swatch in palette.swatches) {
-                        if (mostPopularSwatch == null || swatch.population > mostPopularSwatch.population) {
-                            mostPopularSwatch = swatch
-                        }
-                    }
-                    mostPopularSwatch?.let { swatch ->
-                        val luminance = ColorUtils.calculateLuminance(swatch.rgb)
-                        // 当luminance小于0.5时，我们认为这是一个深色值.
-                        val isDarkFont = luminance < 0.5
-                        ImmersionBar.with(this)
-                            .statusBarDarkFont(isDarkFont)
-                    }
-                }
-            }
-    }
+    // private fun fixStatusBar(bitmap: Bitmap) {
+    //     val left = 0
+    //     val top = 0
+    //     val right = ScreenUtils.getAppScreenWidth()
+    //     val bottom = ImmersionBar.getStatusBarHeight(this)
+    //     Palette.from(bitmap)
+    //         .maximumColorCount(3)
+    //         .setRegion(left, top, right, bottom)
+    //         .generate {
+    //             it?.let { palette ->
+    //                 var mostPopularSwatch: Palette.Swatch? = null
+    //                 for (swatch in palette.swatches) {
+    //                     if (mostPopularSwatch == null || swatch.population > mostPopularSwatch.population) {
+    //                         mostPopularSwatch = swatch
+    //                     }
+    //                 }
+    //                 mostPopularSwatch?.let { swatch ->
+    //                     val luminance = ColorUtils.calculateLuminance(swatch.rgb)
+    //                     // 当luminance小于0.5时，我们认为这是一个深色值.
+    //                     val isDarkFont = luminance < 0.5
+    //                     ImmersionBar.with(this)
+    //                         .statusBarDarkFont(isDarkFont)
+    //                 }
+    //             }
+    //         }
+    // }
 
     private suspend fun WallpaperManager.setWallpaper(inputStream: InputStream) = suspendCoroutine {
         ThreadPoolManager.getInstance().execute {

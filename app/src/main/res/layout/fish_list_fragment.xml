@@ -34,30 +34,34 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_fish_pond_list"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="1px"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="20"
-                tools:listitem="@layout/fish_pond_list_item" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_recommend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="@dimen/dp_10"
+                    android:text="推荐话题"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_14" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_fish_pond_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="20"
+                    tools:listitem="@layout/fish_pond_list_item" />
+
+            </LinearLayout>
 
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
     </cn.cqautotest.sunnybeach.widget.StatusLayout>
-
-    <com.hjq.widget.view.FloatActionButton
-        android:id="@+id/iv_publish_content"
-        android:layout_width="58dp"
-        android:layout_height="58dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="40dp"
-        android:contentDescription="发布摸鱼"
-        android:padding="4dp"
-        android:src="@mipmap/ic_publish_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

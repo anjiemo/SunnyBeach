@@ -6,8 +6,9 @@ buildscript {
 
     // 导入通用的 Maven 库配置
     apply from : 'maven.gradle'
+    apply from: 'thirdparty-lib/config.gradle'
 
-    ext.kotlin_version = "1.7.0"
+    ext.kotlin_version = "1.7.10"
     ext.agcp_version  = "1.6.0.300"
 
     repositories {
@@ -28,7 +29,7 @@ buildscript {
         classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.10'
         // 增加agcp插件配置
         classpath "com.huawei.agconnect:agcp:$agcp_version"
-        classpath "com.google.dagger:hilt-android-gradle-plugin:2.42"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.43"
     }
 }
 

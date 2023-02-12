@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.FishListFragment">
+    android:descendantFocusability="blocksDescendants"
+    tools:context=".ui.fragment.CourseListFragment">
 
     <com.hjq.bar.TitleBar
         android:id="@+id/titleBar"
@@ -33,16 +34,38 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@id/paging_recycler_view"
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="-6dp"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2"
-                tools:itemCount="20"
-                tools:listitem="@layout/course_list_item" />
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.youth.banner.Banner
+                        android:id="@+id/banner_course"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dp_6"
+                        android:layout_marginTop="@dimen/dp_6"
+                        android:minHeight="@dimen/dp_80"
+                        app:banner_radius="@dimen/dp_10" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@id/paging_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="-6dp"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="2"
+                        tools:itemCount="20"
+                        tools:listitem="@layout/course_list_item" />
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
 
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 

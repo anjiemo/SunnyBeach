@@ -3,13 +3,15 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.action.FloatWindowAction
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.Permissions
@@ -20,12 +22,12 @@ import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.MourningCalendar
-import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
-import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
-import cn.cqautotest.sunnybeach.ui.activity.PutFishActivity
-import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
+import cn.cqautotest.sunnybeach.model.RefreshStatus
+import cn.cqautotest.sunnybeach.ui.activity.*
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.FishCategoryAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.RecommendFishTopicListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.*
@@ -33,6 +35,7 @@ import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.blankj.utilcode.util.VibrateUtils
+import com.dylanc.longan.viewLifecycleScope
 import com.hjq.bar.TitleBar
 import com.hjq.permissions.Permission
 import com.hjq.umeng.Platform
@@ -56,16 +59,26 @@ import javax.inject.Inject
  * desc   : 摸鱼动态列表 Fragment
  */
 @AndroidEntryPoint
-class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener {
+class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener, FloatWindowAction {
 
     private val mBinding: FishListFragmentBinding by viewBinding()
 
     @Inject
     lateinit var mAppViewModel: AppViewModel
+
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
-    private val mAdapterDelegate = AdapterDelegate()
-    private val mFishListAdapter = FishListAdapter(mAdapterDelegate)
+    private val mRefreshStatus = RefreshStatus()
+    private val mRecommendFishTopicListAdapterDelegate = AdapterDelegate()
+    private val mFishListAdapterDelegate = AdapterDelegate()
+    private val mFishCategoryAdapter = FishCategoryAdapter(mRecommendFishTopicListAdapterDelegate)
+    private val mRecommendFishTopicListAdapter = RecommendFishTopicListAdapter(mFishCategoryAdapter)
+    private val mFishListAdapter = FishListAdapter(mFishListAdapterDelegate)
     private val loadStateListener = loadStateListener(mFishListAdapter) { mBinding.refreshLayout.finishRefresh() }
+    private val mFishCategoryAdapterDataObserver = object : RecyclerView.AdapterDataObserver() {
+        override fun onChanged() {
+            mBinding.tvRecommend.isVisible = mFishCategoryAdapter.isNotEmpty()
+        }
+    }
 
     override fun getLayoutId(): Int = R.layout.fish_list_fragment
 
@@ -75,15 +88,32 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         // avoiding the problem that the PagingAdapter cannot return to the top after being refreshed.
         // But it needs to be used in conjunction with ConcatAdapter, and must appear before PagingAdapter.
         val emptyAdapter = EmptyAdapter()
-        val concatAdapter = ConcatAdapter(emptyAdapter, mFishListAdapter)
-        mBinding.rvFishPondList.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = concatAdapter
-            addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
+        val concatAdapter = ConcatAdapter(emptyAdapter, mRecommendFishTopicListAdapter, mFishListAdapter)
+        mBinding.apply {
+            rvFishPondList.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = concatAdapter
+                addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
+            }
+        }
+        requireActivity().attachFloatWindow {
+            viewLifecycleScope.launchWhenCreated {
+                // 操作按钮点击回调，判断是否已经登录过账号
+                ifLogin {
+                    startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
+                        if (resultCode == Activity.RESULT_OK) {
+                            mFishPondViewModel.refreshFishList()
+                        }
+                    }
+                } otherwise {
+                    requireActivity().tryShowLoginDialog()
+                }
+            }
         }
     }
 
     override fun initData() {
+        loadCategoryList()
         loadFishList()
         mAppViewModel.getMourningCalendar().observe(viewLifecycleOwner) {
             val result = it.getOrNull() ?: return@observe
@@ -91,8 +121,14 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         }
     }
 
+    private fun loadCategoryList() {
+        mFishPondViewModel.loadTopicList().observe(viewLifecycleOwner) {
+            mFishCategoryAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.from(it.getOrNull().orEmpty()))
+        }
+    }
+
     private fun loadFishList() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+        viewLifecycleScope.launchWhenCreated {
             mFishPondViewModel.getFishListByCategoryId("recommend").collectLatest {
                 onBack2Top()
                 mFishListAdapter.submitData(it)
@@ -101,14 +137,21 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     override fun initEvent() {
-        val ivPublishContent = mBinding.ivPublishContent
-        mBinding.titleBar.setDoubleClickListener {
-            onBack2Top()
+        mBinding.apply {
+            titleBar.setDoubleClickListener {
+                onBack2Top()
+            }
+            refreshLayout.setOnRefreshListener {
+                loadCategoryList()
+                mFishListAdapter.refresh()
+            }
         }
-        mBinding.refreshLayout.setOnRefreshListener { mFishListAdapter.refresh() }
         // 需要在 View 销毁的时候移除 listener
         mFishListAdapter.addLoadStateListener(loadStateListener)
-        mAdapterDelegate.setOnItemClickListener { _, position ->
+        mRecommendFishTopicListAdapterDelegate.setOnItemClickListener { _, position ->
+            mFishCategoryAdapter.snapshotList[position]?.let { FishTopicActivity.start(requireContext(), it) }
+        }
+        mFishListAdapterDelegate.setOnItemClickListener { _, position ->
             mFishListAdapter.snapshotList[position]?.let { FishPondDetailActivity.start(requireContext(), it.id) }
         }
         mFishListAdapter.setOnMenuItemClickListener { view, item, position ->
@@ -119,54 +162,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         }
         mFishListAdapter.setOnNineGridClickListener { sources, index ->
             ImagePreviewActivity.start(requireContext(), sources.toMutableList(), index)
-        }
-        mBinding.rvFishPondList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-            /**
-             * 当前是否显示
-             */
-            private var mIsShowing = true
-
-            /**
-             * 当前是否向上滑动
-             */
-            private var mIsUp = false
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                when (newState) {
-                    // RecyclerView 当前未滚动
-                    RecyclerView.SCROLL_STATE_IDLE -> {
-                        // 如果手指是向下滑动且当前没有显示 --> 显示悬浮按钮
-                        if (mIsUp.not() && mIsShowing.not()) {
-                            ivPublishContent.show()
-                            mIsShowing = true
-                        }
-                    }
-                    // 1、RecyclerView 当前正被外部输入（例如用户触摸输入）拖动
-                    // 2、RecyclerView 当前正在动画到最终位置，而不受外部控制
-                    RecyclerView.SCROLL_STATE_DRAGGING, RecyclerView.SCROLL_STATE_SETTLING -> {
-                        // 如果当前已经显示了悬浮按钮 --> 隐藏
-                        if (mIsShowing) {
-                            ivPublishContent.hide()
-                        }
-                        mIsShowing = false
-                    }
-                }
-            }
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                // Timber.d("onScrolled：===> dy is $dy")
-                mIsUp = dy > 0
-            }
-        })
-        ivPublishContent.setFixOnClickListener {
-            takeIfLogin {
-                startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
-                    if (resultCode == Activity.RESULT_OK) {
-                        mFishListAdapter.refresh()
-                    }
-                }
-            }
         }
     }
 
@@ -207,13 +202,16 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     override fun initObserver() {
         mAppViewModel.mourningCalendarListLiveData.observe(viewLifecycleOwner) { setMourningStyleByDate(it) }
+        mFishPondViewModel.fishListStateLiveData.observe(viewLifecycleOwner) { mFishListAdapter.refresh() }
+        mFishCategoryAdapter.registerAdapterDataObserver(mFishCategoryAdapterDataObserver)
     }
 
     private fun setMourningStyleByDate(mourningCalendarList: List<MourningCalendar>) {
         val sdf = SimpleDateFormat("MM月dd日", Locale.getDefault())
         val formatDate = sdf.format(System.currentTimeMillis())
         val rootView = requireView()
-        mourningCalendarList.find { it.date == formatDate }?.let { rootView.setMourningStyle() } ?: rootView.removeMourningStyle()
+        mourningCalendarList.find { it.date == formatDate }?.let { rootView.setMourningStyle() }
+            ?: rootView.removeMourningStyle()
     }
 
     @Permissions(Permission.CAMERA)
@@ -225,6 +223,11 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         MyScanUtil.startScan(requireActivity(), REQUEST_CODE_SCAN_ONE, options)
     }
 
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
+    }
+
     override fun getStatusLayout(): StatusLayout = mBinding.hlFishPondHint
 
     override fun isStatusBarEnabled(): Boolean {
@@ -232,9 +235,16 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         return !super.isStatusBarEnabled()
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity?.showFloatWindow()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         mFishListAdapter.removeLoadStateListener(loadStateListener)
+        mFishCategoryAdapter.unregisterAdapterDataObserver(mFishCategoryAdapterDataObserver)
+        activity?.deathFloatWindow()
     }
 
     override fun onBack2Top() {

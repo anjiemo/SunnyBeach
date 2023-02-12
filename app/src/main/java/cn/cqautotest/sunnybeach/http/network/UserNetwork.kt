@@ -12,6 +12,14 @@ import okhttp3.MultipartBody
  */
 object UserNetwork {
 
+    suspend fun searchQuestionList(page: Int, size: Int, questionSearchFilter: QuestionSearchFilter) =
+        UserApi.searchQuestionList(page, size, questionSearchFilter)
+
+    suspend fun searchArticleList(page: Int, articleSearchFilter: ArticleSearchFilter) =
+        UserApi.searchArticleList(page, articleSearchFilter)
+
+    suspend fun queryIntegralRule(item: String) = UserApi.queryIntegralRule(item)
+
     suspend fun report(report: Report) = UserApi.report(report)
 
     suspend fun modifyAvatar(avatarUrl: String) = UserApi.modifyAvatar(avatarUrl)

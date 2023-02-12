@@ -4,12 +4,42 @@ import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.annotation.baseurl.SobBaseUrl
 
 import cn.cqautotest.sunnybeach.model.*
-import cn.cqautotest.sunnybeach.model.msg.IEDetail
+import cn.cqautotest.sunnybeach.model.msg.SobIEDetail
 import okhttp3.MultipartBody
 import retrofit2.http.*
 
 @SobBaseUrl
 interface UserApi {
+
+    /**
+     * 搜索问题列表
+     */
+    @POST("ct/ucenter/list/{page}/{size}")
+    suspend fun searchQuestionList(
+        @Path("page") page: Int,
+        @Path("size") size: Int,
+        @Body questionSearchFilter: QuestionSearchFilter
+    ): ApiResponse<Page<Any>>
+
+    /**
+     * 搜索文章列表
+     */
+    @POST("ct/ucenter/article/list/{page}")
+    suspend fun searchArticleList(@Path("page") page: Int, @Body articleSearchFilter: ArticleSearchFilter): ApiResponse<UserArticle>
+
+    /**
+     * 查询积分规则
+     * item 参数格式：请求方法:请求路径(不含参数)，例：PUT:/uc/ucenter/cover
+     *
+     * 返回字段说明：
+     * label：表示的人看的标签，这是个什么项
+     * sob：表示积分数量，正数为加，负数为减
+     * enable：1表示当前规则开启，0表示不执行当前规则
+     * tax：为税费
+     * mark：为备注说明
+     */
+    @GET("ast/sob-rule")
+    suspend fun queryIntegralRule(@Query("item") item: String): ApiResponse<IntegralRule>
 
     /**
      * 举报
@@ -92,7 +122,7 @@ interface UserApi {
     suspend fun getSobIEDetailList(
         @Path("userId") userId: String,
         @Path("page") page: Int
-    ): ApiResponse<IEDetail>
+    ): ApiResponse<SobIEDetail>
 
     /**
      * 获取VIP列表

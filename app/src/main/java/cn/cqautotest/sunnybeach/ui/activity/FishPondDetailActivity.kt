@@ -19,6 +19,7 @@ import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondComment
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.model.ReportType
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
@@ -49,6 +50,7 @@ class FishPondDetailActivity : PagingActivity() {
 
     private val mBinding: FishPondDetailActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mFishListAdapter = FishListAdapter(AdapterDelegate(), true)
     private val mFishPondDetailCommendListAdapter = FishPondDetailCommentListAdapter(mAdapterDelegate)
@@ -80,6 +82,8 @@ class FishPondDetailActivity : PagingActivity() {
         mBinding.pagingRecyclerView.apply {
             adapter = concatAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
+            // 移除 RecyclerView 的默认动画
+            itemAnimator = null
         }
     }
 
@@ -189,6 +193,11 @@ class FishPondDetailActivity : PagingActivity() {
 
     override fun onRightClick(titleBar: TitleBar) {
         ReportActivity.start(this, ReportType.FISH, mMomentId)
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 
     override fun isStatusBarDarkFont() = false

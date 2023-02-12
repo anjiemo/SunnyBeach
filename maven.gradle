@@ -12,7 +12,9 @@ static def addCommonMaven(RepositoryHandler handler) {
     // noinspection JcenterRepositoryObsolete
     handler.jcenter()
     // 配置HMS Core SDK的Maven仓地址
-    handler.maven {url 'https://developer.huawei.com/repo/'}
+    handler.maven { url 'https://developer.huawei.com/repo/' }
+    // 阿里云视频SDK所在的仓库
+    handler.maven { url "https://maven.aliyun.com/nexus/content/repositories/releases" }
 }
 
 ext.addCommonMaven = this.&addCommonMaven

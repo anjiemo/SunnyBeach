@@ -16,5 +16,7 @@ object CourseNetwork {
 
     suspend fun getCourseChapter(courseId: String) = CourseApi.getCourseChapter(courseId)
 
+    suspend fun checkCourseHasBuy(courseId: String) = CourseApi.checkCourseHasBuy(courseId)
+
     suspend fun getCoursePlayAuth(videoId: String) = CourseApi.getCoursePlayAuth(videoId)
 }

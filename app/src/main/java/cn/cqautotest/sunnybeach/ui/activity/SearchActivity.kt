@@ -39,34 +39,36 @@ class SearchActivity : AppActivity() {
     override fun getLayoutId(): Int = R.layout.search_activity
 
     override fun initView() {
-        val tabLayout = mBinding.tabLayout
-        val viewPager2 = mBinding.viewPager2.apply {
-            reduceDragSensitivity()
-            adapter = object : FragmentStateAdapter(this@SearchActivity) {
+        with(mBinding) {
+            showKeyboard(mBinding.searchView)
+            viewPager2.apply {
+                reduceDragSensitivity()
+                adapter = object : FragmentStateAdapter(this@SearchActivity) {
 
-                private val typeList = listOf(
-                    SearchType.ALL,
-                    SearchType.ARTICLE,
-                    SearchType.QA,
-                    SearchType.SHARE,
-                )
+                    private val typeList = listOf(
+                        SearchType.ALL,
+                        SearchType.ARTICLE,
+                        SearchType.QA,
+                        SearchType.SHARE,
+                    )
 
-                override fun getItemCount(): Int = typeList.size
+                    override fun getItemCount() = typeList.size
 
-                override fun createFragment(position: Int): Fragment = SearchListFragment.newInstance(typeList[position])
+                    override fun createFragment(position: Int): Fragment = SearchListFragment.newInstance(typeList[position])
+                }
             }
-        }
-        mTabLayoutMediator = TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
-            tab.text = when (position) {
-                0 -> "全部"
-                1 -> "文章"
-                2 -> "问答"
-                3 -> "分享"
-                else -> error("Creating this instance is not supported.")
+            mTabLayoutMediator = TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
+                tab.text = when (position) {
+                    0 -> "全部"
+                    1 -> "文章"
+                    2 -> "问答"
+                    3 -> "分享"
+                    else -> error("Creating this instance is not supported.")
+                }
             }
+            mTabLayoutMediator.attach()
+            tabLayout.clearTooltipText()
         }
-        mTabLayoutMediator.attach()
-        tabLayout.clearTooltipText()
     }
 
     override fun initData() {
@@ -106,6 +108,7 @@ class SearchActivity : AppActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        mBinding.searchView.clearFocus()
         mTabLayoutMediator.detach()
     }
 

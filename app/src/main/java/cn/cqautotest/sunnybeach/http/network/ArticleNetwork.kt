@@ -13,4 +13,6 @@ object ArticleNetwork {
     suspend fun getArticleDetailById(articleId: String) = ArticleApi.getArticleDetailById(articleId)
 
     suspend fun loadUserArticleList(userId: String, page: Int) = ArticleApi.loadUserArticleList(userId, page)
+
+    suspend fun articleLikes(articleId: String) = ArticleApi.articleLikes(articleId)
 }

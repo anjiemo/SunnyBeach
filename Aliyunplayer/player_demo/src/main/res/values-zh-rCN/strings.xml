@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="alivc_net_disable">无网络连接，检查网络后点击重新播放</string>
+
+    <string name="alivc_download_delete">删除</string>
+    <string name="prepare_download_item">准备可下载项</string>
+    <string name="alivc_local_video_deleted">视频已删除</string>
+
+    <!--tab-->
+    <string name="alivc_tab_video_list">视频列表</string>
+
+
+    <string name="alivc_sd_card_permission">没有sd卡读写权限, 无法下载</string>
+    <string name="alivc_video_not_found">视频资源不存在</string>
+
+    <string name="alivc_video_not_support_download">此类型的视频不支持下载</string>
+
+    <string name="alivc_refresh_sts">刷新Sts信息</string>
+    <string name="alivc_refresh_with_vid">根据vid刷新鉴权信息</string>
+    <string name="alivc_refresh_vid_empty">vid是空</string>
+
+
+    <string name="alivc_download_list_button">下载\n列表</string>
+
+    <string name="alivc_player_cache_success">缓存成功</string>
+    <string name="alivc_player_switch_to_software_video_decoder">切换到软解</string>
+    <string name="alivc_player_rts_server_recoverr">RTS Server 恢复</string>
+    <string name="alivc_player_agree_camera_permission">请同意相机权限</string>
+
+    <!--播放设置-->
+    <string name="alivc_player_type_title">播放源</string>
+    <string name="alivc_player_type_edit">编辑</string>
+    <string name="alivc_player_type_edit_finish">完成</string>
+    <string name="alivc_player_setting_title">播放设置</string>
+    <string name="alivc_player_setting_play_type_default">默认</string>
+    <string name="alivc_player_setting_play_type_url">URL</string>
+    <string name="alivc_player_setting_play_type_sts">STS</string>
+    <string name="alivc_player_setting_play_type_mps">MPS</string>
+    <string name="alivc_player_setting_play_type_auth">AUTH</string>
+    <string name="alivc_player_setting_play_type_live_sts">LiveSts</string>
+    <string name="alivc_player_setting_decode_type_title">解码方式</string>
+    <string name="alivc_player_setting_decode_type_soft">软解</string>
+    <string name="alivc_player_setting_decode_type_hard">硬解</string>
+    <string name="alivc_player_setting_mirror_type_title">镜像模式</string>
+    <string name="alivc_player_setting_mirror_type_none">无</string>
+    <string name="alivc_player_setting_mirror_type_vertical">垂直</string>
+    <string name="alivc_player_setting_mirror_type_horizontal">水平</string>
+    <string name="alivc_player_setting_rotate_type_title">旋转角度</string>
+    <string name="alivc_player_setting_rotate_type_0">0</string>
+    <string name="alivc_player_setting_rotate_type_90">90</string>
+    <string name="alivc_player_setting_rotate_type_180">180</string>
+    <string name="alivc_player_setting_rotate_type_270">270</string>
+    <string name="alivc_player_setting_auto_switch">自适应码率</string>
+    <string name="alivc_player_setting_seek_module">seek模式</string>
+    <string name="alivc_player_setting_muti_bitrate">多码率视频流起播码率(Kbps)</string>
+    <string name="alivc_player_setting_enable_background">后台播放</string>
+    <string name="alivc_player_setting_auto_open">开启</string>
+    <string name="alivc_player_setting_auto_close">关闭</string>
+    <string name="alivc_player_setting_seek_accurate">精准Seek</string>
+    <string name="alivc_player_setting_seek_inaccurate">非精准Seek</string>
+
+    <!--播放参数-->
+    <string name="alivc_player_config_title">播放参数设置</string>
+    <string name="alivc_player_config_start_buffer_level">启播</string>
+    <string name="alivc_player_config_high_buffer_level">卡顿恢复</string>
+    <string name="alivc_player_config_max_buffer_packet_duration">最大缓存值</string>
+    <string name="alivc_player_config_max_delay_time">直播最大延迟</string>
+    <string name="alivc_player_config_net_work_time_out">网络超时</string>
+    <string name="alivc_player_config_probe_size">probe大小</string>
+    <string name="alivc_player_config_referrer">请求referer</string>
+    <string name="alivc_player_config_http_proxy">httpProxy代理</string>
+    <string name="alivc_player_config_retry_count">网络重试次数</string>
+    <string name="alivc_player_config_enable_cachet">开启自定义缓存</string>
+    <string name="alivc_player_config_enable_sei">开启SEI</string>
+    <string name="alivc_player_config_enable_clean_when_stop">停止显示最后帧</string>
+    <string name="alivc_player_config_max_duration">缓存最大时长</string>
+    <string name="alivc_player_config_max_size">缓存最大空间</string>
+
+
+    <string name="alivc_player_confirm_config">使用此配置</string>
+    <string name="alivc_player_normal_config">默认配置</string>
+
+
+    <!--change track tips-->
+    <string name="alivc_player_track_change_error">Track切换失败 : %s --- %s</string>
+    <string name="alivc_player_track_bitrate_change_success">码率切换为 : %s</string>
+    <string name="alivc_player_track_definition_change_success">清晰度切换为 : %s</string>
+    <string name="alivc_player_track_change_success">切换为 : %s</string>
+
+    <string name="alivc_player_download_repeat_add">请勿重复添加</string>
+</resources>

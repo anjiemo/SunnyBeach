@@ -20,11 +20,6 @@ import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 class CourseChapterListAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<CourseChapterListAdapter.Type, RecyclerView.ViewHolder>(diffCallback) {
 
-    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
-        super.onViewAttachedToWindow(holder)
-        adapterDelegate.onViewAttachedToWindow(holder)
-    }
-
     inner class CourseChapterListViewHolder(val binding: CourseChapterGroupItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         constructor(parent: ViewGroup) : this(parent.asViewBinding<CourseChapterGroupItemBinding>())

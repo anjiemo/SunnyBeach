@@ -3,3 +3,12 @@ include ':library:base'
 include ':library:widget'
 include ':library:umeng'
 include ':library:network'
+
+// include ':aliplayer'
+
+// include ':AliyunVideoCommon'
+// include ':AliyunPlayerBase'
+// include ':Aliyunplayer:AlivcPlayerTools'
+// include ':Aliyunplayer:player_demo'
+// include ':AliyunListPlayer'
+// include ':AliyunPlayerBase'

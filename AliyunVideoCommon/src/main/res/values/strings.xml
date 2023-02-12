@@ -1,0 +1,30 @@
+<resources>
+    <string name="alivc_common_no_camera_permission">Camera usage is not permitted, please open first</string>
+    <string name="alivc_common_no_record_bluetooth_permission">Bluetooth is not permitted to record, please open first</string>
+    <string name="alivc_common_no_record_audio_permission">Audio is not permitted to record, please open first</string>
+    <string name="alivc_common_no_read_phone_state_permission">Phone state is not permitted to read, please opend first</string>
+    <string name="alivc_common_no_write_external_storage_permission">External storage is not permitted to write, please open first</string>
+    <string name="alivc_common_no_read_external_storage_permission">External storage is not permitted to read, please open first</string>
+    <string name="alivc_common_note">Note</string>
+    <string name="alivc_common_confirm">Confirm</string>
+    <string name="alivc_common_no_permission">no permission</string>
+
+    <string name="aliyun_common_confirm">Ok</string>
+    <string name="aliyun_common_cancel">Cancel</string>
+    <string name="aliyun_common_update_app">A new version is available. Upgrade to the new version?</string>
+    <string name="aliyun_common_updating">Updating...</string>
+
+    <string name="alivc_common_operate_success">Success</string>
+    <string name="alivc_common_operate_fail">Fail</string>
+    <string name="alivc_common_loading">Loading</string>
+    <string name="alivc_common_loading_end">Loading end</string>
+
+    <string name="alivc_common_device_memory_not_enough">Insufficient memory. Please clear memory cache</string>
+    <string name="alivc_common_creating_video_remind">Creating video，Please wait </string>
+
+    <string name="alivc_common_download">Download</string>
+    <string name="alivc_common_cancel">Cancel</string>
+    <string name="alivc_common_no_free_memory">disk space not enough</string>
+
+
+</resources>
