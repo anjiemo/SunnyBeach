@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/dp_300"
+    android:layout_height="wrap_content"
+    android:background="#EBEBEB"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/dp_10"
+    android:paddingVertical="@dimen/dp_30">
+
+    <com.hjq.shape.layout.ShapeLinearLayout
+        android:layout_width="@dimen/dp_230"
+        android:layout_height="@dimen/dp_280"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:shape_radius="@dimen/dp_10"
+        app:shape_solidColor="@color/white">
+
+        <com.hjq.shape.layout.ShapeConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_188"
+            app:shape_angle="45"
+            app:shape_centerColor="#FABB7AEA"
+            app:shape_endColor="#E6FF4DE3"
+            app:shape_startColor="#4C66FB"
+            app:shape_topLeftRadius="@dimen/dp_10"
+            app:shape_topRightRadius="@dimen/dp_10">
+
+            <com.hjq.shape.view.ShapeImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:layout_marginTop="@dimen/dp_16"
+                android:contentDescription="sob logo"
+                android:src="@drawable/ic_sob_logo"
+                app:layout_constraintBottom_toTopOf="@id/iv_sob_qr_code"
+                app:layout_constraintStart_toStartOf="@id/tv_sob_id"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shape_radius="@dimen/dp_15" />
+
+            <TextView
+                android:id="@+id/tv_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="沙\u3000  滩\u3000  证"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_22"
+                app:layout_constraintBottom_toBottomOf="@id/iv_logo"
+                app:layout_constraintEnd_toEndOf="@id/tv_sob_id"
+                app:layout_constraintTop_toTopOf="@id/iv_logo" />
+
+            <TextView
+                android:id="@+id/tv_nick_name_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_4"
+                android:text="昵称"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_8"
+                app:layout_constraintBottom_toTopOf="@id/tv_nick_name"
+                app:layout_constraintStart_toStartOf="@id/tv_sob_id"
+                app:layout_constraintTop_toTopOf="@id/iv_sob_qr_code" />
+
+            <TextView
+                android:id="@+id/tv_nick_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:text="A Lonely Cat"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tv_sob_id"
+                app:layout_constraintTop_toBottomOf="@id/tv_nick_name_hint" />
+
+            <TextView
+                android:id="@+id/tv_sob_id_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="沙滩 ID"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_8"
+                app:layout_constraintBottom_toBottomOf="@id/iv_sob_qr_code"
+                app:layout_constraintStart_toStartOf="@id/tv_sob_id" />
+
+            <TextView
+                android:id="@+id/tv_sob_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginBottom="@dimen/dp_20"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp_14"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_sob_id_hint"
+                tools:ignore="SpUsage"
+                tools:text="1204  7365  0227  4318  336" />
+
+            <ImageView
+                android:id="@+id/iv_sob_qr_code"
+                android:layout_width="@dimen/dp_70"
+                android:layout_height="@dimen/dp_70"
+                app:layout_constraintBottom_toTopOf="@id/tv_sob_id"
+                app:layout_constraintEnd_toEndOf="@id/tv_sob_id"
+                app:layout_constraintTop_toBottomOf="@id/iv_logo"
+                tools:src="@drawable/ic_qr_code_sob_anjiemo" />
+
+        </com.hjq.shape.layout.ShapeConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_46"
+            android:layout_marginHorizontal="@dimen/dp_6"
+            android:layout_marginTop="@dimen/dp_26"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:padding="@dimen/dp_8"
+                app:srcCompat="@drawable/ic_scan_qr_code"
+                app:tint="@color/orange" />
+
+            <com.hjq.shape.view.ShapeTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_4"
+                android:lineSpacingMultiplier="1.3"
+                android:text="① 保存图片到相册\n② 打开App扫码可见"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/dp_11"
+                tools:ignore="SpUsage" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <com.hjq.shape.view.ShapeImageView
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                app:srcCompat="@mipmap/launcher_ic" />
+
+        </LinearLayout>
+
+    </com.hjq.shape.layout.ShapeLinearLayout>
+
+</LinearLayout>

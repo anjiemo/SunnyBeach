@@ -9,23 +9,18 @@ import cn.cqautotest.sunnybeach.app.PagingFragment
 import cn.cqautotest.sunnybeach.databinding.UserFishListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.snapshotList
-import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
-import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
-import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_FISH_URL_PRE
+import cn.cqautotest.sunnybeach.util.MultiOperationHelper
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
-import com.blankj.utilcode.util.VibrateUtils
-import com.hjq.umeng.Platform
-import com.hjq.umeng.UmengShare
-import com.umeng.socialize.media.UMImage
-import com.umeng.socialize.media.UMWeb
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
 /**
  * author : A Lonely Cat
@@ -33,10 +28,14 @@ import kotlinx.coroutines.flow.collectLatest
  * time   : 2021/10/31
  * desc   : 用户摸鱼列表 Fragment
  */
+@AndroidEntryPoint
 class UserFishListFragment : PagingFragment<AppActivity>() {
 
     private val mBinding by viewBinding<UserFishListFragmentBinding>()
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
+
+    @Inject
+    lateinit var mMultiOperationHelper: MultiOperationHelper
     private val mAdapterDelegate = AdapterDelegate()
     private val mFishListAdapter = FishListAdapter(mAdapterDelegate)
 
@@ -71,41 +70,15 @@ class UserFishListFragment : PagingFragment<AppActivity>() {
     }
 
     private fun dynamicLikes(item: Fish.FishItem, position: Int) {
-        val thumbUpList = item.thumbUpList
-        val currUserId = UserManager.loadCurrUserId()
-        takeIf { thumbUpList.contains(currUserId) }?.let { toast("请不要重复点赞") }?.also { return }
-        thumbUpList.add(currUserId)
-        mFishListAdapter.notifyItemChanged(position)
-        VibrateUtils.vibrate(80)
-        mFishPondViewModel.dynamicLikes(item.id).observe(viewLifecycleOwner) {}
+        mMultiOperationHelper.dynamicLikes(viewLifecycleOwner, mFishPondViewModel, mFishListAdapter, item, position)
     }
 
     private fun shareFish(item: Fish.FishItem) {
-        val momentId = item.id
-        val content = UMWeb(SUNNY_BEACH_FISH_URL_PRE + momentId)
-        content.title = "我分享了一条摸鱼动态，快来看看吧~"
-        content.setThumb(UMImage(requireContext(), R.mipmap.launcher_ic))
-        content.description = getString(R.string.app_name)
-        // 分享
-        ShareDialog.Builder(requireActivity())
-            .setShareLink(content)
-            .setListener(object : UmengShare.OnShareListener {
-                override fun onSucceed(platform: Platform?) {
-                    toast("分享成功")
-                }
-
-                override fun onError(platform: Platform?, t: Throwable) {
-                    toast(t.message)
-                }
-
-                override fun onCancel(platform: Platform?) {
-                    toast("分享取消")
-                }
-            })
-            .show()
+        mMultiOperationHelper.shareFish(item.id)
     }
 
     companion object {
+
         @JvmStatic
         fun newInstance(userId: String): UserFishListFragment {
             val fragment = UserFishListFragment()

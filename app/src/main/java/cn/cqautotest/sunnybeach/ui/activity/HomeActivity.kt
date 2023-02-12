@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.action.FloatWindowAction
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.OnDoubleClickListener
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -41,7 +40,7 @@ import kotlin.math.abs
  *    desc   : 首页界面
  */
 @AndroidEntryPoint
-class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDoubleClickListener, FloatWindowAction {
+class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDoubleClickListener {
 
     companion object {
 
@@ -76,7 +75,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         viewPager2?.let {
             it.isUserInputEnabled = false
             it.adapter = HomeFragmentAdapter(this).apply { pagerAdapter = this }
-                .also { adapter -> it.offscreenPageLimit = adapter.itemCount }
+            it.offscreenPageLimit = 1
         }
         navigationAdapter = NavigationAdapter(this).apply {
             addMenuItem(R.string.home_fish_pond_message, R.drawable.home_fish_pond_selector)
@@ -113,7 +112,6 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         viewPager2?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 navigationAdapter?.setSelectedPosition(position)
-                switchFloatByPosition(position)
             }
         })
         navigationAdapter?.setOnDoubleClickListener(this)
@@ -170,7 +168,6 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         if (fragmentIndex == -1) {
             return
         }
-        switchFloatByPosition(fragmentIndex)
         when (fragmentIndex) {
             0, 1, 2, 3, 4 -> {
                 val lastIndex = viewPager2?.currentItem ?: 0
@@ -180,12 +177,6 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
                 navigationAdapter?.setSelectedPosition(fragmentIndex)
             }
         }
-    }
-
-    private fun switchFloatByPosition(position: Int) {
-        // 只有首页鱼塘才显示发布摸鱼按钮
-        takeIf { position == 0 }?.let { showFloatWindow() }
-        takeUnless { position == 0 }?.let { hideFloatWindow() }
     }
 
     override fun onDoubleClick(v: View, position: Int) {
@@ -229,13 +220,6 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             // 进行内存优化，销毁掉所有的界面
             ActivityManager.getInstance().finishAllActivities()
         }, 300)
-    }
-
-    /**
-     * NB! Please keep this method, although it does not appear to do anything, it is important and necessary to keep it.
-     */
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onDestroy() {

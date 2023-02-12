@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.app
 
+import android.content.Intent
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import cn.cqautotest.sunnybeach.R
@@ -204,6 +205,12 @@ abstract class AppActivity : BaseActivity(), Init,
         //     ActivityManager.getInstance().finishAllActivities()
         //     return
         // }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        // 解决 Activity.startActivityForResult() 无法回调到 Fragment.onActivityResult() 方法的问题
+        supportFragmentManager.fragments.forEach { it.onActivityResult(requestCode, resultCode, data) }
     }
 
     override fun onDestroy() {

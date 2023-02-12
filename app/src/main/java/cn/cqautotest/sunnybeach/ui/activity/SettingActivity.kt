@@ -23,6 +23,7 @@ import cn.cqautotest.sunnybeach.db.SobCacheManager
 import cn.cqautotest.sunnybeach.http.api.other.LogoutApi
 import cn.cqautotest.sunnybeach.http.model.HttpData
 import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.AppManager
@@ -39,7 +40,6 @@ import com.hjq.base.action.AnimAction
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.HttpCallback
 import com.hjq.widget.layout.SettingBar
-import com.hjq.widget.view.SwitchButton
 import com.lzf.easyfloat.EasyFloat
 import com.lzf.easyfloat.enums.ShowPattern
 import com.lzf.easyfloat.enums.SidePattern
@@ -56,12 +56,11 @@ import javax.inject.Inject
  *    desc   : 设置界面
  */
 @AndroidEntryPoint
-class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
+class SettingActivity : AppActivity() {
 
     private val mBinding: SettingActivityBinding by viewBinding()
     private val languageView: SettingBar? by lazy { findViewById(R.id.sb_setting_language) }
     private val cleanCacheView: SettingBar? by lazy { findViewById(R.id.sb_setting_cache) }
-    private val timeFloatWindowSwitchView: SwitchButton? by lazy { findViewById(R.id.sb_setting_time_float_window_switch) }
 
     @Inject
     lateinit var mAppViewModel: AppViewModel
@@ -73,8 +72,6 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
     override fun getLayoutId(): Int = R.layout.setting_activity
 
     override fun initView() {
-        // 设置时间悬浮窗切换按钮的监听
-        timeFloatWindowSwitchView?.setOnCheckedChangeListener(this)
         setOnClickListener(
             R.id.sb_setting_language,
             R.id.sb_setting_update,
@@ -88,6 +85,7 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
             sbSettingExit.isVisible = UserManager.isLogin()
             tvCurrentVersion.text = getString(R.string.current_version, AppConfig.getVersionName())
         }
+        updateFloatWindowSwitchState()
     }
 
     override fun initData() {
@@ -102,27 +100,33 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
     }
 
     override fun initEvent() {
-        mBinding.sbSettingCache.setOnLongClickListener {
-            fun Int.isOpenAutoCleanCache() = this == 0
-            fun Boolean.selectIndex() = if (this) 0 else 1
-            // 选择清理模式
-            SelectDialog.Builder(this)
-                .setTitle("空闲时自动清理")
-                .setList("开", "关")
-                // 设置单选模式
-                .setSingleSelect()
-                // 设置默认选中
-                .setSelect(AppManager.isAutoCleanCache().selectIndex())
-                .setListener { _, data ->
-                    // 单选
-                    val keys = data.keys
-                    if (keys.size == 1) {
-                        val key = keys.toList()[0]
-                        AppManager.setAutoCleanCache(key.isOpenAutoCleanCache())
+        mBinding.apply {
+            // 设置时间悬浮窗切换按钮的监听
+            sbSettingTimeFloatWindowSwitch.setFixOnClickListener {
+                toggleTimeFloatWindow(sbSettingTimeFloatWindowSwitch.isChecked())
+            }
+            sbSettingCache.setOnLongClickListener {
+                fun Int.isOpenAutoCleanCache() = this == 0
+                fun Boolean.selectIndex() = if (this) 0 else 1
+                // 选择清理模式
+                SelectDialog.Builder(context)
+                    .setTitle("空闲时自动清理")
+                    .setList("开", "关")
+                    // 设置单选模式
+                    .setSingleSelect()
+                    // 设置默认选中
+                    .setSelect(AppManager.isAutoCleanCache().selectIndex())
+                    .setListener { _, data ->
+                        // 单选
+                        val keys = data.keys
+                        if (keys.size == 1) {
+                            val key = keys.toList()[0]
+                            AppManager.setAutoCleanCache(key.isOpenAutoCleanCache())
+                        }
                     }
-                }
-                .show()
-            true
+                    .show()
+                true
+            }
         }
     }
 
@@ -295,20 +299,6 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
         }
     }
 
-    /**
-     * [SwitchButton.OnCheckedChangeListener]
-     */
-    override fun onCheckedChanged(button: SwitchButton, checked: Boolean) {
-        when (button.id) {
-            R.id.sb_setting_time_float_window_switch -> toggleTimeFloatWindow(checked)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        updateFloatWindowSwitchState()
-    }
-
     private fun updateFloatWindowSwitchState() {
         mBinding.sbSettingTimeFloatWindowSwitch.setChecked(EasyFloat.isShow(TIME_FLOAT_WINDOW_FLAG))
     }
@@ -344,6 +334,11 @@ class SettingActivity : AppActivity(), SwitchButton.OnCheckedChangeListener {
             .setLayoutChangedGravity(Gravity.END)
             // 设置系统浮窗的有效显示高度（不包含虚拟导航栏的高度），基本用不到，除非有虚拟导航栏适配问题
             .setDisplayHeight { context -> DisplayUtils.rejectedNavHeight(context) }
+            .registerCallback {
+                createResult { isCreated, msg, view ->
+                    mBinding.sbSettingTimeFloatWindowSwitch.setChecked(isCreated)
+                }
+            }
             .show()
     }
 
