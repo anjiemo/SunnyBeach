@@ -190,7 +190,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         val options = HmsScanAnalyzerOptions.Creator()
             .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
             .create()
-        MyScanUtil.startScan(requireActivity(), REQUEST_CODE_SCAN_ONE, options)
+        MyScanUtil.startScan(this, REQUEST_CODE_SCAN_ONE, options)
     }
 
     override fun showLoading(id: Int) {

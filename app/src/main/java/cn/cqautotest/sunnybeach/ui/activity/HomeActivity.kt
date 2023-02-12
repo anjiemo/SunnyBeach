@@ -222,13 +222,6 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         }, 300)
     }
 
-    /**
-     * NB! Please keep this method, although it does not appear to do anything, it is important and necessary to keep it.
-     */
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         viewPager2?.adapter = null
