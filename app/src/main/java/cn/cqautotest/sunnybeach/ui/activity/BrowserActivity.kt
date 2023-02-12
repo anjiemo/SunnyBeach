@@ -1,11 +1,14 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.text.TextUtils
-import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
+import android.webkit.ConsoleMessage
 import android.webkit.WebView
 import android.widget.ProgressBar
 import cn.cqautotest.sunnybeach.R
@@ -15,7 +18,7 @@ import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
-import cn.cqautotest.sunnybeach.util.WebViewHookHelper
+import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.widget.BrowserView
 import cn.cqautotest.sunnybeach.widget.BrowserView.BrowserChromeClient
 import cn.cqautotest.sunnybeach.widget.BrowserView.BrowserViewClient
@@ -30,6 +33,7 @@ import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
 import okhttp3.FormBody
 import timber.log.Timber
+import kotlin.math.abs
 
 /**
  *    author : Android 轮子哥 & A Lonely Cat
@@ -94,7 +98,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
             setBrowserChromeClient(AppBrowserChromeClient(this))
             val url = getString(INTENT_KEY_IN_URL)!!
             val isFeedback = getBoolean(IS_FEED_BACK)
-            if (isFeedback) {
+            val newUrl = if (isFeedback) {
                 val openId = getString(OPEN_ID)
                 val nickName = getString(NICK_NAME)
                 val avatar = getString(AVATAR_URL)
@@ -104,10 +108,11 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
                     .add("avatar", avatar.orEmpty())
                     .add("openid", openId.orEmpty())
                     .build().toQueryParams()
-                postUrl(url, queryParams.toByteArray())
+                "$url?$queryParams"
             } else {
-                loadUrl(url)
+                url
             }
+            loadUrl(newUrl)
         }
     }
 
@@ -119,6 +124,74 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
             append("&")
         }
         if (size != 0) deleteAt(lastIndex)
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun initEvent() {
+        val clickTap = ViewConfiguration.getDoubleTapTimeout()
+        // 最低滑动距离
+        val minDist = ViewConfiguration.get(this).scaledTouchSlop
+        var lastClickTime = 0L
+        var x = 0f
+        var y = 0f
+        browserView?.setOnTouchListener { _, event ->
+            when (event.action and MotionEvent.ACTION_MASK) {
+                MotionEvent.ACTION_DOWN -> {
+                    lastClickTime = System.currentTimeMillis()
+                    x = event.x
+                    y = event.y
+                    false
+                }
+                MotionEvent.ACTION_UP -> {
+                    val singClick = System.currentTimeMillis() - lastClickTime < clickTap
+                    val xDist = abs(event.x - x)
+                    val yDist = abs(event.y - y)
+                    takeIf { interceptResClick() && singClick && xDist < minDist && yDist < minDist }?.let { handleResClick() } ?: false
+                }
+                else -> false
+            }
+        }
+    }
+
+    /**
+     * 是否拦截处理
+     */
+    private fun interceptResClick(): Boolean {
+        val curUrl = browserView?.url ?: return false
+        return when {
+            curUrl.startsWith(SUNNY_BEACH_ARTICLE_URL_PRE) -> true
+            curUrl.startsWith(SUNNY_BEACH_FISH_URL_PRE) -> true
+            curUrl.startsWith(SUNNY_BEACH_QA_URL_PRE) -> true
+            curUrl.startsWith(SUNNY_BEACH_SHARE_URL_PRE) -> true
+            else -> false
+        }
+    }
+
+    /**
+     * 处理资源被点击的情况
+     */
+    private fun handleResClick(): Boolean {
+        val hitTestResult = browserView?.hitTestResult ?: return false
+        return when (hitTestResult.type) {
+            WebView.HitTestResult.IMAGE_TYPE, WebView.HitTestResult.IMAGE_ANCHOR_TYPE -> {
+                try {
+                    handleImage(hitTestResult.extra)
+                } catch (t: Throwable) {
+                    t.printStackTrace()
+                    // 处理图片错误，不支持查看的图片类型（可能是 base64 的图片，图片过大）
+                    return false
+                }
+                true
+            }
+            else -> false
+        }
+    }
+
+    /**
+     * 处理图片被长按的情况
+     */
+    private fun handleImage(imageLink: String?) {
+        imageLink?.let { ImagePreviewActivity.start(this, it) }
     }
 
     override fun getStatusLayout(): StatusLayout? = hintLayout
@@ -151,15 +224,8 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
             .show()
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        browserView?.apply {
-            if (keyCode == KeyEvent.KEYCODE_BACK && canGoBack()) {
-                // 后退网页并且拦截该事件
-                goBack()
-                return true
-            }
-        }
-        return super.onKeyDown(keyCode, event)
+    override fun onBackPressed() {
+        browserView.takeIf { it != null && it.canGoBack() }?.goBack() ?: super.onBackPressed()
     }
 
     /**
@@ -185,6 +251,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
          * 网页加载错误时回调，这个方法会在 onPageFinished 之前调用
          */
         override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
+            Timber.d("onReceivedError：===> errorCode is $errorCode description is $description failingUrl is $failingUrl")
             // 这里为什么要用延迟呢？因为加载出错之后会先调用 onReceivedError 再调用 onPageFinished
             post {
                 showError { reload() }
@@ -212,6 +279,11 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
     }
 
     private inner class AppBrowserChromeClient constructor(view: BrowserView) : BrowserChromeClient(view) {
+
+        override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
+            Timber.d("onConsoleMessage：===> " + consoleMessage?.message())
+            return true
+        }
 
         /**
          * 收到网页标题

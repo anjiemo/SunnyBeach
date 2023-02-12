@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/alivc_common_margin_20"
+    android:paddingRight="@dimen/alivc_common_margin_20">
+
+    <!--region-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="region"
+        android:textColor="@color/alivc_common_white"
+        android:textSize="@dimen/alivc_common_font_14" />
+
+    <EditText
+        android:id="@+id/et_mps_region"
+        style="@style/alivc_play_type_edit_text" />
+    <!--region-->
+
+
+    <!--vid-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/alivc_common_margin_14"
+        android:text="vid"
+        android:textColor="@color/alivc_common_white"
+        android:textSize="@dimen/alivc_common_font_14" />
+
+    <EditText
+        android:id="@+id/et_mps_vid"
+        style="@style/alivc_play_type_edit_text" />
+    <!--vid-->
+
+    <!--accessKeyId-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/alivc_common_margin_14"
+        android:text="accessKeyId"
+        android:textColor="@color/alivc_common_white"
+        android:textSize="@dimen/alivc_common_font_14" />
+
+    <EditText
+        android:id="@+id/et_mps_access_key_id"
+        style="@style/alivc_play_type_edit_text" />
+    <!--accessKeyId-->
+
+
+    <!--accessKeySecret-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/alivc_common_margin_14"
+        android:text="accessKeySecret"
+        android:textColor="@color/alivc_common_white"
+        android:textSize="@dimen/alivc_common_font_14" />
+
+    <EditText
+        android:id="@+id/et_mps_access_key_secret"
+        style="@style/alivc_play_type_edit_text" />
+    <!--accessKeySecret-->
+
+
+    <!--securityToken-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/alivc_common_margin_14"
+        android:text="securityToken"
+        android:textColor="@color/alivc_common_white"
+        android:textSize="@dimen/alivc_common_font_14" />
+
+    <EditText
+        android:id="@+id/et_mps_security_token"
+        style="@style/alivc_play_type_edit_text" />
+    <!--securityToken-->
+
+    <!--mtsHlsUriToken-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/alivc_common_margin_14"
+        android:text="mtsHlsUriToken"
+        android:textColor="@color/alivc_common_white"
+        android:textSize="@dimen/alivc_common_font_14" />
+
+    <EditText
+        android:id="@+id/et_mps_mts_hls_token"
+        style="@style/alivc_play_type_edit_text" />
+    <!--mtsHlsUriToken-->
+
+    <!--authInfo-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/alivc_common_margin_14"
+        android:text="authInfo"
+        android:textColor="@color/alivc_common_white"
+        android:textSize="@dimen/alivc_common_font_14" />
+
+    <EditText
+        android:id="@+id/et_mps_auth_info"
+        style="@style/alivc_play_type_edit_text" />
+    <!--mtsHlsUriToken-->
+
+    <!--playDomain-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/alivc_common_margin_14"
+        android:text="playDomain"
+        android:textColor="@color/alivc_common_white"
+        android:textSize="@dimen/alivc_common_font_14" />
+
+    <EditText
+        android:id="@+id/et_mps_play_domain"
+        style="@style/alivc_play_type_edit_text" />
+    <!--playDomain-->
+
+
+    <!--previewTime-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/alivc_common_margin_14"
+        android:text="previewTime"
+        android:textColor="@color/alivc_common_white"
+        android:textSize="@dimen/alivc_common_font_14" />
+
+    <EditText
+        android:id="@+id/et_preview_time"
+        style="@style/alivc_play_type_edit_text"
+        android:inputType="number"
+        android:layout_marginBottom="@dimen/alivc_common_margin_20" />
+    <!--previewTime-->
+
+    <TextView
+        android:id="@+id/tv_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/alivc_common_margin_10"
+        android:layout_marginBottom="@dimen/alivc_common_margin_30"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/alivc_common_white"
+        android:padding="@dimen/alivc_common_padding_10"
+        android:background="@drawable/aliyun_player_refresh_bg_shape"
+        android:text="@string/alivc_refresh_with_vid" />
+</LinearLayout>

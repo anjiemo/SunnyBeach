@@ -1,0 +1,86 @@
+ext {
+
+    //==Android Third party,include Application Layer,SDK Layer==
+
+    //Build Gradle Plugin
+//    externalAndroidBuildGradlePlugin = 'com.android.tools.build:gradle:3.1.0'
+    externalAndroidBuildGradlePlugin = "com.android.tools.build:gradle:4.2.1"
+
+    //Android support Libraries
+    externalAndroidAppCompatV7 = 'com.android.support:appcompat-v7:26.1.0'
+    externalAndroidAppCompatV7ToSnapSvideo = 'com.android.support:appcompat-v7:24.2.1'
+
+    externalAndroidCardView = 'com.android.support:cardview-v7:27.1.1'
+    externalAndroidMultiDex = 'com.android.support:multidex:1.0.2'
+    externalAndroidRecyclerView = 'com.android.support:recyclerview-v7:26.1.0'
+    externalAndroidSupportV13 = 'com.android.support:support-v13:23.4.0'
+    externalAndroidSupportV4 = 'com.android.support:support-v4:26.1.0'
+    externalAndroidDesign = 'com.android.support:design:24.2.1'
+
+    externalSwpeRefreshLayout = 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    externalAppcompat = 'androidx.appcompat:appcompat:1.4.2'
+    externalMaterial = 'com.google.android.material:material:1.4.0'
+    externalConstraintlayout = 'androidx.constraintlayout:constraintlayout:2.1.3'
+
+    //Test related third party libraries
+//    externalAndroidTestEspressoCore = 'com.android.support.test.espresso:espresso-core:2.2.2'
+//    externalAndroidTestRunner = 'com.android.support.test:runner:0.4.1'
+    externalHamcrestLibrary = 'org.hamcrest:hamcrest-library:1.3'
+    externalMockito = 'org.mockito:mockito-core:1.10.19'
+    externalJunit = 'junit:junit:4.12'
+
+    externalDexmakerDx = 'com.crittercism.dexmaker:dexmaker-dx:1.4'
+    externalDexmakerMockito = 'com.crittercism.dexmaker:dexmaker-mockito:1.4'
+
+    //Application Layer
+    externalEventBus = 'org.greenrobot:eventbus:3.1.1'
+    externalAliyunOSS = 'com.aliyun.dpa:oss-android-sdk:+'
+    externalPagerSlidingTabStrip = 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    externalEasyPermissions = 'pub.devrel:easypermissions:0.2.1'
+    externalOrmLiteAndroid = 'com.j256.ormlite:ormlite-android:4.48'
+    externalGlide = 'com.github.bumptech.glide:glide:4.11.0'
+    externalGlideOkHttp = 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
+    externalSimpleZXing = 'com.acker:simplezxing:1.5'
+    externalPicasso = 'com.squareup.picasso:picasso:2.5.2'
+    externalLeakcanary = 'com.squareup.leakcanary:leakcanary-android:1.6.1'
+
+    externalCrashReporter = 'com.taobao.android:crashreporter:3.0.4.1@aar'
+    externalUtdid = 'com.taobao.android:utdid4all:1.1.5@jar'
+    externalTbest  = 'com.taobao.android:tbrest:1.0.0.23@aar'
+
+    //SDK Layer
+    externalJSR305 = 'com.google.code.findbugs:jsr305:3.0.0'
+    externalOKHTTP = 'com.squareup.okhttp3:okhttp:3.4.0'
+    externalOKIO = 'com.squareup.okio:okio:1.12.0'
+    externalGSON = 'com.google.code.gson:gson:2.8.0'
+    externalMqtt = 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
+    externalHttpCore = 'org.apache.httpcomponents:httpcore:4.4.1'
+    externalFaceUnity = 'com.faceunity:nama:6.0.0-lite'
+    externalAliyunRace = 'com.aliyun.race:AliyunRace:1.0.0'
+
+    //Aliyun SDK
+    externalAliyunVodUpload = 'com.aliyun.video.android:upload:1.5.5'
+    externalAlivcConan = 'com.alivc.conan:AlivcConan:1.0.1'
+
+    externalAlivcFFmpeg = 'com.aliyun.video.android:AlivcSvideoFFmpeg:1.0.2'
+    externalAlivcCore = 'com.aliyun.video.android:core:1.2.2'
+    externalSvideopro = 'com.aliyun.video.android:svideopro:3.16.2'
+    externalSvideostandard = 'com.aliyun.video.android:svideostandard:3.16.2'
+    externalSvideosnap = 'com.aliyun.video.android:svideosnap:3.16.2'
+
+    //playerSDK
+    externalPlayerFull = 'com.aliyun.sdk.android:AliyunPlayer:5.4.6.0-full'
+    externalPlayerPart = 'com.aliyun.sdk.android:AliyunPlayer:5.4.6.0-part'
+
+    externalPlayerAliyunArtc = 'com.aliyun.sdk.android:AlivcArtc:5.4.6.0'
+
+    externalPlayerAliyunArtcNet = 'com.aliyun.rts.android:RtsSDK:1.9.0'
+
+    //Android SDK/Tools Version
+    externalCompileSdkVersion = 31
+    //The MinSdkVersion of the product you can add like this: externalSVideoMinSdkVersion 15
+    externalMinSdkVersion = 14
+    externalPlayerMinSdkVersion = 18
+    externalLiveMinSdkVersion = 18
+    externalTargetSdkVersion = 31
+}

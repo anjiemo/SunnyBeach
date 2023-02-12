@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -8,10 +9,11 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.CreationCenterActivityBinding
 import cn.cqautotest.sunnybeach.ktx.checkToken
 import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.ifLoginThen
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
-import cn.cqautotest.sunnybeach.ktx.takeIfLogin
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.adapter.AchievementAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.GridSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 
@@ -25,7 +27,8 @@ class CreationCenterActivity : AppActivity() {
 
     private val mBinding by viewBinding(CreationCenterActivityBinding::bind)
     private val mUserViewModel by viewModels<UserViewModel>()
-    private val mAchievementAdapter = AchievementAdapter()
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mAchievementAdapter = AchievementAdapter(mAdapterDelegate)
 
     override fun getLayoutId(): Int = R.layout.creation_center_activity
 
@@ -44,18 +47,23 @@ class CreationCenterActivity : AppActivity() {
 
     override fun initEvent() {
         mBinding.llUserInfoContainer.setFixOnClickListener {
-            takeIfLogin { userBasicInfo ->
+            ifLoginThen { userBasicInfo ->
                 val userId = userBasicInfo.id
                 ViewUserActivity.start(this, userId)
             }
         }
+        mAdapterDelegate.setOnItemClickListener { _, position ->
+            // takeIf { position == mAchievementAdapter.lastIndex }?.let { startActivity<SobIEDetailActivity>() }
+        }
     }
 
     override fun initObserver() {
-        checkToken {
-            val userBasicInfo = it.getOrNull()
-            mBinding.imageAvatar.loadAvatar(UserManager.currUserIsVip(), userBasicInfo?.avatar)
-            mBinding.textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
+        lifecycleScope.launchWhenCreated {
+            checkToken {
+                val userBasicInfo = it.getOrNull()
+                mBinding.imageAvatar.loadAvatar(UserManager.currUserIsVip(), userBasicInfo?.avatar)
+                mBinding.textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
+            }
         }
         mUserViewModel.getAchievement().observe(this) {
             val userAchievement = it.getOrNull() ?: return@observe

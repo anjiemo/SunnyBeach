@@ -32,6 +32,12 @@ interface CourseApi {
     suspend fun getCourseChapter(@Path("courseId") courseId: String): ApiResponse<CourseChapter>
 
     /**
+     * 检查课程是否有购买
+     */
+    @GET("ct/course-buy/{courseId}")
+    suspend fun checkCourseHasBuy(@Path("courseId") courseId: String): ApiResponse<Any>
+
+    /**
      * 获取课程播放凭证
      */
     @GET("ct/video/certification/{videoId}")

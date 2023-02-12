@@ -191,20 +191,22 @@
     <string name="setting_skill">技能</string>
     <string name="setting_coordinate">坐标</string>
 
-    <string name="setting_auto">自动登录</string>
-    <string name="setting_cache">清空缓存</string>
-
     <string name="setting_agreement">隐私协议</string>
     <string name="setting_me_pay">打赏作者</string>
     <string name="setting_about">关于我们</string>
 
+    <string name="setting_time_float_window">时间悬浮窗</string>
+    <string name="setting_cache">清空缓存</string>
+
     <string name="setting_exit">退出登录</string>
+
+    <string name="current_version">当前版本：v%s</string>
 
     <!-- 关于 -->
     <string name="about_title">关于我们</string>
     <string name="about_author"><font color="#85b84f">anjiemo</font> A Lonely Cat</string>
 
-    <string name="about_copyright">Copyright © 2021 &#8211; 2022</string>
+    <string name="about_copyright">Copyright © 阳光沙滩 2021 &#8211; 2022 \n 本程序由 A Lonely Cat 用爱驱动</string>
 
     <!-- 忘记密码 -->
     <string name="password_forget_title">忘记密码</string>
@@ -283,5 +285,7 @@
     <!--发布摸鱼界面-->
     <string name="title_activity_release_fish">摸鱼发布</string>
     <string name="not_sign_text_tips">这个人很懒，连签名都不写.</string>
+    <string name="account_not_login">账号未登录</string>
+    <string name="please_login_first">请先登录</string>
 
 </resources>

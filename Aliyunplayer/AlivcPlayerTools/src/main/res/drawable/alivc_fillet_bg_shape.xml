@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <solid android:color="@color/alivc_common_bg_black" />
+
+    <corners android:radius="@dimen/alivc_common_radius_12" />
+
+    <size
+        android:width="@dimen/alivc_player_adv_picture_background_width"
+        android:height="@dimen/alivc_palyer_adv_picture_background_height" />
+
+</shape>

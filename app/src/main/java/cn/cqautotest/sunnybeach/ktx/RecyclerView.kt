@@ -210,7 +210,7 @@ fun RecyclerView.getItemCount(): Int {
 private fun RecyclerView.checkLinearLayoutManager(): LinearLayoutManager? {
     val layoutManager =
         layoutManager ?: return null
-    require(layoutManager is GridLayoutManager) { "Make sure you are using the GridLayoutManager！" }
+    require(layoutManager is LinearLayoutManager) { "Make sure you are using the LinearLayoutManager！" }
     return layoutManager
 }
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/alivc_common_height_group_50"
+    android:background="@color/alivc_player_color_gray_danmu_bg"
+    android:orientation="horizontal">
+
+    <EditText
+        android:id="@+id/alivc_et_input_danmu"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/alivc_common_margin_8"
+        android:layout_marginBottom="@dimen/alivc_common_margin_8"
+        android:layout_height="@dimen/alivc_common_height_group_40"
+        android:layout_centerVertical="true"
+        android:paddingLeft="@dimen/alivc_common_padding_6"
+        android:textColor="@color/alivc_common_white"
+        android:textSize="@dimen/alivc_common_font_13"
+        android:layout_marginLeft="@dimen/alivc_common_margin_18"
+        android:layout_marginRight="@dimen/alivc_common_margin_10"
+        android:layout_toLeftOf="@+id/alivc_tv_input_send"
+        android:background="@drawable/alivc_input_et_danmu_bg" />
+
+    <TextView
+        android:id="@+id/alivc_tv_input_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/alivc_common_margin_18"
+        android:layout_marginRight="@dimen/alivc_common_margin_18"
+        android:background="@drawable/alivc_input_danmu_bg"
+        android:gravity="center"
+        android:text="@string/alivc_send"
+        android:textColor="@color/alivc_common_white"
+        android:textSize="@dimen/alivc_common_font_13" />
+</RelativeLayout>

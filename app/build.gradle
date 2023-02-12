@@ -15,7 +15,7 @@ android {
         applicationId 'cn.cqautotest.sunnybeach'
 
         // 仅保留中文语种的资源
-        resConfigs 'zh'
+        resConfigs 'zh,zh-rCN'
 
         // 仅保留 xxhdpi 图片资源（目前主流分辨率 1920 * 1080）
         resConfigs 'xxhdpi'
@@ -155,15 +155,19 @@ dependencies {
     // 网络封装
     implementation project(':library:network')
 
+    // 阿里云视频播放器SDK
+    // implementation project(':Aliyunplayer:player_demo')
+    // implementation project(':Aliyunplayer:AlivcPlayerTools')
+
     // 单元测试
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.activity:activity-ktx:1.4.0'
     implementation 'androidx.fragment:fragment-ktx:1.3.6'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
 
     // Room 数据库：https://developer.android.com/jetpack/androidx/releases/room
     // CodeLab：https://developer.android.com/codelabs/android-room-with-a-view-kotlin#0
@@ -191,7 +195,7 @@ dependencies {
     implementation 'com.github.getActivity:XXPermissions:13.2'
 
     // 标题栏框架：https://github.com/getActivity/TitleBar
-    implementation 'com.github.getActivity:TitleBar:9.3'
+    implementation 'com.github.getActivity:TitleBar:9.5'
 
     // 吐司框架：https://github.com/getActivity/ToastUtils
     implementation 'com.github.getActivity:ToastUtils:10.0'
@@ -199,8 +203,7 @@ dependencies {
     // 网络请求框架：https://github.com/getActivity/EasyHttp
     implementation 'com.github.getActivity:EasyHttp:10.2'
     // OkHttp 框架：https://github.com/square/okhttp
-    // noinspection GradleDependency
-    implementation 'com.squareup.okhttp3:okhttp:3.12.13'
+    compileOnly 'com.squareup.okhttp3:okhttp:4.9.1'
     // Android网络请求库：https://github.com/square/retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
@@ -238,11 +241,12 @@ dependencies {
     implementation 'com.airbnb.android:lottie:4.1.0'
 
     // 上拉刷新下拉加载框架：https://github.com/scwang90/SmartRefreshLayout
-    implementation 'com.scwang.smart:refresh-layout-kernel:2.0.3'
-    implementation 'com.scwang.smart:refresh-header-material:2.0.3'
+    implementation 'io.github.scwang90:refresh-layout-kernel:2.0.5'
+    implementation 'io.github.scwang90:refresh-header-material:2.0.5'
+    implementation 'io.github.scwang90:refresh-header-classics:2.0.5'
 
     // 日志打印框架：https://github.com/JakeWharton/timber
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 
     // 指示器框架：https://github.com/ongakuer/CircleIndicator
     implementation 'me.relex:circleindicator:2.1.6'
@@ -325,12 +329,21 @@ dependencies {
     implementation 'com.huawei.hms:scan:2.4.0.301'
 
     // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
-    implementation "com.google.dagger:hilt-android:2.42"
-    kapt "com.google.dagger:hilt-android-compiler:2.42"
+    implementation "com.google.dagger:hilt-android:2.43"
+    kapt "com.google.dagger:hilt-android-compiler:2.43"
 
-    // 从图片中提取具有代表性的调色板：https://developer.android.com/jetpack/androidx/releases/palette
+    // // 从图片中提取具有代表性的调色板：https://developer.android.com/jetpack/androidx/releases/palette
     implementation 'androidx.palette:palette:1.0.0'
 
     // Android下打造通用便捷的PopupWindow弹窗库：https://github.com/razerdp/BasePopup
     implementation 'io.github.razerdp:BasePopup:3.2.0'
+
+    // 一个强大的🚀Android 图表视图/图形视图库，支持折线图、雷达图、气泡图和烛台图以及缩放、平移和动画：https://github.com/PhilJay/MPAndroidChart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // 浮窗从未如此简单：https://github.com/princekin-f/EasyFloat
+    implementation 'com.github.princekin-f:EasyFloat:2.0.4'
+
+    // 阿里云视频播放器 SDK：https://help.aliyun.com/document_detail/124711.html?spm=a2c4g.11186623.0.0.7bd24addVQH3VE
+    implementation 'com.aliyun.sdk.android:AliyunPlayer:5.4.9.2-full'
 }

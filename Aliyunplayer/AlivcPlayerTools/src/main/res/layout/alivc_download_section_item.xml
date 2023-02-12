@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:id="@+id/ll_section_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/alivc_common_height_group_50"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/tv_section_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/alivc_common_margin_25"
+        android:textSize="@dimen/alivc_common_font_14"
+        android:textColor="@android:color/white" />
+</LinearLayout>

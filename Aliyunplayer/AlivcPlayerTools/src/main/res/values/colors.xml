@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="alivc_longvideo_font_black">#262626</color>
+    <color name="alivc_blue">#379DF2</color>
+    <color name="alivc_green">#57AB44</color>
+    <color name="alivc_orange">#EE7C33</color>
+    <color name="alivc_red">#E94033</color>
+
+    <color name="alivc_player_font_info_duration">#9f9e9e</color>
+    <color name="alivc_color_rate_item">#4c000000</color>
+
+    <color name="colorPrimary">#1e222d</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="alivc_player_color_gray_danmu_bg">#444546</color>
+    <color name="alivc_player_color_gray_danmu_et_bg">#323233</color>
+
+    <color name="add_download_info_background">#373d41</color>
+    <color name="alivc_player_list_item_press">#2d3342</color>
+
+    <color name="alivc_player_bg_action_list_dialog">#1e2321</color>
+    <color name="alivc_player_font_speed_blue">#379DF2</color>
+
+    <color name="alivc_player_type_selector_checked">#00C1DE</color>
+    <color name="alivc_player_type_selector_normal">#343742</color>
+
+    <!--progressbar的背景色-->
+    <color name="alivc_player_bg_progress_front">#CFD8DC</color>
+    <color name="alivc_player_bg_progress_rear">#ECEFF1</color>
+
+    <color name="alivc_player_download_title_bg_gray">#2EF8F8F8</color>
+    <color name="alivc_player_font_more">#8C8C8C</color>
+
+</resources>

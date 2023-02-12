@@ -42,7 +42,7 @@ data class MomentMsg(
         @SerializedName("createTime")
         val createTime: String,
         @SerializedName("hasRead")
-        val hasRead: String,
+        var hasRead: String,
         @SerializedName("_id")
         val id: String,
         @SerializedName("momentId")
@@ -55,7 +55,9 @@ data class MomentMsg(
         val title: String,
         @SerializedName("uid")
         val uid: String
-    ) : IMsgContent
+    ) : IMsgContent {
+        val isRead get() = hasRead == "1"
+    }
 
     data class Pageable(
         @SerializedName("offset")

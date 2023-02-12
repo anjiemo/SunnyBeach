@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Color
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -16,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.ImageChooseItemBinding
 import cn.cqautotest.sunnybeach.databinding.PutFishActivityBinding
 import cn.cqautotest.sunnybeach.execption.ServiceException
@@ -24,12 +24,13 @@ import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.other.IntentKey
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
-import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
+import com.dylanc.longan.activity
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.bar.TitleBar
 import kotlinx.coroutines.*
@@ -52,7 +53,8 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
 
     private val mBinding: PutFishActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
-    private val mPreviewAdapter by lazy { ImagePreviewAdapter() }
+    private val mAdapterDelegate = AdapterDelegate()
+    private val mPreviewAdapter = ImagePreviewAdapter(mAdapterDelegate)
     private var mTopicId: String? = null
     private var mLinkUrl: String? = null
 
@@ -76,85 +78,87 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
 
     @SuppressLint("SetTextI18n")
     override fun initEvent() {
-        val etInputContent = mBinding.etInputContent
-        etInputContent.requestFocus()
-        postDelayed({ showKeyboard(etInputContent) }, 100)
-        mBinding.rlChooseFishPond.setFixOnClickListener {
-            // 选择鱼塘
-            startActivityForResult(FishPondSelectionActivity::class.java) { resultCode, data ->
-                if (resultCode == Activity.RESULT_OK) {
+        with(mBinding) {
+            etInputContent.requestFocus()
+            postDelayed({ showKeyboard(etInputContent) }, 100)
+            rlChooseFishPond.setFixOnClickListener {
+                // 选择鱼塘
+                startActivityForResult(FishPondSelectionActivity::class.java) { resultCode, data ->
+                    takeUnless { resultCode == Activity.RESULT_OK }?.let { return@startActivityForResult }
                     if (data != null) {
-                        val fishPondTopicListItem = fromJsonByTypeToken<FishPondTopicList.TopicItem>(data.getStringExtra(IntentKey.OTHER))
+                        val fishPondTopicListItem =
+                            fromJson<FishPondTopicList.TopicItem>(data.getStringExtra(IntentKey.OTHER))
                         mTopicId = fishPondTopicListItem.id
-                        val tvChooseFishPondDesc = mBinding.tvChooseFishPondDesc
-                        mBinding.tvChooseFishPond.text = "#${fishPondTopicListItem.topicName}#"
+                        tvChooseFishPond.text = "#${fishPondTopicListItem.topicName}#"
                         tvChooseFishPondDesc.clearText()
                     } else {
                         resetTopicSelection()
                     }
                 }
             }
-        }
-        mBinding.ivEmoji.setFixOnClickListener {
-            // 键盘显示的时候隐藏表情列表，键盘隐藏的时候显示表情列表
-            toggleSoftInput(etInputContent)
-        }
-        mBinding.keyboardLayout.setKeyboardListener { isActive, _ ->
-            val navigationBarHeight = ImmersionBar.getNavigationBarHeight(this)
-            // Timber.d("initEvent：===> navigationBarHeight is $navigationBarHeight")
-
-            val keyboardHeight = etInputContent.requireKeyboardHeight()
-            // Timber.d("initEvent：===> keyboardHeight is $keyboardHeight")
-            val rvEmojiList = mBinding.rvEmojiList
-            if (isActive) {
-                rvEmojiList.updateLayoutParams {
-                    // 此处应该减去底部导航栏的高度，否则在经典导航栏模式下高度过剩
-                    height = keyboardHeight - navigationBarHeight
-                }
+            ivEmoji.setFixOnClickListener {
+                // 键盘显示的时候隐藏表情列表，键盘隐藏的时候显示表情列表
+                toggleSoftInput(etInputContent)
             }
-            val emojiIcon = if (isActive) R.mipmap.ic_emoji_normal else R.mipmap.ic_keyboard
-            Glide.with(this)
-                .load(emojiIcon)
-                .into(mBinding.ivEmoji)
-        }
-        mBinding.rvEmojiList.setOnEmojiClickListener { emoji, _ ->
-            val cursor = etInputContent.selectionStart
-            etInputContent.text.insert(cursor, emoji)
-        }
-        mBinding.ivImage.setFixOnClickListener {
-            // 选择图片，跳转至图片选择界面
-            ImageSelectActivity.start(this, MAX_SELECT_IMAGE_COUNT, this)
-        }
-        mBinding.ivLink.setFixOnClickListener {
-            // 弹出链接输入对话框，添加 url 链接
-            InputDialog.Builder(this)
-                .setTitle("添加链接")
-                .setHint("http(s)://")
-                .setContent(mLinkUrl)
-                .setCanceledOnTouchOutside(false)
-                .setListener { _, content ->
-                    mLinkUrl = content
-                    simpleToast(content)
-                }.show()
-        }
-        mBinding.etInputContent.setFixOnClickListener {
-            mBinding.keyboardLayout.postDelayed({
-                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-            }, 250)
-        }
-        val normalColor = Color.parseColor("#CBD0D3")
-        val overflowColor = Color.RED
-        mBinding.etInputContent.addTextChangedListener {
+            keyboardLayout.setKeyboardListener { isActive, _ ->
+                val navigationBarHeight = ImmersionBar.getNavigationBarHeight(activity)
+                // Timber.d("initEvent：===> navigationBarHeight is $navigationBarHeight")
+
+                val keyboardHeight = etInputContent.requireKeyboardHeight()
+                // Timber.d("initEvent：===> keyboardHeight is $keyboardHeight")
+                if (isActive) {
+                    rvEmojiList.updateLayoutParams {
+                        // 此处应该减去底部导航栏的高度，否则在经典导航栏模式下高度过剩
+                        height = keyboardHeight - navigationBarHeight
+                    }
+                }
+                val emojiIcon = if (isActive) R.mipmap.ic_emoji_normal else R.mipmap.ic_keyboard
+                Glide.with(context)
+                    .load(emojiIcon)
+                    .into(ivEmoji)
+            }
+            rvEmojiList.setOnEmojiClickListener { emoji, _ ->
+                val cursor = etInputContent.selectionStart
+                etInputContent.text.insert(cursor, emoji)
+            }
+            ivImage.setFixOnClickListener {
+                // 选择图片，跳转至图片选择界面
+                ImageSelectActivity.start(this@PutFishActivity, MAX_SELECT_IMAGE_COUNT, this@PutFishActivity)
+            }
+            ivLink.setFixOnClickListener {
+                // 弹出链接输入对话框，添加 url 链接
+                InputDialog.Builder(context)
+                    .setTitle("添加链接")
+                    .setHint("http(s)://")
+                    .setContent(mLinkUrl)
+                    .setCanceledOnTouchOutside(false)
+                    .setListener { _, content ->
+                        mLinkUrl = content
+                        simpleToast(content)
+                    }.show()
+            }
+            etInputContent.setFixOnClickListener {
+                keyboardLayout.postDelayed({
+                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+                }, 250)
+            }
+            val normalColor = Color.parseColor("#CBD0D3")
+            val overflowColor = Color.RED
             // 最大字符输入长度
             val maxInputTextLength = INPUT_MAX_LENGTH
             // 最小字符输入长度
             val minInputTextLength = 5
-            val inputLength = mBinding.etInputContent.length()
-            // 判断输入的字符长度是否溢出
-            val isOverflow = (maxInputTextLength - inputLength) < 0
-            mBinding.tvInputLength.text = "${inputLength}/$maxInputTextLength"
-            // 判断输入的字符串长度是否超过最大长度
-            mBinding.tvInputLength.setTextColor(if (inputLength < minInputTextLength || isOverflow) overflowColor else normalColor)
+            etInputContent.addTextChangedListener {
+                val inputLength = etInputContent.length()
+                // 判断输入的字符长度是否溢出
+                val isOverflow = (maxInputTextLength - inputLength) < 0
+                mBinding.tvInputLength.text = "${inputLength}/$maxInputTextLength"
+                // 判断输入的字符串长度是否超过最大长度
+                mBinding.tvInputLength.setTextColor(if (inputLength < minInputTextLength || isOverflow) overflowColor else normalColor)
+            }
+        }
+        mAdapterDelegate.setOnItemClickListener { _, position ->
+            ImagePreviewActivity.start(this, mPreviewAdapter.getData(), position)
         }
     }
 
@@ -167,6 +171,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     override fun onRightClick(titleBar: TitleBar) {
         val view = titleBar.rightView
         view?.isEnabled = false
+
         // 校验内容是否合法，发布信息
         val inputLength = mBinding.etInputContent.length()
         val textLengthIsOk = inputLength in 5..INPUT_MAX_LENGTH
@@ -178,25 +183,37 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
 
         // 摸鱼内容
         val content = mBinding.etInputContent.textString
-        val images = mPreviewAdapter.getData().toList()
+        val images = mPreviewAdapter.getData()
         showDialog()
         val dispatcher = Dispatchers.IO
+        // 异常处理
         val exceptionHandler = CoroutineExceptionHandler { _, cause ->
-            hideDialog()
-            view?.isEnabled = true
+            finishPutFish()
             when (cause) {
                 is CancellationException -> {}
                 else -> toast("发布失败\uD83D\uDE2D ${cause.message}")
             }
         }
         // 上传图片，此处的 path 为客户端本地的路径，需要上传到服务器上，获取网络 url 路径
-        val uploadedImages = arrayListOf<String>()
+        val uploadedImages = arrayListOf<Pair<Int, String>>()
         lifecycleScope.launchWhenCreated {
-            // 阻塞当前协程，直到内部的协程结束任务或引发异常，以便我们在图片上传之前不会执行发布动态的操作
-            coroutineScope { zipAndUploadImages(dispatcher, images, uploadedImages, exceptionHandler) }
-            Timber.d("onRightClick：===> uploadedImages size is ${uploadedImages.size}")
-            // 3、发布摸鱼
-            putFish(content, uploadedImages)
+            withContext(dispatcher) {
+                // 1、压缩图片
+                // 2、上传图片
+                // 阻塞当前协程，直到内部的协程结束任务或引发异常，以便我们在图片上传之前不会执行发布动态的操作
+                coroutineScope { zipAndUploadImages(dispatcher, images, uploadedImages, exceptionHandler) }
+                Timber.d("onRightClick：===> uploadedImages size is ${uploadedImages.size}")
+                // 如果待上传的图片列表大小和已上传的图片列表大小不相等则代表有图片上传失败了，我们直接终止摸鱼动态的发布
+                if (images.size != uploadedImages.size) {
+                    finishPutFish()
+                    // 有图片上传失败，取消当前协程
+                    cancel()
+                }
+                // 3、发布摸鱼（需要按照选择的图片顺序进行排序，否则图片列表是乱序的）
+                withContext(Dispatchers.Main) {
+                    putFish(content, uploadedImages.sortedBy { it.first }.map { it.second })
+                }
+            }
         }
     }
 
@@ -209,32 +226,33 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     private fun CoroutineScope.zipAndUploadImages(
         dispatcher: CoroutineDispatcher,
         images: List<String>,
-        uploadedImages: ArrayList<String>,
+        uploadedImages: ArrayList<Pair<Int, String>>,
         exceptionHandler: CoroutineExceptionHandler
     ) {
-        for (image in images) {
-            flowOf(image)
-                // 把需要上传的图片文件复制到缓存目录
-                .map { filePath ->
-                    Timber.d("onRightClick：===> filePath is $filePath")
-                    File(filePath).copyToCacheDirOrThrow()
-                }
-                // 压缩图片文件
-                .map { zipImageFile(it).getOrThrow() }
-                // 上传摸鱼图片
-                .map { Repository.uploadFishImage(it).getOrThrow() }
-                .flowOn(dispatcher)
-                // 添加到已上传的图片 url 集合
-                .onEach { uploadedImages.add(it) }
-                // 服务器错误时，重试三次，每次间隔 100ms
-                .retryWhen { cause, attempt ->
-                    val retry = (cause is ServiceException) && attempt < 3
-                    takeIf { retry }?.let { delay(100) }
-                    retry
-                }
-                .catch { exceptionHandler.handleException(dispatcher, it) }
-                .launchIn(this)
-        }
+        images.mapIndexed { index, filePath -> Pair(index, filePath) }
+            .forEach { imageMap ->
+                flowOf(imageMap)
+                    // 把需要上传的图片文件复制到缓存目录
+                    .map { (index, filePath) ->
+                        Timber.d("onRightClick：===> filePath is $filePath")
+                        Pair(index, File(filePath).copyToCacheDirOrThrow())
+                    }
+                    // 压缩图片文件
+                    .map { (index, filePath) -> Pair(index, zipImageFile(filePath).getOrThrow()) }
+                    // 上传摸鱼图片
+                    .map { (index, filePath) -> Pair(index, Repository.uploadFishImage(filePath).getOrThrow()) }
+                    .flowOn(dispatcher)
+                    // 添加到已上传的图片 url 集合
+                    .onEach { imagePair -> uploadedImages.add(imagePair) }
+                    // 服务器错误时，重试三次，每次间隔 100ms
+                    .retryWhen { cause, attempt ->
+                        val retry = (cause is ServiceException) && attempt < 3
+                        takeIf { retry }?.let { delay(100) }
+                        retry
+                    }
+                    .catch { exceptionHandler.handleException(dispatcher, it) }
+                    .launchIn(this)
+            }
     }
 
     /**
@@ -255,7 +273,8 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
      * 发布动态内容（包括文字和图片）
      */
     private fun putFish(content: String, imageUrls: List<String>) {
-        // 2021/9/12 填充 “链接”（客户端暂不支持），
+        Timber.d("putFish：===> imageUrls is ${imageUrls.toJson()}")
+        // 2021/9/12 填充 “链接”（客户端暂不支持）
         val map = mapOf(
             "content" to content,
             "topicId" to mTopicId,
@@ -264,8 +283,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         )
         // 图片上传完成，可以发布摸鱼
         mFishPondViewModel.putFish(map).observe(this) { result ->
-            hideDialog()
-            getTitleBar()?.rightView?.isEnabled = true
+            finishPutFish()
             result.onSuccess {
                 // 重置界面状态
                 mTopicId = null
@@ -283,10 +301,22 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     }
 
     /**
+     * 结束发布摸鱼操作
+     */
+    private fun finishPutFish() {
+        post {
+            hideDialog()
+            getTitleBar()?.rightView?.isEnabled = true
+        }
+    }
+
+    /**
      * 根据原始图片文件路径压缩图片文件到指定路径
      */
     private suspend fun zipImageFile(imgFile: File): Result<File> = suspendCoroutine { con ->
-        Luban.with(this)
+        // val unZipFileSize = Formatter.formatFileSize(this, imgFile.length())
+        // Timber.d("zipImageFile：===> unZipFileSize is $unZipFileSize")
+        Luban.with(AppApplication.getInstance())
             .load(imgFile)
             .ignoreBy(TIMES)
             .filter { it.isNotBlank() }
@@ -299,6 +329,8 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                 }
 
                 override fun onSuccess(file: File) {
+                    // val zippedFileSize = Formatter.formatFileSize(context, file.length())
+                    // Timber.d("zipImageFile：===> zippedFileSize is $zippedFileSize")
                     con.resume(Result.success(file))
                 }
 
@@ -311,7 +343,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
     }
 
     override fun onSelected(data: MutableList<String>) {
-        mPreviewAdapter.setData(data.toMutableList())
+        mPreviewAdapter.setData(data.toList())
         Timber.d("===> images path is $data")
     }
 
@@ -320,74 +352,78 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         hideKeyboard()
     }
 
+    private class ImagePreviewViewHolder(val binding: ImageChooseItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        constructor(parent: ViewGroup) : this(parent.asViewBinding<ImageChooseItemBinding>())
+
+        fun onBinding(item: String?, position: Int) {
+            item ?: return
+            with(binding) {
+                Glide.with(itemView)
+                    .load(item)
+                    .into(ivPhoto)
+                Glide.with(itemView)
+                    .load(R.drawable.clear_ic)
+                    .into(ivClear)
+                ivClear.setFixOnClickListener { v ->
+                    (bindingAdapter as? ImagePreviewAdapter)?.let {
+                        val data = it.getDataSource()
+                        data.removeAt(bindingAdapterPosition)
+                        it.notifyItemRemoved(bindingAdapterPosition)
+                        it.clearImageListener.invoke(v, bindingAdapterPosition)
+                    }
+                }
+            }
+        }
+    }
+
+    private class ImagePreviewAdapter(
+        private val adapterDelegate: AdapterDelegate,
+        private val mData: MutableList<String> = arrayListOf()
+    ) :
+        RecyclerView.Adapter<ImagePreviewViewHolder>() {
+
+        var previewImageListener: (view: View, position: Int) -> Unit = { _, _ -> }
+        var clearImageListener: (view: View, position: Int) -> Unit = { _, _ -> }
+
+        @SuppressLint("NotifyDataSetChanged")
+        fun setData(data: List<String>) {
+            mData.clear()
+            mData.addAll(data)
+            notifyDataSetChanged()
+        }
+
+        fun getData() = mData.toList()
+
+        context (RecyclerView.ViewHolder)
+        fun getDataSource() = mData
+
+        fun setOnItemClickListener(
+            previewImage: (view: View, position: Int) -> Unit,
+            clearImage: (view: View, position: Int) -> Unit
+        ) {
+            previewImageListener = previewImage
+            clearImageListener = clearImage
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImagePreviewViewHolder =
+            ImagePreviewViewHolder(parent)
+
+        override fun onBindViewHolder(holder: ImagePreviewViewHolder, position: Int) {
+            holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
+            holder.onBinding(mData.getOrNull(position), position)
+        }
+
+        override fun getItemCount(): Int = mData.size
+    }
+
     companion object {
 
         private const val MAX_SELECT_IMAGE_COUNT = 9
 
-        // 图片文件大小的阈值（4MB）
-        private const val IMAGE_FILE_MAX_SIZE = 4 * MemoryConstants.MB
-
-        // 计算出图片文件的阈值是 KB 的多少倍
-        private const val TIMES = IMAGE_FILE_MAX_SIZE / MemoryConstants.KB
+        // 超过 800 kb 的图片将会被压缩（目前网站最大只支持 1000 kb）
+        private const val TIMES = 800
 
         private const val INPUT_MAX_LENGTH = 1024
-
-        private class ImagePreviewAdapter(private val mData: MutableList<String> = arrayListOf()) :
-            RecyclerView.Adapter<ImagePreviewViewHolder>() {
-
-            private var previewImageListener: (view: View, position: Int) -> Unit = { _, _ -> }
-            private var clearImageListener: (view: View, position: Int) -> Unit = { _, _ -> }
-
-            @SuppressLint("NotifyDataSetChanged")
-            fun setData(data: List<String>) {
-                mData.clear()
-                mData.addAll(data)
-                notifyDataSetChanged()
-            }
-
-            fun getData() = mData.toList()
-
-            fun setOnItemClickListener(
-                previewImage: (view: View, position: Int) -> Unit,
-                clearImage: (view: View, position: Int) -> Unit
-            ) {
-                previewImageListener = previewImage
-                clearImageListener = clearImage
-            }
-
-            override fun onCreateViewHolder(
-                parent: ViewGroup,
-                viewType: Int
-            ): ImagePreviewViewHolder {
-                val inflater = LayoutInflater.from(parent.context)
-                val binding = ImageChooseItemBinding.inflate(inflater, parent, false)
-                return ImagePreviewViewHolder(binding)
-            }
-
-            override fun onBindViewHolder(holder: ImagePreviewViewHolder, position: Int) {
-                val item = mData.getOrNull(position) ?: return
-                val ivPhoto = holder.binding.ivPhoto
-                val ivClear = holder.binding.ivClear
-                Glide.with(holder.itemView)
-                    .load(item)
-                    .into(ivPhoto)
-                Glide.with(holder.itemView)
-                    .load(R.drawable.clear_ic)
-                    .into(ivClear)
-                ivPhoto.setFixOnClickListener {
-                    previewImageListener.invoke(it, holder.bindingAdapterPosition)
-                }
-                ivClear.setFixOnClickListener {
-                    mData.removeAt(holder.bindingAdapterPosition)
-                    notifyItemRemoved(holder.bindingAdapterPosition)
-                    clearImageListener.invoke(it, holder.bindingAdapterPosition)
-                }
-            }
-
-            override fun getItemCount(): Int = mData.size
-        }
-
-        private class ImagePreviewViewHolder(val binding: ImageChooseItemBinding) :
-            RecyclerView.ViewHolder(binding.root)
     }
 }

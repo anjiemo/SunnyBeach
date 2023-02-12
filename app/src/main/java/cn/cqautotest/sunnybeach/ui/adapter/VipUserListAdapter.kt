@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.VipUserListItemBinding
 import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.model.VipUserInfoSummary
+import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 
 /**
  * author : A Lonely Cat
@@ -13,10 +14,9 @@ import cn.cqautotest.sunnybeach.model.VipUserInfoSummary
  * time   : 2022/03/08
  * desc   : Vip 用户列表适配器
  */
-class VipUserListAdapter : RecyclerView.Adapter<VipUserListAdapter.ViewHolder>() {
+class VipUserListAdapter(private val adapterDelegate: AdapterDelegate) : RecyclerView.Adapter<VipUserListAdapter.ViewHolder>() {
 
     private val mData = arrayListOf<VipUserInfoSummary>()
-    private var mListener: (item: VipUserInfoSummary, position: Int) -> Unit = { _, _ -> }
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(data: List<VipUserInfoSummary>) {
@@ -25,9 +25,9 @@ class VipUserListAdapter : RecyclerView.Adapter<VipUserListAdapter.ViewHolder>()
         notifyDataSetChanged()
     }
 
-    fun setOnItemClickListener(listener: (item: VipUserInfoSummary, position: Int) -> Unit) {
-        mListener = listener
-    }
+    fun getData() = mData.toList()
+
+    fun getDataSource() = mData
 
     inner class ViewHolder(val binding: VipUserListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -43,7 +43,7 @@ class VipUserListAdapter : RecyclerView.Adapter<VipUserListAdapter.ViewHolder>()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mData[position]
-        holder.itemView.setOnClickListener { mListener.invoke(item, position) }
+        holder.itemView.setOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
         holder.onBinding(item, position)
     }
 

@@ -11,6 +11,18 @@ import retrofit2.http.*
 interface FishPondApi {
 
     /**
+     * 关注摸鱼话题
+     */
+    @POST("ct/moyu/topic/follow/{id}")
+    suspend fun followFishTopic(@Path("id") topicId: String): ApiResponse<Any>
+
+    /**
+     * 取消关注摸鱼话题
+     */
+    @DELETE("ct/moyu/topic/follow/{id}")
+    suspend fun unfollowFishTopic(@Path("id") topicId: String): ApiResponse<Any>
+
+    /**
      * 获取指定用户的摸鱼动态列表
      * 如果当前未登录账号则只能获取到第一页的数据
      */
@@ -25,7 +37,7 @@ interface FishPondApi {
      */
     @Multipart
     @POST("ct/image/mo_yu")
-    suspend fun uploadFishImage(@Part part: MultipartBody.Part): ApiResponse<String>
+    suspend fun uploadFishImage(@Part part: MultipartBody.Part): ApiResponse<String?>
 
     /**
      * 发布动态

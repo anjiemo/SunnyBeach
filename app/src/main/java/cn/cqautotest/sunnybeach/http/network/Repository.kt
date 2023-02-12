@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.http.network
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import cn.cqautotest.sunnybeach.db.dao.PlaceDao
+import cn.cqautotest.sunnybeach.execption.NotBuyException
 import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.ktx.getOrNull
@@ -11,12 +12,17 @@ import cn.cqautotest.sunnybeach.ktx.toErrorResult
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.*
+import cn.cqautotest.sunnybeach.model.msg.UnReadMsgCount
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import cn.cqautotest.sunnybeach.model.weather.Place
 import cn.cqautotest.sunnybeach.model.weather.Weather
+import com.hjq.http.model.HttpMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -37,7 +43,27 @@ object Repository {
 
     private val cachePhotoIdList = arrayListOf<WallpaperBean.Res.Vertical>()
 
+    fun unfollowFishTopic(topicId: String) = launchAndGetMsg { FishNetwork.unfollowFishTopic(topicId = topicId) }
+
+    fun followFishTopic(topicId: String) = launchAndGetMsg { FishNetwork.followFishTopic(topicId = topicId) }
+
+    fun queryIntegralRule(method: HttpMethod, path: String) = launchAndGetData { UserNetwork.queryIntegralRule("$method:$path") }
+
     fun getArticleDetailById(articleId: String) = launchAndGetData { ArticleNetwork.getArticleDetailById(articleId) }
+
+    fun articleLikes(articleId: String) = launchAndGetData { ArticleNetwork.articleLikes(articleId) }
+
+    suspend fun checkCourseHasBuy(courseId: String): Result<Boolean> = try {
+        val result = CourseNetwork.checkCourseHasBuy(courseId)
+        if (result.isSuccess()) {
+            Result.success(true)
+        } else {
+            throw NotBuyException(result.getMessage())
+        }
+    } catch (t: Throwable) {
+        t.printStackTrace()
+        Result.failure(t)
+    }
 
     fun getCoursePlayAuth(videoId: String) = launchAndGetData { CourseNetwork.getCoursePlayAuth(videoId) }
 
@@ -120,7 +146,7 @@ object Repository {
 
     suspend fun checkToken() = try {
         val result = UserNetwork.checkToken()
-        val userBasicInfo = result.getOrNull() ?: throw ServiceException()
+        val userBasicInfo = result.getOrNull()
         UserManager.saveUserBasicInfo(userBasicInfo)
         UserManager.setupAutoLogin(true)
         userBasicInfo
@@ -131,20 +157,22 @@ object Repository {
         null
     }
 
-    suspend fun login(userAccount: String, password: String, captcha: String) = try {
+    fun login(userAccount: String, password: String, captcha: String) = launchAndGetData {
         val user = User(userAccount, password.lowercaseMd5)
-        val result = UserNetwork.login(captcha, user)
-        if (result.isSuccess()) {
-            val userBasicInfo = checkToken()
-            // 将基本信息缓存到本地
-            UserManager.saveUserBasicInfo(userBasicInfo)
-            UserManager.setupAutoLogin(userBasicInfo != null)
-            userBasicInfo ?: throw NotLoginException()
-        } else throw ServiceException()
-    } catch (t: Throwable) {
-        t.printStackTrace()
-        UserManager.setupAutoLogin(false)
-        null
+        val loginResult = UserNetwork.login(captcha, user)
+        val checkTokenResult = UserNetwork.checkToken()
+        val loginCode = loginResult.getCode()
+        val checkTokenCode = checkTokenResult.getCode()
+        val loginSuccess = loginResult.isSuccess()
+        val checkSuccess = checkTokenResult.isSuccess()
+        val loginMsg = loginResult.getMessage()
+        val checkTokenMsg = checkTokenResult.getMessage()
+        when {
+            loginSuccess && checkSuccess -> ApiResponse(loginCode, true, loginMsg, checkTokenResult.getData())
+            loginSuccess.not() -> ApiResponse(loginCode, false, loginResult.getMessage(), null)
+            checkSuccess.not() -> ApiResponse(checkTokenCode, false, checkTokenMsg, null)
+            else -> ApiResponse(loginCode, false, loginMsg, null)
+        }
     }
 
     fun queryUserAvatar(account: String) = launchAndGetData { UserNetwork.queryUserAvatar(account) }
@@ -181,7 +209,9 @@ object Repository {
         val part = MultipartBody.Part.createFormData("image", fileName, requestBody)
         val result = FishNetwork.uploadFishImage(part)
         Timber.d("result is ${result.toJson()}")
-        if (result.isSuccess()) Result.success(result.getData()) else result.toErrorResult()
+        val imageUrl = result.getData()
+        Timber.d("uploadFishImage：===> file name is $fileName imageUrl is $imageUrl")
+        if (result.isSuccess() && imageUrl != null) Result.success(imageUrl) else result.toErrorResult()
     } catch (t: Throwable) {
         t.printStackTrace()
         Result.failure(t)
@@ -231,7 +261,14 @@ object Repository {
     /**
      * 获取未读消息数量
      */
-    fun getUnReadMsgCount() = launchAndGetData { MsgNetwork.getUnReadMsgCount() }
+    fun getUnReadMsgCount(): Flow<UnReadMsgCount> {
+        return flow {
+            val result = MsgNetwork.getUnReadMsgCount()
+            val responseData = result.getData()
+            takeUnless { result.isSuccess() }?.let { result.toErrorResult<UnReadMsgCount, UnReadMsgCount>().getOrThrow() }
+            emit(responseData)
+        }.flowOn(Dispatchers.IO)
+    }
 
     fun searchPlaces(query: String) = liveData(build = { WeatherNetwork.searchPlace(query) }) { placeResponse ->
         Timber.d("searchPlaces：===> query status is ${placeResponse.status}|${placeResponse.places[0].name}")
@@ -320,7 +357,10 @@ object Repository {
                 Timber.d("launchAndGet：===> result is ${result.toJson()}")
                 if (result.isSuccess()) Result.success(onSuccess.invoke(result))
                 else when (result.getCode()) {
-                    NOT_LOGIN_CODE -> Result.failure(NotLoginException(result.getMessage()))
+                    NOT_LOGIN_CODE -> {
+                        checkToken()
+                        Result.failure(NotLoginException(result.getMessage()))
+                    }
                     else -> Result.failure(ServiceException(result.getMessage()))
                 }
             }

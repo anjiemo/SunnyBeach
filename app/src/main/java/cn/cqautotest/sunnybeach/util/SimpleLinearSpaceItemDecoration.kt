@@ -9,11 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.ktx.dp
 
 /**
- * @ApplicationName: oa-android
- * @Description: RecyclerView 间距装饰（线性布局管理器）
- * @author: anjiemo
- * @date: 2021/8/4 14:42
- * @version: V1.0.0
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2021/8/4
+ * desc   : RecyclerView 间距装饰（线性布局管理器）
  */
 open class SimpleLinearSpaceItemDecoration(
     // 单位间距（实际间距的一半）
@@ -27,7 +26,6 @@ open class SimpleLinearSpaceItemDecoration(
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        super.getItemOffsets(outRect, view, parent, state)
         val layoutManager = (parent.layoutManager as? LinearLayoutManager) ?: return
         // 获取 LinearLayoutManager 的布局方向
         val orientation = layoutManager.orientation

@@ -40,9 +40,7 @@ class AdapterDelegate {
         mOnItemClickListener?.onItemClick(v, position)
     }
 
-    fun onItemLongClick(v: View, position: Int) {
-        mOnItemLongClickListener?.onItemLongClick(v, position)
-    }
+    fun onItemLongClick(v: View, position: Int) = mOnItemLongClickListener?.onItemLongClick(v, position) ?: false
 
     fun setOnItemClickListener(block: OnItemClickListener?) {
         mOnItemClickListener = block

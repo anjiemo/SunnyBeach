@@ -7,8 +7,10 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.QaMsgListActivityBinding
 import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
 import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.QaMsgAdapter
@@ -27,6 +29,7 @@ class QaMsgListActivity : PagingActivity(), OnBack2TopListener {
 
     private val mBinding by viewBinding<QaMsgListActivityBinding>()
     private val mMsgViewModel by viewModels<MsgViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mQaMsgAdapter = QaMsgAdapter(mAdapterDelegate)
 
@@ -35,6 +38,7 @@ class QaMsgListActivity : PagingActivity(), OnBack2TopListener {
     override fun getLayoutId(): Int = R.layout.qa_msg_list_activity
 
     override fun initView() {
+        hideSupportActionBar()
         super.initView()
         mBinding.pagingRecyclerView.addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
     }
@@ -45,16 +49,21 @@ class QaMsgListActivity : PagingActivity(), OnBack2TopListener {
 
     override fun initEvent() {
         super.initEvent()
-        getTitleBar()?.setDoubleClickListener {
-            onBack2Top()
-        }
+        getTitleBar()?.setDoubleClickListener { onBack2Top() }
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到问答详情界面
             mQaMsgAdapter.snapshotList[position]?.let {
+                it.hasRead = "1"
+                mQaMsgAdapter.notifyItemChanged(position)
                 val url = "$SUNNY_BEACH_QA_URL_PRE${it.wendaId}"
                 BrowserActivity.start(this, url)
             }
         }
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 
     override fun onBack2Top() {

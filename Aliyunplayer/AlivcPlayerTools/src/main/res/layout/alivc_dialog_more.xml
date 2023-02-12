@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/alivc_common_theme_primary_light">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/alivc_common_theme_primary_light"
+        android:orientation="vertical">
+
+        <!--投屏，弹幕-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/alivc_common_padding_32"
+            android:paddingBottom="@dimen/alivc_common_padding_32">
+
+            <TextView
+                android:id="@+id/tv_download"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/alivc_download_downloading"
+                android:drawablePadding="@dimen/alivc_common_padding_6"
+                android:gravity="center"
+                android:text="@string/alivc_btn_download"
+                android:textColor="@color/alivc_common_font_white_light"
+                android:textSize="@dimen/alivc_common_font_12"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_cast_screen"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/alivc_screen_cast"
+                android:drawablePadding="@dimen/alivc_common_padding_6"
+                android:gravity="center"
+                android:text="@string/alivc_btn_projection"
+                android:visibility="gone"
+                android:textColor="@color/alivc_common_font_white_light"
+                android:textSize="@dimen/alivc_common_font_12" />
+
+            <TextView
+                android:id="@+id/tv_barrage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/alivc_barrage"
+                android:drawablePadding="@dimen/alivc_common_padding_6"
+                android:gravity="center"
+                android:text="@string/alivc_danmaku_setting_title"
+                android:textColor="@color/alivc_common_font_white_light"
+                android:textSize="@dimen/alivc_common_font_12" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_height_group_15"
+            android:layout_marginTop="@dimen/alivc_common_margin_8"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/alivc_common_line_1px"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/alivc_common_bg_gray_bright" />
+
+            <TextView
+                android:id="@+id/tv_action_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/alivc_common_padding_5"
+                android:paddingRight="@dimen/alivc_common_padding_5"
+                android:text="@string/alivc_speed"
+                android:textColor="@color/alivc_common_font_white_light"
+                android:textSize="@dimen/alivc_common_font_12" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/alivc_common_line_1px"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/alivc_common_bg_gray_bright" />
+
+        </LinearLayout>
+
+        <!--倍速-->
+        <RadioGroup
+            android:id="@+id/alivc_rg_speed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/alivc_common_padding_32"
+            android:paddingBottom="@dimen/alivc_common_padding_32"
+            android:weightSum="4">
+
+            <RadioButton
+                android:id="@+id/rb_speed_normal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:text="1.0X"
+                android:textColor="@color/alivc_speed_text_color_blue" />
+
+            <RadioButton
+                android:id="@+id/rb_speed_onequartern"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:text="0.5X"
+                android:textColor="@color/alivc_speed_text_color_blue" />
+
+            <RadioButton
+                android:id="@+id/rb_speed_onehalf"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:text="1.5X"
+                android:textColor="@color/alivc_speed_text_color_blue" />
+
+            <RadioButton
+                android:id="@+id/rb_speed_twice"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:text="2.0X"
+                android:textColor="@color/alivc_speed_text_color_blue" />
+        </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_line_1px"
+            android:layout_gravity="center"
+            android:background="@color/alivc_common_bg_gray_bright" />
+
+        <!--音量，亮度-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/alivc_common_keyline_32"
+                android:paddingTop="@dimen/alivc_common_padding_16"
+                android:paddingRight="@dimen/alivc_common_keyline_32"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/alivc_dialog_voice_down" />
+
+                <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/seek_voice"
+                    style="@style/alivc_info_seekbar_blue_voice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/alivc_common_margin_8"
+                    android:layout_marginRight="@dimen/alivc_common_margin_8"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:paddingTop="@dimen/alivc_common_padding_6"
+                    android:paddingBottom="@dimen/alivc_common_padding_6" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/alivc_dialog_voice_up" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/alivc_common_keyline_32"
+                android:paddingTop="@dimen/alivc_common_padding_16"
+                android:paddingRight="@dimen/alivc_common_keyline_32"
+                android:paddingBottom="@dimen/alivc_common_padding_16">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/alivc_light_down" />
+
+                <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/seek_light"
+                    style="@style/alivc_info_seekbar_blue_light"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/alivc_common_margin_8"
+                    android:layout_marginRight="@dimen/alivc_common_margin_8"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/alivc_common_padding_6"
+                    android:paddingBottom="@dimen/alivc_common_padding_6" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/alivc_light_up" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_height_group_15"
+            android:layout_marginTop="@dimen/alivc_common_margin_8"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/alivc_common_line_1px"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/alivc_common_bg_gray_bright" />
+
+            <TextView
+                android:id="@+id/tv_scale_model_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/alivc_common_padding_5"
+                android:paddingRight="@dimen/alivc_common_padding_5"
+                android:text="@string/alivc_scale"
+                android:textColor="@color/alivc_common_font_white_light"
+                android:textSize="@dimen/alivc_common_font_12" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/alivc_common_line_1px"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/alivc_common_bg_gray_bright" />
+
+        </LinearLayout>
+
+        <!--画面比例-->
+        <RadioGroup
+            android:id="@+id/alivc_rg_scale_model"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/alivc_common_margin_10"
+            android:paddingTop="@dimen/alivc_common_padding_32"
+            android:paddingRight="@dimen/alivc_common_margin_10"
+            android:paddingBottom="@dimen/alivc_common_padding_32"
+            android:weightSum="3">
+
+            <RadioButton
+                android:id="@+id/rb_scale_aspect_fit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:padding="@dimen/alivc_common_padding_5"
+                android:text="@string/alivc_scale_aspect_fit"
+                android:textColor="@color/alivc_speed_text_color_blue" />
+
+            <RadioButton
+                android:id="@+id/rb_scale_aspect_fill"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="@dimen/alivc_common_padding_5"
+                android:text="@string/alivc_scale_aspect_fill"
+                android:textColor="@color/alivc_speed_text_color_blue" />
+
+            <RadioButton
+                android:id="@+id/rb_scale_to_fill"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="@dimen/alivc_common_padding_5"
+                android:text="@string/alivc_scale_to_fill"
+                android:textColor="@color/alivc_speed_text_color_blue" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_height_group_15"
+            android:layout_marginTop="@dimen/alivc_common_margin_8"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/alivc_common_line_1px"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/alivc_common_bg_gray_bright" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/alivc_common_padding_5"
+                android:paddingRight="@dimen/alivc_common_padding_5"
+                android:text="@string/alivc_loop_title"
+                android:textColor="@color/alivc_common_font_white_light"
+                android:textSize="@dimen/alivc_common_font_12" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/alivc_common_line_1px"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/alivc_common_bg_gray_bright" />
+
+        </LinearLayout>
+
+        <!--画面比例-->
+        <RadioGroup
+            android:id="@+id/alivc_rg_loop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/alivc_common_margin_10"
+            android:paddingTop="@dimen/alivc_common_padding_32"
+            android:paddingRight="@dimen/alivc_common_margin_10"
+            android:paddingBottom="@dimen/alivc_common_padding_32"
+            android:weightSum="2">
+
+            <RadioButton
+                android:id="@+id/rb_loop_open"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:padding="@dimen/alivc_common_padding_5"
+                android:text="@string/alivc_loop_open"
+                android:textColor="@color/alivc_speed_text_color_blue" />
+
+            <RadioButton
+                android:id="@+id/rb_loop_close"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="@dimen/alivc_common_padding_5"
+                android:text="@string/alivc_loop_close"
+                android:textColor="@color/alivc_speed_text_color_blue" />
+
+        </RadioGroup>
+    </LinearLayout>
+
+</ScrollView>

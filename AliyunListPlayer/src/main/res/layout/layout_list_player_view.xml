@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextureView
+        android:id="@+id/list_player_textureview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/iv_play_icon"
+        android:layout_width="@dimen/alivc_common_size_icon_50"
+        android:layout_height="@dimen/alivc_common_size_icon_50"
+        android:padding="15dp"
+        android:layout_gravity="center"
+        android:src="@drawable/aliyun_little_video_play"
+        android:background="@drawable/aliyun_little_video_backgroud_circle_shape"
+        android:visibility="gone" />
+
+</FrameLayout>

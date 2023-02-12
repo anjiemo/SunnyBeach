@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="alivc_player_theme_blue">#379DF2</color>
+    <color name="alivc_player_theme_green">#57AB44</color>
+    <color name="alivc_player_theme_orange">#EE7C33</color>
+    <color name="alivc_player_theme_red">#E94033</color>
+</resources>

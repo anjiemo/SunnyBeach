@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/add_download_info_background">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/check_list_view_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="top|right"
+        android:background="@color/alivc_player_bg_action_list_dialog"
+        android:gravity="top|right"
+        android:orientation="vertical">
+
+        <com.aliyun.player.alivcplayerexpand.view.download.DownloadView
+            android:id="@+id/download_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.aliyun.player.alivcplayerexpand.view.download.DownloadView>
+
+    </LinearLayout>
+</FrameLayout>

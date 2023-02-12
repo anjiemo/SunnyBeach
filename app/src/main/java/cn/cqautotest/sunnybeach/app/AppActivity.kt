@@ -1,7 +1,5 @@
 package cn.cqautotest.sunnybeach.app
 
-import android.content.Intent
-import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import cn.cqautotest.sunnybeach.R
@@ -9,7 +7,6 @@ import cn.cqautotest.sunnybeach.action.Init
 import cn.cqautotest.sunnybeach.action.TitleBarAction
 import cn.cqautotest.sunnybeach.action.ToastAction
 import cn.cqautotest.sunnybeach.http.model.HttpData
-import cn.cqautotest.sunnybeach.ktx.checkToken
 import cn.cqautotest.sunnybeach.ui.dialog.WaitDialog
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.bar.TitleBar
@@ -118,9 +115,7 @@ abstract class AppActivity : BaseActivity(), Init,
     /**
      * 是否使用沉浸式状态栏
      */
-    protected open fun isStatusBarEnabled(): Boolean {
-        return true
-    }
+    protected open fun isStatusBarEnabled() = true
 
     /**
      * 状态栏字体深色模式
@@ -175,16 +170,6 @@ abstract class AppActivity : BaseActivity(), Init,
         onBackPressed()
     }
 
-    override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
-        super.startActivityForResult(intent, requestCode, options)
-        overridePendingTransition(R.anim.right_in_activity, R.anim.right_out_activity)
-    }
-
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.left_in_activity, R.anim.left_out_activity)
-    }
-
     /**
      * [OnHttpListener]
      */
@@ -219,7 +204,6 @@ abstract class AppActivity : BaseActivity(), Init,
         //     ActivityManager.getInstance().finishAllActivities()
         //     return
         // }
-        checkToken { }
     }
 
     override fun onDestroy() {

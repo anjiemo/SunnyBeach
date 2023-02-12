@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alivc_common_height_group_50"
+        android:background="@color/alivc_common_bg_white"
+        android:gravity="center"
+        android:text="@string/alivc_player_share"
+        android:textColor="@color/alivc_common_font_black"
+        android:textSize="@dimen/alivc_common_font_16" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alivc_common_line_1dp"
+        android:background="@color/alivc_common_bg_white_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/alivc_common_bg_white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/alivc_common_padding_25"
+        android:paddingBottom="@dimen/alivc_common_padding_25">
+
+        <ImageView
+            android:id="@+id/iv_wx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/alivc_common_margin_100"
+            android:src="@drawable/alivc_icon_share_wx" />
+
+        <ImageView
+            android:id="@+id/iv_wb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/alivc_icon_share_wb" />
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alivc_common_line_3dp"
+        android:background="@color/alivc_common_bg_white_gray" />
+
+    <TextView
+        android:id="@+id/alivc_tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/alivc_common_bg_white"
+        android:gravity="center"
+        android:text="@string/alivc_common_cancel"
+        android:textColor="@color/alivc_common_font_gray_333333"
+        android:textSize="16sp" />
+</LinearLayout>

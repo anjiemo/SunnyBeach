@@ -1,6 +1,8 @@
 package cn.cqautotest.sunnybeach.viewmodel.fishpond
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -22,6 +24,17 @@ import kotlinx.coroutines.flow.Flow
  * desc   : 摸鱼列表的 ViewModel
  */
 class FishPondViewModel : ViewModel() {
+
+    private val _fishListStateLiveData = MutableLiveData(Unit)
+    val fishListStateLiveData = _fishListStateLiveData.switchMap { MutableLiveData(it) }
+
+    fun refreshFishList() {
+        _fishListStateLiveData.value = Unit
+    }
+
+    fun unfollowFishTopic(topicId: String) = Repository.unfollowFishTopic(topicId)
+
+    fun followFishTopic(topicId: String) = Repository.followFishTopic(topicId)
 
     fun loadTopicList() = Repository.loadTopicList()
 

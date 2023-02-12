@@ -17,7 +17,6 @@ import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.NineGridAdapterDelegate
 import com.blankj.utilcode.util.TimeUtils
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -30,7 +29,6 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<ArticleInfo.ArticleItem, ArticleAdapter.ArticleViewHolder>(diffCallback) {
 
     private val nineGridAdapterDelegate = NineGridAdapterDelegate()
-    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.SIMPLIFIED_CHINESE)
 
     private var mMenuItemClickListener: (view: View, item: ArticleInfo.ArticleItem, position: Int) -> Unit =
         { _, _, _ -> }
@@ -53,10 +51,10 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
             with(binding) {
                 val userId = item.userId
                 ivAvatar.setFixOnClickListener { takeIf { userId.isNotEmpty() }?.let { ViewUserActivity.start(context, userId) } }
-                ivAvatar.loadAvatar(item.vip, item.avatar)
+                ivAvatar.loadAvatar(item.isVip, item.avatar)
                 tvArticleTitle.text = item.title
-                tvNickName.text = "${item.nickName} · ${TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)}"
-                tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
+                tvNickName.text = "${item.nickName} · ${TimeUtils.getFriendlyTimeSpanByNow(item.createTime)}"
+                tvNickName.setTextColor(UserManager.getNickNameColor(item.isVip))
                 val covers = item.covers
                 val imageCount = covers.size
                 simpleGridLayout.setOnNineGridClickListener(nineGridAdapterDelegate)
@@ -64,7 +62,8 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
                 simpleGridLayout.isVisible = imageCount != 0
                 // tvCreateTime.text = item.createTime
                 with(listMenuItem) {
-                    llShare.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, position) }
+                    llShare.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, bindingAdapterPosition) }
+                    llGreat.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, bindingAdapterPosition) }
                     tvComment.text = item.viewCount.toString()
                     tvGreat.text = with(item.thumbUp) {
                         if (this == 0) "点赞" else toString()

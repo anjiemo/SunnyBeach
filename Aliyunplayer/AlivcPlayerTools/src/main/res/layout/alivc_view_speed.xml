@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/speed_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="#99000000"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/alivc_common_margin_40"
+            android:text="@string/alivc_speed_mode"
+            android:textColor="#e7e7e7"
+            android:textSize="@dimen/alivc_common_font_14" />
+
+        <RadioGroup
+            android:id="@+id/speed_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/alivc_common_margin_60"
+            android:orientation="horizontal">
+
+
+            <RadioButton
+                android:id="@+id/normal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/alivc_speed_dot_blue"
+                android:drawablePadding="@dimen/alivc_common_padding_10"
+                android:gravity="center"
+                android:text="@string/alivc_speed_one_times"
+                android:textColor="@color/alivc_player_font_speed_blue"
+                android:textSize="@dimen/alivc_common_font_16" />
+
+            <RadioButton
+                android:id="@+id/one_quartern"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/alivc_speed_dot_blue"
+                android:drawablePadding="@dimen/alivc_common_padding_10"
+                android:gravity="center"
+                android:text="@string/alivc_speed_optf_times"
+                android:textColor="@color/alivc_player_font_speed_blue"
+                android:textSize="@dimen/alivc_common_font_16" />
+
+            <RadioButton
+                android:id="@+id/one_half"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/alivc_speed_dot_blue"
+                android:drawablePadding="@dimen/alivc_common_padding_10"
+                android:gravity="center"
+                android:text="@string/alivc_speed_opt_times"
+                android:textColor="@color/alivc_player_font_speed_blue"
+                android:textSize="@dimen/alivc_common_font_16" />
+
+            <RadioButton
+                android:id="@+id/two"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/alivc_speed_dot_blue"
+                android:drawablePadding="@dimen/alivc_common_padding_10"
+                android:gravity="center"
+                android:text="@string/alivc_speed_twice_times"
+                android:textColor="@color/alivc_player_font_speed_blue"
+                android:textSize="@dimen/alivc_common_font_16" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/speed_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="75dp"
+        android:background="#99000000"
+        android:gravity="center"
+        android:padding="15dp"
+        android:textColor="#e7e7e7"
+        android:textSize="@dimen/alivc_common_font_14" />
+</merge>

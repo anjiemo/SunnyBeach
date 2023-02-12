@@ -44,7 +44,7 @@ data class AtMeMsg(
         @SerializedName("exId")
         val exId: String,
         @SerializedName("hasRead")
-        val hasRead: String,
+        var hasRead: String,
         @SerializedName("_id")
         val id: String,
         @SerializedName("nickname")
@@ -59,7 +59,9 @@ data class AtMeMsg(
         val uid: String,
         @SerializedName("url")
         val url: String
-    ) : IMsgContent
+    ) : IMsgContent {
+        val isRead get() = hasRead == "1"
+    }
 
     data class Pageable(
         @SerializedName("offset")

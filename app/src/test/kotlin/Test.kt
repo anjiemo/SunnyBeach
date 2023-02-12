@@ -1,9 +1,11 @@
 import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.ktx.fromJsonByTypeToken
+import cn.cqautotest.sunnybeach.ktx.fromJson
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.ArticleDetail
 import cn.cqautotest.sunnybeach.model.UserArticle
+import cn.cqautotest.sunnybeach.other.AppConfig
+import com.blankj.utilcode.util.FileUtils
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.hjq.gson.factory.GsonFactory
@@ -25,6 +27,55 @@ class Test {
     private val userArticleListFile by lazy { File("config", "user_article_list.json") }
     private val userArticleDetailUrlTemplate = "https://api.sunofbeaches.com/ct/ucenter/article/{articleId}"
     private val userArticleUpdateUrlTemplate = "https://api.sunofbeaches.com/ct/ucenter/article/{articleId}"
+
+    /**
+     * 查找项目生成的 apk 文件或返回 null.
+     */
+    private fun findApkFileOrNull(): File? {
+        val methodTag = "findApkFileOrNull"
+        val projectDirPath = System.getProperty("user.dir")
+        println("$methodTag：===> projectDirPath is $projectDirPath")
+        val releaseDir = File(projectDirPath, "/release")
+        val apks = releaseDir.listFiles { _, name -> name.endsWith(".apk") } ?: return null
+        return apks.maxByOrNull { it.lastModified() }
+    }
+
+    /**
+     * 打印 apk 文件的 md5 值（小写）
+     */
+    @Test
+    fun printApkMd5() {
+        val methodTag = "printApkMd5"
+        val apkFile = findApkFileOrNull() ?: return println("未在项目目录中获取到 apk 文件，请先生成")
+        val fileMd5 = FileUtils.getFileMD5ToString(apkFile).lowercase()
+        println("$methodTag：===> fileMd5 is $fileMd5")
+    }
+
+    /**
+     * 打印 apk 文件的大小
+     */
+    @Test
+    fun printApkSize() {
+        val methodTag = "printApkMd5"
+        val apkFile = findApkFileOrNull() ?: return println("未在项目目录中获取到 apk 文件，请先生成")
+        val apkSize = apkFile.length()
+        println("$methodTag：===> apkSize is $apkSize")
+    }
+
+    /**
+     * 打印 APP 配置信息
+     */
+    @Test
+    fun printAppConfig() {
+        val methodTag = "printAppConfig"
+        val apkFile = findApkFileOrNull() ?: return
+        val appVersionName = AppConfig.getVersionName()
+        val appVersionCode = AppConfig.getVersionCode()
+        val apkSize = apkFile.length()
+        val apkHash = FileUtils.getFileMD5ToString(apkFile).lowercase()
+        val appConfig = mapOf("versionName" to appVersionName, "versionCode" to appVersionCode, "apkSize" to apkSize, "apkHash" to apkHash)
+        println("$methodTag：===> appConfig is ${appConfig.toJson()}")
+    }
 
     /**
      * 批量替换文章图片链接
@@ -136,7 +187,7 @@ class Test {
             mkdirs()
         }
         val linkPre = ""
-        val imageList: List<Pair<String, String>> = fromJsonByTypeToken(File("img", "imageMap.json").readText())
+        val imageList: List<Pair<String, String>> = fromJson(File("img", "imageMap.json").readText())
         val listArticleFile = listArticleFile()
         for (file in listArticleFile) {
             val content = file.readText()
@@ -187,7 +238,7 @@ class Test {
                     jsonMap["content"] = content
                     val newContent = jsonMap.toJson()
                     val mediaType = "application/json".toMediaTypeOrNull()
-                    val requestBody = RequestBody.create(mediaType, newContent)
+                    val requestBody = RequestBody.create(mediaType, newContent.orEmpty())
                     println("updateUserArticleList：===> requestBody is ${requestBody.toJson()}")
                     headerArr.forEach { addHeader(it.first, it.second) }
                     this.method("PUT", requestBody)
@@ -234,7 +285,7 @@ class Test {
                 println("test：===> result is $it")
             }
         }
-        imageMapFile.writeText(imageList.toJson())
+        imageMapFile.writeText(imageList.toJson().orEmpty())
     }
 
     private suspend fun paging(

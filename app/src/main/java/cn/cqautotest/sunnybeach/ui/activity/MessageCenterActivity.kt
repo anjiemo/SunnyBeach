@@ -1,24 +1,20 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
-import android.annotation.SuppressLint
-import android.view.View
 import androidx.activity.viewModels
-import androidx.collection.SparseArrayCompat
-import androidx.collection.set
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.MessageCenterActivityBinding
-import cn.cqautotest.sunnybeach.ktx.createDefaultStyleBadge
-import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
-import cn.cqautotest.sunnybeach.ktx.startActivity
-import cn.cqautotest.sunnybeach.ktx.takeIfLogin
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.model.msg.UnReadMsgCount
 import cn.cqautotest.sunnybeach.ui.activity.msg.*
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
-import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.badge.BadgeUtils
 import com.hjq.bar.TitleBar
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
  * author : A Lonely Cat
@@ -30,62 +26,59 @@ class MessageCenterActivity : AppActivity() {
 
     private val mBinding by viewBinding<MessageCenterActivityBinding>()
     private val mMsgViewModel by viewModels<MsgViewModel>()
-    private val mDrawableCacheMap = SparseArrayCompat<BadgeDrawable>(6)
 
     override fun getLayoutId(): Int = R.layout.message_center_activity
 
     override fun initView() {
-        supportActionBar?.hide()
+        hideSupportActionBar()
     }
 
     override fun initData() {
-
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mMsgViewModel.getUnReadMsgCount().collectLatest {
+                    setUnReadCountByMenu(it)
+                }
+            }
+        }
     }
 
     override fun initEvent() {
         mBinding.articleContainer.setFixOnClickListener {
-            takeIfLogin {
+            ifLoginThen {
                 // 文章评论消息列表
                 startActivity<ArticleMsgListActivity>()
             }
         }
         mBinding.likeContainer.setFixOnClickListener {
-            takeIfLogin {
+            ifLoginThen {
                 // 点赞消息列表
                 startActivity<LikeMsgListActivity>()
             }
         }
         mBinding.fishContainer.setFixOnClickListener {
-            takeIfLogin {
+            ifLoginThen {
                 // 摸鱼评论消息列表
                 startActivity<FishMsgListActivity>()
             }
         }
         mBinding.atMeContainer.setFixOnClickListener {
-            takeIfLogin {
+            ifLoginThen {
                 // @我消息列表
                 startActivity<AtMeMsgListActivity>()
             }
         }
         mBinding.qaContainer.setFixOnClickListener {
-            takeIfLogin {
+            ifLoginThen {
                 // 问答消息列表
                 startActivity<QaMsgListActivity>()
             }
         }
         mBinding.systemContainer.setFixOnClickListener {
-            takeIfLogin {
+            ifLoginThen {
                 // 系统消息列表
                 startActivity<SystemMsgListActivity>()
             }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mMsgViewModel.getUnReadMsgCount().observe(this) {
-            val unReadMsgCount = it.getOrNull() ?: return@observe
-            setUnReadCountByMenu(unReadMsgCount)
         }
     }
 
@@ -98,27 +91,8 @@ class MessageCenterActivity : AppActivity() {
         mBinding.ivSystem.setUnReadCount(unReadMsgCount.systemMsgCount)
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
-    private fun View.setUnReadCount(unReadCount: Int) {
-        val anchor = this
-        val viewId = id
-        // 通过 View 的 id 从缓存里获取 BadgeDrawable
-        val drawable = mDrawableCacheMap[viewId]
-        if (drawable == null) {
-            // 如果缓存里没有，则创建 BadgeDrawable
-            createDefaultStyleBadge(context, unReadCount).apply {
-                BadgeUtils.attachBadgeDrawable(this, anchor)
-                mDrawableCacheMap[viewId] = this
-            }
-        } else {
-            // 否则更新 BadgeDrawable 的状态
-            drawable.isVisible = unReadCount > 0
-            drawable.number = unReadCount
-        }
-    }
-
     override fun onRightClick(titleBar: TitleBar) {
-        takeIfLogin {
+        ifLoginThen {
             // 先在 UI 上响应给用户，再去网络请求
             setUnReadCountByMenu(UnReadMsgCount())
             // 设置消息全部已读
@@ -127,11 +101,5 @@ class MessageCenterActivity : AppActivity() {
                 toast(tips)
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // BadgeDrawable 内部是弱引用持有 View，我们不关心 View 的释放问题
-        mDrawableCacheMap.clear()
     }
 }

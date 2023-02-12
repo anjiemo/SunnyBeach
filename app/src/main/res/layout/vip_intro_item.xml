@@ -1,40 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hjq.shape.layout.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hjq.widget.layout.RatioFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp"
-    app:shape_radius="10dp"
-    app:shape_solidColor="@color/white">
+    app:sizeRatio="9:10">
 
-    <ImageView
-        android:id="@+id/iv_icon"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center_horizontal"
-        android:padding="10dp"
-        tools:src="@drawable/ic_free" />
-
-    <TextView
-        android:id="@+id/tv_title"
+    <com.hjq.shape.layout.ShapeLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="4dp"
-        android:gravity="center_horizontal"
-        android:text="免积分"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:shape_radius="10dp"
+        app:shape_solidColor="@color/white">
 
-    <TextView
-        android:id="@+id/tv_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="下载课程资料免积分"
-        android:textColor="@color/default_font_color"
-        android:textSize="18sp" />
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            tools:src="@drawable/ic_free" />
 
-</com.hjq.shape.layout.ShapeLinearLayout>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:gravity="center_horizontal"
+            android:text="免积分"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/dp_4"
+            android:gravity="center_horizontal"
+            android:text="下载课程资料免积分"
+            android:textColor="@color/default_font_color"
+            android:textSize="@dimen/sp_12" />
+
+    </com.hjq.shape.layout.ShapeLinearLayout>
+
+</com.hjq.widget.layout.RatioFrameLayout>
