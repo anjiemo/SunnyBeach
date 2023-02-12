@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_sob_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:shape_angle="45"
+    app:shape_centerColor="#FABB7AEA"
+    app:shape_endColor="#E6FF4DE3"
+    app:shape_radius="@dimen/dp_10"
+    app:shape_startColor="#4C66FB"
+    tools:showIn="@layout/sob_card_activity">
+
+    <com.hjq.shape.view.ShapeImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_6"
+        android:contentDescription="sob logo"
+        android:src="@drawable/ic_sob_logo"
+        app:layout_constraintBottom_toTopOf="@id/iv_sob_qr_code"
+        app:layout_constraintStart_toStartOf="@id/tv_sob_id"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shape_radius="@dimen/dp_15" />
+
+    <TextView
+        android:id="@+id/tv_card_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="沙\u3000\u3000滩\u3000\u3000证"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_22"
+        app:layout_constraintBottom_toBottomOf="@id/iv_logo"
+        app:layout_constraintEnd_toEndOf="@id/tv_sob_id"
+        app:layout_constraintTop_toTopOf="@id/iv_logo" />
+
+    <TextView
+        android:id="@+id/tv_nick_name_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:text="昵称"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_8"
+        app:layout_constraintBottom_toTopOf="@id/tv_nick_name"
+        app:layout_constraintStart_toStartOf="@id/tv_sob_id"
+        app:layout_constraintTop_toTopOf="@id/iv_sob_qr_code" />
+
+    <TextView
+        android:id="@+id/tv_nick_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_16"
+        android:text="A Lonely Cat"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/tv_sob_id"
+        app:layout_constraintTop_toBottomOf="@id/tv_nick_name_hint" />
+
+    <TextView
+        android:id="@+id/tv_sob_id_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_4"
+        android:text="沙滩 ID"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_8"
+        app:layout_constraintBottom_toBottomOf="@id/iv_sob_qr_code"
+        app:layout_constraintStart_toStartOf="@id/tv_sob_id" />
+
+    <TextView
+        android:id="@+id/tv_sob_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginBottom="@dimen/dp_6"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_sob_id_hint"
+        tools:text="1204\u30007365\u30000227\u30004318\u3000336" />
+
+    <ImageView
+        android:id="@+id/iv_sob_qr_code"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_100"
+        app:layout_constraintBottom_toTopOf="@id/tv_sob_id"
+        app:layout_constraintEnd_toEndOf="@id/tv_sob_id"
+        app:layout_constraintTop_toBottomOf="@id/iv_logo"
+        tools:src="@drawable/ic_qr_code_sob_anjiemo" />
+
+</com.hjq.shape.layout.ShapeConstraintLayout>

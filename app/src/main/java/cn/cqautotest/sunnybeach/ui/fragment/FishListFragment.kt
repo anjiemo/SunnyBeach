@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.paging.PagingData
@@ -11,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.action.FloatWindowAction
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.Permissions
@@ -19,7 +19,6 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.*
-import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.MourningCalendar
 import cn.cqautotest.sunnybeach.model.RefreshStatus
@@ -29,24 +28,19 @@ import cn.cqautotest.sunnybeach.ui.adapter.FishCategoryAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.RecommendFishTopicListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
-import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.*
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import com.blankj.utilcode.util.VibrateUtils
 import com.dylanc.longan.viewLifecycleScope
 import com.hjq.bar.TitleBar
 import com.hjq.permissions.Permission
-import com.hjq.umeng.Platform
-import com.hjq.umeng.UmengShare
 import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
-import com.umeng.socialize.media.UMImage
-import com.umeng.socialize.media.UMWeb
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -59,12 +53,15 @@ import javax.inject.Inject
  * desc   : 摸鱼动态列表 Fragment
  */
 @AndroidEntryPoint
-class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener, FloatWindowAction {
+class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener {
 
     private val mBinding: FishListFragmentBinding by viewBinding()
 
     @Inject
     lateinit var mAppViewModel: AppViewModel
+
+    @Inject
+    lateinit var mMultiOperationHelper: MultiOperationHelper
 
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
     private val mRefreshStatus = RefreshStatus()
@@ -94,20 +91,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 layoutManager = LinearLayoutManager(context)
                 adapter = concatAdapter
                 addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
-            }
-        }
-        requireActivity().attachFloatWindow {
-            viewLifecycleScope.launchWhenCreated {
-                // 操作按钮点击回调，判断是否已经登录过账号
-                ifLogin {
-                    startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
-                        if (resultCode == Activity.RESULT_OK) {
-                            mFishPondViewModel.refreshFishList()
-                        }
-                    }
-                } otherwise {
-                    requireActivity().tryShowLoginDialog()
-                }
             }
         }
     }
@@ -145,6 +128,20 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 loadCategoryList()
                 mFishListAdapter.refresh()
             }
+            ivPublish.setFixOnClickListener {
+                viewLifecycleScope.launch {
+                    // 操作按钮点击回调，判断是否已经登录过账号
+                    ifLogin {
+                        startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
+                            if (resultCode == AppCompatActivity.RESULT_OK) {
+                                mFishPondViewModel.refreshFishList()
+                            }
+                        }
+                    } otherwise {
+                        requireActivity().tryShowLoginDialog()
+                    }
+                }
+            }
         }
         // 需要在 View 销毁的时候移除 listener
         mFishListAdapter.addLoadStateListener(loadStateListener)
@@ -166,38 +163,11 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     private fun dynamicLikes(item: Fish.FishItem, position: Int) {
-        val thumbUpList = item.thumbUpList
-        val currUserId = UserManager.loadCurrUserId()
-        takeIf { thumbUpList.contains(currUserId) }?.let { toast("请不要重复点赞") }?.also { return }
-        thumbUpList.add(currUserId)
-        mFishListAdapter.notifyItemChanged(position)
-        VibrateUtils.vibrate(80)
-        mFishPondViewModel.dynamicLikes(item.id).observe(viewLifecycleOwner) {}
+        mMultiOperationHelper.dynamicLikes(viewLifecycleOwner, mFishPondViewModel, mFishListAdapter, item, position)
     }
 
     private fun shareFish(item: Fish.FishItem) {
-        val momentId = item.id
-        val content = UMWeb(SUNNY_BEACH_FISH_URL_PRE + momentId)
-        content.title = "我分享了一条摸鱼动态，快来看看吧~"
-        content.setThumb(UMImage(requireContext(), R.mipmap.launcher_ic))
-        content.description = getString(R.string.app_name)
-        // 分享
-        ShareDialog.Builder(requireActivity())
-            .setShareLink(content)
-            .setListener(object : UmengShare.OnShareListener {
-                override fun onSucceed(platform: Platform?) {
-                    toast("分享成功")
-                }
-
-                override fun onError(platform: Platform?, t: Throwable) {
-                    toast(t.message)
-                }
-
-                override fun onCancel(platform: Platform?) {
-                    toast("分享取消")
-                }
-            })
-            .show()
+        mMultiOperationHelper.shareFish(item.id)
     }
 
     override fun initObserver() {
@@ -220,7 +190,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         val options = HmsScanAnalyzerOptions.Creator()
             .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
             .create()
-        MyScanUtil.startScan(requireActivity(), REQUEST_CODE_SCAN_ONE, options)
+        MyScanUtil.startScan(this, REQUEST_CODE_SCAN_ONE, options)
     }
 
     override fun showLoading(id: Int) {
@@ -235,16 +205,10 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         return !super.isStatusBarEnabled()
     }
 
-    override fun onResume() {
-        super.onResume()
-        activity?.showFloatWindow()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         mFishListAdapter.removeLoadStateListener(loadStateListener)
         mFishCategoryAdapter.unregisterAdapterDataObserver(mFishCategoryAdapterDataObserver)
-        activity?.deathFloatWindow()
     }
 
     override fun onBack2Top() {

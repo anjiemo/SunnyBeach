@@ -10,6 +10,7 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.FishPondSelectionActivityBinding
 import cn.cqautotest.sunnybeach.ktx.toJson
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondSelectionAdapter
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
@@ -26,6 +27,7 @@ class FishPondSelectionActivity : AppActivity(), StatusAction {
 
     private val mBinding: FishPondSelectionActivityBinding by viewBinding()
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mFishPondSelectionAdapter = FishPondSelectionAdapter()
 
     override fun getLayoutId(): Int = R.layout.fish_pond_selection_activity
@@ -68,6 +70,11 @@ class FishPondSelectionActivity : AppActivity(), StatusAction {
             setResult(Activity.RESULT_OK, data)
             finish()
         }
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 
     override fun onRightClick(titleBar: TitleBar) {
