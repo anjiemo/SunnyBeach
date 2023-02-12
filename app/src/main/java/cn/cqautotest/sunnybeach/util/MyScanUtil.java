@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
+import androidx.fragment.app.Fragment;
+
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions;
 import com.huawei.hms.scankit.util.a;
 
@@ -19,6 +21,16 @@ import cn.cqautotest.sunnybeach.ui.activity.ScanCodeActivity;
  * desc   : 复制自 com.huawei.hms.hmsscankit.ScanUtil
  */
 public class MyScanUtil {
+
+    public static void startScan(Fragment fragment, int requestCode, HmsScanAnalyzerOptions options) {
+        Context context = fragment.getContext();
+        if (context == null) return;
+        Intent intent = new Intent(context, ScanCodeActivity.class);
+        if (options != null) {
+            intent.putExtra("ScanFormatValue", options.mode);
+        }
+        fragment.startActivityForResult(intent, requestCode);
+    }
 
     @SuppressLint("WrongConstant")
     public static int startScan(Activity var0, int var1, HmsScanAnalyzerOptions var2) {
