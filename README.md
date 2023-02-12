@@ -1,15 +1,19 @@
 # 阳光沙滩App
 
 #### 阳光沙滩社区：[<font color="#FA7299">A Lonely Cat</font>](https://www.sunofbeach.net/u/1204736502274318336)
-
+<br>
 <img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210624130828.png" alt="阳光沙滩社区个人主页" style="zoom:50%;" />
+<br>
 
 #### 项目体验
 
 * [蒲公英下载地址](https://www.pgyer.com/sob-app)
+  <br>
   ![蒲公英渠道扫码下载](https://www.pgyer.com/app/qrcode/sob-app)
-
+  <br>
 * [蓝奏云下载地址](https://wwa.lanzoui.com/b02zz8dva)（密码：5qlt）
+
+<br>
 
 #### [优化、BUG或建议请点这里](https://support.qq.com/product/333302)
 
@@ -66,7 +70,7 @@ KeyPassword=AndroidProject
   替换为自己的相关信息
 - 点击 AndroidStudio 右上角 <font color="blue">Sync Now</font> 按钮进行同步，并等待同步完成即可
 
-Tips：建议使用最新版本的 AndroidStudio 运行本项目。
+Tips：建议使用最新版本的 AndroidStudio 运行本项目
 
 #### 项目截图
 
@@ -97,12 +101,9 @@ Tips：建议使用最新版本的 AndroidStudio 运行本项目。
 
 ![](./picture/sunnybeach/课程视频播放.png)
 
-
 #### 如果您觉得我的这个项目对你有帮助，请扫描下方的二维码随意打赏，要是能打赏个 10.24 :monkey_face:就太:thumbsup:了。您的支持将鼓励我继续创作:octocat:
 
 ![image-20210624125821356](https://gitee.com/anjiemo/figure-bed/raw/master/img/20210624125821.png)
-
-
 
 ## License
 
