@@ -66,8 +66,6 @@ class GalleryActivity : AppActivity() {
             orientation = ViewPager2.ORIENTATION_VERTICAL
             adapter = mPhotoAdapter
         }
-        val arr = arrayOf(1, 2, 3, 4)
-        arr.reverse()
     }
 
     override fun initData() {

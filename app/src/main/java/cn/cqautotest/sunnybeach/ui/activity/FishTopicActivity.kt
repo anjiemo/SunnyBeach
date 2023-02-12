@@ -14,19 +14,16 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.FishTopicActivityBinding
 import cn.cqautotest.sunnybeach.ktx.*
-import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.other.RoundRectDrawable
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
-import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
-import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_FISH_URL_PRE
+import cn.cqautotest.sunnybeach.util.MultiOperationHelper
 import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import com.blankj.utilcode.util.ConvertUtils
-import com.blankj.utilcode.util.VibrateUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -34,14 +31,12 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dylanc.longan.lifecycleOwner
-import com.hjq.umeng.Platform
-import com.hjq.umeng.UmengShare
-import com.umeng.socialize.media.UMImage
-import com.umeng.socialize.media.UMWeb
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * author : A Lonely Cat
@@ -49,10 +44,14 @@ import timber.log.Timber
  * time   : 2022/12/17
  * desc   : 鱼塘话题 Activity
  */
+@AndroidEntryPoint
 class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
 
     private val mBinding by viewBinding(FishTopicActivityBinding::bind)
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
+
+    @Inject
+    lateinit var mMultiOperationHelper: MultiOperationHelper
     private val mRefreshStatus = RefreshStatus()
     private val mTopicItemJson by lazy { intent.getStringExtra(FISH_TOPIC_ITEM) }
     private val mTopicItem by lazy { fromJson<FishPondTopicList.TopicItem>(mTopicItemJson) }
@@ -113,38 +112,11 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
     }
 
     private fun dynamicLikes(item: Fish.FishItem, position: Int) {
-        val thumbUpList = item.thumbUpList
-        val currUserId = UserManager.loadCurrUserId()
-        takeIf { thumbUpList.contains(currUserId) }?.let { toast("请不要重复点赞") }?.also { return }
-        thumbUpList.add(currUserId)
-        mFishListAdapter.notifyItemChanged(position)
-        VibrateUtils.vibrate(80)
-        mFishPondViewModel.dynamicLikes(item.id).observe(lifecycleOwner) {}
+        mMultiOperationHelper.dynamicLikes(this, mFishPondViewModel, mFishListAdapter, item, position)
     }
 
     private fun shareFish(item: Fish.FishItem) {
-        val momentId = item.id
-        val content = UMWeb(SUNNY_BEACH_FISH_URL_PRE + momentId)
-        content.title = "我分享了一条摸鱼动态，快来看看吧~"
-        content.setThumb(UMImage(this, R.mipmap.launcher_ic))
-        content.description = getString(R.string.app_name)
-        // 分享
-        ShareDialog.Builder(this)
-            .setShareLink(content)
-            .setListener(object : UmengShare.OnShareListener {
-                override fun onSucceed(platform: Platform?) {
-                    toast("分享成功")
-                }
-
-                override fun onError(platform: Platform?, t: Throwable) {
-                    toast(t.message)
-                }
-
-                override fun onCancel(platform: Platform?) {
-                    toast("分享取消")
-                }
-            })
-            .show()
+        mMultiOperationHelper.shareFish(item.id)
     }
 
     private fun toggleFollow() {

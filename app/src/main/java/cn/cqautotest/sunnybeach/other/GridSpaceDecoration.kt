@@ -1,11 +1,11 @@
 package cn.cqautotest.sunnybeach.other
 
-import android.graphics.Canvas
 import android.graphics.Rect
 import android.view.View
+import androidx.annotation.Px
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import kotlin.math.roundToInt
 
 /**
  *    author : Android 轮子哥
@@ -13,26 +13,34 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
  *    time   : 2019/07/25
  *    desc   : 图片选择列表分割线
  */
-class GridSpaceDecoration constructor(private val space: Int) : ItemDecoration() {
-
-    override fun onDraw(canvas: Canvas, recyclerView: RecyclerView, state: RecyclerView.State) {}
-
-    override fun onDrawOver(canvas: Canvas, recyclerView: RecyclerView, state: RecyclerView.State) {}
+class GridSpaceDecoration(@Px private val space: Int) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(rect: Rect, view: View, recyclerView: RecyclerView, state: RecyclerView.State) {
         val position: Int = recyclerView.getChildAdapterPosition(view)
         val spanCount: Int = (recyclerView.layoutManager as GridLayoutManager).spanCount
 
-        // 每一行的最后一个才留出右边间隙
-        if ((position + 1) % spanCount == 0) {
-            rect.right = space
-        }
-
-        // 只有第一行才留出顶部间隙
         if (position < spanCount) {
+            // 只有第一行才留出顶部间隙
             rect.top = space
         }
+
+        when {
+            (position + 1) % spanCount == 1 -> {
+                // 每一行的第一个
+                rect.left = space
+                rect.right = space / (spanCount + 1)
+            }
+            (position + 1) % spanCount == 0 -> {
+                // 每一行的最后一个
+                rect.left = space / (spanCount + 1)
+                rect.right = space
+            }
+            else -> {
+                rect.left = (space * ((spanCount - 1f) / spanCount)).roundToInt()
+                rect.right = rect.left
+            }
+        }
+
         rect.bottom = space
-        rect.left = space
     }
 }

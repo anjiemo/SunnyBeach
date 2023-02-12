@@ -12,9 +12,9 @@ import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.ifLoginThen
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
+import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.ui.adapter.AchievementAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
-import cn.cqautotest.sunnybeach.util.GridSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 
 /**
@@ -36,7 +36,7 @@ class CreationCenterActivity : AppActivity() {
         mBinding.rvAchievementList.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = mAchievementAdapter
-            addItemDecoration(GridSpaceItemDecoration(4.dp))
+            addItemDecoration(GridSpaceDecoration(8.dp))
         }
     }
 

@@ -39,6 +39,7 @@
             android:textSize="@dimen/sp_18" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_copy_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dp_20"
@@ -46,6 +47,7 @@
             android:autoLink="all"
             android:gravity="center_horizontal"
             android:lineSpacingExtra="@dimen/dp_10"
+            android:linksClickable="false"
             android:text="阳光沙滩APP\n https://github.com/anjiemo/SunnyBeach"
             android:textColor="#222222"
             android:textSize="@dimen/sp_14" />
