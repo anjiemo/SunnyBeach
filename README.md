@@ -4,9 +4,26 @@
 
 ![阳光沙滩社区个人主页](https://gitee.com/anjiemo/figure-bed/raw/master/img/20210624130828.png)
 
+#### 关于我们
+
+阳光沙滩创立于2014年11月22日，那是一个阳光明媚的下午。
+
+韩寒的电影《后会无期》里面有一句台词：sun of beach （阳光沙滩），于是阳光沙滩创立。阳光沙滩是一个学习编程的社区网站。
+
+你可以在这里学习，写博客，写笔记，分享经验，提问题，分享链接。你可以遇到志同道合的人，收获知识、经验与同性朋友。
+
+#### 我们的使命
+
+让学习编程变得更加简单。
+
+#### 我们的愿景
+
+让每一个热爱编程的年轻人成为优秀的程序员。
+
 #### 项目简介
 
-该项目使用Kotlin、Java语言进行开发，采用MVVM架构 + Google [Jetpack](https://developer.android.google.cn/jetpack)组件搭建项目，主要使用阳光沙滩社区开放Api实现相关功能，正在持续更新中...
+该项目使用Kotlin、Java语言进行开发，采用MVVM架构 +
+Google [Jetpack](https://developer.android.google.cn/jetpack)组件搭建项目，主要使用阳光沙滩社区开放Api实现相关功能，正在持续更新中...
 
 #### 项目体验
 

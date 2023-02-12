@@ -16,21 +16,21 @@ import okhttp3.Cookie
 class Converters {
 
     @TypeConverter
-    fun cookieStoreToJson(cookieStore: CookieStore): String = cookieStore.toJson()
+    fun cookieStoreToJson(cookieStore: CookieStore): String = cookieStore.toJson().orEmpty()
 
     @TypeConverter
     fun jsonFromCookieStore(json: String): CookieStore =
         GsonFactory.getSingletonGson().fromJson(json, CookieStore::class.java)
 
     @TypeConverter
-    fun cookieToJson(cookie: Cookie): String = cookie.toJson()
+    fun cookieToJson(cookie: Cookie): String = cookie.toJson().orEmpty()
 
     @TypeConverter
     fun jsonFromCookie(json: String): Cookie =
         GsonFactory.getSingletonGson().fromJson(json, Cookie::class.java)
 
     @TypeConverter
-    fun cookiesToJson(cookies: List<Cookie>): String = cookies.toJson()
+    fun cookiesToJson(cookies: List<Cookie>): String = cookies.toJson().orEmpty()
 
     @TypeConverter
     fun jsonFromCookies(json: String): List<Cookie> =

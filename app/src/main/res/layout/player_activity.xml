@@ -1,33 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_video_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.activity.PlayerActivity">
 
-    <cn.cqautotest.sunnybeach.widget.StatusLayout
-        android:id="@+id/hl_browser_hint"
+    <SurfaceView
+        android:id="@+id/surface_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" />
 
-        <com.scwang.smart.refresh.layout.SmartRefreshLayout
-            android:id="@+id/sl_browser_refresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:srlEnableHeaderTranslationContent="false"
-            app:srlEnableLoadMore="false"
-            app:srlEnablePreviewInEditMode="false"
-            app:srlEnableRefresh="false"
-            app:srlPrimaryColor="#444444">
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
-            <cn.cqautotest.sunnybeach.widget.BrowserView
-                android:id="@+id/wv_browser_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:elevation="999dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginHorizontal="6dp"
+            android:padding="4dp"
+            android:src="@drawable/back_ic" />
 
-    </cn.cqautotest.sunnybeach.widget.StatusLayout>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:textColor="@color/white" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Space
+            android:layout_width="30dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_media_controller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:elevation="999dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp">
+
+        <ImageView
+            android:id="@+id/iv_play"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="4dp"
+            android:src="@drawable/play_btn_selector" />
+
+        <SeekBar
+            android:id="@+id/seek_bar"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:progress="0"
+            android:progressTint="@color/white"
+            android:thumbTint="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_full_screen"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="4dp"
+            android:src="@drawable/full_screen_ic" />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,8 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -18,6 +16,7 @@ import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.ui.dialog.AddressDialog
 import cn.cqautotest.sunnybeach.ui.dialog.SendVerifyCodeDialog
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_VIEW_USER_URL_PRE
+import cn.cqautotest.sunnybeach.util.UmengReportKey
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.constant.RegexConstants
@@ -26,11 +25,8 @@ import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.dylanc.longan.lifecycleOwner
-import com.huawei.hms.hmsscankit.ScanUtil
-import com.huawei.hms.hmsscankit.WriterException
-import com.huawei.hms.ml.scan.HmsBuildBitmapOption
-import com.huawei.hms.ml.scan.HmsScan
 import com.scwang.smart.refresh.layout.wrapper.RefreshHeaderWrapper
+import com.umeng.analytics.MobclickAgent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -90,7 +86,7 @@ class UserCenterActivity : AppActivity() {
 
     private fun String.manicured(): String {
         val matcher = pattern.matcher(this)
-        return matcher.replaceAll("$1    $2    $3    $4    $5    $6")
+        return matcher.replaceAll("$1\u3000$2\u3000$3\u3000$4\u3000$5\u3000$6")
     }
 
     override fun onResume() {
@@ -113,21 +109,25 @@ class UserCenterActivity : AppActivity() {
 
     override fun initEvent() {
         mBinding.apply {
+            clScanQrCode.setFixOnClickListener { SobCardActivity.start(context, UserManager.loadCurrUserId()) }
             llUserInfoContainer.setFixOnClickListener {
-                takeIfLogin { userBasicInfo ->
+                ifLoginThen { userBasicInfo ->
+                    MobclickAgent.onEvent(context, UmengReportKey.JOIN_VIP)
                     val userId = userBasicInfo.id
                     ViewUserActivity.start(it.context, userId)
                 }
             }
             ivAvatar.setFixOnClickListener {
-                ImageSelectActivity.start(this@UserCenterActivity, SINGLE_SELECT) {
-                    val imageFilePath = it.toList().firstOrNull() ?: run {
-                        return@start
+                ImageSelectActivity.start(this@UserCenterActivity, SINGLE_SELECT) { imageList ->
+                    imageList.toList().firstOrNull()?.let { imageFilePath ->
+                        onAvatarSelected(File(imageFilePath))
                     }
-                    onAvatarSelected(File(imageFilePath))
                 }
             }
-            ivBecomeVip.setFixOnClickListener { startActivity<VipActivity>() }
+            ivBecomeVip.setFixOnClickListener {
+                MobclickAgent.onEvent(context, UmengReportKey.VIEW_SOB_CARD)
+                startActivity<VipActivity>()
+            }
             tvGetAllowance.setFixOnClickListener { getAllowance() }
             userCenterContent.apply {
                 // region 公司、职位、技能、坐标、签名
@@ -210,56 +210,38 @@ class UserCenterActivity : AppActivity() {
 
     private fun queryUserInfo() {
         loadUserBasicInfo()
-        mUserViewModel.queryUserInfo().observe(this) {
-            mPersonCenterInfo = it.getOrNull() ?: return@observe
-            val userId = mPersonCenterInfo.userId
-            Timber.d("initData：===> formatted userId is $userId")
-            mBinding.tvSobId.text = userId.manicured()
+        with(mBinding) {
+            mUserViewModel.queryUserInfo().observe(this@UserCenterActivity) {
+                mPersonCenterInfo = it.getOrNull() ?: return@observe
+                val userId = mPersonCenterInfo.userId
+                Timber.d("initData：===> formatted userId is $userId")
+                tvSobId.text = userId.manicured()
 
-            val company = mPersonCenterInfo.company.ifNullOrEmpty { "无业" }
-            val job = mPersonCenterInfo.position.ifNullOrEmpty { "游民" }
+                val company = mPersonCenterInfo.company.ifNullOrEmpty { "无业" }
+                val job = mPersonCenterInfo.position.ifNullOrEmpty { "游民" }
 
-            userCenterContent.apply {
-                sbSettingCompany.setRightText(company)
+                userCenterContent.apply {
+                    sbSettingCompany.setRightText(company)
 
-                sbSettingJob.setRightText(job)
-                sbSettingSkill.setRightText(mPersonCenterInfo.goodAt)
-                sbSettingCoordinate.setRightText(mPersonCenterInfo.area)
-                sbSettingSign.setRightText(mPersonCenterInfo.sign)
+                    sbSettingJob.setRightText(job)
+                    sbSettingSkill.setRightText(mPersonCenterInfo.goodAt)
+                    sbSettingCoordinate.setRightText(mPersonCenterInfo.area)
+                    sbSettingSign.setRightText(mPersonCenterInfo.sign)
 
-                sbSettingPhone.setRightText(mPersonCenterInfo.phoneNum)
-                sbSettingEmail.setRightText(mPersonCenterInfo.email)
+                    sbSettingPhone.setRightText(mPersonCenterInfo.phoneNum)
+                    sbSettingEmail.setRightText(mPersonCenterInfo.email)
+                }
+                val qrBitmap = "${SUNNY_BEACH_VIEW_USER_URL_PRE}${mPersonCenterInfo.userId}".toQrCodeBitmapOrNull()
+                Glide.with(context)
+                    .load(qrBitmap)
+                    .into(ivSobQrCode)
             }
-
-            mBinding.ivSobQrCode.setImageBitmap(generateQRCode("${SUNNY_BEACH_VIEW_USER_URL_PRE}${mPersonCenterInfo.userId}"))
         }
     }
 
     private fun loadUserBasicInfo() {
         val userBasicInfo = UserManager.loadUserBasicInfo()
         userBasicInfo?.let { mUserBasicInfo = it }
-    }
-
-    private fun generateQRCode(
-        content: String,
-        size: Int = 400,
-        bgColor: Int = Color.WHITE,
-        qrColor: Int = Color.BLACK,
-        margin: Int = 2
-    ): Bitmap? {
-        val type = HmsScan.QRCODE_SCAN_TYPE
-        val options = HmsBuildBitmapOption.Creator()
-            .setBitmapBackgroundColor(bgColor)
-            .setBitmapColor(qrColor)
-            .setBitmapMargin(margin)
-            .create()
-        return try {
-            // 如果未设置HmsBuildBitmapOption对象，生成二维码参数options置null。
-            ScanUtil.buildBitmap(content, type, size, size, options)
-        } catch (e: WriterException) {
-            e.printStackTrace()
-            null
-        }
     }
 
     private fun getAllowance() {

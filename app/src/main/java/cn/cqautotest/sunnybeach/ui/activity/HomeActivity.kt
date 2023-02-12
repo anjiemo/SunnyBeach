@@ -10,27 +10,29 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
-import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
+import androidx.viewpager2.widget.ViewPager2
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.action.FloatWindowAction
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.OnDoubleClickListener
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
+import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
 import cn.cqautotest.sunnybeach.other.AppConfig
 import cn.cqautotest.sunnybeach.other.DoubleClickHelper
+import cn.cqautotest.sunnybeach.ui.adapter.HomeFragmentAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.NavigationAdapter
 import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog
-import cn.cqautotest.sunnybeach.ui.fragment.*
+import cn.cqautotest.sunnybeach.ui.fragment.FishListFragment
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import com.gyf.immersionbar.ImmersionBar
-import com.hjq.base.FragmentPagerAdapter
 import com.tencent.bugly.crashreport.CrashReport
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.math.abs
 
 /**
  *    author : Android 轮子哥 & A Lonely Cat
@@ -39,7 +41,7 @@ import javax.inject.Inject
  *    desc   : 首页界面
  */
 @AndroidEntryPoint
-class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDoubleClickListener {
+class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDoubleClickListener, FloatWindowAction {
 
     companion object {
 
@@ -57,10 +59,10 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         }
     }
 
-    private val viewPager: ViewPager? by lazy { findViewById(R.id.vp_home_pager) }
+    private val viewPager2: ViewPager2? by lazy { findViewById(R.id.vp_home_pager2) }
     private val navigationView: RecyclerView? by lazy { findViewById(R.id.rv_home_navigation) }
     private var navigationAdapter: NavigationAdapter? = null
-    private var pagerAdapter: FragmentPagerAdapter<AppFragment<*>>? = null
+    private var pagerAdapter: HomeFragmentAdapter? = null
     private val updateDialog by lazy { UpdateDialog.Builder(this) }
 
     @Inject
@@ -69,7 +71,13 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     override fun getLayoutId() = R.layout.home_activity
 
     override fun initView() {
-        supportActionBar?.hide()
+        hideSupportActionBar()
+        pagerAdapter = HomeFragmentAdapter(this).also { pagerAdapter = it }
+        viewPager2?.let {
+            it.isUserInputEnabled = false
+            it.adapter = HomeFragmentAdapter(this).apply { pagerAdapter = this }
+                .also { adapter -> it.offscreenPageLimit = adapter.itemCount }
+        }
         navigationAdapter = NavigationAdapter(this).apply {
             addMenuItem(R.string.home_fish_pond_message, R.drawable.home_fish_pond_selector)
             addMenuItem(R.string.home_nav_qa, R.drawable.home_qa_selector)
@@ -93,27 +101,19 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     }
 
     override fun initData() {
-        pagerAdapter = FragmentPagerAdapter<AppFragment<*>>(this).apply {
-            addFragment(FishListFragment.newInstance())
-            addFragment(QaListFragment.newInstance())
-            // addFragment(EmptyFragment.newInstance())
-            addFragment(ArticleListFragment.newInstance())
-            addFragment(CourseListFragment.newInstance())
-            addFragment(MyMeFragment.newInstance())
-            viewPager?.adapter = this
-        }
         onNewIntent(intent)
 
-        toast("若发现BUG，可在意见反馈界面中反馈")
+        toast("若有BUG，请及时反馈")
 
         // 设置当前用户的阳光沙滩账号id，用于标识某位同学的APP发生了故障
         CrashReport.setUserId(UserManager.loadCurrUserId())
     }
 
     override fun initEvent() {
-        viewPager?.addOnPageChangeListener(object : SimpleOnPageChangeListener() {
+        viewPager2?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 navigationAdapter?.setSelectedPosition(position)
+                switchFloatByPosition(position)
             }
         })
         navigationAdapter?.setOnDoubleClickListener(this)
@@ -154,7 +154,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        viewPager?.let {
+        viewPager2?.let {
             // 保存当前 Fragment 索引位置
             outState.putInt(INTENT_KEY_IN_FRAGMENT_INDEX, it.currentItem)
         }
@@ -170,20 +170,27 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         if (fragmentIndex == -1) {
             return
         }
+        switchFloatByPosition(fragmentIndex)
         when (fragmentIndex) {
             0, 1, 2, 3, 4 -> {
-                viewPager?.currentItem = fragmentIndex
+                val lastIndex = viewPager2?.currentItem ?: 0
+                // 是否为相邻的两个 item，只有相邻的两个 item 才执行平滑过渡动画
+                val isAdjacent = abs(fragmentIndex - lastIndex) == 1
+                viewPager2?.setCurrentItem(fragmentIndex, isAdjacent)
                 navigationAdapter?.setSelectedPosition(fragmentIndex)
             }
         }
     }
 
+    private fun switchFloatByPosition(position: Int) {
+        // 只有首页鱼塘才显示发布摸鱼按钮
+        takeIf { position == 0 }?.let { showFloatWindow() }
+        takeUnless { position == 0 }?.let { hideFloatWindow() }
+    }
+
     override fun onDoubleClick(v: View, position: Int) {
-        val fragment: AppFragment<*> = pagerAdapter?.getItem(position) ?: return
         // 如果当前显示的 Fragment 是可以回到顶部的，则调用回到顶部的方法
-        if (fragment is OnBack2TopListener) {
-            (fragment as OnBack2TopListener).onBack2Top()
-        }
+        pagerAdapter?.getItem(position)?.let { (it as? OnBack2TopListener)?.onBack2Top() }
     }
 
     /**
@@ -192,7 +199,10 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     override fun onNavigationItemSelected(position: Int): Boolean {
         return when (position) {
             0, 1, 2, 3, 4 -> {
-                viewPager?.currentItem = position
+                val lastIndex = viewPager2?.currentItem ?: 0
+                // 是否为相邻的两个 item，只有相邻的两个 item 才执行平滑过渡动画
+                val isAdjacent = abs(position - lastIndex) == 1
+                viewPager2?.setCurrentItem(position, isAdjacent)
                 true
             }
             else -> false
@@ -205,6 +215,9 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     }
 
     override fun onBackPressed() {
+        // 退出 App 前，先回到首页 Fragment，防止用户误触
+        viewPager2?.currentItem?.takeUnless { it == 0 }?.let { return switchFragment(0) }
+
         if (!DoubleClickHelper.isOnDoubleClick()) {
             toast(R.string.home_exit_hint)
             return
@@ -218,14 +231,16 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         }, 300)
     }
 
+    /**
+     * NB! Please keep this method, although it does not appear to do anything, it is important and necessary to keep it.
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        pagerAdapter?.getShowFragment()?.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        viewPager?.adapter = null
+        viewPager2?.adapter = null
         navigationView?.adapter = null
         navigationAdapter?.setOnNavigationListener(null)
     }

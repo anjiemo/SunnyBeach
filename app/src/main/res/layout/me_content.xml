@@ -30,7 +30,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
+            <com.hjq.shape.view.ShapeTextView
                 android:id="@+id/text_nick_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -39,7 +39,8 @@
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                app:shape_textSelectedColor="@color/pink" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -67,11 +68,79 @@
 
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="8dp">
+
+        <ImageView
+            android:id="@+id/iv_vip_banner"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:scaleType="fitXY"
+            tools:src="@mipmap/ic_vip_banner_bg" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="开通会员享更多权益"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/tv_membership_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="16dp"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="8dp"
+            android:text="了解详情"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:shape_endColor="#888B99"
+            app:shape_radius="17dp"
+            app:shape_solidPressedColor="#80333333"
+            app:shape_startColor="#333333" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/messageCenterContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/item_selector_ic"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        tools:ignore="RtlSymmetry">
+
+        <ImageView
+            android:id="@+id/ivMsgCenter"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:padding="8dp"
+            android:src="@mipmap/ic_bells" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="消息中心" />
+
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/richListContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="1dp"
         android:background="@drawable/item_selector_ic"
         android:gravity="center_vertical"
         android:paddingStart="16dp"
@@ -94,7 +163,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/messageCenterContainer"
+        android:id="@+id/weatherContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
@@ -106,17 +175,68 @@
         tools:ignore="RtlSymmetry">
 
         <ImageView
-            android:id="@+id/ivMsgCenter"
             android:layout_width="42dp"
             android:layout_height="42dp"
-            android:padding="8dp"
-            android:src="@mipmap/ic_bells" />
+            android:padding="11dp"
+            android:src="@mipmap/ic_weather" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="消息中心" />
+            android:text="天气预报" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/hotArticleListContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_6"
+        android:background="@drawable/item_selector_ic"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        tools:ignore="RtlSymmetry">
+
+        <ImageView
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_subscribe_author" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="小默文章" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/userArticleListContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/item_selector_ic"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        tools:ignore="RtlSymmetry">
+
+        <ImageView
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:padding="8dp"
+            android:src="@mipmap/ic_article" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="我的文章" />
 
     </LinearLayout>
 
@@ -200,7 +320,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/weatherContainer"
+        android:id="@+id/joinQQGroupContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
@@ -215,13 +335,14 @@
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:padding="11dp"
-            android:src="@mipmap/ic_weather" />
+            android:src="@mipmap/ic_qq_logo"
+            app:tint="#409EFF" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="天气预报" />
+            android:text="QQ交流群" />
 
     </LinearLayout>
 

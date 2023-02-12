@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/alivc_common_theme_primary_light"
+    android:overScrollMode="never">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/alivc_common_margin_25"
+        android:background="@color/alivc_common_theme_primary_light"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_height_group_15"
+            android:layout_marginTop="@dimen/alivc_common_margin_8"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/alivc_common_line_1px"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/alivc_common_bg_gray_bright" />
+
+            <TextView
+                android:id="@+id/tv_action_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/alivc_common_padding_5"
+                android:paddingRight="@dimen/alivc_common_padding_5"
+                android:text="@string/alivc_danmaku_setting_title"
+                android:textColor="@color/alivc_common_font_white_light"
+                android:textSize="@dimen/alivc_common_font_12" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/alivc_common_line_1px"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/alivc_common_bg_gray_bright" />
+
+        </LinearLayout>
+
+        <!--透明度start-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/alivc_common_keyline_32"
+            android:paddingTop="@dimen/alivc_common_padding_10"
+            android:paddingRight="@dimen/alivc_common_keyline_32"
+            android:paddingBottom="@dimen/alivc_common_padding_16">
+
+            <TextView
+                android:id="@+id/tv_alpha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alivc_danmaku_setting_alpha"
+                android:textColor="@color/alivc_common_font_white_light"
+                android:textSize="@dimen/alivc_common_font_12" />
+
+            <TextView
+                android:id="@+id/tv_alpha_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_alpha"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/alivc_common_padding_10"
+                android:text="0%"
+                android:textColor="@color/alivc_common_font_white_light"
+                android:textSize="@dimen/alivc_common_font_12" />
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/seek_alpha"
+                style="@style/alivc_info_seekbar_blue_voice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_alpha"
+                android:layout_alignLeft="@id/tv_alpha"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/alivc_common_margin_10"
+                android:layout_marginRight="@dimen/alivc_common_margin_8"
+                android:layout_toLeftOf="@id/tv_alpha_value"
+                android:paddingTop="@dimen/alivc_common_padding_6"
+                android:paddingBottom="@dimen/alivc_common_padding_6"
+                android:progress="0" />
+
+        </RelativeLayout>
+        <!--透明度end-->
+
+        <!--显示区域start-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/alivc_common_keyline_32"
+            android:paddingTop="@dimen/alivc_common_padding_10"
+            android:paddingRight="@dimen/alivc_common_keyline_32"
+            android:paddingBottom="@dimen/alivc_common_padding_16">
+
+            <TextView
+                android:id="@+id/tv_region"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alivc_danmaku_setting_region"
+                android:textColor="@color/alivc_common_font_white_light"
+                android:textSize="@dimen/alivc_common_font_12" />
+
+            <TextView
+                android:id="@+id/tv_region_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_region"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/alivc_common_margin_10"
+                android:text="1/4屏"
+                android:textColor="@color/alivc_common_font_white_light"
+                android:textSize="@dimen/alivc_common_font_12" />
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/seek_region"
+                style="@style/alivc_info_seekbar_blue_voice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_region"
+                android:layout_alignLeft="@id/tv_region"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/alivc_common_padding_10"
+                android:layout_marginRight="@dimen/alivc_common_padding_8"
+                android:layout_toLeftOf="@id/tv_region_value"
+                android:max="3"
+                android:paddingTop="@dimen/alivc_common_padding_6"
+                android:paddingBottom="@dimen/alivc_common_padding_6" />
+
+        </RelativeLayout>
+        <!--显示区域end-->
+
+        <!--同屏速度start-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/alivc_common_keyline_32"
+            android:paddingTop="@dimen/alivc_common_padding_10"
+            android:paddingRight="@dimen/alivc_common_keyline_32"
+            android:paddingBottom="@dimen/alivc_common_padding_16">
+
+            <TextView
+                android:id="@+id/tv_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alivc_danmaku_setting_speed"
+                android:textColor="@color/alivc_common_font_white_light"
+                android:textSize="@dimen/alivc_common_font_12" />
+
+            <TextView
+                android:id="@+id/tv_speed_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_speed"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/alivc_common_margin_10"
+                android:text="0%"
+                android:textColor="@color/alivc_common_font_white_light"
+                android:textSize="@dimen/alivc_common_font_12" />
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/seek_speed"
+                style="@style/alivc_info_seekbar_blue_voice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_speed"
+                android:layout_alignLeft="@id/tv_speed"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/alivc_common_margin_10"
+                android:layout_marginRight="@dimen/alivc_common_margin_8"
+                android:layout_toLeftOf="@id/tv_speed_value"
+                android:paddingTop="@dimen/alivc_common_padding_6"
+                android:paddingBottom="@dimen/alivc_common_padding_6"
+                android:progress="0" />
+
+        </RelativeLayout>
+        <!--同屏速度end-->
+
+
+        <TextView
+            android:id="@+id/tv_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/alivc_common_margin_12"
+            android:layout_marginTop="@dimen/alivc_common_margin_30"
+            android:layout_marginBottom="@dimen/alivc_common_margin_30"
+            android:background="@color/alivc_common_bg_black_alpha_80"
+            android:gravity="center"
+            android:padding="@dimen/alivc_common_padding_10"
+            android:text="@string/alivc_danmaku_setting_default"
+            android:textColor="@color/alivc_common_font_white_light"
+            android:textSize="@dimen/alivc_common_font_12" />
+    </LinearLayout>
+
+</ScrollView>

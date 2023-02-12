@@ -97,6 +97,7 @@ class UserArticleListFragment : PagingFragment<AppActivity>() {
     }
 
     companion object {
+
         @JvmStatic
         fun newInstance(userId: String): UserArticleListFragment {
             val fragment = UserArticleListFragment()

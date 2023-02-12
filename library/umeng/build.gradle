@@ -29,14 +29,14 @@ android {
 // 友盟社会化集成文档：https://developer.umeng.com/docs/128606/detail/193879
 dependencies {
     // 友盟公共库
-    api 'com.umeng.umsdk:common:9.4.0'
-    api 'com.umeng.umsdk:asms:1.2.3'
+    api 'com.umeng.umsdk:common:9.4.7'
+    api 'com.umeng.umsdk:asms:1.4.1'
     // 友盟分享库
-    api 'com.umeng.umsdk:share-core:7.1.5'
+    api 'com.umeng.umsdk:share-core:7.1.7'
     // 友盟微信分享
-    api 'com.umeng.umsdk:share-wx:7.1.5'
+    api 'com.umeng.umsdk:share-wx:7.1.7'
     // 友盟 QQ 分享
-    api 'com.umeng.umsdk:share-qq:7.1.5'
+    api 'com.umeng.umsdk:share-qq:7.1.7'
 
     // QQ 组件：https://wiki.open.qq.com/wiki/QQ%E7%94%A8%E6%88%B7%E8%83%BD%E5%8A%9B
     api 'com.tencent.tauth:qqopensdk:3.53.0'

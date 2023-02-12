@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dot_view_root"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:padding="@dimen/alivc_common_padding_10">
+
+    <ImageView
+        android:id="@+id/view_dot"
+        android:layout_width="@dimen/alivc_player_seekbar_height"
+        android:layout_height="@dimen/alivc_player_seekbar_height"
+        android:layout_centerInParent="true"
+        android:src="@color/alivc_common_bg_white" />
+
+</RelativeLayout>

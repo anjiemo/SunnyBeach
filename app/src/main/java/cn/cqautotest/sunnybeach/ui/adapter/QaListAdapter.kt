@@ -73,6 +73,7 @@ class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
                 tvGoldCount.setCompoundDrawables(goldDrawable, null, null, null)
 
                 val isVip = item.isVip.toIntOrNull() == 1
+                // TODO: 头像控件在图标小尺寸下显示不正常，暂时不设置 VIP 标识
                 ivQaAvatar.loadAvatar(false, item.avatar)
 
                 tvQaNickName.text = item.nickname

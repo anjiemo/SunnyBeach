@@ -25,11 +25,14 @@
     <!-- 定位权限（用于 WebView 定位）-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!--震动权限-->
+
+    <!-- 震动权限 -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <!-- 系统悬浮窗权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <!-- region MiPush -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
@@ -66,7 +69,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,LockedOrientationActivity"
-        tools:replace="android:allowBackup,android:supportsRtl,android:label"
+        tools:replace="android:allowBackup,android:supportsRtl,android:label,android:icon,android:roundIcon,android:theme"
         tools:targetApi="n">
 
         <!-- 表示当前已经适配了分区存储 -->
@@ -97,7 +100,8 @@
 
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/file_paths"
+                tools:replace="android:resource" />
         </provider>
 
         <receiver
@@ -299,6 +303,7 @@
         <!-- 测试界面 -->
         <activity
             android:name=".ui.activity.TestActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
@@ -311,12 +316,14 @@
         <!-- 天气界面 -->
         <activity
             android:name=".ui.activity.weather.WeatherActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
         <!-- 天气首页界面 -->
         <activity
             android:name=".ui.activity.weather.MainActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
@@ -324,6 +331,7 @@
         <activity
             android:name=".ui.activity.ViewUserActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
 
@@ -357,107 +365,134 @@
         <!-- 用户中心页 -->
         <activity
             android:name=".ui.activity.UserCenterActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
         <!-- 富豪榜列表页 -->
         <activity
             android:name=".ui.activity.RichListActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
         <!-- 摸鱼详情页 -->
         <activity
             android:name=".ui.activity.FishPondDetailActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
         <!-- 摸鱼设置页 -->
         <activity
             android:name=".ui.activity.FishPondSettingActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
         <!-- 鱼塘列表选择页 -->
         <activity
             android:name=".ui.activity.FishPondSelectionActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
         <!-- 发布摸鱼页 -->
         <activity
             android:name=".ui.activity.PutFishActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
         <!-- 摸鱼评论列表页 -->
         <activity
             android:name=".ui.activity.FishCommendDetailActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 消息中心页 -->
         <activity
             android:name=".ui.activity.MessageCenterActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppMaterialComponentsTheme" />
 
         <!-- 文章消息列表页 -->
         <activity
             android:name=".ui.activity.msg.ArticleMsgListActivity"
-            android:screenOrientation="portrait" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppMaterialComponentsTheme" />
 
         <!-- 点赞消息列表页 -->
         <activity
             android:name=".ui.activity.msg.LikeMsgListActivity"
-            android:screenOrientation="portrait" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppMaterialComponentsTheme" />
 
         <!-- 摸鱼消息列表页 -->
         <activity
             android:name=".ui.activity.msg.FishMsgListActivity"
-            android:screenOrientation="portrait" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppMaterialComponentsTheme" />
+
         <!-- At我 消息列表页 -->
         <activity
             android:name=".ui.activity.msg.AtMeMsgListActivity"
-            android:screenOrientation="portrait" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppMaterialComponentsTheme" />
 
         <!-- 问答消息列表页 -->
         <activity
             android:name=".ui.activity.msg.QaMsgListActivity"
-            android:screenOrientation="portrait" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppMaterialComponentsTheme" />
 
         <!-- 系统消息列表页 -->
         <activity
             android:name=".ui.activity.msg.SystemMsgListActivity"
-            android:screenOrientation="portrait" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppMaterialComponentsTheme" />
 
         <!-- Vip 介绍页 -->
         <activity
             android:name=".ui.activity.VipActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 创作中心页 -->
         <activity
             android:name=".ui.activity.CreationCenterActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 扫码界面 -->
         <activity
             android:name=".ui.activity.ScanCodeActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 课程详情页 -->
         <activity
             android:name=".ui.activity.CourseDetailActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 课程视频播放页 -->
         <activity
             android:name=".ui.activity.PlayerActivity"
-            android:screenOrientation="landscape" />
+            android:configChanges="orientation|keyboardHidden|screenSize|navigation"
+            android:launchMode="singleTop" />
 
         <!-- 壁纸发现页 -->
         <activity
             android:name=".ui.activity.WallpaperActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 搜索结果页 -->
@@ -468,11 +503,13 @@
         <!-- 修改用户信息页 -->
         <activity
             android:name=".ui.activity.ModifyUserInfoActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 举报页 -->
         <activity
             android:name=".ui.activity.ReportActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- region MiPush -->
@@ -483,13 +520,47 @@
             android:exported="true"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <!-- 收藏列表页 -->
         <activity
             android:name=".ui.activity.CollectionListActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+
         <!-- 收藏详情列表页 -->
         <activity
             android:name=".ui.activity.CollectionDetailListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 阳光沙滩证详情页 -->
+        <activity
+            android:name=".ui.activity.SobCardActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 热门（小默）文章列表界面 -->
+        <activity
+            android:name=".ui.activity.HotArticleListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 用户 Sob 币的收支（Income & Expenditures）明细列表界面 -->
+        <activity
+            android:name=".ui.activity.SobIEDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 用户内容列表管理界面 -->
+        <activity
+            android:name=".ui.activity.MineArticleListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 鱼塘话题页 -->
+        <activity
+            android:name=".ui.activity.FishTopicActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <service

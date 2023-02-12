@@ -32,6 +32,12 @@ fun <T : Any, VH : RecyclerView.ViewHolder> StatusAction.loadStateListener(
 }
 
 /**
+ * Returns the index of the last item in the list or -1 if the list is empty.
+ */
+val <VH : RecyclerView.ViewHolder> RecyclerView.Adapter<VH>.lastIndex
+    get() = itemCount - 1
+
+/**
  * Returns `true` if this adapter content is not empty.
  */
 fun <VH : RecyclerView.ViewHolder> RecyclerView.Adapter<VH>.isNotEmpty() =

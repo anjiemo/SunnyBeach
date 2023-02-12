@@ -11,6 +11,7 @@ import cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
 import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBannerBean
 import cn.cqautotest.sunnybeach.ui.activity.GalleryActivity
 import cn.cqautotest.sunnybeach.ui.adapter.WallpaperListAdapter
@@ -34,6 +35,7 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
 
     private val mBinding: DiscoverFragmentBinding by viewBinding()
     private val mPhotoViewModel by activityViewModels<PhotoViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mWallpaperBannerAdapter = BannerAdapter()
     private val mAdapterDelegate = AdapterDelegate().apply {
         adapterAnimation = CustomAnimation()
@@ -88,6 +90,11 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
             mWallpaperBannerAdapter.setDatas(wallpaperBannerList)
             if (wallpaperBannerList.isEmpty()) slBannerHint.showEmpty() else slBannerHint.showComplete()
         }
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 
     override fun isStatusBarEnabled(): Boolean {

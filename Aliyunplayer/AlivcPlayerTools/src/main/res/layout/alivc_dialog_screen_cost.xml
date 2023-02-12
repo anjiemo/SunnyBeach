@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/alivc_common_theme_primary_light"
+    android:overScrollMode="never">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/alivc_common_margin_25"
+        android:background="@color/alivc_common_theme_primary_light"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_refresh"
+            android:layout_width="@dimen/alivc_common_size_icon_20"
+            android:layout_height="@dimen/alivc_common_size_icon_20"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="@dimen/alivc_common_margin_16"
+            android:background="@drawable/icon_longvideo_refresh" />
+
+        <LinearLayout
+            android:id="@+id/ll_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alivc_common_height_group_15"
+            android:layout_below="@id/iv_refresh"
+            android:layout_marginTop="@dimen/alivc_common_margin_8"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/alivc_common_line_1px"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/alivc_common_bg_gray_bright" />
+
+            <TextView
+                android:id="@+id/tv_action_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/alivc_common_padding_5"
+                android:paddingRight="@dimen/alivc_common_padding_5"
+                android:text="@string/alivc_danmaku_screen_cost_title"
+                android:textColor="@color/alivc_common_font_white_light"
+                android:textSize="@dimen/alivc_common_font_12" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/alivc_common_line_1px"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/alivc_common_bg_gray_bright" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_line"
+            android:layout_marginTop="@dimen/alivc_common_margin_25">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recyclerview"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/alivc_common_margin_30"
+            android:textSize="@dimen/alivc_common_font_14"
+            android:textColor="@color/alivc_common_font_cyan_light"
+            android:text="@string/alivc_player_device_name" />
+
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

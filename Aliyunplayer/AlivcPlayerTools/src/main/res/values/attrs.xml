@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="LoadingStyle" format="reference" />
+    <!--************ QMUILoading ***********-->
+    <declare-styleable name="LoadingView">
+        <attr name="loading_view_size" format="dimension" />
+        <attr name="android:color" />
+    </declare-styleable>
+</resources>

@@ -10,39 +10,86 @@
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="999dp"
+        app:barStyle="transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="课程详情" />
+        app:leftIconTint="@color/white" />
 
-    <cn.cqautotest.sunnybeach.widget.StatusLayout
-        android:id="@id/paging_status_layout"
+    <ImageView
+        android:id="@+id/iv_cover"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_200"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.hjq.shape.layout.ShapeLinearLayout
         android:layout_width="match_parent"
         android:layout_height="0px"
+        android:layout_marginTop="-14dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/ll_pay_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_bar">
+        app:layout_constraintTop_toBottomOf="@+id/iv_cover">
 
-        <com.scwang.smart.refresh.layout.SmartRefreshLayout
-            android:id="@id/paging_refresh_layout"
+        <com.hjq.shape.layout.ShapeFrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:srlEnableLoadMore="false">
+            android:layout_height="wrap_content"
+            app:shape_solidColor="@color/white"
+            app:shape_topLeftRadius="@dimen/dp_14"
+            app:shape_topRightRadius="@dimen/dp_14">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@id/paging_recycler_view"
+            <com.hjq.shape.view.ShapeView
+                android:id="@+id/v_open_or_close"
+                android:layout_width="@dimen/dp_50"
+                android:layout_height="@dimen/dp_5"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginVertical="@dimen/dp_6"
+                android:padding="@dimen/dp_48"
+                app:shape_radius="@dimen/dp_10"
+                app:shape_solidColor="#F8F5F5" />
+
+        </com.hjq.shape.layout.ShapeFrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="@dimen/dp_18"
+            android:paddingVertical="@dimen/dp_16"
+            android:text="课程目录" />
+
+        <cn.cqautotest.sunnybeach.widget.StatusLayout
+            android:id="@id/paging_status_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:id="@id/paging_refresh_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="1px"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="20"
-                tools:listitem="@layout/course_chapter_group_item" />
+                app:srlEnableLoadMore="false"
+                app:srlEnableRefresh="false">
 
-        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@id/paging_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="1px"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="20"
+                    tools:listitem="@layout/course_chapter_group_item" />
 
-    </cn.cqautotest.sunnybeach.widget.StatusLayout>
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+        </cn.cqautotest.sunnybeach.widget.StatusLayout>
+
+    </com.hjq.shape.layout.ShapeLinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_pay_container"

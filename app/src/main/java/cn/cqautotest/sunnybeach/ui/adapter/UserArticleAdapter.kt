@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -11,6 +12,7 @@ import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
+import cn.cqautotest.sunnybeach.model.ArticleSearchFilter
 import cn.cqautotest.sunnybeach.model.UserArticle
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.NineGridAdapterDelegate
@@ -28,7 +30,7 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<UserArticle.UserArticleItem, UserArticleAdapter.ArticleViewHolder>(diffCallback) {
 
     private val nineGridAdapterDelegate = NineGridAdapterDelegate()
-    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.SIMPLIFIED_CHINESE)
+    private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 
     private var mMenuItemClickListener: (view: View, item: UserArticle.UserArticleItem, position: Int) -> Unit =
         { _, _, _ -> }
@@ -57,6 +59,19 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
                 tvArticleTitle.text = item.title
                 tvNickName.text = "${item.nickname} · ${TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)}"
                 tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
+
+                val articleState = ArticleSearchFilter.ArticleState.valueOfSate(item.state)
+                val stateName = when (articleState) {
+                    ArticleSearchFilter.ArticleState.ALL -> ""
+                    ArticleSearchFilter.ArticleState.PUBLISHED -> ArticleSearchFilter.ArticleState.PUBLISHED.typeName
+                    ArticleSearchFilter.ArticleState.DRAFT -> ArticleSearchFilter.ArticleState.DRAFT.typeName
+                    ArticleSearchFilter.ArticleState.UNDER_REVIEW -> ArticleSearchFilter.ArticleState.UNDER_REVIEW.typeName
+                    ArticleSearchFilter.ArticleState.FAILED -> ArticleSearchFilter.ArticleState.FAILED.typeName
+                }
+                stvState.isVisible = true
+                stvState.setText(stateName)
+                stvState.setTextColor(getTextColorByState(articleState))
+                stvState.setColorBackground(getBgColorByState(articleState))
                 val covers = item.covers
                 val imageCount = covers.size
                 simpleGridLayout.setOnNineGridClickListener(nineGridAdapterDelegate)
@@ -69,6 +84,26 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
                         if (this == 0) "点赞" else toString()
                     }
                 }
+            }
+        }
+
+        private fun getBgColorByState(articleState: ArticleSearchFilter.ArticleState): Int {
+            return when (articleState) {
+                ArticleSearchFilter.ArticleState.ALL -> Color.TRANSPARENT
+                ArticleSearchFilter.ArticleState.PUBLISHED -> Color.parseColor("#F0F9EB")
+                ArticleSearchFilter.ArticleState.UNDER_REVIEW -> Color.parseColor("#FDF6EC")
+                ArticleSearchFilter.ArticleState.DRAFT -> Color.parseColor("#F4F4F5")
+                ArticleSearchFilter.ArticleState.FAILED -> Color.parseColor("#F56C6C")
+            }
+        }
+
+        private fun getTextColorByState(articleState: ArticleSearchFilter.ArticleState): Int {
+            return when (articleState) {
+                ArticleSearchFilter.ArticleState.ALL -> Color.TRANSPARENT
+                ArticleSearchFilter.ArticleState.PUBLISHED -> Color.parseColor("#67C23A")
+                ArticleSearchFilter.ArticleState.UNDER_REVIEW -> Color.parseColor("#E6A23C")
+                ArticleSearchFilter.ArticleState.DRAFT -> Color.parseColor("#909399")
+                ArticleSearchFilter.ArticleState.FAILED -> Color.WHITE
             }
         }
     }

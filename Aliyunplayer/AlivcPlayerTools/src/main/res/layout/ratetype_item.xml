@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/alivc_color_rate_item"
+    android:gravity="center"
+    android:minHeight="@dimen/alivc_player_rate_item_height"
+    android:layout_gravity="center"
+    android:textColor="@color/alivc_common_font_white_light"
+    android:textSize="@dimen/alivc_common_font_14">
+
+</TextView>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="alivc_base_version">SDK版本信息</string>
+
+    <string name="alivc_alivc_replay_msg">视频播放结束</string>
+    <string name="alivc_operator_play">运营商网络下播放</string>
+
+    <string name="alivc_replay">重播</string>
+    <string name="alivc_error_msg">错误消息</string>
+    <string name="alivc_error_code">错误码:</string>
+    <string name="alivc_retry">重试</string>
+    <string name="alivc_loading">视频正在加载中..</string>
+    <string name="alivc_net_state_mobile">当前为移动网络，请点击播放</string>
+    <string name="alivc_net_state_mobile_yes">继续播放</string>
+    <string name="alivc_net_state_mobile_no">退出播放</string>
+</resources>

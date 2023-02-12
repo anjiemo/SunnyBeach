@@ -1,17 +1,20 @@
 package cn.cqautotest.sunnybeach.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import cn.cqautotest.sunnybeach.http.network.Repository
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.*
 import cn.cqautotest.sunnybeach.paging.source.RichPagingSource
 import com.blankj.utilcode.util.RegexUtils
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import java.io.File
 
 /**
@@ -21,10 +24,6 @@ import java.io.File
  * desc   : 用户 ViewModel
  */
 class UserViewModel(application: Application) : AndroidViewModel(application) {
-
-    // 用户基础数据信息
-    private val _userBasicInfo = MutableLiveData<UserBasicInfo?>()
-    val userBasicInfo: LiveData<UserBasicInfo?> get() = _userBasicInfo
 
     private val phoneLiveData = MutableLiveData<String>()
 
@@ -83,6 +82,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
      * 获取注册的手机验证码（注册）
      */
     fun sendRegisterSmsVerifyCode(smsInfo: SmsInfo) = Repository.sendRegisterSmsVerifyCode(smsInfo)
+
+    /**
+     * 获取当前用户 Sob 币的收支（Income & Expenditures）明细列表
+     */
+    fun getMeSobIEDetailList(page: Int) = Repository.getSobIEDetailList(UserManager.loadCurrUserId(), page)
 
     /**
      * 获取用户 Sob 币的收支（Income & Expenditures）明细列表
@@ -179,80 +183,22 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * 用户账号登录
      */
-    fun login(userAccount: String, password: String, captcha: String) {
-        viewModelScope.launch {
-            val userInfoValid =
-                userAccount.isUserAccountValid() && password.isPasswordValid() && captcha.isVerifyCodeValid()
-            if (userInfoValid.not()) {
-                _userBasicInfo.value = null
-                return@launch
-            }
-            val userBasicInfo = Repository.login(userAccount, password, captcha)
-            _userBasicInfo.value = userBasicInfo
-        }
+    fun login(userAccount: String, password: String, captcha: String) = when {
+        userAccount.isUserAccountValid().not() -> checkErrorResult("手机号码格式错误")
+        password.isPasswordValid().not() -> checkErrorResult("密码长度不能低于5位")
+        captcha.isVerifyCodeValid().not() -> checkErrorResult("验证码不能为空")
+        else -> Repository.login(userAccount, password, captcha)
     }
 
     /**
-     * 用户账号登录
+     * 检查错误结果
      */
-    // fun login(userAccount: String, password: String, captcha: String) {
-    //     viewModelScope.launch {
-    //         val context = getApplication<Application>()
-    //         var userBasicInfoResponse: ApiResponse<UserBasicInfo>? = null
-    //         runCatching {
-    //             val user = User(
-    //                 phoneNum = userAccount, password = password.md5
-    //                     .toLowerCase(Locale.SIMPLIFIED_CHINESE)
-    //             )
-    //             val loginResult = userApi.login(captcha = captcha, user = user)
-    //             val tempUserBasicInfoResponse = withContext(Dispatchers.IO) { userApi.checkToken() }
-    //             val tempUserBasicInfoResponseData = tempUserBasicInfoResponse.getData()
-    //             // 只有Token校验成功获取到数据才算登录成功，否则也是属于登录失败了
-    //             if (SUNNY_BEACH_HTTP_OK_CODE == loginResult.getCode() && SUNNY_BEACH_HTTP_OK_CODE == tempUserBasicInfoResponse.getCode()) {
-    //                 userBasicInfoResponse = tempUserBasicInfoResponse
-    //                 Timber.d("userBasicInfoResponseData is ${tempUserBasicInfoResponseData.toJson()}")
-    //                 _userBasicInfo.value = tempUserBasicInfoResponseData
-    //                 // 将基本信息缓存到本地
-    //                 UserManager.saveUserBasicInfo(tempUserBasicInfoResponseData)
-    //                 // 更新 Token
-    //                 EasyConfig.getInstance()
-    //                     .addParam(IntentKey.TOKEN, tempUserBasicInfoResponseData.token)
-    //                 loginResult
-    //             } else {
-    //                 throw LoginFailedException()
-    //             }
-    //         }.onSuccess {
-    //             _loginResult.value =
-    //                 LoginResult(
-    //                     success = LoggedInUserView(
-    //                         displayName = userBasicInfoResponse?.getData()?.nickname .orEmpty()
-    //                     )
-    //                 )
-    //             setupAutoLogin(true)
-    //         }.onFailure {
-    //             it.printStackTrace()
-    //             _loginResult.value =
-    //                 LoginResult(error = context.getString(R.string.login_failed))
-    //             Timber.d("登陆失败，error msg is $it")
-    //             setupAutoLogin(false)
-    //         }
-    //     }
-    // }
-
-    /**
-     * 检查用户 Token
-     */
-    fun checkToken() {
-        viewModelScope.launch {
-            Repository.checkToken()
-        }
-    }
+    private fun checkErrorResult(msg: String) = MutableLiveData<Result<UserBasicInfo>>(Result.failure(IllegalArgumentException(msg)))
 
     /**
      * 手机号码格式检查
      */
-    private fun String.isUserAccountValid(): Boolean =
-        RegexUtils.isMobileExact(this)
+    private fun String.isUserAccountValid(): Boolean = RegexUtils.isMobileExact(this)
 
     /**
      * 账号密码长度检查

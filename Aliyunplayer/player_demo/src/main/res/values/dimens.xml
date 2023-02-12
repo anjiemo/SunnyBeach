@@ -1,0 +1,16 @@
+<resources>
+
+    <dimen name="alivc_player_info_seekbar_height">3dp</dimen>
+    <dimen name="alivc_player_info_seekbar_offset">8dp</dimen>
+    <dimen name="alivc_player_info_bar_height">46dp</dimen>
+
+    <dimen name="alivc_player_adv_picture_background_width">72dp</dimen>
+    <dimen name="alivc_palyer_adv_picture_background_height">24dp</dimen>
+
+
+    <!--download-->
+    <dimen name="alivc_player_setting_icon">22dp</dimen>
+
+    <dimen name="alivc_player_setting_margin_top_160">160dp</dimen>
+
+</resources>

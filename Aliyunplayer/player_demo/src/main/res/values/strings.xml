@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="alivc_net_disable">No network is found. Check your network and try again</string>
+
+    <string name="alivc_download_delete">Delete</string>
+    <string name="prepare_download_item">To prepare download-item</string>
+    <string name="alivc_local_video_deleted">The video is deleted</string>
+
+    <!--tab-->
+    <string name="alivc_tab_video_list">Videos</string>
+
+    <string name="alivc_sd_card_permission">No permission to access the sdcard</string>
+    <string name="alivc_video_not_found">The resource does not exist or it is not downloaded</string>
+    <string name="alivc_mts_xld_definition">Highest</string>
+
+    <string name="alivc_video_not_support_download">not support url download...</string>
+
+    <string name="alivc_refresh_sts">Refresh Sts</string>
+    <string name="alivc_refresh_with_vid">Refresh By Vid</string>
+    <string name="alivc_refresh_vid_empty">vid is empty</string>
+
+
+    <string name="alivc_download_list_button">Download\nList</string>
+
+    <string name="alivc_player_cache_success">Cache Success</string>
+    <string name="alivc_player_switch_to_software_video_decoder">Switch to SoftWareVideoDecoder</string>
+    <string name="alivc_player_rts_server_recoverr">RTS Server Recover</string>
+    <string name="alivc_player_agree_camera_permission">You must agree the camera permission request before you use the code scan function</string>
+
+    <!--播放设置-->
+    <string name="alivc_player_type_title">Player Source</string>
+    <string name="alivc_player_type_edit">Edit</string>
+    <string name="alivc_player_type_edit_finish">Finish</string>
+    <string name="alivc_player_setting_title">Player Config</string>
+    <string name="alivc_player_setting_play_type_default">Default</string>
+    <string name="alivc_player_setting_play_type_url">URL</string>
+    <string name="alivc_player_setting_play_type_sts">STS</string>
+    <string name="alivc_player_setting_play_type_mps">MPS</string>
+    <string name="alivc_player_setting_play_type_auth">AUTH</string>
+    <string name="alivc_player_setting_play_type_live_sts">LiveSts</string>
+    <string name="alivc_player_setting_decode_type_title">Decoder Type</string>
+    <string name="alivc_player_setting_decode_type_soft">软解</string>
+    <string name="alivc_player_setting_decode_type_hard">硬解</string>
+    <string name="alivc_player_setting_mirror_type_title">Mirror</string>
+    <string name="alivc_player_setting_mirror_type_none">None</string>
+    <string name="alivc_player_setting_mirror_type_vertical">Vertical</string>
+    <string name="alivc_player_setting_mirror_type_horizontal">Horizontal</string>
+    <string name="alivc_player_setting_rotate_type_title">Rotate</string>
+    <string name="alivc_player_setting_rotate_type_0">0</string>
+    <string name="alivc_player_setting_rotate_type_90">90</string>
+    <string name="alivc_player_setting_rotate_type_180">180</string>
+    <string name="alivc_player_setting_rotate_type_270">270</string>
+    <string name="alivc_player_setting_auto_switch">自适应码率</string>
+    <string name="alivc_player_setting_seek_module">seek模式</string>
+    <string name="alivc_player_setting_muti_bitrate">多码率视频流起播码率(Kbps)</string>
+    <string name="alivc_player_setting_enable_background">后台播放</string>
+    <string name="alivc_player_setting_auto_open">Open</string>
+    <string name="alivc_player_setting_auto_close">Close</string>
+    <string name="alivc_player_setting_seek_accurate">精准Seek</string>
+    <string name="alivc_player_setting_seek_inaccurate">非精准Seek</string>
+
+    <!--播放参数-->
+    <string name="alivc_player_config_title">播放参数设置</string>
+    <string name="alivc_player_config_start_buffer_level">启播</string>
+    <string name="alivc_player_config_high_buffer_level">卡顿恢复</string>
+    <string name="alivc_player_config_max_buffer_packet_duration">最大缓存值</string>
+    <string name="alivc_player_config_max_delay_time">直播最大延迟</string>
+    <string name="alivc_player_config_net_work_time_out">网络超时</string>
+    <string name="alivc_player_config_probe_size">probe大小</string>
+    <string name="alivc_player_config_referrer">请求referer</string>
+    <string name="alivc_player_config_http_proxy">httpProxy代理</string>
+    <string name="alivc_player_config_retry_count">网络重试次数</string>
+    <string name="alivc_player_config_enable_cachet">开启自定义缓存</string>
+    <string name="alivc_player_config_enable_sei">开启SEI</string>
+    <string name="alivc_player_config_enable_clean_when_stop">停止显示最后帧</string>
+    <string name="alivc_player_config_max_duration">缓存最大时长</string>
+    <string name="alivc_player_config_max_size">缓存最大空间</string>
+
+
+    <string name="alivc_player_confirm_config">使用此配置</string>
+    <string name="alivc_player_normal_config">默认配置</string>
+
+    <!--change track tips-->
+    <string name="alivc_player_track_change_error">Track change Error : %s --- %s</string>
+    <string name="alivc_player_track_bitrate_change_success">video bitrate change To : %s</string>
+    <string name="alivc_player_track_definition_change_success">video definition change To : %s</string>
+    <string name="alivc_player_track_change_success">change to : %s</string>
+
+    <string name="alivc_player_download_repeat_add">Has Add</string>
+</resources>

@@ -40,7 +40,7 @@ data class QaMsg(
         @SerializedName("createTime")
         val createTime: String,
         @SerializedName("hasRead")
-        val hasRead: String,
+        var hasRead: String,
         @SerializedName("_id")
         val id: String,
         @SerializedName("nickname")
@@ -53,7 +53,9 @@ data class QaMsg(
         val uid: String,
         @SerializedName("wendaId")
         val wendaId: String
-    ) : IMsgContent
+    ) : IMsgContent {
+        val isRead get() = hasRead == "1"
+    }
 
     data class Pageable(
         @SerializedName("offset")

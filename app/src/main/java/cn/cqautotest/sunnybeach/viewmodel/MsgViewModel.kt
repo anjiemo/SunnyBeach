@@ -6,6 +6,8 @@ import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.model.msg.*
 import cn.cqautotest.sunnybeach.paging.source.msg.factory.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -40,6 +42,7 @@ class MsgViewModel : ViewModel() {
     fun readAllMsg() = Repository.readAllMsg()
 
     fun getUnReadMsgCount() = Repository.getUnReadMsgCount()
+        .catch { Timber.e(it) }
 
     fun getArticleMsgList(): Flow<PagingData<ArticleMsg.Content>> = articleMsgListFactory.get()
 
