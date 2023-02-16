@@ -18,6 +18,7 @@ import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
+import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.GalleryActivityBinding
 import cn.cqautotest.sunnybeach.http.network.Repository
@@ -33,6 +34,8 @@ import com.blankj.utilcode.util.*
 import com.dylanc.longan.activity
 import com.dylanc.longan.context
 import com.gyf.immersionbar.ImmersionBar
+import com.hjq.permissions.Permission
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -112,27 +115,7 @@ class GalleryActivity : AppActivity() {
                 }
             }
             downLoadPhotoTv.setOnClickListener {
-                lifecycleScope.launchWhenCreated {
-                    simpleToast("正在下载图片，请稍后...")
-                    // 下载图片文件
-                    val verticalPhotoBean = getCurrentVerticalPhotoBean()
-                    val oldFile = DownloadHelper.ofType<File>(context, getImageUri()) ?: return@launchWhenCreated simpleToast("图片下载失败")
-                    val imageType = ImageUtils.getImageType(oldFile)
-                    val fileExtension = imageType.value
-                    val newFile = File(PathUtils.getExternalPicturesPath(), "${verticalPhotoBean.id}.$fileExtension")
-                    Timber.d("downloadPhotoFile：===> oldFile path is ${oldFile.path}")
-                    Timber.d("downloadPhotoFile：===> newFile path is ${newFile.path}")
-                    val success = FileUtils.copy(oldFile, newFile)
-                    // 刷新媒体库
-                    MediaScannerConnection.scanFile(context, arrayOf(newFile.path), arrayOf("image/$fileExtension")) { _, _ -> }
-                    simpleToast(if (success) "文件下载成功" else "文件下载失败")
-                    // 打开指定的一张照片
-                    Intent(Intent.ACTION_VIEW).apply {
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        setDataAndType(UriUtils.file2Uri(newFile), "image/*")
-                        startActivity(this)
-                    }
-                }
+                downloadImage()
             }
             val wallpaperManager = WallpaperManager.getInstance(context)
             settingWallpaperTv.setOnClickListener {
@@ -144,6 +127,31 @@ class GalleryActivity : AppActivity() {
                     hideDialog()
                     simpleToast(if (success) "壁纸设置成功" else "壁纸设置失败")
                 }
+            }
+        }
+    }
+
+    @Permissions(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
+    fun downloadImage() {
+        lifecycleScope.launch {
+            simpleToast("正在下载图片，请稍后...")
+            // 下载图片文件
+            val verticalPhotoBean = getCurrentVerticalPhotoBean()
+            val oldFile = DownloadHelper.ofType<File>(context, getImageUri()) ?: return@launch simpleToast("图片下载失败")
+            val imageType = ImageUtils.getImageType(oldFile)
+            val fileExtension = imageType.value
+            val newFile = File(PathUtils.getExternalPicturesPath(), "${verticalPhotoBean.id}.$fileExtension")
+            Timber.d("downloadPhotoFile：===> oldFile path is ${oldFile.path}")
+            Timber.d("downloadPhotoFile：===> newFile path is ${newFile.path}")
+            val success = FileUtils.copy(oldFile, newFile)
+            // 刷新媒体库
+            MediaScannerConnection.scanFile(context, arrayOf(newFile.path), arrayOf("image/$fileExtension"), null)
+            simpleToast(if (success) "文件下载成功" else "文件下载失败")
+            // 打开指定的一张照片
+            Intent(Intent.ACTION_VIEW).apply {
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                setDataAndType(UriUtils.file2Uri(newFile), "image/*")
+                startActivity(this)
             }
         }
     }
