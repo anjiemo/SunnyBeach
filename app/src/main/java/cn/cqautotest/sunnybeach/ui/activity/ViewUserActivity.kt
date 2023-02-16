@@ -19,10 +19,7 @@ import cn.cqautotest.sunnybeach.other.FriendsStatus
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.ui.fragment.UserMediaFragment
-import cn.cqautotest.sunnybeach.util.I_LOVE_ANDROID_SITE_BASE_URL
-import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_SITE_BASE_URL
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_VIEW_USER_URL_PRE
-import cn.cqautotest.sunnybeach.util.StringUtil
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.dylanc.longan.lifecycleOwner
 import com.hjq.bar.TitleBar
@@ -70,36 +67,12 @@ class ViewUserActivity : AppActivity() {
         Timber.d("showResult：===> scheme is $scheme authority is $authority userId is $userId lastPathSegment is $lastPathSegment")
 
         return when {
-            checkScheme(scheme).not() -> userId
-            checkAuthority(authority).not() -> userId
-            checkUserId(lastPathSegment).not() -> userId
+            mUserViewModel.checkScheme(scheme).not() -> userId
+            mUserViewModel.checkAuthority(authority).not() -> userId
+            mUserViewModel.checkUserId(lastPathSegment).not() -> userId
             else -> lastPathSegment
         }
     }
-
-    /**
-     * We only support http and https protocols.
-     */
-    private fun checkScheme(scheme: String) = scheme == "http" || scheme == "https"
-
-    private fun checkAuthority(authority: String): Boolean {
-        val sobSiteTopDomain = StringUtil.getTopDomain(SUNNY_BEACH_SITE_BASE_URL)
-        val loveSiteTopDomain = StringUtil.getTopDomain(I_LOVE_ANDROID_SITE_BASE_URL)
-
-        Timber.d("checkAuthority：===> authority is $authority")
-        Timber.d("checkAuthority：===> sobSiteTopDomain is $sobSiteTopDomain")
-        Timber.d("checkAuthority：===> loveSiteTopDomain is $loveSiteTopDomain")
-
-        fun String.delete3W() = replace("www.", "")
-        val sobAuthority = authority.delete3W() == sobSiteTopDomain
-        val loveAuthority = authority.delete3W() == loveSiteTopDomain
-        return sobAuthority || loveAuthority
-    }
-
-    /**
-     * Sob site userId is long type, we need check.
-     */
-    private fun checkUserId(userId: String) = userId.isNotBlank() && userId.toLongOrNull() != null
 
     @SuppressLint("SetTextI18n")
     private fun setUpUserInfo(userId: String) {
@@ -112,7 +85,7 @@ class ViewUserActivity : AppActivity() {
                 ivAvatar.loadAvatar(userInfo.vip, userInfo.avatar)
                 tvNickName.text = userInfo.nickname
                 tvNickName.setTextColor(UserManager.getNickNameColor(userInfo.vip))
-                val job = userInfo.position.ifNullOrEmpty { "游民" }
+                val job = userInfo.position.ifNullOrEmpty { "滩友" }
                 val company = userInfo.company.ifNullOrEmpty { "无业" }
                 tvDesc.text = "${job}@${company}"
             }

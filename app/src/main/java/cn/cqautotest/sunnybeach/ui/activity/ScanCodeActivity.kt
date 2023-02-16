@@ -16,6 +16,7 @@ import com.huawei.hms.hmsscankit.ScanKitActivity
 import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
+import timber.log.Timber
 
 /**
  * author : A Lonely Cat
@@ -59,6 +60,7 @@ class ScanCodeActivity : ScanKitActivity(), Init {
     }
 
     private fun parseScanResult(uri: Uri) {
+        Timber.d("parseScanResult：===> uri is $uri")
         ThreadPoolManager.getInstance().execute {
             val bitmap = GlideApp.with(this)
                 .asBitmap()
@@ -77,6 +79,7 @@ class ScanCodeActivity : ScanKitActivity(), Init {
     private fun setResultAndFinish(hmsScans: Array<out HmsScan>?) {
         val intent = Intent()
         val hmsScan = if (hmsScans.isNullOrEmpty()) null else hmsScans[0]
+        Timber.d("setResultAndFinish：===> hmsScan is ${hmsScan?.getShowResult()}")
         intent.putExtra(ScanUtil.RESULT, hmsScan)
         setResult(RESULT_OK, intent)
         finish()
