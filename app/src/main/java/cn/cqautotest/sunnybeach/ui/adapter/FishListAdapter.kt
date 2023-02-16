@@ -58,7 +58,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
                 ivFishPondAvatar.loadAvatar(item.vip, item.avatar)
                 tvFishPondNickName.setTextColor(UserManager.getNickNameColor(item.vip))
                 tvFishPondNickName.text = item.nickname
-                val job = item.position.ifNullOrEmpty { "游民" }
+                val job = item.position.ifNullOrEmpty { "滩友" }
                 tvFishPondDesc.text = "$job · " + TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
                 tvFishPondContent.setTextIsSelectable(false)
                 tvFishPondContent.apply {

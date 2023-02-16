@@ -28,7 +28,10 @@ import cn.cqautotest.sunnybeach.ui.adapter.FishCategoryAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.RecommendFishTopicListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
-import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.util.MultiOperationHelper
+import cn.cqautotest.sunnybeach.util.MyScanUtil
+import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
+import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -64,6 +67,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     lateinit var mMultiOperationHelper: MultiOperationHelper
 
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
+    private val mUserViewModel by activityViewModels<UserViewModel>()
     private val mRefreshStatus = RefreshStatus()
     private val mRecommendFishTopicListAdapterDelegate = AdapterDelegate()
     private val mFishListAdapterDelegate = AdapterDelegate()
@@ -252,38 +256,14 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         // toast(userId)
 
         when {
-            checkScheme(scheme).not() -> unsupportedParsedContent()
-            checkAuthority(authority).not() -> unsupportedParsedContent()
-            checkUserId(userId).not() -> unsupportedParsedContent()
+            mUserViewModel.checkScheme(scheme).not() -> unsupportedParsedContent()
+            mUserViewModel.checkAuthority(authority).not() -> unsupportedParsedContent()
+            mUserViewModel.checkUserId(userId).not() -> unsupportedParsedContent()
             else -> ViewUserActivity.start(requireContext(), userId)
         }
     }
 
     private fun unsupportedParsedContent() = toast("不支持解析的内容")
-
-    /**
-     * We only support http and https protocols.
-     */
-    private fun checkScheme(scheme: String) = scheme == "http" || scheme == "https"
-
-    private fun checkAuthority(authority: String): Boolean {
-        val sobSiteTopDomain = StringUtil.getTopDomain(SUNNY_BEACH_SITE_BASE_URL)
-        val loveSiteTopDomain = StringUtil.getTopDomain(I_LOVE_ANDROID_SITE_BASE_URL)
-
-        Timber.d("checkAuthority：===> authority is $authority")
-        Timber.d("checkAuthority：===> sobSiteTopDomain is $sobSiteTopDomain")
-        Timber.d("checkAuthority：===> loveSiteTopDomain is $loveSiteTopDomain")
-
-        fun String.delete3W() = replace("www.", "")
-        val sobAuthority = authority.delete3W() == sobSiteTopDomain
-        val loveAuthority = authority.delete3W() == loveSiteTopDomain
-        return sobAuthority || loveAuthority
-    }
-
-    /**
-     * Sob site userId is long type, we need check.
-     */
-    private fun checkUserId(userId: String) = userId.isNotBlank() && userId.toLongOrNull() != null
 
     companion object {
 

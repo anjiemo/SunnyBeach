@@ -13,8 +13,12 @@ import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.*
 import cn.cqautotest.sunnybeach.paging.source.RichPagingSource
+import cn.cqautotest.sunnybeach.util.I_LOVE_ANDROID_SITE_BASE_URL
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_SITE_BASE_URL
+import cn.cqautotest.sunnybeach.util.StringUtil
 import com.blankj.utilcode.util.RegexUtils
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
 import java.io.File
 
 /**
@@ -30,6 +34,30 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     val userAvatarLiveData = Transformations.switchMap(phoneLiveData) { account ->
         Repository.queryUserAvatar(account)
     }
+
+    /**
+     * We only support http and https protocols.
+     */
+    fun checkScheme(scheme: String) = scheme == "http" || scheme == "https"
+
+    fun checkAuthority(authority: String): Boolean {
+        val sobSiteTopDomain = StringUtil.getTopDomain(SUNNY_BEACH_SITE_BASE_URL)
+        val loveSiteTopDomain = StringUtil.getTopDomain(I_LOVE_ANDROID_SITE_BASE_URL)
+
+        Timber.d("checkAuthority：===> authority is $authority")
+        Timber.d("checkAuthority：===> sobSiteTopDomain is $sobSiteTopDomain")
+        Timber.d("checkAuthority：===> loveSiteTopDomain is $loveSiteTopDomain")
+
+        fun String.delete3W() = replace("www.", "")
+        val sobAuthority = authority.delete3W() == sobSiteTopDomain
+        val loveAuthority = authority.delete3W() == loveSiteTopDomain
+        return sobAuthority || loveAuthority
+    }
+
+    /**
+     * Sob site userId is long type, we need check.
+     */
+    fun checkUserId(userId: String) = userId.isNotBlank() && userId.toLongOrNull() != null
 
     /**
      * 举报
