@@ -218,7 +218,7 @@ class UserCenterActivity : AppActivity() {
                 tvSobId.text = userId.manicured()
 
                 val company = mPersonCenterInfo.company.ifNullOrEmpty { "无业" }
-                val job = mPersonCenterInfo.position.ifNullOrEmpty { "游民" }
+                val job = mPersonCenterInfo.position.ifNullOrEmpty { "滩友" }
 
                 userCenterContent.apply {
                     sbSettingCompany.setRightText(company)
