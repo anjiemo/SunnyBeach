@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.media.MediaScannerConnection
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -20,6 +21,7 @@ import com.blankj.utilcode.util.IntentUtils
 import com.blankj.utilcode.util.PathUtils
 import com.blankj.utilcode.util.SizeUtils
 import com.bumptech.glide.Glide
+import com.dylanc.longan.context
 import com.dylanc.longan.intentExtras
 import com.hjq.bar.TitleBar
 import kotlinx.coroutines.Dispatchers
@@ -95,13 +97,12 @@ class SobCardActivity : AppActivity() {
     }
 
     private suspend fun saveShareQrCardToFile(bitmap: Bitmap?): File {
-        val sobCardFile = withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             File(PathUtils.getExternalDcimPath(), "sob_image_share_${System.currentTimeMillis()}.png").also {
                 ImageUtils.save(bitmap, it, Bitmap.CompressFormat.PNG)
                 withContext(Dispatchers.Main) { toast("图片已保存到本地相册") }
             }
-        }
-        return sobCardFile
+        }.also { MediaScannerConnection.scanFile(context, arrayOf(it.path), arrayOf("image/*"), null) }
     }
 
     companion object {

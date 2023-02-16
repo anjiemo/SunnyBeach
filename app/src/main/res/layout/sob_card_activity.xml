@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingTop="?actionBarSize">
+            android:paddingTop="@dimen/dp_20">
 
             <include
                 android:id="@+id/include_sob_card_front"
