@@ -6,7 +6,7 @@ package cn.cqautotest.sunnybeach.aop
  *    time   : 2019/12/06
  *    desc   : 权限申请注解
  */
-@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.RUNTIME)
 @Target(
     AnnotationTarget.FUNCTION,
     AnnotationTarget.PROPERTY_GETTER,

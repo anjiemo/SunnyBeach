@@ -61,14 +61,14 @@ class SystemMsgListActivity : PagingActivity(), OnBack2TopListener {
         // 需要在 View 销毁的时候移除 listener
         mSystemMsgAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mSystemMsgAdapter.snapshotList[position]?.let {
-                val url = when (it.exType) {
+            mSystemMsgAdapter.snapshotList[position]?.let { msg ->
+                val url = when (msg.exType) {
                     // 文章
-                    "article" -> "$SUNNY_BEACH_ARTICLE_URL_PRE${it.exId}"
+                    "article" -> "$SUNNY_BEACH_ARTICLE_URL_PRE${msg.exId}"
                     // 登录奖励
                     "sobTrade" -> null
                     // 问答评论
-                    "wendaComment" -> "$SUNNY_BEACH_QA_URL_PRE${it.exId}"
+                    "wendaComment" -> "$SUNNY_BEACH_QA_URL_PRE${msg.exId}"
                     else -> null
                 }
                 url?.let { BrowserActivity.start(this, it) }
