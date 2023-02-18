@@ -18,9 +18,9 @@ import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
+import cn.cqautotest.sunnybeach.ui.popup.CommentPopupWindow
 import cn.cqautotest.sunnybeach.ui.popup.InputPopup
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
-import razerdp.basepopup.BasePopupWindow
 
 /**
  * author : A Lonely Cat
@@ -32,16 +32,13 @@ class SubmitCommentFragment : Fragment(), CommendAction {
 
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
     private val mInputPopup by lazy {
-        InputPopup(requireContext()).apply {
+        CommentPopupWindow(requireContext()).apply {
             type = InputPopup.EMOJI_FLAG
-            defaultConfig()
             doAfterTextChanged { submitButton.isEnabled = it.isNullOrEmpty().not() }
             // 提交评论
             setOnCommitListener { view, inputContent -> submitComment(view, inputContent) }
-            onDismissListener = object : BasePopupWindow.OnDismissListener() {
-                override fun onDismiss() {
-                    resetForm()
-                }
+            addOnDismissListener {
+                resetForm()
             }
         }
     }
@@ -85,7 +82,8 @@ class SubmitCommentFragment : Fragment(), CommendAction {
 
     private fun showCommentPopup(targetUserName: String) {
         mInputPopup.apply {
-            inputHint = "回复 $targetUserName"
+            // inputHint = "回复 $targetUserName"
+            attachToWindow(requireActivity().window)
             showPopupWindow()
         }
     }
