@@ -28,7 +28,8 @@ class CommentPopupWindow(context: Context, attrs: AttributeSet? = null) : SuperP
 
     private var _binding: SubmitCommendIncludeBinding? = null
     private val mBinding get() = _binding!!
-    private var mShowing = false
+    private val mShowing: Boolean
+        get() = rootWindowInsetsCompat?.isVisible(WindowInsetsCompat.Type.ime()) ?: false
     private val defaultFlag = InputPopup.EMOJI_FLAG and InputPopup.IMAGE_FLAG
     var inputHint = ""
         set(value) {
@@ -54,9 +55,9 @@ class CommentPopupWindow(context: Context, attrs: AttributeSet? = null) : SuperP
     override fun initView() {
         mBinding.etInputContent.setDefaultEmojiParser()
         mBinding.etInputContent.requestFocus()
-        windowInsetsControllerCompat?.show(WindowInsetsCompat.Type.ime())
+        mBinding.etInputContent.performClick()
         updateMenuItem()
-        postDelayed({
+        post {
             rootWindowInsetsCompat?.let {
                 val imeInsets = it.getInsets(WindowInsetsCompat.Type.ime())
                 val imeHeight = imeInsets.bottom - imeInsets.top
@@ -64,7 +65,7 @@ class CommentPopupWindow(context: Context, attrs: AttributeSet? = null) : SuperP
                     height = imeHeight
                 }
             }
-        }, 10)
+        }
     }
 
     private fun updateEmojiIcon() {
@@ -99,18 +100,22 @@ class CommentPopupWindow(context: Context, attrs: AttributeSet? = null) : SuperP
         setWindowInsetsAnimationCallback()
         mBinding.apply {
             viewMask.setOnClickListener { dismiss() }
-            ivEmoji.setOnClickListener {
+            etInputContent.setOnClickListener {
+                if (!mShowing) {
+                    post { setWindowInsetsAnimationCallback() }
+                    mBinding.etInputContent.requestFocus()
+                    windowInsetsControllerCompat?.show(WindowInsetsCompat.Type.ime())
+                }
+            }
+            ivEmoji.setFixOnClickListener(delayTime = 300) {
                 if (mShowing) {
                     clearWindowInsetsAnimationCallback()
                     windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.ime())
                 } else {
-                    postDelayed({
-                        setWindowInsetsAnimationCallback()
-                    }, 4)
+                    post { setWindowInsetsAnimationCallback() }
                     mBinding.etInputContent.requestFocus()
                     windowInsetsControllerCompat?.show(WindowInsetsCompat.Type.ime())
                 }
-                mShowing = !mShowing
             }
             tvSend.setFixOnClickListener { onCommitListener?.onSubmit(it, etInputContent.textString) }
             rvEmojiList.setOnEmojiClickListener { emoji, _ ->
@@ -138,6 +143,12 @@ class CommentPopupWindow(context: Context, attrs: AttributeSet? = null) : SuperP
                 return insets
             }
         }.also { ViewCompat.setWindowInsetsAnimationCallback(this, it) }
+    }
+
+    private fun WindowInsetsCompat?.getKeyboardsHeight(): Int {
+        this ?: return 0
+        val imeWindowInsets = getInsets(WindowInsetsCompat.Type.ime())
+        return imeWindowInsets.bottom - imeWindowInsets.top
     }
 
     private fun clearWindowInsetsAnimationCallback() {
