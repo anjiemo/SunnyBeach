@@ -88,12 +88,10 @@ open class SuperPopupWindow @JvmOverloads constructor(
         return this
     }
 
-    private fun detachFromWindow() {
+    open fun detachFromWindow() {
         // 1、清除焦点
-        findFocus()?.let {
-            it.clearFocus()
-            windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.ime())
-        }
+        findFocus()?.clearFocus()
+        windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.ime())
         // 2、从父容器中移除自己
         (parent as? ViewGroup)?.removeView(this)
     }
