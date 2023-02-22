@@ -15,9 +15,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:leftIcon="@null"
+        app:rightHorizontalPadding="@dimen/dp_16"
         app:rightIcon="@drawable/ic_scan_qr_code"
-        app:rightIconHeight="16dp"
-        app:rightIconWidth="16dp"
+        app:rightIconHeight="@dimen/dp_17"
+        app:rightIconWidth="@dimen/dp_17"
         app:title="鱼塘" />
 
     <cn.cqautotest.sunnybeach.widget.StatusLayout
