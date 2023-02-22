@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.SystemMsgListItemBinding
 import cn.cqautotest.sunnybeach.ktx.asViewBinding
+import cn.cqautotest.sunnybeach.ktx.interceptHyperLinkClickFrom
 import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
-import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.msg.SystemMsg
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import com.blankj.utilcode.util.TimeUtils
@@ -44,7 +44,7 @@ class SystemMsgAdapter(private val adapterDelegate: AdapterDelegate) :
                 val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
                 tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.publishTime, sdf)
                 tvReplyMsg.height = 0
-                tvChildReplyMsg.text = item.content.parseAsHtml()
+                tvChildReplyMsg.interceptHyperLinkClickFrom(item.content.parseAsHtml())
             }
         }
     }
@@ -55,7 +55,7 @@ class SystemMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     }
 
     override fun onBindViewHolder(holder: SystemMsgViewHolder, position: Int) {
-        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
+        // holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
         holder.onBinding(getItem(position), position)
     }
 

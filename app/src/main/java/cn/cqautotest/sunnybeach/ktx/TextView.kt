@@ -1,7 +1,36 @@
 package cn.cqautotest.sunnybeach.ktx
 
+import android.text.Spannable
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.URLSpan
+import android.view.View
+import android.webkit.URLUtil
 import android.widget.TextView
+import androidx.core.text.buildSpannedString
+import androidx.core.text.getSpans
+import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.util.EmojiInputFilter
+
+fun TextView.interceptHyperLinkClickFrom(spanned: Spanned) {
+    movementMethod = LinkMovementMethod.getInstance()
+    val urlSpans = spanned.getSpans<URLSpan>()
+    text = buildSpannedString {
+        append(spanned)
+        for (urlSpan in urlSpans) {
+            val url = urlSpan.url
+            if (URLUtil.isNetworkUrl(url)) {
+                val customUrlSpan = object : ClickableSpan() {
+                    override fun onClick(widget: View) {
+                        BrowserActivity.start(context, url)
+                    }
+                }
+                setSpan(customUrlSpan, spanned.getSpanStart(urlSpan), spanned.getSpanEnd(urlSpan), Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+            }
+        }
+    }
+}
 
 fun TextView.setDefaultEmojiParser() {
     filters = Array(1) { EmojiInputFilter() }
