@@ -18,7 +18,6 @@ import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
-import cn.cqautotest.sunnybeach.ui.popup.CommentPopupWindow
 import cn.cqautotest.sunnybeach.ui.popup.InputPopup
 import cn.cqautotest.sunnybeach.ui.popup.SuperPopupWindow
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
@@ -72,10 +71,10 @@ class SubmitCommentFragment : Fragment(), CommendAction {
     }
 
     private fun showCommentPopup(targetUserName: String) {
-        // 先取消上一次显示的 CommentPopupWindow，避免同时出现多个 CommentPopupWindow 实例
+        // 先取消上一次显示的 InputPopup，避免同时出现多个 InputPopup 实例
         mInputPopup?.dismiss()
-        // 创建新的 CommentPopupWindow 实例，避免出现键盘出现奇奇怪怪的问题
-        CommentPopupWindow(requireContext()).apply {
+        // 创建新的 InputPopup 实例，避免出现键盘出现奇奇怪怪的问题
+        InputPopup(requireContext()).apply {
             type = InputPopup.EMOJI_FLAG
             doAfterTextChanged { submitButton.isEnabled = it.isNullOrEmpty().not() }
             // 提交评论
