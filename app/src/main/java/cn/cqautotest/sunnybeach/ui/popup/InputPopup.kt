@@ -89,6 +89,8 @@ class InputPopup(context: Context, attrs: AttributeSet? = null) : SuperPopupWind
     override fun initEvent() {
         setWindowInsetsAnimationCallback()
         mBinding.apply {
+            // 避免点击事件透传到下层 View
+            setOnClickListener(null)
             viewMask.setOnClickListener { dismiss() }
             etInputContent.setOnClickListener {
                 if (!mShowing) {
