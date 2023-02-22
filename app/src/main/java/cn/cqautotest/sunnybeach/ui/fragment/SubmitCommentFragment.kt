@@ -20,6 +20,7 @@ import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 import cn.cqautotest.sunnybeach.ui.popup.CommentPopupWindow
 import cn.cqautotest.sunnybeach.ui.popup.InputPopup
+import cn.cqautotest.sunnybeach.ui.popup.SuperPopupWindow
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 
 /**
@@ -31,7 +32,7 @@ import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 class SubmitCommentFragment : Fragment(), CommendAction {
 
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
-    private var mInputPopup: CommentPopupWindow? = null
+    private var mInputPopup: SuperPopupWindow? = null
 
     private fun submitComment(view: View, inputContent: String) {
         view.isEnabled = false
@@ -71,6 +72,9 @@ class SubmitCommentFragment : Fragment(), CommendAction {
     }
 
     private fun showCommentPopup(targetUserName: String) {
+        // 先取消上一次显示的 CommentPopupWindow，避免同时出现多个 CommentPopupWindow 实例
+        mInputPopup?.dismiss()
+        // 创建新的 CommentPopupWindow 实例，避免出现键盘出现奇奇怪怪的问题
         CommentPopupWindow(requireContext()).apply {
             type = InputPopup.EMOJI_FLAG
             doAfterTextChanged { submitButton.isEnabled = it.isNullOrEmpty().not() }
@@ -78,6 +82,7 @@ class SubmitCommentFragment : Fragment(), CommendAction {
             setOnCommitListener { view, inputContent -> submitComment(view, inputContent) }
         }.also { it.inputHint = "回复 $targetUserName" }
             .attachToWindow(requireActivity().window)
+            .also { mInputPopup = it }
             .showPopupWindow()
     }
 
