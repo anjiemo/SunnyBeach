@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.popup
 
 import android.content.Context
+import android.content.DialogInterface
 import android.text.Editable
 import android.util.AttributeSet
 import android.view.View
@@ -55,17 +56,7 @@ class CommentPopupWindow(context: Context, attrs: AttributeSet? = null) : SuperP
     override fun initView() {
         mBinding.etInputContent.setDefaultEmojiParser()
         mBinding.etInputContent.requestFocus()
-        mBinding.etInputContent.performClick()
         updateMenuItem()
-        post {
-            rootWindowInsetsCompat?.let {
-                val imeInsets = it.getInsets(WindowInsetsCompat.Type.ime())
-                val imeHeight = imeInsets.bottom - imeInsets.top
-                mBinding.rvEmojiList.updateLayoutParams {
-                    height = imeHeight
-                }
-            }
-        }
     }
 
     private fun updateEmojiIcon() {
@@ -125,6 +116,20 @@ class CommentPopupWindow(context: Context, attrs: AttributeSet? = null) : SuperP
         }
     }
 
+    override fun onShow(dialog: DialogInterface?) {
+        postDelayed({
+            mBinding.etInputContent.performClick()
+            windowInsetsControllerCompat?.show(WindowInsetsCompat.Type.ime())
+            rootWindowInsetsCompat?.let {
+                val imeInsets = it.getInsets(WindowInsetsCompat.Type.ime())
+                val imeHeight = imeInsets.bottom - imeInsets.top
+                mBinding.rvEmojiList.updateLayoutParams {
+                    height = imeHeight
+                }
+            }
+        }, 100)
+    }
+
     private fun setWindowInsetsAnimationCallback() {
         object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
 
@@ -143,12 +148,6 @@ class CommentPopupWindow(context: Context, attrs: AttributeSet? = null) : SuperP
                 return insets
             }
         }.also { ViewCompat.setWindowInsetsAnimationCallback(this, it) }
-    }
-
-    private fun WindowInsetsCompat?.getKeyboardsHeight(): Int {
-        this ?: return 0
-        val imeWindowInsets = getInsets(WindowInsetsCompat.Type.ime())
-        return imeWindowInsets.bottom - imeWindowInsets.top
     }
 
     private fun clearWindowInsetsAnimationCallback() {
