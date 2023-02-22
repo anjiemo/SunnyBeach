@@ -55,7 +55,6 @@ class InputPopup(context: Context, attrs: AttributeSet? = null) : SuperPopupWind
 
     override fun initView() {
         mBinding.etInputContent.setDefaultEmojiParser()
-        mBinding.etInputContent.requestFocus()
         updateMenuItem()
     }
 
@@ -93,10 +92,12 @@ class InputPopup(context: Context, attrs: AttributeSet? = null) : SuperPopupWind
             viewMask.setOnClickListener { dismiss() }
             etInputContent.setOnClickListener {
                 if (!mShowing) {
-                    post { setWindowInsetsAnimationCallback() }
+                    post {
+                        setWindowInsetsAnimationCallback()
+                    }
                     mBinding.etInputContent.requestFocus()
                     windowInsetsControllerCompat?.show(WindowInsetsCompat.Type.ime())
-                    updateEmojiIcon()
+                    loadEmojiIcon(R.mipmap.ic_emoji_normal)
                 }
             }
             ivEmoji.setFixOnClickListener(delayTime = 300) {
@@ -119,8 +120,8 @@ class InputPopup(context: Context, attrs: AttributeSet? = null) : SuperPopupWind
     }
 
     override fun onShow(dialog: DialogInterface?) {
+        mBinding.etInputContent.requestFocus()
         postDelayed({
-            mBinding.etInputContent.performClick()
             windowInsetsControllerCompat?.show(WindowInsetsCompat.Type.ime())
             rootWindowInsetsCompat?.let {
                 val imeInsets = it.getInsets(WindowInsetsCompat.Type.ime())
@@ -129,6 +130,7 @@ class InputPopup(context: Context, attrs: AttributeSet? = null) : SuperPopupWind
                     height = imeHeight
                 }
             }
+            updateEmojiIcon()
         }, 100)
     }
 
@@ -148,10 +150,6 @@ class InputPopup(context: Context, attrs: AttributeSet? = null) : SuperPopupWind
                     height = if (imeHeight - navigationBarsHeight <= 0) 0 else imeHeight - navigationBarsHeight
                 }
                 return insets
-            }
-
-            override fun onEnd(animation: WindowInsetsAnimationCompat) {
-                updateEmojiIcon()
             }
         }.also { ViewCompat.setWindowInsetsAnimationCallback(this, it) }
     }
