@@ -11,6 +11,7 @@ captures
 local.properties
 
 /app/release
+/app/preview
 /app/debug
 /app/release.jks
 /app/gradle.properties

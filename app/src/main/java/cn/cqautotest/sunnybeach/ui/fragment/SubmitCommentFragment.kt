@@ -31,17 +31,7 @@ import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 class SubmitCommentFragment : Fragment(), CommendAction {
 
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
-    private val mInputPopup by lazy {
-        CommentPopupWindow(requireContext()).apply {
-            type = InputPopup.EMOJI_FLAG
-            doAfterTextChanged { submitButton.isEnabled = it.isNullOrEmpty().not() }
-            // 提交评论
-            setOnCommitListener { view, inputContent -> submitComment(view, inputContent) }
-            addOnDismissListener {
-                resetForm()
-            }
-        }
-    }
+    private var mInputPopup: CommentPopupWindow? = null
 
     private fun submitComment(view: View, inputContent: String) {
         view.isEnabled = false
@@ -55,7 +45,7 @@ class SubmitCommentFragment : Fragment(), CommendAction {
             view.isEnabled = true
             result.onSuccess {
                 simpleToast("评论成功\uD83D\uDE03")
-                mInputPopup.dismiss()
+                mInputPopup?.dismiss()
                 with(requireActivity()) {
                     setResult(Activity.RESULT_OK)
                     if (this is FishPondDetailActivity) {
@@ -81,14 +71,22 @@ class SubmitCommentFragment : Fragment(), CommendAction {
     }
 
     private fun showCommentPopup(targetUserName: String) {
-        mInputPopup.apply {
-            // inputHint = "回复 $targetUserName"
-            attachToWindow(requireActivity().window)
-            showPopupWindow()
-        }
+        CommentPopupWindow(requireContext()).apply {
+            type = InputPopup.EMOJI_FLAG
+            doAfterTextChanged { submitButton.isEnabled = it.isNullOrEmpty().not() }
+            // 提交评论
+            setOnCommitListener { view, inputContent -> submitComment(view, inputContent) }
+        }.also { it.inputHint = "回复 $targetUserName" }
+            .attachToWindow(requireActivity().window)
+            .showPopupWindow()
     }
 
     override fun getCommentArgs(): Bundle = requireArguments()
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mInputPopup?.dismiss()
+    }
 
     companion object {
 
