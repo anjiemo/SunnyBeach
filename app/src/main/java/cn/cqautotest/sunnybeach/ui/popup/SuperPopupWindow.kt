@@ -23,7 +23,7 @@ import com.dylanc.longan.windowInsetsControllerCompat
  */
 open class SuperPopupWindow @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
-) : FrameLayout(context, attrs), Init, DialogInterface {
+) : FrameLayout(context, attrs), Init, DialogInterface, DialogInterface.OnShowListener {
 
     private var mLayoutResId: Int = 0
     lateinit var contentView: View
@@ -38,6 +38,7 @@ open class SuperPopupWindow @JvmOverloads constructor(
 
     private fun create() {
         setBackgroundColor(Color.parseColor("#99000000"))
+        addOnShowListener(this)
         onCreate()
     }
 
@@ -60,12 +61,14 @@ open class SuperPopupWindow @JvmOverloads constructor(
 
     }
 
-    fun addOnShowListener(listener: DialogInterface.OnShowListener?) {
-        mOnShowObservers.takeUnless { it.contains(listener) }?.add(listener ?: return)
+    fun addOnShowListener(listener: DialogInterface.OnShowListener?): SuperPopupWindow {
+        mOnShowObservers.takeUnless { it.contains(listener) }?.add(listener ?: return this)
+        return this
     }
 
-    fun addOnDismissListener(listener: DialogInterface.OnDismissListener?) {
-        mOnDismissObservers.takeUnless { it.contains(listener) }?.add(listener ?: return)
+    fun addOnDismissListener(listener: DialogInterface.OnDismissListener?): SuperPopupWindow {
+        mOnDismissObservers.takeUnless { it.contains(listener) }?.add(listener ?: return this)
+        return this
     }
 
     fun showPopupWindow() {
@@ -94,5 +97,9 @@ open class SuperPopupWindow @JvmOverloads constructor(
         windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.ime())
         // 2、从父容器中移除自己
         (parent as? ViewGroup)?.removeView(this)
+    }
+
+    override fun onShow(dialog: DialogInterface?) {
+        // Empty impl.
     }
 }
