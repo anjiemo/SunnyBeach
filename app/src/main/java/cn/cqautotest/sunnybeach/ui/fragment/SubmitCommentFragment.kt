@@ -19,8 +19,8 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 import cn.cqautotest.sunnybeach.ui.popup.InputPopup
+import cn.cqautotest.sunnybeach.ui.popup.SuperPopupWindow
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
-import razerdp.basepopup.BasePopupWindow
 
 /**
  * author : A Lonely Cat
@@ -31,20 +31,7 @@ import razerdp.basepopup.BasePopupWindow
 class SubmitCommentFragment : Fragment(), CommendAction {
 
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
-    private val mInputPopup by lazy {
-        InputPopup(requireContext()).apply {
-            type = InputPopup.EMOJI_FLAG
-            defaultConfig()
-            doAfterTextChanged { submitButton.isEnabled = it.isNullOrEmpty().not() }
-            // 提交评论
-            setOnCommitListener { view, inputContent -> submitComment(view, inputContent) }
-            onDismissListener = object : BasePopupWindow.OnDismissListener() {
-                override fun onDismiss() {
-                    resetForm()
-                }
-            }
-        }
-    }
+    private var mInputPopup: SuperPopupWindow? = null
 
     private fun submitComment(view: View, inputContent: String) {
         view.isEnabled = false
@@ -58,7 +45,7 @@ class SubmitCommentFragment : Fragment(), CommendAction {
             view.isEnabled = true
             result.onSuccess {
                 simpleToast("评论成功\uD83D\uDE03")
-                mInputPopup.dismiss()
+                mInputPopup?.dismiss()
                 with(requireActivity()) {
                     setResult(Activity.RESULT_OK)
                     if (this is FishPondDetailActivity) {
@@ -84,13 +71,26 @@ class SubmitCommentFragment : Fragment(), CommendAction {
     }
 
     private fun showCommentPopup(targetUserName: String) {
-        mInputPopup.apply {
-            inputHint = "回复 $targetUserName"
-            showPopupWindow()
-        }
+        // 先取消上一次显示的 InputPopup，避免同时出现多个 InputPopup 实例
+        mInputPopup?.dismiss()
+        // 创建新的 InputPopup 实例，避免出现键盘出现奇奇怪怪的问题
+        InputPopup(requireContext()).apply {
+            type = InputPopup.EMOJI_FLAG
+            doAfterTextChanged { submitButton.isEnabled = it.isNullOrEmpty().not() }
+            // 提交评论
+            setOnCommitListener { view, inputContent -> submitComment(view, inputContent) }
+        }.also { it.inputHint = "回复 $targetUserName" }
+            .attachToWindow(requireActivity().window)
+            .also { mInputPopup = it }
+            .showPopupWindow()
     }
 
     override fun getCommentArgs(): Bundle = requireArguments()
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mInputPopup?.dismiss()
+    }
 
     companion object {
 

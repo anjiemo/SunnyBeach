@@ -380,8 +380,7 @@
         <activity
             android:name=".ui.activity.FishPondDetailActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:screenOrientation="portrait" />
 
         <!-- 摸鱼设置页 -->
         <activity
