@@ -92,11 +92,11 @@ fun View.setRoundRectBg(color: Int = Color.WHITE, @Px cornerRadius: Int = 15.dp)
 private var lastClickTime: Long = 0
 private val jumpTapTimeout = ViewConfiguration.getJumpTapTimeout()
 
-fun View.setFixOnClickListener(block: (v: View) -> Unit) {
+fun View.setFixOnClickListener(delayTime: Int = jumpTapTimeout, block: (v: View) -> Unit) {
     setOnClickListener {
         val currentClickTime = System.currentTimeMillis()
         val diffTime = currentClickTime - lastClickTime
-        if (diffTime > jumpTapTimeout) {
+        if (diffTime > delayTime) {
             block.invoke(this)
         }
         lastClickTime = currentClickTime

@@ -78,7 +78,7 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
         }
         tvNickName.setTextColor(UserManager.getNickNameColor(item.vip))
         tvNickName.text = item.getNickName()
-        val job = item.position.ifNullOrEmpty { "游民" }
+        val job = item.position.ifNullOrEmpty { "滩友" }
         // 摸鱼详情列表的时间没有精确到秒
         tvDesc.text = "$job · " + TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
         tvReply.setDefaultEmojiParser()
