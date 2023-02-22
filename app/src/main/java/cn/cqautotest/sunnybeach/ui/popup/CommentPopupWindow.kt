@@ -96,6 +96,7 @@ class CommentPopupWindow(context: Context, attrs: AttributeSet? = null) : SuperP
                     post { setWindowInsetsAnimationCallback() }
                     mBinding.etInputContent.requestFocus()
                     windowInsetsControllerCompat?.show(WindowInsetsCompat.Type.ime())
+                    updateEmojiIcon()
                 }
             }
             ivEmoji.setFixOnClickListener(delayTime = 300) {
@@ -107,6 +108,7 @@ class CommentPopupWindow(context: Context, attrs: AttributeSet? = null) : SuperP
                     mBinding.etInputContent.requestFocus()
                     windowInsetsControllerCompat?.show(WindowInsetsCompat.Type.ime())
                 }
+                updateEmojiIcon()
             }
             tvSend.setFixOnClickListener { onCommitListener?.onSubmit(it, etInputContent.textString) }
             rvEmojiList.setOnEmojiClickListener { emoji, _ ->
@@ -146,6 +148,10 @@ class CommentPopupWindow(context: Context, attrs: AttributeSet? = null) : SuperP
                     height = if (imeHeight - navigationBarsHeight <= 0) 0 else imeHeight - navigationBarsHeight
                 }
                 return insets
+            }
+
+            override fun onEnd(animation: WindowInsetsAnimationCompat) {
+                updateEmojiIcon()
             }
         }.also { ViewCompat.setWindowInsetsAnimationCallback(this, it) }
     }
