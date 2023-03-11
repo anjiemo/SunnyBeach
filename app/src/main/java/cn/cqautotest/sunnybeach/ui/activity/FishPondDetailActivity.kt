@@ -4,16 +4,20 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
+import androidx.core.view.isInvisible
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailActivityBinding
 import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.getLocationInWindowPoint
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.Fish
@@ -66,7 +70,7 @@ class FishPondDetailActivity : PagingActivity() {
     }
     private val mSubmitCommentFragment = SubmitCommentFragment()
 
-    override fun getPagingAdapter() = mFishListAdapter
+    override fun getPagingAdapter() = mFishPondDetailCommendListAdapter
 
     override fun getLayoutId(): Int = R.layout.fish_pond_detail_activity
 
@@ -77,12 +81,33 @@ class FishPondDetailActivity : PagingActivity() {
         // avoiding the problem that the PagingAdapter cannot return to the top after being refreshed.
         // But it needs to be used in conjunction with ConcatAdapter, and must appear before PagingAdapter.
         val emptyAdapter = EmptyAdapter()
-        val concatAdapter = ConcatAdapter(emptyAdapter, mFishListAdapter, mFishPondDetailCommendListAdapter)
-        mBinding.pagingRecyclerView.apply {
-            adapter = concatAdapter
-            addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
-            // 移除 RecyclerView 的默认动画
-            itemAnimator = null
+        val concatAdapter = ConcatAdapter(emptyAdapter, mFishListAdapter)
+        mBinding.apply {
+            rvFishPondDetail.apply {
+                adapter = concatAdapter
+                addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
+                // 移除 RecyclerView 的默认动画
+                itemAnimator = null
+            }
+            pagingRecyclerView.apply {
+                adapter = mFishPondDetailCommendListAdapter
+                // 父类已经设置了布局管理器，此处无需再次设置
+                addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
+                // 移除 RecyclerView 的默认动画
+                itemAnimator = null
+            }
+            pagingRecyclerViewFloat.apply {
+                adapter = mFishPondDetailCommendListAdapter
+                layoutManager = LinearLayoutManager(context)
+                addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
+                // 移除 RecyclerView 的默认动画
+                itemAnimator = null
+            }
+            // 吸顶的关键（此处需要使用 pagingRecyclerView post ，否则计算出的宽高会不对）
+            pagingRecyclerView.post {
+                val commendListHeight = nsvContainer.height - llBottomSheet.height
+                pagingRecyclerView.updateLayoutParams { height = commendListHeight }
+            }
         }
     }
 
@@ -93,9 +118,9 @@ class FishPondDetailActivity : PagingActivity() {
     }
 
     override suspend fun loadListData() {
-        mFishPondViewModel.getFishCommendListById(mMomentId).collectLatest {
-            mFishPondDetailCommendListAdapter.submitData(it)
+        mFishPondViewModel.getFishCommendListById(mMomentId).collect {
             mBinding.pagingRecyclerView.scrollToPosition(0)
+            mFishPondDetailCommendListAdapter.submitData(it)
         }
     }
 
@@ -129,12 +154,12 @@ class FishPondDetailActivity : PagingActivity() {
         mFishListAdapter.setOnNineGridClickListener { sources, index ->
             ImagePreviewActivity.start(this, sources.toMutableList(), index)
         }
-        mBinding.pagingRefreshLayout.setOnRefreshListener {
-            // 加载摸鱼动态详情和摸鱼动态评论列表
-            loadFishDetail()
-            // TODO: 2021/9/13 加载摸鱼动态相关推荐列表
-            mFishPondDetailCommendListAdapter.refresh()
-        }
+        // mBinding.pagingRefreshLayout.setOnRefreshListener {
+        //     // 加载摸鱼动态详情和摸鱼动态评论列表
+        //     loadFishDetail()
+        //     // TODO: 2021/9/13 加载摸鱼动态相关推荐列表
+        //     mFishPondDetailCommendListAdapter.refresh()
+        // }
         mFishPondDetailCommendListAdapter.setOnVewMoreClickListener { item, _ ->
             viewMoreDetail(item)
         }
@@ -142,6 +167,11 @@ class FishPondDetailActivity : PagingActivity() {
             viewMoreDetail(item)
         }
         mBinding.commentContainer.tvFishPondSubmitComment.setFixOnClickListener { showCommentPopupFragment(mNickName) }
+        mBinding.appBarLayout.addOnOffsetChangedListener { _, _ ->
+            val fixedBarPoint = mBinding.llFixedBarLayout.getLocationInWindowPoint()
+            val bottomSheetPoint = mBinding.llBottomSheet.getLocationInWindowPoint()
+            mBinding.llFixedContainer.isInvisible = fixedBarPoint.y > bottomSheetPoint.y
+        }
     }
 
     private fun showCommentPopupFragment(targetUserName: String) {

@@ -5,41 +5,175 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
     tools:context=".ui.activity.FishPondDetailActivity">
 
     <com.hjq.bar.TitleBar
+        android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:rightIcon="@mipmap/ic_more"
         app:title="摸鱼详情" />
 
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@id/paging_refresh_layout"
+    <cn.cqautotest.sunnybeach.widget.StatusLayout
+        android:id="@id/paging_status_layout"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@color/white">
 
-        <cn.cqautotest.sunnybeach.widget.StatusLayout
-            android:id="@id/paging_status_layout"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@id/paging_recycler_view"
+            <!-- 此处 layout_behavior 需要写类的全路径名称（项目中加了包名后缀），否则会导致 androidx.coordinatorlayout.widget.CoordinatorLayout.parseBehavior 反射构造异常 -->
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:elevation="0px"
+                app:layout_behavior="cn.cqautotest.sunnybeach.widget.AppBarLayoutBehavior">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                    <!-- header layout -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_fish_pond_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="1px"
+                            android:orientation="vertical"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:listitem="@layout/fish_pond_detail_commend_list" />
+
+                        <!-- 推广区域 -->
+                        <FrameLayout
+                            android:id="@+id/fl_promo_area_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <!-- 需要套一层 NestedScrollView ，否则内部的部分控件无法参与嵌套滚动 -->
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nsv_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="1px"
-                android:fadingEdge="none"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <!-- fixed bar layout -->
+                    <com.hjq.shape.layout.ShapeLinearLayout
+                        android:id="@+id/ll_bottom_sheet"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="vertical"
+                        app:shape_solidColor="#F3F3F3"
+                        app:shape_topLeftRadius="10dp"
+                        app:shape_topRightRadius="10dp">
+
+                        <com.hjq.shape.view.ShapeView
+                            android:layout_width="36dp"
+                            android:layout_height="5dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginBottom="4dp"
+                            app:shape_radius="3dp"
+                            app:shape_solidColor="#C7C7CC" />
+
+                        <com.google.android.material.tabs.TabLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="53dp"
+                            app:tabGravity="start"
+                            app:tabIndicator="@color/common_confirm_text_color"
+                            app:tabIndicatorFullWidth="false"
+                            app:tabMode="auto"
+                            app:tabSelectedTextColor="@color/black" />
+
+                    </com.hjq.shape.layout.ShapeLinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/paging_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/ll_fixed_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-                tools:listitem="@layout/fish_pond_detail_commend_list" />
+                android:visibility="invisible"
+                app:behavior_hideable="false"
+                app:behavior_peekHeight="60dp"
+                app:layout_behavior="@string/bottom_sheet_behavior">
 
-        </cn.cqautotest.sunnybeach.widget.StatusLayout>
+                <!-- fixed bar layout -->
+                <com.hjq.shape.layout.ShapeLinearLayout
+                    android:id="@+id/ll_fixed_bar_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="vertical"
+                    app:shape_solidColor="#F3F3F3"
+                    app:shape_topLeftRadius="10dp"
+                    app:shape_topRightRadius="10dp">
 
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+                    <com.hjq.shape.view.ShapeView
+                        android:layout_width="36dp"
+                        android:layout_height="5dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginBottom="4dp"
+                        app:shape_radius="3dp"
+                        app:shape_solidColor="#C7C7CC" />
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="53dp"
+                        app:tabGravity="start"
+                        app:tabIndicator="@color/common_confirm_text_color"
+                        app:tabIndicatorFullWidth="false"
+                        app:tabMode="auto"
+                        app:tabSelectedTextColor="@color/black" />
+
+                </com.hjq.shape.layout.ShapeLinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/paging_recycler_view_float"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white" />
+
+            </LinearLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </cn.cqautotest.sunnybeach.widget.StatusLayout>
 
     <include
         android:id="@+id/comment_container"
