@@ -20,12 +20,12 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout
 class PagingUiDelegate(
     private val lifecycle: Lifecycle,
     statusAction: StatusAction,
-    private val refreshLayout: RefreshLayout,
+    private val refreshLayout: RefreshLayout?,
     private val recyclerView: RecyclerView,
     private val pagingDataAdapter: PagingDataAdapter<*, *>
 ) : Init, LifecycleEventObserver {
 
-    private val loadStateListener = statusAction.loadStateListener(pagingDataAdapter) { refreshLayout.finishRefresh() }
+    private val loadStateListener = statusAction.loadStateListener(pagingDataAdapter) { refreshLayout?.finishRefresh() }
 
     init {
         lifecycle.addObserver(this)
@@ -39,7 +39,7 @@ class PagingUiDelegate(
     }
 
     override fun initEvent() {
-        refreshLayout.setOnRefreshListener { pagingDataAdapter.refresh() }
+        refreshLayout?.setOnRefreshListener { pagingDataAdapter.refresh() }
         // 需要在 View 销毁的时候移除 listener
         pagingDataAdapter.addLoadStateListener(loadStateListener)
     }
