@@ -37,8 +37,7 @@ fun String?.ifNullOrEmpty(defaultValue: () -> String) = if (isNullOrEmpty()) def
 
 fun String?.ifNullOrBlank(defaultValue: () -> String) = if (isNullOrBlank()) defaultValue() else this
 
-fun String.notContains(other: CharSequence, ignoreCase: Boolean = false) =
-    !contains(other, ignoreCase)
+fun String.notContains(other: CharSequence, ignoreCase: Boolean = false) = !contains(other, ignoreCase)
 
 fun String.notContains(char: Char, ignoreCase: Boolean = false) = !contains(char, ignoreCase)
 

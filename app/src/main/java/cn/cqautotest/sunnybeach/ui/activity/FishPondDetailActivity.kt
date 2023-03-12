@@ -70,7 +70,7 @@ class FishPondDetailActivity : PagingActivity() {
     }
     private val mSubmitCommentFragment = SubmitCommentFragment()
 
-    override fun getPagingAdapter() = mFishPondDetailCommendListAdapter
+    override fun getPagingAdapter() = mFishListAdapter
 
     override fun getLayoutId(): Int = R.layout.fish_pond_detail_activity
 
