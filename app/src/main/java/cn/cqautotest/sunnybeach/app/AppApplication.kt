@@ -38,7 +38,8 @@ import com.hjq.http.EasyConfig
 import com.hjq.http.config.IRequestApi
 import com.hjq.http.model.HttpHeaders
 import com.hjq.http.model.HttpParams
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.ToastLogInterceptor
+import com.hjq.toast.Toaster
 import com.hjq.umeng.UmengClient
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -133,11 +134,11 @@ class AppApplication : Application(), Configuration.Provider {
             }
 
             // 初始化吐司
-            ToastUtils.init(application, ToastStyle())
+            Toaster.init(application, ToastStyle())
             // 设置调试模式
-            ToastUtils.setDebugMode(AppConfig.isDebug())
+            Toaster.setDebugMode(AppConfig.isDebug())
             // 设置 Toast 拦截器
-            ToastUtils.setInterceptor(ToastLogInterceptor())
+            Toaster.setInterceptor(ToastLogInterceptor())
 
             // 本地异常捕捉
             CrashHandler.register(application)
@@ -204,7 +205,7 @@ class AppApplication : Application(), Configuration.Provider {
                         if (lifecycleOwner.lifecycle.currentState != Lifecycle.State.RESUMED) {
                             return
                         }
-                        ToastUtils.show(R.string.common_network_error)
+                        Toaster.show(R.string.common_network_error)
                     }
                 })
             }
