@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".ui.activity.FishPondDetailActivity">
 
@@ -174,6 +174,11 @@
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </cn.cqautotest.sunnybeach.widget.StatusLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/common_window_background_color" />
 
     <include
         android:id="@+id/comment_container"
