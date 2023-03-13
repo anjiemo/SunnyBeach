@@ -129,7 +129,7 @@ open class MiPushBroadcastReceiver : PushMessageReceiver() {
     }
 
     override fun onCommandResult(context: Context?, message: MiPushCommandMessage) {
-        Timber.d("onCommandResult：===> message is ${message.toJson()}")
+        // Timber.d("onCommandResult：===> message is ${message.toJson()}")
         val command = message.command
         val arguments = message.commandArguments
         val cmdArg1 = arguments.getOrNull(0)
@@ -149,7 +149,7 @@ open class MiPushBroadcastReceiver : PushMessageReceiver() {
     }
 
     override fun onReceiveRegisterResult(context: Context?, message: MiPushCommandMessage) {
-        Timber.d("onReceiveRegisterResult：===> message is ${message.toJson()}")
+        // Timber.d("onReceiveRegisterResult：===> message is ${message.toJson()}")
         val command = message.command
         val arguments = message.commandArguments
         val cmdArg1 = arguments.getOrNull(0)
