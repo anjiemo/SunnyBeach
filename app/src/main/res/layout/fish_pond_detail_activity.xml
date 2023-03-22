@@ -16,7 +16,7 @@
         app:title="摸鱼详情" />
 
     <cn.cqautotest.sunnybeach.widget.StatusLayout
-        android:id="@id/paging_status_layout"
+        android:id="@+id/status_layout"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1"
@@ -45,14 +45,9 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_fish_pond_detail"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="1px"
-                            android:orientation="vertical"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            tools:listitem="@layout/fish_pond_detail_commend_list" />
+                        <include
+                            android:id="@+id/fish_pond_detail"
+                            layout="@layout/fish_pond_list_item" />
 
                         <!-- 推广区域 -->
                         <FrameLayout

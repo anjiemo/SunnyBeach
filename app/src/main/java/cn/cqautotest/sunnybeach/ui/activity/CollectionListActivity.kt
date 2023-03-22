@@ -43,7 +43,7 @@ class CollectionListActivity : PagingActivity() {
         super.initEvent()
         // 跳转到收藏夹详情界面
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            getPagingAdapter().snapshotList[position]?.let { CollectionDetailListActivity.start(this, it) }
+            getPagingAdapter().snapshotList.getOrNull(position)?.let { CollectionDetailListActivity.start(this, it) }
         }
     }
 

@@ -98,7 +98,7 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
             }
         }
         mFishListAdapterDelegate.setOnItemClickListener { _, position ->
-            mFishListAdapter.snapshotList[position]?.let { FishPondDetailActivity.start(this, it.id) }
+            mFishListAdapter.snapshotList.getOrNull(position)?.let { FishPondDetailActivity.start(this, it.id) }
         }
         mFishListAdapter.setOnMenuItemClickListener { view, item, position ->
             when (view.id) {

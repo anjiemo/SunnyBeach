@@ -3,7 +3,7 @@ package cn.cqautotest.sunnybeach.paging.source
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.http.api.sob.FishPondApi
+import cn.cqautotest.sunnybeach.http.network.FishNetwork
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.Fish
 import timber.log.Timber
@@ -22,7 +22,7 @@ class FishDetailPagingSource(private val momentId: String) :
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Fish.FishItem> {
         return try {
             Timber.d("load：===> momentId is $momentId")
-            val response = FishPondApi.loadFishDetailById(momentId = momentId)
+            val response = FishNetwork.loadFishDetailById(momentId = momentId)
             val responseData = response.getData()
             println("load：===> responseData is ${responseData.toJson()}")
             val prevKey = null
