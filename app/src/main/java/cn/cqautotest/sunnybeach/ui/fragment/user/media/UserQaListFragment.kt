@@ -51,7 +51,7 @@ class UserQaListFragment : PagingFragment<AppActivity>() {
         super.initEvent()
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到问答详情界面
-            mUserQaListAdapter.snapshotList[position]?.let {
+            mUserQaListAdapter.snapshotList.getOrNull(position)?.let {
                 val url = "$SUNNY_BEACH_QA_URL_PRE${it.wendaComment.wendaId}"
                 BrowserActivity.start(requireContext(), url)
             }

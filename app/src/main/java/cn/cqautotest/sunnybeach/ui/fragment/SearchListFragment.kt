@@ -65,7 +65,7 @@ class SearchListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack
         mSearchResultListAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到搜索详情界面
-            mSearchResultListAdapter.snapshotList[position]?.let {
+            mSearchResultListAdapter.snapshotList.getOrNull(position)?.let {
                 val url = when (SearchType.valueOfType(it.type)) {
                     SearchType.ARTICLE -> "$SUNNY_BEACH_ARTICLE_URL_PRE${it.id}"
                     SearchType.QA -> "$SUNNY_BEACH_QA_URL_PRE${it.id}"

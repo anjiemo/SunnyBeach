@@ -24,7 +24,7 @@ fun <T : Any, VH : RecyclerView.ViewHolder> StatusAction.loadStateListener(
     when (cls.refresh) {
         is LoadState.NotLoading -> {
             block.invoke()
-            takeIf { pagingAdapter.isEmpty() }?.let { showEmpty() } ?: showComplete()
+            if (pagingAdapter.isEmpty()) showEmpty() else showComplete()
         }
         is LoadState.Loading -> showLoading()
         is LoadState.Error -> showError { pagingAdapter.refresh() }

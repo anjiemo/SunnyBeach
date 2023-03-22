@@ -56,7 +56,7 @@ class QaListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopListener
         mBinding.titleBar.setDoubleClickListener { onBack2Top() }
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到问答详情界面
-            mQaListAdapter.snapshotList[position]?.let {
+            mQaListAdapter.snapshotList.getOrNull(position)?.let {
                 val url = "$SUNNY_BEACH_QA_URL_PRE${it.id}"
                 BrowserActivity.start(requireContext(), url)
             }

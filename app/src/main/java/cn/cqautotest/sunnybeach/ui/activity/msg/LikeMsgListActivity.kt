@@ -49,7 +49,7 @@ class LikeMsgListActivity : PagingActivity(), OnBack2TopListener {
         super.initEvent()
         getTitleBar()?.setDoubleClickListener { onBack2Top() }
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mLikeMsgAdapter.snapshotList[position]?.let {
+            mLikeMsgAdapter.snapshotList.getOrNull(position)?.let {
                 it.hasRead = "1"
                 mLikeMsgAdapter.notifyItemChanged(position)
             }
