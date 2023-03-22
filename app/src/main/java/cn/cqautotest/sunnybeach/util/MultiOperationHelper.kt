@@ -36,11 +36,22 @@ class MultiOperationHelper constructor(activity: Activity) {
         item: Fish.FishItem,
         position: Int
     ) {
+        dynamicLikes(lifecycleOwner, viewModel, item)
+        adapter.notifyItemChanged(position)
+    }
+
+    /**
+     * 摸鱼动态点赞
+     */
+    fun dynamicLikes(
+        lifecycleOwner: LifecycleOwner,
+        viewModel: FishPondViewModel,
+        item: Fish.FishItem,
+    ) {
         val thumbUpList = item.thumbUpList
         val currUserId = UserManager.loadCurrUserId()
         takeIf { currUserId in thumbUpList }?.let { mActivity.get()?.toast("请不要重复点赞") }?.also { return }
         thumbUpList.add(currUserId)
-        adapter.notifyItemChanged(position)
         VibrateUtils.vibrate(80)
         viewModel.dynamicLikes(item.id).observe(lifecycleOwner) {}
     }

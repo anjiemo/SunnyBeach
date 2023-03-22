@@ -150,10 +150,10 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         // 需要在 View 销毁的时候移除 listener
         mFishListAdapter.addLoadStateListener(loadStateListener)
         mRecommendFishTopicListAdapterDelegate.setOnItemClickListener { _, position ->
-            mFishCategoryAdapter.snapshotList[position]?.let { FishTopicActivity.start(requireContext(), it) }
+            mFishCategoryAdapter.snapshotList.getOrNull(position)?.let { FishTopicActivity.start(requireContext(), it) }
         }
         mFishListAdapterDelegate.setOnItemClickListener { _, position ->
-            mFishListAdapter.snapshotList[position]?.let { FishPondDetailActivity.start(requireContext(), it.id) }
+            mFishListAdapter.snapshotList.getOrNull(position)?.let { FishPondDetailActivity.start(requireContext(), it.id) }
         }
         mFishListAdapter.setOnMenuItemClickListener { view, item, position ->
             when (view.id) {

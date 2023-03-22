@@ -70,7 +70,7 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
         super.initEvent()
         mAdapterDelegate.setOnItemClickListener { view, position ->
             Repository.setPhotoIdList(mWallpaperListAdapter.snapshot().items.toList())
-            mWallpaperListAdapter.snapshotList[position]?.let { GalleryActivity.smoothEntry(requireActivity(), it.id, view) }
+            mWallpaperListAdapter.snapshotList.getOrNull(position)?.let { GalleryActivity.smoothEntry(requireActivity(), it.id, view) }
         }
     }
 
