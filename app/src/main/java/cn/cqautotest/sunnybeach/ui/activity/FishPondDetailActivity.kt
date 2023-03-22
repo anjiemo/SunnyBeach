@@ -162,15 +162,16 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
         val images = item.images
         val imageCount = images.size
         llPhotoContainer.removeAllViews()
-        images.forEach {
+        images.forEachIndexed { index, imageUrl ->
             val imageView = ImageView(context).apply {
                 layoutParams = MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                     updateMargins(top = 6.dp, bottom = 6.dp)
                 }
             }
             llPhotoContainer.addView(imageView)
+            imageView.setFixOnClickListener { ImagePreviewActivity.start(context, images, index) }
             Glide.with(context)
-                .load(it)
+                .load(imageUrl)
                 .centerCrop()
                 .transform(RoundedCorners(6.dp))
                 .addListener(object : RequestListener<Drawable> {
@@ -232,7 +233,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
     }
 
     fun adjustDrawable(drawable: Drawable, width: Int, radius: Int): Drawable {
-        val height = (drawable.intrinsicHeight * 1.2).toInt().coerceAtMost(width)
+        val height = (drawable.intrinsicHeight * 1.618).toInt().coerceAtMost(width)
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         drawable.setBounds(0, 0, width, height)
