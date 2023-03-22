@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".ui.activity.FishCommendDetailActivity">
 
@@ -70,6 +71,11 @@
             tools:listitem="@layout/fish_pond_detail_commend_list" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/common_window_background_color" />
 
     <include
         android:id="@+id/comment_container"
