@@ -250,7 +250,11 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
     }
 
     private fun dynamicLikes(item: Fish.FishItem) {
-        mMultiOperationHelper.dynamicLikes(this, mFishPondViewModel, item)
+        mMultiOperationHelper.dynamicLikes(this, mFishPondViewModel, item) {
+            val ivGreat = mBinding.fishPondDetail.listMenuItem.ivGreat
+            val likeColor = ContextCompat.getColor(this, R.color.menu_like_font_color)
+            ivGreat.imageTintList = ColorStateList.valueOf(likeColor)
+        }
     }
 
     private fun shareFish(item: Fish.FishItem) {
@@ -258,6 +262,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
     }
 
     override fun initEvent() {
+        mBinding.titleBar.setOnClickListener {}
         // mBinding.pagingRefreshLayout.setOnRefreshListener {
         //     // 加载摸鱼动态详情和摸鱼动态评论列表
         //     loadFishDetail()
