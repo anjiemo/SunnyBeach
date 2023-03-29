@@ -3,12 +3,14 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.view.SurfaceHolder
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.activity.viewModels
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
@@ -24,6 +26,7 @@ import com.aliyun.player.bean.InfoCode
 import com.aliyun.player.source.VidAuth
 import com.dylanc.longan.intentExtras
 import com.dylanc.longan.windowInsetsControllerCompat
+import com.gyf.immersionbar.ImmersionBar
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -58,6 +61,9 @@ class PlayerActivity : AppActivity() {
     // 是否暂停
     private var mIsPause = false
 
+    // 刘海屏的高度
+    private var mNotchHeight = 0
+
     override fun getLayoutId(): Int = R.layout.player_activity
 
     override fun initView() {
@@ -65,6 +71,8 @@ class PlayerActivity : AppActivity() {
         windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.statusBars())
         // 隐藏底部导航栏
         windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.navigationBars())
+        // 延迟获取刘海屏的高度
+        window.decorView.post { mNotchHeight = ImmersionBar.getNotchHeight(this) }
         // 设置初始的屏幕方向
         requestedOrientation = mScreenOrientation
         mAliPlayer = createPlayer()
@@ -161,6 +169,7 @@ class PlayerActivity : AppActivity() {
             takeUnless { mIsPause || mIsOnBackground }?.let {
                 start()
                 updatePlayBtnState()
+                autoHideTopBarController()
                 autoHideMediaController()
             }
         }
@@ -231,6 +240,21 @@ class PlayerActivity : AppActivity() {
             region = "cn-shanghai"
         })
         mAliPlayer.prepare()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        when (newConfig.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> {
+                // 竖屏
+                mBinding.llTopBarController.updatePadding(top = mNotchHeight)
+            }
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                // 横屏
+                mBinding.llTopBarController.updatePadding(top = 0)
+            }
+            else -> {}
+        }
     }
 
     private fun onPauseClick() {
