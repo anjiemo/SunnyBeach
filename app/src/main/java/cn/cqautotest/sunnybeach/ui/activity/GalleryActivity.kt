@@ -12,6 +12,7 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
@@ -33,7 +34,7 @@ import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 import com.blankj.utilcode.util.*
 import com.dylanc.longan.activity
 import com.dylanc.longan.context
-import com.gyf.immersionbar.ImmersionBar
+import com.dylanc.longan.windowInsetsControllerCompat
 import com.hjq.permissions.Permission
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -63,8 +64,10 @@ class GalleryActivity : AppActivity() {
     override fun getLayoutId() = R.layout.gallery_activity
 
     override fun initView() {
-        // 隐藏状态栏，全屏浏览壁纸
-        ImmersionBar.hideStatusBar(window)
+        // 隐藏状态栏
+        windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.statusBars())
+        // 隐藏底部导航栏
+        windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.navigationBars())
         mBinding.galleryViewPager2.apply {
             orientation = ViewPager2.ORIENTATION_VERTICAL
             adapter = mPhotoAdapter
