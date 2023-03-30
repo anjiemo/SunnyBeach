@@ -29,6 +29,7 @@ class PhotoListAdapter(private val adapterDelegate: AdapterDelegate) :
             with(binding) {
                 Glide.with(itemView)
                     .load(item.thumb)
+                    .thumbnail()
                     .centerCrop()
                     .into(photoIv)
                 itemView.setFixOnClickListener {
