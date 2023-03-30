@@ -15,7 +15,7 @@ import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBannerBean
 import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.ui.activity.GalleryActivity
-import cn.cqautotest.sunnybeach.ui.adapter.WallpaperListAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.PhotoListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.CustomAnimation
 import cn.cqautotest.sunnybeach.viewmodel.PhotoViewModel
@@ -40,9 +40,9 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
     private val mAdapterDelegate = AdapterDelegate().apply {
         adapterAnimation = CustomAnimation()
     }
-    private val mWallpaperListAdapter = WallpaperListAdapter(mAdapterDelegate)
+    private val mPhotoListAdapter = PhotoListAdapter(mAdapterDelegate)
 
-    override fun getPagingAdapter() = mWallpaperListAdapter
+    override fun getPagingAdapter() = mPhotoListAdapter
 
     override fun getLayoutId(): Int = R.layout.discover_fragment
 
@@ -62,15 +62,15 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
 
     override suspend fun loadListData() {
         mPhotoViewModel.getWallpaperList().collectLatest {
-            mWallpaperListAdapter.submitData(it)
+            mPhotoListAdapter.submitData(it)
         }
     }
 
     override fun initEvent() {
         super.initEvent()
         mAdapterDelegate.setOnItemClickListener { view, position ->
-            Repository.setPhotoIdList(mWallpaperListAdapter.snapshot().items.toList())
-            mWallpaperListAdapter.snapshotList.getOrNull(position)?.let { GalleryActivity.smoothEntry(requireActivity(), it.id, view) }
+            Repository.setPhotoIdList(mPhotoListAdapter.snapshot().items.toList())
+            mPhotoListAdapter.snapshotList.getOrNull(position)?.let { GalleryActivity.smoothEntry(requireActivity(), it.id, view) }
         }
     }
 
