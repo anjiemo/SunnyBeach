@@ -64,7 +64,7 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
                 tools:itemCount="20"
-                tools:listitem="@layout/photo_list_item" />
+                tools:listitem="@layout/wallpaper_list_item" />
 
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
