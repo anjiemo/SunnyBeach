@@ -6,10 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
-import android.os.Build
 import android.view.View
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.WindowInsetsCompat
@@ -28,7 +26,7 @@ import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.manager.ThreadPoolManager
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import cn.cqautotest.sunnybeach.other.IntentKey
-import cn.cqautotest.sunnybeach.ui.adapter.PhotoAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.WallpaperAdapter
 import cn.cqautotest.sunnybeach.util.DownloadHelper
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 import com.blankj.utilcode.util.*
@@ -55,7 +53,7 @@ import kotlin.math.pow
 class GalleryActivity : AppActivity() {
 
     private val mBinding: GalleryActivityBinding by viewBinding()
-    private val mPhotoAdapter = PhotoAdapter(fillBox = true)
+    private val mWallpaperAdapter = WallpaperAdapter()
     private val mPhotoList = arrayListOf<WallpaperBean.Res.Vertical>()
     private val mDiscoverViewModel by viewModels<DiscoverViewModel>()
     private var mCurrentPageIndex = 0
@@ -70,7 +68,7 @@ class GalleryActivity : AppActivity() {
         windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.navigationBars())
         mBinding.galleryViewPager2.apply {
             orientation = ViewPager2.ORIENTATION_VERTICAL
-            adapter = mPhotoAdapter
+            adapter = mWallpaperAdapter
         }
     }
 
@@ -84,11 +82,10 @@ class GalleryActivity : AppActivity() {
             addAll(cacheVerticalPhotoList)
         }
         mCurrentPageIndex = mPhotoList.indexOfFirst { photoId == it.id }
-        mPhotoAdapter.setList(mPhotoList)
+        mWallpaperAdapter.setList(mPhotoList)
         mBinding.galleryViewPager2.setCurrentItem(mCurrentPageIndex, false)
     }
 
-    @RequiresApi(Build.VERSION_CODES.R)
     override fun initEvent() {
         // mBinding.galleryViewPager2.doPageSelected { position ->
         //     mPhotoAdapter.getItemOrNull(position)?.let { wallpaperBean ->
@@ -98,13 +95,13 @@ class GalleryActivity : AppActivity() {
         //         }
         //     }
         // }
-        mPhotoAdapter.loadMoreModule.run {
+        mWallpaperAdapter.loadMoreModule.run {
             setOnLoadMoreListener {
                 isEnableLoadMore = false
                 mDiscoverViewModel.loadMorePhotoList()
             }
         }
-        mPhotoAdapter.setOnItemClickListener { _, _ -> toggleStatus() }
+        mWallpaperAdapter.setOnItemClickListener { _, _ -> toggleStatus() }
         with(mBinding) {
             shareTv.setOnClickListener {
                 lifecycleScope.launchWhenCreated {
@@ -160,11 +157,11 @@ class GalleryActivity : AppActivity() {
     }
 
     override fun initObserver() {
-        val loadMoreModule = mPhotoAdapter.loadMoreModule
+        val loadMoreModule = mWallpaperAdapter.loadMoreModule
         mDiscoverViewModel.verticalPhotoList.observe(this) { verticalPhotoList ->
             Timber.d(verticalPhotoList.toJson())
             loadMoreModule.apply {
-                mPhotoAdapter.addData(verticalPhotoList.toList())
+                mWallpaperAdapter.addData(verticalPhotoList.toList())
                 isEnableLoadMore = true
                 loadMoreComplete()
             }
