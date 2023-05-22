@@ -3,14 +3,12 @@ package cn.cqautotest.sunnybeach.ui.adapter
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
-import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.PhotoListItemBinding
 import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
-import com.blankj.utilcode.util.ScreenUtils
 import com.bumptech.glide.Glide
 
 /**
@@ -19,13 +17,8 @@ import com.bumptech.glide.Glide
  * time   : 2021/09/06
  * desc   : 图片列表的适配器
  */
-class WallpaperListAdapter(
-    private val adapterDelegate: AdapterDelegate,
-    private val fillBox: Boolean = false
-) : PagingDataAdapter<WallpaperBean.Res.Vertical, WallpaperListAdapter.PhotoListViewHolder>(diffCallback) {
-
-    private val screenWidth = ScreenUtils.getScreenWidth().toFloat()
-    private val screenHeight = ScreenUtils.getScreenHeight().toFloat()
+class PhotoListAdapter(private val adapterDelegate: AdapterDelegate) :
+    PagingDataAdapter<WallpaperBean.Res.Vertical, PhotoListAdapter.PhotoListViewHolder>(diffCallback) {
 
     inner class PhotoListViewHolder(private val binding: PhotoListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -34,24 +27,17 @@ class WallpaperListAdapter(
         fun onBinding(item: WallpaperBean.Res.Vertical?, position: Int) {
             item ?: return
             with(binding) {
-                // 设置比例布局全屏
-                if (fillBox) {
-                    ratioFrameLayout.setSizeRatio(screenWidth, screenHeight)
-                } else {
-                    itemView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-                    itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                }
-                // 加载全屏的图片
                 Glide.with(itemView)
                     .load(item.thumb)
-                    .placeholder(R.mipmap.ic_bg)
+                    .thumbnail()
+                    .centerCrop()
                     .into(photoIv)
                 itemView.setFixOnClickListener {
                     photoIv.transitionName = item.id
-                    adapterDelegate.onItemClick(it, position)
+                    adapterDelegate.onItemClick(it, bindingAdapterPosition)
                 }
                 itemView.setOnLongClickListener {
-                    mItemLongClickListener.invoke(item, position)
+                    mItemLongClickListener.invoke(item, bindingAdapterPosition)
                     true
                 }
             }

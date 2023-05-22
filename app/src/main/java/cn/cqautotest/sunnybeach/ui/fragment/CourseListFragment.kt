@@ -92,7 +92,7 @@ class CourseListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopList
             }
         }
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mCourseListAdapter.snapshotList[position]?.let { CourseDetailActivity.start(requireContext(), it) }
+            mCourseListAdapter.snapshotList.getOrNull(position)?.let { CourseDetailActivity.start(requireContext(), it) }
         }
     }
 

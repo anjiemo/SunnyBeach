@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -63,10 +64,11 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
 
     override fun getLayoutId(): Int = R.layout.fish_topic_activity
 
+    @SuppressLint("SetTextI18n")
     override fun initView() {
         super.initView()
         mHasFollowed = mTopicItem.hasFollowed
-        Timber.d("initView：===> mTopicItem is ${mTopicItem.toJson()}")
+        Timber.d("initView：===> mTopicItem is $mTopicItem")
         mBinding.apply {
             Glide.with(context)
                 .load(mTopicItem.cover)
@@ -92,13 +94,14 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
     }
 
     override fun initEvent() {
+        super.initEvent()
         mBinding.apply {
             tvJoin.setFixOnClickListener {
                 toggleFollow()
             }
         }
         mFishListAdapterDelegate.setOnItemClickListener { _, position ->
-            mFishListAdapter.snapshotList[position]?.let { FishPondDetailActivity.start(this, it.id) }
+            mFishListAdapter.snapshotList.getOrNull(position)?.let { FishPondDetailActivity.start(this, it.id) }
         }
         mFishListAdapter.setOnMenuItemClickListener { view, item, position ->
             when (view.id) {

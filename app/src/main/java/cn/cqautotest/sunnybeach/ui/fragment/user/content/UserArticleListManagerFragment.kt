@@ -61,7 +61,7 @@ class UserArticleListManagerFragment : PagingFragment<AppActivity>() {
         super.initEvent()
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到文章详情界面
-            mUserArticleAdapter.snapshotList[position]?.let {
+            mUserArticleAdapter.snapshotList.getOrNull(position)?.let {
                 val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${it.id}"
                 BrowserActivity.start(requireContext(), url)
             }

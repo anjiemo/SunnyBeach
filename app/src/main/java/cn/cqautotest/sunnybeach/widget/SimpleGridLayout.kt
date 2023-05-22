@@ -37,6 +37,8 @@ class SimpleGridLayout @JvmOverloads constructor(
                 outline?.setRoundRect(0, 0, width, height, radius)
             }
         }
+        // 防止在 recyclerView 内部作为 item 时情况下出现滑动卡顿的问题
+        isNestedScrollingEnabled = false
         clipToOutline = true
     }
 

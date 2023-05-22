@@ -79,7 +79,7 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
                 val imageCount = images.size
                 simpleGridLayout.setOnNineGridClickListener(nineGridAdapterDelegate)
                     .setData(images)
-                simpleGridLayout.isVisible = imageCount != 0
+                llPhotoContainer.isVisible = imageCount != 0
                 tvFishPondLabel.isVisible = TextUtils.isEmpty(topicName).not()
                 tvFishPondLabel.text = topicName
                 val linkUrl = item.linkUrl

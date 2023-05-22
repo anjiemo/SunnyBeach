@@ -6,7 +6,7 @@ import android.widget.EditText
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.SingleClick
 import com.hjq.base.BaseDialog
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 import com.hjq.widget.view.CountdownView
 import com.hjq.widget.view.RegexEditText
 
@@ -66,14 +66,14 @@ class SendVerifyCodeDialog {
         override fun onClick(view: View) {
             when (view.id) {
                 R.id.cv_safe_countdown -> {
-                    ToastUtils.show(R.string.common_code_send_hint)
+                    Toaster.show(R.string.common_code_send_hint)
                     countdownView?.start()
                     setCancelable(false)
                     listener?.onSendVerifyCode(getDialog(), inputView?.text.toString())
                 }
                 R.id.tv_ui_confirm -> {
                     if (codeView?.text.toString().length != getResources().getInteger(R.integer.sms_code_length)) {
-                        ToastUtils.show(R.string.common_code_error_hint)
+                        Toaster.show(R.string.common_code_error_hint)
                         return
                     }
                     listener?.onConfirm(getDialog(), phoneNumber, codeView?.text.toString())

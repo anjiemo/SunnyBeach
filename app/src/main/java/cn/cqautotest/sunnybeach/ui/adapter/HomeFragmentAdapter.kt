@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
+import android.annotation.SuppressLint
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -13,6 +14,7 @@ import cn.cqautotest.sunnybeach.ui.fragment.*
  * time   : 2022/12/11
  * desc   : 首页 Fragment 适配器
  */
+@SuppressLint("UnsafeOptInUsageError")
 class HomeFragmentAdapter : FragmentStateAdapter {
 
     private lateinit var fragmentManager: FragmentManager

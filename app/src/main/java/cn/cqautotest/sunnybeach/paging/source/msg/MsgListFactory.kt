@@ -13,12 +13,12 @@ object MsgListFactory {
 
     fun createMsgListByType(msgType: MsgType): AbstractMsgListFactory {
         return when (msgType) {
-            MsgType.ARTICLE -> ArticleMsgListFactory()
-            MsgType.FISH -> FishMsgListFactory()
-            MsgType.QA -> QaMsgListFactory()
-            MsgType.LIKE -> LikeMsgListFactory()
-            MsgType.SYSTEM -> SystemMsgListFactory()
-            MsgType.AT -> AtMeMsgListFactory()
+            MsgType.ARTICLE -> ArticleMsgListFactory.create()
+            MsgType.FISH -> FishMsgListFactory.create()
+            MsgType.QA -> QaMsgListFactory.create()
+            MsgType.LIKE -> LikeMsgListFactory.create()
+            MsgType.SYSTEM -> SystemMsgListFactory.create()
+            MsgType.AT -> AtMeMsgListFactory.create()
         }
     }
 }

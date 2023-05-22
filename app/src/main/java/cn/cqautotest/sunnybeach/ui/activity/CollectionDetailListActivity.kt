@@ -50,7 +50,7 @@ class CollectionDetailListActivity : PagingActivity() {
         super.initEvent()
         // 跳转到收藏内容详情界面
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mCollectionDetailListAdapter.snapshotList[position]?.let { BrowserActivity.start(this, it.url) }
+            mCollectionDetailListAdapter.snapshotList.getOrNull(position)?.let { BrowserActivity.start(this, it.url) }
         }
     }
 

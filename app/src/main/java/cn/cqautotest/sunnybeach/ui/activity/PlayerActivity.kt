@@ -3,10 +3,12 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.view.SurfaceHolder
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.activity.viewModels
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -23,6 +25,7 @@ import com.aliyun.player.IPlayer
 import com.aliyun.player.bean.InfoCode
 import com.aliyun.player.source.VidAuth
 import com.dylanc.longan.intentExtras
+import com.dylanc.longan.windowInsetsControllerCompat
 import com.gyf.immersionbar.ImmersionBar
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -45,6 +48,9 @@ class PlayerActivity : AppActivity() {
     private val mVideoTitle by intentExtras(VIDEO_TITLE, "")
     private val mScreenOrientation by intentExtras(SCREEN_ORIENTATION, DEFAULT_SCREEN_ORIENTATION)
     private lateinit var mAliPlayer: AliPlayer
+    private val mHideTopBarControllerTask = Runnable {
+        hideTopBarController()
+    }
     private val mHideMediaControllerTask = Runnable {
         hideMediaController()
     }
@@ -55,12 +61,20 @@ class PlayerActivity : AppActivity() {
     // 是否暂停
     private var mIsPause = false
 
+    // 刘海屏的高度
+    private var mNotchHeight = 0
+
     override fun getLayoutId(): Int = R.layout.player_activity
 
     override fun initView() {
+        // 隐藏状态栏
+        windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.statusBars())
+        // 隐藏底部导航栏
+        windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.navigationBars())
+        // 延迟获取刘海屏的高度
+        window.decorView.post { mNotchHeight = ImmersionBar.getNotchHeight(this) }
         // 设置初始的屏幕方向
         requestedOrientation = mScreenOrientation
-        mBinding.flVideoContainer.updatePadding(top = ImmersionBar.getStatusBarHeight(this))
         mAliPlayer = createPlayer()
         mBinding.tvTitle.text = mVideoTitle
     }
@@ -94,11 +108,14 @@ class PlayerActivity : AppActivity() {
                 finish()
             }
             flVideoContainer.setFixOnClickListener {
+                toggleTopBarController()
                 toggleMediaController()
+                autoHideTopBarController()
                 autoHideMediaController()
             }
             ivPlay.setFixOnClickListener {
                 onPauseClick()
+                autoHideTopBarController()
                 autoHideMediaController()
             }
             seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
@@ -113,11 +130,13 @@ class PlayerActivity : AppActivity() {
 
                 override fun onStopTrackingTouch(seekBar: SeekBar) {
                     mAliPlayer.seekTo(seekBar.progress.toLong(), IPlayer.SeekMode.Inaccurate)
+                    autoHideTopBarController()
                     autoHideMediaController()
                 }
             })
             ivFullScreen.setFixOnClickListener {
                 toggleScreenOrientation()
+                autoHideTopBarController()
                 autoHideMediaController()
             }
         }
@@ -150,6 +169,7 @@ class PlayerActivity : AppActivity() {
             takeUnless { mIsPause || mIsOnBackground }?.let {
                 start()
                 updatePlayBtnState()
+                autoHideTopBarController()
                 autoHideMediaController()
             }
         }
@@ -222,6 +242,21 @@ class PlayerActivity : AppActivity() {
         mAliPlayer.prepare()
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        when (newConfig.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> {
+                // 竖屏
+                mBinding.llTopBarController.updatePadding(top = mNotchHeight)
+            }
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                // 横屏
+                mBinding.llTopBarController.updatePadding(top = 0)
+            }
+            else -> {}
+        }
+    }
+
     private fun onPauseClick() {
         if (mIsPause) {
             resumePlay()
@@ -252,18 +287,37 @@ class PlayerActivity : AppActivity() {
         mBinding.ivPlay.isSelected = !mIsPause
     }
 
+    private fun topBarControllerIsVisible() = mBinding.llTopBarController.isVisible
+
     private fun mediaControllerIsVisible() = mBinding.llMediaController.isVisible
+
+    private fun toggleTopBarController() {
+        if (topBarControllerIsVisible()) hideTopBarController() else showTopBarController()
+    }
 
     private fun toggleMediaController() {
         if (mediaControllerIsVisible()) hideMediaController() else showMediaController()
+    }
+
+    private fun hideTopBarController() {
+        mBinding.llTopBarController.isVisible = false
     }
 
     private fun hideMediaController() {
         mBinding.llMediaController.isVisible = false
     }
 
+    private fun showTopBarController() {
+        mBinding.llTopBarController.isVisible = true
+    }
+
     private fun showMediaController() {
         mBinding.llMediaController.isVisible = true
+    }
+
+    private fun autoHideTopBarController() {
+        removeCallbacks(mHideTopBarControllerTask)
+        postDelayed(mHideTopBarControllerTask, TimeUnit.SECONDS.toMillis(3))
     }
 
     private fun autoHideMediaController() {

@@ -51,7 +51,7 @@ class UserShareListFragment : PagingFragment<AppActivity>() {
         super.initEvent()
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到分享详情界面
-            mShareListAdapter.snapshotList[position]?.let {
+            mShareListAdapter.snapshotList.getOrNull(position)?.let {
                 val url = "$SUNNY_BEACH_SHARE_URL_PRE${it.id}"
                 BrowserActivity.start(requireContext(), url)
             }
