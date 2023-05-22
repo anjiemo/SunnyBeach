@@ -3,7 +3,20 @@ package cn.cqautotest.sunnybeach.ktx
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
+import android.util.TypedValue
 import android.view.LayoutInflater
+import androidx.core.content.ContextCompat
+
+/**
+ * 获取带有水波纹效果的 Drawable
+ */
+private fun Context?.getRippleDrawable(): Drawable? {
+    this ?: return null
+    val typedValue = TypedValue()
+    theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true)
+    return ContextCompat.getDrawable(this, typedValue.resourceId)
+}
 
 fun Context.asInflater(): LayoutInflater = LayoutInflater.from(this)
 
