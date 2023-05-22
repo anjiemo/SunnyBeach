@@ -71,7 +71,7 @@ class ArticleListFragment : PagingTitleBarFragment<HomeActivity>(), OnBack2TopLi
             }
         }
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mArticleAdapter.snapshotList[position]?.let {
+            mArticleAdapter.snapshotList.getOrNull(position)?.let {
                 val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${it.id}"
                 BrowserActivity.start(requireContext(), url)
             }

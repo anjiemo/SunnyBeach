@@ -53,7 +53,7 @@ class AtMeMsgListActivity : PagingActivity(), OnBack2TopListener {
         super.initEvent()
         getTitleBar()?.setDoubleClickListener { onBack2Top() }
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mAtMeMsgAdapter.snapshotList[position]?.let {
+            mAtMeMsgAdapter.snapshotList.getOrNull(position)?.let {
                 it.hasRead = "1"
                 mAtMeMsgAdapter.notifyItemChanged(position)
                 mMsgViewModel.readAtMeMsg(it.id).observe(this) {}

@@ -1,7 +1,7 @@
 package cn.cqautotest.sunnybeach.action
 
 import androidx.annotation.StringRes
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 
 /**
  *    author : Android 轮子哥
@@ -12,14 +12,14 @@ import com.hjq.toast.ToastUtils
 interface ToastAction {
 
     fun toast(text: CharSequence?) {
-        ToastUtils.show(text)
+        Toaster.show(text)
     }
 
     fun toast(@StringRes id: Int) {
-        ToastUtils.show(id)
+        Toaster.show(id)
     }
 
     fun toast(`object`: Any?) {
-        ToastUtils.show(`object`)
+        Toaster.show(`object`)
     }
 }

@@ -46,7 +46,7 @@ class SplashActivity : AppActivity() {
         }
         // 设置动画监听
         lottieView?.addAnimatorListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 lottieView?.removeAnimatorListener(this)
                 HomeActivity.start(context)
                 finish()

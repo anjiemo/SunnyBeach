@@ -43,7 +43,7 @@ class HotArticleListActivity : PagingActivity() {
     override fun initEvent() {
         super.initEvent()
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mHotArticleAdapter.snapshotList[position]?.let {
+            mHotArticleAdapter.snapshotList.getOrNull(position)?.let {
                 val url = SUNNY_BEACH_ARTICLE_URL_PRE + it.id
                 BrowserActivity.start(this, url)
             }

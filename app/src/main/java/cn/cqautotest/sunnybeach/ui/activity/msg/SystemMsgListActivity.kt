@@ -61,7 +61,7 @@ class SystemMsgListActivity : PagingActivity(), OnBack2TopListener {
         // 需要在 View 销毁的时候移除 listener
         mSystemMsgAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mSystemMsgAdapter.snapshotList[position]?.let { msg ->
+            mSystemMsgAdapter.snapshotList.getOrNull(position)?.let { msg ->
                 val url = when (msg.exType) {
                     // 文章
                     "article" -> "$SUNNY_BEACH_ARTICLE_URL_PRE${msg.exId}"
