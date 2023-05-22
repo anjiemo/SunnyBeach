@@ -55,7 +55,7 @@ class UserFollowOrFansListFragment : PagingFragment<AppActivity>() {
         super.initEvent()
         // 跳转到用户详情界面
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mUserFollowListAdapter.snapshotList[position]?.let { ViewUserActivity.start(requireContext(), it.userId) }
+            mUserFollowListAdapter.snapshotList.getOrNull(position)?.let { ViewUserActivity.start(requireContext(), it.userId) }
         }
     }
 

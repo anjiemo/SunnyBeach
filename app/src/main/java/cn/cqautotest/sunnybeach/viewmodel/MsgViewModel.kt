@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
 import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.model.msg.*
-import cn.cqautotest.sunnybeach.paging.source.msg.factory.*
+import cn.cqautotest.sunnybeach.paging.source.msg.MsgListFactory
+import cn.cqautotest.sunnybeach.paging.source.msg.impl.MsgType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import timber.log.Timber
@@ -17,17 +18,17 @@ import timber.log.Timber
  */
 class MsgViewModel : ViewModel() {
 
-    private val articleMsgListFactory = ArticleMsgListFactory()
+    private val articleMsgListFactory = MsgListFactory.createMsgListByType(MsgType.ARTICLE)
 
-    private val fishMsgListFactory = FishMsgListFactory()
+    private val fishMsgListFactory = MsgListFactory.createMsgListByType(MsgType.FISH)
 
-    private val qaMsgListFactory = QaMsgListFactory()
+    private val qaMsgListFactory = MsgListFactory.createMsgListByType(MsgType.QA)
 
-    private val likeMsgListFactory = LikeMsgListFactory()
+    private val likeMsgListFactory = MsgListFactory.createMsgListByType(MsgType.LIKE)
 
-    private val systemMsgListFactory = SystemMsgListFactory()
+    private val systemMsgListFactory = MsgListFactory.createMsgListByType(MsgType.SYSTEM)
 
-    private val atMeMsgListFactory = AtMeMsgListFactory()
+    private val atMeMsgListFactory = MsgListFactory.createMsgListByType(MsgType.AT)
 
     fun readQaMsg(msgId: String) = Repository.readQaMsg(msgId)
 

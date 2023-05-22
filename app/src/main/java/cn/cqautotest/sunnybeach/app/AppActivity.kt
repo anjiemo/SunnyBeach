@@ -46,6 +46,10 @@ abstract class AppActivity : BaseActivity(), Init,
         initObserver()
     }
 
+    override fun initView() {}
+
+    override fun initData() {}
+
     override fun initEvent() {}
 
     override fun initObserver() {}

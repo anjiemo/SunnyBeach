@@ -63,16 +63,24 @@
         android:textIsSelectable="true"
         tools:text="我是摸鱼列表的正文内容啦" />
 
-    <cn.cqautotest.sunnybeach.widget.SimpleGridLayout
-        android:id="@+id/simple_grid_layout"
+    <LinearLayout
+        android:id="@+id/ll_photo_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="6dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
-        tools:itemCount="4" />
+        android:orientation="vertical">
+
+        <cn.cqautotest.sunnybeach.widget.SimpleGridLayout
+            android:id="@+id/simple_grid_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:itemCount="4" />
+
+    </LinearLayout>
 
     <com.hjq.shape.view.ShapeTextView
         android:id="@+id/tv_fish_pond_label"

@@ -12,7 +12,7 @@ import cn.cqautotest.sunnybeach.http.model.HttpData
 import com.hjq.base.BaseDialog
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.OnHttpListener
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 import com.hjq.widget.view.CountdownView
 
 /**
@@ -59,7 +59,7 @@ class SafeDialog {
             when (view.id) {
                 R.id.cv_safe_countdown -> {
                     if (true) {
-                        ToastUtils.show(R.string.common_code_send_hint)
+                        Toaster.show(R.string.common_code_send_hint)
                         countdownView?.start()
                         setCancelable(false)
                         return
@@ -73,19 +73,19 @@ class SafeDialog {
                         .request(object : OnHttpListener<HttpData<Void?>?> {
 
                             override fun onSucceed(data: HttpData<Void?>?) {
-                                ToastUtils.show(R.string.common_code_send_hint)
+                                Toaster.show(R.string.common_code_send_hint)
                                 countdownView?.start()
                                 setCancelable(false)
                             }
 
                             override fun onFail(e: Exception) {
-                                ToastUtils.show(e.message)
+                                Toaster.show(e.message)
                             }
                         })
                 }
                 R.id.tv_ui_confirm -> {
                     if (codeView?.text.toString().length != getResources().getInteger(R.integer.sms_code_length)) {
-                        ToastUtils.show(R.string.common_code_error_hint)
+                        Toaster.show(R.string.common_code_error_hint)
                         return
                     }
                     if (true) {
@@ -108,7 +108,7 @@ class SafeDialog {
                             }
 
                             override fun onFail(e: Exception) {
-                                ToastUtils.show(e.message)
+                                Toaster.show(e.message)
                             }
                         })
                 }

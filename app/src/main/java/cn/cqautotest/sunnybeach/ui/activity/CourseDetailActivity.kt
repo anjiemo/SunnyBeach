@@ -67,7 +67,7 @@ class CourseDetailActivity : PagingActivity() {
     override fun initEvent() {
         super.initEvent()
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mCourseChapterListAdapter.snapshotList[position]?.let {
+            mCourseChapterListAdapter.snapshotList.getOrNull(position)?.let {
                 when (it) {
                     is CourseChapter.CourseChapterItem.Children -> playCourseVideo(it.courseId, it.id, it.title)
                     else -> {

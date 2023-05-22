@@ -18,14 +18,13 @@
         android:layout_height="match_parent"
         app:popupTheme="@style/Theme.SunnyBeach.PopupOverlay">
 
-        <!-- 此处 layout_behavior 需要写类的全路径名称（项目中加了包名后缀），否则会导致 androidx.coordinatorlayout.widget.CoordinatorLayout.parseBehavior 反射构造异常 -->
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             app:elevation="0px"
-            app:layout_behavior="cn.cqautotest.sunnybeach.widget.AppBarLayoutBehavior">
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
 
             <cn.cqautotest.sunnybeach.widget.XCollapsingToolbarLayout
                 android:id="@+id/toolbar_layout"
@@ -255,11 +254,18 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/user_media_fragment_container"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:layout="@layout/user_media_fragment" />
+                android:orientation="vertical">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/user_media_fragment_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:layout="@layout/user_media_fragment" />
+
+            </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 
