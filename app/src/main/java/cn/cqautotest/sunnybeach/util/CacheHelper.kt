@@ -1,8 +1,8 @@
 package cn.cqautotest.sunnybeach.util
 
-import com.blankj.utilcode.util.GsonUtils
+import cn.cqautotest.sunnybeach.util.cache.DataCache
+import cn.cqautotest.sunnybeach.util.cache.DefaultCacheImpl
 import com.google.gson.reflect.TypeToken
-import com.tencent.mmkv.MMKV
 import timber.log.Timber
 import java.lang.reflect.Type
 import java.util.concurrent.TimeUnit
@@ -22,7 +22,11 @@ object CacheHelper {
 
     private val mCacheImpl: DataCache = DefaultCacheImpl()
 
-    fun checkExpired(cacheKey: String, expireDuration: Long = TimeUnit.MINUTES.toMillis(15)): Boolean = mCacheImpl.checkExpired(cacheKey, expireDuration)
+    /**
+     * 默认为 15 分钟失效，失效后需要重新获取数据并进行缓存
+     */
+    fun checkExpired(cacheKey: String, expireDuration: Long = TimeUnit.MINUTES.toMillis(15)): Boolean =
+        mCacheImpl.checkExpired(cacheKey, expireDuration)
 
     inline fun <reified T> getFromCache(cacheKey: String): T? = getFromCache(cacheKey, object : TypeToken<T>() {}.type)
 
@@ -41,105 +45,19 @@ object CacheHelper {
     /**
      * 保存数据到本地缓存
      */
-    fun <T> saveToCache(cacheKey: String, data: T) {
-        data ?: return
-        when (data) {
-            is Map<*, *> -> {
-                if (data.isNotEmpty()) {
-                    internalCache(cacheKey, data)
-                }
-            }
-
-            is Collection<*> -> {
-                if (data.isNotEmpty()) {
-                    internalCache(cacheKey, data)
-                }
-            }
-
-            is Array<*> -> {
-                if (data.isNotEmpty()) {
-                    internalCache(cacheKey, data)
-                }
-            }
-
-            else -> {
-                internalCache(cacheKey, data)
-            }
-        }
+    fun saveToCache(cacheKey: String, data: Any?) {
+        if (!isValidateData(data)) return
+        mCacheImpl.onCache(cacheKey, data)
     }
 
     /**
-     * 真正执行缓存数据的逻辑
+     * 校验数据
      */
-    private fun <T> internalCache(cacheKey: String, data: T) {
-        try {
-            mCacheImpl.onCache(cacheKey, data)
-            Timber.d("internalCache：===> saveToCache cacheKey is $cacheKey")
-        } catch (t: Throwable) {
-            Timber.e(t, "are you ok? cache failed.")
-        }
-    }
-
-    class DefaultCacheImpl : DataCache {
-
-        /**
-         * 默认为 15 分钟失效，失效后需要重新获取数据并进行缓存
-         */
-        override fun checkExpired(cacheKey: String, expireDuration: Long): Boolean {
-            val cacheTime = mMMKV.decodeLong(getCacheTimeKey(cacheKey), 0L)
-            return System.currentTimeMillis() - cacheTime > expireDuration
-        }
-
-        override fun <T> onCache(cacheKey: String, data: T) {
-            val jsonData = mGson.toJson(data)
-            mMMKV.encode(getCacheTimeKey(cacheKey), System.currentTimeMillis())
-            mMMKV.encode(getCacheDataKey(cacheKey), jsonData)
-        }
-
-        override fun <T> getFromCache(cacheKey: String, type: Type): T? {
-            val jsonData = mMMKV.decodeString(getCacheDataKey(cacheKey), null)
-            return mGson.fromJson(jsonData, type) as T?
-        }
-
-        companion object {
-
-            private const val MMKV_CACHE_KEY = "MMKV_CACHE_KEY"
-            private val mGson = GsonUtils.getGson()
-            private val mMMKV by lazy { MMKV.mmkvWithID(MMKV_CACHE_KEY, MMKV.MULTI_PROCESS_MODE) }
-        }
-    }
-
-    interface DataCache {
-
-        /**
-         * 检查缓存是否过期
-         */
-        fun checkExpired(cacheKey: String, expireDuration: Long): Boolean
-
-        /**
-         * 获取缓存时间的 Key
-         */
-        fun getCacheTimeKey(cacheKey: String) = MMKV_CACHE_TIME_KEY + cacheKey
-
-        /**
-         * 获取缓存数据的 Key
-         */
-        fun getCacheDataKey(cacheKey: String) = MMKV_CACHE_DATA_KEY + cacheKey
-
-        /**
-         * 缓存数据
-         */
-        fun <T> onCache(cacheKey: String, data: T)
-
-        /**
-         * 从缓存获取数据
-         */
-        fun <T> getFromCache(cacheKey: String, type: Type): T?
-
-        companion object {
-
-            private const val MMKV_CACHE_TIME_KEY = "MMKV_CACHE_TIME_KEY_"
-            private const val MMKV_CACHE_DATA_KEY = "MMKV_CACHE_DATA_KEY_"
-        }
+    private fun isValidateData(data: Any?) = when (data) {
+        null -> false
+        is Map<*, *> -> data.isNotEmpty()
+        is Collection<*> -> data.isNotEmpty()
+        is Array<*> -> data.isNotEmpty()
+        else -> true
     }
 }
