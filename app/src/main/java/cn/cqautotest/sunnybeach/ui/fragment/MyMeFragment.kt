@@ -20,6 +20,7 @@ import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
 import cn.cqautotest.sunnybeach.util.MAKE_COMPLAINTS_URL
 import cn.cqautotest.sunnybeach.util.UmengReportKey
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
+import com.blankj.utilcode.util.ClipboardUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dylanc.longan.viewLifecycleScope
@@ -164,8 +165,10 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
                     .setMessage("暗号：阳光沙滩APP来的")
                     .setConfirm("我要加群")
                     .setCancel("点错了")
+                    .setCanceledOnTouchOutside(false)
                     .setListener {
                         MobclickAgent.onEvent(context, UmengReportKey.JOIN_QQ_GROUP)
+                        ClipboardUtils.copyText("阳光沙滩APP来的")
                         when (joinQQGroup()) {
                             true -> toast("正在唤起手Q...")
                             else -> toast("未安装手Q或安装的版本不支持")
