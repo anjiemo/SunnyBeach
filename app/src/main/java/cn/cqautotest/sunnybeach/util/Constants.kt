@@ -136,3 +136,11 @@ interface UmengReportKey {
         const val JOIN_QQ_GROUP = "JOIN_QQ_GROUP"
     }
 }
+
+interface CacheKey {
+
+    companion object {
+
+        const val CACHE_RICH_LIST = "CACHE_RICH_LIST_"
+    }
+}
