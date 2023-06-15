@@ -47,7 +47,11 @@ object CacheHelper {
      */
     fun saveToCache(cacheKey: String, data: Any?) {
         if (!isValidateData(data)) return
-        mCacheImpl.onCache(cacheKey, data)
+        try {
+            mCacheImpl.onCache(cacheKey, data)
+        } catch (t: Throwable) {
+            Timber.e(t)
+        }
     }
 
     /**
