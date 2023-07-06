@@ -15,11 +15,10 @@ import cn.cqautotest.sunnybeach.widget.BrowserView
 import cn.cqautotest.sunnybeach.widget.BrowserView.BrowserChromeClient
 import cn.cqautotest.sunnybeach.widget.BrowserView.BrowserViewClient
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import cn.cqautotest.sunnybeach.widget.StatusLayout.OnRetryListener
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
-import java.util.*
+import java.util.Locale
 
 /**
  *    author : Android 轮子哥
@@ -93,11 +92,7 @@ class BrowserFragment : AppFragment<AppActivity>(), StatusAction, OnRefreshListe
         override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
             // 这里为什么要用延迟呢？因为加载出错之后会先调用 onReceivedError 再调用 onPageFinished
             post {
-                showError(object : OnRetryListener {
-                    override fun onRetry(layout: StatusLayout) {
-                        reload()
-                    }
-                })
+                showError { reload() }
             }
         }
 
