@@ -3,7 +3,8 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import androidx.fragment.app.activityViewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
@@ -23,7 +24,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.CourseListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
-import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.StaggeredGridSpaceDecoration
 import com.youth.banner.indicator.CircleIndicator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -63,9 +64,9 @@ class CourseListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopList
 
             pagingRecyclerView.apply {
                 val spanCount = 2
-                layoutManager = GridLayoutManager(context, spanCount)
+                layoutManager = StaggeredGridLayoutManager(spanCount, RecyclerView.VERTICAL)
                 adapter = concatAdapter
-                addItemDecoration(GridSpaceDecoration(6.dp))
+                addItemDecoration(StaggeredGridSpaceDecoration(6.dp))
             }
         }
         mCourseListAdapter.addLoadStateListener {
