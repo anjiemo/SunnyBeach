@@ -22,8 +22,8 @@ import cn.cqautotest.sunnybeach.other.RoundRectDrawable
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.MultiOperationHelper
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
+import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import com.blankj.utilcode.util.ConvertUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
