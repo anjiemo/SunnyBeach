@@ -6,14 +6,11 @@ import androidx.annotation.ColorInt
 import androidx.core.graphics.set
 
 fun Bitmap?.setTintColor(@ColorInt newColor: Int): Bitmap? {
-    val originBitmap = this ?: return null
-    val newBitmap = originBitmap.copy(originBitmap.config, true)
-    val width = originBitmap.width
-    val height = originBitmap.height
+    this ?: return null
+    val newBitmap = copy(config, true)
     for (x in 0 until width) {
         for (y in 0 until height) {
-            val originColor = originBitmap.getPixel(x, y)
-            takeIf { originColor != Color.TRANSPARENT }?.let { newBitmap[x, y] = newColor }
+            takeIf { getPixel(x, y) != Color.TRANSPARENT }?.let { newBitmap[x, y] = newColor }
         }
     }
     return newBitmap

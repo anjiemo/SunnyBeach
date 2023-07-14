@@ -13,7 +13,7 @@ import androidx.core.text.getSpans
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.util.EmojiInputFilter
 
-fun TextView.interceptHyperLinkClickFrom(spanned: Spanned) {
+fun TextView.interceptHyperLinkClickFrom(spanned: Spanned, block: (url: String) -> Unit = { BrowserActivity.start(context, it) }) {
     movementMethod = LinkMovementMethod.getInstance()
     val urlSpans = spanned.getSpans<URLSpan>()
     text = buildSpannedString {
@@ -23,7 +23,7 @@ fun TextView.interceptHyperLinkClickFrom(spanned: Spanned) {
             if (URLUtil.isNetworkUrl(url)) {
                 val customUrlSpan = object : ClickableSpan() {
                     override fun onClick(widget: View) {
-                        BrowserActivity.start(context, url)
+                        block.invoke(url)
                     }
                 }
                 setSpan(customUrlSpan, spanned.getSpanStart(urlSpan), spanned.getSpanEnd(urlSpan), Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
@@ -43,9 +43,7 @@ fun TextView.addDefaultEmojiParser() {
         Array(1) { emojiInputFilter }
     } else {
         // 如果已经有输入过滤器了，则在原有的输入过滤器之外额外添加一个表情输入过滤器
-        val filterList = filters.toMutableList()
-        filterList.add(emojiInputFilter)
-        filterList.toTypedArray()
+        filters.toMutableList().also { it.add(emojiInputFilter) }.toTypedArray()
     }
 }
 

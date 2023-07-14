@@ -1,6 +1,7 @@
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.ktx.fromJson
 import cn.cqautotest.sunnybeach.ktx.toJson
+import cn.cqautotest.sunnybeach.ktx.unicodeToString
 import cn.cqautotest.sunnybeach.model.ApiResponse
 import cn.cqautotest.sunnybeach.model.ArticleDetail
 import cn.cqautotest.sunnybeach.model.UserArticle
@@ -366,5 +367,11 @@ class Test {
             append("========= 分割线 =========")
         }
         println("listFiles：===> $str")
+    }
+
+    @Test
+    fun unicodeToStringTest() {
+        val str = "\\u54c8\\u54c8"
+        println(str.unicodeToString())
     }
 }
