@@ -18,26 +18,11 @@ import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
-import cn.cqautotest.sunnybeach.ktx.dp
-import cn.cqautotest.sunnybeach.ktx.ifLogin
-import cn.cqautotest.sunnybeach.ktx.isNotEmpty
-import cn.cqautotest.sunnybeach.ktx.loadStateListener
-import cn.cqautotest.sunnybeach.ktx.orEmpty
-import cn.cqautotest.sunnybeach.ktx.otherwise
-import cn.cqautotest.sunnybeach.ktx.removeMourningStyle
-import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
-import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
-import cn.cqautotest.sunnybeach.ktx.setMourningStyle
-import cn.cqautotest.sunnybeach.ktx.snapshotList
-import cn.cqautotest.sunnybeach.ktx.tryShowLoginDialog
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.MourningCalendar
 import cn.cqautotest.sunnybeach.model.RefreshStatus
-import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
-import cn.cqautotest.sunnybeach.ui.activity.FishTopicActivity
-import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
-import cn.cqautotest.sunnybeach.ui.activity.PutFishActivity
-import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
+import cn.cqautotest.sunnybeach.ui.activity.*
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishCategoryAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
@@ -61,7 +46,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -117,9 +102,8 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     override fun initData() {
         loadCategoryList()
         loadFishList()
-        mAppViewModel.getMourningCalendar().observe(viewLifecycleOwner) {
-            val result = it.getOrNull() ?: return@observe
-            setMourningStyleByDate(result)
+        mAppViewModel.getMourningCalendar().observe(viewLifecycleOwner) { mourningCalendarList ->
+            mourningCalendarList.getOrNull()?.let { setMourningStyleByDate(it) }
         }
     }
 
