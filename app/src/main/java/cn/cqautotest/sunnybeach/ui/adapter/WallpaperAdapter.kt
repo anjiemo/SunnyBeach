@@ -34,7 +34,7 @@ class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, BaseViewHo
         holder.run {
             val photoIv = getView<ImageView>(R.id.photoIv)
             Glide.with(itemView)
-                .load(item.img)
+                .load(item.preview)
                 .centerCrop()
                 .into(photoIv)
             with(holder as RecyclerView.ViewHolder) {

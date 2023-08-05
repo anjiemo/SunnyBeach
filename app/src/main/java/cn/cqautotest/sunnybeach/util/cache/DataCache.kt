@@ -1,6 +1,5 @@
 package cn.cqautotest.sunnybeach.util.cache
 
-import com.huawei.hms.scankit.p.T
 import java.lang.reflect.Type
 
 /**
