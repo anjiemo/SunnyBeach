@@ -3,7 +3,7 @@ package cn.cqautotest.sunnybeach.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -31,7 +31,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     private val phoneLiveData = MutableLiveData<String>()
 
-    val userAvatarLiveData = Transformations.switchMap(phoneLiveData) { account ->
+    val userAvatarLiveData = phoneLiveData.switchMap { account ->
         Repository.queryUserAvatar(account)
     }
 
