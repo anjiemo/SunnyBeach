@@ -3,7 +3,7 @@ import org.json.JSONObject
 import java.security.MessageDigest
 
 apply plugin: 'com.android.application'
-apply plugin: 'android-aspectjx'
+apply plugin: 'io.github.wurensen.android-aspectjx'
 apply from: '../common.gradle'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
@@ -44,6 +44,15 @@ android {
             storePassword StorePassword
             keyAlias KeyAlias
             keyPassword KeyPassword
+        }
+    }
+    // 剔除这个包下的所有文件（不会移除签名信息）
+    packagingOptions {
+        jniLibs {
+            excludes += ['META-INF/*******']
+        }
+        resources {
+            excludes += ['META-INF/*******']
         }
     }
 
@@ -111,10 +120,6 @@ android {
         }
     }
 
-    packagingOptions {
-        // 剔除这个包下的所有文件（不会移除签名信息）
-        exclude 'META-INF/*******'
-    }
 
     // AOP 配置（exclude 和 include 二选一）
     // 需要进行配置，否则就会引发冲突，具体表现为：
@@ -126,6 +131,7 @@ android {
         // 只对以下包名做 AOP 处理
         include android.defaultConfig.applicationId
     }
+    namespace 'cn.cqautotest.sunnybeach'
 
     applicationVariants.all { variant ->
         // apk 输出文件名配置
@@ -198,11 +204,11 @@ static def generateMD5(final file) {
 // 添加构建依赖项：https://developer.android.google.cn/studio/build/dependencies
 // api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
 dependencies {
-    def paging_version = "3.1.1"
-    def nav_version = "2.5.3"
+    def paging_version = "3.2.0"
+    def nav_version = "2.6.0"
     def emoji2_version = "1.0.0-beta01"
-    def room_version = "2.5.0"
-    def work_version = "2.8.0"
+    def room_version = "2.5.2"
+    def work_version = "2.8.1"
     def markwon_version = "4.6.2"
     def prism_version = "2.0.0"
     def qmui_arch_version = '2.0.1'
@@ -222,10 +228,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.activity:activity-ktx:1.6.1'
-    implementation 'androidx.fragment:fragment-ktx:1.5.5'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.activity:activity-ktx:1.7.2'
+    implementation 'androidx.fragment:fragment-ktx:1.6.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
 
     // Room 数据库：https://developer.android.com/jetpack/androidx/releases/room
     // CodeLab：https://developer.android.com/codelabs/android-room-with-a-view-kotlin#0
@@ -253,7 +259,7 @@ dependencies {
     implementation 'com.github.getActivity:XXPermissions:16.8'
 
     // 标题栏框架：https://github.com/getActivity/TitleBar
-    implementation 'com.github.getActivity:TitleBar:10.0'
+    implementation 'com.github.getActivity:TitleBar:10.5'
 
     // 吐司框架：https://github.com/getActivity/Toaster
     implementation 'com.github.getActivity:Toaster:12.0'
@@ -390,8 +396,8 @@ dependencies {
 
     // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
     // 组件层次结构备忘录：https://dagger.dev/hilt/components.html#component-lifetimes
-    implementation "com.google.dagger:hilt-android:2.45"
-    kapt "com.google.dagger:hilt-android-compiler:2.45"
+    implementation "com.google.dagger:hilt-android:2.47"
+    kapt "com.google.dagger:hilt-android-compiler:2.47"
 
     // // 从图片中提取具有代表性的调色板：https://developer.android.com/jetpack/androidx/releases/palette
     implementation 'androidx.palette:palette:1.0.0'
