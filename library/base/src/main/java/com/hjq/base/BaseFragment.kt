@@ -190,7 +190,7 @@ abstract class BaseFragment<A : BaseActivity> : Fragment(),
         val fragments: MutableList<Fragment?> = childFragmentManager.fragments
         for (fragment: Fragment? in fragments) {
             // 这个子 Fragment 必须是 BaseFragment 的子类，并且处于可见状态
-            if (fragment !is BaseFragment<*> || fragment.getLifecycle().currentState != Lifecycle.State.RESUMED) {
+            if (fragment !is BaseFragment<*> || fragment.lifecycle.currentState != Lifecycle.State.RESUMED) {
                 continue
             }
             // 将按键事件派发给子 Fragment 进行处理
