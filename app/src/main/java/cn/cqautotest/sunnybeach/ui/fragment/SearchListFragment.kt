@@ -3,8 +3,8 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -26,6 +26,7 @@ import cn.cqautotest.sunnybeach.viewmodel.SearchViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import com.dylanc.longan.safeArguments
+import com.dylanc.longan.viewLifecycleScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -85,7 +86,12 @@ class SearchListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack
     }
 
     private fun loadSearchResultList(keywords: String) {
-        viewLifecycleOwner.lifecycleScope.launch {
+        if (keywords.isEmpty()) {
+            mSearchResultListAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
+            showEmpty()
+            return
+        }
+        viewLifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
                 mSearchViewModel.searchByKeywords(keyword = keywords, searchType = searchType, sortType = SortType.NO_SORT).collectLatest {
                     mSearchResultListAdapter.submitData(it)
