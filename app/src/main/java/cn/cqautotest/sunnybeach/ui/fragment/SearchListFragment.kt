@@ -13,11 +13,7 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.SearchListFragmentBinding
-import cn.cqautotest.sunnybeach.ktx.dp
-import cn.cqautotest.sunnybeach.ktx.fromJson
-import cn.cqautotest.sunnybeach.ktx.loadStateListener
-import cn.cqautotest.sunnybeach.ktx.snapshotList
-import cn.cqautotest.sunnybeach.ktx.toJson
+import cn.cqautotest.sunnybeach.ktx.*
 import cn.cqautotest.sunnybeach.other.SearchType
 import cn.cqautotest.sunnybeach.other.SortType
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
@@ -61,6 +57,7 @@ class SearchListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack
 
     override fun initData() {
         showEmpty()
+        loadSearchResultList(mSearchViewModel.keywordsLiveData.value.orEmpty())
     }
 
     override fun initEvent() {
@@ -89,7 +86,7 @@ class SearchListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack
 
     private fun loadSearchResultList(keywords: String) {
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
                 mSearchViewModel.searchByKeywords(keyword = keywords, searchType = searchType, sortType = SortType.NO_SORT).collectLatest {
                     mSearchResultListAdapter.submitData(it)
                 }
