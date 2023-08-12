@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
@@ -31,7 +32,6 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
-import okhttp3.FormBody
 import timber.log.Timber
 import kotlin.math.abs
 
@@ -103,27 +103,18 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
                 val nickName = getString(NICK_NAME)
                 val avatar = getString(AVATAR_URL)
                 Timber.d("initData：===> openId is $openId nickName is $nickName avatar is $avatar")
-                val queryParams = FormBody.Builder()
-                    .add("nickname", nickName ?: "游客")
-                    .add("avatar", avatar.orEmpty())
-                    .add("openid", openId.orEmpty())
-                    .build().toQueryParams()
-                "$url?$queryParams"
+                Uri.parse(url)
+                    .buildUpon()
+                    .appendQueryParameter("nickname", nickName ?: "游客")
+                    .appendQueryParameter("avatar", avatar.orEmpty())
+                    .appendQueryParameter("openid", openId.orEmpty())
+                    .toString()
             } else {
                 url
             }
+            Timber.d("initData：===> newUrl is $newUrl")
             loadUrl(newUrl)
         }
-    }
-
-    private fun FormBody.toQueryParams(): String = buildString {
-        repeat(size) {
-            append(name(it))
-            append("=")
-            append(value(it))
-            append("&")
-        }
-        if (size != 0) deleteAt(lastIndex)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -188,7 +179,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
     }
 
     /**
-     * 处理图片被长按的情况
+     * 处理图片被单击的情况
      */
     private fun handleImage(imageLink: String?) {
         imageLink?.let { ImagePreviewActivity.start(this, it) }
