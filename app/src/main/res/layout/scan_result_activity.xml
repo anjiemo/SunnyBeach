@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".ui.activity.ScanResultActivity">
+
+    <com.hjq.bar.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="扫码结果" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:textColor="#8E8E93"
+        android:textSize="16sp"
+        tools:text="文本" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="什么也没有~"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                tools:text="内容" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0px"
+        android:layout_weight="1" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/tv_access_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:paddingVertical="14dp"
+        android:text="@string/common_access_link"
+        android:textColor="@color/common_confirm_text_color"
+        android:visibility="gone"
+        app:shape_radius="25dp"
+        app:shape_solidPressedColor="@color/common_button_pressed_color"
+        app:shape_strokeColor="@color/common_confirm_text_color"
+        app:shape_strokeWidth="2dp" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/tv_copy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:paddingVertical="14dp"
+        android:text="复制文本"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:shape_radius="25dp"
+        app:shape_solidColor="@color/common_confirm_text_color"
+        app:shape_solidPressedColor="@color/common_button_pressed_color" />
+
+</LinearLayout>
