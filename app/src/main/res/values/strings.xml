@@ -82,6 +82,9 @@
     <string name="common_web_call_phone_allow">拨打</string>
     <string name="common_web_call_phone_reject">取消</string>
 
+    <string name="common_access_link">访问网址</string>
+    <string name="common_copy_success">复制成功</string>
+
     <!-- 网络请求 -->
     <string name="http_loading">加载中&#8230;</string>
 

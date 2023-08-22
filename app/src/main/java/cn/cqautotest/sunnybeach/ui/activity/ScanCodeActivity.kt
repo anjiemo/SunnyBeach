@@ -22,7 +22,7 @@ import timber.log.Timber
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2022/04/20
- * desc   : 自定义的扫码界面，暂支持扫描二维码
+ * desc   : 自定义的扫码界面，暂时只支持扫描二维码
  */
 class ScanCodeActivity : ScanKitActivity(), Init {
 
