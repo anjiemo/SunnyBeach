@@ -367,9 +367,6 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
                     continue
                 }
                 val file = File(path)
-                if (!file.exists() || !file.isFile) {
-                    continue
-                }
                 val parentFile: File = file.parentFile ?: continue
 
                 // 获取目录名作为专辑名称
