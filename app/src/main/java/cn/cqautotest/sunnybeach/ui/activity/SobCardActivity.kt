@@ -13,7 +13,12 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SobCardActivityBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.context
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.setTintColor
+import cn.cqautotest.sunnybeach.ktx.startActivity
+import cn.cqautotest.sunnybeach.ktx.toQrCodeBitmapOrNull
+import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.util.PosterShareDelegate
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_VIEW_USER_URL_PRE
 import com.blankj.utilcode.util.ImageUtils
@@ -46,7 +51,9 @@ class SobCardActivity : AppActivity() {
     override fun getLayoutId() = R.layout.sob_card_activity
 
     override fun initView() {
+        val nickName = UserManager.loadUserBasicInfo()?.nickname.orEmpty().ifEmpty { "未获取到昵称" }
         with(mBinding.includeSobCardFront) {
+            tvNickName.text = nickName
             tvSobId.text = mSobId.manicured()
             val qrContent = "$SUNNY_BEACH_VIEW_USER_URL_PRE${mSobId}"
             val bitmap = qrContent.toQrCodeBitmapOrNull(size = 100.dp, bgColor = Color.TRANSPARENT, qrColor = Color.WHITE, margin = 0)
