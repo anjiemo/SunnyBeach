@@ -133,7 +133,7 @@ android {
     }
     namespace 'cn.cqautotest.sunnybeach'
 
-    applicationVariants.all { variant ->
+    applicationVariants.configureEach { variant ->
         // apk 输出文件名配置
         variant.outputs.all { output ->
             outputFileName = rootProject.getName() + '_v' + variant.versionName + '_' + variant.buildType.name
@@ -145,19 +145,19 @@ android {
     }
 }
 
-task printReleaseAppConfig() {
+tasks.register('printReleaseAppConfig') {
     doLast {
         printAppConfig("release")
     }
 }
 
-task printPreviewAppConfig() {
+tasks.register('printPreviewAppConfig') {
     doLast {
         printAppConfig("preview")
     }
 }
 
-task printDebugAppConfig() {
+tasks.register('printDebugAppConfig') {
     doLast {
         printAppConfig("debug")
     }
