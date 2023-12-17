@@ -41,11 +41,11 @@ allprojects {
         addCommonMaven(repositories)
     }
 
-    tasks.withType(JavaCompile) {
+    tasks.withType(JavaCompile).configureEach {
         // 设置全局编码
         options.encoding = 'UTF-8'
     }
-    tasks.withType(Javadoc) {
+    tasks.withType(Javadoc).configureEach {
         // 设置文档编码
         options {
             encoding 'UTF-8'
@@ -58,6 +58,6 @@ allprojects {
     setBuildDir(new File(rootDir, "build/${path.replaceAll(':', '/')}"))
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }
