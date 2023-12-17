@@ -156,16 +156,16 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
         mRefreshStatus.isFirstRefresh = false
     }
 
-    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
         // There is no processing here.
         return false
     }
 
     override fun onResourceReady(
-        resource: Drawable?,
-        model: Any?,
+        resource: Drawable,
+        model: Any,
         target: Target<Drawable>?,
-        dataSource: DataSource?,
+        dataSource: DataSource,
         isFirstResource: Boolean
     ): Boolean {
         // We're not dealing with that here, we just want to get the resource at the end of the load, that's all.
