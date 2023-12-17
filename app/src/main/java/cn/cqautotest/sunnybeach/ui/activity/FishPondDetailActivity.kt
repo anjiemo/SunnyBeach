@@ -175,14 +175,14 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
                 .centerCrop()
                 .transform(RoundedCorners(6.dp))
                 .addListener(object : RequestListener<Drawable> {
+
                     override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
+                        resource: Drawable,
+                        model: Any,
                         target: Target<Drawable>?,
-                        dataSource: DataSource?,
+                        dataSource: DataSource,
                         isFirstResource: Boolean
                     ): Boolean {
-                        resource ?: return false
                         val newDrawable = adjustDrawable(resource, llPhotoContainer.width, 10.dp)
                         imageView.setImageDrawable(newDrawable)
                         return true
@@ -191,7 +191,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
                     override fun onLoadFailed(
                         e: GlideException?,
                         model: Any?,
-                        target: Target<Drawable>?,
+                        target: Target<Drawable>,
                         isFirstResource: Boolean
                     ): Boolean {
                         return true

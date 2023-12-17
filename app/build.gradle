@@ -5,7 +5,7 @@ import java.security.MessageDigest
 apply plugin: 'com.android.application'
 apply plugin: 'io.github.wurensen.android-aspectjx'
 apply from: '../common.gradle'
-apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.devtools.ksp'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.huawei.agconnect'
 
@@ -237,7 +237,7 @@ dependencies {
     // CodeLab：https://developer.android.com/codelabs/android-room-with-a-view-kotlin#0
     implementation "androidx.room:room-runtime:$room_version"
     // 使用 Kotlin 注解处理工具 (kapt)
-    kapt "androidx.room:room-compiler:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
     // 对 Room 的 Kotlin 扩展和协程支持
     implementation "androidx.room:room-ktx:$room_version"
 
@@ -286,9 +286,9 @@ dependencies {
 
     // 图片加载框架：https://github.com/bumptech/glide
     // 官方使用文档：https://github.com/Muyangmin/glide-docs-cn
-    implementation 'com.github.bumptech.glide:glide:4.15.0'
-    implementation 'com.github.bumptech.glide:okhttp3-integration:4.15.0'
-    kapt 'com.github.bumptech.glide:compiler:4.15.0'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.16.0'
+    ksp 'com.github.bumptech.glide:compiler:4.16.0'
 
     // 沉浸式框架：https://github.com/gyf-dev/ImmersionBar
     implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
@@ -397,7 +397,7 @@ dependencies {
     // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
     // 组件层次结构备忘录：https://dagger.dev/hilt/components.html#component-lifetimes
     implementation "com.google.dagger:hilt-android:2.47"
-    kapt "com.google.dagger:hilt-android-compiler:2.47"
+    ksp "com.google.dagger:hilt-android-compiler:2.47"
 
     // // 从图片中提取具有代表性的调色板：https://developer.android.com/jetpack/androidx/releases/palette
     implementation 'androidx.palette:palette:1.0.0'
