@@ -135,7 +135,7 @@ android {
 
     applicationVariants.configureEach { variant ->
         // apk 输出文件名配置
-        variant.outputs.all { output ->
+        variant.outputs.configureEach { output ->
             outputFileName = rootProject.getName() + '_v' + variant.versionName + '_' + variant.buildType.name
             if (variant.buildType.name == buildTypes.release.getName()) {
                 outputFileName += '_' + new Date().format('MMdd')
@@ -190,7 +190,6 @@ static def generateMD5(final file) {
     MessageDigest digest = MessageDigest.getInstance("MD5")
     file.withInputStream() { is ->
         byte[] buffer = new byte[8192]
-        int read = 0
         while ((read = is.read(buffer)) > 0) {
             digest.update(buffer, 0, read)
         }
@@ -236,7 +235,7 @@ dependencies {
     // Room 数据库：https://developer.android.com/jetpack/androidx/releases/room
     // CodeLab：https://developer.android.com/codelabs/android-room-with-a-view-kotlin#0
     implementation "androidx.room:room-runtime:$room_version"
-    // 使用 Kotlin 注解处理工具 (kapt)
+    // 使用 Kotlin 注解处理工具
     ksp "androidx.room:room-compiler:$room_version"
     // 对 Room 的 Kotlin 扩展和协程支持
     implementation "androidx.room:room-ktx:$room_version"
@@ -403,7 +402,7 @@ dependencies {
     implementation 'androidx.palette:palette:1.0.0'
 
     // Android下打造通用便捷的PopupWindow弹窗库：https://github.com/razerdp/BasePopup
-    implementation 'io.github.razerdp:BasePopup:3.2.0'
+    implementation 'io.github.razerdp:BasePopup:3.2.1'
 
     // 一个强大的🚀Android 图表视图/图形视图库，支持折线图、雷达图、气泡图和烛台图以及缩放、平移和动画：https://github.com/PhilJay/MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
