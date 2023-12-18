@@ -47,6 +47,8 @@ class FishPondSelectionAdapter : RecyclerView.Adapter<FishPondSelectionAdapter.F
         notifyDataSetChanged()
     }
 
+    fun getData(): List<FishPondTopicList.TopicItem> = mData.toList()
+
     fun setOnItemClickListener(listener: (item: FishPondTopicList.TopicItem, position: Int) -> Unit) {
         mItemClickListener = listener
     }
