@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         app:barStyle="light"
         app:leftIcon="@null"
-        app:rightIconHeight="16dp"
-        app:rightIconWidth="16dp"
+        app:rightIconHeight="@dimen/dp_16"
+        app:rightIconWidth="@dimen/dp_16"
         app:title="课程" />
 
     <cn.cqautotest.sunnybeach.widget.StatusLayout
