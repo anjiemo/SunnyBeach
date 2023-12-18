@@ -5,15 +5,18 @@ import android.content.Intent
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.FishPondSelectionActivityBinding
+import cn.cqautotest.sunnybeach.ktx.clearText
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.hideKeyboard
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.textString
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.other.IntentKey
@@ -35,6 +38,7 @@ class FishPondSelectionActivity : AppActivity(), StatusAction {
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
     private val mRefreshStatus = RefreshStatus()
     private val mFishPondSelectionAdapter = FishPondSelectionAdapter()
+    private val mFishPondSearchAdapter = FishPondSelectionAdapter()
 
     override fun getLayoutId(): Int = R.layout.fish_pond_selection_activity
 
@@ -45,6 +49,10 @@ class FishPondSelectionActivity : AppActivity(), StatusAction {
         mBinding.rvFishPondLabelsList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = mFishPondSelectionAdapter
+        }
+        mBinding.rvFishPondSearchLabelsList.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = mFishPondSearchAdapter
         }
     }
 
@@ -74,8 +82,18 @@ class FishPondSelectionActivity : AppActivity(), StatusAction {
                 showKeyboard(searchView)
             }
             tvCancel.setFixOnClickListener {
+                searchView.clearText()
                 groupSearch.isVisible = false
                 hideKeyboard()
+            }
+            searchView.doAfterTextChanged {
+                val inputContent = searchView.textString
+                val data = mFishPondSelectionAdapter.getData()
+                val filteredData = data.filter {
+                    it.topicName.contains(inputContent, true) ||
+                            it.description.contains(inputContent, true)
+                }
+                mFishPondSearchAdapter.setData(filteredData)
             }
         }
         mFishPondSelectionAdapter.setOnItemClickListener { item, _ ->
