@@ -49,7 +49,7 @@
                         android:minHeight="@dimen/dp_80"
                         app:banner_radius="@dimen/dp_10"
                         app:layout_constraintBottom_toTopOf="@id/paging_recycler_view"
-                        app:layout_constraintDimensionRatio="1.618"
+                        app:layout_constraintDimensionRatio="1.918"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.recyclerview.widget.RecyclerView
