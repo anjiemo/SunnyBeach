@@ -3,18 +3,24 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.app.Activity
 import android.content.Intent
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.FishPondSelectionActivityBinding
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.hideKeyboard
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondSelectionAdapter
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.gyf.immersionbar.ImmersionBar
 import com.hjq.bar.TitleBar
 
 /**
@@ -33,6 +39,9 @@ class FishPondSelectionActivity : AppActivity(), StatusAction {
     override fun getLayoutId(): Int = R.layout.fish_pond_selection_activity
 
     override fun initView() {
+        val statusBarHeight = ImmersionBar.getStatusBarHeight(this)
+        val margin = 10.dp
+        mBinding.clSearchContainer.updatePadding(top = statusBarHeight + margin, bottom = margin)
         mBinding.rvFishPondLabelsList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = mFishPondSelectionAdapter
@@ -41,9 +50,7 @@ class FishPondSelectionActivity : AppActivity(), StatusAction {
 
     override fun initData() {
         showLoading()
-        val refreshLayout = mBinding.refreshLayout
         mFishPondViewModel.loadTopicList().observe(this) {
-            refreshLayout.finishRefresh()
             val data = it.getOrElse {
                 showError {
                     initData()
@@ -60,8 +67,16 @@ class FishPondSelectionActivity : AppActivity(), StatusAction {
     }
 
     override fun initEvent() {
-        mBinding.refreshLayout.setOnRefreshListener {
-            initData()
+        mBinding.apply {
+            llSearchPick.setFixOnClickListener {
+                groupSearch.isVisible = true
+                searchView.requestFocus()
+                showKeyboard(searchView)
+            }
+            tvCancel.setFixOnClickListener {
+                groupSearch.isVisible = false
+                hideKeyboard()
+            }
         }
         mFishPondSelectionAdapter.setOnItemClickListener { item, _ ->
             val data = Intent().apply {
@@ -83,4 +98,6 @@ class FishPondSelectionActivity : AppActivity(), StatusAction {
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.slFishPondSelectionLayout
+
+    override fun isStatusBarDarkFont(): Boolean = true
 }

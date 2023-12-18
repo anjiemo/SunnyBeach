@@ -17,7 +17,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingTop="?attr/actionBarSize"
-        android:paddingBottom="6dp"
+        android:paddingBottom="@dimen/dp_6"
         tools:ignore="RtlSymmetry">
 
         <com.hjq.shape.layout.ShapeLinearLayout
@@ -36,7 +36,7 @@
                 android:layout_width="@dimen/dp_16"
                 android:layout_height="@dimen/dp_16"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="14dp"
+                android:layout_marginStart="@dimen/dp_14"
                 android:src="@drawable/discover_ic" />
 
             <TextView
@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:layout_marginHorizontal="10dp"
+                android:layout_marginHorizontal="@dimen/dp_10"
                 android:layout_toEndOf="@id/searchIv"
                 android:gravity="center_vertical"
                 android:hint="搜索"
@@ -56,15 +56,15 @@
             android:id="@+id/settingContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="14dp"
+            android:layout_marginEnd="@dimen/dp_14"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:visibility="gone">
 
             <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:padding="4dp"
+                android:layout_width="@dimen/dp_28"
+                android:layout_height="@dimen/dp_28"
+                android:padding="@dimen/dp_4"
                 android:src="@drawable/setting_ic" />
 
             <TextView
