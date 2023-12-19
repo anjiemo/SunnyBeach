@@ -29,7 +29,11 @@ import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.WallpaperAdapter
 import cn.cqautotest.sunnybeach.util.DownloadHelper
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
-import com.blankj.utilcode.util.*
+import com.blankj.utilcode.util.FileUtils
+import com.blankj.utilcode.util.ImageUtils
+import com.blankj.utilcode.util.IntentUtils
+import com.blankj.utilcode.util.PathUtils
+import com.blankj.utilcode.util.UriUtils
 import com.dylanc.longan.activity
 import com.dylanc.longan.context
 import com.dylanc.longan.windowInsetsControllerCompat
@@ -39,7 +43,7 @@ import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
-import java.util.*
+import java.util.Random
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlin.math.pow
@@ -131,7 +135,7 @@ class GalleryActivity : AppActivity() {
         }
     }
 
-    @Permissions(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
+    @Permissions(Permission.READ_MEDIA_IMAGES)
     fun downloadImage() {
         lifecycleScope.launch {
             simpleToast("正在下载图片，请稍后...")
