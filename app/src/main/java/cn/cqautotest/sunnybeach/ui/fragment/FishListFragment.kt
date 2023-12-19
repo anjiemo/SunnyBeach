@@ -18,6 +18,7 @@ import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
+import cn.cqautotest.sunnybeach.ktx.addAfterNextUpdateUIDefaultItemAnimator
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.ifLogin
 import cn.cqautotest.sunnybeach.ktx.isNotEmpty
@@ -90,7 +91,10 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     private val mFishCategoryAdapter = FishCategoryAdapter(mRecommendFishTopicListAdapterDelegate)
     private val mRecommendFishTopicListAdapter = RecommendFishTopicListAdapter(mFishCategoryAdapter)
     private val mFishListAdapter = FishListAdapter(mFishListAdapterDelegate)
-    private val loadStateListener = loadStateListener(mFishListAdapter) { mBinding.refreshLayout.finishRefresh() }
+    private val loadStateListener = loadStateListener(mFishListAdapter) {
+        mBinding.refreshLayout.finishRefresh()
+        mBinding.rvFishPondList.addAfterNextUpdateUIDefaultItemAnimator()
+    }
     private val mFishCategoryAdapterDataObserver = object : RecyclerView.AdapterDataObserver() {
         override fun onChanged() {
             mBinding.tvRecommend.isVisible = mFishCategoryAdapter.isNotEmpty()
@@ -124,6 +128,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 layoutManager = LinearLayoutManager(context)
                 adapter = concatAdapter
                 addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
+                itemAnimator = null
             }
         }
     }
