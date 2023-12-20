@@ -2,12 +2,11 @@ package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
-import android.text.style.ForegroundColorSpan
 import android.view.ViewGroup
 import androidx.core.text.buildSpannedString
+import androidx.core.text.color
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.ktx.ifNullOrEmpty
@@ -82,28 +81,17 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
     }
 
     private fun getBeautifiedFormat(
-        subComment: FishPondComment.FishPondCommentItem.SubComment,
-        item: FishPondComment.FishPondCommentItem
+        subComment: FishPondComment.FishPondCommentItem.SubComment, item: FishPondComment.FishPondCommentItem
     ): Spanned {
         val whoReplied = ""
         val wasReplied = subComment.getTargetUserNickname()
-        val content = whoReplied + "回复" + wasReplied + "：" + subComment.content
-
         val color = Color.parseColor("#045FB2")
         return buildSpannedString {
-            append(content)
-            setSpan(
-                ForegroundColorSpan(color),
-                content.indexOf(whoReplied),
-                content.indexOf("回复"),
-                SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-            )
-            setSpan(
-                ForegroundColorSpan(color),
-                content.indexOf(wasReplied),
-                content.indexOf(wasReplied) + wasReplied.length,
-                SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-            )
+            color(color) { append(whoReplied) }
+            append("回复 ")
+            color(color) { append(wasReplied) }
+            append(" ：")
+            append(subComment.content)
         }
     }
 
