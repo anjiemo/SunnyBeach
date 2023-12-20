@@ -18,6 +18,7 @@ import cn.cqautotest.sunnybeach.ktx.hideKeyboard
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.textString
 import cn.cqautotest.sunnybeach.ktx.toJson
+import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondSelectionAdapter
@@ -97,12 +98,19 @@ class FishPondSelectionActivity : AppActivity(), StatusAction {
             }
         }
         mFishPondSelectionAdapter.setOnItemClickListener { item, _ ->
-            val data = Intent().apply {
-                putExtra(IntentKey.OTHER, item.toJson())
-            }
-            setResult(Activity.RESULT_OK, data)
-            finish()
+            applyTopicItem(item)
         }
+        mFishPondSearchAdapter.setOnItemClickListener { item, _ ->
+            applyTopicItem(item)
+        }
+    }
+
+    private fun applyTopicItem(item: FishPondTopicList.TopicItem) {
+        val data = Intent().apply {
+            putExtra(IntentKey.OTHER, item.toJson())
+        }
+        setResult(Activity.RESULT_OK, data)
+        finish()
     }
 
     override fun showLoading(id: Int) {
