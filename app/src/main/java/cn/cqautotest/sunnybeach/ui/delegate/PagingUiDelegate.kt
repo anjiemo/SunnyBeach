@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.action.Init
 import cn.cqautotest.sunnybeach.action.StatusAction
+import cn.cqautotest.sunnybeach.ktx.addAfterNextUpdateUIDefaultItemAnimator
+import cn.cqautotest.sunnybeach.ktx.clearItemAnimator
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 
@@ -25,7 +27,10 @@ class PagingUiDelegate(
     private val pagingDataAdapter: PagingDataAdapter<*, *>
 ) : Init, LifecycleEventObserver {
 
-    private val loadStateListener = statusAction.loadStateListener(pagingDataAdapter) { refreshLayout?.finishRefresh() }
+    private val loadStateListener = statusAction.loadStateListener(pagingDataAdapter) {
+        refreshLayout?.finishRefresh()
+        recyclerView.addAfterNextUpdateUIDefaultItemAnimator()
+    }
 
     init {
         lifecycle.addObserver(this)
@@ -35,6 +40,7 @@ class PagingUiDelegate(
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = pagingDataAdapter
+            clearItemAnimator()
         }
     }
 
@@ -50,6 +56,7 @@ class PagingUiDelegate(
                 lifecycle.removeObserver(this)
                 pagingDataAdapter.removeLoadStateListener(loadStateListener)
             }
+
             else -> {}
         }
     }

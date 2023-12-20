@@ -19,6 +19,7 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.addAfterNextUpdateUIDefaultItemAnimator
+import cn.cqautotest.sunnybeach.ktx.clearItemAnimator
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.ifLogin
 import cn.cqautotest.sunnybeach.ktx.isNotEmpty
@@ -128,7 +129,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 layoutManager = LinearLayoutManager(context)
                 adapter = concatAdapter
                 addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
-                itemAnimator = null
+                clearItemAnimator()
             }
         }
     }
