@@ -91,14 +91,14 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
                 layoutManager = LinearLayoutManager(context)
                 addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
                 // 移除 RecyclerView 的默认动画
-                itemAnimator = null
+                clearItemAnimator()
             }
             pagingRecyclerViewFloat.apply {
                 adapter = mFishPondDetailCommendListAdapter
                 layoutManager = LinearLayoutManager(context)
                 addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
                 // 移除 RecyclerView 的默认动画
-                itemAnimator = null
+                clearItemAnimator()
             }
             // 吸顶的关键（此处需要使用 pagingRecyclerView post ，否则计算出的宽高会不对）
             pagingRecyclerView.post {
@@ -111,7 +111,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
     override fun initData() {
         showLoading()
         loadFishDetail()
-        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.CREATED) { loadListData() } }
+        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { loadListData() } }
     }
 
     private suspend fun loadListData() {
@@ -127,7 +127,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
 
     private fun loadFishDetail() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mFishPondViewModel.getFishDetailById(mMomentId)
                     .catch { showError { loadFishDetail() } }
                     .collectLatest {
