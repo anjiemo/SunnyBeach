@@ -36,6 +36,8 @@ class FishPondViewModel : ViewModel() {
         _fishListStateLiveData.value = Unit
     }
 
+    fun getFollowedTopicList() = Repository.getFollowedTopicList()
+
     fun unfollowFishTopic(topicId: String) = Repository.unfollowFishTopic(topicId)
 
     fun followFishTopic(topicId: String) = Repository.followFishTopic(topicId)
