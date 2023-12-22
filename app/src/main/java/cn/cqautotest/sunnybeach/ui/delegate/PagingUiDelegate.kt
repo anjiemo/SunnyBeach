@@ -37,6 +37,7 @@ class PagingUiDelegate(
     }
 
     override fun initView() {
+        refreshLayout?.setEnableLoadMore(false)
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = pagingDataAdapter
