@@ -8,7 +8,11 @@ import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.ktx.fromJson
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
-import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.util.AUTO_LOGIN
+import cn.cqautotest.sunnybeach.util.SOB_ACCOUNT
+import cn.cqautotest.sunnybeach.util.SOB_PASSWORD
+import cn.cqautotest.sunnybeach.util.SOB_REMEMBER_PWD
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_USER_BASIC_INFO
 import com.tencent.mmkv.MMKV
 
 /**
@@ -55,7 +59,7 @@ object UserManager {
      */
     fun saveUserBasicInfo(userBasicInfo: UserBasicInfo?) {
         val mmkv = MMKV.defaultMMKV() ?: return
-        mmkv.putString(SUNNY_BEACH_USER_BASIC_INFO, userBasicInfo?.toJson())
+        mmkv.putString(SUNNY_BEACH_USER_BASIC_INFO, userBasicInfo?.toJson() ?: return)
     }
 
     /**
