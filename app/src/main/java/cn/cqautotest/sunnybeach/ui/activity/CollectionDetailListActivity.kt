@@ -12,6 +12,7 @@ import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.Bookmark
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.ui.adapter.CollectionDetailListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.CollectionViewModel
@@ -29,6 +30,7 @@ class CollectionDetailListActivity : PagingActivity() {
 
     private val mBinding by viewBinding<CollectionDetailListActivityBinding>()
     private val mCollectionViewModel by viewModels<CollectionViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mCollectionDetailListAdapter = CollectionDetailListAdapter(mAdapterDelegate)
     private val collectionItemJson by intentExtras<String>(COLLECTION_ITEM)
@@ -56,6 +58,11 @@ class CollectionDetailListActivity : PagingActivity() {
         mAdapterDelegate.setOnItemClickListener { _, position ->
             mCollectionDetailListAdapter.snapshotList.getOrNull(position)?.let { BrowserActivity.start(this, it.url) }
         }
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 
     companion object {
