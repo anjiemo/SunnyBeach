@@ -7,6 +7,8 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.SystemMsgListActivityBinding
+import cn.cqautotest.sunnybeach.ktx.addAfterNextUpdateUIDefaultItemAnimator
+import cn.cqautotest.sunnybeach.ktx.clearItemAnimator
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
@@ -36,7 +38,10 @@ class SystemMsgListActivity : PagingActivity(), OnBack2TopListener {
     private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mSystemMsgAdapter = SystemMsgAdapter(mAdapterDelegate)
-    private val loadStateListener = loadStateListener(mSystemMsgAdapter) { mBinding.refreshLayout.finishRefresh() }
+    private val loadStateListener = loadStateListener(mSystemMsgAdapter) {
+        mBinding.refreshLayout.finishRefresh()
+        mBinding.rvSystemMsgList.addAfterNextUpdateUIDefaultItemAnimator()
+    }
 
     override fun getPagingAdapter() = mSystemMsgAdapter
 
@@ -48,6 +53,7 @@ class SystemMsgListActivity : PagingActivity(), OnBack2TopListener {
             layoutManager = LinearLayoutManager(context)
             adapter = mSystemMsgAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
+            clearItemAnimator()
         }
     }
 
