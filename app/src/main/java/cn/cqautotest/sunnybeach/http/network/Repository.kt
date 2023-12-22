@@ -52,6 +52,8 @@ object Repository {
 
     private val cachePhotoIdList = arrayListOf<WallpaperBean.Res.Vertical>()
 
+    fun getFollowedTopicList() = launchAndGetData { FishNetwork.getFollowedTopicList() }
+
     fun unfollowFishTopic(topicId: String) = launchAndGetMsg { FishNetwork.unfollowFishTopic(topicId = topicId) }
 
     fun followFishTopic(topicId: String) = launchAndGetMsg { FishNetwork.followFishTopic(topicId = topicId) }

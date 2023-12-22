@@ -149,7 +149,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     private fun loadFishList() {
-        viewLifecycleScope.launchWhenCreated {
+        viewLifecycleScope.launch {
             mFishPondViewModel.getFishListByCategoryId("recommend").collectLatest {
                 onBack2Top()
                 mFishListAdapter.submitData(it)

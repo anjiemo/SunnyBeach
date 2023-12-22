@@ -32,4 +32,6 @@ object FishNetwork {
     suspend fun unfollowFishTopic(topicId: String) = FishPondApi.unfollowFishTopic(topicId)
 
     suspend fun followFishTopic(topicId: String) = FishPondApi.followFishTopic(topicId)
+
+    suspend fun getFollowedTopicList() = FishPondApi.getFollowedTopicList()
 }
