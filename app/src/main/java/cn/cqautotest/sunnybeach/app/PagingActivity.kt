@@ -32,7 +32,6 @@ abstract class PagingActivity : AppActivity(), StatusAction {
 
     abstract fun getPagingAdapter(): PagingDataAdapter<*, *>
 
-    @CallSuper
     override fun initView() {
         mPagingUiDelegate.initView()
     }
