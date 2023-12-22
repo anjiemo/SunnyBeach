@@ -11,7 +11,16 @@ import cn.cqautotest.sunnybeach.ktx.lowercaseMd5
 import cn.cqautotest.sunnybeach.ktx.toErrorResult
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.manager.UserManager
-import cn.cqautotest.sunnybeach.model.*
+import cn.cqautotest.sunnybeach.model.ApiResponse
+import cn.cqautotest.sunnybeach.model.AppUpdateInfo
+import cn.cqautotest.sunnybeach.model.IApiResponse
+import cn.cqautotest.sunnybeach.model.ModifyPwd
+import cn.cqautotest.sunnybeach.model.MourningCalendar
+import cn.cqautotest.sunnybeach.model.PersonCenterInfo
+import cn.cqautotest.sunnybeach.model.Report
+import cn.cqautotest.sunnybeach.model.ReportType
+import cn.cqautotest.sunnybeach.model.SmsInfo
+import cn.cqautotest.sunnybeach.model.User
 import cn.cqautotest.sunnybeach.model.msg.UnReadMsgCount
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import cn.cqautotest.sunnybeach.model.weather.Place
@@ -151,9 +160,7 @@ object Repository {
         UserManager.setupAutoLogin(true)
         userBasicInfo
     } catch (t: Throwable) {
-        t.printStackTrace()
-        UserManager.saveUserBasicInfo(null)
-        UserManager.setupAutoLogin(false)
+        Timber.e(t)
         null
     }
 
