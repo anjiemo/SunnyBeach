@@ -75,11 +75,8 @@ class FishListAdapter(private val adapterDelegate: AdapterDelegate, private val 
                 tvFishPondContent.setDefaultEmojiParser()
                 tvFishPondContent.text = content.parseAsHtml(imageGetter = EmojiImageGetter(tvFishPondContent.textSize.toInt()))
                 val topicName = item.topicName
-                val images = item.images
-                val imageCount = images.size
-                simpleGridLayout.setOnNineGridClickListener(nineGridAdapterDelegate)
-                    .setData(images)
-                llPhotoContainer.isVisible = imageCount != 0
+                simpleGridLayout.setData(item.images)
+                    .setOnNineGridClickListener(nineGridAdapterDelegate)
                 tvFishPondLabel.isVisible = TextUtils.isEmpty(topicName).not()
                 tvFishPondLabel.text = topicName
                 val linkUrl = item.linkUrl

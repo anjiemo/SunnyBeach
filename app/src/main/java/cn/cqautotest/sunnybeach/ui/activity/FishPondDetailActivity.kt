@@ -6,19 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.text.TextUtils
-import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
-import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.text.parseAsHtml
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
-import androidx.core.view.updateMargins
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -46,11 +40,7 @@ import cn.cqautotest.sunnybeach.widget.StatusLayout
 import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import com.blankj.utilcode.util.TimeUtils
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.dylanc.longan.intentExtras
 import com.hjq.bar.TitleBar
 import dagger.hilt.android.AndroidEntryPoint
@@ -159,47 +149,10 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
         tvFishPondContent.setDefaultEmojiParser()
         tvFishPondContent.text = content.parseAsHtml(imageGetter = EmojiImageGetter(tvFishPondContent.textSize.toInt()))
         val topicName = item.topicName
-        val images = item.images
-        val imageCount = images.size
-        llPhotoContainer.removeAllViews()
-        images.forEachIndexed { index, imageUrl ->
-            val imageView = ImageView(context).apply {
-                layoutParams = MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                    updateMargins(top = 6.dp, bottom = 6.dp)
-                }
+        simpleGridLayout.setData(item.images)
+            .setOnNineGridClickListener { sources, index ->
+                ImagePreviewActivity.start(context, sources, index)
             }
-            llPhotoContainer.addView(imageView)
-            imageView.setFixOnClickListener { ImagePreviewActivity.start(context, images, index) }
-            Glide.with(context)
-                .load(imageUrl)
-                .centerCrop()
-                .transform(RoundedCorners(6.dp))
-                .addListener(object : RequestListener<Drawable> {
-
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        model: Any,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        val newDrawable = adjustDrawable(resource, llPhotoContainer.width, 10.dp)
-                        imageView.setImageDrawable(newDrawable)
-                        return true
-                    }
-
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        return true
-                    }
-                })
-                .into(imageView)
-        }
-        simpleGridLayout.isVisible = imageCount != 0
         tvFishPondLabel.isVisible = TextUtils.isEmpty(topicName).not()
         tvFishPondLabel.text = topicName
         val linkUrl = item.linkUrl
@@ -230,23 +183,6 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
             tvComment.text = item.commentCount.takeIf { it != 0 }?.toString() ?: "评论"
             tvGreat.text = item.thumbUpList.size.takeIf { it != 0 }?.toString() ?: "点赞"
         }
-    }
-
-    fun adjustDrawable(drawable: Drawable, width: Int, radius: Int): Drawable {
-        val height = (drawable.intrinsicHeight * 1.618).toInt().coerceAtMost(width)
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, width, height)
-        drawable.draw(canvas)
-        val roundedBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
-        val roundedCanvas = Canvas(roundedBitmap)
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-        val rect = Rect(0, 0, bitmap.width, bitmap.height)
-        val rectF = RectF(rect)
-        roundedCanvas.drawRoundRect(rectF, radius.toFloat(), radius.toFloat(), paint)
-        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-        roundedCanvas.drawBitmap(bitmap, rect, rect, paint)
-        return BitmapDrawable(resources, roundedBitmap)
     }
 
     private fun dynamicLikes(item: Fish.FishItem) {
