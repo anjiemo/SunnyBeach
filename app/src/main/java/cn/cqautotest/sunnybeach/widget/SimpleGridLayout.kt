@@ -14,6 +14,8 @@ import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.orEmpty
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
 /**
@@ -35,18 +37,27 @@ class SimpleGridLayout @JvmOverloads constructor(
 
     fun setData(images: List<String> = listOf()) = apply {
         isVisible = images.isNotEmpty()
-        photoContainer.forEachIndexed { index, childView ->
-            val imageUrl = images.getOrNull(index).orEmpty()
-            (childView as? ImageView)?.takeIf { childView.tag == "image" && imageUrl.isNotEmpty() }?.let { imageView ->
-                imageView.updateLayoutParams<MarginLayoutParams> {
-                    bottomMargin = 10.dp
+        post {
+            photoContainer.forEachIndexed { index, childView ->
+                val imageUrl = images.getOrNull(index).orEmpty()
+                (childView as? ImageView)?.takeIf { childView.tag == "image" }?.let { imageView ->
+                    if (imageUrl.isNotEmpty()) {
+                        imageView.layoutParams.height = imageView.width
+                        imageView.updateLayoutParams<MarginLayoutParams> {
+                            bottomMargin = 4.dp
+                        }
+                        Glide.with(context)
+                            .load(imageUrl)
+                            .transform(MultiTransformation(CenterCrop(), RoundedCorners(6.dp)))
+                            .into(imageView)
+                    } else {
+                        imageView.layoutParams.height = 0
+                        imageView.updateLayoutParams<MarginLayoutParams> {
+                            bottomMargin = 0
+                        }
+                    }
+                    imageView.setFixOnClickListener { mOnNineGridClickListener?.onNineGridItemClick(images, index) }
                 }
-                imageView.post { imageView.layoutParams.height = imageView.width }
-                Glide.with(context)
-                    .load(imageUrl)
-                    .transform(RoundedCorners(6.dp))
-                    .into(imageView)
-                imageView.setFixOnClickListener { mOnNineGridClickListener?.onNineGridItemClick(images, index) }
             }
         }
     }

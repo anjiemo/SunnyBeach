@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.ui.adapter
 import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.ArticleListItemBinding
@@ -55,11 +54,8 @@ class ArticleAdapter(private val adapterDelegate: AdapterDelegate) :
                 tvArticleTitle.text = item.title
                 tvNickName.text = "${item.nickName} · ${TimeUtils.getFriendlyTimeSpanByNow(item.createTime)}"
                 tvNickName.setTextColor(UserManager.getNickNameColor(item.isVip))
-                val covers = item.covers
-                val imageCount = covers.size
-                simpleGridLayout.setOnNineGridClickListener(nineGridAdapterDelegate)
-                    .setData(covers)
-                simpleGridLayout.isVisible = imageCount != 0
+                simpleGridLayout.setData(item.covers)
+                    .setOnNineGridClickListener(nineGridAdapterDelegate)
                 // tvCreateTime.text = item.createTime
                 with(listMenuItem) {
                     llShare.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, bindingAdapterPosition) }
