@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.ktx.dp
-import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.ui.adapter.EmojiAdapter
 import cn.cqautotest.sunnybeach.util.EmojiMapHelper
+import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
 
 /**
  * author : A Lonely Cat

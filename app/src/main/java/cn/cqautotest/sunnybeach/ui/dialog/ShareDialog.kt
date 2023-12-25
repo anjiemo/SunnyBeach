@@ -15,7 +15,7 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppAdapter
 import com.hjq.base.BaseAdapter
 import com.hjq.base.BaseDialog
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengClient
 import com.hjq.umeng.UmengShare.OnShareListener
@@ -136,7 +136,7 @@ class ShareDialog {
                 if (getContext().packageName.endsWith(".debug") &&
                     (platform === Platform.WECHAT || platform === Platform.CIRCLE)
                 ) {
-                    ToastUtils.show("当前 buildType 不支持进行微信分享")
+                    Toaster.show("当前 buildType 不支持进行微信分享")
                     return
                 }
                 UmengClient.share(getActivity(), platform, shareAction, listener)
@@ -146,7 +146,7 @@ class ShareDialog {
                     getSystemService(ClipboardManager::class.java).setPrimaryClip(
                         ClipData.newPlainText("url", shareAction.shareContent.mMedia.toUrl())
                     )
-                    ToastUtils.show(R.string.share_platform_copy_hint)
+                    Toaster.show(R.string.share_platform_copy_hint)
                 }
             }
             dismiss()

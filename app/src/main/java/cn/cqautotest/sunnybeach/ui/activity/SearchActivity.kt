@@ -51,10 +51,11 @@ class SearchActivity : AppActivity() {
                         SearchType.QA,
                         SearchType.SHARE,
                     )
+                    private val mFragmentList = typeList.map { SearchListFragment.newInstance(it) }
 
                     override fun getItemCount() = typeList.size
 
-                    override fun createFragment(position: Int): Fragment = SearchListFragment.newInstance(typeList[position])
+                    override fun createFragment(position: Int): Fragment = mFragmentList[position]
                 }
             }
             mTabLayoutMediator = TabLayoutMediator(tabLayout, viewPager2) { tab, position ->

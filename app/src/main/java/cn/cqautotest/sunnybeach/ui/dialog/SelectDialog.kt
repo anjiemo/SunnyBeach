@@ -11,7 +11,7 @@ import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppAdapter
 import com.hjq.base.BaseAdapter
 import com.hjq.base.BaseDialog
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 
 /**
  *    author : Android 轮子哥
@@ -95,7 +95,7 @@ class SelectDialog {
                         autoDismiss()
                         listener?.onSelfSelected(getDialog(), data)
                     } else {
-                        ToastUtils.show(String.format(getString(R.string.select_min_hint)!!, adapter.getMinSelect()))
+                        Toaster.show(String.format(getString(R.string.select_min_hint)!!, adapter.getMinSelect()))
                     }
                 }
                 R.id.tv_ui_cancel -> {
@@ -222,7 +222,7 @@ class SelectDialog {
                     selectSet[position] = getItem(position)
                     notifyItemChanged(position)
                 } else {
-                    ToastUtils.show(String.format(getString(R.string.select_max_hint)!!, maxSelect))
+                    Toaster.show(String.format(getString(R.string.select_max_hint)!!, maxSelect))
                 }
             }
         }

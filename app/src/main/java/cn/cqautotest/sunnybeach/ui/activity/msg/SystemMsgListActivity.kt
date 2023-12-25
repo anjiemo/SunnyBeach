@@ -7,16 +7,22 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.SystemMsgListActivityBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.addAfterNextUpdateUIDefaultItemAnimator
+import cn.cqautotest.sunnybeach.ktx.clearItemAnimator
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
+import cn.cqautotest.sunnybeach.ktx.loadStateListener
+import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.SystemMsgAdapter
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -32,7 +38,10 @@ class SystemMsgListActivity : PagingActivity(), OnBack2TopListener {
     private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mSystemMsgAdapter = SystemMsgAdapter(mAdapterDelegate)
-    private val loadStateListener = loadStateListener(mSystemMsgAdapter) { mBinding.refreshLayout.finishRefresh() }
+    private val loadStateListener = loadStateListener(mSystemMsgAdapter) {
+        mBinding.refreshLayout.finishRefresh()
+        mBinding.rvSystemMsgList.addAfterNextUpdateUIDefaultItemAnimator()
+    }
 
     override fun getPagingAdapter() = mSystemMsgAdapter
 
@@ -44,6 +53,7 @@ class SystemMsgListActivity : PagingActivity(), OnBack2TopListener {
             layoutManager = LinearLayoutManager(context)
             adapter = mSystemMsgAdapter
             addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
+            clearItemAnimator()
         }
     }
 
@@ -61,7 +71,7 @@ class SystemMsgListActivity : PagingActivity(), OnBack2TopListener {
         // 需要在 View 销毁的时候移除 listener
         mSystemMsgAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mSystemMsgAdapter.snapshotList[position]?.let { msg ->
+            mSystemMsgAdapter.snapshotList.getOrNull(position)?.let { msg ->
                 val url = when (msg.exType) {
                     // 文章
                     "article" -> "$SUNNY_BEACH_ARTICLE_URL_PRE${msg.exId}"

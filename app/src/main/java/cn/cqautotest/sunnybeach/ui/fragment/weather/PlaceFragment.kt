@@ -14,12 +14,12 @@ import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.ui.activity.weather.MainActivity
 import cn.cqautotest.sunnybeach.ui.activity.weather.WeatherActivity
 import cn.cqautotest.sunnybeach.ui.adapter.weather.PlaceAdapter
-import cn.cqautotest.sunnybeach.viewmodel.weather.PlaceViewMode
+import cn.cqautotest.sunnybeach.viewmodel.weather.PlaceViewModel
 
 class PlaceFragment : Fragment(R.layout.place_fragment) {
 
     private val binding by viewBinding<PlaceFragmentBinding>()
-    val viewModel by viewModels<PlaceViewMode>()
+    val viewModel by viewModels<PlaceViewModel>()
     private lateinit var adapter: PlaceAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

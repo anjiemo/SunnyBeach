@@ -2,12 +2,11 @@ package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
-import android.text.style.ForegroundColorSpan
 import android.view.ViewGroup
 import androidx.core.text.buildSpannedString
+import androidx.core.text.color
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -113,27 +112,15 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
         item: FishPondComment.FishPondCommentItem
     ): Spanned {
         // 谁回复的
-        val whoReplied =
-            subComment.getNickName() + if (subComment.getId() == item.getId()) "(作者)" else ""
+        val whoReplied = subComment.getNickName() + if (subComment.getId() == item.getId()) "(作者)" else ""
         // 被回复的人
         val wasReplied = subComment.getTargetUserNickname()
-        val content = whoReplied + "回复" + wasReplied + "：" + subComment.content
-        val startIndex = whoReplied.length + 2
         val color = Color.parseColor("#045FB2")
         return buildSpannedString {
-            append(content)
-            setSpan(
-                ForegroundColorSpan(color),
-                content.indexOf(whoReplied),
-                content.indexOf("回复"),
-                SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-            )
-            setSpan(
-                ForegroundColorSpan(color),
-                startIndex,
-                startIndex + wasReplied.length,
-                SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-            )
+            color(color) { append(whoReplied) }
+            append(" 回复 ")
+            color(color) { append(wasReplied) }
+            append(" ：${subComment.content}")
         }
     }
 

@@ -3,10 +3,11 @@ package cn.cqautotest.sunnybeach.ktx
 import android.graphics.Rect
 import android.view.View
 import androidx.annotation.Px
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-fun RecyclerView.removeAllItemDecoration() = repeat(itemDecorationCount) { removeItemDecorationAt(it) }
+fun RecyclerView.clearItemDecorations() = repeat(itemDecorationCount) { removeItemDecorationAt(it) }
 
 /**
  * Callback method to be invoked when RecyclerView's scroll state changes.
@@ -146,4 +147,18 @@ private fun RecyclerView.checkLinearLayoutManager(): LinearLayoutManager? {
     val layoutManager = layoutManager ?: return null
     require(layoutManager is LinearLayoutManager) { "Make sure you are using the LinearLayoutManager！" }
     return layoutManager
+}
+
+/**
+ * 在下一次 UI 绘制后添加默认动画
+ */
+fun RecyclerView.addAfterNextUpdateUIDefaultItemAnimator() {
+    itemAnimator ?: run { post { itemAnimator = DefaultItemAnimator() } }
+}
+
+/**
+ * 清除 RecyclerView 的 item 动画
+ */
+fun RecyclerView.clearItemAnimator() {
+    itemAnimator = null
 }

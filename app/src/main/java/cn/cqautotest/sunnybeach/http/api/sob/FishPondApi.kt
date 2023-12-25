@@ -11,6 +11,12 @@ import retrofit2.http.*
 interface FishPondApi {
 
     /**
+     * 获取关注的话题列表
+     */
+    @GET("ct/moyu/topic/follow")
+    suspend fun getFollowedTopicList(): ApiResponse<FishPondTopicList>
+
+    /**
      * 关注摸鱼话题
      */
     @POST("ct/moyu/topic/follow/{id}")

@@ -45,11 +45,12 @@ class LocalCookieManager : CookieJar {
         val cookieManager = CookieManager.getInstance()
         val cookie = cookies.toString()
         cookieManager.setCookie(host, cookie)
-        Timber.d("==> host is $host cookie value is $cookie")
+        Timber.d("===> host is $host cookie value is $cookie")
         cookiesViewModel.save(cookiesSet.toList())
     }
 
     companion object {
+
         private var sINSTANCE: LocalCookieManager? = null
 
         @JvmStatic

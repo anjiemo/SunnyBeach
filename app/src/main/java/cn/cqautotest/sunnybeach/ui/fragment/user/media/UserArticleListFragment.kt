@@ -17,8 +17,8 @@ import cn.cqautotest.sunnybeach.ui.adapter.UserArticleAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.ArticleViewModel
+import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
 import com.umeng.socialize.media.UMImage
@@ -56,7 +56,7 @@ class UserArticleListFragment : PagingFragment<AppActivity>() {
         super.initEvent()
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到文章详情界面
-            mUserArticleAdapter.snapshotList[position]?.let {
+            mUserArticleAdapter.snapshotList.getOrNull(position)?.let {
                 val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${it.id}"
                 BrowserActivity.start(requireContext(), url)
             }

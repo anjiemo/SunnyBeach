@@ -3,16 +3,15 @@
 package cn.cqautotest.sunnybeach.ktx
 
 import android.annotation.SuppressLint
-import android.graphics.Color
-import android.graphics.ColorMatrix
-import android.graphics.ColorMatrixColorFilter
-import android.graphics.Paint
+import android.graphics.*
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import androidx.annotation.Px
+import androidx.annotation.RequiresApi
 import androidx.collection.SparseArrayCompat
 import androidx.collection.set
 import androidx.core.view.WindowInsetsCompat
@@ -22,6 +21,44 @@ import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
+
+fun View?.getLocationInWindowPoint(): Point {
+    this ?: return Point()
+    val l = IntArray(2).apply(::getLocationInWindow)
+    return Point(l[0], l[1])
+}
+
+fun View?.getLocationOnScreenPoint(): Point {
+    this ?: return Point()
+    val l = IntArray(2).apply(::getLocationOnScreen)
+    return Point(l[0], l[1])
+}
+
+@RequiresApi(Build.VERSION_CODES.Q)
+fun View?.getLocationInSurfacePoint(): Point {
+    this ?: return Point()
+    val l = IntArray(2).apply(::getLocationInSurface)
+    return Point(l[0], l[1])
+}
+
+fun View?.getLocationInWindowRect(): Rect {
+    this ?: return Rect()
+    val l = IntArray(2).apply(::getLocationInWindow)
+    return Rect(l[0], l[1], l[0] + measuredWidth, l[1] + measuredHeight)
+}
+
+fun View?.getLocationOnScreenRect(): Rect {
+    this ?: return Rect()
+    val l = IntArray(2).apply(::getLocationOnScreen)
+    return Rect(l[0], l[1], l[0] + measuredWidth, l[1] + measuredHeight)
+}
+
+@RequiresApi(Build.VERSION_CODES.Q)
+fun View?.getLocationInSurfaceRect(): Rect {
+    this ?: return Rect()
+    val l = IntArray(2).apply(::getLocationInSurface)
+    return Rect(l[0], l[1], l[0] + measuredWidth, l[1] + measuredHeight)
+}
 
 suspend fun View?.waitViewDrawFinished() {
     this ?: return

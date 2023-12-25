@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -11,6 +12,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.palette.graphics.Palette
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.aop.CheckNet
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.FishTopicActivityBinding
 import cn.cqautotest.sunnybeach.ktx.*
@@ -21,8 +23,8 @@ import cn.cqautotest.sunnybeach.other.RoundRectDrawable
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.MultiOperationHelper
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
+import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import com.blankj.utilcode.util.ConvertUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -30,7 +32,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.dylanc.longan.lifecycleOwner
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -55,7 +56,6 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
     private val mRefreshStatus = RefreshStatus()
     private val mTopicItemJson by lazy { intent.getStringExtra(FISH_TOPIC_ITEM) }
     private val mTopicItem by lazy { fromJson<FishPondTopicList.TopicItem>(mTopicItemJson) }
-    private var mHasFollowed = false
     private val mFishListAdapterDelegate = AdapterDelegate()
     private val mFishListAdapter = FishListAdapter(mFishListAdapterDelegate)
 
@@ -65,24 +65,44 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
 
     override fun initView() {
         super.initView()
-        mHasFollowed = mTopicItem.hasFollowed
-        Timber.d("initView：===> mTopicItem is ${mTopicItem.toJson()}")
+        Timber.d("initView：===> mTopicItem is $mTopicItem")
+        Glide.with(this)
+            .load(mTopicItem.cover)
+            .transform(RoundedCorners(4.dp))
+            .addListener(this)
+            .into(mBinding.ivCover)
         mBinding.apply {
-            Glide.with(context)
-                .load(mTopicItem.cover)
-                .transform(RoundedCorners(4.dp))
-                .addListener(this@FishTopicActivity)
-                .into(ivCover)
             tvTopicName.text = mTopicItem.topicName
-            tvSummary.text = "🐟 ${mTopicItem.contentCount} · 滩友 ${mTopicItem.followCount}"
             tvTopicDesc.text = mTopicItem.description
-            updateTopicFollowState()
+            updateTopicSimpleInfo()
             pagingRecyclerView.addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun updateTopicSimpleInfo() {
+        mBinding.tvSummary.text = "🐟 ${mTopicItem.contentCount} · 滩友 ${mTopicItem.followCount}"
+    }
+
     override fun initData() {
+        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { getFollowedTopicList() } }
         lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { loadListData() } }
+    }
+
+    @CheckNet
+    private fun getFollowedTopicList() {
+        mFishPondViewModel.getFollowedTopicList().observe(this) { result ->
+            result.onSuccess { topicList ->
+                topicList.firstOrNull { mTopicItem.id == it.id }?.let {
+                    mTopicItem.hasFollowed = true
+                    mTopicItem.followCount = it.followCount
+                } ?: run { mTopicItem.hasFollowed = false }
+                updateTopicFollowState()
+                updateTopicSimpleInfo()
+            }.onFailure {
+                Timber.e(it)
+            }
+        }
     }
 
     override suspend fun loadListData() {
@@ -92,13 +112,14 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
     }
 
     override fun initEvent() {
+        super.initEvent()
         mBinding.apply {
             tvJoin.setFixOnClickListener {
                 toggleFollow()
             }
         }
         mFishListAdapterDelegate.setOnItemClickListener { _, position ->
-            mFishListAdapter.snapshotList[position]?.let { FishPondDetailActivity.start(this, it.id) }
+            mFishListAdapter.snapshotList.getOrNull(position)?.let { FishPondDetailActivity.start(this, it.id) }
         }
         mFishListAdapter.setOnMenuItemClickListener { view, item, position ->
             when (view.id) {
@@ -120,49 +141,42 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
     }
 
     private fun toggleFollow() {
-        if (mHasFollowed) {
-            mFishPondViewModel.unfollowFishTopic(mTopicItem.id).observe(lifecycleOwner) { result ->
-                result.onSuccess {
-                    mHasFollowed = false
-                    updateTopicFollowState()
-                }.onFailure {
-                    toast(it.message)
-                }
+        if (hasFollow()) {
+            mFishPondViewModel.unfollowFishTopic(mTopicItem.id).observe(this) {
+                getFollowedTopicList()
             }
         } else {
-            mFishPondViewModel.followFishTopic(mTopicItem.id).observe(lifecycleOwner) { result ->
-                result.onSuccess {
-                    mHasFollowed = true
-                    updateTopicFollowState()
-                }.onFailure {
-                    toast(it.message)
-                }
+            mFishPondViewModel.followFishTopic(mTopicItem.id).observe(this) {
+                getFollowedTopicList()
             }
         }
     }
 
     private fun updateTopicFollowState() {
+        val hasFollow = hasFollow()
         mBinding.apply {
-            tvJoin.text = if (mHasFollowed) "已加入" else "加入"
-            tvJoin.isSelected = mHasFollowed
+            tvJoin.text = if (hasFollow) "已加入" else "加入"
+            tvJoin.isSelected = hasFollow
         }
     }
+
+    private fun hasFollow() = mTopicItem.hasFollowed
 
     override fun showLoading(id: Int) {
         takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
         mRefreshStatus.isFirstRefresh = false
     }
 
-    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
         // There is no processing here.
         return false
     }
 
     override fun onResourceReady(
-        resource: Drawable?,
-        model: Any?,
+        resource: Drawable,
+        model: Any,
         target: Target<Drawable>?,
-        dataSource: DataSource?,
+        dataSource: DataSource,
         isFirstResource: Boolean
     ): Boolean {
         // We're not dealing with that here, we just want to get the resource at the end of the load, that's all.
