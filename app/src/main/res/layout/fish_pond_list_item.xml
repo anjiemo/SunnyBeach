@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="@dimen/dp_10">
 
         <cn.cqautotest.sunnybeach.widget.AvatarDecorView
             android:id="@+id/iv_fish_pond_avatar"
@@ -26,7 +26,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="@dimen/dp_10"
             android:orientation="vertical">
 
             <TextView
@@ -55,8 +55,8 @@
         android:id="@+id/tv_fish_pond_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"
         android:layout_marginBottom="6dp"
         android:ellipsize="end"
         android:maxLines="5"
@@ -67,12 +67,8 @@
         android:id="@+id/simple_grid_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="6dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
-        tools:itemCount="4" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <com.hjq.shape.view.ShapeTextView
         android:id="@+id/tv_fish_pond_label"
@@ -95,15 +91,16 @@
         android:id="@+id/ll_link_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="8dp"
         android:visibility="gone"
         app:shape_radius="@dimen/dp_4"
-        app:shape_solidColor="#F5F5F8">
+        app:shape_solidColor="#F5F5F8"
+        tools:visibility="visible">
 
         <ImageView
             android:id="@+id/iv_link_cover"
@@ -115,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="@dimen/dp_10"
             android:orientation="vertical">
 
             <TextView
@@ -123,7 +120,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:singleLine="true" />
+                android:singleLine="true"
+                tools:text="百度一下，你就知道" />
 
             <TextView
                 android:id="@+id/tv_link_url"
@@ -131,6 +129,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:text="https://www.baidu.com/"
                 android:textColor="#1D7DFA" />
 
         </LinearLayout>

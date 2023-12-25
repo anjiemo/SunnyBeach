@@ -1,8 +1,8 @@
 package cn.cqautotest.sunnybeach.viewmodel.weather
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.model.weather.Location
 
@@ -13,7 +13,7 @@ class WeatherViewModel : ViewModel() {
     var locationLat = ""
     var placeName = ""
 
-    val weatherLiveData = Transformations.switchMap(locationLiveData) { input: Location ->
+    val weatherLiveData = locationLiveData.switchMap { input: Location ->
         Repository.refreshWeather(input.lng, input.lat)
     }
 

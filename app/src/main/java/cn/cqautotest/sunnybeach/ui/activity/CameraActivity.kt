@@ -38,7 +38,11 @@ class CameraActivity : AppActivity() {
         }
 
         @Log
-        @Permissions(Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE, Permission.CAMERA)
+        @Permissions(
+            Permission.READ_MEDIA_IMAGES,
+            Permission.WRITE_EXTERNAL_STORAGE,
+            Permission.CAMERA
+        )
         fun start(activity: BaseActivity, video: Boolean, listener: OnCameraListener?) {
             val file: File = createCameraFile(video)
             val intent = Intent(activity, CameraActivity::class.java)
@@ -112,7 +116,9 @@ class CameraActivity : AppActivity() {
         }
         if (intent.resolveActivity(packageManager) == null || !XXPermissions.isGranted(
                 this,
-                Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE, Permission.CAMERA
+                Permission.READ_MEDIA_IMAGES,
+                Permission.WRITE_EXTERNAL_STORAGE,
+                Permission.CAMERA
             )
         ) {
             setResult(RESULT_ERROR, Intent().putExtra(INTENT_KEY_OUT_ERROR, getString(R.string.camera_launch_fail)))

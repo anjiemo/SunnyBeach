@@ -3,9 +3,9 @@ import org.json.JSONObject
 import java.security.MessageDigest
 
 apply plugin: 'com.android.application'
-apply plugin: 'android-aspectjx'
+apply plugin: 'io.github.wurensen.android-aspectjx'
 apply from: '../common.gradle'
-apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.devtools.ksp'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.huawei.agconnect'
 
@@ -46,6 +46,15 @@ android {
             keyPassword KeyPassword
         }
     }
+    // 剔除这个包下的所有文件（不会移除签名信息）
+    packagingOptions {
+        jniLibs {
+            excludes += ['META-INF/*******']
+        }
+        resources {
+            excludes += ['META-INF/*******']
+        }
+    }
 
     // 构建配置：https://developer.android.google.cn/studio/build/build-variants
     buildTypes {
@@ -70,7 +79,9 @@ android {
             ])
             // 调试模式下只保留一种架构的 so 库，提升打包速度
             ndk {
-                abiFilters 'armeabi-v7a'
+                // abiFilters 'armeabi-v7a'
+                // 为方便在模拟器上调试，添加了 arm64-v8a 架构的 so 库
+                abiFilters 'armeabi-v7a', 'arm64-v8a'
             }
         }
 
@@ -109,10 +120,6 @@ android {
         }
     }
 
-    packagingOptions {
-        // 剔除这个包下的所有文件（不会移除签名信息）
-        exclude 'META-INF/*******'
-    }
 
     // AOP 配置（exclude 和 include 二选一）
     // 需要进行配置，否则就会引发冲突，具体表现为：
@@ -124,10 +131,11 @@ android {
         // 只对以下包名做 AOP 处理
         include android.defaultConfig.applicationId
     }
+    namespace 'cn.cqautotest.sunnybeach'
 
-    applicationVariants.all { variant ->
+    applicationVariants.configureEach { variant ->
         // apk 输出文件名配置
-        variant.outputs.all { output ->
+        variant.outputs.configureEach { output ->
             outputFileName = rootProject.getName() + '_v' + variant.versionName + '_' + variant.buildType.name
             if (variant.buildType.name == buildTypes.release.getName()) {
                 outputFileName += '_' + new Date().format('MMdd')
@@ -137,19 +145,19 @@ android {
     }
 }
 
-task printReleaseAppConfig() {
+tasks.register('printReleaseAppConfig') {
     doLast {
         printAppConfig("release")
     }
 }
 
-task printPreviewAppConfig() {
+tasks.register('printPreviewAppConfig') {
     doLast {
         printAppConfig("preview")
     }
 }
 
-task printDebugAppConfig() {
+tasks.register('printDebugAppConfig') {
     doLast {
         printAppConfig("debug")
     }
@@ -182,7 +190,6 @@ static def generateMD5(final file) {
     MessageDigest digest = MessageDigest.getInstance("MD5")
     file.withInputStream() { is ->
         byte[] buffer = new byte[8192]
-        int read = 0
         while ((read = is.read(buffer)) > 0) {
             digest.update(buffer, 0, read)
         }
@@ -196,11 +203,11 @@ static def generateMD5(final file) {
 // 添加构建依赖项：https://developer.android.google.cn/studio/build/dependencies
 // api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
 dependencies {
-    def paging_version = "3.1.0-rc01"
-    def nav_version = "2.3.5"
+    def paging_version = "3.2.0"
+    def nav_version = "2.6.0"
     def emoji2_version = "1.0.0-beta01"
-    def room_version = "2.4.2"
-    def work_version = "2.7.1"
+    def room_version = "2.5.2"
+    def work_version = "2.8.1"
     def markwon_version = "4.6.2"
     def prism_version = "2.0.0"
     def qmui_arch_version = '2.0.1'
@@ -217,19 +224,19 @@ dependencies {
 
     // 单元测试
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.activity:activity-ktx:1.4.0'
-    implementation 'androidx.fragment:fragment-ktx:1.3.6'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.activity:activity-ktx:1.7.2'
+    implementation 'androidx.fragment:fragment-ktx:1.6.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
 
     // Room 数据库：https://developer.android.com/jetpack/androidx/releases/room
     // CodeLab：https://developer.android.com/codelabs/android-room-with-a-view-kotlin#0
     implementation "androidx.room:room-runtime:$room_version"
-    // 使用 Kotlin 注解处理工具 (kapt)
-    kapt "androidx.room:room-compiler:$room_version"
+    // 使用 Kotlin 注解处理工具
+    ksp "androidx.room:room-compiler:$room_version"
     // 对 Room 的 Kotlin 扩展和协程支持
     implementation "androidx.room:room-ktx:$room_version"
 
@@ -245,45 +252,47 @@ dependencies {
     // implementation("androidx.emoji2:emoji2-views:$emoji2_version")
     // implementation("androidx.emoji2:emoji2-views-helper:$emoji2_version")
     // WorkManager（Kotlin + coroutines）：https://developer.android.google.cn/jetpack/androidx/releases/work
-    implementation("androidx.work:work-runtime-ktx:$work_version")
+    implementation "androidx.work:work-runtime-ktx:$work_version"
 
     // 权限请求框架：https://github.com/getActivity/XXPermissions
-    implementation 'com.github.getActivity:XXPermissions:16.5'
+    implementation 'com.github.getActivity:XXPermissions:18.5'
 
     // 标题栏框架：https://github.com/getActivity/TitleBar
-    implementation 'com.github.getActivity:TitleBar:9.5'
+    implementation 'com.github.getActivity:TitleBar:10.5'
 
-    // 吐司框架：https://github.com/getActivity/ToastUtils
-    implementation 'com.github.getActivity:ToastUtils:10.0'
+    // 吐司框架：https://github.com/getActivity/Toaster
+    implementation 'com.github.getActivity:Toaster:12.0'
 
     // 网络请求框架：https://github.com/getActivity/EasyHttp
     implementation 'com.github.getActivity:EasyHttp:10.2'
     // OkHttp 框架：https://github.com/square/okhttp
-    compileOnly 'com.squareup.okhttp3:okhttp:4.9.1'
+    compileOnly 'com.squareup.okhttp3:okhttp:4.11.0'
     // Android网络请求库：https://github.com/square/retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0-RC1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.11.0'
 
     // Json 解析框架：https://github.com/google/gson
-    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.google.code.gson:gson:2.10.1'
     // Gson 解析容错：https://github.com/getActivity/GsonFactory
-    implementation 'com.github.getActivity:GsonFactory:5.2'
+    implementation 'com.github.getActivity:GsonFactory:6.5'
 
     // Shape 框架：https://github.com/getActivity/ShapeView
-    implementation 'com.github.getActivity:ShapeView:8.0'
+    implementation 'com.github.getActivity:ShapeView:8.5'
 
     // AOP 插件库：https://mvnrepository.com/artifact/org.aspectj/aspectjrt
-    implementation 'org.aspectj:aspectjrt:1.9.6'
+    implementation 'org.aspectj:aspectjrt:1.9.19'
 
     // 图片加载框架：https://github.com/bumptech/glide
     // 官方使用文档：https://github.com/Muyangmin/glide-docs-cn
-    implementation 'com.github.bumptech.glide:glide:4.13.0'
-    implementation 'com.github.bumptech.glide:okhttp3-integration:4.12.0'
-    kapt 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.16.0'
+    ksp 'com.github.bumptech.glide:compiler:4.16.0'
 
     // 沉浸式框架：https://github.com/gyf-dev/ImmersionBar
-    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
+    implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
+    // kotlin扩展（可选）
+    implementation 'com.geyifeng.immersionbar:immersionbar-ktx:3.2.2'
 
     // 手势 ImageView：https://github.com/Baseflow/PhotoView
     implementation 'com.github.Baseflow:PhotoView:2.3.0'
@@ -294,7 +303,7 @@ dependencies {
 
     // 动画解析库：https://github.com/airbnb/lottie-android
     // 动画资源：https://lottiefiles.com、https://icons8.com/animated-icons
-    implementation 'com.airbnb.android:lottie:4.1.0'
+    implementation 'com.airbnb.android:lottie:6.0.0'
 
     // 上拉刷新下拉加载框架：https://github.com/scwang90/SmartRefreshLayout
     implementation 'io.github.scwang90:refresh-layout-kernel:2.0.5'
@@ -308,17 +317,17 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.6'
 
     // 腾讯 MMKV：https://github.com/Tencent/MMKV
-    implementation 'com.tencent:mmkv-static:1.2.10'
+    implementation 'com.tencent:mmkv-static:1.2.15'
 
     // 内存泄漏监测框架：https://github.com/square/leakcanary
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
-    previewImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
+    previewImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 
     // 多语种：https://github.com/getActivity/MultiLanguages
     // 悬浮窗：https://github.com/getActivity/XToast
     // 日志输出：https://github.com/getActivity/Logcat
     // 工具类：https://github.com/Blankj/AndroidUtilCode
-    implementation 'com.blankj:utilcodex:1.31.0'
+    implementation 'com.blankj:utilcodex:1.31.1'
     // 轮播图：https://github.com/bingoogolapple/BGABanner-Android
     // 二维码：https://github.com/bingoogolapple/BGAQRCode-Android
     // 跑马灯：https://github.com/sunfusheng/MarqueeView
@@ -385,14 +394,15 @@ dependencies {
     implementation 'com.huawei.hms:scan:2.6.0.300'
 
     // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
-    implementation "com.google.dagger:hilt-android:2.43"
-    kapt "com.google.dagger:hilt-android-compiler:2.43"
+    // 组件层次结构备忘录：https://dagger.dev/hilt/components.html#component-lifetimes
+    implementation "com.google.dagger:hilt-android:2.47"
+    ksp "com.google.dagger:hilt-android-compiler:2.47"
 
     // // 从图片中提取具有代表性的调色板：https://developer.android.com/jetpack/androidx/releases/palette
     implementation 'androidx.palette:palette:1.0.0'
 
     // Android下打造通用便捷的PopupWindow弹窗库：https://github.com/razerdp/BasePopup
-    implementation 'io.github.razerdp:BasePopup:3.2.0'
+    implementation 'io.github.razerdp:BasePopup:3.2.1'
 
     // 一个强大的🚀Android 图表视图/图形视图库，支持折线图、雷达图、气泡图和烛台图以及缩放、平移和动画：https://github.com/PhilJay/MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
@@ -403,12 +413,12 @@ dependencies {
     // 阿里云视频播放器 SDK：https://help.aliyun.com/document_detail/124711.html?spm=a2c4g.11186623.0.0.7bd24addVQH3VE
     implementation 'com.aliyun.sdk.android:AliyunPlayer:5.4.9.2-full'
 
-    implementation "me.laoyuyu.aria:core:$aria_version"
-    annotationProcessor "me.laoyuyu.aria:compiler:$aria_version"
-    // 如果需要使用ftp，请增加该组件
-    implementation "me.laoyuyu.aria:ftp:$aria_version"
-    // 如果需要使用ftp，请增加该组件
-    implementation "me.laoyuyu.aria:sftp:$aria_version"
-    // 如果需要使用m3u8下载功能，请增加该组件
-    implementation "me.laoyuyu.aria:m3u8:$aria_version"
+    // implementation "me.laoyuyu.aria:core:$aria_version"
+    // annotationProcessor "me.laoyuyu.aria:compiler:$aria_version"
+    // // 如果需要使用ftp，请增加该组件
+    // implementation "me.laoyuyu.aria:ftp:$aria_version"
+    // // 如果需要使用ftp，请增加该组件
+    // implementation "me.laoyuyu.aria:sftp:$aria_version"
+    // // 如果需要使用m3u8下载功能，请增加该组件
+    // implementation "me.laoyuyu.aria:m3u8:$aria_version"
 }

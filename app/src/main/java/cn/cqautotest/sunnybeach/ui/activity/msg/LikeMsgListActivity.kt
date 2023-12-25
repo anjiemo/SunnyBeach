@@ -13,8 +13,8 @@ import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.LikeMsgAdapter
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
+import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -49,7 +49,7 @@ class LikeMsgListActivity : PagingActivity(), OnBack2TopListener {
         super.initEvent()
         getTitleBar()?.setDoubleClickListener { onBack2Top() }
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mLikeMsgAdapter.snapshotList[position]?.let {
+            mLikeMsgAdapter.snapshotList.getOrNull(position)?.let {
                 it.hasRead = "1"
                 mLikeMsgAdapter.notifyItemChanged(position)
             }

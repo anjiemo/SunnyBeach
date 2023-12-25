@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
  */
 abstract class PagingActivity : AppActivity(), StatusAction {
 
-    private val refreshLayout by lazy { requireNotNull(findViewById<SmartRefreshLayout>(R.id.paging_refresh_layout)) { checkLayoutIdTips("paging_refresh_layout") } }
+    private val refreshLayout by lazy { findViewById<SmartRefreshLayout>(R.id.paging_refresh_layout) }
     private val recyclerView by lazy { requireNotNull(findViewById<RecyclerView>(R.id.paging_recycler_view)) { checkLayoutIdTips("paging_recycler_view") } }
     private val pagingDataAdapter by lazy { getPagingAdapter() }
     private val mPagingUiDelegate by lazy { PagingUiDelegate(lifecycle, this, refreshLayout, recyclerView, pagingDataAdapter) }
@@ -32,7 +32,6 @@ abstract class PagingActivity : AppActivity(), StatusAction {
 
     abstract fun getPagingAdapter(): PagingDataAdapter<*, *>
 
-    @CallSuper
     override fun initView() {
         mPagingUiDelegate.initView()
     }

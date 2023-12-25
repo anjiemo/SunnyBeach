@@ -36,7 +36,7 @@ open class BaseDialog constructor(context: Context, @StyleRes themeResId: Int = 
     DialogInterface.OnCancelListener, DialogInterface.OnDismissListener {
 
     private val listeners: ListenersWrapper<BaseDialog> = ListenersWrapper(this)
-    private val lifecycle: LifecycleRegistry = LifecycleRegistry(this)
+    override val lifecycle: LifecycleRegistry = LifecycleRegistry(this)
     private var showListeners: MutableList<OnShowListener?>? = null
     private var cancelListeners: MutableList<OnCancelListener?>? = null
     private var dismissListeners: MutableList<OnDismissListener?>? = null
@@ -150,9 +150,9 @@ open class BaseDialog constructor(context: Context, @StyleRes themeResId: Int = 
         super.dismiss()
     }
 
-    override fun getLifecycle(): Lifecycle {
-        return lifecycle
-    }
+    // fun getLifecycle(): Lifecycle {
+    //     return lifecycle
+    // }
 
     /**
      * 设置一个显示监听器

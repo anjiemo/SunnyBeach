@@ -20,12 +20,12 @@ import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.ktx.doScrollStateChanged
-import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.ui.activity.CameraActivity.OnCameraListener
 import cn.cqautotest.sunnybeach.ui.adapter.VideoSelectAdapter
 import cn.cqautotest.sunnybeach.ui.dialog.AlbumDialog
 import cn.cqautotest.sunnybeach.ui.dialog.AlbumDialog.AlbumInfo
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
 import com.hjq.bar.TitleBar
 import com.hjq.base.BaseActivity
 import com.hjq.base.BaseAdapter
@@ -37,7 +37,7 @@ import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
-import java.util.*
+import java.util.Objects
 
 /**
  *    author : Android 轮子哥
@@ -76,7 +76,7 @@ class VideoSelectActivity : AppActivity(), StatusAction, Runnable, BaseAdapter.O
                         return
                     }
                     val list: ArrayList<VideoBean>? = data.getParcelableArrayListExtra(INTENT_KEY_OUT_VIDEO_LIST)
-                    if (list == null || list.isEmpty()) {
+                    if (list.isNullOrEmpty()) {
                         listener.onCancel()
                         return
                     }

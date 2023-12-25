@@ -7,6 +7,10 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
@@ -27,6 +31,7 @@ import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
 import com.umeng.socialize.media.UMWeb
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
@@ -54,6 +59,16 @@ class ViewUserActivity : AppActivity() {
             val ft = supportFragmentManager.beginTransaction()
             ft.add(R.id.user_media_fragment_container, UserMediaFragment.newInstance(userId))
             ft.commitAllowingStateLoss()
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                mBinding.userMediaFragmentContainer.waitViewDrawFinished()
+                mBinding.userMediaFragmentContainer.apply {
+                    updateLayoutParams {
+                        height = mBinding.root.bottom - mBinding.titleBar.bottom
+                    }
+                }
+            }
         }
     }
 

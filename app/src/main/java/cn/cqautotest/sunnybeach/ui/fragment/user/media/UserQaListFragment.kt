@@ -14,8 +14,8 @@ import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.UserQaListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.QaViewModel
+import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -51,7 +51,7 @@ class UserQaListFragment : PagingFragment<AppActivity>() {
         super.initEvent()
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到问答详情界面
-            mUserQaListAdapter.snapshotList[position]?.let {
+            mUserQaListAdapter.snapshotList.getOrNull(position)?.let {
                 val url = "$SUNNY_BEACH_QA_URL_PRE${it.wendaComment.wendaId}"
                 BrowserActivity.start(requireContext(), url)
             }

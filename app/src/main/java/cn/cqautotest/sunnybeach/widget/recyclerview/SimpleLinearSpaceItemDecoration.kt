@@ -1,12 +1,12 @@
-package cn.cqautotest.sunnybeach.util
+package cn.cqautotest.sunnybeach.widget.recyclerview
 
 import android.graphics.Rect
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.Px
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.ktx.dp
-import cn.cqautotest.sunnybeach.ktx.equilibriumAssignmentOfLinear
 
 /**
  * author : A Lonely Cat
@@ -14,7 +14,7 @@ import cn.cqautotest.sunnybeach.ktx.equilibriumAssignmentOfLinear
  * time   : 2021/8/4
  * desc   : RecyclerView 间距装饰（线性布局管理器）
  */
-open class LinearSpaceItemDecoration(
+open class SimpleLinearSpaceItemDecoration(
     // 单位间距（实际间距的一半）
     @Px private val unit: Int = 2.dp
 ) : RecyclerView.ItemDecoration() {
@@ -26,7 +26,13 @@ open class LinearSpaceItemDecoration(
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        super.getItemOffsets(outRect, view, parent, state)
-        equilibriumAssignmentOfLinear(unit, outRect, view, parent)
+        val layoutManager = (parent.layoutManager as? LinearLayoutManager) ?: return
+        // 获取 LinearLayoutManager 的布局方向
+        val orientation = layoutManager.orientation
+        if (orientation == RecyclerView.VERTICAL) {
+            outRect.bottom = unit
+        } else {
+            outRect.right = unit
+        }
     }
 }

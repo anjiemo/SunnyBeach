@@ -13,6 +13,12 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+/**
+ * author : A Lonely Cat
+ * github : https://github.com/anjiemo/SunnyBeach
+ * time   : 2023/11/14
+ * desc   : 下载帮助类（使用 Glide 进行下载）
+ */
 object DownloadHelper {
 
     suspend inline fun <reified T : Any> ofType(fragment: Fragment, uri: Uri) =
@@ -42,21 +48,21 @@ object DownloadHelper {
                 .load(uri)
                 .into(object : CustomTarget<T>() {
                     override fun onResourceReady(resource: T, transition: Transition<in T>?) {
-                        takeIf { isResume.not() }?.let {
+                        takeUnless { isResume }?.let {
                             cont.resume(resource)
                             isResume = true
                         }
                     }
 
                     override fun onLoadCleared(placeholder: Drawable?) {
-                        takeIf { isResume.not() }?.let {
+                        takeUnless { isResume }?.let {
                             cont.resume(null)
                             isResume = true
                         }
                     }
 
                     override fun onLoadFailed(errorDrawable: Drawable?) {
-                        takeIf { isResume.not() }?.let {
+                        takeUnless { isResume }?.let {
                             cont.resume(null)
                             isResume = true
                         }
@@ -64,7 +70,7 @@ object DownloadHelper {
 
                     override fun onDestroy() {
                         super.onDestroy()
-                        takeIf { isResume.not() }?.let {
+                        takeUnless { isResume }?.let {
                             cont.resume(null)
                             isResume = true
                         }

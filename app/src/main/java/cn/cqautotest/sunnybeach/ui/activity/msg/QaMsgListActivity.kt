@@ -15,8 +15,8 @@ import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.QaMsgAdapter
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
+import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -52,7 +52,7 @@ class QaMsgListActivity : PagingActivity(), OnBack2TopListener {
         getTitleBar()?.setDoubleClickListener { onBack2Top() }
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到问答详情界面
-            mQaMsgAdapter.snapshotList[position]?.let {
+            mQaMsgAdapter.snapshotList.getOrNull(position)?.let {
                 it.hasRead = "1"
                 mQaMsgAdapter.notifyItemChanged(position)
                 val url = "$SUNNY_BEACH_QA_URL_PRE${it.wendaId}"

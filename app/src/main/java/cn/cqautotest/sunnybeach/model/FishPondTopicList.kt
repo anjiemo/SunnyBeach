@@ -11,15 +11,15 @@ import com.google.gson.annotations.SerializedName
 class FishPondTopicList : ArrayList<FishPondTopicList.TopicItem>() {
     data class TopicItem(
         @SerializedName("contentCount")
-        val contentCount: Int,
+        var contentCount: Int,
         @SerializedName("cover")
         val cover: String,
         @SerializedName("description")
         val description: String,
         @SerializedName("followCount")
-        val followCount: Int,
+        var followCount: Int,
         @SerializedName("hasFollowed")
-        val hasFollowed: Boolean,
+        var hasFollowed: Boolean,
         @SerializedName("id")
         val id: String,
         @SerializedName("topicName")

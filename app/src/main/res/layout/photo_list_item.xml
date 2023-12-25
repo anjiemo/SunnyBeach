@@ -1,26 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<cn.cqautotest.sunnybeach.widget.RoundRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/round_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:rlClipBackground="true"
-    app:rlRadius="8dp">
+    android:layout_height="wrap_content">
 
-    <!--默认设置黄金分割比例显示-->
-    <com.hjq.widget.layout.RatioFrameLayout
-        android:id="@+id/ratio_frame_layout"
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/photoIv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:sizeRatio="1:2">
+        android:layout_height="0px"
+        app:layout_constraintDimensionRatio="0.618"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:round="8dp" />
 
-        <ImageView
-            android:id="@+id/photoIv"
-            android:layout_width="match_parent"
-            android:transitionName="photo"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-    </com.hjq.widget.layout.RatioFrameLayout>
-
-</cn.cqautotest.sunnybeach.widget.RoundRelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

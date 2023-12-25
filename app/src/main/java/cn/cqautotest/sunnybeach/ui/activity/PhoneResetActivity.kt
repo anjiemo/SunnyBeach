@@ -23,7 +23,7 @@ import cn.cqautotest.sunnybeach.ui.dialog.TipsDialog
 import com.hjq.base.BaseDialog
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.HttpCallback
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 import com.hjq.widget.view.CountdownView
 
 /**
@@ -109,7 +109,7 @@ class PhoneResetActivity : AppActivity(), OnEditorActionListener {
                 return
             }
             if (codeView?.text.toString().length != resources.getInteger(R.integer.sms_code_length)) {
-                ToastUtils.show(R.string.common_code_error_hint)
+                Toaster.show(R.string.common_code_error_hint)
                 return
             }
 

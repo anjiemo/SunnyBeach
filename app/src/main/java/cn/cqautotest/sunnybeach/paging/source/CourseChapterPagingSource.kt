@@ -22,20 +22,8 @@ class CourseChapterPagingSource(private val courseId: String) : PagingSource<Int
             Timber.d("load：===> courseId is $courseId")
             val response = CourseApi.getCourseChapter(courseId = courseId)
             val responseData = response.getData()
-            val prevKey = null
-            val nextKey = null
-            val data = arrayListOf<CourseChapterListAdapter.Type>()
-            responseData.onEach {
-                data.add(it)
-                it.children.onEach { children ->
-                    data.add(children)
-                }
-            }
-            if (response.isSuccess()) LoadResult.Page(
-                data = data,
-                prevKey = prevKey,
-                nextKey = nextKey
-            )
+            val data = responseData.flatMap { listOf(it) + it.children }
+            if (response.isSuccess()) LoadResult.Page(data, null, null)
             else LoadResult.Error(ServiceException())
         } catch (t: Throwable) {
             t.printStackTrace()

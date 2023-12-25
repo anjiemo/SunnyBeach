@@ -8,5 +8,5 @@ import androidx.recyclerview.widget.RecyclerView
  * Returns a new [ItemSnapshotList] representing the currently presented items, including any
  * placeholders if they are enabled.
  */
-inline val <T : Any, VH : RecyclerView.ViewHolder> PagingDataAdapter<T, VH>.snapshotList: ItemSnapshotList<T>
-    get() = snapshot()
+inline val <T : Any, VH : RecyclerView.ViewHolder> PagingDataAdapter<T, VH>.snapshotList: List<T>
+    get() = snapshot().items

@@ -10,8 +10,8 @@ import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.ui.adapter.CollectionListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.CollectionViewModel
+import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -43,7 +43,7 @@ class CollectionListActivity : PagingActivity() {
         super.initEvent()
         // 跳转到收藏夹详情界面
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            getPagingAdapter().snapshotList[position]?.let { CollectionDetailListActivity.start(this, it) }
+            getPagingAdapter().snapshotList.getOrNull(position)?.let { CollectionDetailListActivity.start(this, it) }
         }
     }
 

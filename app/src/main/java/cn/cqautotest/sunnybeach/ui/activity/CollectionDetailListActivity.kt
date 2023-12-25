@@ -6,12 +6,17 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.CollectionDetailListActivityBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.fromJson
+import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.ktx.startActivity
+import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.Bookmark
+import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.ui.adapter.CollectionDetailListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.CollectionViewModel
+import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import com.dylanc.longan.intentExtras
 import kotlinx.coroutines.flow.collectLatest
 
@@ -25,6 +30,7 @@ class CollectionDetailListActivity : PagingActivity() {
 
     private val mBinding by viewBinding<CollectionDetailListActivityBinding>()
     private val mCollectionViewModel by viewModels<CollectionViewModel>()
+    private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mCollectionDetailListAdapter = CollectionDetailListAdapter(mAdapterDelegate)
     private val collectionItemJson by intentExtras<String>(COLLECTION_ITEM)
@@ -50,8 +56,13 @@ class CollectionDetailListActivity : PagingActivity() {
         super.initEvent()
         // 跳转到收藏内容详情界面
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mCollectionDetailListAdapter.snapshotList[position]?.let { BrowserActivity.start(this, it.url) }
+            mCollectionDetailListAdapter.snapshotList.getOrNull(position)?.let { BrowserActivity.start(this, it.url) }
         }
+    }
+
+    override fun showLoading(id: Int) {
+        takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
+        mRefreshStatus.isFirstRefresh = false
     }
 
     companion object {
