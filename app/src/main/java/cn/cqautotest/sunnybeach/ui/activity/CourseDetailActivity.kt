@@ -3,6 +3,8 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -21,12 +23,13 @@ import cn.cqautotest.sunnybeach.model.course.Course
 import cn.cqautotest.sunnybeach.model.course.CourseChapter
 import cn.cqautotest.sunnybeach.ui.adapter.CourseChapterListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
+import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import com.bumptech.glide.Glide
 import com.dylanc.longan.intentExtras
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
@@ -67,7 +70,7 @@ class CourseDetailActivity : PagingActivity() {
     override fun initEvent() {
         super.initEvent()
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mCourseChapterListAdapter.snapshotList[position]?.let {
+            mCourseChapterListAdapter.snapshotList.getOrNull(position)?.let {
                 when (it) {
                     is CourseChapter.CourseChapterItem.Children -> playCourseVideo(it.courseId, it.id, it.title)
                     else -> {
@@ -88,7 +91,7 @@ class CourseDetailActivity : PagingActivity() {
     }
 
     private fun playCourseVideo(courseId: String, videoId: String, videoTitle: String) {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             flow {
                 // 1、先校验是否有登录
                 Repository.checkToken() ?: throw NotLoginException()
@@ -99,6 +102,7 @@ class CourseDetailActivity : PagingActivity() {
                 val coursePlayAuth = result.getOrNull() ?: throw ServiceException(result.getMessage())
                 emit(coursePlayAuth)
             }.flowOn(Dispatchers.IO)
+                .flowWithLifecycle(lifecycle, Lifecycle.State.CREATED)
                 .catch {
                     Timber.e(it)
                     when (it) {

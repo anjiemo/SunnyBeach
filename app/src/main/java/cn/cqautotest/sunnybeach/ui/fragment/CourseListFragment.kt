@@ -3,23 +3,28 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import androidx.fragment.app.activityViewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingTitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.CourseListFragmentBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.context
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.model.course.Course
-import cn.cqautotest.sunnybeach.other.GridSpaceDecoration
 import cn.cqautotest.sunnybeach.ui.activity.CourseDetailActivity
 import cn.cqautotest.sunnybeach.ui.adapter.CourseBannerAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.CourseListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
+import cn.cqautotest.sunnybeach.widget.recyclerview.StaggeredGridSpaceDecoration
 import com.youth.banner.indicator.CircleIndicator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -59,9 +64,9 @@ class CourseListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopList
 
             pagingRecyclerView.apply {
                 val spanCount = 2
-                layoutManager = GridLayoutManager(context, spanCount)
+                layoutManager = StaggeredGridLayoutManager(spanCount, RecyclerView.VERTICAL)
                 adapter = concatAdapter
-                addItemDecoration(GridSpaceDecoration(6.dp))
+                addItemDecoration(StaggeredGridSpaceDecoration(6.dp))
             }
         }
         mCourseListAdapter.addLoadStateListener {
@@ -92,7 +97,7 @@ class CourseListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopList
             }
         }
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mCourseListAdapter.snapshotList[position]?.let { CourseDetailActivity.start(requireContext(), it) }
+            mCourseListAdapter.snapshotList.getOrNull(position)?.let { CourseDetailActivity.start(requireContext(), it) }
         }
     }
 

@@ -8,14 +8,18 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import cn.cqautotest.sunnybeach.execption.ServiceException
+import cn.cqautotest.sunnybeach.http.network.FishNetwork
 import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.paging.source.FishDetailCommendListPagingSource
-import cn.cqautotest.sunnybeach.paging.source.FishDetailPagingSource
 import cn.cqautotest.sunnybeach.paging.source.FishPagingSource
 import cn.cqautotest.sunnybeach.paging.source.UserFishPagingSource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 /**
  * author : A Lonely Cat
@@ -31,6 +35,8 @@ class FishPondViewModel : ViewModel() {
     fun refreshFishList() {
         _fishListStateLiveData.value = Unit
     }
+
+    fun getFollowedTopicList() = Repository.getFollowedTopicList()
 
     fun unfollowFishTopic(topicId: String) = Repository.unfollowFishTopic(topicId)
 
@@ -53,12 +59,14 @@ class FishPondViewModel : ViewModel() {
 
     fun putFish(moment: Map<String, Any?>) = Repository.putFish(moment)
 
-    fun getFishDetailById(momentId: String): Flow<PagingData<Fish.FishItem>> {
-        return Pager(
-            config = PagingConfig(30),
-            pagingSourceFactory = {
-                FishDetailPagingSource(momentId)
-            }).flow.cachedIn(viewModelScope)
+    fun getFishDetailById(momentId: String): Flow<Fish.FishItem> {
+        return flow {
+            val result = FishNetwork.loadFishDetailById(momentId)
+            when {
+                result.isSuccess() -> emit(result.getData())
+                else -> throw ServiceException(result.getMessage())
+            }
+        }.flowOn(Dispatchers.IO)
     }
 
     fun getFishListByCategoryId(topicId: String): Flow<PagingData<Fish.FishItem>> {

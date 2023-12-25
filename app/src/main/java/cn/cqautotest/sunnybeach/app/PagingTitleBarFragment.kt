@@ -1,14 +1,17 @@
 package cn.cqautotest.sunnybeach.app
 
 import androidx.annotation.CallSuper
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.ui.delegate.PagingUiDelegate
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.dylanc.longan.viewLifecycleScope
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import kotlinx.coroutines.launch
 
 /**
  * author : A Lonely Cat
@@ -56,7 +59,11 @@ abstract class PagingTitleBarFragment<A : AppActivity> : TitleBarFragment<A>(), 
 
     @CallSuper
     override fun initData() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated { loadListData() }
+        viewLifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                loadListData()
+            }
+        }
     }
 
     abstract suspend fun loadListData()

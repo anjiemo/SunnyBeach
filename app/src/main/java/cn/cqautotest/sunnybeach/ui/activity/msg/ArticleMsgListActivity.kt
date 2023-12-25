@@ -15,8 +15,8 @@ import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.ArticleMsgAdapter
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
+import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -51,7 +51,7 @@ class ArticleMsgListActivity : PagingActivity(), OnBack2TopListener {
         super.initEvent()
         getTitleBar()?.setDoubleClickListener { onBack2Top() }
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mArticleMsgAdapter.snapshotList[position]?.let {
+            mArticleMsgAdapter.snapshotList.getOrNull(position)?.let {
                 it.hasRead = "1"
                 mArticleMsgAdapter.notifyItemChanged(position)
                 val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${it.articleId}"

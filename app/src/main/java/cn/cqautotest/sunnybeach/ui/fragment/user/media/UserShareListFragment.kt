@@ -14,8 +14,8 @@ import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.ShareListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_SHARE_URL_PRE
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.ShareViewModel
+import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -51,7 +51,7 @@ class UserShareListFragment : PagingFragment<AppActivity>() {
         super.initEvent()
         mAdapterDelegate.setOnItemClickListener { _, position ->
             // 跳转到分享详情界面
-            mShareListAdapter.snapshotList[position]?.let {
+            mShareListAdapter.snapshotList.getOrNull(position)?.let {
                 val url = "$SUNNY_BEACH_SHARE_URL_PRE${it.id}"
                 BrowserActivity.start(requireContext(), url)
             }

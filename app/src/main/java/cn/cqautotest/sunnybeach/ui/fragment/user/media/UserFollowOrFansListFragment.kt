@@ -16,8 +16,8 @@ import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.UserFollowListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.FollowOrFansViewModel
+import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -55,7 +55,7 @@ class UserFollowOrFansListFragment : PagingFragment<AppActivity>() {
         super.initEvent()
         // 跳转到用户详情界面
         mAdapterDelegate.setOnItemClickListener { _, position ->
-            mUserFollowListAdapter.snapshotList[position]?.let { ViewUserActivity.start(requireContext(), it.userId) }
+            mUserFollowListAdapter.snapshotList.getOrNull(position)?.let { ViewUserActivity.start(requireContext(), it.userId) }
         }
     }
 

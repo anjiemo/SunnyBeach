@@ -49,6 +49,7 @@ class VipActivity : AppActivity() {
             .setMessage("即将打开淘宝店铺，请确认")
             .setConfirm("立即打开")
             .setCancel("我再想想")
+            .setCanceledOnTouchOutside(false)
             .setListener {
                 MobclickAgent.onEvent(this, UmengReportKey.BUY_VIP)
                 tryOpenTaobaoApp()

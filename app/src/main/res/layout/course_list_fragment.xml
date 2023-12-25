@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical"
     tools:context=".ui.fragment.CourseListFragment">
 
     <com.hjq.bar.TitleBar
@@ -12,33 +13,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:barStyle="light"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:leftIcon="@null"
-        app:rightIconHeight="16dp"
-        app:rightIconWidth="16dp"
+        app:rightIconHeight="@dimen/dp_16"
+        app:rightIconWidth="@dimen/dp_16"
         app:title="课程" />
 
     <cn.cqautotest.sunnybeach.widget.StatusLayout
         android:id="@id/paging_status_layout"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleBar">
+        android:layout_weight="1">
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@id/paging_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:srlEnableLoadMore="false">
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -46,24 +42,28 @@
                     <com.youth.banner.Banner
                         android:id="@+id/banner_course"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0px"
                         android:layout_marginHorizontal="@dimen/dp_6"
                         android:layout_marginTop="@dimen/dp_6"
+                        android:layout_marginBottom="-10dp"
                         android:minHeight="@dimen/dp_80"
-                        app:banner_radius="@dimen/dp_10" />
+                        app:banner_radius="@dimen/dp_10"
+                        app:layout_constraintBottom_toTopOf="@id/paging_recycler_view"
+                        app:layout_constraintDimensionRatio="1.918"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@id/paging_recycler_view"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="-6dp"
+                        android:layout_height="0px"
                         android:orientation="vertical"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:spanCount="2"
                         tools:itemCount="20"
                         tools:listitem="@layout/course_list_item" />
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.core.widget.NestedScrollView>
 
@@ -71,4 +71,4 @@
 
     </cn.cqautotest.sunnybeach.widget.StatusLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -123,7 +123,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityAction,
         val fragments: MutableList<Fragment?> = supportFragmentManager.fragments
         for (fragment: Fragment? in fragments) {
             // 这个 Fragment 必须是 BaseFragment 的子类，并且处于可见状态
-            if (fragment !is BaseFragment<*> || fragment.getLifecycle().currentState != Lifecycle.State.RESUMED) {
+            if (fragment !is BaseFragment<*> || fragment.lifecycle.currentState != Lifecycle.State.RESUMED) {
                 continue
             }
             // 将按键事件派发给 Fragment 进行处理

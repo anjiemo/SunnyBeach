@@ -82,6 +82,9 @@
     <string name="common_web_call_phone_allow">拨打</string>
     <string name="common_web_call_phone_reject">取消</string>
 
+    <string name="common_access_link">访问网址</string>
+    <string name="common_copy_success">复制成功</string>
+
     <!-- 网络请求 -->
     <string name="http_loading">加载中&#8230;</string>
 
@@ -206,7 +209,7 @@
     <string name="about_title">关于我们</string>
     <string name="about_author"><font color="#85b84f">anjiemo</font> A Lonely Cat</string>
 
-    <string name="about_copyright">Copyright © 阳光沙滩 2021 &#8211; 2022 \n 本程序由 A Lonely Cat 用爱驱动</string>
+    <string name="about_copyright">Copyright © 阳光沙滩 2021 &#8211; 2023 \n 本程序由 A Lonely Cat 用爱驱动</string>
 
     <!-- 忘记密码 -->
     <string name="password_forget_title">忘记密码</string>

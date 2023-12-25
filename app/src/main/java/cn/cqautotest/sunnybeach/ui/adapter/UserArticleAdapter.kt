@@ -72,11 +72,8 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
                 stvState.setText(stateName)
                 stvState.setTextColor(getTextColorByState(articleState))
                 stvState.setColorBackground(getBgColorByState(articleState))
-                val covers = item.covers
-                val imageCount = covers.size
-                simpleGridLayout.setOnNineGridClickListener(nineGridAdapterDelegate)
-                    .setData(covers)
-                simpleGridLayout.isVisible = imageCount != 0
+                simpleGridLayout.setData(item.covers)
+                    .setOnNineGridClickListener(nineGridAdapterDelegate)
                 with(listMenuItem) {
                     llShare.setFixOnClickListener { mMenuItemClickListener.invoke(it, item, position) }
                     tvComment.text = item.viewCount.toString()

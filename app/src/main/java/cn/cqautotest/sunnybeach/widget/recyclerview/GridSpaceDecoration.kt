@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.other
+package cn.cqautotest.sunnybeach.widget.recyclerview
 
 import android.graphics.Rect
 import android.view.View

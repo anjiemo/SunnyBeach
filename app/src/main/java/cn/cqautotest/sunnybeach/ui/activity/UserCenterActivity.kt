@@ -229,7 +229,7 @@ class UserCenterActivity : AppActivity() {
                     sbSettingSign.setRightText(mPersonCenterInfo.sign)
 
                     sbSettingPhone.setRightText(mPersonCenterInfo.phoneNum)
-                    sbSettingEmail.setRightText(mPersonCenterInfo.email)
+                    sbSettingEmail.setRightText(mPersonCenterInfo.email.maskEmail())
                 }
                 val qrBitmap = "${SUNNY_BEACH_VIEW_USER_URL_PRE}${mPersonCenterInfo.userId}".toQrCodeBitmapOrNull()
                 Glide.with(context)

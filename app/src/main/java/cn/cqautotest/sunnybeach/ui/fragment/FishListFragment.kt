@@ -1,8 +1,8 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.app.Activity
-import android.content.Intent
 import android.net.Uri
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -18,11 +18,29 @@ import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.addAfterNextUpdateUIDefaultItemAnimator
+import cn.cqautotest.sunnybeach.ktx.clearItemAnimator
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.ifLogin
+import cn.cqautotest.sunnybeach.ktx.isNotEmpty
+import cn.cqautotest.sunnybeach.ktx.loadStateListener
+import cn.cqautotest.sunnybeach.ktx.orEmpty
+import cn.cqautotest.sunnybeach.ktx.otherwise
+import cn.cqautotest.sunnybeach.ktx.removeMourningStyle
+import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.setMourningStyle
+import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.ktx.tryShowLoginDialog
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.MourningCalendar
 import cn.cqautotest.sunnybeach.model.RefreshStatus
-import cn.cqautotest.sunnybeach.ui.activity.*
+import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
+import cn.cqautotest.sunnybeach.ui.activity.FishTopicActivity
+import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
+import cn.cqautotest.sunnybeach.ui.activity.PutFishActivity
+import cn.cqautotest.sunnybeach.ui.activity.ScanResultActivity
+import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishCategoryAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
@@ -30,11 +48,11 @@ import cn.cqautotest.sunnybeach.ui.adapter.RecommendFishTopicListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.MultiOperationHelper
 import cn.cqautotest.sunnybeach.util.MyScanUtil
-import cn.cqautotest.sunnybeach.util.SimpleLinearSpaceItemDecoration
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import com.dylanc.longan.viewLifecycleScope
 import com.hjq.bar.TitleBar
 import com.hjq.permissions.Permission
@@ -46,7 +64,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 
 /**
@@ -74,11 +92,27 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     private val mFishCategoryAdapter = FishCategoryAdapter(mRecommendFishTopicListAdapterDelegate)
     private val mRecommendFishTopicListAdapter = RecommendFishTopicListAdapter(mFishCategoryAdapter)
     private val mFishListAdapter = FishListAdapter(mFishListAdapterDelegate)
-    private val loadStateListener = loadStateListener(mFishListAdapter) { mBinding.refreshLayout.finishRefresh() }
+    private val loadStateListener = loadStateListener(mFishListAdapter) {
+        mBinding.refreshLayout.finishRefresh()
+        mBinding.rvFishPondList.addAfterNextUpdateUIDefaultItemAnimator()
+    }
     private val mFishCategoryAdapterDataObserver = object : RecyclerView.AdapterDataObserver() {
         override fun onChanged() {
             mBinding.tvRecommend.isVisible = mFishCategoryAdapter.isNotEmpty()
         }
+    }
+    private val mScanLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val resultData = result.data
+        if (result.resultCode != Activity.RESULT_OK || resultData == null) return@registerForActivityResult
+        resultData.getParcelableExtra<HmsScan>(ScanUtil.RESULT)?.let { hmsScan ->
+            Timber.d("mScanLauncher：===> hmsScan originalValue is ${hmsScan.originalValue}")
+            val (canBeParse, userId) = canBeParse(hmsScan)
+            if (canBeParse) {
+                ViewUserActivity.start(requireContext(), userId)
+            } else {
+                ScanResultActivity.start(requireContext(), hmsScan)
+            }
+        } ?: showNoContentTips()
     }
 
     override fun getLayoutId(): Int = R.layout.fish_list_fragment
@@ -95,6 +129,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 layoutManager = LinearLayoutManager(context)
                 adapter = concatAdapter
                 addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
+                clearItemAnimator()
             }
         }
     }
@@ -102,9 +137,8 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     override fun initData() {
         loadCategoryList()
         loadFishList()
-        mAppViewModel.getMourningCalendar().observe(viewLifecycleOwner) {
-            val result = it.getOrNull() ?: return@observe
-            setMourningStyleByDate(result)
+        mAppViewModel.getMourningCalendar().observe(viewLifecycleOwner) { mourningCalendarList ->
+            mourningCalendarList.getOrNull()?.let { setMourningStyleByDate(it) }
         }
     }
 
@@ -115,7 +149,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     private fun loadFishList() {
-        viewLifecycleScope.launchWhenCreated {
+        viewLifecycleScope.launch {
             mFishPondViewModel.getFishListByCategoryId("recommend").collectLatest {
                 onBack2Top()
                 mFishListAdapter.submitData(it)
@@ -150,10 +184,10 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         // 需要在 View 销毁的时候移除 listener
         mFishListAdapter.addLoadStateListener(loadStateListener)
         mRecommendFishTopicListAdapterDelegate.setOnItemClickListener { _, position ->
-            mFishCategoryAdapter.snapshotList[position]?.let { FishTopicActivity.start(requireContext(), it) }
+            mFishCategoryAdapter.snapshotList.getOrNull(position)?.let { FishTopicActivity.start(requireContext(), it) }
         }
         mFishListAdapterDelegate.setOnItemClickListener { _, position ->
-            mFishListAdapter.snapshotList[position]?.let { FishPondDetailActivity.start(requireContext(), it.id) }
+            mFishListAdapter.snapshotList.getOrNull(position)?.let { FishPondDetailActivity.start(requireContext(), it.id) }
         }
         mFishListAdapter.setOnMenuItemClickListener { view, item, position ->
             when (view.id) {
@@ -194,7 +228,24 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         val options = HmsScanAnalyzerOptions.Creator()
             .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
             .create()
-        MyScanUtil.startScan(this, REQUEST_CODE_SCAN_ONE, options)
+        MyScanUtil.startScan(this, options, mScanLauncher)
+    }
+
+    private fun canBeParse(hmsScan: HmsScan?): Pair<Boolean, String> {
+        val content = hmsScan?.getShowResult() ?: return false to ""
+        // content can never be null.
+        val uri = Uri.parse(content)
+        val scheme = uri.scheme.orEmpty()
+        val authority = uri.authority.orEmpty()
+        val userId = uri.lastPathSegment.orEmpty()
+        Timber.d("showResult：===> scheme is $scheme authority is $authority userId is $userId")
+        Timber.d("showResult：===> content is $content")
+        return when {
+            !mUserViewModel.checkScheme(uri.scheme.orEmpty()) -> false to ""
+            !mUserViewModel.checkAuthority(uri.authority.orEmpty()) -> false to ""
+            !mUserViewModel.checkUserId(userId) -> false to ""
+            else -> true to userId
+        }
     }
 
     override fun showLoading(id: Int) {
@@ -219,55 +270,11 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mBinding.rvFishPondList.scrollToPosition(0)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK || data == null) return
-        if (requestCode == REQUEST_CODE_SCAN_ONE) {
-            // 导入图片扫描返回结果
-            val hmsScan = data.getParcelableExtra(ScanUtil.RESULT) as HmsScan?
-            if (hmsScan != null) {
-                // 展示解码结果
-                showResult(hmsScan)
-            } else {
-                showNoContentTips()
-            }
-        }
-    }
-
     private fun showNoContentTips() {
         toast("什么内容也没有~")
     }
 
-    private fun showResult(hmsScan: HmsScan?) {
-        val result = hmsScan?.showResult.orEmpty()
-        if (result.isBlank()) {
-            showNoContentTips()
-            return
-        }
-
-        // result can never be null.
-        val uri = Uri.parse(result)
-        val scheme = uri.scheme.orEmpty()
-        val authority = uri.authority.orEmpty()
-        val userId = uri.lastPathSegment.orEmpty()
-
-        Timber.d("showResult：===> scheme is $scheme authority is $authority userId is $userId")
-        Timber.d("showResult：===> result is $result")
-        // toast(userId)
-
-        when {
-            mUserViewModel.checkScheme(scheme).not() -> unsupportedParsedContent()
-            mUserViewModel.checkAuthority(authority).not() -> unsupportedParsedContent()
-            mUserViewModel.checkUserId(userId).not() -> unsupportedParsedContent()
-            else -> ViewUserActivity.start(requireContext(), userId)
-        }
-    }
-
-    private fun unsupportedParsedContent() = toast("不支持解析的内容")
-
     companion object {
-
-        private val REQUEST_CODE_SCAN_ONE = hashCode()
 
         @JvmStatic
         fun newInstance() = FishListFragment()

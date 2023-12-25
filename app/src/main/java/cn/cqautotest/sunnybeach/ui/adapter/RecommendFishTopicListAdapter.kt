@@ -2,13 +2,12 @@ package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.FishTopicListIncludeBinding
 import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
-import cn.cqautotest.sunnybeach.util.LinearSpaceItemDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceItemDecoration
 
 /**
  * author : A Lonely Cat
@@ -31,7 +30,7 @@ class RecommendFishTopicListAdapter(private val mFishCategoryAdapter: FishCatego
 
         init {
             binding.rvFishCategory.apply {
-                layoutManager = LinearLayoutManager(context, OrientationHelper.HORIZONTAL, false)
+                layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
                 adapter = mFishCategoryAdapter
                 addItemDecoration(LinearSpaceItemDecoration(5.dp))
             }
