@@ -36,6 +36,7 @@ class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, BaseViewHo
             Glide.with(itemView)
                 .load(item.preview)
                 .centerCrop()
+                .override(photoIv.width, photoIv.height)
                 .into(photoIv)
             with(holder as RecyclerView.ViewHolder) {
                 itemView.setOnClickListener {
