@@ -6,6 +6,7 @@ import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.model.UserArticle
+import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.UserArticleAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
@@ -34,8 +35,13 @@ class HotArticleListActivity : PagingActivity() {
 
     override fun getLayoutId() = R.layout.hot_article_list_activity
 
+    override fun initData() {
+        intent.putExtra(IntentKey.ID, "1204736502274318336")
+        super.initData()
+    }
+
     override suspend fun loadListData() {
-        mHotArticleViewModel.getUserArticleList("1204736502274318336").collectLatest {
+        mHotArticleViewModel.userArticleListFlow.collectLatest {
             mHotArticleAdapter.submitData(it)
         }
     }

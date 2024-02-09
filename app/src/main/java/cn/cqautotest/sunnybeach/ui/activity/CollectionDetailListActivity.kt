@@ -13,6 +13,7 @@ import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.Bookmark
 import cn.cqautotest.sunnybeach.model.RefreshStatus
+import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.CollectionDetailListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.CollectionViewModel
@@ -49,7 +50,7 @@ class CollectionDetailListActivity : PagingActivity() {
     }
 
     override suspend fun loadListData() {
-        mCollectionViewModel.loadCollectionDetailListById(collectionItem.id).collectLatest { mCollectionDetailListAdapter.submitData(it) }
+        mCollectionViewModel.collectionDetailListFlow.collectLatest { mCollectionDetailListAdapter.submitData(it) }
     }
 
     override fun initEvent() {
@@ -71,6 +72,7 @@ class CollectionDetailListActivity : PagingActivity() {
 
         fun start(context: Context, item: Bookmark.Content) {
             context.startActivity<CollectionDetailListActivity> {
+                putExtra(IntentKey.ID, item.id)
                 putExtra(COLLECTION_ITEM, item.toJson())
             }
         }

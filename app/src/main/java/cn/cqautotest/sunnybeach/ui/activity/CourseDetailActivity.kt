@@ -17,10 +17,19 @@ import cn.cqautotest.sunnybeach.execption.NotLoginException
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.network.CourseNetwork
 import cn.cqautotest.sunnybeach.http.network.Repository
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.fromJson
+import cn.cqautotest.sunnybeach.ktx.getOrNull
+import cn.cqautotest.sunnybeach.ktx.isZero
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.ktx.startActivity
+import cn.cqautotest.sunnybeach.ktx.toJson
+import cn.cqautotest.sunnybeach.ktx.tryShowLoginDialog
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.course.Course
 import cn.cqautotest.sunnybeach.model.course.CourseChapter
+import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.CourseChapterListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
@@ -28,7 +37,10 @@ import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecorat
 import com.bumptech.glide.Glide
 import com.dylanc.longan.intentExtras
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -63,8 +75,7 @@ class CourseDetailActivity : PagingActivity() {
     }
 
     override suspend fun loadListData() {
-        val courseId = courseItem.id
-        mCourseViewModel.getCourseChapterList(courseId).collectLatest { mCourseChapterListAdapter.submitData(it) }
+        mCourseViewModel.courseChapterListFlow.collectLatest { mCourseChapterListAdapter.submitData(it) }
     }
 
     override fun initEvent() {
@@ -142,6 +153,7 @@ class CourseDetailActivity : PagingActivity() {
         @Log
         fun start(context: Context, courseItem: Course.CourseItem) {
             context.startActivity<CourseDetailActivity> {
+                putExtra(IntentKey.ID, courseItem.id)
                 putExtra(COURSE_ITEM, courseItem.toJson())
             }
         }
