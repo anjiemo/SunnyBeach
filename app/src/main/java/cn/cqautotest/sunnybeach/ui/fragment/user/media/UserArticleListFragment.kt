@@ -48,8 +48,7 @@ class UserArticleListFragment : PagingFragment<AppActivity>() {
     }
 
     override suspend fun loadListData() {
-        val userId = arguments?.getString(IntentKey.ID, "").orEmpty()
-        mArticleViewModel.getUserArticleList(userId).collectLatest { mUserArticleAdapter.submitData(it) }
+        mArticleViewModel.userArticleListFlow.collectLatest { mUserArticleAdapter.submitData(it) }
     }
 
     override fun initEvent() {

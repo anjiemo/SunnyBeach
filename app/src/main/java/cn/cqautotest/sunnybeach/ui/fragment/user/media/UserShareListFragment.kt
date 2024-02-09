@@ -41,8 +41,7 @@ class UserShareListFragment : PagingFragment<AppActivity>() {
     }
 
     override suspend fun loadListData() {
-        val userId = arguments?.getString(IntentKey.ID, "").orEmpty()
-        mShareViewModel.loadUserShareList(userId).collectLatest {
+        mShareViewModel.userShareListFlow.collectLatest {
             mShareListAdapter.submitData(it)
         }
     }

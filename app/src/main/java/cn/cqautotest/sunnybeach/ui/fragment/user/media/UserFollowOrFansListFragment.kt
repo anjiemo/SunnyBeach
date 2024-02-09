@@ -8,7 +8,6 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingFragment
 import cn.cqautotest.sunnybeach.databinding.UserFollowOrFansListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.dp
-import cn.cqautotest.sunnybeach.ktx.fromJson
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.other.FollowType
@@ -43,10 +42,7 @@ class UserFollowOrFansListFragment : PagingFragment<AppActivity>() {
     }
 
     override suspend fun loadListData() {
-        val userId = arguments?.getString(IntentKey.ID, "").orEmpty()
-        val followStateJson = arguments?.getString(IntentKey.OTHER)
-        val followType = fromJson<FollowType>(followStateJson) ?: FollowType.FOLLOW
-        mFollowViewModel.loadUserFollowOrFansListByState(userId, followType).collectLatest {
+        mFollowViewModel.userFollowOrFansListStateFlow.collectLatest {
             mUserFollowListAdapter.submitData(it)
         }
     }

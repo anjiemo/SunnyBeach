@@ -12,7 +12,6 @@ import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
-import cn.cqautotest.sunnybeach.other.QaType
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.QaListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
@@ -45,7 +44,7 @@ class QaListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopListener
     }
 
     override suspend fun loadListData() {
-        mQaViewModel.loadQaList(QaType.LATEST).collectLatest {
+        mQaViewModel.qaListFlow.collectLatest {
             onBack2Top()
             mQaListAdapter.submitData(it)
         }
