@@ -93,9 +93,8 @@ class AvatarDecorView @JvmOverloads constructor(
     /**
      * 绘制前景徽章图标
      */
-    override fun onDrawForeground(canvas: Canvas?) {
+    override fun onDrawForeground(canvas: Canvas) {
         super.onDrawForeground(canvas)
-        canvas ?: return
         if (isVip) {
             // Timber.d("onDrawForeground：===> width is $width measuredWidth is $measuredWidth")
 

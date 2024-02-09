@@ -82,7 +82,7 @@ class CourseListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopList
     }
 
     override suspend fun loadListData() {
-        mCourseViewModel.getCourseList().collectLatest {
+        mCourseViewModel.courseListFlow.collectLatest {
             onBack2Top()
             mCourseListAdapter.submitData(it)
         }

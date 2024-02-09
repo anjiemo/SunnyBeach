@@ -1,15 +1,15 @@
 package cn.cqautotest.sunnybeach.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import cn.cqautotest.sunnybeach.model.UserFollow
+import cn.cqautotest.sunnybeach.ktx.fromJson
 import cn.cqautotest.sunnybeach.other.FollowType
+import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.paging.source.UserFollowOrFansPagingSource
-import kotlinx.coroutines.flow.Flow
 
 /**
  * author : A Lonely Cat
@@ -17,15 +17,13 @@ import kotlinx.coroutines.flow.Flow
  * time   : 2022/04/12
  * desc   : 关注/粉丝 ViewModel
  */
-class FollowOrFansViewModel : ViewModel() {
+class FollowOrFansViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
-    fun loadUserFollowOrFansListByState(
-        userId: String,
-        followType: FollowType
-    ): Flow<PagingData<UserFollow.UserFollowItem>> {
-        return Pager(config = PagingConfig(30),
-            pagingSourceFactory = {
-                UserFollowOrFansPagingSource(userId, followType)
-            }).flow.cachedIn(viewModelScope)
-    }
+    val userFollowOrFansListStateFlow = Pager(config = PagingConfig(30),
+        pagingSourceFactory = {
+            val userId = savedStateHandle.get<String>(IntentKey.ID).orEmpty()
+            val followStateJson = savedStateHandle.get<String>(IntentKey.OTHER)
+            val followType = fromJson<FollowType>(followStateJson)
+            UserFollowOrFansPagingSource(userId, followType)
+        }).flow.cachedIn(viewModelScope)
 }
