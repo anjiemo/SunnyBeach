@@ -3,8 +3,7 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Intent
-import android.view.View
-import androidx.lifecycle.lifecycleScope
+import androidx.core.view.isInvisible
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.http.api.other.UserInfoApi
@@ -19,8 +18,9 @@ import com.gyf.immersionbar.ImmersionBar
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.HttpCallback
 import com.hjq.widget.view.SlantedTextView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
 
 /**
  *    author : Android 轮子哥
@@ -36,10 +36,10 @@ class SplashActivity : AppActivity() {
     override fun getLayoutId(): Int = R.layout.splash_activity
 
     override fun initView() {
-        lifecycleScope.launch { checkToken() }
+        CoroutineScope(Dispatchers.IO).launch { checkToken() }
         if (AppConfig.isDebug()) {
-            HomeActivity.start(context)
-            return
+            // HomeActivity.start(context)
+            // return
         }
         if (DeviceUtils.isDevelopmentSettingsEnabled() || DeviceUtils.isAdbEnabled()) {
             toast("您的设备已开启调试模式，请注意安全")
@@ -56,12 +56,8 @@ class SplashActivity : AppActivity() {
 
     override fun initData() {
         debugView?.let {
-            it.setText(AppConfig.getBuildType().uppercase(Locale.getDefault()))
-            if (AppConfig.isDebug()) {
-                it.visibility = View.VISIBLE
-            } else {
-                it.visibility = View.INVISIBLE
-            }
+            it.setText(AppConfig.getBuildType().uppercase())
+            it.isInvisible = AppConfig.isDebug().not()
         }
 
         if (true) {
