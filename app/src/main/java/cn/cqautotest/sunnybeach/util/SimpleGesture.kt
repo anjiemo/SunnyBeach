@@ -10,12 +10,8 @@ class SimpleGesture(
 ) :
     GestureDetector.SimpleOnGestureListener() {
 
-    override fun onFling(
-        e1: MotionEvent,
-        e2: MotionEvent,
-        velocityX: Float,
-        velocityY: Float
-    ): Boolean {
+    override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+        e1 ?: return false
         // 判断是触发左右还是上下
         val horizontalDistance = abs(e1.x - e2.x)
         val verticalDistance = abs(e1.y - e2.y)
@@ -47,6 +43,7 @@ class SimpleGesture(
     }
 
     interface OnSlideListener {
+
         fun onSwipeLeft() {}
 
         fun onSwipeRight() {}

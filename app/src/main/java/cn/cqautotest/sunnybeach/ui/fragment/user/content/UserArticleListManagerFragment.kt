@@ -22,7 +22,6 @@ import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.viewmodel.ArticleViewModel
 import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
-import com.dylanc.longan.arguments
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
 import com.umeng.socialize.media.UMImage
@@ -42,7 +41,6 @@ class UserArticleListManagerFragment : PagingFragment<AppActivity>() {
     private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mUserArticleAdapter = UserArticleAdapter(mAdapterDelegate)
-    private val searchFilter by arguments(SEARCH_FILTER, ArticleSearchFilter())
 
     override fun getPagingAdapter(): PagingDataAdapter<*, *> = mUserArticleAdapter
 
@@ -54,7 +52,7 @@ class UserArticleListManagerFragment : PagingFragment<AppActivity>() {
     }
 
     override suspend fun loadListData() {
-        mArticleViewModel.searchUserArticleList(searchFilter).collectLatest { mUserArticleAdapter.submitData(it) }
+        mArticleViewModel.searchUserArticleListFlow.collectLatest { mUserArticleAdapter.submitData(it) }
     }
 
     override fun initEvent() {
@@ -108,7 +106,7 @@ class UserArticleListManagerFragment : PagingFragment<AppActivity>() {
 
     companion object {
 
-        private const val SEARCH_FILTER = "SEARCH_FILTER"
+        const val SEARCH_FILTER = "SEARCH_FILTER"
 
         fun newInstance(articleSearchFilter: ArticleSearchFilter = ArticleSearchFilter()): UserArticleListManagerFragment {
             val args = Bundle().apply {

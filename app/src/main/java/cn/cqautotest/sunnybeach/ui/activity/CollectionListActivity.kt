@@ -32,7 +32,7 @@ class CollectionListActivity : PagingActivity() {
 
     override fun getLayoutId(): Int = R.layout.collection_list_activity
 
-    override suspend fun loadListData() = mCollectionViewModel.loadCollectionList().collectLatest { getPagingAdapter().submitData(it) }
+    override suspend fun loadListData() = mCollectionViewModel.collectionListFlow.collectLatest { getPagingAdapter().submitData(it) }
 
     override fun initView() {
         super.initView()
