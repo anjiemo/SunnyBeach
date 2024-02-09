@@ -38,8 +38,8 @@ class SplashActivity : AppActivity() {
     override fun initView() {
         CoroutineScope(Dispatchers.IO).launch { checkToken() }
         if (AppConfig.isDebug()) {
-            // HomeActivity.start(context)
-            // return
+            nextPage()
+            return
         }
         if (DeviceUtils.isDevelopmentSettingsEnabled() || DeviceUtils.isAdbEnabled()) {
             toast("您的设备已开启调试模式，请注意安全")
@@ -48,10 +48,14 @@ class SplashActivity : AppActivity() {
         lottieView?.addAnimatorListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 lottieView?.removeAnimatorListener(this)
-                HomeActivity.start(context)
-                finish()
+                nextPage()
             }
         })
+    }
+
+    private fun nextPage() {
+        HomeActivity.start(context)
+        finish()
     }
 
     override fun initData() {
@@ -82,7 +86,7 @@ class SplashActivity : AppActivity() {
 
     override fun onBackPressed() {
         // 禁用返回键
-        //super.onBackPressed();
+        // super.onBackPressed()
     }
 
     override fun initActivity() {
