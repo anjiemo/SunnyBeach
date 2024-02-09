@@ -1,14 +1,13 @@
 package cn.cqautotest.sunnybeach.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import cn.cqautotest.sunnybeach.model.UserShare
+import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.paging.source.UserSharePagingSource
-import kotlinx.coroutines.flow.Flow
 
 /**
  * author : A Lonely Cat
@@ -16,12 +15,11 @@ import kotlinx.coroutines.flow.Flow
  * time   : 2022/04/12
  * desc   : 分享 ViewModel
  */
-class ShareViewModel : ViewModel() {
+class ShareViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
-    fun loadUserShareList(userId: String): Flow<PagingData<UserShare.Content>> {
-        return Pager(config = PagingConfig(30),
-            pagingSourceFactory = {
-                UserSharePagingSource(userId)
-            }).flow.cachedIn(viewModelScope)
-    }
+    val userShareListFlow = Pager(config = PagingConfig(30),
+        pagingSourceFactory = {
+            val userId = savedStateHandle.get<String>(IntentKey.ID).orEmpty()
+            UserSharePagingSource(userId)
+        }).flow.cachedIn(viewModelScope)
 }

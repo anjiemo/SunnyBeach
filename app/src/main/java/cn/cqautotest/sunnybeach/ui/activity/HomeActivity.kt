@@ -17,6 +17,7 @@ import cn.cqautotest.sunnybeach.action.OnDoubleClickListener
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
+import cn.cqautotest.sunnybeach.ktx.tryShowLoginDialog
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
@@ -85,6 +86,9 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             addMenuItem(R.string.home_nav_me, R.drawable.home_me_selector)
             setOnNavigationListener(this@HomeActivity)
             navigationView?.adapter = this
+        }
+        takeUnless { UserManager.isLogin() }?.let {
+            tryShowLoginDialog()
         }
     }
 
@@ -165,11 +169,9 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     }
 
     private fun switchFragment(fragmentIndex: Int) {
-        if (fragmentIndex == -1) {
-            return
-        }
+        takeIf { fragmentIndex == -1 }?.let { return }
         when (fragmentIndex) {
-            0, 1, 2, 3, 4 -> {
+            in 0..4 -> {
                 val lastIndex = viewPager2?.currentItem ?: 0
                 // 是否为相邻的两个 item，只有相邻的两个 item 才执行平滑过渡动画
                 val isAdjacent = abs(fragmentIndex - lastIndex) == 1
@@ -189,13 +191,14 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
      */
     override fun onNavigationItemSelected(position: Int): Boolean {
         return when (position) {
-            0, 1, 2, 3, 4 -> {
+            in 0..4 -> {
                 val lastIndex = viewPager2?.currentItem ?: 0
                 // 是否为相邻的两个 item，只有相邻的两个 item 才执行平滑过渡动画
                 val isAdjacent = abs(position - lastIndex) == 1
                 viewPager2?.setCurrentItem(position, isAdjacent)
                 true
             }
+
             else -> false
         }
     }

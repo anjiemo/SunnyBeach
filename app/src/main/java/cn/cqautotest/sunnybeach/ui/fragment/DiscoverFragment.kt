@@ -61,7 +61,7 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
     }
 
     override suspend fun loadListData() {
-        mPhotoViewModel.getWallpaperList().collectLatest {
+        mPhotoViewModel.wallpaperListFlow.collectLatest {
             mPhotoListAdapter.submitData(it)
         }
     }
