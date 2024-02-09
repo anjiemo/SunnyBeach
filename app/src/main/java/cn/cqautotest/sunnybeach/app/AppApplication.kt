@@ -24,7 +24,12 @@ import cn.cqautotest.sunnybeach.http.model.RequestHandler
 import cn.cqautotest.sunnybeach.http.model.RequestServer
 import cn.cqautotest.sunnybeach.ktx.resetConfiguration
 import cn.cqautotest.sunnybeach.manager.ActivityManager
-import cn.cqautotest.sunnybeach.other.*
+import cn.cqautotest.sunnybeach.other.AppConfig
+import cn.cqautotest.sunnybeach.other.CrashHandler
+import cn.cqautotest.sunnybeach.other.DebugLoggerTree
+import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter
+import cn.cqautotest.sunnybeach.other.TitleBarStyle
+import cn.cqautotest.sunnybeach.other.ToastStyle
 import cn.cqautotest.sunnybeach.util.PushHelper
 import cn.cqautotest.sunnybeach.work.CacheCleanupWorker
 import com.bumptech.glide.Glide
@@ -77,14 +82,15 @@ class AppApplication : Application(), Configuration.Provider {
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
         // 根据手机内存剩余情况清理图片内存缓存
-        GlideApp.get(this).onTrimMemory(level)
+        GlideApp[this].onTrimMemory(level)
     }
 
-    override fun getWorkManagerConfiguration(): Configuration = Configuration.Builder().also {
-        if (AppConfig.isDebug()) {
-            it.setMinimumLoggingLevel(android.util.Log.INFO)
-        }
-    }.build()
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder().also {
+            if (AppConfig.isDebug()) {
+                it.setMinimumLoggingLevel(android.util.Log.INFO)
+            }
+        }.build()
 
     override fun getResources(): Resources = super.getResources().apply {
         resetConfiguration()
