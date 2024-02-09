@@ -71,7 +71,7 @@ class ScanCodeActivity : ScanKitActivity(), Init {
             val options = HmsScanAnalyzerOptions.Creator()
                 .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
                 .create()
-            val hmsScans = ScanUtil.decodeWithBitmap(this@ScanCodeActivity, bitmap, options)
+            val hmsScans = ScanUtil.decodeWithBitmap(this, bitmap, options)
             setResultAndFinish(hmsScans)
         }
     }

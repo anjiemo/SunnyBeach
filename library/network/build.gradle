@@ -13,7 +13,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // OkHttp 框架：https://github.com/square/okhttp
-    compileOnly 'com.squareup.okhttp3:okhttp:4.9.1'
+    compileOnly 'com.squareup.okhttp3:okhttp:4.12.0'
     // Android网络请求库：https://github.com/square/retrofit
     compileOnly 'com.squareup.retrofit2:retrofit:2.9.0'
 }
