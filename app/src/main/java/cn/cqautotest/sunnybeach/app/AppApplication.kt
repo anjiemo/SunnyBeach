@@ -76,7 +76,7 @@ class AppApplication : Application(), Configuration.Provider {
     override fun onLowMemory() {
         super.onLowMemory()
         // 清理所有图片内存缓存
-        GlideApp.get(this).onLowMemory()
+        GlideApp[this].onLowMemory()
     }
 
     override fun onTrimMemory(level: Int) {
@@ -100,15 +100,13 @@ class AppApplication : Application(), Configuration.Provider {
 
         private lateinit var mApp: AppApplication
         private lateinit var database: CookieRoomDatabase
-        private const val sWeatherApiToken = "7xoSm4k7GIK8X8E1"
+        private const val WEATHER_API_TOKEN = "7xoSm4k7GIK8X8E1"
 
         fun getInstance() = mApp
 
         fun getDatabase() = database
 
-        fun getWeatherApiToken(): String {
-            return sWeatherApiToken
-        }
+        fun getWeatherApiToken(): String = WEATHER_API_TOKEN
 
         /**
          * 初始化一些第三方框架
