@@ -12,7 +12,6 @@ import androidx.activity.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
-import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.PasswordModifyActivityBinding
 import cn.cqautotest.sunnybeach.ktx.lowercaseMd5
@@ -21,6 +20,7 @@ import cn.cqautotest.sunnybeach.model.User
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.dialog.TipsDialog
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 
 /**
  * author : A Lonely Cat

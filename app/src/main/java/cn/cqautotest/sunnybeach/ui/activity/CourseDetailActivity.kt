@@ -8,7 +8,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.CheckNet
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.CourseDetailActivityBinding
@@ -36,6 +35,7 @@ import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
 import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import com.bumptech.glide.Glide
 import com.dylanc.longan.intentExtras
+import com.flyjingfish.android_aop_core.annotations.CheckNetwork
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
@@ -149,7 +149,7 @@ class CourseDetailActivity : PagingActivity() {
 
         private const val COURSE_ITEM = "courseItem"
 
-        @CheckNet
+        @CheckNetwork(invokeListener = true)
         @Log
         fun start(context: Context, courseItem: Course.CourseItem) {
             context.startActivity<CourseDetailActivity> {

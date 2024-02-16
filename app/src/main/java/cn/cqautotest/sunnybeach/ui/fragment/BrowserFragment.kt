@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.webkit.WebView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
-import cn.cqautotest.sunnybeach.aop.CheckNet
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
@@ -15,6 +14,7 @@ import cn.cqautotest.sunnybeach.widget.BrowserView
 import cn.cqautotest.sunnybeach.widget.BrowserView.BrowserChromeClient
 import cn.cqautotest.sunnybeach.widget.BrowserView.BrowserViewClient
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.flyjingfish.android_aop_core.annotations.CheckNetwork
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
@@ -73,7 +73,7 @@ class BrowserFragment : AppFragment<AppActivity>(), StatusAction, OnRefreshListe
     /**
      * 重新加载当前页
      */
-    @CheckNet
+    @CheckNetwork(invokeListener = true)
     private fun reload() {
         browserView?.reload()
     }

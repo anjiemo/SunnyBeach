@@ -15,12 +15,12 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppAdapter
 import cn.cqautotest.sunnybeach.ktx.reduceDragSensitivity
 import cn.cqautotest.sunnybeach.ui.adapter.TabAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.TabAdapter.OnTabListener
 import cn.cqautotest.sunnybeach.ui.dialog.AddressDialog.RecyclerViewAdapter.OnSelectListener
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.base.BaseDialog
 import com.tencent.bugly.crashreport.CrashReport
 import org.json.JSONArray
