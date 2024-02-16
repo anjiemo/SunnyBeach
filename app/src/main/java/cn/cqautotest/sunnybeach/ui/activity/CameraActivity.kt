@@ -9,7 +9,6 @@ import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
-import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.other.AppConfig
 import com.hjq.base.BaseActivity
@@ -17,7 +16,8 @@ import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 /**
  *    author : Android 轮子哥
@@ -38,7 +38,7 @@ class CameraActivity : AppActivity() {
         }
 
         @Log
-        @Permissions(
+        @com.flyjingfish.android_aop_core.annotations.Permission(
             Permission.READ_MEDIA_IMAGES,
             Permission.WRITE_EXTERNAL_STORAGE,
             Permission.CAMERA
@@ -62,6 +62,7 @@ class CameraActivity : AppActivity() {
                                 listener.onCancel()
                             }
                         }
+
                         RESULT_ERROR -> {
                             var details: String? = null
                             if (data != null) {
@@ -72,6 +73,7 @@ class CameraActivity : AppActivity() {
                             }
                             listener.onError(details)
                         }
+
                         RESULT_CANCELED -> listener.onCancel()
                         else -> listener.onCancel()
                     }

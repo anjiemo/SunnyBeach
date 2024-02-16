@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.SingleClick
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.base.BaseDialog
 
 /**

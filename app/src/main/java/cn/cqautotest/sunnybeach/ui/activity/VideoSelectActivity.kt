@@ -16,8 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.Log
-import cn.cqautotest.sunnybeach.aop.Permissions
-import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.ktx.doScrollStateChanged
 import cn.cqautotest.sunnybeach.ui.activity.CameraActivity.OnCameraListener
@@ -26,6 +24,7 @@ import cn.cqautotest.sunnybeach.ui.dialog.AlbumDialog
 import cn.cqautotest.sunnybeach.ui.dialog.AlbumDialog.AlbumInfo
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.bar.TitleBar
 import com.hjq.base.BaseActivity
 import com.hjq.base.BaseAdapter
@@ -58,7 +57,7 @@ class VideoSelectActivity : AppActivity(), StatusAction, Runnable, BaseAdapter.O
         }
 
         @Log
-        @Permissions(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
+        @com.flyjingfish.android_aop_core.annotations.Permission(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
         fun start(activity: BaseActivity, maxSelect: Int, listener: OnVideoSelectListener?) {
             if (maxSelect < 1) {
                 // 最少要选择一个视频
