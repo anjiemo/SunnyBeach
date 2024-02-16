@@ -20,9 +20,9 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.other.AppConfig
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -34,7 +34,8 @@ import java.io.StringWriter
 import java.net.InetAddress
 import java.net.UnknownHostException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import kotlin.math.min

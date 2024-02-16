@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppAdapter
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.base.BaseAdapter
 import com.hjq.base.BaseDialog
 import com.hjq.base.action.AnimAction

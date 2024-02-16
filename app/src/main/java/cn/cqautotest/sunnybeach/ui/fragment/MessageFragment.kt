@@ -3,12 +3,11 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.view.View
 import android.widget.ImageView
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.Permissions
-import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 
@@ -60,6 +59,7 @@ class MessageFragment : TitleBarFragment<HomeActivity>() {
                         .into(it)
                 }
             }
+
             R.id.btn_message_image2 -> {
 
                 imageView?.let {
@@ -70,6 +70,7 @@ class MessageFragment : TitleBarFragment<HomeActivity>() {
                         .into(it)
                 }
             }
+
             R.id.btn_message_image3 -> {
 
                 imageView?.let {
@@ -80,31 +81,37 @@ class MessageFragment : TitleBarFragment<HomeActivity>() {
                         .into(it)
                 }
             }
+
             R.id.btn_message_toast -> {
 
                 toast("我是吐司")
 
             }
+
             R.id.btn_message_permission -> {
 
                 requestPermission()
             }
+
             R.id.btn_message_setting -> {
 
                 XXPermissions.startPermissionActivity(this)
             }
+
             R.id.btn_message_black -> {
 
                 getStatusBarConfig()
                     .statusBarDarkFont(true)
                     .init()
             }
+
             R.id.btn_message_white -> {
 
                 getStatusBarConfig()
                     .statusBarDarkFont(false)
                     .init()
             }
+
             R.id.btn_message_tab -> {
 
                 HomeActivity.start(getAttachActivity()!!, MyMeFragment::class.java)
@@ -112,7 +119,7 @@ class MessageFragment : TitleBarFragment<HomeActivity>() {
         }
     }
 
-    @Permissions(Permission.CAMERA)
+    @com.flyjingfish.android_aop_core.annotations.Permission(Permission.CAMERA)
     private fun requestPermission() {
         toast("获取摄像头权限成功")
     }
