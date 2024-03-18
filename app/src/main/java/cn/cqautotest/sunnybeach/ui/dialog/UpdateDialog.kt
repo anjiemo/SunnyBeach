@@ -16,10 +16,9 @@ import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.CheckNet
-import cn.cqautotest.sunnybeach.aop.Permissions
-import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.other.AppConfig
+import com.flyjingfish.android_aop_core.annotations.CheckNetwork
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.base.BaseDialog
 import com.hjq.base.action.AnimAction
 import com.hjq.http.EasyHttp
@@ -135,8 +134,8 @@ class UpdateDialog {
         /**
          * 下载 Apk
          */
-        @CheckNet
-        @Permissions(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE, Permission.REQUEST_INSTALL_PACKAGES)
+        @CheckNetwork(invokeListener = true)
+        @com.flyjingfish.android_aop_core.annotations.Permission(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE, Permission.REQUEST_INSTALL_PACKAGES)
         private fun downloadApk() {
             // 设置对话框不能被取消
             setCancelable(false)
@@ -273,7 +272,7 @@ class UpdateDialog {
         /**
          * 安装 Apk
          */
-        @Permissions(Permission.REQUEST_INSTALL_PACKAGES)
+        @com.flyjingfish.android_aop_core.annotations.Permission(Permission.REQUEST_INSTALL_PACKAGES)
         private fun installApk() {
             getContext().startActivity(getInstallIntent())
         }

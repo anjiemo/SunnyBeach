@@ -19,9 +19,9 @@ import com.hjq.base.action.AnimAction
 class TipsDialog {
 
     companion object {
-        const val ICON_FINISH: Int = R.drawable.tips_finish_ic
-        const val ICON_ERROR: Int = R.drawable.tips_error_ic
-        const val ICON_WARNING: Int = R.drawable.tips_warning_ic
+        val ICON_FINISH: Int = R.drawable.tips_finish_ic
+        val ICON_ERROR: Int = R.drawable.tips_error_ic
+        val ICON_WARNING: Int = R.drawable.tips_warning_ic
     }
 
     class Builder(context: Context) : BaseDialog.Builder<Builder>(context),

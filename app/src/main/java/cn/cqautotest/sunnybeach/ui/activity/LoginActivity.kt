@@ -20,7 +20,6 @@ import androidx.core.widget.doAfterTextChanged
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
-import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.LoginActivityBinding
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
@@ -35,6 +34,7 @@ import cn.cqautotest.sunnybeach.wxapi.WXEntryActivity
 import com.blankj.utilcode.util.RegexUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.bar.TitleBar
 import com.hjq.umeng.Platform
@@ -271,6 +271,7 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
                 view === qqView -> {
                     platform = Platform.QQ
                 }
+
                 view === weChatView -> {
                     if (packageName.endsWith(".debug")) {
                         toast("当前 buildType 不支持进行微信登录")
@@ -279,6 +280,7 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
                     platform = Platform.WECHAT
                     toast("也别忘了改微信 " + WXEntryActivity::class.java.simpleName + " 类所在的包名哦")
                 }
+
                 else -> {
                     throw IllegalStateException("are you ok?")
                 }
@@ -347,9 +349,11 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
             Platform.QQ -> {
 
             }
+
             Platform.WECHAT -> {
 
             }
+
             else -> {}
         }
 
