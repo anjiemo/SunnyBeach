@@ -270,9 +270,9 @@ dependencies {
     // Shape 框架：https://github.com/getActivity/ShapeView
     implementation 'com.github.getActivity:ShapeView:8.5'
 
-    implementation 'io.github.FlyJingFish.AndroidAop:android-aop-core:1.4.0'
-    implementation 'io.github.FlyJingFish.AndroidAop:android-aop-annotation:1.4.0'
-    ksp 'io.github.FlyJingFish.AndroidAop:android-aop-ksp:1.4.0'
+    implementation "io.github.FlyJingFish.AndroidAop:android-aop-core:${android_aop_version}"
+    implementation "io.github.FlyJingFish.AndroidAop:android-aop-annotation:${android_aop_version}"
+    ksp "io.github.FlyJingFish.AndroidAop:android-aop-ksp:${android_aop_version}"
 
     // 图片加载框架：https://github.com/bumptech/glide
     // 官方使用文档：https://github.com/Muyangmin/glide-docs-cn
