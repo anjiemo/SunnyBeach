@@ -29,7 +29,7 @@ class LogInterceptCut : BasePointCut<Log> {
         // 方法名
         val methodName: String = targetMethod.name
         // 方法参数值集合
-        val parameterValues: Array<Any?> = joinPoint.args
+        val parameterValues: Array<out Any?> = joinPoint.args.orEmpty()
 
         // 记录并打印方法的信息
         val builder: StringBuilder = getMethodLogInfo(className, methodName, parameterValues)
@@ -49,7 +49,7 @@ class LogInterceptCut : BasePointCut<Log> {
     private fun getMethodLogInfo(
         className: String,
         methodName: String,
-        parameterValues: Array<Any?>
+        parameterValues: Array<out Any?>
     ): StringBuilder {
         val builder: StringBuilder = StringBuilder("\u21E2 ")
         builder.append(className)
