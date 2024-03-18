@@ -14,16 +14,20 @@ import android.webkit.WebView
 import android.widget.ProgressBar
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
-import cn.cqautotest.sunnybeach.aop.CheckNet
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
-import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_FISH_URL_PRE
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_SHARE_URL_PRE
+import cn.cqautotest.sunnybeach.util.WebViewHookHelper
 import cn.cqautotest.sunnybeach.widget.BrowserView
 import cn.cqautotest.sunnybeach.widget.BrowserView.BrowserChromeClient
 import cn.cqautotest.sunnybeach.widget.BrowserView.BrowserViewClient
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.flyjingfish.android_aop_core.annotations.CheckNetwork
 import com.hjq.bar.TitleBar
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare.OnShareListener
@@ -54,7 +58,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
         // 是否加载为反馈界面
         private const val IS_FEED_BACK = "isFeedback"
 
-        @CheckNet
+        @CheckNetwork(invokeListener = true)
         @Log
         fun start(
             context: Context,
@@ -133,12 +137,14 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
                     y = event.y
                     false
                 }
+
                 MotionEvent.ACTION_UP -> {
                     val singClick = System.currentTimeMillis() - lastClickTime < clickTap
                     val xDist = abs(event.x - x)
                     val yDist = abs(event.y - y)
                     takeIf { interceptResClick() && singClick && xDist < minDist && yDist < minDist }?.let { handleResClick() } ?: false
                 }
+
                 else -> false
             }
         }
@@ -174,6 +180,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
                 }
                 true
             }
+
             else -> false
         }
     }
@@ -222,7 +229,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
     /**
      * 重新加载当前页
      */
-    @CheckNet
+    @CheckNetwork(invokeListener = true)
     private fun reload() {
         browserView?.reload()
     }

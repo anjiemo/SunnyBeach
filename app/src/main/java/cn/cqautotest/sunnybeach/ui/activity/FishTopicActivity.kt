@@ -12,7 +12,6 @@ import androidx.paging.PagingDataAdapter
 import androidx.palette.graphics.Palette
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.CheckNet
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.FishTopicActivityBinding
 import cn.cqautotest.sunnybeach.ktx.dp
@@ -38,6 +37,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.flyjingfish.android_aop_core.annotations.CheckNetwork
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -100,7 +100,7 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
         lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { loadListData() } }
     }
 
-    @CheckNet
+    @CheckNetwork(invokeListener = true)
     private fun getFollowedTopicList() {
         mFishPondViewModel.getFollowedTopicList().observe(this) { result ->
             result.onSuccess { topicList ->
