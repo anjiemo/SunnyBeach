@@ -17,7 +17,6 @@ import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
-import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.GalleryActivityBinding
 import cn.cqautotest.sunnybeach.http.network.Repository
@@ -135,7 +134,7 @@ class GalleryActivity : AppActivity() {
         }
     }
 
-    @Permissions(Permission.READ_MEDIA_IMAGES)
+    @com.flyjingfish.android_aop_core.annotations.Permission(Permission.READ_MEDIA_IMAGES)
     fun downloadImage() {
         lifecycleScope.launch {
             simpleToast("正在下载图片，请稍后...")

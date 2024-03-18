@@ -16,16 +16,16 @@ android {
 
     // 支持 Java JDK 8
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_17
     }
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
         freeCompilerArgs = ["-Xcontext-receivers"]
     }
 

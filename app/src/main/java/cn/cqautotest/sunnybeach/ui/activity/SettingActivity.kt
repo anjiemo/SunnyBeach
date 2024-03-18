@@ -15,7 +15,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.SettingActivityBinding
@@ -32,10 +31,15 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
 import cn.cqautotest.sunnybeach.other.AppConfig
 import cn.cqautotest.sunnybeach.other.RoundRectDrawable
-import cn.cqautotest.sunnybeach.ui.dialog.*
+import cn.cqautotest.sunnybeach.ui.dialog.MenuDialog
+import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
+import cn.cqautotest.sunnybeach.ui.dialog.SafeDialog
+import cn.cqautotest.sunnybeach.ui.dialog.SelectDialog
+import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import com.dylanc.longan.context
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.base.action.AnimAction
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.HttpCallback

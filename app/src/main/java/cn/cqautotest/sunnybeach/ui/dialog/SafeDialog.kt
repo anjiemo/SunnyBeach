@@ -5,10 +5,10 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.http.api.other.GetCodeApi
 import cn.cqautotest.sunnybeach.http.api.other.VerifyCodeApi
 import cn.cqautotest.sunnybeach.http.model.HttpData
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.base.BaseDialog
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.OnHttpListener
