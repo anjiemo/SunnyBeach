@@ -204,13 +204,28 @@ dependencies {
     def aria_version = '3.8.16'
 
     // 基类封装
-    implementation project(':library:base')
+    // implementation project(':library:base')
     // 控件封装
-    implementation project(':library:widget')
+    // implementation project(':library:widget')
     // 友盟封装
-    implementation project(':library:umeng')
+    // implementation project(':library:umeng')
     // 网络封装
-    implementation project(':library:network')
+    // implementation project(':library:network')
+
+    // 友盟公共库
+    implementation 'com.umeng.umsdk:common:9.4.7'
+    implementation 'com.umeng.umsdk:asms:1.4.1'
+    // 友盟分享库
+    implementation 'com.umeng.umsdk:share-core:7.1.7'
+    // 友盟微信分享
+    implementation 'com.umeng.umsdk:share-wx:7.1.7'
+    // 友盟 QQ 分享
+    implementation 'com.umeng.umsdk:share-qq:7.1.7'
+
+    // QQ 组件：https://wiki.open.qq.com/wiki/QQ%E7%94%A8%E6%88%B7%E8%83%BD%E5%8A%9B
+    implementation 'com.tencent.tauth:qqopensdk:3.53.0'
+    // 微信组件：https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.7.9'
 
     // 单元测试
     testImplementation 'junit:junit:4.13.2'
