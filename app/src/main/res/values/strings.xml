@@ -209,7 +209,7 @@
     <string name="about_title">关于我们</string>
     <string name="about_author"><font color="#85b84f">anjiemo</font> A Lonely Cat</string>
 
-    <string name="about_copyright">Copyright © 阳光沙滩 2021 &#8211; 2023 \n 本程序由 A Lonely Cat 用爱驱动</string>
+    <string name="about_copyright">Copyright © 阳光沙滩 2021 &#8211; %d \n 本程序由 A Lonely Cat 用爱驱动</string>
 
     <!-- 忘记密码 -->
     <string name="password_forget_title">忘记密码</string>
