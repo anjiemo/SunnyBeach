@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.graphics.*
 import android.text.TextUtils
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -24,7 +23,13 @@ import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailActivityBinding
 import cn.cqautotest.sunnybeach.databinding.FishPondListItemBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.clearItemAnimator
+import cn.cqautotest.sunnybeach.ktx.context
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.getLocationInWindowPoint
+import cn.cqautotest.sunnybeach.ktx.ifNullOrEmpty
+import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondComment
@@ -48,7 +53,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 
 /**
@@ -105,7 +110,7 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
     }
 
     private suspend fun loadListData() {
-        mFishPondViewModel.getFishCommendListById(mMomentId).collectLatest {
+        mFishPondViewModel.fishCommendListFlow.collectLatest {
             mBinding.pagingRecyclerView.scrollToPosition(0)
             mFishPondDetailCommendListAdapter.submitData(it)
         }

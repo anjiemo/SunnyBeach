@@ -23,13 +23,27 @@ import cn.cqautotest.sunnybeach.http.interceptor.accountInterceptor
 import cn.cqautotest.sunnybeach.http.model.RequestHandler
 import cn.cqautotest.sunnybeach.http.model.RequestServer
 import cn.cqautotest.sunnybeach.ktx.resetConfiguration
+import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.manager.ActivityManager
-import cn.cqautotest.sunnybeach.other.*
+import cn.cqautotest.sunnybeach.other.AppConfig
+import cn.cqautotest.sunnybeach.other.CrashHandler
+import cn.cqautotest.sunnybeach.other.DebugLoggerTree
+import cn.cqautotest.sunnybeach.other.PermissionCallback
+import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter
+import cn.cqautotest.sunnybeach.other.TitleBarStyle
+import cn.cqautotest.sunnybeach.other.ToastStyle
 import cn.cqautotest.sunnybeach.util.PushHelper
 import cn.cqautotest.sunnybeach.work.CacheCleanupWorker
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
+import com.flyjingfish.android_aop_annotation.ProceedJoinPoint
+import com.flyjingfish.android_aop_core.annotations.CheckNetwork
+import com.flyjingfish.android_aop_core.annotations.Permission
+import com.flyjingfish.android_aop_core.listeners.OnCheckNetworkListener
+import com.flyjingfish.android_aop_core.listeners.OnPermissionsInterceptListener
+import com.flyjingfish.android_aop_core.listeners.OnRequestPermissionListener
+import com.flyjingfish.android_aop_core.utils.AndroidAop
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonToken
 import com.hjq.bar.TitleBar
@@ -38,6 +52,7 @@ import com.hjq.http.EasyConfig
 import com.hjq.http.config.IRequestApi
 import com.hjq.http.model.HttpHeaders
 import com.hjq.http.model.HttpParams
+import com.hjq.permissions.XXPermissions
 import com.hjq.toast.ToastLogInterceptor
 import com.hjq.toast.Toaster
 import com.hjq.umeng.UmengClient
@@ -71,20 +86,21 @@ class AppApplication : Application(), Configuration.Provider {
     override fun onLowMemory() {
         super.onLowMemory()
         // 清理所有图片内存缓存
-        GlideApp.get(this).onLowMemory()
+        GlideApp[this].onLowMemory()
     }
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
         // 根据手机内存剩余情况清理图片内存缓存
-        GlideApp.get(this).onTrimMemory(level)
+        GlideApp[this].onTrimMemory(level)
     }
 
-    override fun getWorkManagerConfiguration(): Configuration = Configuration.Builder().also {
-        if (AppConfig.isDebug()) {
-            it.setMinimumLoggingLevel(android.util.Log.INFO)
-        }
-    }.build()
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder().also {
+            if (AppConfig.isDebug()) {
+                it.setMinimumLoggingLevel(android.util.Log.INFO)
+            }
+        }.build()
 
     override fun getResources(): Resources = super.getResources().apply {
         resetConfiguration()
@@ -94,15 +110,13 @@ class AppApplication : Application(), Configuration.Provider {
 
         private lateinit var mApp: AppApplication
         private lateinit var database: CookieRoomDatabase
-        private const val sWeatherApiToken = "7xoSm4k7GIK8X8E1"
+        private const val WEATHER_API_TOKEN = "7xoSm4k7GIK8X8E1"
 
         fun getInstance() = mApp
 
         fun getDatabase() = database
 
-        fun getWeatherApiToken(): String {
-            return sWeatherApiToken
-        }
+        fun getWeatherApiToken(): String = WEATHER_API_TOKEN
 
         /**
          * 初始化一些第三方框架
@@ -139,6 +153,41 @@ class AppApplication : Application(), Configuration.Provider {
             Toaster.setDebugMode(AppConfig.isDebug())
             // 设置 Toast 拦截器
             Toaster.setInterceptor(ToastLogInterceptor())
+
+            // 设置 AOP 拦截监听器
+            AndroidAop.setOnCheckNetworkListener(object : OnCheckNetworkListener {
+
+                override fun invoke(joinPoint: ProceedJoinPoint, checkNetwork: CheckNetwork, availableNetwork: Boolean): Any? {
+                    return takeUnless { availableNetwork }?.let {
+                        val toastText = checkNetwork.toastText.ifEmpty { application.getString(R.string.common_network_hint) }
+                        simpleToast(toastText)
+                    } ?: joinPoint.proceed()
+                }
+            })
+            AndroidAop.setOnPermissionsInterceptListener(object : OnPermissionsInterceptListener {
+
+                override fun requestPermission(joinPoint: ProceedJoinPoint, permission: Permission, call: OnRequestPermissionListener) {
+                    var activity: Activity? = null
+
+                    // 方法参数值集合
+                    val parameterValues: Array<Any?> = joinPoint.args
+                    for (arg: Any? in parameterValues) {
+                        if (arg !is Activity) {
+                            continue
+                        }
+                        activity = arg
+                        break
+                    }
+                    if ((activity == null) || activity.isFinishing || activity.isDestroyed) {
+                        activity = ActivityManager.getInstance().getTopActivity()
+                    }
+                    if ((activity == null) || activity.isFinishing || activity.isDestroyed) {
+                        Timber.e("The activity has been destroyed and permission requests cannot be made")
+                        return
+                    }
+                    requestPermissions(joinPoint, activity, permission.value)
+                }
+            })
 
             // 本地异常捕捉
             CrashHandler.register(application)
@@ -243,6 +292,23 @@ class AppApplication : Application(), Configuration.Provider {
             val wm = WorkManager.getInstance(application)
             // 将工作加入队列中
             wm.enqueue(workRequest)
+        }
+
+        private fun requestPermissions(joinPoint: ProceedJoinPoint, activity: Activity, permissions: Array<out String>) {
+            XXPermissions.with(activity)
+                .permission(*permissions)
+                .request(object : PermissionCallback() {
+                    override fun onGranted(permissions: MutableList<String>, all: Boolean) {
+                        if (all) {
+                            try {
+                                // 获得权限，执行原方法
+                                joinPoint.proceed()
+                            } catch (e: Throwable) {
+                                CrashReport.postCatchedException(e)
+                            }
+                        }
+                    }
+                })
         }
     }
 }

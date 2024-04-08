@@ -1,12 +1,16 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.AboutActivityBinding
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.util.NtpHelper
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_GITHUB_URL
 import com.blankj.utilcode.util.ClipboardUtils
+import kotlinx.coroutines.launch
+import java.util.Calendar
 
 /**
  *    author : Android 轮子哥
@@ -22,7 +26,16 @@ class AboutActivity : AppActivity() {
 
     override fun initView() {}
 
-    override fun initData() {}
+    override fun initData() {
+        lifecycleScope.launch {
+            mBinding.tvCopyrightInfo.text = getString(R.string.about_copyright, 2023)
+            val ntpTime = NtpHelper.fetchFastestNTPResponseTime()
+            takeUnless { ntpTime == NtpHelper.INVALID_TIME }?.let {
+                val calendar = Calendar.getInstance().also { it.timeInMillis = ntpTime }
+                mBinding.tvCopyrightInfo.text = getString(R.string.about_copyright, calendar[Calendar.YEAR])
+            }
+        }
+    }
 
     override fun initEvent() {
         mBinding.tvCopyLink.setFixOnClickListener {

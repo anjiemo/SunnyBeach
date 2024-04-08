@@ -6,11 +6,23 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.Button
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.manager.DialogManager
-import cn.cqautotest.sunnybeach.ui.dialog.*
+import cn.cqautotest.sunnybeach.ui.dialog.AddressDialog
+import cn.cqautotest.sunnybeach.ui.dialog.DateDialog
+import cn.cqautotest.sunnybeach.ui.dialog.InputDialog
+import cn.cqautotest.sunnybeach.ui.dialog.MenuDialog
+import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
+import cn.cqautotest.sunnybeach.ui.dialog.PayPasswordDialog
+import cn.cqautotest.sunnybeach.ui.dialog.SafeDialog
+import cn.cqautotest.sunnybeach.ui.dialog.SelectDialog
+import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
+import cn.cqautotest.sunnybeach.ui.dialog.TimeDialog
+import cn.cqautotest.sunnybeach.ui.dialog.TipsDialog
+import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog
+import cn.cqautotest.sunnybeach.ui.dialog.WaitDialog
 import cn.cqautotest.sunnybeach.ui.popup.ListPopup
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.bar.TitleBar
 import com.hjq.base.BaseDialog
 import com.hjq.base.BasePopupWindow
@@ -20,7 +32,7 @@ import com.hjq.umeng.UmengClient
 import com.hjq.umeng.UmengShare.OnShareListener
 import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
-import java.util.*
+import java.util.Calendar
 
 /**
  *    author : Android 轮子哥

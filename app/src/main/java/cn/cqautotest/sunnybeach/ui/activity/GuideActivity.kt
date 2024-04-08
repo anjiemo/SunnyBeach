@@ -6,9 +6,9 @@ import android.view.animation.ScaleAnimation
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.ui.adapter.GuideAdapter
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.gyf.immersionbar.ImmersionBar
 import me.relex.circleindicator.CircleIndicator3
 

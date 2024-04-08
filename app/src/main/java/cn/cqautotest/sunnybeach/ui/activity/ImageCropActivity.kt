@@ -11,7 +11,6 @@ import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
-import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.other.AppConfig
 import com.hjq.base.BaseActivity
@@ -19,7 +18,8 @@ import com.hjq.permissions.Permission
 import com.tencent.bugly.crashreport.CrashReport
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 /**
  *    author : Android 轮子哥
@@ -44,7 +44,7 @@ class ImageCropActivity : AppActivity() {
         }
 
         @Log
-        @Permissions(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
+        @com.flyjingfish.android_aop_core.annotations.Permission(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
         fun start(activity: BaseActivity, file: File?, cropRatioX: Int, cropRatioY: Int, listener: OnCropListener?) {
             val intent = Intent(activity, ImageCropActivity::class.java)
             intent.putExtra(INTENT_KEY_IN_SOURCE_IMAGE_PATH, file.toString())
@@ -68,6 +68,7 @@ class ImageCropActivity : AppActivity() {
                                 listener.onCancel()
                             }
                         }
+
                         RESULT_ERROR -> {
                             var details: String? = null
                             if (data != null) {
@@ -78,6 +79,7 @@ class ImageCropActivity : AppActivity() {
                             }
                             listener.onError(details)
                         }
+
                         RESULT_CANCELED -> listener.onCancel()
                         else -> listener.onCancel()
                     }
@@ -129,10 +131,10 @@ class ImageCropActivity : AppActivity() {
         // 是否进行裁剪
         intent.putExtra("crop", true.toString())
         // 是否裁剪成圆形（注意：在某些手机上没有任何效果，例如华为机）
-        //intent.putExtra("circleCrop", true);
+        // intent.putExtra("circleCrop", true);
         // 宽高裁剪大小
-        //intent.putExtra("outputX", builder.getCropWidth());
-        //intent.putExtra("outputY", builder.getCropHeight());
+        // intent.putExtra("outputX", builder.getCropWidth());
+        // intent.putExtra("outputY", builder.getCropHeight());
         if (cropRatioX != 0 && cropRatioY != 0) {
             // 宽高裁剪比例
             if (cropRatioX == cropRatioY &&

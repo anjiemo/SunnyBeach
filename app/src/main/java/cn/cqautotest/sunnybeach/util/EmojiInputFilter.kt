@@ -3,8 +3,6 @@ package cn.cqautotest.sunnybeach.util
 import android.text.InputFilter
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.TextUtils
-import android.text.style.ImageSpan
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.util.EmojiMapHelper.getEmojiValue
 import java.util.regex.Pattern
@@ -17,19 +15,10 @@ import java.util.regex.Pattern
  */
 class EmojiInputFilter : InputFilter {
 
-    override fun filter(
-        source: CharSequence,
-        start: Int,
-        end: Int,
-        dest: Spanned,
-        dstart: Int,
-        dend: Int
-    ): CharSequence {
+    override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
+        // 如果是删除操作，直接允许
+        takeIf { end - start == 0 }?.let { return null }
         val sourceText = source.toString()
-        // 新输入的字符串为空（删除剪切等）
-        if (TextUtils.isEmpty(source)) {
-            return ""
-        }
         val emojiMap = EmojiMapHelper.emojiMap
         val ssb = SpannableStringBuilder(source)
         for ((emoji) in emojiMap) {
@@ -38,11 +27,7 @@ class EmojiInputFilter : InputFilter {
         return ssb
     }
 
-    private fun replaceEmojiTextByImg(
-        emoji: String?,
-        sourceText: String?,
-        ssb: SpannableStringBuilder
-    ) {
+    private fun replaceEmojiTextByImg(emoji: String?, sourceText: String?, ssb: SpannableStringBuilder) {
         emoji ?: return
         sourceText ?: return
         val pattern = Pattern.compile(emoji)
@@ -52,7 +37,7 @@ class EmojiInputFilter : InputFilter {
             val startIndex = sourceText.indexOf(emoji, lastIndex)
             if (startIndex == -1) return
             val resId = getEmojiValue(emoji)
-            val imageSpan = ImageSpan(AppApplication.getInstance(), resId)
+            val imageSpan = ImageSpanCompat.newImageSpan(AppApplication.getInstance(), resId, ImageSpanCompat.ALIGN_CENTER)
             lastIndex = startIndex + emoji.length
             ssb.setSpan(imageSpan, startIndex, lastIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             // Timber.d("filter：===> startIndex is %s lastIndex is %s", startIndex, lastIndex);

@@ -16,7 +16,7 @@
         android:layout_height="50dp"
         app:barStyle="transparent"
         app:leftIcon="@null"
-        app:leftTitle="跳过"
+        app:leftTitle="游客"
         app:leftTitleColor="@color/common_accent_color"
         app:rightTitle="@string/login_register"
         app:rightTitleColor="@color/common_accent_color"
