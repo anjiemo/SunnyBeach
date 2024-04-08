@@ -1,32 +1,35 @@
 // SunnyBeach-Kotlin 版本
 // 导入配置文件
-apply from : 'configs.gradle'
+apply from: 'configs.gradle'
 
 buildscript {
 
     // 导入通用的 Maven 库配置
-    apply from : 'maven.gradle'
+    apply from: 'maven.gradle'
 
-    ext.kotlin_version = "1.9.0"
-    ext.agcp_version  = "1.6.0.300"
+    ext.kotlin_version = "1.9.22"
+    ext.agcp_version = "1.9.1.303"
     ext.hilt_version = "2.47"
+    ext.android_aop_version = "1.4.7"
 
     repositories {
         // 阿里云云效仓库（Gradle 插件）：https://maven.aliyun.com/mvn/guide
-        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        // 可能会出现编译错误：Could not find android-aop-plugin-1.4.0.jar (io.github.FlyJingFish.AndroidAop:android-aop-plugin:1.4.0)
+        // maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://mirrors.cloud.tencent.com/gradle/' }
+        // maven { url 'https://services.gradle.org/distributions/' }
         addCommonMaven(repositories)
     }
 
     // Studio 插件推荐：https://github.com/getActivity/StudioPlugins
     dependencies {
         // Gradle 插件版本说明：https://developer.android.google.cn/studio/releases/gradle-plugin.html#updating-plugin
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.2.2'
         // Kotlin 插件：https://plugins.jetbrains.com/plugin/6954-kotlin
         // noinspection GradleDependency
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.9.10-1.0.13"
-        // AOP 配置插件：https://github.com/wurensen/gradle_plugin_android_aspectjx
-        classpath 'io.github.wurensen:gradle-android-plugin-aspectjx:3.3.2'
+        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.9.22-1.0.17"
+        classpath "io.github.FlyJingFish.AndroidAop:android-aop-plugin:${android_aop_version}"
         // 增加agcp插件配置
         classpath "com.huawei.agconnect:agcp:$agcp_version"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
@@ -55,9 +58,9 @@ allprojects {
     }
 
     // 将构建文件统一输出到项目根目录下的 build 文件夹
-    setBuildDir(new File(rootDir, "build/${path.replaceAll(':', '/')}"))
+    layout.buildDirectory.set(file("$rootDir/build/${path.replace(':', '/')}"))
 }
 
 tasks.register('clean', Delete) {
-    delete rootProject.buildDir
+    delete rootProject.layout.buildDirectory
 }

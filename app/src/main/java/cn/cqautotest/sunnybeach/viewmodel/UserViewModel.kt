@@ -7,17 +7,20 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.manager.UserManager
-import cn.cqautotest.sunnybeach.model.*
+import cn.cqautotest.sunnybeach.model.ModifyPwd
+import cn.cqautotest.sunnybeach.model.PersonCenterInfo
+import cn.cqautotest.sunnybeach.model.ReportType
+import cn.cqautotest.sunnybeach.model.SmsInfo
+import cn.cqautotest.sunnybeach.model.User
+import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.paging.source.RichPagingSource
 import cn.cqautotest.sunnybeach.util.I_LOVE_ANDROID_SITE_BASE_URL
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_SITE_BASE_URL
 import cn.cqautotest.sunnybeach.util.StringUtil
 import com.blankj.utilcode.util.RegexUtils
-import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import java.io.File
 
@@ -34,6 +37,14 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     val userAvatarLiveData = phoneLiveData.switchMap { account ->
         Repository.queryUserAvatar(account)
     }
+
+    /**
+     * 富豪榜
+     */
+    val richListFlow = Pager(config = PagingConfig(30),
+        pagingSourceFactory = {
+            RichPagingSource()
+        }).flow.cachedIn(viewModelScope)
 
     /**
      * We only support http and https protocols.
@@ -191,16 +202,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun queryUserAvatar(account: String) {
         phoneLiveData.value = account
-    }
-
-    /**
-     * 获取富豪榜
-     */
-    fun getRichList(): Flow<PagingData<RichList.RichUserItem>> {
-        return Pager(config = PagingConfig(30),
-            pagingSourceFactory = {
-                RichPagingSource()
-            }).flow.cachedIn(viewModelScope)
     }
 
     /**

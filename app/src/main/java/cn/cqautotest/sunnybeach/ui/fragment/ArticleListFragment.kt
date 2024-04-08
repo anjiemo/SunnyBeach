@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -13,6 +14,7 @@ import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.ArticleInfo
 import cn.cqautotest.sunnybeach.model.RefreshStatus
+import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
@@ -55,7 +57,7 @@ class ArticleListFragment : PagingTitleBarFragment<HomeActivity>(), OnBack2TopLi
     }
 
     override suspend fun loadListData() {
-        mArticleViewModel.getArticleListByCategoryId("recommend").collectLatest {
+        mArticleViewModel.articleListFlow.collectLatest {
             mArticleAdapter.submitData(it)
         }
     }
@@ -127,7 +129,14 @@ class ArticleListFragment : PagingTitleBarFragment<HomeActivity>(), OnBack2TopLi
     }
 
     companion object {
+
         @JvmStatic
-        fun newInstance() = ArticleListFragment()
+        fun newInstance(): ArticleListFragment {
+            val args = Bundle()
+            args.putString(IntentKey.ID, "recommend")
+            val fragment = ArticleListFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

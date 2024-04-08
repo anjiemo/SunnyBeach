@@ -26,7 +26,7 @@ class RichListActivity : PagingActivity() {
     override fun getLayoutId(): Int = R.layout.rich_list_activity
 
     override suspend fun loadListData() {
-        mUserViewModel.getRichList().collectLatest { mRichListAdapter.submitData(it) }
+        mUserViewModel.richListFlow.collectLatest { mRichListAdapter.submitData(it) }
     }
 
     override fun showLoading(id: Int) {
