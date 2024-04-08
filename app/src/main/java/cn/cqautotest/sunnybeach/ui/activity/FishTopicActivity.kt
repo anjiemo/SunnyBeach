@@ -12,13 +12,18 @@ import androidx.paging.PagingDataAdapter
 import androidx.palette.graphics.Palette
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.CheckNet
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.FishTopicActivityBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.fromJson
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.ktx.startActivity
+import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
+import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.other.RoundRectDrawable
 import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
@@ -32,9 +37,14 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.flyjingfish.android_aop_core.annotations.CheckNetwork
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -85,11 +95,12 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
     }
 
     override fun initData() {
+
         lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { getFollowedTopicList() } }
         lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { loadListData() } }
     }
 
-    @CheckNet
+    @CheckNetwork(invokeListener = true)
     private fun getFollowedTopicList() {
         mFishPondViewModel.getFollowedTopicList().observe(this) { result ->
             result.onSuccess { topicList ->
@@ -106,7 +117,7 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
     }
 
     override suspend fun loadListData() {
-        mFishPondViewModel.getFishListByCategoryId(mTopicItem.id).collectLatest {
+        mFishPondViewModel.fishListFlow.collectLatest {
             mFishListAdapter.submitData(it)
         }
     }
@@ -205,6 +216,7 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
 
         fun start(context: Context, item: FishPondTopicList.TopicItem) {
             context.startActivity<FishTopicActivity> {
+                putExtra(IntentKey.ID, item.id)
                 putExtra(FISH_TOPIC_ITEM, item.toJson())
             }
         }

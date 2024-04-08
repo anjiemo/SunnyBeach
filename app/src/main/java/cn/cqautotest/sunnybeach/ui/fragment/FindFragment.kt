@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.view.View
 import android.widget.ImageView
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity
@@ -11,6 +10,7 @@ import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.widget.view.CountdownView
 import com.hjq.widget.view.SwitchButton
 

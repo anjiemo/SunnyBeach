@@ -16,7 +16,6 @@ import androidx.activity.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
-import cn.cqautotest.sunnybeach.aop.SingleClick
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.PasswordResetActivityBinding
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
@@ -27,6 +26,7 @@ import cn.cqautotest.sunnybeach.ui.dialog.TipsDialog
 import cn.cqautotest.sunnybeach.util.VERIFY_CODE_URL
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 
 /**
  *    author : Android 轮子哥 & A Lonely Cat

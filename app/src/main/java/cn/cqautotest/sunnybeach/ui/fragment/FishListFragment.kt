@@ -14,7 +14,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
-import cn.cqautotest.sunnybeach.aop.Permissions
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
@@ -150,7 +149,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     private fun loadFishList() {
         viewLifecycleScope.launch {
-            mFishPondViewModel.getFishListByCategoryId("recommend").collectLatest {
+            mFishPondViewModel.fishListFlow.collectLatest {
                 onBack2Top()
                 mFishListAdapter.submitData(it)
             }
@@ -222,7 +221,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             ?: rootView.removeMourningStyle()
     }
 
-    @Permissions(Permission.CAMERA)
+    @com.flyjingfish.android_aop_core.annotations.Permission(Permission.CAMERA)
     override fun onRightClick(titleBar: TitleBar) {
         // “QRCODE_SCAN_TYPE”和“DATAMATRIX_SCAN_TYPE”表示只扫描QR和Data Matrix的码
         val options = HmsScanAnalyzerOptions.Creator()

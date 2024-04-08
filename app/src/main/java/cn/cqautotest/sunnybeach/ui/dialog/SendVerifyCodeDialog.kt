@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import android.widget.EditText
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.aop.SingleClick
+import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.base.BaseDialog
 import com.hjq.toast.Toaster
 import com.hjq.widget.view.CountdownView
