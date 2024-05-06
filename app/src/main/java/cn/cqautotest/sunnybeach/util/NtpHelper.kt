@@ -28,7 +28,9 @@ object NtpHelper {
     private const val NTP_MODE_CLIENT = 3
     private const val NTP_VERSION = 4
     private const val NTP_UNIX_EPOCH_DIFFERENCE: Long = 2208988800000
-    private const val DEFAULT_TIME_OUT = 5000
+
+    // timeout 2000ms
+    private const val DEFAULT_TIME_OUT = 2000
     private val ntpServiceList = arrayOf(
         "ntp1.aliyun.com",
         "ntp2.aliyun.com",
@@ -87,22 +89,16 @@ object NtpHelper {
             val deferredList = ntpServiceList.map { host ->
                 async { HostAndTime(host, getNTPTime(host, timeout)) }
             }
-            var fastestNTPTime: HostAndTime? = null
-            select {
-                // prioritizes the fastest one
+            // prioritizes the fastest one
+            val fastestNTPTime = select {
                 deferredList.forEach { deferred ->
-                    deferred.onAwait { hostAndTime ->
-                        fastestNTPTime = hostAndTime
-                        // cancel other requests
-                        deferredList.forEach { it.cancel() }
-                    }
+                    deferred.onAwait { it }
                 }
             }
-            // 打印 NTP 时间
-            fastestNTPTime?.let { hostAndTime ->
-                Timber.d("getFastestNTPTime：===> host is ${hostAndTime.host}, at ${TimeUtils.millis2String(hostAndTime.time)}")
-            }
-            fastestNTPTime?.time?.also { mNtpTime = it } ?: INVALID_TIME
+            // cancel other requests
+            deferredList.forEach { it.cancel() }
+            Timber.d("getFastestNTPTime：===> host is ${fastestNTPTime.host}, at ${TimeUtils.millis2String(fastestNTPTime.time)}")
+            fastestNTPTime.time.also { mNtpTime = it }
         }
     }
 
