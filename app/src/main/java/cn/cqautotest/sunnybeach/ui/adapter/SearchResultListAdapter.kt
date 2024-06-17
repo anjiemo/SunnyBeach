@@ -31,10 +31,10 @@ class SearchResultListAdapter(private val adapterDelegate: AdapterDelegate) :
         fun onBind(item: SearchResult.SearchResultItem?, position: Int) {
             item ?: return
             with(binding) {
-                tvQaTitle.text = item.title.parseAsHtml()
+                tvQaTitle.text = item.title.replace("\n", "<br>", true).parseAsHtml()
                 // We do not need to display image information in the search results,
                 // so as to avoid typographical confusion caused by images.
-                tvDesc.text = item.content.parseAsHtml(imageGetter = { emptyDrawable })
+                tvDesc.text = item.content.replace("\n", "<br>", true).parseAsHtml(imageGetter = { emptyDrawable })
             }
         }
     }
