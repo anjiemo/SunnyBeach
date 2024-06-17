@@ -152,7 +152,8 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
         val content = item.content
         // 设置默认表情符号解析器
         tvFishPondContent.setDefaultEmojiParser()
-        tvFishPondContent.text = content.parseAsHtml(imageGetter = EmojiImageGetter(tvFishPondContent.textSize.toInt()))
+        tvFishPondContent.text = content.replace("\n", "<br>", true)
+            .parseAsHtml(imageGetter = EmojiImageGetter(tvFishPondContent.textSize.toInt()))
         val topicName = item.topicName
         simpleGridLayout.setData(item.images)
             .setOnNineGridClickListener { sources, index ->

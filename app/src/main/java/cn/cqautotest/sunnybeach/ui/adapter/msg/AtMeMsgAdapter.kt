@@ -43,7 +43,7 @@ class AtMeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
                 tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.publishTime, sdf)
                 tvReplyMsg.height = 0
                 tvChildReplyMsg.setDefaultEmojiParser()
-                tvChildReplyMsg.text = item.content.parseAsHtml()
+                tvChildReplyMsg.text = item.content.replace("\n", "<br>", true).parseAsHtml()
             }
         }
     }

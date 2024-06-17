@@ -46,7 +46,7 @@ class QaMsgAdapter(private val adapterDelegate: AdapterDelegate) :
                 tvDesc.text = item.timeText
                 tvReplyMsg.height = 0
                 val preText = "回答了朕的提问：「"
-                val qaTitle = item.title.parseAsHtml()
+                val qaTitle = item.title.replace("\n", "<br>", true).parseAsHtml()
                 val suffixText = "」去看看问题解决了吗？"
                 tvChildReplyMsg.text = buildSpannedString {
                     append(preText + qaTitle + suffixText)
