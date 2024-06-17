@@ -33,7 +33,7 @@ fun TextView.interceptHyperLinkClickFrom(spanned: Spanned, block: (url: String) 
 }
 
 fun TextView.setDefaultEmojiParser() {
-    filters = Array(1) { EmojiInputFilter() }
+    filters = filters.toMutableSet().also { it += EmojiInputFilter() }.toTypedArray()
 }
 
 fun TextView.addDefaultEmojiParser() {

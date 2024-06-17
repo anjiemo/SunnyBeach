@@ -41,7 +41,7 @@ class LikeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
                 tvDesc.text = item.timeText
                 tvReplyMsg.height = 0
                 tvChildReplyMsg.setDefaultEmojiParser()
-                tvChildReplyMsg.text = item.title.parseAsHtml()
+                tvChildReplyMsg.text = item.title.replace("\n", "<br>", true).parseAsHtml()
             }
         }
     }

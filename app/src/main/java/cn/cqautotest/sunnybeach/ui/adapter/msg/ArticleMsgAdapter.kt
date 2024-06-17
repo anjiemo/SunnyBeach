@@ -42,7 +42,7 @@ class ArticleMsgAdapter(private val adapterDelegate: AdapterDelegate) :
                 val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
                 tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.createTime, sdf)
                 tvReplyMsg.setDefaultEmojiParser()
-                tvReplyMsg.text = item.content.parseAsHtml()
+                tvReplyMsg.text = item.content.replace("\n", "<br>", true).parseAsHtml()
                 tvChildReplyMsg.setDefaultEmojiParser()
                 tvChildReplyMsg.text = item.title.parseAsHtml()
             }
