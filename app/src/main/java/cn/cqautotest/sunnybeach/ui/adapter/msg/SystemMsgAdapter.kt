@@ -44,7 +44,7 @@ class SystemMsgAdapter(private val adapterDelegate: AdapterDelegate) :
                 val sdf = TimeUtils.getSafeDateFormat("yyyy-MM-dd HH:mm")
                 tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.publishTime, sdf)
                 tvReplyMsg.height = 0
-                tvChildReplyMsg.interceptHyperLinkClickFrom(item.content.parseAsHtml())
+                tvChildReplyMsg.interceptHyperLinkClickFrom(item.content.replace("\n", "<br>", true).parseAsHtml())
             }
         }
     }
