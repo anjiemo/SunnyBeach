@@ -14,10 +14,10 @@ android {
         versionCode 21
     }
 
-    // 支持 Java JDK 8
+    // 支持 Java JDK 21
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_17
-        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_21
+        sourceCompatibility JavaVersion.VERSION_21
     }
 
     buildFeatures {
@@ -47,11 +47,10 @@ android {
     }
 
     // 代码警告配置
-    lintOptions {
+    lint {
         // 禁用文本硬编码警告
-        disable 'HardcodedText'
         // 禁用图片描述警告
-        disable 'ContentDescription'
+        disable 'HardcodedText', 'ContentDescription'
     }
 }
 
