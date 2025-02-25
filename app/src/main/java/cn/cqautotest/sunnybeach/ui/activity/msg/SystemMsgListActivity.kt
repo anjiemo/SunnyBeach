@@ -1,17 +1,13 @@
 package cn.cqautotest.sunnybeach.ui.activity.msg
 
 import androidx.activity.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.SystemMsgListActivityBinding
-import cn.cqautotest.sunnybeach.ktx.addAfterNextUpdateUIDefaultItemAnimator
-import cn.cqautotest.sunnybeach.ktx.clearItemAnimator
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
-import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
@@ -38,10 +34,6 @@ class SystemMsgListActivity : PagingActivity(), OnBack2TopListener {
     private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()
     private val mSystemMsgAdapter = SystemMsgAdapter(mAdapterDelegate)
-    private val loadStateListener = loadStateListener(mSystemMsgAdapter) {
-        mBinding.refreshLayout.finishRefresh()
-        mBinding.rvSystemMsgList.addAfterNextUpdateUIDefaultItemAnimator()
-    }
 
     override fun getPagingAdapter() = mSystemMsgAdapter
 
@@ -49,12 +41,8 @@ class SystemMsgListActivity : PagingActivity(), OnBack2TopListener {
 
     override fun initView() {
         hideSupportActionBar()
-        mBinding.rvSystemMsgList.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = mSystemMsgAdapter
-            addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
-            clearItemAnimator()
-        }
+        super.initView()
+        mBinding.pagingRecyclerView.addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
     }
 
     override suspend fun loadListData() {
@@ -62,14 +50,10 @@ class SystemMsgListActivity : PagingActivity(), OnBack2TopListener {
     }
 
     override fun initEvent() {
+        super.initEvent()
         getTitleBar()?.setDoubleClickListener {
             onBack2Top()
         }
-        mBinding.refreshLayout.setOnRefreshListener {
-            mSystemMsgAdapter.refresh()
-        }
-        // 需要在 View 销毁的时候移除 listener
-        mSystemMsgAdapter.addLoadStateListener(loadStateListener)
         mAdapterDelegate.setOnItemClickListener { _, position ->
             mSystemMsgAdapter.snapshotList.getOrNull(position)?.let { msg ->
                 val url = when (msg.exType) {
@@ -92,13 +76,8 @@ class SystemMsgListActivity : PagingActivity(), OnBack2TopListener {
     }
 
     override fun onBack2Top() {
-        mBinding.rvSystemMsgList.scrollToPosition(0)
+        mBinding.pagingRecyclerView.scrollToPosition(0)
     }
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlSystemMsgHint
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mSystemMsgAdapter.removeLoadStateListener(loadStateListener)
-    }
 }
