@@ -1,20 +1,28 @@
 package cn.cqautotest.sunnybeach.aop
 
+import android.annotation.SuppressLint
 import android.os.Looper
 import android.os.Trace
+import cn.cqautotest.sunnybeach.BuildConfig
 import com.flyjingfish.android_aop_annotation.ProceedJoinPoint
 import com.flyjingfish.android_aop_annotation.base.BasePointCut
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
+import kotlin.system.measureNanoTime
 
+@SuppressLint("UnclosedTrace")
 class LogInterceptCut : BasePointCut<Log> {
 
     override fun invoke(joinPoint: ProceedJoinPoint, anno: Log): Any? {
+        if (!BuildConfig.LOG_ENABLE) {
+            return joinPoint.proceed()
+        }
         enterMethod(joinPoint, anno)
-        val startNanos: Long = System.nanoTime()
-        val result: Any? = joinPoint.proceed()
-        val stopNanos: Long = System.nanoTime()
-        exitMethod(joinPoint, anno, result, TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos))
+        val result: Any?
+        val durationNanos = measureNanoTime {
+            result = joinPoint.proceed()
+        }
+        exitMethod(joinPoint, anno, result, TimeUnit.NANOSECONDS.toMillis(durationNanos))
         return result
     }
 

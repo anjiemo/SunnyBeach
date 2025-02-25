@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.ui.delegate
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.paging.LoadState
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,7 +38,6 @@ class PagingUiDelegate(
     }
 
     override fun initView() {
-        refreshLayout?.setEnableLoadMore(false)
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = pagingDataAdapter
@@ -47,6 +47,20 @@ class PagingUiDelegate(
 
     override fun initEvent() {
         refreshLayout?.setOnRefreshListener { pagingDataAdapter.refresh() }
+        refreshLayout?.setOnLoadMoreListener {
+            pagingDataAdapter.retry()
+        }
+        pagingDataAdapter.addLoadStateListener { states ->
+            when (states.append) {
+                !is LoadState.Loading -> {
+                    refreshLayout?.finishLoadMore()
+                }
+
+                else -> {
+                    // Nothing to do.
+                }
+            }
+        }
         // 需要在 View 销毁的时候移除 listener
         pagingDataAdapter.addLoadStateListener(loadStateListener)
     }
