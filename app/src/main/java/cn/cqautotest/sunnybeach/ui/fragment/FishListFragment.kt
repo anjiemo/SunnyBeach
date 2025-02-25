@@ -6,6 +6,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -164,6 +165,20 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             refreshLayout.setOnRefreshListener {
                 loadCategoryList()
                 mFishListAdapter.refresh()
+            }
+            refreshLayout.setOnLoadMoreListener {
+                mFishListAdapter.retry()
+            }
+            mFishListAdapter.addLoadStateListener { states ->
+                when (states.append) {
+                    !is LoadState.Loading -> {
+                        refreshLayout.finishLoadMore()
+                    }
+
+                    else -> {
+                        // Nothing to do.
+                    }
+                }
             }
             ivPublish.setFixOnClickListener {
                 viewLifecycleScope.launch {
