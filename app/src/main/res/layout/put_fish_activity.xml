@@ -111,7 +111,7 @@
             android:layout_marginStart="10dp"
             android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_emoji"
+            app:layout_constraintStart_toEndOf="@id/iv_emoji"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@mipmap/ic_select_image" />
 
@@ -123,7 +123,7 @@
             android:padding="8dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_image"
+            app:layout_constraintStart_toEndOf="@id/iv_image"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@mipmap/ic_link_normal" />
 
@@ -135,7 +135,7 @@
             android:textColor="@color/red"
             app:layout_constraintBottom_toBottomOf="@id/iv_link"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/iv_link"
+            app:layout_constraintTop_toTopOf="@id/iv_link"
             tools:text="0/1024" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
