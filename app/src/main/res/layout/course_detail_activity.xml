@@ -34,7 +34,7 @@
         app:layout_constraintBottom_toTopOf="@id/ll_pay_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_cover">
+        app:layout_constraintTop_toBottomOf="@id/iv_cover">
 
         <com.hjq.shape.layout.ShapeFrameLayout
             android:layout_width="match_parent"
@@ -64,19 +64,19 @@
             android:text="课程目录" />
 
         <cn.cqautotest.sunnybeach.widget.StatusLayout
-            android:id="@id/paging_status_layout"
+            android:id="@+id/paging_status_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <com.scwang.smart.refresh.layout.SmartRefreshLayout
-                android:id="@id/paging_refresh_layout"
+                android:id="@+id/paging_refresh_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:srlEnableLoadMore="false"
                 app:srlEnableRefresh="false">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@id/paging_recycler_view"
+                    android:id="@+id/paging_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="1px"

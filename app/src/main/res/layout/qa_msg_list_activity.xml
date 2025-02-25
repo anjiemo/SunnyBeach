@@ -16,21 +16,21 @@
         app:title="问答消息" />
 
     <cn.cqautotest.sunnybeach.widget.StatusLayout
-        android:id="@id/paging_status_layout"
+        android:id="@+id/paging_status_layout"
         android:layout_width="match_parent"
         android:layout_height="0px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_bar">
+        app:layout_constraintTop_toBottomOf="@id/title_bar">
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
-            android:id="@id/paging_refresh_layout"
+            android:id="@+id/paging_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@id/paging_recycler_view"
+                android:id="@+id/paging_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="1px"

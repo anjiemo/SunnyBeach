@@ -113,6 +113,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         app:defaultFirstIcon="@mipmap/ic_view"
-        app:layout_constraintTop_toBottomOf="@+id/simple_grid_layout" />
+        app:layout_constraintTop_toBottomOf="@id/simple_grid_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
