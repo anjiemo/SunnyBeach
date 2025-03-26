@@ -12,9 +12,26 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.MyMeFragmentBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
+import cn.cqautotest.sunnybeach.event.LiveBusUtils
+import cn.cqautotest.sunnybeach.ktx.context
+import cn.cqautotest.sunnybeach.ktx.createDefaultStyleBadge
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.manager.UserManager
-import cn.cqautotest.sunnybeach.ui.activity.*
+import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
+import cn.cqautotest.sunnybeach.ui.activity.CollectionListActivity
+import cn.cqautotest.sunnybeach.ui.activity.CreationCenterActivity
+import cn.cqautotest.sunnybeach.ui.activity.HotArticleListActivity
+import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
+import cn.cqautotest.sunnybeach.ui.activity.MessageCenterActivity
+import cn.cqautotest.sunnybeach.ui.activity.MineArticleListActivity
+import cn.cqautotest.sunnybeach.ui.activity.RichListActivity
+import cn.cqautotest.sunnybeach.ui.activity.SettingActivity
+import cn.cqautotest.sunnybeach.ui.activity.UserCenterActivity
+import cn.cqautotest.sunnybeach.ui.activity.VipActivity
+import cn.cqautotest.sunnybeach.ui.activity.WallpaperActivity
 import cn.cqautotest.sunnybeach.ui.activity.weather.MainActivity
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
 import cn.cqautotest.sunnybeach.util.MAKE_COMPLAINTS_URL
@@ -70,6 +87,14 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     override fun initData() {
         viewLifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                updateUserInfoUI()
+                mMsgViewModel.getUnReadMsgCount().collectLatest {
+                    badgeDrawable.isVisible = it.hasUnReadMsg
+                }
+            }
+        }
+        LiveBusUtils.busReceive<Unit>(viewLifecycleOwner, LiveBusKeyConfig.BUS_LOGIN_INFO_UPDATE) {
+            viewLifecycleScope.launch {
                 updateUserInfoUI()
                 mMsgViewModel.getUnReadMsgCount().collectLatest {
                     badgeDrawable.isVisible = it.hasUnReadMsg

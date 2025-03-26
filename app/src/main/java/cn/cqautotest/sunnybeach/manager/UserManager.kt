@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppApplication
+import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
+import cn.cqautotest.sunnybeach.event.LiveBusUtils
 import cn.cqautotest.sunnybeach.ktx.fromJson
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
@@ -31,6 +33,7 @@ object UserManager {
     fun exitUserAccount() {
         val mmkv = MMKV.defaultMMKV() ?: return
         mmkv.removeValueForKey(SUNNY_BEACH_USER_BASIC_INFO)
+        LiveBusUtils.busSend(LiveBusKeyConfig.BUS_LOGIN_INFO_UPDATE)
     }
 
     /**
@@ -60,6 +63,7 @@ object UserManager {
     fun saveUserBasicInfo(userBasicInfo: UserBasicInfo?) {
         val mmkv = MMKV.defaultMMKV() ?: return
         mmkv.putString(SUNNY_BEACH_USER_BASIC_INFO, userBasicInfo?.toJson() ?: return)
+        LiveBusUtils.busSend(LiveBusKeyConfig.BUS_LOGIN_INFO_UPDATE)
     }
 
     /**
