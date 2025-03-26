@@ -83,5 +83,7 @@ private fun Context.showLoginDialog() {
         }
         .setListener {
             LoginActivity.start(this, UserManager.getCurrLoginAccount(), UserManager.getCurrLoginAccountPassword())
-        }.show()
+        }
+        .show()
+        .also { isShowing.set(true) }
 }
