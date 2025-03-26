@@ -170,8 +170,8 @@ class AppApplication : Application(), Configuration.Provider {
                     var activity: Activity? = null
 
                     // 方法参数值集合
-                    val parameterValues: Array<Any?> = joinPoint.args
-                    for (arg: Any? in parameterValues) {
+                    val parameterValues: Array<Any?>? = joinPoint.args
+                    for (arg: Any? in parameterValues.orEmpty()) {
                         if (arg !is Activity) {
                             continue
                         }

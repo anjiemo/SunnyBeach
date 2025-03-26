@@ -78,6 +78,9 @@ private fun Context.showLoginDialog() {
         .addOnDismissListener {
             isShowing.set(false)
         }
+        .addOnCancelListener {
+            isShowing.set(false)
+        }
         .setListener {
             LoginActivity.start(this, UserManager.getCurrLoginAccount(), UserManager.getCurrLoginAccountPassword())
         }.show()

@@ -291,4 +291,6 @@
     <string name="account_not_login">账号未登录</string>
     <string name="please_login_first">请先登录</string>
 
+    <!-- App快捷方式 -->
+    <string name="shortcut_put_fish">发布动态</string>
 </resources>
