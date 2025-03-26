@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import kotlinx.coroutines.Runnable
 
 /**
  * author : A Lonely Cat
@@ -37,7 +38,10 @@ class SimpleGridLayout @JvmOverloads constructor(
 
     fun setData(images: List<String> = listOf()) = apply {
         isVisible = images.isNotEmpty()
-        post {
+        val task = Runnable {
+            if (isAttachedToWindow.not()) {
+                return@Runnable
+            }
             photoContainer.forEachIndexed { index, childView ->
                 val imageUrl = images.getOrNull(index).orEmpty()
                 (childView as? ImageView)?.takeIf { childView.tag == "image" }?.let { imageView ->
@@ -46,7 +50,7 @@ class SimpleGridLayout @JvmOverloads constructor(
                         imageView.updateLayoutParams<MarginLayoutParams> {
                             bottomMargin = 4.dp
                         }
-                        Glide.with(childView)
+                        Glide.with(context)
                             .load(imageUrl)
                             .transform(MultiTransformation(CenterCrop(), RoundedCorners(6.dp)))
                             .into(imageView)
@@ -60,6 +64,7 @@ class SimpleGridLayout @JvmOverloads constructor(
                 }
             }
         }
+        post(task)
     }
 
     fun setOnNineGridClickListener(listener: OnNineGridClickListener?) = apply {
