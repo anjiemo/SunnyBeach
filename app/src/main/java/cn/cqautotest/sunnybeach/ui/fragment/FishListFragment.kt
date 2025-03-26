@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.app.Activity
 import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.paging.LoadState
@@ -18,6 +17,8 @@ import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
+import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
+import cn.cqautotest.sunnybeach.event.LiveBusUtils
 import cn.cqautotest.sunnybeach.ktx.addAfterNextUpdateUIDefaultItemAnimator
 import cn.cqautotest.sunnybeach.ktx.clearItemAnimator
 import cn.cqautotest.sunnybeach.ktx.dp
@@ -53,6 +54,7 @@ import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
+import com.dylanc.longan.startActivity
 import com.dylanc.longan.viewLifecycleScope
 import com.hjq.bar.TitleBar
 import com.hjq.permissions.Permission
@@ -184,11 +186,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 viewLifecycleScope.launch {
                     // 操作按钮点击回调，判断是否已经登录过账号
                     ifLogin {
-                        startActivityForResult(PutFishActivity::class.java) { resultCode, _ ->
-                            if (resultCode == AppCompatActivity.RESULT_OK) {
-                                mFishPondViewModel.refreshFishList()
-                            }
-                        }
+                        startActivity<PutFishActivity>()
                     } otherwise {
                         requireActivity().tryShowLoginDialog()
                     }
@@ -226,6 +224,9 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mAppViewModel.mourningCalendarListLiveData.observe(viewLifecycleOwner) { setMourningStyleByDate(it) }
         mFishPondViewModel.fishListStateLiveData.observe(viewLifecycleOwner) { mFishListAdapter.refresh() }
         mFishCategoryAdapter.registerAdapterDataObserver(mFishCategoryAdapterDataObserver)
+        LiveBusUtils.busReceive<Unit>(viewLifecycleOwner, LiveBusKeyConfig.BUS_PUT_FISH_SUCCESS) {
+            mFishListAdapter.refresh()
+        }
     }
 
     private fun setMourningStyleByDate(mourningCalendarList: List<MourningCalendar>) {

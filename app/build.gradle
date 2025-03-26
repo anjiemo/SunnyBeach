@@ -424,4 +424,7 @@ dependencies {
     // implementation "me.laoyuyu.aria:sftp:$aria_version"
     // // 如果需要使用m3u8下载功能，请增加该组件
     // implementation "me.laoyuyu.aria:m3u8:$aria_version"
+
+    // 消息总线，基于LiveData，具有生命周期感知能力：https://github.com/JeremyLiao/LiveEventBus
+    implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
 }
