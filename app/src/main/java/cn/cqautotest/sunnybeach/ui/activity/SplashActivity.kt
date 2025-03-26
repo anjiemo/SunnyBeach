@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.content.Intent
 import androidx.core.view.isInvisible
+import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.deeplink.AppSchemeServiceDispatcher
@@ -24,6 +25,7 @@ import com.hjq.http.listener.HttpCallback
 import com.hjq.widget.view.SlantedTextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
@@ -55,6 +57,11 @@ class SplashActivity : AppActivity() {
                 nextPage()
             }
         })
+        // 延迟取消动画，避免动画执行时间过长
+        lifecycleScope.launch {
+            delay(900)
+            lottieView?.cancelAnimation()
+        }
     }
 
     private fun nextPage() {
