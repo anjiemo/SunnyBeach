@@ -44,9 +44,19 @@ object LiveBusUtils {
     }
 
     /**
-     * 根据给定的 [key] 清除粘性事件
+     * 移除观察者
+     * 根据给定的 [key] 移除关联的 [observer]
+     * [key] 消息标识
+     * [observer] 观察者
+     */
+    inline fun <reified T> busRemoveObserver(key: String? = null, observer: Observer<T>) {
+        LiveEventBus.get(key.ifNullOrEmpty { DEFAULT_KEY }, T::class.java).removeObserver(observer)
+    }
+
+    /**
+     * 根据给定的 [key] 清除粘性消息
      * 生命周期长期持有的类发送的粘性消息，建议在接收后调用此方法取消注册
-     * [key] 事件标识
+     * [key] 消息标识
      */
     fun clearSticky(key: String) {
         LiveEventBusCore.get().config(key).autoClear(true)

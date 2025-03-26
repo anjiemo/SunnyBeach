@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.deeplink
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
 import cn.cqautotest.sunnybeach.event.LiveBusUtils
 import cn.cqautotest.sunnybeach.ktx.startActivity
@@ -26,10 +27,15 @@ class PutFishServiceHandler : AppSchemeService {
             return
         }
         val topActivity = ActivityUtils.getTopActivity()
-        topActivity.tryShowLoginDialog()
-        (topActivity as? LifecycleOwner)?.let {
-            LiveBusUtils.busReceive<Unit>(it, LiveBusKeyConfig.BUS_LOGIN_SUCCESS) {
-                navigation(topActivity, intent)
+        topActivity.tryShowLoginDialog(dismissPreviousDialog = true) {
+            (topActivity as? LifecycleOwner)?.let {
+                LiveBusUtils.busReceive<Unit>(it, LiveBusKeyConfig.BUS_LOGIN_SUCCESS, observer = object : Observer<Unit> {
+                    override fun onChanged(value: Unit) {
+                        // 及时移除监听，只使用一次
+                        LiveBusUtils.busRemoveObserver(LiveBusKeyConfig.BUS_LOGIN_SUCCESS, this)
+                        navigation(topActivity, intent)
+                    }
+                })
             }
         }
     }
