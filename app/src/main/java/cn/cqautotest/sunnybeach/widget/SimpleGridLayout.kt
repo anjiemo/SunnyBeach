@@ -46,7 +46,7 @@ class SimpleGridLayout @JvmOverloads constructor(
                         imageView.updateLayoutParams<MarginLayoutParams> {
                             bottomMargin = 4.dp
                         }
-                        Glide.with(context)
+                        Glide.with(childView)
                             .load(imageUrl)
                             .transform(MultiTransformation(CenterCrop(), RoundedCorners(6.dp)))
                             .into(imageView)
