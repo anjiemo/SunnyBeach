@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ktx
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import androidx.core.app.ComponentActivity
@@ -26,6 +27,13 @@ suspend fun checkToken(block: ((userBasicInfo: Result<UserBasicInfo>) -> Unit)? 
  * We use an atomic boolean to mark whether the login dialog is currently displayed.
  */
 private val isShowing = AtomicBoolean(false)
+
+/**
+ * 全局的登录对话框构建器，在绑定的 Activity 销毁时会自动关闭 dialog
+ * see: [com.hjq.base.BaseDialog.DialogLifecycle.onActivityDestroyed]
+ */
+@SuppressLint("StaticFieldLeak")
+private var dialogBuilder: MessageDialog.Builder? = null
 
 /**
  * 检查是否用户登录
@@ -62,12 +70,13 @@ suspend infix fun Login.otherwise(that: () -> Unit) {
     }
 }
 
-fun Activity.tryShowLoginDialog() {
-    takeUnless { isShowing.get() }?.let { showLoginDialog() }
+fun Activity.tryShowLoginDialog(dismissPreviousDialog: Boolean = false, listener: MessageDialog.OnListener? = null) {
+    dismissPreviousDialog.takeIf { it }?.let { dialogBuilder?.dismiss() }?.also { isShowing.set(false) }
+    takeUnless { isShowing.get() }?.let { showLoginDialog(listener) }
 }
 
-private fun Context.showLoginDialog() {
-    MessageDialog.Builder(this)
+private fun Context.showLoginDialog(listener: MessageDialog.OnListener? = null) {
+    dialogBuilder = MessageDialog.Builder(this)
         .setTitle("系统消息")
         .setMessage("账号未登录，是否登录？")
         .setConfirm("现在登录")
@@ -82,8 +91,9 @@ private fun Context.showLoginDialog() {
             isShowing.set(false)
         }
         .setListener {
+            listener?.onConfirm(it)
             LoginActivity.start(this, UserManager.getCurrLoginAccount(), UserManager.getCurrLoginAccountPassword())
         }
-        .show()
+        .also { it.show() }
         .also { isShowing.set(true) }
 }
