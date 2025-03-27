@@ -23,3 +23,6 @@
 -keepclassmembernames class ** {
     @cn.cqautotest.sunnybeach.aop.Log <methods>;
 }
+
+# EasyWindow 混淆规则：https://github.com/getActivity/EasyWindow
+-keep class com.hjq.window.** {*;}
