@@ -9,7 +9,16 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.UserCenterActivityBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
+import cn.cqautotest.sunnybeach.event.LiveBusUtils
+import cn.cqautotest.sunnybeach.ktx.context
+import cn.cqautotest.sunnybeach.ktx.ifLoginThen
+import cn.cqautotest.sunnybeach.ktx.ifNullOrEmpty
+import cn.cqautotest.sunnybeach.ktx.maskEmail
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.simpleToast
+import cn.cqautotest.sunnybeach.ktx.startActivity
+import cn.cqautotest.sunnybeach.ktx.toQrCodeBitmapOrNull
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.PersonCenterInfo
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
@@ -23,7 +32,6 @@ import com.blankj.utilcode.constant.RegexConstants
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.dylanc.longan.lifecycleOwner
 import com.scwang.smart.refresh.layout.wrapper.RefreshHeaderWrapper
 import com.umeng.analytics.MobclickAgent
@@ -102,8 +110,6 @@ class UserCenterActivity : AppActivity() {
             .placeholder(R.mipmap.ic_default_avatar)
             .error(R.mipmap.ic_default_avatar)
             .circleCrop()
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .skipMemoryCache(true)
             .into(mBinding.ivAvatar)
     }
 
@@ -280,6 +286,11 @@ class UserCenterActivity : AppActivity() {
                 tvFollowNum.text = userAchievement.followCount.toString()
                 tvFansNum.text = userAchievement.fansCount.toString()
             }
+        }
+        LiveBusUtils.busReceive<Unit>(this, LiveBusKeyConfig.BUS_LOGIN_INFO_UPDATE) {
+            queryUserInfo()
+            loadAvatar()
+            mBinding.tvNickName.text = mUserBasicInfo?.nickname.ifNullOrEmpty { "游客" }
         }
     }
 
