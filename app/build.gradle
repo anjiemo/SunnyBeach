@@ -410,8 +410,10 @@ dependencies {
     // 一个强大的🚀Android 图表视图/图形视图库，支持折线图、雷达图、气泡图和烛台图以及缩放、平移和动画：https://github.com/PhilJay/MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    // 浮窗从未如此简单：https://github.com/princekin-f/EasyFloat
+    // 浮窗从未如此简单（后续考虑替换）：https://github.com/princekin-f/EasyFloat
     implementation 'com.github.princekin-f:EasyFloat:2.0.4'
+    // 悬浮窗框架：https://github.com/getActivity/EasyWindow
+    implementation 'com.github.getActivity:EasyWindow:11.2'
 
     // 阿里云视频播放器 SDK：https://help.aliyun.com/document_detail/124711.html?spm=a2c4g.11186623.0.0.7bd24addVQH3VE
     implementation 'com.aliyun.sdk.android:AliyunPlayer:5.4.9.2-full'
