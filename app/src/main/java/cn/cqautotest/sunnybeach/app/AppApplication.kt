@@ -48,6 +48,7 @@ import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonToken
 import com.hjq.bar.TitleBar
 import com.hjq.gson.factory.GsonFactory
+import com.hjq.gson.factory.ParseExceptionCallback
 import com.hjq.http.EasyConfig
 import com.hjq.http.config.IRequestApi
 import com.hjq.http.model.HttpHeaders
@@ -228,10 +229,29 @@ class AppApplication : Application(), Configuration.Provider {
                 .into()
 
             // 设置 Json 解析容错监听
-            GsonFactory.setJsonCallback { typeToken: TypeToken<*>, fieldName: String?, jsonToken: JsonToken ->
-                // 上报到 Bugly 错误列表
-                CrashReport.postCatchedException(IllegalArgumentException("类型解析异常：$typeToken#$fieldName，后台返回的类型为：$jsonToken"))
-            }
+            GsonFactory.setParseExceptionCallback(object : ParseExceptionCallback {
+
+                override fun onParseObjectException(typeToken: TypeToken<*>?, fieldName: String?, jsonToken: JsonToken?) {
+                    handlerGsonParseException("解析对象析异常：$typeToken#$fieldName，后台返回的类型为：$jsonToken")
+                }
+
+                override fun onParseListItemException(typeToken: TypeToken<*>?, fieldName: String?, listItemJsonToken: JsonToken?) {
+                    handlerGsonParseException("解析 List 异常：$typeToken#$fieldName，后台返回的条目类型为：$listItemJsonToken")
+                }
+
+                override fun onParseMapItemException(typeToken: TypeToken<*>?, fieldName: String?, mapItemKey: String?, mapItemJsonToken: JsonToken?) {
+                    handlerGsonParseException("解析 Map 异常：$typeToken#$fieldName，mapItemKey = $mapItemKey，后台返回的条目类型为：$mapItemJsonToken")
+                }
+
+                private fun handlerGsonParseException(message: String) {
+                    if (AppConfig.isDebug()) {
+                        throw IllegalArgumentException(message)
+                    } else {
+                        // 上报到 Bugly 错误列表中
+                        CrashReport.postCatchedException(IllegalArgumentException(message))
+                    }
+                }
+            })
 
             // 初始化日志打印
             if (AppConfig.isLogEnable()) {
