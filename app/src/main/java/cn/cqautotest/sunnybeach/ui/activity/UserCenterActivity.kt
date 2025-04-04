@@ -83,7 +83,7 @@ class UserCenterActivity : AppActivity() {
 
     private fun checkAllowance() {
         mUserViewModel.checkAllowance().observe(this) {
-            val isGetAllowance = it.getOrNull() ?: return@observe
+            val isGetAllowance = it.getOrDefault(false)
             setupAllowanceUI(isGetAllowance)
         }
     }
@@ -216,32 +216,40 @@ class UserCenterActivity : AppActivity() {
 
     private fun queryUserInfo() {
         loadUserBasicInfo()
+        mUserViewModel.queryUserInfo().observe(this) { personCenterInfoResult ->
+            val personCenterInfo = personCenterInfoResult.onSuccess {
+                mPersonCenterInfo = it
+            }.onFailure {
+                toast("用户信息查询失败")
+            }.getOrNull()
+            updateUserInfoUI(personCenterInfo)
+        }
+    }
+
+    private fun updateUserInfoUI(personCenterInfo: PersonCenterInfo?) {
         with(mBinding) {
-            mUserViewModel.queryUserInfo().observe(this@UserCenterActivity) {
-                mPersonCenterInfo = it.getOrNull() ?: return@observe
-                val userId = mPersonCenterInfo.userId
-                Timber.d("initData：===> formatted userId is $userId")
-                tvSobId.text = userId.manicured()
+            val userId = personCenterInfo?.userId.orEmpty()
+            Timber.d("updateUserInfoUI：===> formatted userId is $userId")
+            tvSobId.text = userId.manicured()
 
-                val company = mPersonCenterInfo.company.ifNullOrEmpty { "无业" }
-                val job = mPersonCenterInfo.position.ifNullOrEmpty { "滩友" }
+            val company = personCenterInfo?.company.ifNullOrEmpty { "无业" }
+            val job = personCenterInfo?.position.ifNullOrEmpty { "滩友" }
 
-                userCenterContent.apply {
-                    sbSettingCompany.setRightText(company)
+            userCenterContent.apply {
+                sbSettingCompany.setRightText(company)
 
-                    sbSettingJob.setRightText(job)
-                    sbSettingSkill.setRightText(mPersonCenterInfo.goodAt)
-                    sbSettingCoordinate.setRightText(mPersonCenterInfo.area)
-                    sbSettingSign.setRightText(mPersonCenterInfo.sign)
+                sbSettingJob.setRightText(job)
+                sbSettingSkill.setRightText(personCenterInfo?.goodAt.orEmpty())
+                sbSettingCoordinate.setRightText(personCenterInfo?.area.orEmpty())
+                sbSettingSign.setRightText(personCenterInfo?.sign.orEmpty())
 
-                    sbSettingPhone.setRightText(mPersonCenterInfo.phoneNum)
-                    sbSettingEmail.setRightText(mPersonCenterInfo.email.maskEmail())
-                }
-                val qrBitmap = "${SUNNY_BEACH_VIEW_USER_URL_PRE}${mPersonCenterInfo.userId}".toQrCodeBitmapOrNull()
-                Glide.with(context)
-                    .load(qrBitmap)
-                    .into(ivSobQrCode)
+                sbSettingPhone.setRightText(personCenterInfo?.phoneNum.orEmpty())
+                sbSettingEmail.setRightText(personCenterInfo?.email.orEmpty().maskEmail())
             }
+            val qrBitmap = "$SUNNY_BEACH_VIEW_USER_URL_PRE${personCenterInfo?.userId.orEmpty()}".toQrCodeBitmapOrNull()
+            Glide.with(context)
+                .load(qrBitmap)
+                .into(ivSobQrCode)
         }
     }
 
