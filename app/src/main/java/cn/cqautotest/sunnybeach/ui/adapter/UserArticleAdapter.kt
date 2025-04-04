@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.toColorInt
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +19,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.NineGridAdapterDelegate
 import com.blankj.utilcode.util.TimeUtils
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
 /**
  * author : A Lonely Cat
@@ -87,19 +88,19 @@ class UserArticleAdapter(private val adapterDelegate: AdapterDelegate) :
         private fun getBgColorByState(articleState: ArticleSearchFilter.ArticleState): Int {
             return when (articleState) {
                 ArticleSearchFilter.ArticleState.ALL -> Color.TRANSPARENT
-                ArticleSearchFilter.ArticleState.PUBLISHED -> Color.parseColor("#F0F9EB")
-                ArticleSearchFilter.ArticleState.UNDER_REVIEW -> Color.parseColor("#FDF6EC")
-                ArticleSearchFilter.ArticleState.DRAFT -> Color.parseColor("#F4F4F5")
-                ArticleSearchFilter.ArticleState.FAILED -> Color.parseColor("#F56C6C")
+                ArticleSearchFilter.ArticleState.PUBLISHED -> "#F0F9EB".toColorInt()
+                ArticleSearchFilter.ArticleState.UNDER_REVIEW -> "#FDF6EC".toColorInt()
+                ArticleSearchFilter.ArticleState.DRAFT -> "#F4F4F5".toColorInt()
+                ArticleSearchFilter.ArticleState.FAILED -> "#F56C6C".toColorInt()
             }
         }
 
         private fun getTextColorByState(articleState: ArticleSearchFilter.ArticleState): Int {
             return when (articleState) {
                 ArticleSearchFilter.ArticleState.ALL -> Color.TRANSPARENT
-                ArticleSearchFilter.ArticleState.PUBLISHED -> Color.parseColor("#67C23A")
-                ArticleSearchFilter.ArticleState.UNDER_REVIEW -> Color.parseColor("#E6A23C")
-                ArticleSearchFilter.ArticleState.DRAFT -> Color.parseColor("#909399")
+                ArticleSearchFilter.ArticleState.PUBLISHED -> "#67C23A".toColorInt()
+                ArticleSearchFilter.ArticleState.UNDER_REVIEW -> "#E6A23C".toColorInt()
+                ArticleSearchFilter.ArticleState.DRAFT -> "#909399".toColorInt()
                 ArticleSearchFilter.ArticleState.FAILED -> Color.WHITE
             }
         }

@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
@@ -20,7 +21,7 @@ import cn.cqautotest.sunnybeach.model.QaInfo
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import com.blankj.utilcode.util.TimeUtils
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
 /**
  * author : A Lonely Cat
@@ -43,7 +44,7 @@ class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
             val answerCount = item.answerCount
             val hasAnswer = answerCount > 0
             val isResolve = item.isResolve.toIntOrNull() == 1
-            val answerColor = Color.parseColor("#48A868")
+            val answerColor = "#48A868".toColorInt()
             with(binding) {
                 tvAnswerCount.text = "${if (isResolve) "√" else ""} $answerCount 答案"
                 val answerTextColor = when {

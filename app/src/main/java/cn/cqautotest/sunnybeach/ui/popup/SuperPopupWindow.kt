@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.ui.popup
 
 import android.content.Context
 import android.content.DialogInterface
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
+import androidx.core.graphics.toColorInt
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import cn.cqautotest.sunnybeach.action.Init
@@ -37,7 +37,7 @@ open class SuperPopupWindow @JvmOverloads constructor(
     }
 
     private fun create() {
-        setBackgroundColor(Color.parseColor("#99000000"))
+        setBackgroundColor("#99000000".toColorInt())
         addOnShowListener(this)
         onCreate()
     }

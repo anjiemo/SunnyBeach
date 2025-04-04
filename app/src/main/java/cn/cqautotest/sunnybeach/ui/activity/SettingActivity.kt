@@ -2,13 +2,13 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.view.Gravity
 import android.view.View
 import android.webkit.CookieManager
 import android.widget.TextClock
 import androidx.activity.viewModels
+import androidx.core.graphics.toColorInt
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.MutableLiveData
@@ -324,7 +324,7 @@ class SettingActivity : AppActivity() {
             .setLayout(TextClock(this).apply {
                 format12Hour = "HH:mm:ss"
                 format24Hour = "HH:mm:ss"
-                background = RoundRectDrawable(4.dp, Color.parseColor("#F1F3F4"))
+                background = RoundRectDrawable(4.dp, "#F1F3F4".toColorInt())
                 updatePadding(6.dp, 4.dp, 6.dp, 4.dp)
             })
             // 设置浮窗显示类型，默认只在当前Activity显示，可选一直显示、仅前台显示
