@@ -30,7 +30,7 @@ class LocalCookieManager : CookieJar {
      * 通过主机名获取保存的 cookie
      */
     override fun loadForRequest(url: HttpUrl): List<Cookie> {
-        val cookieStore = cookiesViewModel.getCookiesByHost(url.host) ?: return listOf()
+        val cookieStore = cookiesViewModel.getCookiesByHost(url.host) ?: return emptyList()
         return cookieStore.cookies
     }
 
@@ -68,5 +68,5 @@ class LocalCookieManager : CookieJar {
 data class CookieStore(
     @PrimaryKey val host: String,
     val domain: String = StringUtil.getTopDomain(host),
-    val cookies: List<Cookie> = listOf()
+    val cookies: List<Cookie> = emptyList()
 )
