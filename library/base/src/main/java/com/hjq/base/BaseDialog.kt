@@ -8,23 +8,38 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.SparseArray
-import android.view.*
+import android.view.Gravity
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.*
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.annotation.FloatRange
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
+import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatDialog
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LifecycleRegistry
-import com.hjq.base.action.*
+import com.hjq.base.action.ActivityAction
+import com.hjq.base.action.AnimAction
+import com.hjq.base.action.ClickAction
+import com.hjq.base.action.HandlerAction
+import com.hjq.base.action.KeyboardAction
+import com.hjq.base.action.ResourcesAction
 import java.lang.ref.SoftReference
 
 /**
- *    author : Android 轮子哥
+ *    author : Android 轮子哥 & A Lonely Cat
  *    github : https://github.com/getActivity/AndroidProject-Kotlin
  *    time   : 2018/11/24
  *    desc   : Dialog 技术基类
@@ -36,7 +51,6 @@ open class BaseDialog constructor(context: Context, @StyleRes themeResId: Int = 
     DialogInterface.OnCancelListener, DialogInterface.OnDismissListener {
 
     private val listeners: ListenersWrapper<BaseDialog> = ListenersWrapper(this)
-    override val lifecycle: LifecycleRegistry = LifecycleRegistry(this)
     private var showListeners: MutableList<OnShowListener?>? = null
     private var cancelListeners: MutableList<OnCancelListener?>? = null
     private var dismissListeners: MutableList<OnDismissListener?>? = null
@@ -148,10 +162,6 @@ open class BaseDialog constructor(context: Context, @StyleRes themeResId: Int = 
             getSystemService(InputMethodManager::class.java).hideSoftInputFromWindow(focusView.windowToken, 0)
         }
         super.dismiss()
-    }
-
-    fun getLifecycle(): Lifecycle {
-        return lifecycle
     }
 
     /**
@@ -306,7 +316,6 @@ open class BaseDialog constructor(context: Context, @StyleRes themeResId: Int = 
      * [DialogInterface.OnShowListener]
      */
     override fun onShow(dialog: DialogInterface?) {
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
         showListeners?.let {
             for (i in it.indices) {
                 it[i]?.onShow(this)
@@ -329,27 +338,11 @@ open class BaseDialog constructor(context: Context, @StyleRes themeResId: Int = 
      * [DialogInterface.OnDismissListener]
      */
     override fun onDismiss(dialog: DialogInterface?) {
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         dismissListeners?.let {
             for (i in it.indices) {
                 it[i]?.onDismiss(this)
             }
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
     }
 
     @Suppress("UNCHECKED_CAST")
