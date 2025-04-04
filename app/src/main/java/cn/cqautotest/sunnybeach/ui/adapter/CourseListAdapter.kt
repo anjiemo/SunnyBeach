@@ -1,12 +1,16 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
-import android.graphics.Color
 import android.view.ViewGroup
+import androidx.core.graphics.toColorInt
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.CourseListItemBinding
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
+import cn.cqautotest.sunnybeach.ktx.context
+import cn.cqautotest.sunnybeach.ktx.isZero
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.course.Course
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 
@@ -35,7 +39,7 @@ class CourseListAdapter(private val adapterDelegate: AdapterDelegate) :
                 val price = item.price
                 val isFree = price.isZero
                 slvPrice.text = if (isFree) "免费" else "¥ ${item.price}"
-                slvPrice.setTextColor(Color.parseColor(if (isFree) "#48D044" else "#007BFF"))
+                slvPrice.setTextColor((if (isFree) "#48D044" else "#007BFF").toColorInt())
             }
         }
     }
