@@ -1,9 +1,9 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
@@ -60,9 +60,9 @@ class RichListAdapter(private val adapterDelegate: AdapterDelegate) :
         }
 
         private fun getTextColorByPosition(position: Int): Int = when (position) {
-            0 -> Color.parseColor("#e3a815")
-            1 -> Color.parseColor("#b8b8b8")
-            2 -> Color.parseColor("#cc947a")
+            0 -> "#e3a815".toColorInt()
+            1 -> "#b8b8b8".toColorInt()
+            2 -> "#cc947a".toColorInt()
             else -> ContextCompat.getColor(application, R.color.default_font_color)
         }
     }

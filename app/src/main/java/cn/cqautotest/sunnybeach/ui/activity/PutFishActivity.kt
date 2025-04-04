@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.activity.viewModels
+import androidx.core.graphics.toColorInt
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.addTextChangedListener
@@ -170,7 +171,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
                 }, 250)
             }
-            val normalColor = Color.parseColor("#CBD0D3")
+            val normalColor = "#CBD0D3".toColorInt()
             val overflowColor = Color.RED
             // 最大字符输入长度
             val maxInputTextLength = INPUT_MAX_LENGTH

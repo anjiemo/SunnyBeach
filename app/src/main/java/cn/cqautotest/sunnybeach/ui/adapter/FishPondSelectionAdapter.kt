@@ -1,8 +1,8 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.view.ViewGroup
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.FishPondSelectionItemBinding
 import cn.cqautotest.sunnybeach.ktx.asViewBinding
@@ -29,7 +29,7 @@ class FishPondSelectionAdapter : RecyclerView.Adapter<FishPondSelectionAdapter.F
                 Glide.with(itemView).load(item.cover).into(ivTopicCover)
                 tvTopicName.text = item.topicName
                 tvTopicDesc.text = item.description
-                btnChoose.setRoundRectBg(color = Color.parseColor("#F4F5F5"), 4.dp)
+                btnChoose.setRoundRectBg(color = "#F4F5F5".toColorInt(), 4.dp)
                 btnChoose.setFixOnClickListener { mItemClickListener.invoke(item, position) }
             }
         }
