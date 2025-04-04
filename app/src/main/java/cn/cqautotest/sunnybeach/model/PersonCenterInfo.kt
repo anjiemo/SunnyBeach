@@ -20,7 +20,7 @@ data class PersonCenterInfo(
     @SerializedName("goodAt")
     val goodAt: String = "",
     @SerializedName("isvIP")
-    val isvIP: String = "",
+    val isVIP: String = "",
     @SerializedName("nickname")
     val nickname: String = "",
     @SerializedName("phoneNum")
