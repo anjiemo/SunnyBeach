@@ -1,5 +1,7 @@
 package cn.cqautotest.sunnybeach.model
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
@@ -7,16 +9,28 @@ package cn.cqautotest.sunnybeach.model
  * desc   : 个人中心用户信息的数据bean类
  */
 data class PersonCenterInfo(
-    val area: String,
-    val avatar: String,
-    val company: String?,
-    val email: String,
-    val goodAt: String,
-    val isvIP: String,
-    val nickname: String,
-    val phoneNum: String,
-    val position: String?,
-    val sex: Int,
-    val sign: String,
-    val userId: String
+    @SerializedName("area")
+    val area: String = "",
+    @SerializedName("avatar")
+    val avatar: String = "",
+    @SerializedName("company")
+    val company: String = "",
+    @SerializedName("email")
+    val email: String = "",
+    @SerializedName("goodAt")
+    val goodAt: String = "",
+    @SerializedName("isvIP")
+    val isvIP: String = "",
+    @SerializedName("nickname")
+    val nickname: String = "",
+    @SerializedName("phoneNum")
+    val phoneNum: String = "",
+    @SerializedName("position")
+    val position: String = "",
+    @SerializedName("sex")
+    val sex: Int = 0,
+    @SerializedName("sign")
+    val sign: String = "",
+    @SerializedName("userId")
+    val userId: String = ""
 )
