@@ -97,8 +97,8 @@ class CrashActivity : AppActivity() {
         val printWriter = PrintWriter(stringWriter)
         throwable.printStackTrace(printWriter)
         throwable.cause?.printStackTrace(printWriter)
-        stackTrace = stringWriter.toString()
-        val matcher: Matcher = CODE_REGEX.matcher(stackTrace!!)
+        val stackTrace = stringWriter.toString().also { stackTrace = it }
+        val matcher: Matcher = CODE_REGEX.matcher(stackTrace)
         val spannable = SpannableStringBuilder(stackTrace)
         if (spannable.isNotEmpty()) {
             while (matcher.find()) {
@@ -109,7 +109,7 @@ class CrashActivity : AppActivity() {
 
                 // 代码信息颜色
                 var codeColor: Int = Color.parseColor("#999999")
-                val lineIndex: Int = stackTrace!!.lastIndexOf("at ", start)
+                val lineIndex: Int = stackTrace.lastIndexOf("at ", start)
                 if (lineIndex != -1) {
                     val lineData: String = spannable.subSequence(lineIndex, start).toString()
                     if (TextUtils.isEmpty(lineData)) {

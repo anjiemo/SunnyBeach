@@ -2,10 +2,20 @@ package cn.cqautotest.sunnybeach.http.api.sob
 
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.annotation.baseurl.SobBaseUrl
-
-import cn.cqautotest.sunnybeach.model.*
+import cn.cqautotest.sunnybeach.model.ApiResponse
+import cn.cqautotest.sunnybeach.model.Fish
+import cn.cqautotest.sunnybeach.model.FishPondComment
+import cn.cqautotest.sunnybeach.model.FishPondTopicIndex
+import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import okhttp3.MultipartBody
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Part
+import retrofit2.http.Path
 
 @SobBaseUrl
 interface FishPondApi {
@@ -97,13 +107,13 @@ interface FishPondApi {
      * 发表评论(评论动态)
      */
     @POST("ct/moyu/comment")
-    suspend fun postComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): ApiResponse<String>
+    suspend fun postComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): ApiResponse<Any>
 
     /**
      * 回复评论（回复动态列表下的评论）
      */
     @POST("ct/moyu/sub-comment")
-    suspend fun replyComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): ApiResponse<String>
+    suspend fun replyComment(@Body momentComment: @JvmSuppressWildcards Map<String, Any?>): ApiResponse<Any>
 
     /**
      * 动态点赞
