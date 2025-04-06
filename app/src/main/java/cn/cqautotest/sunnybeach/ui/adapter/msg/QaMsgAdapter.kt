@@ -1,17 +1,21 @@
 package cn.cqautotest.sunnybeach.ui.adapter.msg
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.text.SpannableString
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.ViewGroup
+import androidx.core.graphics.toColorInt
 import androidx.core.text.buildSpannedString
 import androidx.core.text.parseAsHtml
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.QaMsgListItemBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
+import cn.cqautotest.sunnybeach.ktx.context
+import cn.cqautotest.sunnybeach.ktx.createDefaultStyleBadge
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.msg.QaMsg
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import com.google.android.material.badge.BadgeUtils
@@ -51,7 +55,7 @@ class QaMsgAdapter(private val adapterDelegate: AdapterDelegate) :
                 tvChildReplyMsg.text = buildSpannedString {
                     append(preText + qaTitle + suffixText)
                     if (TextUtils.isEmpty(qaTitle).not()) {
-                        val highlightColor = Color.parseColor("#1D7DFA")
+                        val highlightColor = "#1D7DFA".toColorInt()
                         val fcs = ForegroundColorSpan(highlightColor)
                         val startIndex = preText.length
                         val endIndex = preText.length + qaTitle.length

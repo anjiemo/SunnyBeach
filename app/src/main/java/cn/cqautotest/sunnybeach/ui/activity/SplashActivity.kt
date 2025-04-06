@@ -2,16 +2,21 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.app.Activity
 import android.content.Intent
 import androidx.core.view.isInvisible
+import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
+import cn.cqautotest.sunnybeach.deeplink.AppSchemeServiceDispatcher
 import cn.cqautotest.sunnybeach.http.api.other.UserInfoApi
 import cn.cqautotest.sunnybeach.http.model.HttpData
 import cn.cqautotest.sunnybeach.ktx.checkToken
 import cn.cqautotest.sunnybeach.other.AppConfig
 import com.airbnb.lottie.LottieAnimationView
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.DeviceUtils
+import com.blankj.utilcode.util.Utils
 import com.dylanc.longan.context
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
@@ -20,6 +25,7 @@ import com.hjq.http.listener.HttpCallback
 import com.hjq.widget.view.SlantedTextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
@@ -51,6 +57,11 @@ class SplashActivity : AppActivity() {
                 nextPage()
             }
         })
+        // 延迟取消动画，避免动画执行时间过长
+        lifecycleScope.launch {
+            delay(900)
+            lottieView?.cancelAnimation()
+        }
     }
 
     private fun nextPage() {
@@ -90,6 +101,8 @@ class SplashActivity : AppActivity() {
     }
 
     override fun initActivity() {
+        // 处理 DeepLink
+        handleAppDeepLink()
         // 问题及方案：https://www.cnblogs.com/net168/p/5722752.html
         // 如果当前 Activity 不是任务栈中的第一个 Activity
         if (!isTaskRoot) {
@@ -102,6 +115,22 @@ class SplashActivity : AppActivity() {
             }
         }
         super.initActivity()
+    }
+
+    private fun handleAppDeepLink() {
+        // 使用启动页的 intent
+        val intent = intent
+        ActivityUtils.addActivityLifecycleCallbacks(object : Utils.ActivityLifecycleCallbacks() {
+            override fun onActivityStarted(activity: Activity) {
+                if (activity !is HomeActivity) {
+                    return
+                }
+                // 跳转到首页后，移除 Activity 生命周期回调，避免造成内存泄漏
+                ActivityUtils.removeActivityLifecycleCallbacks(this)
+                // 处理 DeepLink
+                AppSchemeServiceDispatcher.dispatch(activity, intent)
+            }
+        })
     }
 
     override fun onDestroy() {

@@ -9,7 +9,16 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.UserCenterActivityBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
+import cn.cqautotest.sunnybeach.event.LiveBusUtils
+import cn.cqautotest.sunnybeach.ktx.context
+import cn.cqautotest.sunnybeach.ktx.ifLoginThen
+import cn.cqautotest.sunnybeach.ktx.ifNullOrEmpty
+import cn.cqautotest.sunnybeach.ktx.maskEmail
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.simpleToast
+import cn.cqautotest.sunnybeach.ktx.startActivity
+import cn.cqautotest.sunnybeach.ktx.toQrCodeBitmapOrNull
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.PersonCenterInfo
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
@@ -23,7 +32,6 @@ import com.blankj.utilcode.constant.RegexConstants
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.dylanc.longan.lifecycleOwner
 import com.scwang.smart.refresh.layout.wrapper.RefreshHeaderWrapper
 import com.umeng.analytics.MobclickAgent
@@ -75,7 +83,7 @@ class UserCenterActivity : AppActivity() {
 
     private fun checkAllowance() {
         mUserViewModel.checkAllowance().observe(this) {
-            val isGetAllowance = it.getOrNull() ?: return@observe
+            val isGetAllowance = it.getOrDefault(false)
             setupAllowanceUI(isGetAllowance)
         }
     }
@@ -102,8 +110,6 @@ class UserCenterActivity : AppActivity() {
             .placeholder(R.mipmap.ic_default_avatar)
             .error(R.mipmap.ic_default_avatar)
             .circleCrop()
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .skipMemoryCache(true)
             .into(mBinding.ivAvatar)
     }
 
@@ -210,32 +216,40 @@ class UserCenterActivity : AppActivity() {
 
     private fun queryUserInfo() {
         loadUserBasicInfo()
+        mUserViewModel.queryUserInfo().observe(this) { personCenterInfoResult ->
+            val personCenterInfo = personCenterInfoResult.onSuccess {
+                mPersonCenterInfo = it
+            }.onFailure {
+                toast("用户信息查询失败")
+            }.getOrNull()
+            updateUserInfoUI(personCenterInfo)
+        }
+    }
+
+    private fun updateUserInfoUI(personCenterInfo: PersonCenterInfo?) {
         with(mBinding) {
-            mUserViewModel.queryUserInfo().observe(this@UserCenterActivity) {
-                mPersonCenterInfo = it.getOrNull() ?: return@observe
-                val userId = mPersonCenterInfo.userId
-                Timber.d("initData：===> formatted userId is $userId")
-                tvSobId.text = userId.manicured()
+            val userId = personCenterInfo?.userId.orEmpty()
+            Timber.d("updateUserInfoUI：===> formatted userId is $userId")
+            tvSobId.text = userId.manicured()
 
-                val company = mPersonCenterInfo.company.ifNullOrEmpty { "无业" }
-                val job = mPersonCenterInfo.position.ifNullOrEmpty { "滩友" }
+            val company = personCenterInfo?.company.ifNullOrEmpty { "无业" }
+            val job = personCenterInfo?.position.ifNullOrEmpty { "滩友" }
 
-                userCenterContent.apply {
-                    sbSettingCompany.setRightText(company)
+            userCenterContent.apply {
+                sbSettingCompany.setRightText(company)
 
-                    sbSettingJob.setRightText(job)
-                    sbSettingSkill.setRightText(mPersonCenterInfo.goodAt)
-                    sbSettingCoordinate.setRightText(mPersonCenterInfo.area)
-                    sbSettingSign.setRightText(mPersonCenterInfo.sign)
+                sbSettingJob.setRightText(job)
+                sbSettingSkill.setRightText(personCenterInfo?.goodAt.orEmpty())
+                sbSettingCoordinate.setRightText(personCenterInfo?.area.orEmpty())
+                sbSettingSign.setRightText(personCenterInfo?.sign.orEmpty())
 
-                    sbSettingPhone.setRightText(mPersonCenterInfo.phoneNum)
-                    sbSettingEmail.setRightText(mPersonCenterInfo.email.maskEmail())
-                }
-                val qrBitmap = "${SUNNY_BEACH_VIEW_USER_URL_PRE}${mPersonCenterInfo.userId}".toQrCodeBitmapOrNull()
-                Glide.with(context)
-                    .load(qrBitmap)
-                    .into(ivSobQrCode)
+                sbSettingPhone.setRightText(personCenterInfo?.phoneNum.orEmpty())
+                sbSettingEmail.setRightText(personCenterInfo?.email.orEmpty().maskEmail())
             }
+            val qrBitmap = "$SUNNY_BEACH_VIEW_USER_URL_PRE${personCenterInfo?.userId.orEmpty()}".toQrCodeBitmapOrNull()
+            Glide.with(context)
+                .load(qrBitmap)
+                .into(ivSobQrCode)
         }
     }
 
@@ -280,6 +294,11 @@ class UserCenterActivity : AppActivity() {
                 tvFollowNum.text = userAchievement.followCount.toString()
                 tvFansNum.text = userAchievement.fansCount.toString()
             }
+        }
+        LiveBusUtils.busReceive<Unit>(this, LiveBusKeyConfig.BUS_LOGIN_INFO_UPDATE) {
+            queryUserInfo()
+            loadAvatar()
+            mBinding.tvNickName.text = mUserBasicInfo?.nickname.ifNullOrEmpty { "游客" }
         }
     }
 
