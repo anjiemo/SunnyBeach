@@ -1,10 +1,10 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.text.Spanned
 import android.text.TextUtils
 import android.view.ViewGroup
+import androidx.core.graphics.toColorInt
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import androidx.core.view.isVisible
@@ -18,7 +18,7 @@ import cn.cqautotest.sunnybeach.model.UserComment
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import com.blankj.utilcode.util.TimeUtils
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
 /**
  * author : A Lonely Cat
@@ -85,7 +85,7 @@ class FishCommendDetailListAdapter : RecyclerView.Adapter<FishDetailCommendListV
     ): Spanned {
         val whoReplied = ""
         val wasReplied = subComment.getTargetUserNickname()
-        val color = Color.parseColor("#045FB2")
+        val color = "#045FB2".toColorInt()
         return buildSpannedString {
             color(color) { append(whoReplied) }
             append("回复 ")

@@ -28,6 +28,10 @@ class StaggeredGridSpaceDecoration(
     }
 
     private fun drawHorizontal(outRect: Rect, spanCount: Int, spanIndex: Int, position: Int) {
+        if (spanCount == 0) {
+            // 规避除以0的情况
+            return
+        }
         if (position < spanCount) {
             outRect.left = space
         }
@@ -37,6 +41,10 @@ class StaggeredGridSpaceDecoration(
     }
 
     private fun drawVertical(outRect: Rect, spanCount: Int, spanIndex: Int, position: Int) {
+        if (spanCount == 0) {
+            // 规避除以0的情况
+            return
+        }
         if (position < spanCount) {
             outRect.top = space
         }

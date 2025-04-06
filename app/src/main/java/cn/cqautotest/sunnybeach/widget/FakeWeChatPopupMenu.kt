@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.annotation.ColorInt
 import androidx.annotation.Size
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
@@ -23,7 +23,7 @@ import timber.log.Timber
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2021/09/09
- * desc   : 防微信 PopupMenu
+ * desc   : 仿微信 PopupMenu
  */
 class FakeWeChatPopupMenu private constructor(context: Context) : PopupWindow(context) {
 
@@ -36,7 +36,7 @@ class FakeWeChatPopupMenu private constructor(context: Context) : PopupWindow(co
         private lateinit var pm: FakeWeChatPopupMenu
 
         // 默认颜色：#0277FE
-        private var mColor = Color.parseColor("#0277FE")
+        private var mColor = "#0277FE".toColorInt()
         private var mCornerRadius = 4.dp
         private val mMenuActionList = arrayListOf<MenuItem>()
         private var mWidth = 130.dp
@@ -53,7 +53,7 @@ class FakeWeChatPopupMenu private constructor(context: Context) : PopupWindow(co
         @SuppressLint("SupportAnnotationUsage")
         @ColorInt
         fun color(@Size(min = 1) colorString: String): Builder {
-            mColor = Color.parseColor(colorString)
+            mColor = colorString.toColorInt()
             return this
         }
 

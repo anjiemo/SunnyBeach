@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,7 +16,14 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.ViewUserActivityBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.context
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.ifLoginThen
+import cn.cqautotest.sunnybeach.ktx.ifNullOrEmpty
+import cn.cqautotest.sunnybeach.ktx.orEmpty
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.setRoundRectBg
+import cn.cqautotest.sunnybeach.ktx.waitViewDrawFinished
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserInfo
 import cn.cqautotest.sunnybeach.other.FriendsStatus
@@ -120,7 +127,7 @@ class ViewUserActivity : AppActivity() {
             val currUserId = UserManager.loadUserBasicInfo()?.id.orEmpty()
             if (userId == currUserId) {
                 tvFollow.text = "编辑"
-                tvFollow.setTextColor(Color.parseColor("#1D7DFA"))
+                tvFollow.setTextColor("#1D7DFA".toColorInt())
                 tvFollow.background = ContextCompat.getDrawable(context, R.drawable.edit_ic)
                 return
             }

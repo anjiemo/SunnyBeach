@@ -1,24 +1,28 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.text.Spanned
 import android.text.TextUtils
 import android.view.ViewGroup
+import androidx.core.graphics.toColorInt
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.FishPondDetailCommendListBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
+import cn.cqautotest.sunnybeach.ktx.ifNullOrEmpty
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
+import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import com.blankj.utilcode.util.TimeUtils
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
 /**
  * author : A Lonely Cat
@@ -115,7 +119,7 @@ class FishPondDetailCommentListAdapter(private val adapterDelegate: AdapterDeleg
         val whoReplied = subComment.getNickName() + if (subComment.getId() == item.getId()) "(作者)" else ""
         // 被回复的人
         val wasReplied = subComment.getTargetUserNickname()
-        val color = Color.parseColor("#045FB2")
+        val color = "#045FB2".toColorInt()
         return buildSpannedString {
             color(color) { append(whoReplied) }
             append(" 回复 ")

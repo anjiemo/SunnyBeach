@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.activity.viewModels
+import androidx.core.graphics.toColorInt
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.addTextChangedListener
@@ -19,9 +20,22 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.ImageChooseItemBinding
 import cn.cqautotest.sunnybeach.databinding.PutFishActivityBinding
+import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
+import cn.cqautotest.sunnybeach.event.LiveBusUtils
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.network.Repository
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
+import cn.cqautotest.sunnybeach.ktx.clearText
+import cn.cqautotest.sunnybeach.ktx.context
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.fromJson
+import cn.cqautotest.sunnybeach.ktx.hideKeyboard
+import cn.cqautotest.sunnybeach.ktx.requireKeyboardHeight
+import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.simpleToast
+import cn.cqautotest.sunnybeach.ktx.textString
+import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
@@ -33,8 +47,22 @@ import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
 import com.dylanc.longan.rootWindowInsetsCompat
 import com.hjq.bar.TitleBar
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.retryWhen
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
@@ -143,7 +171,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
                 }, 250)
             }
-            val normalColor = Color.parseColor("#CBD0D3")
+            val normalColor = "#CBD0D3".toColorInt()
             val overflowColor = Color.RED
             // 最大字符输入长度
             val maxInputTextLength = INPUT_MAX_LENGTH
@@ -293,6 +321,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                 mBinding.etInputContent.clearText()
                 resetTopicSelection()
                 simpleToast("发布非常成功😃")
+                LiveBusUtils.busSend(LiveBusKeyConfig.BUS_PUT_FISH_SUCCESS)
                 setResult(Activity.RESULT_OK)
                 finish()
             }.onFailure {
