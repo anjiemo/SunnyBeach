@@ -1,10 +1,10 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.view.ViewGroup
 import androidx.collection.SparseArrayCompat
 import androidx.collection.set
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.CreationCenterAchievementItemBinding
 import cn.cqautotest.sunnybeach.ktx.asViewBinding
@@ -53,10 +53,10 @@ class AchievementAdapter(private val adapterDelegate: AdapterDelegate) : Recycle
         }
 
         private fun getColor(position: Int) = when (position) {
-            0 -> Color.parseColor("#B0D7F8")
-            1 -> Color.parseColor("#C9B3E1")
-            2 -> Color.parseColor("#E7C9E1")
-            else -> Color.parseColor("#F4E5BA")
+            0 -> "#B0D7F8".toColorInt()
+            1 -> "#C9B3E1".toColorInt()
+            2 -> "#E7C9E1".toColorInt()
+            else -> "#F4E5BA".toColorInt()
         }
 
         private fun Int.getTitle() = when (this) {

@@ -7,13 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
-import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingTitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.CourseListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.context
 import cn.cqautotest.sunnybeach.ktx.dp
-import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.RefreshStatus
@@ -37,7 +35,7 @@ import timber.log.Timber
  * desc   : 课程列表 Fragment
  */
 @AndroidEntryPoint
-class CourseListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopListener {
+class CourseListFragment : PagingTitleBarFragment<AppActivity>() {
 
     private val mBinding: CourseListFragmentBinding by viewBinding()
     private val mCourseViewModel by activityViewModels<CourseViewModel>()
@@ -76,6 +74,7 @@ class CourseListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopList
                     Timber.d("addLoadStateListener：===> courseBannerData is ${courseBannerData.toJson()}")
                     mBinding.bannerCourse.setDatas(courseBannerData)
                 }
+
                 else -> {}
             }
         }
@@ -83,7 +82,6 @@ class CourseListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopList
 
     override suspend fun loadListData() {
         mCourseViewModel.courseListFlow.collectLatest {
-            onBack2Top()
             mCourseListAdapter.submitData(it)
         }
     }
@@ -91,7 +89,6 @@ class CourseListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopList
     override fun initEvent() {
         super.initEvent()
         mBinding.apply {
-            titleBar.setDoubleClickListener { onBack2Top() }
             bannerCourse.setOnBannerListener { data, _ ->
                 (data as? Course.CourseItem)?.let { CourseDetailActivity.start(requireContext(), it) }
             }
@@ -109,10 +106,6 @@ class CourseListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopList
     override fun isStatusBarEnabled(): Boolean {
         // 使用沉浸式状态栏
         return !super.isStatusBarEnabled()
-    }
-
-    override fun onBack2Top() {
-        mBinding.pagingRecyclerView.scrollToPosition(0)
     }
 
     companion object {

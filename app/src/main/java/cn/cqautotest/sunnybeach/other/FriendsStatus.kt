@@ -1,16 +1,16 @@
 package cn.cqautotest.sunnybeach.other
 
-import android.graphics.Color
+import androidx.core.graphics.toColorInt
 
 /**
  * 与某用户的关系
  */
 enum class FriendsStatus(val code: Int, val desc: String, val color: Int) {
 
-    FOLLOW(0, "+ 关注", Color.parseColor("#1D7DFA")),
-    BACK_FANS(1, "回粉", Color.parseColor("#F56C6C")),
-    FOLLOWED(2, "已关注", Color.parseColor("#67C23A")),
-    MUTUAL_ATTENTION(3, "相互关注", Color.parseColor("#67C23A"));
+    FOLLOW(0, "+ 关注", "#1D7DFA".toColorInt()),
+    BACK_FANS(1, "回粉", "#F56C6C".toColorInt()),
+    FOLLOWED(2, "已关注", "#67C23A".toColorInt()),
+    MUTUAL_ATTENTION(3, "相互关注", "#67C23A".toColorInt());
 
     val isNeedFollow: Boolean
         get() = when (this) {

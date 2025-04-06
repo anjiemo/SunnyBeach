@@ -22,6 +22,8 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.LoginActivityBinding
+import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
+import cn.cqautotest.sunnybeach.event.LiveBusUtils
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.ktx.clearText
 import cn.cqautotest.sunnybeach.ktx.textString
@@ -308,6 +310,7 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
                 commitView?.showSucceed()
                 // 延迟跳转到首页，等待动画展示完成
                 postDelayed({
+                    LiveBusUtils.busSend(LiveBusKeyConfig.BUS_LOGIN_SUCCESS)
                     setResult(Activity.RESULT_OK)
                     finish()
                 }, 1000)

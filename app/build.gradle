@@ -226,8 +226,8 @@ dependencies {
 
     // 单元测试
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.activity:activity-ktx:1.8.2'
@@ -257,27 +257,27 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$work_version"
 
     // 权限请求框架：https://github.com/getActivity/XXPermissions
-    implementation 'com.github.getActivity:XXPermissions:18.5'
+    implementation 'com.github.getActivity:XXPermissions:20.0'
 
     // 标题栏框架：https://github.com/getActivity/TitleBar
     implementation 'com.github.getActivity:TitleBar:10.5'
 
     // 吐司框架：https://github.com/getActivity/Toaster
-    implementation 'com.github.getActivity:Toaster:12.0'
+    implementation 'com.github.getActivity:Toaster:12.8'
 
     // 网络请求框架：https://github.com/getActivity/EasyHttp
     implementation 'com.github.getActivity:EasyHttp:10.2'
     // OkHttp 框架：https://github.com/square/okhttp
     compileOnly 'com.squareup.okhttp3:okhttp:4.12.0'
     // Android网络请求库：https://github.com/square/retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
 
     // Json 解析框架：https://github.com/google/gson
-    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.google.code.gson:gson:2.12.1'
     // Gson 解析容错：https://github.com/getActivity/GsonFactory
-    implementation 'com.github.getActivity:GsonFactory:6.5'
+    implementation 'com.github.getActivity:GsonFactory:9.6'
 
     // Shape 框架：https://github.com/getActivity/ShapeView
     implementation 'com.github.getActivity:ShapeView:8.5'
@@ -309,9 +309,9 @@ dependencies {
     implementation 'com.airbnb.android:lottie:6.0.0'
 
     // 上拉刷新下拉加载框架：https://github.com/scwang90/SmartRefreshLayout
-    implementation 'io.github.scwang90:refresh-layout-kernel:2.0.5'
+    implementation 'io.github.scwang90:refresh-layout-kernel:2.1.0'
     implementation 'io.github.scwang90:refresh-header-material:2.0.5'
-    implementation 'io.github.scwang90:refresh-header-classics:2.0.5'
+    implementation 'io.github.scwang90:refresh-header-classics:2.1.0'
 
     // 日志打印框架：https://github.com/JakeWharton/timber
     implementation 'com.jakewharton.timber:timber:5.0.1'
@@ -320,11 +320,11 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.6'
 
     // 腾讯 MMKV：https://github.com/Tencent/MMKV
-    implementation 'com.tencent:mmkv-static:1.2.15'
+    implementation 'com.tencent:mmkv-static:1.3.9'
 
     // 内存泄漏监测框架：https://github.com/square/leakcanary
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
-    previewImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
+    previewImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
 
     // 多语种：https://github.com/getActivity/MultiLanguages
     // 悬浮窗：https://github.com/getActivity/XToast
@@ -349,7 +349,7 @@ dependencies {
     // 一个强大并且灵活的RecyclerViewAdapter：https://github.com/CymChad/BaseRecyclerViewAdapterHelper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     // 轮播图库：https://github.com/youth5201314/banner
-    implementation 'io.github.youth5201314:banner:2.2.2'
+    implementation 'io.github.youth5201314:banner:2.2.3'
 
     // 小米更新SDK：https://dev.mi.com/console/doc/detail?pId=4
     implementation 'mi-appstore:xiaomi-update-sdk:4.0.3'
@@ -410,8 +410,10 @@ dependencies {
     // 一个强大的🚀Android 图表视图/图形视图库，支持折线图、雷达图、气泡图和烛台图以及缩放、平移和动画：https://github.com/PhilJay/MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    // 浮窗从未如此简单：https://github.com/princekin-f/EasyFloat
+    // 浮窗从未如此简单（后续考虑替换）：https://github.com/princekin-f/EasyFloat
     implementation 'com.github.princekin-f:EasyFloat:2.0.4'
+    // 悬浮窗框架：https://github.com/getActivity/EasyWindow
+    implementation 'com.github.getActivity:EasyWindow:11.2'
 
     // 阿里云视频播放器 SDK：https://help.aliyun.com/document_detail/124711.html?spm=a2c4g.11186623.0.0.7bd24addVQH3VE
     implementation 'com.aliyun.sdk.android:AliyunPlayer:5.4.9.2-full'
@@ -424,4 +426,7 @@ dependencies {
     // implementation "me.laoyuyu.aria:sftp:$aria_version"
     // // 如果需要使用m3u8下载功能，请增加该组件
     // implementation "me.laoyuyu.aria:m3u8:$aria_version"
+
+    // 消息总线，基于LiveData，具有生命周期感知能力：https://github.com/JeremyLiao/LiveEventBus
+    implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
 }
