@@ -72,7 +72,7 @@ object Repository {
             throw NotBuyException(result.getMessage())
         }
     } catch (t: Throwable) {
-        t.printStackTrace()
+        Timber.e(t)
         Result.failure(t)
     }
 
@@ -99,7 +99,7 @@ object Repository {
         Timber.d("result is ${result.toJson()}")
         if (result.isSuccess()) Result.success(result.getData()) else result.toErrorResult()
     } catch (t: Throwable) {
-        t.printStackTrace()
+        Timber.e(t)
         Result.failure(t)
     }
 
@@ -156,11 +156,10 @@ object Repository {
     fun logout() = launchAndGetMsg { UserNetwork.logout() }
 
     suspend fun checkToken() = try {
-        val result = UserNetwork.checkToken()
-        val userBasicInfo = result.getOrNull()
-        UserManager.saveUserBasicInfo(userBasicInfo)
-        UserManager.setupAutoLogin(true)
-        userBasicInfo
+        UserNetwork.checkToken().getOrNull().also { userBasicInfo ->
+            UserManager.saveUserBasicInfo(userBasicInfo)
+            UserManager.setupAutoLogin(UserManager.isAutoLogin())
+        }
     } catch (t: Throwable) {
         Timber.e(t)
         null
@@ -222,7 +221,7 @@ object Repository {
         Timber.d("uploadFishImage：===> file name is $fileName imageUrl is $imageUrl")
         if (result.isSuccess() && imageUrl != null) Result.success(imageUrl) else result.toErrorResult()
     } catch (t: Throwable) {
-        t.printStackTrace()
+        Timber.e(t)
         Result.failure(t)
     }
 
@@ -290,7 +289,8 @@ object Repository {
      */
     fun refreshWeather(lng: String, lat: String): LiveData<Result<Weather>> = liveData(build = {
         Timber.d("refreshWeather：===> lng is $lng lat is $lat")
-        Pair(withContext(Dispatchers.IO) { WeatherNetwork.getRealtimeWeather(lng, lat) },
+        Pair(
+            withContext(Dispatchers.IO) { WeatherNetwork.getRealtimeWeather(lng, lat) },
             withContext(Dispatchers.IO) { WeatherNetwork.getDailyWeather(lng, lat) })
     }) { (realtimeResponse, dailyResponse) ->
         if (realtimeResponse.status == "ok" && dailyResponse.status == "ok") {
@@ -322,7 +322,7 @@ object Repository {
     private inline fun <R, T> liveData(
         context: CoroutineContext = Dispatchers.IO,
         crossinline build: suspend CoroutineScope.() -> R,
-        crossinline onError: (Throwable) -> Unit = { it.printStackTrace() },
+        crossinline onError: (Throwable) -> Unit = { Timber.e(it) },
         crossinline action: (R) -> Result<T>
     ) = liveData(context) {
         val result = try {
@@ -370,11 +370,12 @@ object Repository {
                         checkToken()
                         Result.failure(NotLoginException(result.getMessage()))
                     }
+
                     else -> Result.failure(ServiceException(result.getMessage()))
                 }
             }
         } catch (t: Throwable) {
-            t.printStackTrace()
+            Timber.e(t)
             Result.failure(t)
         }
         emit(result)
