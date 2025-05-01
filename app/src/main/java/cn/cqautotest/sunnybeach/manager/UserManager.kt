@@ -26,12 +26,12 @@ import com.tencent.mmkv.MMKV
 object UserManager {
 
     private val appContext = AppApplication.getInstance()
+    private val mmkv by lazy { MMKV.defaultMMKV() }
 
     /**
      * 退出账户登录
      */
     fun exitUserAccount() {
-        val mmkv = MMKV.defaultMMKV() ?: return
         mmkv.removeValueForKey(SUNNY_BEACH_USER_BASIC_INFO)
         LiveBusUtils.busSend(LiveBusKeyConfig.BUS_LOGIN_INFO_UPDATE)
     }
@@ -45,7 +45,6 @@ object UserManager {
      * 获取是否自动登录
      */
     fun isAutoLogin(): Boolean {
-        val mmkv = MMKV.defaultMMKV() ?: return false
         return mmkv.getBoolean(AUTO_LOGIN, false)
     }
 
@@ -53,7 +52,6 @@ object UserManager {
      * 设置用户是否自动登录
      */
     fun setupAutoLogin(autoLogin: Boolean) {
-        val mmkv = MMKV.defaultMMKV() ?: return
         mmkv.putBoolean(AUTO_LOGIN, autoLogin)
     }
 
@@ -61,8 +59,7 @@ object UserManager {
      * 保存用户基本信息
      */
     fun saveUserBasicInfo(userBasicInfo: UserBasicInfo?) {
-        val mmkv = MMKV.defaultMMKV() ?: return
-        mmkv.putString(SUNNY_BEACH_USER_BASIC_INFO, userBasicInfo?.toJson() ?: return)
+        mmkv.putString(SUNNY_BEACH_USER_BASIC_INFO, userBasicInfo?.toJson())
         LiveBusUtils.busSend(LiveBusKeyConfig.BUS_LOGIN_INFO_UPDATE)
     }
 
@@ -70,7 +67,6 @@ object UserManager {
      * 获取用户基本信息
      */
     fun loadUserBasicInfo(): UserBasicInfo? {
-        val mmkv = MMKV.defaultMMKV() ?: return null
         return try {
             val jsonByUserBasicInfo = mmkv.getString(SUNNY_BEACH_USER_BASIC_INFO, null)
             fromJson(jsonByUserBasicInfo)
@@ -128,7 +124,6 @@ object UserManager {
      * 保存当前登录过的账号
      */
     fun saveCurrLoginAccount(account: String) {
-        val mmkv = MMKV.defaultMMKV() ?: return
         mmkv.putString(SOB_ACCOUNT, account)
     }
 
@@ -136,15 +131,13 @@ object UserManager {
      * 获取当前登录过的账号
      */
     fun getCurrLoginAccount(): String {
-        val mmkv = MMKV.defaultMMKV() ?: return ""
-        return mmkv.getString(SOB_ACCOUNT, "") ?: ""
+        return mmkv.getString(SOB_ACCOUNT, "").orEmpty()
     }
 
     /**
      * 保存当前登录过的账号密码
      */
     fun saveCurrLoginAccountPassword(account: String) {
-        val mmkv = MMKV.defaultMMKV() ?: return
         mmkv.putString(SOB_PASSWORD, account)
     }
 
@@ -152,15 +145,13 @@ object UserManager {
      * 获取当前登录过的账号密码
      */
     fun getCurrLoginAccountPassword(): String {
-        val mmkv = MMKV.defaultMMKV() ?: return ""
-        return mmkv.getString(SOB_PASSWORD, "") ?: ""
+        return mmkv.getString(SOB_PASSWORD, "").orEmpty()
     }
 
     /**
      * 保存是否记住密码的状态
      */
     fun isRememberPwd(remember: Boolean) {
-        val mmkv = MMKV.defaultMMKV() ?: return
         mmkv.putBoolean(SOB_REMEMBER_PWD, remember)
     }
 
@@ -168,7 +159,6 @@ object UserManager {
      * 是否记住密码
      */
     fun isRememberPwd(): Boolean {
-        val mmkv = MMKV.defaultMMKV() ?: return true
         return mmkv.getBoolean(SOB_REMEMBER_PWD, true)
     }
 }
