@@ -32,6 +32,7 @@ import cn.cqautotest.sunnybeach.other.PermissionCallback
 import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter
 import cn.cqautotest.sunnybeach.other.TitleBarStyle
 import cn.cqautotest.sunnybeach.other.ToastStyle
+import cn.cqautotest.sunnybeach.util.ActivityLifecycleLogger
 import cn.cqautotest.sunnybeach.util.PushHelper
 import cn.cqautotest.sunnybeach.work.CacheCleanupWorker
 import com.bumptech.glide.Glide
@@ -286,6 +287,7 @@ class AppApplication : Application(), Configuration.Provider {
                 .replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
 
             // Aria.init(application)
+            application.registerActivityLifecycleCallbacks(ActivityLifecycleLogger.instance)
 
             initCacheCleanWork(application)
         }
