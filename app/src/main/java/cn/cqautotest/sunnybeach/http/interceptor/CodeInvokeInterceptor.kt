@@ -18,7 +18,6 @@ class CodeInvokeInterceptor(private val loggingInterceptor: HttpLoggingIntercept
         request.tag(Invocation::class.java)?.let { invocation ->
             Timber.d("CodeInvokeInterceptor：===> invocation is $invocation")
         }
-        loggingInterceptor.intercept(chain)
-        return chain.proceed(request)
+        return loggingInterceptor.intercept(chain)
     }
 }
