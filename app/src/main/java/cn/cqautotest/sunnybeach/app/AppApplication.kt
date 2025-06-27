@@ -34,6 +34,7 @@ import cn.cqautotest.sunnybeach.other.TitleBarStyle
 import cn.cqautotest.sunnybeach.other.ToastStyle
 import cn.cqautotest.sunnybeach.util.ActivityLifecycleLogger
 import cn.cqautotest.sunnybeach.util.PushHelper
+import cn.cqautotest.sunnybeach.util.toast.AppToastLogInterceptor
 import cn.cqautotest.sunnybeach.work.CacheCleanupWorker
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
@@ -55,7 +56,6 @@ import com.hjq.http.config.IRequestApi
 import com.hjq.http.model.HttpHeaders
 import com.hjq.http.model.HttpParams
 import com.hjq.permissions.XXPermissions
-import com.hjq.toast.ToastLogInterceptor
 import com.hjq.toast.Toaster
 import com.hjq.umeng.UmengClient
 import com.scwang.smart.refresh.header.ClassicsHeader
@@ -154,7 +154,7 @@ class AppApplication : Application(), Configuration.Provider {
             // 设置调试模式
             Toaster.setDebugMode(AppConfig.isDebug())
             // 设置 Toast 拦截器
-            Toaster.setInterceptor(ToastLogInterceptor())
+            Toaster.setInterceptor(AppToastLogInterceptor())
 
             // 设置 AOP 拦截监听器
             AndroidAop.setOnCheckNetworkListener(object : OnCheckNetworkListener {
