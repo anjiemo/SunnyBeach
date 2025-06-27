@@ -75,7 +75,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         pagerAdapter = HomeFragmentAdapter(this).also { pagerAdapter = it }
         viewPager2?.let {
             it.isUserInputEnabled = false
-            it.adapter = HomeFragmentAdapter(this).apply { pagerAdapter = this }
+            it.adapter = pagerAdapter
             it.offscreenPageLimit = 1
         }
         navigationAdapter = NavigationAdapter(this).apply {
