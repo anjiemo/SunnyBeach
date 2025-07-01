@@ -46,11 +46,11 @@ class FragmentAdapter : FragmentStateAdapter {
     }
 
     override fun getItemId(position: Int): Long {
-        return mFragments[position].first.hashCode().toLong()
+        return System.identityHashCode(mFragments[position].first).toLong()
     }
 
     override fun containsItem(itemId: Long): Boolean {
-        return mFragments.find { it.hashCode().toLong() == itemId } != null
+        return mFragments.find { System.identityHashCode(it.first).toLong() == itemId } != null
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
