@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.PagingDataAdapter
@@ -196,7 +197,7 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
     }
 
     private fun onResourceChanged(resource: Drawable?) {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             flow {
                 val bitmap = ConvertUtils.drawable2Bitmap(resource)
                 emit(bitmap)
@@ -204,6 +205,7 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
                 .map { Palette.from(it).generate() }
                 .map { it.getLightVibrantColor(Color.TRANSPARENT) }
                 .catch { Timber.e(it) }
+                .flowWithLifecycle(lifecycle, Lifecycle.State.CREATED)
                 // 以上 Palette.from(it).generate() 为同步方法，需要在子线程调用
                 .flowOn(Dispatchers.IO)
                 .collectLatest { bgColor -> mBinding.ivCover.background = RoundRectDrawable(4.dp, bgColor) }

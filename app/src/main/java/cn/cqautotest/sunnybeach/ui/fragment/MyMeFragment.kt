@@ -138,7 +138,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
             // 跳转到消息中心
             messageCenterContainer.setFixOnClickListener {
-                viewLifecycleScope.launchWhenCreated {
+                viewLifecycleScope.launch {
                     afterWaitingForLogin { context.startActivity<MessageCenterActivity>() }
                 }
             }
@@ -160,21 +160,21 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
             // 跳转到用户内容管理界面
             userArticleListContainer.setFixOnClickListener {
                 MobclickAgent.onEvent(context, UmengReportKey.MINE_ARTICLE)
-                viewLifecycleScope.launchWhenCreated {
+                viewLifecycleScope.launch {
                     afterWaitingForLogin { context.startActivity<MineArticleListActivity>() }
                 }
             }
             // 跳转到创作中心
             creationCenterContainer.setFixOnClickListener {
                 MobclickAgent.onEvent(context, UmengReportKey.CREATION_CENTER)
-                viewLifecycleScope.launchWhenCreated {
+                viewLifecycleScope.launch {
                     afterWaitingForLogin { context.startActivity<CreationCenterActivity>() }
                 }
             }
             // 我的收藏
             collectionContainer.setFixOnClickListener {
                 MobclickAgent.onEvent(context, UmengReportKey.COLLECTIONS)
-                viewLifecycleScope.launchWhenCreated {
+                viewLifecycleScope.launch {
                     afterWaitingForLogin { context.startActivity<CollectionListActivity>() }
                 }
             }

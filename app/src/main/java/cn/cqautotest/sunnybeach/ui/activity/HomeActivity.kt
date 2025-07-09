@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
@@ -76,6 +77,29 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     override fun getLayoutId() = R.layout.home_activity
 
     @SuppressLint("UnsafeOptInUsageError")
+    override fun initActivity() {
+        super.initActivity()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+
+            override fun handleOnBackPressed() {
+                // 退出 App 前，先回到首页 Fragment，防止用户误触
+                viewPager2?.currentItem?.takeUnless { it == 0 }?.let { return switchFragment(0) }
+
+                if (!DoubleClickHelper.isOnDoubleClick()) {
+                    toast(R.string.home_exit_hint)
+                    return
+                }
+
+                // 移动到上一个任务栈，避免侧滑引起的不良反应
+                moveTaskToBack(false)
+                postDelayed({
+                    // 进行内存优化，销毁掉所有的界面
+                    ActivityManager.getInstance().finishAllActivities()
+                }, 300)
+            }
+        })
+    }
+
     override fun initView() {
         hideSupportActionBar()
         pagerAdapter = FragmentAdapter(this)
@@ -161,7 +185,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             .show()
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         pagerAdapter?.let {
             switchFragment(it.getFragmentIndex(getSerializable(INTENT_KEY_IN_FRAGMENT_CLASS)))
@@ -220,23 +244,6 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     override fun createStatusBarConfig(): ImmersionBar {
         return super.createStatusBarConfig() // 指定导航栏背景颜色
             .navigationBarColor(R.color.white)
-    }
-
-    override fun onBackPressed() {
-        // 退出 App 前，先回到首页 Fragment，防止用户误触
-        viewPager2?.currentItem?.takeUnless { it == 0 }?.let { return switchFragment(0) }
-
-        if (!DoubleClickHelper.isOnDoubleClick()) {
-            toast(R.string.home_exit_hint)
-            return
-        }
-
-        // 移动到上一个任务栈，避免侧滑引起的不良反应
-        moveTaskToBack(false)
-        postDelayed({
-            // 进行内存优化，销毁掉所有的界面
-            ActivityManager.getInstance().finishAllActivities()
-        }, 300)
     }
 
     override fun onDestroy() {

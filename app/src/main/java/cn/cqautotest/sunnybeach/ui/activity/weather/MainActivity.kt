@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.ui.activity.weather
 
 import android.content.Intent
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.updatePadding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -11,6 +12,16 @@ import com.gyf.immersionbar.ImmersionBar
 class MainActivity : AppActivity() {
 
     override fun getLayoutId() = R.layout.main_activity
+
+    override fun initActivity() {
+        super.initActivity()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+
+            override fun handleOnBackPressed() {
+                overridePendingTransition(R.anim.left_in_activity, R.anim.left_out_activity)
+            }
+        })
+    }
 
     override fun initView() {
         val actionBarHeight = ImmersionBar.getActionBarHeight(this)
@@ -23,11 +34,6 @@ class MainActivity : AppActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        overridePendingTransition(R.anim.left_in_activity, R.anim.left_out_activity)
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
         overridePendingTransition(R.anim.left_in_activity, R.anim.left_out_activity)
     }
 }
