@@ -11,8 +11,12 @@ import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import com.hjq.base.action.*
-import java.util.*
+import com.hjq.base.action.ActivityAction
+import com.hjq.base.action.BundleAction
+import com.hjq.base.action.ClickAction
+import com.hjq.base.action.HandlerAction
+import com.hjq.base.action.KeyboardAction
+import java.util.Random
 import kotlin.math.pow
 
 /**
@@ -94,7 +98,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityAction,
     /**
      * 如果当前的 Activity（singleTop 启动模式） 被复用时会回调
      */
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         // 设置为当前的 Intent，避免 Activity 被杀死后重启 Intent 还是最原先的那个
         setIntent(intent)
@@ -119,7 +123,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityAction,
         return super<AppCompatActivity>.startActivity(intent)
     }
 
-    override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
+    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         val fragments: MutableList<Fragment?> = supportFragmentManager.fragments
         for (fragment: Fragment? in fragments) {
             // 这个 Fragment 必须是 BaseFragment 的子类，并且处于可见状态

@@ -190,7 +190,7 @@ static def generateMD5(final file) {
 // 添加构建依赖项：https://developer.android.google.cn/studio/build/dependencies
 // api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
 dependencies {
-    def paging_version = "3.2.0"
+    def paging_version = "3.3.0"
     def nav_version = "2.7.7"
     def emoji2_version = "1.0.0-beta01"
     def room_version = "2.6.1"
@@ -201,13 +201,13 @@ dependencies {
     def aria_version = '3.8.16'
 
     // 基类封装
-    // implementation project(':library:base')
+    implementation project(':library:base')
     // 控件封装
-    // implementation project(':library:widget')
+    implementation project(':library:widget')
     // 友盟封装
-    // implementation project(':library:umeng')
+    implementation project(':library:umeng')
     // 网络封装
-    // implementation project(':library:network')
+    implementation project(':library:network')
 
     // 友盟公共库
     implementation 'com.umeng.umsdk:common:9.4.7'
@@ -229,10 +229,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 
-    implementation 'androidx.core:core-ktx:1.12.0'
-    implementation 'androidx.activity:activity-ktx:1.8.2'
-    implementation 'androidx.fragment:fragment-ktx:1.6.2'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.7.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.activity:activity-ktx:1.9.0'
+    implementation 'androidx.fragment:fragment-ktx:1.8.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.8.2'
 
     // Room 数据库：https://developer.android.com/jetpack/androidx/releases/room
     // CodeLab：https://developer.android.com/codelabs/android-room-with-a-view-kotlin#0
@@ -398,8 +398,8 @@ dependencies {
 
     // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
     // 组件层次结构备忘录：https://dagger.dev/hilt/components.html#component-lifetimes
-    implementation "com.google.dagger:hilt-android:2.47"
-    ksp "com.google.dagger:hilt-android-compiler:2.47"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    ksp "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     // // 从图片中提取具有代表性的调色板：https://developer.android.com/jetpack/androidx/releases/palette
     implementation 'androidx.palette:palette:1.0.0'

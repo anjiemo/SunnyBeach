@@ -56,7 +56,7 @@ open class VideoPlayActivity : AppActivity(), OnPlayListener {
      * [PlayerView.OnPlayListener]
      */
     override fun onClickBack(view: PlayerView) {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
     }
 
     override fun onPlayStart(view: PlayerView) {

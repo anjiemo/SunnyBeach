@@ -1,7 +1,9 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
@@ -16,6 +18,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.AchievementAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
+import kotlinx.coroutines.launch
 
 /**
  * author : A Lonely Cat
@@ -58,11 +61,13 @@ class CreationCenterActivity : AppActivity() {
     }
 
     override fun initObserver() {
-        lifecycleScope.launchWhenCreated {
-            checkToken {
-                val userBasicInfo = it.getOrNull()
-                mBinding.imageAvatar.loadAvatar(UserManager.currUserIsVip(), userBasicInfo?.avatar)
-                mBinding.textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                checkToken {
+                    val userBasicInfo = it.getOrNull()
+                    mBinding.imageAvatar.loadAvatar(UserManager.currUserIsVip(), userBasicInfo?.avatar)
+                    mBinding.textNickName.text = userBasicInfo?.nickname ?: "账号未登录"
+                }
             }
         }
         mUserViewModel.getAchievement().observe(this) {
