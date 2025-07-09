@@ -107,7 +107,7 @@ class GalleryActivity : AppActivity() {
         mWallpaperAdapter.setOnItemClickListener { _, _ -> toggleStatus() }
         with(mBinding) {
             shareTv.setOnClickListener {
-                lifecycleScope.launchWhenCreated {
+                lifecycleScope.launch {
                     simpleToast("正在下载图片，请稍后...")
                     // 下载图片文件
                     val imageFile = DownloadHelper.ofType<File>(context, getImageUri())
@@ -124,7 +124,7 @@ class GalleryActivity : AppActivity() {
             settingWallpaperTv.setOnClickListener {
                 simpleToast("开始准备壁纸...")
                 showDialog()
-                lifecycleScope.launchWhenCreated {
+                lifecycleScope.launch {
                     val imageFile = DownloadHelper.ofType<File>(activity, getImageUri())
                     val success = imageFile.takeUnless { it == null }?.let { wallpaperManager.setWallpaper(it.inputStream()) } ?: false
                     hideDialog()

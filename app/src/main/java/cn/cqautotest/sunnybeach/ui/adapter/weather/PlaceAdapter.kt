@@ -24,7 +24,7 @@ class PlaceAdapter(private val fragment: PlaceFragment, private val placeList: L
 
         val holder = ViewHolder(view)
         holder.itemView.setOnClickListener {
-            val position = holder.adapterPosition
+            val position = holder.bindingAdapterPosition
             val place = placeList[position]
             val activity = fragment.activity
             if (activity is WeatherActivity) {

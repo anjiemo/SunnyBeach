@@ -273,7 +273,7 @@ object Repository {
         return flow {
             val result = MsgNetwork.getUnReadMsgCount()
             val responseData = result.getData()
-            takeUnless { result.isSuccess() }?.let { result.toErrorResult<UnReadMsgCount, UnReadMsgCount>().getOrThrow() }
+            result.takeUnless { it.isSuccess() }?.toErrorResult<UnReadMsgCount, UnReadMsgCount>()?.getOrThrow()
             emit(responseData)
         }.flowOn(Dispatchers.IO)
     }
