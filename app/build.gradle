@@ -25,7 +25,7 @@ android {
         resourceConfigurations += ['zh,zh-rCN', 'xxhdpi']
 
         // 混淆配置
-        proguardFiles 'proguard-sdk.pro', 'proguard-app.pro'
+        proguardFiles 'proguard-sdk.pro', 'proguard-app.pro', 'removeLog.pro'
 
         // 日志打印开关
         buildConfigField('boolean', 'LOG_ENABLE', '' + LOG_ENABLE + '')
