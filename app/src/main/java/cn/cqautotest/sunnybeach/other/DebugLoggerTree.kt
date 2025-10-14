@@ -1,7 +1,10 @@
 package cn.cqautotest.sunnybeach.other
 
 import android.os.Build
+import timber.log.Timber
 import timber.log.Timber.DebugTree
+import timber.log.Timber.Tree
+import kotlin.jvm.java
 
 /**
  *    author : Android 轮子哥
@@ -11,9 +14,13 @@ import timber.log.Timber.DebugTree
  */
 class DebugLoggerTree : DebugTree() {
 
-    companion object {
-        private const val MAX_TAG_LENGTH: Int = 23
-    }
+    private val fqcnIgnore = listOf(
+        Timber::class.java.name,
+        Timber.Forest::class.java.name,
+        Tree::class.java.name,
+        DebugTree::class.java.name,
+        DebugLoggerTree::class.java.name
+    )
 
     /**
      * 创建日志堆栈 TAG
@@ -25,5 +32,25 @@ class DebugLoggerTree : DebugTree() {
             return tag
         }
         return tag.substring(0, MAX_TAG_LENGTH)
+    }
+
+    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+        if (!AppConfig.isLogEnable()) {
+            super.log(priority, tag, message, t)
+            return
+        }
+        val prefix = Throwable().stackTrace
+            .first { it.className !in fqcnIgnore }
+            .let(::createStackElementTag)
+        val realMessage = buildString {
+            appendLine(prefix)
+            appendLine("----------------------------------------")
+            append(message)
+        }
+        super.log(priority, tag, realMessage, t)
+    }
+
+    companion object {
+        private const val MAX_TAG_LENGTH: Int = 23
     }
 }
