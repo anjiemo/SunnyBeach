@@ -190,7 +190,6 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
                     .setMessage("暗号：阳光沙滩APP来的")
                     .setConfirm("我要加群")
                     .setCancel("点错了")
-                    .setCanceledOnTouchOutside(false)
                     .setListener {
                         MobclickAgent.onEvent(context, UmengReportKey.JOIN_QQ_GROUP)
                         ClipboardUtils.copyText("阳光沙滩APP来的")
