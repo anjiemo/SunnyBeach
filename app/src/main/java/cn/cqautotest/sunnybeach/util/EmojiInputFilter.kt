@@ -4,6 +4,7 @@ import android.text.InputFilter
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.style.ImageSpan
 import cn.cqautotest.sunnybeach.app.AppApplication
 
 /**
@@ -26,59 +27,71 @@ class EmojiInputFilter : InputFilter {
      * @return 如果进行了emoji替换则返回带有图片的SpannableStringBuilder，否则返回null表示接受原始输入
      */
     override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
-        // 1. 获取用户尝试插入的文本部分
         val inputText = source.subSequence(start, end)
 
-        // 2. 如果输入为空，则不需要处理
         if (inputText.isEmpty()) {
             return null
         }
 
-        // 3. 创建一个 SpannableStringBuilder 来进行替换操作
+        return processEmojiReplacement(inputText)
+    }
+
+    /**
+     * 处理emoji替换逻辑
+     */
+    private fun processEmojiReplacement(inputText: CharSequence): CharSequence? {
         val builder = SpannableStringBuilder(inputText)
         var changed = false
-
         var currentText = builder.toString()
 
-        // 4. 遍历所有 emoji 短代码进行匹配和替换
         for ((emoji) in EmojiMapHelper.emojiMap) {
-            var lastIndex = 0
-            val emojiLength = emoji.length
-
-            // 提前判断是否还有足够的字符来容纳这个 emoji
-            while (lastIndex <= currentText.length - emojiLength) {
-                // 在当前 builder 中查找 emoji 短代码的完整匹配
-                val index = currentText.indexOf(emoji, lastIndex)
-
-                if (index == -1) {
-                    break // 没有找到，检查下一个 emoji
-                }
-
-                // 标记发生了替换
+            val result = replaceEmojiInBuilder(builder, emoji, currentText)
+            if (result.changed) {
                 changed = true
-
-                // 创建 ImageSpan，使用 ALIGN_BASELINE 对齐
-                val resId = EmojiMapHelper.getEmojiValue(emoji)
-                val imageSpan = ImageSpanCompat.newImageSpan(AppApplication.getInstance(), resId, ImageSpanCompat.ALIGN_CENTER)
-
-                // 在 SpannableStringBuilder 上应用 ImageSpan
-                builder.setSpan(imageSpan, index, index + emojiLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-                // 更新下次查找的起始位置
-                lastIndex = index + emojiLength
-
-                // 同步更新 currentText，因为 builder 已经发生变化
-                currentText = builder.toString()
+                currentText = result.updatedText
             }
         }
 
-        // 5. 根据是否进行了替换返回结果
-        return if (changed) {
-            // 如果进行了替换，返回带 Span 的 builder
-            builder
-        } else {
-            // 如果没有匹配到任何完整的 emoji 短代码，返回 null，表示接受原始输入
-            null
-        }
+        return if (changed) builder else null
     }
+
+    /**
+     * 在builder中替换指定emoji
+     */
+    private fun replaceEmojiInBuilder(builder: SpannableStringBuilder, emoji: String, currentText: String): ReplacementResult {
+        var updatedText = currentText
+        var changed = false
+        var lastIndex = 0
+        val emojiLength = emoji.length
+
+        while (lastIndex <= updatedText.length - emojiLength) {
+            val index = updatedText.indexOf(emoji, lastIndex)
+
+            if (index == -1) {
+                break
+            }
+
+            changed = true
+            val imageSpan = createEmojiImageSpan(emoji)
+            builder.setSpan(imageSpan, index, index + emojiLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            lastIndex = index + emojiLength
+            updatedText = builder.toString()
+        }
+
+        return ReplacementResult(changed, updatedText)
+    }
+
+    /**
+     * 创建emoji图片span
+     */
+    private fun createEmojiImageSpan(emoji: String): ImageSpan {
+        val resId = EmojiMapHelper.getEmojiValue(emoji)
+        return ImageSpanCompat.newImageSpan(AppApplication.getInstance(), resId, ImageSpanCompat.ALIGN_CENTER)
+    }
+
+    /**
+     * 替换结果数据类
+     */
+    private data class ReplacementResult(val changed: Boolean, val updatedText: String)
 }
