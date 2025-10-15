@@ -89,6 +89,7 @@ class SearchActivity : AppActivity() {
                 searchFilterPopup?.dismiss()
             }.also { searchFilterPopup = it }
         val searchFilterPopupView = XPopup.Builder(this)
+            .isLightStatusBar(true)
             .dismissOnBackPressed(true)
             .dismissOnTouchOutside(true)
             .isDestroyOnDismiss(false)
