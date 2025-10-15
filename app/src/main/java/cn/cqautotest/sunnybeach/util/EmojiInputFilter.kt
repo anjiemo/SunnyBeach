@@ -38,14 +38,17 @@ class EmojiInputFilter : InputFilter {
         val builder = SpannableStringBuilder(inputText)
         var changed = false
 
+        var currentText = builder.toString()
+
         // 4. 遍历所有 emoji 短代码进行匹配和替换
         for ((emoji) in EmojiMapHelper.emojiMap) {
             var lastIndex = 0
+            val emojiLength = emoji.length
 
-            // 使用循环查找所有匹配项
-            while (lastIndex < builder.length) {
+            // 提前判断是否还有足够的字符来容纳这个 emoji
+            while (lastIndex <= currentText.length - emojiLength) {
                 // 在当前 builder 中查找 emoji 短代码的完整匹配
-                val index = builder.toString().indexOf(emoji, lastIndex)
+                val index = currentText.indexOf(emoji, lastIndex)
 
                 if (index == -1) {
                     break // 没有找到，检查下一个 emoji
@@ -59,11 +62,13 @@ class EmojiInputFilter : InputFilter {
                 val imageSpan = ImageSpanCompat.newImageSpan(AppApplication.getInstance(), resId, ImageSpanCompat.ALIGN_CENTER)
 
                 // 在 SpannableStringBuilder 上应用 ImageSpan
-                // 仅对当前匹配到的短代码文本应用 Span
-                builder.setSpan(imageSpan, index, index + emoji.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                builder.setSpan(imageSpan, index, index + emojiLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
                 // 更新下次查找的起始位置
-                lastIndex = index + emoji.length
+                lastIndex = index + emojiLength
+
+                // 同步更新 currentText，因为 builder 已经发生变化
+                currentText = builder.toString()
             }
         }
 
