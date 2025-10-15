@@ -38,6 +38,7 @@ class WeatherActivity : AppActivity() {
 
             override fun handleOnBackPressed() {
                 overridePendingTransition(R.anim.left_in_activity, R.anim.left_out_activity)
+                finish()
             }
         })
     }
