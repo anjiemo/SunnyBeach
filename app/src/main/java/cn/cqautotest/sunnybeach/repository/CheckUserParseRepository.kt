@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.repository
 
+import cn.cqautotest.sunnybeach.action.CheckUserParseAction
 import cn.cqautotest.sunnybeach.util.I_LOVE_ANDROID_SITE_BASE_URL
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_SITE_BASE_URL
 import cn.cqautotest.sunnybeach.util.StringUtil
@@ -11,14 +12,11 @@ import timber.log.Timber
  * time   : 2025/10/16
  * desc   : 检查用户信息解析 Repository
  */
-class CheckUserParseRepository {
+class CheckUserParseRepository : CheckUserParseAction {
 
-    /**
-     * We only support http and https protocols.
-     */
-    fun checkScheme(scheme: String) = scheme == "http" || scheme == "https"
+    override fun checkScheme(scheme: String) = scheme == "http" || scheme == "https"
 
-    fun checkAuthority(authority: String): Boolean {
+    override fun checkAuthority(authority: String): Boolean {
         val sobSiteTopDomain = StringUtil.getTopDomain(SUNNY_BEACH_SITE_BASE_URL)
         val loveSiteTopDomain = StringUtil.getTopDomain(I_LOVE_ANDROID_SITE_BASE_URL)
 
@@ -32,8 +30,5 @@ class CheckUserParseRepository {
         return sobAuthority || loveAuthority
     }
 
-    /**
-     * Sob site userId is long type, we need check.
-     */
-    fun checkUserId(userId: String) = userId.isNotBlank() && userId.toLongOrNull() != null
+    override fun checkUserId(userId: String) = userId.isNotBlank() && userId.toLongOrNull() != null
 }

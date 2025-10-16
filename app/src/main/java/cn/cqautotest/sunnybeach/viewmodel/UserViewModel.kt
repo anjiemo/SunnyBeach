@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import cn.cqautotest.sunnybeach.action.CheckUserParseAction
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.ModifyPwd
 import cn.cqautotest.sunnybeach.model.PersonCenterInfo
@@ -27,7 +28,7 @@ import java.io.File
  * time   : 2021/06/18
  * desc   : 用户 ViewModel
  */
-class UserViewModel(application: Application) : AndroidViewModel(application) {
+class UserViewModel(application: Application) : AndroidViewModel(application), CheckUserParseAction {
 
     private val checkUserParseRepository = CheckUserParseRepository()
     private val phoneLiveData = MutableLiveData<String>()
@@ -44,11 +45,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             RichPagingSource()
         }).flow.cachedIn(viewModelScope)
 
-    fun checkScheme(scheme: String) = checkUserParseRepository.checkScheme(scheme)
+    override fun checkScheme(scheme: String) = checkUserParseRepository.checkScheme(scheme)
 
-    fun checkAuthority(authority: String) = checkUserParseRepository.checkAuthority(authority)
+    override fun checkAuthority(authority: String) = checkUserParseRepository.checkAuthority(authority)
 
-    fun checkUserId(userId: String) = checkUserParseRepository.checkUserId(userId)
+    override fun checkUserId(userId: String) = checkUserParseRepository.checkUserId(userId)
 
     /**
      * 举报
