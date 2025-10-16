@@ -1,8 +1,5 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
-import android.app.Activity
-import android.net.Uri
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.paging.LoadState
@@ -16,6 +13,7 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
+import cn.cqautotest.sunnybeach.contract.GetScanContent
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
 import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
 import cn.cqautotest.sunnybeach.event.LiveBusUtils
@@ -25,7 +23,6 @@ import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.ifLogin
 import cn.cqautotest.sunnybeach.ktx.isNotEmpty
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
-import cn.cqautotest.sunnybeach.ktx.orEmpty
 import cn.cqautotest.sunnybeach.ktx.otherwise
 import cn.cqautotest.sunnybeach.ktx.removeMourningStyle
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
@@ -36,6 +33,10 @@ import cn.cqautotest.sunnybeach.ktx.tryShowLoginDialog
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.model.MourningCalendar
 import cn.cqautotest.sunnybeach.model.RefreshStatus
+import cn.cqautotest.sunnybeach.model.scan.CanParseUserId
+import cn.cqautotest.sunnybeach.model.scan.CancelScan
+import cn.cqautotest.sunnybeach.model.scan.Content
+import cn.cqautotest.sunnybeach.model.scan.NoContent
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.FishTopicActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
@@ -58,13 +59,11 @@ import com.dylanc.longan.startActivity
 import com.dylanc.longan.viewLifecycleScope
 import com.hjq.bar.TitleBar
 import com.hjq.permissions.Permission
-import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
@@ -103,18 +102,24 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             mBinding.tvRecommend.isVisible = mFishCategoryAdapter.isNotEmpty()
         }
     }
-    private val mScanLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        val resultData = result.data
-        if (result.resultCode != Activity.RESULT_OK || resultData == null) return@registerForActivityResult
-        resultData.getParcelableExtra<HmsScan>(ScanUtil.RESULT)?.let { hmsScan ->
-            Timber.d("mScanLauncher：===> hmsScan originalValue is ${hmsScan.originalValue}")
-            val (canBeParse, userId) = canBeParse(hmsScan)
-            if (canBeParse) {
-                ViewUserActivity.start(requireContext(), userId)
-            } else {
-                ScanResultActivity.start(requireContext(), hmsScan)
+    private val mScanLauncher = registerForActivityResult(GetScanContent()) { result ->
+        when (result) {
+            is CanParseUserId -> {
+                ViewUserActivity.start(requireContext(), result.userId)
             }
-        } ?: showNoContentTips()
+
+            is Content -> {
+                ScanResultActivity.start(requireContext(), result.hmsScan)
+            }
+
+            is NoContent -> {
+                showNoContentTips()
+            }
+
+            is CancelScan -> {
+                // Nothing to do.
+            }
+        }
     }
 
     override fun getLayoutId(): Int = R.layout.fish_list_fragment
@@ -243,24 +248,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         val options = HmsScanAnalyzerOptions.Creator()
             .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
             .create()
-        MyScanUtil.startScan(this, options, mScanLauncher)
-    }
-
-    private fun canBeParse(hmsScan: HmsScan?): Pair<Boolean, String> {
-        val content = hmsScan?.getShowResult() ?: return false to ""
-        // content can never be null.
-        val uri = Uri.parse(content)
-        val scheme = uri.scheme.orEmpty()
-        val authority = uri.authority.orEmpty()
-        val userId = uri.lastPathSegment.orEmpty()
-        Timber.d("showResult：===> scheme is $scheme authority is $authority userId is $userId")
-        Timber.d("showResult：===> content is $content")
-        return when {
-            !mUserViewModel.checkScheme(uri.scheme.orEmpty()) -> false to ""
-            !mUserViewModel.checkAuthority(uri.authority.orEmpty()) -> false to ""
-            !mUserViewModel.checkUserId(userId) -> false to ""
-            else -> true to userId
-        }
+        MyScanUtil.startScan(mScanLauncher, options)
     }
 
     override fun showLoading(id: Int) {

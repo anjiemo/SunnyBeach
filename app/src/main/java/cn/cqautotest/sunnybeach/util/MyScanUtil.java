@@ -23,7 +23,7 @@ import cn.cqautotest.sunnybeach.ui.activity.ScanCodeActivity;
  */
 public class MyScanUtil {
 
-    public static void startScan(Fragment fragment, HmsScanAnalyzerOptions options, ActivityResultLauncher<Intent> launcher) {
+    public static void startScan(Fragment fragment, ActivityResultLauncher<Intent> launcher, HmsScanAnalyzerOptions options) {
         Context context = fragment.getContext();
         if (context == null) return;
         Intent intent = new Intent(context, ScanCodeActivity.class);
@@ -31,6 +31,10 @@ public class MyScanUtil {
             intent.putExtra("ScanFormatValue", options.mode);
         }
         launcher.launch(intent);
+    }
+
+    public static void startScan(ActivityResultLauncher<HmsScanAnalyzerOptions> launcher, HmsScanAnalyzerOptions options) {
+        launcher.launch(options);
     }
 
     @SuppressLint("WrongConstant")

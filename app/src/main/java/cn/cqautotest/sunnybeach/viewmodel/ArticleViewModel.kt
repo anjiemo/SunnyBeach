@@ -6,12 +6,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.model.ArticleSearchFilter
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.paging.source.ArticlePagingSource
 import cn.cqautotest.sunnybeach.paging.source.UserArticlePagingSource
 import cn.cqautotest.sunnybeach.paging.source.content.UserPublishArticlePagingSource
+import cn.cqautotest.sunnybeach.repository.Repository
 import cn.cqautotest.sunnybeach.ui.fragment.user.content.UserArticleListManagerFragment
 
 /**

@@ -6,9 +6,9 @@ import android.content.Context
 import androidx.core.app.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.execption.NotLoginException
-import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
+import cn.cqautotest.sunnybeach.repository.Repository
 import cn.cqautotest.sunnybeach.ui.activity.LoginActivity
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
 import java.util.concurrent.atomic.AtomicBoolean

@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.ModifyPwd
 import cn.cqautotest.sunnybeach.model.PersonCenterInfo
@@ -17,11 +16,9 @@ import cn.cqautotest.sunnybeach.model.SmsInfo
 import cn.cqautotest.sunnybeach.model.User
 import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.paging.source.RichPagingSource
-import cn.cqautotest.sunnybeach.util.I_LOVE_ANDROID_SITE_BASE_URL
-import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_SITE_BASE_URL
-import cn.cqautotest.sunnybeach.util.StringUtil
+import cn.cqautotest.sunnybeach.repository.CheckUserParseRepository
+import cn.cqautotest.sunnybeach.repository.Repository
 import com.blankj.utilcode.util.RegexUtils
-import timber.log.Timber
 import java.io.File
 
 /**
@@ -32,6 +29,7 @@ import java.io.File
  */
 class UserViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val checkUserParseRepository = CheckUserParseRepository()
     private val phoneLiveData = MutableLiveData<String>()
 
     val userAvatarLiveData = phoneLiveData.switchMap { account ->
@@ -46,29 +44,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             RichPagingSource()
         }).flow.cachedIn(viewModelScope)
 
-    /**
-     * We only support http and https protocols.
-     */
-    fun checkScheme(scheme: String) = scheme == "http" || scheme == "https"
+    fun checkScheme(scheme: String) = checkUserParseRepository.checkScheme(scheme)
 
-    fun checkAuthority(authority: String): Boolean {
-        val sobSiteTopDomain = StringUtil.getTopDomain(SUNNY_BEACH_SITE_BASE_URL)
-        val loveSiteTopDomain = StringUtil.getTopDomain(I_LOVE_ANDROID_SITE_BASE_URL)
+    fun checkAuthority(authority: String) = checkUserParseRepository.checkAuthority(authority)
 
-        Timber.d("checkAuthority：===> authority is $authority")
-        Timber.d("checkAuthority：===> sobSiteTopDomain is $sobSiteTopDomain")
-        Timber.d("checkAuthority：===> loveSiteTopDomain is $loveSiteTopDomain")
-
-        fun String.delete3W() = replace("www.", "")
-        val sobAuthority = authority.delete3W() == sobSiteTopDomain
-        val loveAuthority = authority.delete3W() == loveSiteTopDomain
-        return sobAuthority || loveAuthority
-    }
-
-    /**
-     * Sob site userId is long type, we need check.
-     */
-    fun checkUserId(userId: String) = userId.isNotBlank() && userId.toLongOrNull() != null
+    fun checkUserId(userId: String) = checkUserParseRepository.checkUserId(userId)
 
     /**
      * 举报
