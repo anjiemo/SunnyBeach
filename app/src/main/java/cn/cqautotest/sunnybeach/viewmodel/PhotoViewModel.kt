@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.paging.source.WallpaperPagingSource
+import cn.cqautotest.sunnybeach.repository.Repository
 
 /**
  * author : A Lonely Cat
