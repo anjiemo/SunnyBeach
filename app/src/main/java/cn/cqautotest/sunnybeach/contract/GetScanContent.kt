@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.net.toUri
+import cn.cqautotest.sunnybeach.action.CheckUserParseAction
 import cn.cqautotest.sunnybeach.ktx.orEmpty
 import cn.cqautotest.sunnybeach.model.scan.CanParseUserId
 import cn.cqautotest.sunnybeach.model.scan.CancelScan
@@ -24,12 +25,10 @@ import timber.log.Timber
  * time   : 2025/10/16
  * desc   : 获取扫描内容
  */
-class GetScanContent : ActivityResultContract<HmsScanAnalyzerOptions, ScanCodeResult>() {
-
-    private val checkUserParseRepository = CheckUserParseRepository()
+class GetScanContent(checkUserRepository: CheckUserParseRepository = CheckUserParseRepository()) :
+    ActivityResultContract<HmsScanAnalyzerOptions, ScanCodeResult>(), CheckUserParseAction by checkUserRepository {
 
     override fun createIntent(context: Context, input: HmsScanAnalyzerOptions): Intent {
-
         return Intent(context, ScanCodeActivity::class.java).apply {
             putExtra("ScanFormatValue", input.mode)
         }
@@ -60,9 +59,9 @@ class GetScanContent : ActivityResultContract<HmsScanAnalyzerOptions, ScanCodeRe
         Timber.d("canBeParse：===> scheme is $scheme authority is $authority userId is $userId")
         Timber.d("canBeParse：===> content is $content")
         return when {
-            !checkUserParseRepository.checkScheme(uri.scheme.orEmpty()) -> false to ""
-            !checkUserParseRepository.checkAuthority(uri.authority.orEmpty()) -> false to ""
-            !checkUserParseRepository.checkUserId(userId) -> false to ""
+            !checkScheme(uri.scheme.orEmpty()) -> false to ""
+            !checkAuthority(uri.authority.orEmpty()) -> false to ""
+            !checkUserId(userId) -> false to ""
             else -> true to userId
         }
     }

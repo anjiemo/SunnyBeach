@@ -34,7 +34,6 @@ class ScanResultActivity : AppActivity() {
     override fun initData() {
         mHmsScan?.let {
             showResult(it)
-
         } ?: showUnknownType()
     }
 
