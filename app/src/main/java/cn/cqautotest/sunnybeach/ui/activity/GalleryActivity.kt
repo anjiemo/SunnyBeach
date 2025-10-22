@@ -19,12 +19,12 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.GalleryActivityBinding
-import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.manager.ThreadPoolManager
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import cn.cqautotest.sunnybeach.other.IntentKey
+import cn.cqautotest.sunnybeach.repository.Repository
 import cn.cqautotest.sunnybeach.ui.adapter.WallpaperAdapter
 import cn.cqautotest.sunnybeach.util.DownloadHelper
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
@@ -107,7 +107,7 @@ class GalleryActivity : AppActivity() {
         mWallpaperAdapter.setOnItemClickListener { _, _ -> toggleStatus() }
         with(mBinding) {
             shareTv.setOnClickListener {
-                lifecycleScope.launchWhenCreated {
+                lifecycleScope.launch {
                     simpleToast("正在下载图片，请稍后...")
                     // 下载图片文件
                     val imageFile = DownloadHelper.ofType<File>(context, getImageUri())
@@ -124,7 +124,7 @@ class GalleryActivity : AppActivity() {
             settingWallpaperTv.setOnClickListener {
                 simpleToast("开始准备壁纸...")
                 showDialog()
-                lifecycleScope.launchWhenCreated {
+                lifecycleScope.launch {
                     val imageFile = DownloadHelper.ofType<File>(activity, getImageUri())
                     val success = imageFile.takeUnless { it == null }?.let { wallpaperManager.setWallpaper(it.inputStream()) } ?: false
                     hideDialog()

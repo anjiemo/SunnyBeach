@@ -36,9 +36,11 @@ import com.dylanc.longan.lifecycleOwner
 import com.scwang.smart.refresh.layout.wrapper.RefreshHeaderWrapper
 import com.umeng.analytics.MobclickAgent
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
+import java.util.concurrent.CancellationException
 import java.util.regex.Pattern
 
 /**
@@ -317,18 +319,19 @@ class UserCenterActivity : AppActivity() {
         fun String.fixSuffix() = replace("jpeg", "png").replace("jpg", "png")
         val imageFile = File(PathUtils.getExternalAppCachePath(), file.name.fixSuffix())
         imageFile.deleteOnExit()
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             val copySuccess = withContext(Dispatchers.IO) { FileUtils.copy(file, imageFile) }
             takeUnless { copySuccess }?.let {
                 simpleToast("头像复制失败")
                 imageFile.delete()
                 hideDialog()
-                return@launchWhenCreated
+                throw CancellationException()
             }
             val avatarUrl = mUserViewModel.uploadUserCenterImageByCategoryId(imageFile, "avatar").getOrElse {
                 simpleToast("头像上传失败")
                 hideDialog()
-                return@launchWhenCreated
+                imageFile.delete()
+                throw CancellationException()
             }
             imageFile.delete()
             modifyAvatar(avatarUrl)

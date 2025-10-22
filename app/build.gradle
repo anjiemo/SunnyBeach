@@ -2,12 +2,17 @@ import groovy.json.JsonSlurper
 
 import java.security.MessageDigest
 
-apply plugin: 'com.android.application'
+plugins {
+    id('com.android.application')
+    id('org.jetbrains.kotlin.android')
+    id('com.google.devtools.ksp')
+    id('dagger.hilt.android.plugin')
+    id('com.huawei.agconnect')
+    id('android.aop')
+    id('org.jetbrains.kotlin.plugin.compose') version "$kotlin_version" // 此版本与 Kotlin 版本匹配
+}
+
 apply from: '../common.gradle'
-apply plugin: 'com.google.devtools.ksp'
-apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'com.huawei.agconnect'
-apply plugin: 'android.aop'
 
 // Android 代码规范文档：https://github.com/getActivity/AndroidCodeStandard
 android {
@@ -25,7 +30,7 @@ android {
         resourceConfigurations += ['zh,zh-rCN', 'xxhdpi']
 
         // 混淆配置
-        proguardFiles 'proguard-sdk.pro', 'proguard-app.pro'
+        proguardFiles 'proguard-sdk.pro', 'proguard-app.pro', 'removeLog.pro'
 
         // 日志打印开关
         buildConfigField('boolean', 'LOG_ENABLE', '' + LOG_ENABLE + '')
@@ -120,6 +125,10 @@ android {
         }
     }
 
+    buildFeatures {
+        compose true // 启用 Compose
+    }
+
     applicationVariants.configureEach { variant ->
         // apk 输出文件名配置
         variant.outputs.configureEach { output ->
@@ -190,7 +199,7 @@ static def generateMD5(final file) {
 // 添加构建依赖项：https://developer.android.google.cn/studio/build/dependencies
 // api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
 dependencies {
-    def paging_version = "3.2.0"
+    def paging_version = "3.3.0"
     def nav_version = "2.7.7"
     def emoji2_version = "1.0.0-beta01"
     def room_version = "2.6.1"
@@ -201,13 +210,13 @@ dependencies {
     def aria_version = '3.8.16'
 
     // 基类封装
-    // implementation project(':library:base')
+    implementation project(':library:base')
     // 控件封装
-    // implementation project(':library:widget')
+    implementation project(':library:widget')
     // 友盟封装
-    // implementation project(':library:umeng')
+    implementation project(':library:umeng')
     // 网络封装
-    // implementation project(':library:network')
+    implementation project(':library:network')
 
     // 友盟公共库
     implementation 'com.umeng.umsdk:common:9.4.7'
@@ -229,10 +238,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 
-    implementation 'androidx.core:core-ktx:1.12.0'
-    implementation 'androidx.activity:activity-ktx:1.8.2'
-    implementation 'androidx.fragment:fragment-ktx:1.6.2'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.7.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.activity:activity-ktx:1.9.0'
+    implementation 'androidx.fragment:fragment-ktx:1.8.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.8.2'
 
     // Room 数据库：https://developer.android.com/jetpack/androidx/releases/room
     // CodeLab：https://developer.android.com/codelabs/android-room-with-a-view-kotlin#0
@@ -398,14 +407,16 @@ dependencies {
 
     // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
     // 组件层次结构备忘录：https://dagger.dev/hilt/components.html#component-lifetimes
-    implementation "com.google.dagger:hilt-android:2.47"
-    ksp "com.google.dagger:hilt-android-compiler:2.47"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    ksp "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     // // 从图片中提取具有代表性的调色板：https://developer.android.com/jetpack/androidx/releases/palette
     implementation 'androidx.palette:palette:1.0.0'
 
     // Android下打造通用便捷的PopupWindow弹窗库：https://github.com/razerdp/BasePopup
     implementation 'io.github.razerdp:BasePopup:3.2.1'
+    // 功能强大，交互优雅，动画丝滑的通用弹窗：https://github.com/junixapp/XPopup
+    implementation 'com.github.li-xiaojun:XPopup:2.10.0'
 
     // 一个强大的🚀Android 图表视图/图形视图库，支持折线图、雷达图、气泡图和烛台图以及缩放、平移和动画：https://github.com/PhilJay/MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
@@ -429,4 +440,18 @@ dependencies {
 
     // 消息总线，基于LiveData，具有生命周期感知能力：https://github.com/JeremyLiao/LiveEventBus
     implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
+
+    // 使用物料清单：https://developer.android.com/develop/ui/compose/bom?hl=zh-cn#kts
+    // BOM 与库版本对应表：https://developer.android.com/develop/ui/compose/bom/bom-mapping?hl=zh-cn
+    def composeBom = platform('androidx.compose:compose-bom:2024.10.00')
+    implementation composeBom
+    androidTestImplementation composeBom
+
+    // Compose 库，无需指定版本 (BOM已管理)
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.ui:ui-tooling-preview' // 预览支持
+    debugImplementation 'androidx.compose.ui:ui-tooling' // 调试工具
+    implementation 'androidx.compose.material3:material3' // Material 3 组件
+    implementation 'androidx.activity:activity-compose' // 与 Activity 集成
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose' // ViewModel 集成
 }

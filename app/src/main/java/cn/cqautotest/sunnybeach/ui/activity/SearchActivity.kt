@@ -14,15 +14,17 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SearchActivityBinding
-import cn.cqautotest.sunnybeach.ktx.clearTooltipText
 import cn.cqautotest.sunnybeach.ktx.hideKeyboard
 import cn.cqautotest.sunnybeach.ktx.reduceDragSensitivity
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.textString
+import cn.cqautotest.sunnybeach.model.SearchFilterItem
 import cn.cqautotest.sunnybeach.other.SearchType
 import cn.cqautotest.sunnybeach.ui.fragment.SearchListFragment
+import cn.cqautotest.sunnybeach.ui.popup.SearchFilterPopup
 import cn.cqautotest.sunnybeach.viewmodel.SearchViewModel
-import com.google.android.material.tabs.TabLayoutMediator
 import com.hjq.bar.TitleBar
+import com.lxj.xpopup.XPopup
 
 /**
  * author : A Lonely Cat
@@ -34,7 +36,6 @@ class SearchActivity : AppActivity() {
 
     private val mBinding by viewBinding<SearchActivityBinding>()
     private val mSearchViewModel by viewModels<SearchViewModel>()
-    private lateinit var mTabLayoutMediator: TabLayoutMediator
 
     override fun getLayoutId(): Int = R.layout.search_activity
 
@@ -58,17 +59,6 @@ class SearchActivity : AppActivity() {
                     override fun createFragment(position: Int): Fragment = mFragmentList[position]
                 }
             }
-            mTabLayoutMediator = TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
-                tab.text = when (position) {
-                    0 -> "全部"
-                    1 -> "文章"
-                    2 -> "问答"
-                    3 -> "分享"
-                    else -> error("Creating this instance is not supported.")
-                }
-            }
-            mTabLayoutMediator.attach()
-            tabLayout.clearTooltipText()
         }
     }
 
@@ -90,6 +80,24 @@ class SearchActivity : AppActivity() {
             }
             true
         }
+        val data = listOf("全部", "文章", "问答", "分享").mapIndexed { index, text -> SearchFilterItem(text = text, isChecked = index == 0) }
+        var searchFilterPopup: SearchFilterPopup? = null
+        SearchFilterPopup(this)
+            .setData(data)
+            .setOnItemCheckedListener { item, position ->
+                mBinding.viewPager2.setCurrentItem(position, false)
+                searchFilterPopup?.dismiss()
+            }.also { searchFilterPopup = it }
+        val searchFilterPopupView = XPopup.Builder(this)
+            .isLightStatusBar(true)
+            .dismissOnBackPressed(true)
+            .dismissOnTouchOutside(true)
+            .isDestroyOnDismiss(false)
+            .atView(mBinding.vUiLine)
+            .asCustom(searchFilterPopup)
+        mBinding.tvAdvancedSearch.setFixOnClickListener {
+            searchFilterPopupView.show()
+        }
     }
 
     override fun onLeftClick(titleBar: TitleBar) {
@@ -110,7 +118,6 @@ class SearchActivity : AppActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mBinding.searchView.clearFocus()
-        mTabLayoutMediator.detach()
     }
 
     override fun isStatusBarDarkFont() = true

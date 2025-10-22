@@ -27,7 +27,7 @@ class PutFishServiceHandler : AppSchemeService {
             return
         }
         val topActivity = ActivityUtils.getTopActivity()
-        topActivity.tryShowLoginDialog(dismissPreviousDialog = true) {
+        topActivity.tryShowLoginDialog {
             (topActivity as? LifecycleOwner)?.let {
                 LiveBusUtils.busReceive<Unit>(it, LiveBusKeyConfig.BUS_LOGIN_SUCCESS, observer = object : Observer<Unit> {
                     override fun onChanged(value: Unit) {

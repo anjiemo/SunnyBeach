@@ -1,11 +1,13 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
@@ -23,10 +25,14 @@ import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.AppUpdateInfo
 import cn.cqautotest.sunnybeach.other.AppConfig
 import cn.cqautotest.sunnybeach.other.DoubleClickHelper
-import cn.cqautotest.sunnybeach.ui.adapter.HomeFragmentAdapter
+import cn.cqautotest.sunnybeach.ui.adapter.FragmentAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.NavigationAdapter
 import cn.cqautotest.sunnybeach.ui.dialog.UpdateDialog
+import cn.cqautotest.sunnybeach.ui.fragment.ArticleListFragment
+import cn.cqautotest.sunnybeach.ui.fragment.CourseListFragment
 import cn.cqautotest.sunnybeach.ui.fragment.FishListFragment
+import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment
+import cn.cqautotest.sunnybeach.ui.fragment.QaListFragment
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import com.gyf.immersionbar.ImmersionBar
 import com.tencent.bugly.crashreport.CrashReport
@@ -62,7 +68,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     private val viewPager2: ViewPager2? by lazy { findViewById(R.id.vp_home_pager2) }
     private val navigationView: RecyclerView? by lazy { findViewById(R.id.rv_home_navigation) }
     private var navigationAdapter: NavigationAdapter? = null
-    private var pagerAdapter: HomeFragmentAdapter? = null
+    private var pagerAdapter: FragmentAdapter? = null
     private val updateDialog by lazy { UpdateDialog.Builder(this) }
 
     @Inject
@@ -70,14 +76,46 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
 
     override fun getLayoutId() = R.layout.home_activity
 
+    @SuppressLint("UnsafeOptInUsageError")
+    override fun initActivity() {
+        super.initActivity()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+
+            override fun handleOnBackPressed() {
+                // 退出 App 前，先回到首页 Fragment，防止用户误触
+                viewPager2?.currentItem?.takeUnless { it == 0 }?.let { return switchFragment(0) }
+
+                if (!DoubleClickHelper.isOnDoubleClick()) {
+                    toast(R.string.home_exit_hint)
+                    return
+                }
+
+                // 移动到上一个任务栈，避免侧滑引起的不良反应
+                moveTaskToBack(false)
+                postDelayed({
+                    // 进行内存优化，销毁掉所有的界面
+                    ActivityManager.getInstance().finishAllActivities()
+                }, 300)
+            }
+        })
+    }
+
     override fun initView() {
         hideSupportActionBar()
-        pagerAdapter = HomeFragmentAdapter(this).also { pagerAdapter = it }
+        pagerAdapter = FragmentAdapter(this)
         viewPager2?.let {
             it.isUserInputEnabled = false
-            it.adapter = HomeFragmentAdapter(this).apply { pagerAdapter = this }
+            it.adapter = pagerAdapter
             it.offscreenPageLimit = 1
         }
+        val fragmentList = listOf(
+            "fish" to FishListFragment.newInstance(),
+            "qa" to QaListFragment.newInstance(),
+            "article" to ArticleListFragment.newInstance(),
+            "course" to CourseListFragment.newInstance(),
+            "mine" to MyMeFragment.newInstance()
+        )
+        pagerAdapter?.setFragmentList(fragmentList)
         navigationAdapter = NavigationAdapter(this).apply {
             addMenuItem(R.string.home_fish_pond_message, R.drawable.home_fish_pond_selector)
             addMenuItem(R.string.home_nav_qa, R.drawable.home_qa_selector)
@@ -147,7 +185,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             .show()
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         pagerAdapter?.let {
             switchFragment(it.getFragmentIndex(getSerializable(INTENT_KEY_IN_FRAGMENT_CLASS)))
@@ -183,7 +221,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
 
     override fun onDoubleClick(v: View, position: Int) {
         // 如果当前显示的 Fragment 是可以回到顶部的，则调用回到顶部的方法
-        pagerAdapter?.getItem(position)?.let { (it as? OnBack2TopListener)?.onBack2Top() }
+        pagerAdapter?.getFragment(position)?.get()?.let { (it as? OnBack2TopListener)?.onBack2Top() }
     }
 
     /**
@@ -206,23 +244,6 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     override fun createStatusBarConfig(): ImmersionBar {
         return super.createStatusBarConfig() // 指定导航栏背景颜色
             .navigationBarColor(R.color.white)
-    }
-
-    override fun onBackPressed() {
-        // 退出 App 前，先回到首页 Fragment，防止用户误触
-        viewPager2?.currentItem?.takeUnless { it == 0 }?.let { return switchFragment(0) }
-
-        if (!DoubleClickHelper.isOnDoubleClick()) {
-            toast(R.string.home_exit_hint)
-            return
-        }
-
-        // 移动到上一个任务栈，避免侧滑引起的不良反应
-        moveTaskToBack(false)
-        postDelayed({
-            // 进行内存优化，销毁掉所有的界面
-            ActivityManager.getInstance().finishAllActivities()
-        }, 300)
     }
 
     override fun onDestroy() {

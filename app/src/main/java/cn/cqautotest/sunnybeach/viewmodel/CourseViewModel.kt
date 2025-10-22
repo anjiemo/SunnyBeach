@@ -6,10 +6,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.paging.source.CourseChapterPagingSource
 import cn.cqautotest.sunnybeach.paging.source.CoursePagingSource
+import cn.cqautotest.sunnybeach.repository.Repository
 
 /**
  * author : A Lonely Cat

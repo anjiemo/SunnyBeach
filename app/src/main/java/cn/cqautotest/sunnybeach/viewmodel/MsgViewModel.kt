@@ -2,10 +2,15 @@ package cn.cqautotest.sunnybeach.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
-import cn.cqautotest.sunnybeach.http.network.Repository
-import cn.cqautotest.sunnybeach.model.msg.*
+import cn.cqautotest.sunnybeach.model.msg.ArticleMsg
+import cn.cqautotest.sunnybeach.model.msg.AtMeMsg
+import cn.cqautotest.sunnybeach.model.msg.LikeMsg
+import cn.cqautotest.sunnybeach.model.msg.MomentMsg
+import cn.cqautotest.sunnybeach.model.msg.QaMsg
+import cn.cqautotest.sunnybeach.model.msg.SystemMsg
 import cn.cqautotest.sunnybeach.paging.source.msg.MsgListFactory
 import cn.cqautotest.sunnybeach.paging.source.msg.impl.MsgType
+import cn.cqautotest.sunnybeach.repository.Repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import timber.log.Timber

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.shape.layout.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:shape_bottomLeftRadius="@dimen/dp_10"
+    app:shape_bottomRightRadius="@dimen/dp_10"
+    app:shape_solidColor="@color/white">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/common_window_background_color"
+        tools:itemCount="3"
+        tools:listitem="@layout/search_filter_item" />
+
+    <com.hjq.shape.view.ShapeView
+        android:layout_width="36dp"
+        android:layout_height="5dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="4dp"
+        app:shape_radius="3dp"
+        app:shape_solidColor="#C7C7CC" />
+
+</com.hjq.shape.layout.ShapeLinearLayout>
