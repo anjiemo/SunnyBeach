@@ -221,7 +221,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
 
     override fun onDoubleClick(v: View, position: Int) {
         // 如果当前显示的 Fragment 是可以回到顶部的，则调用回到顶部的方法
-        pagerAdapter?.getFragment(position)?.let { (it as? OnBack2TopListener)?.onBack2Top() }
+        pagerAdapter?.getFragment(position)?.get()?.let { (it as? OnBack2TopListener)?.onBack2Top() }
     }
 
     /**
