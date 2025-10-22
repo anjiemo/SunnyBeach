@@ -9,7 +9,7 @@ plugins {
     id('dagger.hilt.android.plugin')
     id('com.huawei.agconnect')
     id('android.aop')
-    id('org.jetbrains.kotlin.plugin.compose') version "$kotlin_version" // 此版本与您的 Kotlin 版本匹配
+    id('org.jetbrains.kotlin.plugin.compose') version "$kotlin_version" // 此版本与 Kotlin 版本匹配
 }
 
 apply from: '../common.gradle'
@@ -447,7 +447,7 @@ dependencies {
     implementation composeBom
     androidTestImplementation composeBom
 
-    // 选择你需要的 Compose 库，无需指定版本 (BOM已管理)
+    // Compose 库，无需指定版本 (BOM已管理)
     implementation 'androidx.compose.ui:ui'
     implementation 'androidx.compose.ui:ui-tooling-preview' // 预览支持
     debugImplementation 'androidx.compose.ui:ui-tooling' // 调试工具
