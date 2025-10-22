@@ -2,12 +2,17 @@ import groovy.json.JsonSlurper
 
 import java.security.MessageDigest
 
-apply plugin: 'com.android.application'
+plugins {
+    id('com.android.application')
+    id('org.jetbrains.kotlin.android')
+    id('com.google.devtools.ksp')
+    id('dagger.hilt.android.plugin')
+    id('com.huawei.agconnect')
+    id('android.aop')
+    id('org.jetbrains.kotlin.plugin.compose') version "$kotlin_version" // 此版本与您的 Kotlin 版本匹配
+}
+
 apply from: '../common.gradle'
-apply plugin: 'com.google.devtools.ksp'
-apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'com.huawei.agconnect'
-apply plugin: 'android.aop'
 
 // Android 代码规范文档：https://github.com/getActivity/AndroidCodeStandard
 android {
@@ -118,6 +123,10 @@ android {
                 abiFilters 'armeabi-v7a', 'arm64-v8a'
             }
         }
+    }
+
+    buildFeatures {
+        compose true // 启用 Compose
     }
 
     applicationVariants.configureEach { variant ->
@@ -431,4 +440,18 @@ dependencies {
 
     // 消息总线，基于LiveData，具有生命周期感知能力：https://github.com/JeremyLiao/LiveEventBus
     implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
+
+    // 使用物料清单：https://developer.android.com/develop/ui/compose/bom?hl=zh-cn#kts
+    // BOM 与库版本对应表：https://developer.android.com/develop/ui/compose/bom/bom-mapping?hl=zh-cn
+    def composeBom = platform('androidx.compose:compose-bom:2024.10.00')
+    implementation composeBom
+    androidTestImplementation composeBom
+
+    // 选择你需要的 Compose 库，无需指定版本 (BOM已管理)
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.ui:ui-tooling-preview' // 预览支持
+    debugImplementation 'androidx.compose.ui:ui-tooling' // 调试工具
+    implementation 'androidx.compose.material3:material3' // Material 3 组件
+    implementation 'androidx.activity:activity-compose' // 与 Activity 集成
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose' // ViewModel 集成
 }
