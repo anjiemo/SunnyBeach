@@ -23,7 +23,6 @@ import cn.cqautotest.sunnybeach.databinding.PutFishActivityBinding
 import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
 import cn.cqautotest.sunnybeach.event.LiveBusUtils
 import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.clearText
 import cn.cqautotest.sunnybeach.ktx.context
@@ -38,6 +37,7 @@ import cn.cqautotest.sunnybeach.ktx.textString
 import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.other.IntentKey
+import cn.cqautotest.sunnybeach.repository.Repository
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel

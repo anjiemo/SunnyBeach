@@ -50,6 +50,7 @@ import com.lzf.easyfloat.enums.SidePattern
 import com.lzf.easyfloat.utils.DisplayUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -288,7 +289,7 @@ class SettingActivity : AppActivity() {
         cookieManager.removeAllCookies(null)
         val database = AppApplication.getDatabase()
         val cookieDao = database.cookieDao()
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             // 清除App本地缓存的 Cookie（必须在非主线程操作）
             withContext(Dispatchers.IO) { cookieDao.clearCookies() }
         }

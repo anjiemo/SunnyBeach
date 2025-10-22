@@ -10,12 +10,12 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.network.FishNetwork
-import cn.cqautotest.sunnybeach.http.network.Repository
 import cn.cqautotest.sunnybeach.model.Fish
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.paging.source.FishDetailCommendListPagingSource
 import cn.cqautotest.sunnybeach.paging.source.FishPagingSource
 import cn.cqautotest.sunnybeach.paging.source.UserFishPagingSource
+import cn.cqautotest.sunnybeach.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

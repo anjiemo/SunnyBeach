@@ -1,5 +1,7 @@
 package cn.cqautotest.sunnybeach.db
 
+import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
+import cn.cqautotest.sunnybeach.event.LiveBusUtils
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_API_BASE_URL
 import cn.cqautotest.sunnybeach.util.StringUtil
 import com.tencent.mmkv.MMKV
@@ -54,13 +56,13 @@ object SobCacheManager {
             url.contains("uc/user/login") -> {
                 val sobToken = headers[SOB_TOKEN_NAME]
                 Timber.d("saveSobCaptchaKeyByNeed：===> sobToken is $sobToken")
-                saveHeader(SOB_TOKEN_NAME, sobToken)
+                saveSobToken(sobToken)
             }
             url.contains("uc/user/checkToken") -> {
                 val sobToken = headers[SOB_TOKEN_NAME].orEmpty()
                 if (sobToken.isNotBlank()) {
                     Timber.d("saveSobCaptchaKeyByNeed：===> sobToken is $sobToken")
-                    saveHeader(SOB_TOKEN_NAME, sobToken)
+                    saveSobToken(sobToken)
                 }
             }
             else -> {
@@ -73,11 +75,16 @@ object SobCacheManager {
         mmkv.putString(key, value)
     }
 
+    fun getHeader(key: String) = mmkv.getString(key, "").orEmpty()
+
     fun getSobToken() = mmkv.getString(SOB_TOKEN_NAME, "").orEmpty()
 
-    fun getHeader(key: String) = mmkv.getString(key, "").orEmpty()
+    fun saveSobToken(token: String?) {
+        saveHeader(SOB_TOKEN_NAME, token)
+    }
 
     fun onAccountLoginOut() {
         mmkv.clearAll()
+        LiveBusUtils.busSend(LiveBusKeyConfig.BUS_LOGIN_INFO_UPDATE)
     }
 }

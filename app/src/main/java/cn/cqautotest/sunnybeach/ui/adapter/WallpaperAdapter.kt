@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -33,10 +34,18 @@ class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, BaseViewHo
     override fun convert(holder: BaseViewHolder, item: WallpaperBean.Res.Vertical) {
         holder.run {
             val photoIv = getView<ImageView>(R.id.photoIv)
+            val imageWidth = photoIv.width
+            val imageHeight = photoIv.height
+            val thumbnailRequest = Glide.with(itemView)
+                .load(item.thumb)
+                .centerCrop()
+                .override(imageWidth, imageHeight)
             Glide.with(itemView)
                 .load(item.preview)
+                .thumbnail(thumbnailRequest)
                 .centerCrop()
-                .override(photoIv.width, photoIv.height)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .override(imageWidth, imageHeight)
                 .into(photoIv)
             with(holder as RecyclerView.ViewHolder) {
                 itemView.setOnClickListener {

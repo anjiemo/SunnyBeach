@@ -7,6 +7,7 @@ import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.net.Network
 import android.os.Build
+import android.webkit.WebView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -32,7 +33,9 @@ import cn.cqautotest.sunnybeach.other.PermissionCallback
 import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter
 import cn.cqautotest.sunnybeach.other.TitleBarStyle
 import cn.cqautotest.sunnybeach.other.ToastStyle
+import cn.cqautotest.sunnybeach.util.ActivityLifecycleLogger
 import cn.cqautotest.sunnybeach.util.PushHelper
+import cn.cqautotest.sunnybeach.util.toast.AppToastLogInterceptor
 import cn.cqautotest.sunnybeach.work.CacheCleanupWorker
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
@@ -54,7 +57,6 @@ import com.hjq.http.config.IRequestApi
 import com.hjq.http.model.HttpHeaders
 import com.hjq.http.model.HttpParams
 import com.hjq.permissions.XXPermissions
-import com.hjq.toast.ToastLogInterceptor
 import com.hjq.toast.Toaster
 import com.hjq.umeng.UmengClient
 import com.scwang.smart.refresh.header.ClassicsHeader
@@ -123,6 +125,7 @@ class AppApplication : Application(), Configuration.Provider {
          * 初始化一些第三方框架
          */
         fun initSdk(application: Application) {
+            fixWebViewDataDirectoryBug(application)
             // 设置标题栏初始化器
             TitleBar.setDefaultStyle(TitleBarStyle())
 
@@ -153,7 +156,7 @@ class AppApplication : Application(), Configuration.Provider {
             // 设置调试模式
             Toaster.setDebugMode(AppConfig.isDebug())
             // 设置 Toast 拦截器
-            Toaster.setInterceptor(ToastLogInterceptor())
+            Toaster.setInterceptor(AppToastLogInterceptor())
 
             // 设置 AOP 拦截监听器
             AndroidAop.setOnCheckNetworkListener(object : OnCheckNetworkListener {
@@ -286,6 +289,7 @@ class AppApplication : Application(), Configuration.Provider {
                 .replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
 
             // Aria.init(application)
+            application.registerActivityLifecycleCallbacks(ActivityLifecycleLogger.instance)
 
             initCacheCleanWork(application)
         }
@@ -329,6 +333,16 @@ class AppApplication : Application(), Configuration.Provider {
                         }
                     }
                 })
+        }
+
+        /**
+         * 修复 Android 9+ 多进程 WebView 崩溃
+         */
+        fun fixWebViewDataDirectoryBug(context: Context) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                getProcessName()?.takeIf { it != context.packageName }
+                    ?.let(WebView::setDataDirectorySuffix)
+            }
         }
     }
 }

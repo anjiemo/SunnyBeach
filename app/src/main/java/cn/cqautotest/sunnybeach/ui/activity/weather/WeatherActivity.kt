@@ -6,6 +6,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.core.view.GravityCompat
 import androidx.core.view.updatePadding
@@ -30,6 +31,17 @@ class WeatherActivity : AppActivity() {
     private val mSkyConList = arrayListOf<DailyResponse.Skycon>()
 
     override fun getLayoutId() = R.layout.weather_activity
+
+    override fun initActivity() {
+        super.initActivity()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+
+            override fun handleOnBackPressed() {
+                overridePendingTransition(R.anim.left_in_activity, R.anim.left_out_activity)
+                finish()
+            }
+        })
+    }
 
     override fun initView() {
         val actionBarHeight = ImmersionBar.getActionBarHeight(this)
@@ -138,11 +150,6 @@ class WeatherActivity : AppActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        overridePendingTransition(R.anim.left_in_activity, R.anim.left_out_activity)
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
         overridePendingTransition(R.anim.left_in_activity, R.anim.left_out_activity)
     }
 }
