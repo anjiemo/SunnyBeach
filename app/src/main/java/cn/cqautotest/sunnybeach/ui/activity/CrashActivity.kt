@@ -16,6 +16,7 @@ import android.text.style.UnderlineSpan
 import android.util.DisplayMetrics
 import android.view.View
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
@@ -80,6 +81,18 @@ class CrashActivity : AppActivity() {
 
     override fun getLayoutId(): Int {
         return R.layout.crash_activity
+    }
+
+    override fun initActivity() {
+        super.initActivity()
+        val context = this
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 重启应用
+                RestartActivity.restart(context)
+                finish()
+            }
+        })
     }
 
     override fun initView() {
@@ -271,12 +284,6 @@ class CrashActivity : AppActivity() {
                 onBackPressed()
             }
         }
-    }
-
-    override fun onBackPressed() {
-        // 重启应用
-        RestartActivity.restart(this)
-        finish()
     }
 
     override fun createStatusBarConfig(): ImmersionBar {

@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.http
 
 import cn.android52.network.interceptor.BaseUrlInterceptor
+import cn.cqautotest.sunnybeach.http.interceptor.CodeInvokeInterceptor
 import cn.cqautotest.sunnybeach.http.interceptor.accountInterceptor
 import cn.cqautotest.sunnybeach.http.interceptor.loggingInterceptor
 import cn.cqautotest.sunnybeach.manager.LocalCookieManager
@@ -26,7 +27,7 @@ object ServiceCreator {
         OkHttpClient.Builder()
             .addInterceptor(BaseUrlInterceptor { retrofit })
             .addInterceptor(accountInterceptor)
-            .addInterceptor(loggingInterceptor)
+            .addInterceptor(CodeInvokeInterceptor(loggingInterceptor))
             .cookieJar(cookieManager)
             .build()
     }

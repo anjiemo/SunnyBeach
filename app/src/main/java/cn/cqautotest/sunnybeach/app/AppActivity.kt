@@ -172,7 +172,7 @@ abstract class AppActivity : BaseActivity(), Init,
     }
 
     override fun onLeftClick(titleBar: TitleBar) {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
     }
 
     /**

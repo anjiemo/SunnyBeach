@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.content.Intent
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isInvisible
 import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.R
@@ -17,7 +18,6 @@ import com.airbnb.lottie.LottieAnimationView
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.Utils
-import com.dylanc.longan.context
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.http.EasyHttp
@@ -65,7 +65,7 @@ class SplashActivity : AppActivity() {
     }
 
     private fun nextPage() {
-        HomeActivity.start(context)
+        HomeActivity.start(this)
         finish()
     }
 
@@ -89,15 +89,20 @@ class SplashActivity : AppActivity() {
             })
     }
 
+    override fun initEvent() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+
+            override fun handleOnBackPressed() {
+                // 禁用返回键
+                // Nothing to do.
+            }
+        })
+    }
+
     override fun createStatusBarConfig(): ImmersionBar {
         return super.createStatusBarConfig()
             // 隐藏状态栏和导航栏
             .hideBar(BarHide.FLAG_HIDE_BAR)
-    }
-
-    override fun onBackPressed() {
-        // 禁用返回键
-        // super.onBackPressed()
     }
 
     override fun initActivity() {
