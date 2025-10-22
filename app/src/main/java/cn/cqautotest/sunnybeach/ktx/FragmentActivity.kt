@@ -70,9 +70,10 @@ suspend infix fun Login.otherwise(that: () -> Unit) {
     }
 }
 
-fun Activity.tryShowLoginDialog(dismissPreviousDialog: Boolean = false, listener: MessageDialog.OnListener? = null) {
-    dismissPreviousDialog.takeIf { it }?.let { dialogBuilder?.dismiss() }?.also { isShowing.set(false) }
-    takeUnless { isShowing.get() }?.let { showLoginDialog(listener) }
+fun Activity.tryShowLoginDialog(listener: MessageDialog.OnListener? = null) {
+    dialogBuilder?.dismiss()
+    isShowing.set(false)
+    showLoginDialog(listener)
 }
 
 private fun Context.showLoginDialog(listener: MessageDialog.OnListener? = null) {
