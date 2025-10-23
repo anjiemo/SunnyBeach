@@ -347,7 +347,7 @@ open class BaseDialog constructor(context: Context, @StyleRes themeResId: Int = 
 
     @Suppress("UNCHECKED_CAST")
     open class Builder<B : Builder<B>> constructor(private val context: Context) :
-        ActivityAction, ResourcesAction, ClickAction, KeyboardAction {
+        ActivityAction, ResourcesAction, ClickAction, KeyboardAction, AutoCloseable {
 
         /** Dialog 对象 */
         private var dialog: BaseDialog? = null
@@ -813,6 +813,10 @@ open class BaseDialog constructor(context: Context, @StyleRes themeResId: Int = 
                 return
             }
             dialog?.show()
+        }
+
+        override fun close() {
+            dismiss()
         }
 
         /**
