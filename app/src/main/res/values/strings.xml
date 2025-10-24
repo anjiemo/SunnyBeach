@@ -293,4 +293,21 @@
 
     <!-- App快捷方式 -->
     <string name="shortcut_put_fish">发布动态</string>
+    <string name="sob_intro_consume_method">我要这sunof币有何用？</string>
+    <string-array name="sob_intro_consume_channels">
+        <item>提问时你可以使用sunof作为悬赏</item>
+        <item>看到喜欢的内容进行打赏</item>
+        <item>修改花名、修改头像</item>
+        <item>竞价推广自己的内容</item>
+        <item>兑换小礼品</item>
+    </string-array>
+    <string name="sob_intro_obtain_method">如何获得sunof币？</string>
+    <string-array name="sob_intro_obtain_channels">
+        <item>帮助他们解答问题，最佳答案悬赏</item>
+        <item>文章每1000阅读量会有阶梯奖励</item>
+        <item>每日登录奖励</item>
+        <item>邀请注册奖励</item>
+        <item>分享内容奖励</item>
+        <item>他人的打赏</item>
+    </string-array>
 </resources>
