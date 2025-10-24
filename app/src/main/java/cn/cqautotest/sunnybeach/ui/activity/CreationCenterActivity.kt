@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.ui.activity
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.Dp
@@ -132,7 +133,9 @@ class CreationCenterActivity : AppActivity() {
                     super.onCreate()
                     findViewById<ComposeView>(R.id.compose_view)
                         .setContent {
-                            val maxHeight = (ScreenUtils.getScreenHeight() / 4f * 3f).pxToDp()
+                            val maxHeight = remember {
+                                (ScreenUtils.getScreenHeight() / 4f * 3f).pxToDp()
+                            }
                             SobIntroPopup(
                                 modifier = Modifier
                                     .fillMaxWidth()
