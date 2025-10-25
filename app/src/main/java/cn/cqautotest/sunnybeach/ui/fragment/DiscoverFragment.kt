@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.graphics.Color
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingTitleBarFragment
@@ -23,6 +22,7 @@ import com.bumptech.glide.Glide
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
 import com.youth.banner.indicator.CircleIndicator
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -33,7 +33,7 @@ import kotlinx.coroutines.flow.collectLatest
  */
 class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
 
-    private val mBinding: DiscoverFragmentBinding by viewBinding()
+    private val mBinding by viewBinding(DiscoverFragmentBinding::bind)
     private val mPhotoViewModel by activityViewModels<PhotoViewModel>()
     private val mRefreshStatus = RefreshStatus()
     private val mWallpaperBannerAdapter = BannerAdapter()

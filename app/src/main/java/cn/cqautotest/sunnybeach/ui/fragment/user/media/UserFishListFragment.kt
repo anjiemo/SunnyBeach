@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.ui.fragment.user.media
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingFragment
@@ -19,6 +18,7 @@ import cn.cqautotest.sunnybeach.util.MultiOperationHelper
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
@@ -31,7 +31,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class UserFishListFragment : PagingFragment<AppActivity>() {
 
-    private val mBinding by viewBinding<UserFishListFragmentBinding>()
+    private val mBinding by viewBinding(UserFishListFragmentBinding::bind)
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
 
     @Inject

@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.ui.fragment.user.content
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import androidx.paging.PagingDataAdapter
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingFragment
@@ -26,6 +25,7 @@ import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
 import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.collectLatest
  */
 class UserArticleListManagerFragment : PagingFragment<AppActivity>() {
 
-    private val mBinding by viewBinding<UserArticleListFragmentBinding>()
+    private val mBinding by viewBinding(UserArticleListFragmentBinding::bind)
     private val mArticleViewModel by activityViewModels<ArticleViewModel>()
     private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()

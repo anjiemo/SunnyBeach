@@ -1,7 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import androidx.activity.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SobIeDeatilActivityBinding
@@ -14,6 +13,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import dev.androidbroadcast.vbpd.viewBinding
 import timber.log.Timber
 
 /**
@@ -24,7 +24,7 @@ import timber.log.Timber
  */
 class SobIEDetailActivity : AppActivity() {
 
-    private val mBinding by viewBinding<SobIeDeatilActivityBinding>()
+    private val mBinding by viewBinding(SobIeDeatilActivityBinding::bind)
     private val mUserViewModel by viewModels<UserViewModel>()
 
     override fun getLayoutId() = R.layout.sob_ie_deatil_activity

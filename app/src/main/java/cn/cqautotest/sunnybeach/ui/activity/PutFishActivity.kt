@@ -14,7 +14,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppApplication
@@ -47,6 +46,7 @@ import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
 import com.dylanc.longan.rootWindowInsetsCompat
 import com.hjq.bar.TitleBar
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -79,7 +79,7 @@ import kotlin.coroutines.suspendCoroutine
  */
 class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener {
 
-    private val mBinding: PutFishActivityBinding by viewBinding()
+    private val mBinding by viewBinding(PutFishActivityBinding::bind)
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
     private val mAdapterDelegate = AdapterDelegate()
     private val mPreviewAdapter = ImagePreviewAdapter(mAdapterDelegate)

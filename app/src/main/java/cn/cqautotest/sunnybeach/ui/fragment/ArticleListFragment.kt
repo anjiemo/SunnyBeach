@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.app.PagingTitleBarFragment
@@ -31,6 +30,7 @@ import com.hjq.umeng.UmengShare
 import com.umeng.analytics.MobclickAgent
 import com.umeng.socialize.media.UMImage
 import com.umeng.socialize.media.UMWeb
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -41,7 +41,7 @@ import kotlinx.coroutines.flow.collectLatest
  */
 class ArticleListFragment : PagingTitleBarFragment<HomeActivity>(), OnBack2TopListener {
 
-    private val mBinding: ArticleListFragmentBinding by viewBinding()
+    private val mBinding by viewBinding(ArticleListFragmentBinding::bind)
     private val mArticleViewModel by activityViewModels<ArticleViewModel>()
     private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()

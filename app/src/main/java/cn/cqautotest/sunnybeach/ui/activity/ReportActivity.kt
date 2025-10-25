@@ -4,15 +4,24 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.ReportActivityBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.fromJson
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.simpleToast
+import cn.cqautotest.sunnybeach.ktx.startActivity
+import cn.cqautotest.sunnybeach.ktx.textString
+import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.ReportType
-import cn.cqautotest.sunnybeach.util.*
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_FISH_URL_PRE
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_SHARE_URL_PRE
+import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_VIEW_USER_URL_PRE
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.dylanc.longan.intentExtras
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  * author : A Lonely Cat
@@ -22,7 +31,7 @@ import com.dylanc.longan.intentExtras
  */
 class ReportActivity : AppActivity() {
 
-    private val mBinding by viewBinding<ReportActivityBinding>()
+    private val mBinding by viewBinding(ReportActivityBinding::bind)
     private val mUserViewModel by viewModels<UserViewModel>()
     private val reportTypeJson by intentExtras<String>(REPORT_TYPE)
     private val reportType: ReportType by lazy { fromJson(reportTypeJson) }

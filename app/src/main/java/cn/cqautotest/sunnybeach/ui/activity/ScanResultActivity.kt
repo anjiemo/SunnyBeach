@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.Context
 import androidx.core.view.isVisible
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.ScanResultActivityBinding
@@ -12,6 +11,7 @@ import com.blankj.utilcode.util.ClipboardUtils
 import com.dylanc.longan.intentExtras
 import com.dylanc.longan.startActivity
 import com.huawei.hms.ml.scan.HmsScan
+import dev.androidbroadcast.vbpd.viewBinding
 import timber.log.Timber
 
 /**

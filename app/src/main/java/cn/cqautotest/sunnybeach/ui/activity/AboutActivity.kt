@@ -1,7 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import androidx.lifecycle.lifecycleScope
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.AboutActivityBinding
@@ -9,6 +8,7 @@ import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.util.NtpHelper
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_GITHUB_URL
 import com.blankj.utilcode.util.ClipboardUtils
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.launch
 import java.util.Calendar
 

@@ -10,7 +10,6 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SearchActivityBinding
@@ -25,6 +24,7 @@ import cn.cqautotest.sunnybeach.ui.popup.SearchFilterPopup
 import cn.cqautotest.sunnybeach.viewmodel.SearchViewModel
 import com.hjq.bar.TitleBar
 import com.lxj.xpopup.XPopup
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  * author : A Lonely Cat
@@ -34,7 +34,7 @@ import com.lxj.xpopup.XPopup
  */
 class SearchActivity : AppActivity() {
 
-    private val mBinding by viewBinding<SearchActivityBinding>()
+    private val mBinding by viewBinding(SearchActivityBinding::bind)
     private val mSearchViewModel by viewModels<SearchViewModel>()
 
     override fun getLayoutId(): Int = R.layout.search_activity
@@ -80,7 +80,8 @@ class SearchActivity : AppActivity() {
             }
             true
         }
-        val data = listOf("全部", "文章", "问答", "分享").mapIndexed { index, text -> SearchFilterItem(text = text, isChecked = index == 0) }
+        val data =
+            listOf("全部", "文章", "问答", "分享").mapIndexed { index, text -> SearchFilterItem(text = text, isChecked = index == 0) }
         var searchFilterPopup: SearchFilterPopup? = null
         SearchFilterPopup(this)
             .setData(data)

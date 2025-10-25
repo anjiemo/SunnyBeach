@@ -6,14 +6,18 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.SearchListFragmentBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.fromJson
+import cn.cqautotest.sunnybeach.ktx.loadStateListener
+import cn.cqautotest.sunnybeach.ktx.orEmpty
+import cn.cqautotest.sunnybeach.ktx.snapshotList
+import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.other.SearchType
 import cn.cqautotest.sunnybeach.other.SortType
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
@@ -27,6 +31,7 @@ import cn.cqautotest.sunnybeach.widget.StatusLayout
 import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import com.dylanc.longan.safeArguments
 import com.dylanc.longan.viewLifecycleScope
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -38,7 +43,7 @@ import kotlinx.coroutines.launch
  */
 class SearchListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener {
 
-    private val mBinding by viewBinding<SearchListFragmentBinding>()
+    private val mBinding by viewBinding(SearchListFragmentBinding::bind)
     private val mSearchViewModel by activityViewModels<SearchViewModel>()
     private val mAdapterDelegate = AdapterDelegate()
     private val mSearchResultListAdapter = SearchResultListAdapter(mAdapterDelegate)

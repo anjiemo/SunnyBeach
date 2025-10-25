@@ -13,7 +13,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import androidx.activity.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -27,6 +26,7 @@ import cn.cqautotest.sunnybeach.util.VERIFY_CODE_URL
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.flyjingfish.android_aop_core.annotations.SingleClick
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  *    author : Android 轮子哥 & A Lonely Cat
@@ -53,7 +53,7 @@ class PasswordResetActivity : AppActivity(), OnEditorActionListener {
         }
     }
 
-    private val mBinding by viewBinding<PasswordResetActivityBinding>()
+    private val mBinding by viewBinding(PasswordResetActivityBinding::bind)
     private val firstPassword: EditText? by lazy { findViewById(R.id.et_password_reset_password1) }
     private val secondPassword: EditText? by lazy { findViewById(R.id.et_password_reset_password2) }
     private val commitView: Button? by lazy { findViewById(R.id.btn_password_reset_commit) }
