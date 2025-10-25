@@ -133,13 +133,11 @@ class CreationCenterActivity : AppActivity() {
                     super.onCreate()
                     findViewById<ComposeView>(R.id.compose_view)
                         .setContent {
-                            val maxHeight = remember {
-                                (ScreenUtils.getScreenHeight() / 4f * 3f).pxToDp()
-                            }
+                            val maxHeight = remember { (ScreenUtils.getScreenHeight() / 4f * 3f).pxToDp().toFloat() }
                             SobIntroPopup(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .heightIn(max = Dp(maxHeight.toFloat()))
+                                    .heightIn(max = Dp(maxHeight))
                             )
                         }
                 }
