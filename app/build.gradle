@@ -272,24 +272,24 @@ dependencies {
     implementation 'com.github.getActivity:TitleBar:10.5'
 
     // 吐司框架：https://github.com/getActivity/Toaster
-    implementation 'com.github.getActivity:Toaster:12.8'
+    implementation 'com.github.getActivity:Toaster:13.6'
 
     // 网络请求框架：https://github.com/getActivity/EasyHttp
-    implementation 'com.github.getActivity:EasyHttp:10.2'
+    implementation 'com.github.getActivity:EasyHttp:13.0'
     // OkHttp 框架：https://github.com/square/okhttp
-    compileOnly 'com.squareup.okhttp3:okhttp:4.12.0'
+    compileOnly("com.squareup.okhttp3:okhttp")
     // Android网络请求库：https://github.com/square/retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:5.2.1"))
+    implementation 'com.squareup.retrofit2:converter-gson'
+    implementation("com.squareup.okhttp3:logging-interceptor")
 
     // Json 解析框架：https://github.com/google/gson
-    implementation 'com.google.code.gson:gson:2.12.1'
+    implementation 'com.google.code.gson:gson:2.13.2'
     // Gson 解析容错：https://github.com/getActivity/GsonFactory
-    implementation 'com.github.getActivity:GsonFactory:9.6'
+    implementation 'com.github.getActivity:GsonFactory:10.3'
 
     // Shape 框架：https://github.com/getActivity/ShapeView
-    implementation 'com.github.getActivity:ShapeView:8.5'
+    implementation 'com.github.getActivity:ShapeView:10.0'
 
     // AndroidAOP：https://github.com/FlyJingFish/AndroidAOP
     implementation "io.github.flyjingfish:androidaop-core:${android_aop_version}"
