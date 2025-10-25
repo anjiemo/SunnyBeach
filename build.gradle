@@ -10,7 +10,7 @@ buildscript {
     ext.kotlin_version = "2.0.0"
     ext.agcp_version = "1.9.1.303"
     ext.hilt_version = "2.51.1"
-    ext.android_aop_version = "1.4.7"
+    ext.android_aop_version = "2.7.3"
 
     repositories {
         // 阿里云云效仓库（Gradle 插件）：https://maven.aliyun.com/mvn/guide
@@ -29,7 +29,8 @@ buildscript {
         // noinspection GradleDependency
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:2.0.0-1.0.21"
-        classpath "io.github.FlyJingFish.AndroidAop:android-aop-plugin:${android_aop_version}"
+        // https://github.com/FlyJingFish/AndroidAOP/blob/master/build.gradle
+        classpath "io.github.flyjingfish:androidaop-plugin:${android_aop_version}"
         // 增加agcp插件配置
         classpath "com.huawei.agconnect:agcp:$agcp_version"
         // Hilt 插件：https://dagger.dev/hilt/gradle-setup
