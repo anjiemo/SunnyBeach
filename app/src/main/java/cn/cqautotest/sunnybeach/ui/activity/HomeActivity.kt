@@ -248,7 +248,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
 
     override fun onDestroy() {
         super.onDestroy()
-        pagerAdapter?.clearAllFragments()
+        pagerAdapter?.onCleared()
         viewPager2?.adapter = null
         navigationView?.adapter = null
         navigationAdapter?.setOnNavigationListener(null)
