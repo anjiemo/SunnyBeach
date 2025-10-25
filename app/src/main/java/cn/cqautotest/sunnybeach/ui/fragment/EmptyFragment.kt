@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
 import android.widget.ImageView
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
@@ -12,6 +11,7 @@ import cn.cqautotest.sunnybeach.databinding.EmptyFragmentBinding
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
 import cn.cqautotest.sunnybeach.util.EmojiMapHelper
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  * author : A Lonely Cat
@@ -21,7 +21,7 @@ import cn.cqautotest.sunnybeach.util.EmojiMapHelper
  */
 class EmptyFragment : AppFragment<AppActivity>() {
 
-    private val mBinding: EmptyFragmentBinding by viewBinding()
+    private val mBinding by viewBinding(EmptyFragmentBinding::bind)
 
     override fun getLayoutId(): Int = R.layout.empty_fragment
 

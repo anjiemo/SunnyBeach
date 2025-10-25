@@ -11,7 +11,6 @@ import androidx.activity.viewModels
 import androidx.core.view.GravityCompat
 import androidx.core.view.updatePadding
 import androidx.drawerlayout.widget.DrawerLayout
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.WeatherActivityBinding
@@ -23,11 +22,12 @@ import cn.cqautotest.sunnybeach.model.weather.Weather
 import cn.cqautotest.sunnybeach.model.weather.getSky
 import cn.cqautotest.sunnybeach.viewmodel.weather.WeatherViewModel
 import com.gyf.immersionbar.ImmersionBar
+import dev.androidbroadcast.vbpd.viewBinding
 
 class WeatherActivity : AppActivity() {
 
     val viewModel by viewModels<WeatherViewModel>()
-    val binding by viewBinding<WeatherActivityBinding>()
+    val binding by viewBinding(WeatherActivityBinding::bind)
     private val mSkyConList = arrayListOf<DailyResponse.Skycon>()
 
     override fun getLayoutId() = R.layout.weather_activity

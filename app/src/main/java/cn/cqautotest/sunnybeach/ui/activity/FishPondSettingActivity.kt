@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.Log
@@ -22,6 +21,7 @@ import com.chad.library.adapter.base.module.BaseDraggableModule
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
+import dev.androidbroadcast.vbpd.viewBinding
 import timber.log.Timber
 
 /**
@@ -32,7 +32,7 @@ import timber.log.Timber
  */
 class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
 
-    private val mBinding: FishPondSettingActivityBinding by viewBinding()
+    private val mBinding by viewBinding(FishPondSettingActivityBinding::bind)
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
     private lateinit var mStatusLayout: StatusLayout
     private lateinit var mRefreshLayout: SmartRefreshLayout

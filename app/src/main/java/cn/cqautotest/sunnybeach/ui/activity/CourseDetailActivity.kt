@@ -6,7 +6,6 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.PagingActivity
@@ -36,6 +35,7 @@ import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecorat
 import com.bumptech.glide.Glide
 import com.dylanc.longan.intentExtras
 import com.flyjingfish.android_aop_core.annotations.CheckNetwork
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
@@ -52,7 +52,7 @@ import timber.log.Timber
  */
 class CourseDetailActivity : PagingActivity() {
 
-    private val mBinding by viewBinding<CourseDetailActivityBinding>()
+    private val mBinding by viewBinding(CourseDetailActivityBinding::bind)
     private val mCourseViewModel by viewModels<CourseViewModel>()
     private val courseItemJson by intentExtras<String>(COURSE_ITEM)
     private val courseItem by lazy { fromJson<Course.CourseItem>(courseItemJson) }

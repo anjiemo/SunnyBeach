@@ -11,7 +11,6 @@ import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -38,6 +37,7 @@ import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
 import com.umeng.socialize.media.UMWeb
 import dagger.hilt.android.AndroidEntryPoint
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -50,7 +50,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class ViewUserActivity : AppActivity() {
 
-    private val mBinding by viewBinding<ViewUserActivityBinding>()
+    private val mBinding by viewBinding(ViewUserActivityBinding::bind)
     private val mUserViewModel by viewModels<UserViewModel>()
     private var mFriendsStatus = FriendsStatus.FOLLOW
     private var mUserInfo: UserInfo? = null

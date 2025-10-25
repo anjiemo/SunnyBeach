@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.Context
 import androidx.activity.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.CollectionDetailListActivityBinding
@@ -19,6 +18,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.CollectionViewModel
 import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import com.dylanc.longan.intentExtras
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -29,7 +29,7 @@ import kotlinx.coroutines.flow.collectLatest
  */
 class CollectionDetailListActivity : PagingActivity() {
 
-    private val mBinding by viewBinding<CollectionDetailListActivityBinding>()
+    private val mBinding by viewBinding(CollectionDetailListActivityBinding::bind)
     private val mCollectionViewModel by viewModels<CollectionViewModel>()
     private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()

@@ -1,7 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity.msg
 
 import androidx.activity.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.app.PagingActivity
@@ -16,6 +15,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.MomentMsgAdapter
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.collectLatest
  */
 class FishMsgListActivity : PagingActivity(), OnBack2TopListener {
 
-    private val mBinding by viewBinding<FishMsgListActivityBinding>()
+    private val mBinding by viewBinding(FishMsgListActivityBinding::bind)
     private val mMsgViewModel by viewModels<MsgViewModel>()
     private val mRefreshStatus = RefreshStatus()
     private val mAdapterDelegate = AdapterDelegate()

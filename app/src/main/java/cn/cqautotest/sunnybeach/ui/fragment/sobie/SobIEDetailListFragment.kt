@@ -1,13 +1,13 @@
 package cn.cqautotest.sunnybeach.ui.fragment.sobie
 
 import androidx.fragment.app.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.SobIeDeatilListFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
+import dev.androidbroadcast.vbpd.viewBinding
 import timber.log.Timber
 
 /**
@@ -18,7 +18,7 @@ import timber.log.Timber
  */
 open class SobIEDetailListFragment : AppFragment<AppActivity>() {
 
-    private val mBinding by viewBinding<SobIeDeatilListFragmentBinding>()
+    private val mBinding by viewBinding(SobIeDeatilListFragmentBinding::bind)
     private val mUserViewModel by viewModels<UserViewModel>()
 
     override fun getLayoutId() = R.layout.sob_ie_deatil_list_fragment

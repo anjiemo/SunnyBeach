@@ -17,7 +17,6 @@ import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.CreationCenterActivityBinding
@@ -36,6 +35,7 @@ import com.dylanc.longan.pxToDp
 import com.hjq.bar.TitleBar
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BottomPopupView
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.launch
 
 /**

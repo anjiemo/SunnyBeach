@@ -7,7 +7,6 @@ import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -26,6 +25,7 @@ import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.bar.TitleBar
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  * author : A Lonely Cat
@@ -35,7 +35,7 @@ import com.hjq.bar.TitleBar
  */
 class FishPondSelectionActivity : AppActivity(), StatusAction {
 
-    private val mBinding: FishPondSelectionActivityBinding by viewBinding()
+    private val mBinding by viewBinding(FishPondSelectionActivityBinding::bind)
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
     private val mRefreshStatus = RefreshStatus()
     private val mFishPondSelectionAdapter = FishPondSelectionAdapter()
