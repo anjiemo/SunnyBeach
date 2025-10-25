@@ -191,9 +191,9 @@
             <com.hjq.shape.layout.ShapeFrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                app:shape_angle="90"
-                app:shape_endColor="@color/white"
-                app:shape_startColor="#FEE4EC">
+                app:shape_solidGradientEndColor="@color/white"
+                app:shape_solidGradientOrientation="bottomToTop"
+                app:shape_solidGradientStartColor="#FEE4EC">
 
                 <ImageView
                     android:id="@+id/iv_become_vip"

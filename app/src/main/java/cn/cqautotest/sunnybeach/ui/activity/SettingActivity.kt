@@ -41,7 +41,7 @@ import com.dylanc.longan.context
 import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.base.action.AnimAction
 import com.hjq.http.EasyHttp
-import com.hjq.http.listener.HttpCallback
+import com.hjq.http.listener.HttpCallbackProxy
 import com.hjq.widget.layout.SettingBar
 import com.lzf.easyfloat.EasyFloat
 import com.lzf.easyfloat.enums.ShowPattern
@@ -268,8 +268,8 @@ class SettingActivity : AppActivity() {
                 // 退出登录
                 EasyHttp.post(this)
                     .api(LogoutApi())
-                    .request(object : HttpCallback<HttpData<Void?>>(this) {
-                        override fun onSucceed(data: HttpData<Void?>) {
+                    .request(object : HttpCallbackProxy<HttpData<Void?>>(this) {
+                        override fun onHttpSuccess(result: HttpData<Void?>) {
                             LoginActivity.start(
                                 context,
                                 UserManager.getCurrLoginAccount(),

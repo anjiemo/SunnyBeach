@@ -29,8 +29,9 @@ import com.hjq.bar.TitleBar
 import com.hjq.base.BaseActivity
 import com.hjq.base.BaseAdapter
 import com.hjq.base.BaseDialog
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.PermissionNames
 import com.hjq.widget.view.FloatActionButton
 import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.coroutines.Dispatchers
@@ -39,7 +40,7 @@ import java.io.File
 import java.util.Objects
 
 /**
- *    author : Android 轮子哥
+ *    author : Android 轮子哥 & A Lonely Cat
  *    github : https://github.com/getActivity/AndroidProject-Kotlin
  *    time   : 2020/03/01
  *    desc   : 选择视频
@@ -57,7 +58,10 @@ class VideoSelectActivity : AppActivity(), StatusAction, Runnable, BaseAdapter.O
         }
 
         @Log
-        @com.flyjingfish.android_aop_core.annotations.Permission(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
+        @com.flyjingfish.android_aop_core.annotations.Permission(
+            PermissionNames.READ_EXTERNAL_STORAGE,
+            PermissionNames.WRITE_EXTERNAL_STORAGE
+        )
         fun start(activity: BaseActivity, maxSelect: Int, listener: OnVideoSelectListener?) {
             if (maxSelect < 1) {
                 // 最少要选择一个视频
@@ -362,7 +366,11 @@ class VideoSelectActivity : AppActivity(), StatusAction, Runnable, BaseAdapter.O
             MediaStore.MediaColumns.WIDTH, MediaStore.MediaColumns.HEIGHT, MediaStore.MediaColumns.SIZE, MediaStore.Video.Media.DURATION
         )
         var cursor: Cursor? = null
-        if (XXPermissions.isGranted(this, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)) {
+        if (XXPermissions.isGrantedPermissions(
+                this,
+                arrayOf(PermissionLists.getReadExternalStoragePermission(), PermissionLists.getWriteExternalStoragePermission())
+            )
+        ) {
             cursor = contentResolver.query(
                 contentUri, projections, selection,
                 arrayOf<String?>(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO.toString()), sortOrder

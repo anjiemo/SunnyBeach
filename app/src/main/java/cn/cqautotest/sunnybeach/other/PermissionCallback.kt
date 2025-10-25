@@ -6,10 +6,10 @@ import android.os.Build
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
-import com.hjq.base.BaseDialog
 import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.base.IPermission
 import com.hjq.toast.Toaster
 
 /**
@@ -20,12 +20,20 @@ import com.hjq.toast.Toaster
  */
 abstract class PermissionCallback : OnPermissionCallback {
 
-    override fun onDenied(permissions: MutableList<String>, never: Boolean) {
+    override fun onResult(grantedList: List<IPermission>, deniedList: List<IPermission>) {
+        if (deniedList.isNotEmpty()) {
+            val activity = ActivityManager.getInstance().getTopActivity() ?: return
+            val never = deniedList.any { permission -> permission.isDoNotAskAgainPermission(activity) }
+            onDenied(deniedList, never)
+        }
+    }
+
+    private fun onDenied(permissions: List<IPermission>, never: Boolean) {
         if (never) {
             showPermissionDialog(permissions)
             return
         }
-        if (permissions.size == 1 && (Permission.ACCESS_BACKGROUND_LOCATION == permissions[0])) {
+        if (permissions.size == 1 && (PermissionLists.getAccessBackgroundLocationPermission() == permissions[0])) {
             Toaster.show(R.string.common_permission_fail_4)
             return
         }
@@ -35,7 +43,7 @@ abstract class PermissionCallback : OnPermissionCallback {
     /**
      * 显示授权对话框
      */
-    protected fun showPermissionDialog(permissions: MutableList<String>) {
+    protected fun showPermissionDialog(permissions: List<IPermission>) {
         val activity: Activity? = ActivityManager.getInstance().getTopActivity()
         if ((activity == null) || activity.isFinishing || activity.isDestroyed) {
             return
@@ -46,50 +54,50 @@ abstract class PermissionCallback : OnPermissionCallback {
             .setConfirm(R.string.common_permission_goto)
             .setCancel(null)
             .setCancelable(false)
-            .setListener(object : MessageDialog.OnListener {
-
-                override fun onConfirm(dialog: BaseDialog?) {
-                    XXPermissions.startPermissionActivity(activity, permissions)
-                }
-            })
+            .setListener {
+                XXPermissions.startPermissionActivity(activity, permissions)
+            }
             .show()
     }
 
     /**
      * 根据权限获取提示
      */
-    protected fun getPermissionHint(context: Context, permissions: MutableList<String>): String {
+    protected fun getPermissionHint(context: Context, permissions: List<IPermission>): String {
         if (permissions.isEmpty()) {
             return context.getString(R.string.common_permission_fail_2)
         }
         val hints: MutableList<String> = ArrayList()
-        for (permission: String? in permissions) {
+        for (permission: IPermission? in permissions) {
             when (permission) {
-                Permission.READ_EXTERNAL_STORAGE,
-                Permission.WRITE_EXTERNAL_STORAGE,
-                Permission.MANAGE_EXTERNAL_STORAGE -> {
+                PermissionLists.getReadExternalStoragePermission(),
+                PermissionLists.getWriteExternalStoragePermission(),
+                PermissionLists.getManageExternalStoragePermission() -> {
                     val hint: String = context.getString(R.string.common_permission_storage)
                     if (!hints.contains(hint)) {
                         hints.add(hint)
                     }
                 }
-                Permission.CAMERA -> {
+
+                PermissionLists.getCameraPermission() -> {
                     val hint: String = context.getString(R.string.common_permission_camera)
                     if (!hints.contains(hint)) {
                         hints.add(hint)
                     }
                 }
-                Permission.RECORD_AUDIO -> {
+
+                PermissionLists.getRecordAudioPermission() -> {
                     val hint: String = context.getString(R.string.common_permission_microphone)
                     if (!hints.contains(hint)) {
                         hints.add(hint)
                     }
                 }
-                Permission.ACCESS_FINE_LOCATION,
-                Permission.ACCESS_COARSE_LOCATION,
-                Permission.ACCESS_BACKGROUND_LOCATION -> {
-                    val hint: String = if (!permissions.contains(Permission.ACCESS_FINE_LOCATION) &&
-                        !permissions.contains(Permission.ACCESS_COARSE_LOCATION)
+
+                PermissionLists.getAccessFineLocationPermission(),
+                PermissionLists.getAccessCoarseLocationPermission(),
+                PermissionLists.getAccessBackgroundLocationPermission() -> {
+                    val hint: String = if (!permissions.contains(PermissionLists.getAccessFineLocationPermission()) &&
+                        !permissions.contains(PermissionLists.getAccessCoarseLocationPermission())
                     ) {
                         context.getString(R.string.common_permission_location_background)
                     } else {
@@ -99,82 +107,93 @@ abstract class PermissionCallback : OnPermissionCallback {
                         hints.add(hint)
                     }
                 }
-                Permission.READ_PHONE_STATE,
-                Permission.CALL_PHONE,
-                Permission.ADD_VOICEMAIL,
-                Permission.USE_SIP,
-                Permission.READ_PHONE_NUMBERS,
-                Permission.ANSWER_PHONE_CALLS -> {
+
+                PermissionLists.getReadPhoneStatePermission(),
+                PermissionLists.getCallPhonePermission(),
+                PermissionLists.getAddVoicemailPermission(),
+                PermissionLists.getUseSipPermission(),
+                PermissionLists.getReadPhoneNumbersPermission(),
+                PermissionLists.getAnswerPhoneCallsPermission() -> {
                     val hint: String = context.getString(R.string.common_permission_phone)
                     if (!hints.contains(hint)) {
                         hints.add(hint)
                     }
                 }
-                Permission.GET_ACCOUNTS,
-                Permission.READ_CONTACTS,
-                Permission.WRITE_CONTACTS -> {
+
+                PermissionLists.getGetAccountsPermission(),
+                PermissionLists.getReadContactsPermission(),
+                PermissionLists.getWriteContactsPermission() -> {
                     val hint: String = context.getString(R.string.common_permission_contacts)
                     if (!hints.contains(hint)) {
                         hints.add(hint)
                     }
                 }
-                Permission.READ_CALENDAR,
-                Permission.WRITE_CALENDAR -> {
+
+                PermissionLists.getReadCalendarPermission(),
+                PermissionLists.getWriteCalendarPermission() -> {
                     val hint: String = context.getString(R.string.common_permission_calendar)
                     if (!hints.contains(hint)) {
                         hints.add(hint)
                     }
                 }
-                Permission.READ_CALL_LOG,
-                Permission.WRITE_CALL_LOG,
-                Permission.PROCESS_OUTGOING_CALLS -> {
+
+                PermissionLists.getReadCallLogPermission(),
+                PermissionLists.getWriteCallLogPermission(),
+                PermissionLists.getProcessOutgoingCallsPermission() -> {
                     val hint: String =
                         context.getString(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) R.string.common_permission_call_log else R.string.common_permission_phone)
                     if (!hints.contains(hint)) {
                         hints.add(hint)
                     }
                 }
-                Permission.BODY_SENSORS -> {
+
+                PermissionLists.getBodySensorsPermission() -> {
                     val hint: String = context.getString(R.string.common_permission_sensors)
                     if (!hints.contains(hint)) {
                         hints.add(hint)
                     }
                 }
-                Permission.ACTIVITY_RECOGNITION -> {
+
+                PermissionLists.getActivityRecognitionPermission() -> {
                     val hint: String = context.getString(R.string.common_permission_activity_recognition)
                     if (!hints.contains(hint)) {
                         hints.add(hint)
                     }
                 }
-                Permission.SEND_SMS,
-                Permission.RECEIVE_SMS,
-                Permission.READ_SMS,
-                Permission.RECEIVE_WAP_PUSH,
-                Permission.RECEIVE_MMS -> {
+
+                PermissionLists.getSendSmsPermission(),
+                PermissionLists.getReceiveSmsPermission(),
+                PermissionLists.getReadSmsPermission(),
+                PermissionLists.getReceiveWapPushPermission(),
+                PermissionLists.getReceiveMmsPermission() -> {
                     val hint: String = context.getString(R.string.common_permission_sms)
                     if (!hints.contains(hint)) {
                         hints.add(hint)
                     }
                 }
-                Permission.REQUEST_INSTALL_PACKAGES -> {
+
+                PermissionLists.getRequestInstallPackagesPermission() -> {
                     val hint: String = context.getString(R.string.common_permission_install)
                     if (!hints.contains(hint)) {
                         hints.add(hint)
                     }
                 }
-                Permission.NOTIFICATION_SERVICE -> {
+
+                PermissionLists.getNotificationServicePermission() -> {
                     val hint: String = context.getString(R.string.common_permission_notification)
                     if (!hints.contains(hint)) {
                         hints.add(hint)
                     }
                 }
-                Permission.SYSTEM_ALERT_WINDOW -> {
+
+                PermissionLists.getSystemAlertWindowPermission() -> {
                     val hint: String = context.getString(R.string.common_permission_window)
                     if (!hints.contains(hint)) {
                         hints.add(hint)
                     }
                 }
-                Permission.WRITE_SETTINGS -> {
+
+                PermissionLists.getWriteSettingsPermission() -> {
                     val hint: String = context.getString(R.string.common_permission_setting)
                     if (!hints.contains(hint)) {
                         hints.add(hint)

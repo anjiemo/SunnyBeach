@@ -9,8 +9,6 @@ static def addCommonMaven(RepositoryHandler handler) {
     // JitPack 远程仓库：https://jitpack.io
     handler.maven { url 'https://jitpack.io' }
     handler.google()
-    // noinspection JcenterRepositoryObsolete
-    handler.jcenter()
     // 配置HMS Core SDK的Maven仓地址
     handler.maven { url 'https://developer.huawei.com/repo/' }
     // 阿里云视频SDK所在的仓库

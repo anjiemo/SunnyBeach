@@ -57,7 +57,7 @@ import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecorat
 import com.dylanc.longan.startActivity
 import com.dylanc.longan.viewLifecycleScope
 import com.hjq.bar.TitleBar
-import com.hjq.permissions.Permission
+import com.hjq.permissions.permission.PermissionNames
 import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
 import dagger.hilt.android.AndroidEntryPoint
@@ -242,7 +242,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             ?: rootView.removeMourningStyle()
     }
 
-    @com.flyjingfish.android_aop_core.annotations.Permission(Permission.CAMERA)
+    @com.flyjingfish.android_aop_core.annotations.Permission(PermissionNames.CAMERA)
     override fun onRightClick(titleBar: TitleBar) {
         // “QRCODE_SCAN_TYPE”和“DATAMATRIX_SCAN_TYPE”表示只扫描QR和Data Matrix的码
         val options = HmsScanAnalyzerOptions.Creator()

@@ -14,7 +14,7 @@ import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.other.AppConfig
 import com.hjq.base.BaseActivity
-import com.hjq.permissions.Permission
+import com.hjq.permissions.permission.PermissionNames
 import com.tencent.bugly.crashreport.CrashReport
 import java.io.File
 import java.text.SimpleDateFormat
@@ -44,7 +44,10 @@ class ImageCropActivity : AppActivity() {
         }
 
         @Log
-        @com.flyjingfish.android_aop_core.annotations.Permission(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
+        @com.flyjingfish.android_aop_core.annotations.Permission(
+            PermissionNames.READ_EXTERNAL_STORAGE,
+            PermissionNames.WRITE_EXTERNAL_STORAGE
+        )
         fun start(activity: BaseActivity, file: File?, cropRatioX: Int, cropRatioY: Int, listener: OnCropListener?) {
             val intent = Intent(activity, ImageCropActivity::class.java)
             intent.putExtra(INTENT_KEY_IN_SOURCE_IMAGE_PATH, file.toString())
