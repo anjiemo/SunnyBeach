@@ -35,6 +35,7 @@ import cn.cqautotest.sunnybeach.other.TitleBarStyle
 import cn.cqautotest.sunnybeach.other.ToastStyle
 import cn.cqautotest.sunnybeach.util.ActivityLifecycleLogger
 import cn.cqautotest.sunnybeach.util.PushHelper
+import cn.cqautotest.sunnybeach.util.permission.XXPermissionTransformer
 import cn.cqautotest.sunnybeach.util.toast.AppToastLogInterceptor
 import cn.cqautotest.sunnybeach.work.CacheCleanupWorker
 import com.bumptech.glide.Glide
@@ -53,10 +54,12 @@ import com.hjq.bar.TitleBar
 import com.hjq.gson.factory.GsonFactory
 import com.hjq.gson.factory.ParseExceptionCallback
 import com.hjq.http.EasyConfig
-import com.hjq.http.config.IRequestApi
+import com.hjq.http.config.IRequestInterceptor
 import com.hjq.http.model.HttpHeaders
 import com.hjq.http.model.HttpParams
+import com.hjq.http.request.HttpRequest
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.base.IPermission
 import com.hjq.toast.Toaster
 import com.hjq.umeng.UmengClient
 import com.scwang.smart.refresh.header.ClassicsHeader
@@ -222,13 +225,16 @@ class AppApplication : Application(), Configuration.Provider {
                 .setHandler(RequestHandler(application))
                 // 设置请求重试次数
                 .setRetryCount(1)
-                .setInterceptor { _: IRequestApi, _: HttpParams, headers: HttpHeaders ->
-                    // 添加全局请求头
-                    // headers.put("token", "66666666666")
-                    headers.put("deviceOaid", UmengClient.getDeviceOaid())
-                    headers.put("versionName", AppConfig.getVersionName())
-                    headers.put("versionCode", AppConfig.getVersionCode().toString())
-                }
+                .setInterceptor(object : IRequestInterceptor {
+
+                    override fun interceptArguments(httpRequest: HttpRequest<*>, params: HttpParams, headers: HttpHeaders) {
+                        // 添加全局请求头
+                        // headers.put("token", "66666666666")
+                        headers.put("deviceOaid", UmengClient.getDeviceOaid())
+                        headers.put("versionName", AppConfig.getVersionName())
+                        headers.put("versionCode", AppConfig.getVersionCode().toString())
+                    }
+                })
                 .into()
 
             // 设置 Json 解析容错监听
@@ -319,10 +325,13 @@ class AppApplication : Application(), Configuration.Provider {
         }
 
         private fun requestPermissions(joinPoint: ProceedJoinPoint, activity: Activity, permissions: Array<out String>) {
+            val permissionList = XXPermissionTransformer.transform(permissions.toList())
             XXPermissions.with(activity)
-                .permission(*permissions)
+                .permissions(permissionList)
                 .request(object : PermissionCallback() {
-                    override fun onGranted(permissions: MutableList<String>, all: Boolean) {
+
+                    override fun onResult(grantedList: List<IPermission>, deniedList: List<IPermission>) {
+                        val all = deniedList.isEmpty()
                         if (all) {
                             try {
                                 // 获得权限，执行原方法
@@ -338,7 +347,7 @@ class AppApplication : Application(), Configuration.Provider {
         /**
          * 修复 Android 9+ 多进程 WebView 崩溃
          */
-        fun fixWebViewDataDirectoryBug(context: Context) {
+        private fun fixWebViewDataDirectoryBug(context: Context) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 getProcessName()?.takeIf { it != context.packageName }
                     ?.let(WebView::setDataDirectorySuffix)

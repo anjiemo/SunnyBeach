@@ -20,8 +20,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shape_topLeftRadius="@dimen/dp_10"
-            app:shape_topRightRadius="@dimen/dp_10"
+            app:shape_radiusInTopLeft="@dimen/dp_10"
+            app:shape_radiusInTopRight="@dimen/dp_10"
             tools:srcCompat="@drawable/example_bg" />
 
         <TextView

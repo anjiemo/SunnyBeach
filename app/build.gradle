@@ -6,7 +6,7 @@ plugins {
     id('com.android.application')
     id('org.jetbrains.kotlin.android')
     id('com.google.devtools.ksp')
-    id('dagger.hilt.android.plugin')
+    id('com.google.dagger.hilt.android')
     id('com.huawei.agconnect')
     id('android.aop')
     id('org.jetbrains.kotlin.plugin.compose') version "$kotlin_version" // 此版本与 Kotlin 版本匹配
@@ -277,11 +277,11 @@ dependencies {
     // 网络请求框架：https://github.com/getActivity/EasyHttp
     implementation 'com.github.getActivity:EasyHttp:13.0'
     // OkHttp 框架：https://github.com/square/okhttp
-    compileOnly("com.squareup.okhttp3:okhttp")
-    // Android网络请求库：https://github.com/square/retrofit
     implementation(platform("com.squareup.okhttp3:okhttp-bom:5.2.1"))
-    implementation 'com.squareup.retrofit2:converter-gson'
     implementation("com.squareup.okhttp3:logging-interceptor")
+    // Android网络请求库：https://github.com/square/retrofit
+    implementation 'com.squareup.retrofit2:retrofit:3.0.0'
+    implementation 'com.squareup.retrofit2:converter-gson:3.0.0'
 
     // Json 解析框架：https://github.com/google/gson
     implementation 'com.google.code.gson:gson:2.13.2'

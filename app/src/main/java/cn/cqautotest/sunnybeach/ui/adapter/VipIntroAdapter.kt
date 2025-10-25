@@ -22,7 +22,7 @@ class VipIntroAdapter : RecyclerView.Adapter<VipIntroAdapter.ViewHolder>() {
     @SuppressLint("NotifyDataSetChanged")
     fun setData(data: List<VipIntro>) = mAdapterDataStore.submitData(data) { notifyDataSetChanged() }
 
-    data class VipIntro(@DrawableRes val resId: Int, val title: String, val desc: String)
+    data class VipIntro(@field:DrawableRes val resId: Int, val title: String, val desc: String)
 
     inner class ViewHolder(val binding: VipIntroItemBinding) : RecyclerView.ViewHolder(binding.root) {
 

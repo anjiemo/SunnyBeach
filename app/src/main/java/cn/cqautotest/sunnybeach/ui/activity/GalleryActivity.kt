@@ -35,7 +35,7 @@ import com.blankj.utilcode.util.UriUtils
 import com.dylanc.longan.activity
 import com.dylanc.longan.context
 import com.dylanc.longan.windowInsetsControllerCompat
-import com.hjq.permissions.Permission
+import com.hjq.permissions.permission.PermissionNames
 import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -134,7 +134,7 @@ class GalleryActivity : AppActivity() {
         }
     }
 
-    @com.flyjingfish.android_aop_core.annotations.Permission(Permission.READ_MEDIA_IMAGES)
+    @com.flyjingfish.android_aop_core.annotations.Permission(PermissionNames.READ_MEDIA_IMAGES)
     fun downloadImage() {
         lifecycleScope.launch {
             simpleToast("正在下载图片，请稍后...")

@@ -104,10 +104,10 @@
             android:text="了解详情"
             android:textColor="@color/white"
             android:textSize="14sp"
-            app:shape_endColor="#888B99"
+            app:shape_solidGradientEndColor="#888B99"
             app:shape_radius="17dp"
             app:shape_solidPressedColor="#80333333"
-            app:shape_startColor="#333333" />
+            app:shape_solidGradientStartColor="#333333" />
 
     </FrameLayout>
 

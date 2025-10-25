@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    app:shape_bottomLeftRadius="@dimen/dp_10"
-    app:shape_bottomRightRadius="@dimen/dp_10"
+    app:shape_radiusInBottomLeft="@dimen/dp_10"
+    app:shape_radiusInBottomRight="@dimen/dp_10"
     app:shape_solidColor="@color/white">
 
     <androidx.recyclerview.widget.RecyclerView

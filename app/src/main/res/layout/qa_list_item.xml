@@ -27,7 +27,7 @@
             android:gravity="center"
             android:paddingHorizontal="@dimen/dp_4"
             app:shape_radius="@dimen/dp_4"
-            app:shape_strokeWidth="1px"
+            app:shape_strokeSize="1px"
             tools:shape_solidColor="#48A868"
             tools:text="√ 5 答案"
             tools:textColor="@color/white" />

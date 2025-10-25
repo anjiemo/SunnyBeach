@@ -72,14 +72,14 @@ class SafeDialog {
                         })
                         .request(object : OnHttpListener<HttpData<Void?>?> {
 
-                            override fun onSucceed(data: HttpData<Void?>?) {
+                            override fun onHttpSuccess(result: HttpData<Void?>) {
                                 Toaster.show(R.string.common_code_send_hint)
                                 countdownView?.start()
                                 setCancelable(false)
                             }
 
-                            override fun onFail(e: Exception) {
-                                Toaster.show(e.message)
+                            override fun onHttpFail(throwable: Throwable) {
+                                Toaster.show(throwable.message)
                             }
                         })
                 }
@@ -102,13 +102,13 @@ class SafeDialog {
                         })
                         .request(object : OnHttpListener<HttpData<Void?>?> {
 
-                            override fun onSucceed(data: HttpData<Void?>?) {
+                            override fun onHttpSuccess(result: HttpData<Void?>) {
                                 autoDismiss()
                                 listener?.onConfirm(getDialog(), phoneNumber, codeView?.text.toString())
                             }
 
-                            override fun onFail(e: Exception) {
-                                Toaster.show(e.message)
+                            override fun onHttpFail(throwable: Throwable) {
+                                Toaster.show(throwable.message)
                             }
                         })
                 }

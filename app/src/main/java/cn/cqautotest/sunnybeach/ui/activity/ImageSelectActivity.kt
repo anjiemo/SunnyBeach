@@ -26,15 +26,16 @@ import com.hjq.bar.TitleBar
 import com.hjq.base.BaseActivity
 import com.hjq.base.BaseAdapter
 import com.hjq.base.BaseDialog
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.PermissionNames
 import com.hjq.widget.view.FloatActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
 /**
- *    author : Android 轮子哥
+ *    author : Android 轮子哥 & A Lonely Cat
  *    github : https://github.com/getActivity/AndroidProject-Kotlin
  *    time   : 2019/07/24
  *    desc   : 选择图片
@@ -53,7 +54,7 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
         }
 
         @Log
-        @com.flyjingfish.android_aop_core.annotations.Permission(Permission.READ_MEDIA_IMAGES, Permission.WRITE_EXTERNAL_STORAGE)
+        @com.flyjingfish.android_aop_core.annotations.Permission(PermissionNames.READ_MEDIA_IMAGES, PermissionNames.WRITE_EXTERNAL_STORAGE)
         fun start(activity: BaseActivity, maxSelect: Int, listener: OnPhotoSelectListener?) {
             if (maxSelect < 1) {
                 // 最少要选择一个图片
@@ -344,7 +345,11 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
             MediaStore.MediaColumns.WIDTH, MediaStore.MediaColumns.HEIGHT, MediaStore.MediaColumns.SIZE
         )
         var cursor: Cursor? = null
-        if (XXPermissions.isGranted(this, Permission.READ_MEDIA_IMAGES, Permission.WRITE_EXTERNAL_STORAGE)) {
+        if (XXPermissions.isGrantedPermissions(
+                this,
+                arrayOf(PermissionLists.getReadMediaImagesPermission(), PermissionLists.getWriteExternalStoragePermission())
+            )
+        ) {
             cursor = contentResolver.query(
                 contentUri, projections, selection,
                 arrayOf<String?>(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE.toString()), sortOrder

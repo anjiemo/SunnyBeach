@@ -18,7 +18,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.base.BaseDialog
 import com.hjq.http.EasyHttp
-import com.hjq.http.listener.HttpCallback
+import com.hjq.http.listener.HttpCallbackProxy
 import com.hjq.http.model.FileContentResolver
 import com.hjq.widget.layout.SettingBar
 import java.io.File
@@ -190,9 +190,9 @@ class PersonalDataActivity : AppActivity() {
             .api(UpdateImageApi().apply {
                 setImage(file)
             })
-            .request(object : HttpCallback<HttpData<String?>>(this) {
-                override fun onSucceed(data: HttpData<String?>) {
-                    avatarUrl = Uri.parse(data.getData())
+            .request(object : HttpCallbackProxy<HttpData<String?>>(this) {
+                override fun onHttpSuccess(result: HttpData<String?>) {
+                    avatarUrl = Uri.parse(result.getData())
                     avatarView?.let {
                         GlideApp.with(this@PersonalDataActivity)
                             .load(avatarUrl)

@@ -13,11 +13,11 @@ import com.gyf.immersionbar.ImmersionBar
 import com.hjq.bar.TitleBar
 import com.hjq.base.BaseActivity
 import com.hjq.base.BaseDialog
+import com.hjq.http.config.IRequestApi
 import com.hjq.http.listener.OnHttpListener
-import okhttp3.Call
 
 /**
- *    author : Android 轮子哥
+ *    author : Android 轮子哥 & A Lonely Cat
  *    github : https://github.com/getActivity/AndroidProject-Kotlin
  *    time   : 2018/10/18
  *    desc   : Activity 业务基类
@@ -178,21 +178,21 @@ abstract class AppActivity : BaseActivity(), Init,
     /**
      * [OnHttpListener]
      */
-    override fun onStart(call: Call) {
+    override fun onHttpStart(api: IRequestApi) {
         showDialog()
     }
 
-    override fun onSucceed(result: Any) {
+    override fun onHttpSuccess(result: Any) {
         if (result is HttpData<*>) {
             toast(result.getMessage())
         }
     }
 
-    override fun onFail(e: Exception) {
-        toast(e.message)
+    override fun onHttpFail(t: Throwable) {
+        toast(t.message)
     }
 
-    override fun onEnd(call: Call) {
+    override fun onHttpEnd(api: IRequestApi) {
         hideDialog()
     }
 

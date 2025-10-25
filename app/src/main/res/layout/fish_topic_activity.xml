@@ -77,7 +77,7 @@
                 app:shape_solidColor="@color/follow_btn_text_normal_color"
                 app:shape_solidSelectedColor="@color/transparent"
                 app:shape_strokeSelectedColor="@color/white"
-                app:shape_strokeWidth="@dimen/dp_1" />
+                app:shape_strokeSize="@dimen/dp_1" />
 
             <TextView
                 android:id="@+id/tv_summary"

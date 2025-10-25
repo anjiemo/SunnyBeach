@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:shape_angle="45"
-    app:shape_centerColor="#FABB7AEA"
-    app:shape_endColor="#E6FF4DE3"
+    app:shape_solidGradientOrientation="bottomLeftToTopRight"
+    app:shape_solidGradientCenterColor="#FABB7AEA"
+    app:shape_solidGradientEndColor="#E6FF4DE3"
     app:shape_radius="@dimen/dp_10"
-    app:shape_startColor="#4C66FB"
+    app:shape_solidGradientStartColor="#4C66FB"
     tools:showIn="@layout/sob_card_activity">
 
     <com.hjq.shape.view.ShapeImageView
