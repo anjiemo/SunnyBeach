@@ -49,7 +49,6 @@ import cn.cqautotest.sunnybeach.ui.adapter.RecommendFishTopicListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.MultiOperationHelper
 import cn.cqautotest.sunnybeach.util.MyScanUtil
-import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -86,7 +85,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     lateinit var mMultiOperationHelper: MultiOperationHelper
 
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
-    private val mUserViewModel by activityViewModels<UserViewModel>()
     private val mRefreshStatus = RefreshStatus()
     private val mRecommendFishTopicListAdapterDelegate = AdapterDelegate()
     private val mFishListAdapterDelegate = AdapterDelegate()

@@ -65,7 +65,6 @@ class UmengLogin {
     class LoginListenerWrapper internal constructor(platform: SHARE_MEDIA, private var listener: OnLoginListener?) : UMAuthListener {
 
         private var platform: Platform = when (platform) {
-            SHARE_MEDIA.QQ -> Platform.QQ
             SHARE_MEDIA.WEIXIN -> Platform.WECHAT
             else -> throw IllegalStateException("are you ok?")
         }
