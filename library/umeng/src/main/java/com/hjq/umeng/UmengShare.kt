@@ -20,8 +20,6 @@ class UmengShare {
     ) : UMShareListener {
 
         private var platform: Platform = when (platform) {
-            SHARE_MEDIA.QQ -> Platform.QQ
-            SHARE_MEDIA.QZONE -> Platform.QZONE
             SHARE_MEDIA.WEIXIN -> Platform.WECHAT
             SHARE_MEDIA.WEIXIN_CIRCLE -> Platform.CIRCLE
             else -> throw IllegalStateException("are you ok?")
