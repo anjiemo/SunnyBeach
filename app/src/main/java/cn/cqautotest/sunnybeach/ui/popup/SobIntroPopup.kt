@@ -6,6 +6,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -18,6 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -62,11 +65,13 @@ fun SobIntroPopup(modifier: Modifier = Modifier) {
                 )
             )
         }
-        LazyColumn {
+        val nestedScrollInterop = rememberNestedScrollInteropConnection()
+        LazyColumn(modifier = Modifier.nestedScroll(nestedScrollInterop)) {
             items(sections.size, key = { index -> "section_${index}" }) { index ->
                 IntroSectionContent(
                     section = sections[index],
-                    isLastSection = index == sections.lastIndex
+                    isLastSection = index == sections.lastIndex,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
@@ -74,11 +79,11 @@ fun SobIntroPopup(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun IntroSectionContent(section: IntroSection, isLastSection: Boolean) {
+private fun IntroSectionContent(section: IntroSection, isLastSection: Boolean, modifier: Modifier = Modifier) {
     val titleText = stringResource(section.titleRes)
     val contentItems = stringArrayResource(section.contentArrayRes)
 
-    Column {
+    Column(modifier = modifier) {
         SobIntroTitle(text = titleText)
         Spacer(modifier = Modifier.height(10.dp))
 
