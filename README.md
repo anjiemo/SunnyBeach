@@ -66,7 +66,7 @@ KeyPassword=AndroidProject
 ```
 
 - 在 app 模块下创建 gradle.properties 文件并填写您的签名信息（已添加到 gitignore 忽略文件中，进行 git 提交时不会泄露您的秘钥信息）
-- 将项目根目录下 configs.gradle 文件中的 UMENG_APP_KEY、QQ_APP_ID、QQ_APP_SECRET、WX_APP_ID、WX_APP_SECRET、BUGLY_ID
+- 将项目根目录下 configs.gradle 文件中的 UMENG_APP_KEY、WX_APP_ID、WX_APP_SECRET、BUGLY_ID
   替换为自己的相关信息
 - 点击 AndroidStudio 右上角 <font color="blue">Sync Now</font> 按钮进行同步，并等待同步完成即可
 

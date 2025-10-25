@@ -138,8 +138,6 @@
 
     <string name="share_platform_wechat">微信</string>
     <string name="share_platform_moment">朋友圈</string>
-    <string name="share_platform_qq">QQ</string>
-    <string name="share_platform_qzone">QQ空间</string>
     <string name="share_platform_link">复制链接</string>
 
     <string name="share_platform_copy_hint">已复制到剪贴板</string>
