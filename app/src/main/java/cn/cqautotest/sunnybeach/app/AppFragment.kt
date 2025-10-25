@@ -6,11 +6,11 @@ import cn.cqautotest.sunnybeach.action.Init
 import cn.cqautotest.sunnybeach.action.ToastAction
 import cn.cqautotest.sunnybeach.http.model.HttpData
 import com.hjq.base.BaseFragment
+import com.hjq.http.config.IRequestApi
 import com.hjq.http.listener.OnHttpListener
-import okhttp3.Call
 
 /**
- *    author : Android 轮子哥
+ *    author : Android 轮子哥 & A Lonely Cat
  *    github : https://github.com/getActivity/AndroidProject-Kotlin
  *    time   : 2018/10/18
  *    desc   : Fragment 业务基类
@@ -53,22 +53,22 @@ abstract class AppFragment<A : AppActivity> : BaseFragment<A>(),
     /**
      * [OnHttpListener]
      */
-    override fun onStart(call: Call) {
+    override fun onHttpStart(api: IRequestApi) {
         showDialog()
     }
 
-    override fun onSucceed(result: Any) {
+    override fun onHttpSuccess(result: Any) {
         if (result !is HttpData<*>) {
             return
         }
         toast(result.getMessage())
     }
 
-    override fun onFail(e: Exception) {
-        toast(e.message)
+    override fun onHttpFail(t: Throwable) {
+        toast(t.message)
     }
 
-    override fun onEnd(call: Call) {
+    override fun onHttpEnd(api: IRequestApi) {
         hideDialog()
     }
 }

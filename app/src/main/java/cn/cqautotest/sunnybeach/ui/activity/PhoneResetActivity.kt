@@ -22,7 +22,7 @@ import cn.cqautotest.sunnybeach.ui.dialog.TipsDialog
 import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.base.BaseDialog
 import com.hjq.http.EasyHttp
-import com.hjq.http.listener.HttpCallback
+import com.hjq.http.listener.HttpCallbackProxy
 import com.hjq.toast.Toaster
 import com.hjq.widget.view.CountdownView
 
@@ -94,8 +94,8 @@ class PhoneResetActivity : AppActivity(), OnEditorActionListener {
                 .api(GetCodeApi().apply {
                     setPhone(phoneView?.text.toString())
                 })
-                .request(object : HttpCallback<HttpData<Void?>>(this) {
-                    override fun onSucceed(data: HttpData<Void?>) {
+                .request(object : HttpCallbackProxy<HttpData<Void?>>(this) {
+                    override fun onHttpSuccess(result: HttpData<Void?>) {
                         toast(R.string.common_code_send_hint)
                         countdownView?.start()
                     }
@@ -137,19 +137,16 @@ class PhoneResetActivity : AppActivity(), OnEditorActionListener {
                     setPhone(phoneView?.text.toString())
                     setCode(codeView?.text.toString())
                 })
-                .request(object : HttpCallback<HttpData<Void?>>(this) {
+                .request(object : HttpCallbackProxy<HttpData<Void?>>(this) {
 
-                    override fun onSucceed(data: HttpData<Void?>) {
+                    override fun onHttpSuccess(result: HttpData<Void?>) {
                         TipsDialog.Builder(this@PhoneResetActivity)
                             .setIcon(TipsDialog.ICON_FINISH)
                             .setMessage(R.string.phone_reset_commit_succeed)
                             .setDuration(2000)
-                            .addOnDismissListener(object : BaseDialog.OnDismissListener {
-
-                                override fun onDismiss(dialog: BaseDialog?) {
-                                    finish()
-                                }
-                            })
+                            .addOnDismissListener {
+                                finish()
+                            }
                             .show()
                     }
                 })

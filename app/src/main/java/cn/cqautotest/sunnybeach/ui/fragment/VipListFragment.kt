@@ -1,7 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
 import androidx.fragment.app.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppFragment
@@ -17,6 +16,7 @@ import cn.cqautotest.sunnybeach.widget.StatusLayout
 import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  *    author : A Lonely Cat
@@ -26,7 +26,7 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshListener
  */
 class VipListFragment : AppFragment<CopyActivity>(), StatusAction, OnRefreshListener {
 
-    private val mBinding: VipListFragmentBinding by viewBinding()
+    private val mBinding by viewBinding(VipListFragmentBinding::bind)
     private val mUserViewModel by viewModels<UserViewModel>()
     private val mAdapterDelegate = AdapterDelegate()
     private val mVipUserListAdapter = VipUserListAdapter(mAdapterDelegate)

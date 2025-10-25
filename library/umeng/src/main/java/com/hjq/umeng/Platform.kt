@@ -18,13 +18,7 @@ enum class Platform(
     WECHAT(SHARE_MEDIA.WEIXIN, "com.tencent.mm"),
 
     /** 微信朋友圈 */
-    CIRCLE(SHARE_MEDIA.WEIXIN_CIRCLE, "com.tencent.mm"),
-
-    /** QQ */
-    QQ(SHARE_MEDIA.QQ, "com.tencent.mobileqq"),
-
-    /** QQ 空间 */
-    QZONE(SHARE_MEDIA.QZONE, "com.tencent.mobileqq");
+    CIRCLE(SHARE_MEDIA.WEIXIN_CIRCLE, "com.tencent.mm");
 
     fun getThirdParty(): SHARE_MEDIA? {
         return thirdParty

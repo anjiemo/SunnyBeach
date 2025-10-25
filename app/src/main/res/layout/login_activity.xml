@@ -182,16 +182,6 @@
         android:visibility="gone">
 
         <com.hjq.widget.view.ScaleImageView
-            android:id="@+id/iv_login_qq"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginVertical="25dp"
-            android:layout_weight="1"
-            app:scaleRatio="1.2"
-            app:srcCompat="@drawable/login_qq_ic" />
-
-        <com.hjq.widget.view.ScaleImageView
             android:id="@+id/iv_login_wechat"
             android:layout_width="35dp"
             android:layout_height="35dp"

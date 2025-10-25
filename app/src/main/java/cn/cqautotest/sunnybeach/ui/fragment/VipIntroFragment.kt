@@ -1,7 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
 import androidx.recyclerview.widget.GridLayoutManager
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.VipIntroFragmentBinding
@@ -9,6 +8,7 @@ import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ui.activity.CopyActivity
 import cn.cqautotest.sunnybeach.ui.adapter.VipIntroAdapter
 import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  *    author : A Lonely Cat
@@ -18,7 +18,7 @@ import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
  */
 class VipIntroFragment : AppFragment<CopyActivity>() {
 
-    private val mBinding: VipIntroFragmentBinding by viewBinding()
+    private val mBinding by viewBinding(VipIntroFragmentBinding::bind)
     private val mVipIntroAdapter = VipIntroAdapter()
 
     override fun getLayoutId(): Int = R.layout.vip_intro_fragment

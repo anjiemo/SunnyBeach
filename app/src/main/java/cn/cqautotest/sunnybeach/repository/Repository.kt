@@ -79,7 +79,7 @@ object Repository {
             throw NotBuyException(result.getMessage())
         }
     } catch (t: Throwable) {
-        Timber.Forest.e(t)
+        Timber.e(t)
         Result.failure(t)
     }
 
@@ -99,14 +99,14 @@ object Repository {
 
     suspend fun uploadUserCenterImageByCategoryId(imageFile: File, categoryId: String) = try {
         val fileName = imageFile.name
-        Timber.Forest.d("===> fileName is $fileName")
+        Timber.d("===> fileName is $fileName")
         val requestBody = RequestBody.Companion.create("image/png".toMediaType(), imageFile)
         val part = MultipartBody.Part.createFormData("image", fileName, requestBody)
         val result = UserNetwork.uploadUserCenterImageByCategoryId(part, categoryId)
-        Timber.Forest.d("result is ${result.toJson()}")
+        Timber.d("result is ${result.toJson()}")
         if (result.isSuccess()) Result.success(result.getData()) else result.toErrorResult()
     } catch (t: Throwable) {
-        Timber.Forest.e(t)
+        Timber.e(t)
         Result.failure(t)
     }
 
@@ -168,7 +168,7 @@ object Repository {
             UserManager.setupAutoLogin(UserManager.isAutoLogin())
         }
     } catch (t: Throwable) {
-        Timber.Forest.e(t)
+        Timber.e(t)
         null
     }
 
@@ -219,16 +219,16 @@ object Repository {
 
     suspend fun uploadFishImage(imageFile: File): Result<String> = try {
         val fileName = imageFile.name
-        Timber.Forest.d("===> fileName is $fileName")
+        Timber.d("===> fileName is $fileName")
         val requestBody = RequestBody.Companion.create("image/png".toMediaType(), imageFile)
         val part = MultipartBody.Part.createFormData("image", fileName, requestBody)
         val result = FishNetwork.uploadFishImage(part)
-        Timber.Forest.d("result is ${result.toJson()}")
+        Timber.d("result is ${result.toJson()}")
         val imageUrl = result.getData()
-        Timber.Forest.d("uploadFishImage：===> file name is $fileName imageUrl is $imageUrl")
+        Timber.d("uploadFishImage：===> file name is $fileName imageUrl is $imageUrl")
         if (result.isSuccess() && imageUrl != null) Result.success(imageUrl) else result.toErrorResult()
     } catch (t: Throwable) {
-        Timber.Forest.e(t)
+        Timber.e(t)
         Result.failure(t)
     }
 
@@ -286,7 +286,7 @@ object Repository {
     }
 
     fun searchPlaces(query: String) = liveData(build = { WeatherNetwork.searchPlace(query) }) { placeResponse ->
-        Timber.Forest.d("searchPlaces：===> query status is ${placeResponse.status}|${placeResponse.places[0].name}")
+        Timber.d("searchPlaces：===> query status is ${placeResponse.status}|${placeResponse.places[0].name}")
         if (placeResponse.status == "ok") Result.success(placeResponse.places)
         else Result.failure(RuntimeException("response status is ${placeResponse.status}"))
     }
@@ -295,7 +295,7 @@ object Repository {
      * 刷新天气
      */
     fun refreshWeather(lng: String, lat: String): LiveData<Result<Weather>> = liveData(build = {
-        Timber.Forest.d("refreshWeather：===> lng is $lng lat is $lat")
+        Timber.d("refreshWeather：===> lng is $lng lat is $lat")
         Pair(
             withContext(Dispatchers.IO) { WeatherNetwork.getRealtimeWeather(lng, lat) },
             withContext(Dispatchers.IO) { WeatherNetwork.getDailyWeather(lng, lat) })
@@ -329,7 +329,7 @@ object Repository {
     private inline fun <R, T> liveData(
         context: CoroutineContext = Dispatchers.IO,
         crossinline build: suspend CoroutineScope.() -> R,
-        crossinline onError: (Throwable) -> Unit = { Timber.Forest.e(it) },
+        crossinline onError: (Throwable) -> Unit = { Timber.e(it) },
         crossinline action: (R) -> Result<T>
     ) = androidx.lifecycle.liveData(context) {
         val result = try {
@@ -370,7 +370,7 @@ object Repository {
         val result = try {
             coroutineScope {
                 val result = action.invoke()
-                Timber.Forest.d("launchAndGet：===> result is ${result.toJson()}")
+                Timber.d("launchAndGet：===> result is ${result.toJson()}")
                 if (result.isSuccess()) Result.success(onSuccess.invoke(result))
                 else when (result.getCode()) {
                     NOT_LOGIN_CODE -> {
@@ -382,7 +382,7 @@ object Repository {
                 }
             }
         } catch (t: Throwable) {
-            Timber.Forest.e(t)
+            Timber.e(t)
             Result.failure(t)
         }
         emit(result)

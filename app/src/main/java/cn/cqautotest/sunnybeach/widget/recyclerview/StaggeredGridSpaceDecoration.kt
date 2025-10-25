@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
  */
 class StaggeredGridSpaceDecoration(
     // 单位间距
-    @Px private val space: Int
+    @param:Px private val space: Int
 ) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {

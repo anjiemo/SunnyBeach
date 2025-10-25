@@ -7,12 +7,17 @@ import android.content.Intent
 import android.text.TextUtils
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.FishCommendDetailActivityBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.fromJson
+import cn.cqautotest.sunnybeach.ktx.ifLoginThen
+import cn.cqautotest.sunnybeach.ktx.orEmpty
+import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.other.IntentKey
@@ -20,9 +25,10 @@ import cn.cqautotest.sunnybeach.ui.adapter.FishCommendDetailListAdapter
 import cn.cqautotest.sunnybeach.ui.fragment.SubmitCommentFragment
 import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 import com.blankj.utilcode.util.TimeUtils
+import dev.androidbroadcast.vbpd.viewBinding
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
 /**
  * author : A Lonely Cat
@@ -32,7 +38,7 @@ import java.util.*
  */
 class FishCommendDetailActivity : AppActivity() {
 
-    private val mBinding: FishCommendDetailActivityBinding by viewBinding()
+    private val mBinding by viewBinding(FishCommendDetailActivityBinding::bind)
     private val mFishCommendDetailListAdapter = FishCommendDetailListAdapter()
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
     private val mSubmitCommentFragment = SubmitCommentFragment()

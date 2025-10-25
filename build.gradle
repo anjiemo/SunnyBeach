@@ -7,10 +7,10 @@ buildscript {
     // 导入通用的 Maven 库配置
     apply from: 'maven.gradle'
 
-    ext.kotlin_version = "2.0.0"
-    ext.agcp_version = "1.9.1.303"
-    ext.hilt_version = "2.51.1"
-    ext.android_aop_version = "1.4.7"
+    ext.kotlin_version = "2.2.20"
+    ext.agcp_version = "1.9.4.300"
+    ext.hilt_version = "2.57.2"
+    ext.android_aop_version = "2.7.3"
 
     repositories {
         // 阿里云云效仓库（Gradle 插件）：https://maven.aliyun.com/mvn/guide
@@ -24,12 +24,16 @@ buildscript {
     // Studio 插件推荐：https://github.com/getActivity/StudioPlugins
     dependencies {
         // Gradle 插件版本说明：https://developer.android.google.cn/studio/releases/gradle-plugin.html#updating-plugin
-        classpath 'com.android.tools.build:gradle:8.6.1'
+        classpath 'com.android.tools.build:gradle:8.13.0'
         // Kotlin 插件：https://plugins.jetbrains.com/plugin/6954-kotlin
         // noinspection GradleDependency
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:2.0.0-1.0.21"
-        classpath "io.github.FlyJingFish.AndroidAop:android-aop-plugin:${android_aop_version}"
+        // KSP插件：https://developer.android.com/build/migrate-to-ksp?hl=zh-cn#add-ksp
+        // https://kotlinlang.org/docs/ksp-quickstart.html#add-a-processor
+        // https://github.com/google/ksp/releases
+        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:2.2.20-2.0.4"
+        // https://github.com/FlyJingFish/AndroidAOP/blob/master/build.gradle
+        classpath "io.github.flyjingfish:androidaop-plugin:${android_aop_version}"
         // 增加agcp插件配置
         classpath "com.huawei.agconnect:agcp:$agcp_version"
         // Hilt 插件：https://dagger.dev/hilt/gradle-setup

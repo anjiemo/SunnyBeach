@@ -21,12 +21,12 @@
         <com.hjq.shape.layout.ShapeConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_188"
-            app:shape_angle="45"
-            app:shape_centerColor="#FABB7AEA"
-            app:shape_endColor="#E6FF4DE3"
-            app:shape_startColor="#4C66FB"
-            app:shape_topLeftRadius="@dimen/dp_10"
-            app:shape_topRightRadius="@dimen/dp_10">
+            app:shape_solidGradientOrientation="bottomLeftToTopRight"
+            app:shape_solidGradientCenterColor="#FABB7AEA"
+            app:shape_solidGradientEndColor="#E6FF4DE3"
+            app:shape_solidGradientStartColor="#4C66FB"
+            app:shape_radiusInTopLeft="@dimen/dp_10"
+            app:shape_radiusInTopRight="@dimen/dp_10">
 
             <com.hjq.shape.view.ShapeImageView
                 android:id="@+id/iv_logo"

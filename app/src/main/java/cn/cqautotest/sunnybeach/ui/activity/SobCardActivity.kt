@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SobCardActivityBinding
@@ -29,6 +28,7 @@ import com.bumptech.glide.Glide
 import com.dylanc.longan.context
 import com.dylanc.longan.intentExtras
 import com.hjq.bar.TitleBar
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -44,7 +44,7 @@ import java.util.regex.Pattern
  */
 class SobCardActivity : AppActivity() {
 
-    private val mBinding by viewBinding<SobCardActivityBinding>()
+    private val mBinding by viewBinding(SobCardActivityBinding::bind)
     private val mSobId by intentExtras(SOB_ID, "")
     private var mShareSobCardJob: Job? = null
 

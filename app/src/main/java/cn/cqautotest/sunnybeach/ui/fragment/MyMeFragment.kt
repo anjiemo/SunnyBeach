@@ -7,7 +7,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
@@ -44,6 +43,7 @@ import com.dylanc.longan.viewLifecycleScope
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.badge.ExperimentalBadgeUtils
 import com.umeng.analytics.MobclickAgent
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -60,7 +60,7 @@ import kotlin.coroutines.suspendCoroutine
 @ExperimentalBadgeUtils
 class MyMeFragment : TitleBarFragment<AppActivity>() {
 
-    private val mBinding: MyMeFragmentBinding by viewBinding()
+    private val mBinding by viewBinding(MyMeFragmentBinding::bind)
     private val mMsgViewModel by viewModels<MsgViewModel>()
     private val badgeDrawable by lazy {
         createDefaultStyleBadge(requireContext(), 0).apply {

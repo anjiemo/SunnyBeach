@@ -7,7 +7,6 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
@@ -50,7 +49,6 @@ import cn.cqautotest.sunnybeach.ui.adapter.RecommendFishTopicListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.MultiOperationHelper
 import cn.cqautotest.sunnybeach.util.MyScanUtil
-import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -58,10 +56,11 @@ import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecorat
 import com.dylanc.longan.startActivity
 import com.dylanc.longan.viewLifecycleScope
 import com.hjq.bar.TitleBar
-import com.hjq.permissions.Permission
+import com.hjq.permissions.permission.PermissionNames
 import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
 import dagger.hilt.android.AndroidEntryPoint
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -77,7 +76,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2TopListener {
 
-    private val mBinding: FishListFragmentBinding by viewBinding()
+    private val mBinding by viewBinding(FishListFragmentBinding::bind)
 
     @Inject
     lateinit var mAppViewModel: AppViewModel
@@ -86,7 +85,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     lateinit var mMultiOperationHelper: MultiOperationHelper
 
     private val mFishPondViewModel by activityViewModels<FishPondViewModel>()
-    private val mUserViewModel by activityViewModels<UserViewModel>()
     private val mRefreshStatus = RefreshStatus()
     private val mRecommendFishTopicListAdapterDelegate = AdapterDelegate()
     private val mFishListAdapterDelegate = AdapterDelegate()
@@ -242,7 +240,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             ?: rootView.removeMourningStyle()
     }
 
-    @com.flyjingfish.android_aop_core.annotations.Permission(Permission.CAMERA)
+    @com.flyjingfish.android_aop_core.annotations.Permission(PermissionNames.CAMERA)
     override fun onRightClick(titleBar: TitleBar) {
         // “QRCODE_SCAN_TYPE”和“DATAMATRIX_SCAN_TYPE”表示只扫描QR和Data Matrix的码
         val options = HmsScanAnalyzerOptions.Creator()

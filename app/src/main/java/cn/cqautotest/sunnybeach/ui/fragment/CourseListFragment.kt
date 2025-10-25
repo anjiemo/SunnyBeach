@@ -5,7 +5,6 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingTitleBarFragment
@@ -25,6 +24,7 @@ import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
 import cn.cqautotest.sunnybeach.widget.recyclerview.StaggeredGridSpaceDecoration
 import com.youth.banner.indicator.CircleIndicator
 import dagger.hilt.android.AndroidEntryPoint
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 
@@ -37,7 +37,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class CourseListFragment : PagingTitleBarFragment<AppActivity>() {
 
-    private val mBinding: CourseListFragmentBinding by viewBinding()
+    private val mBinding by viewBinding(CourseListFragmentBinding::bind)
     private val mCourseViewModel by activityViewModels<CourseViewModel>()
     private val mRefreshStatus = RefreshStatus()
     private val mCourseBannerAdapter = CourseBannerAdapter()

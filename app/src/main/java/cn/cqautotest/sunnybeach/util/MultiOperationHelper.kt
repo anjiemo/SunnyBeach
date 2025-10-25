@@ -22,7 +22,7 @@ import java.lang.ref.WeakReference
  * time   : 2023/01/29
  * desc   : 多功能操作助手
  */
-class MultiOperationHelper constructor(activity: Activity) {
+class MultiOperationHelper(activity: Activity) {
 
     private val mActivity = WeakReference(activity)
 

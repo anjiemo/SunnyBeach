@@ -1,11 +1,22 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.Dp
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.recyclerview.widget.GridLayoutManager
-import by.kirich1409.viewbindingdelegate.viewBinding
+import androidx.savedstate.SavedStateRegistry
+import androidx.savedstate.SavedStateRegistryController
+import androidx.savedstate.SavedStateRegistryOwner
+import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.CreationCenterActivityBinding
@@ -16,8 +27,15 @@ import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.ui.adapter.AchievementAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
+import cn.cqautotest.sunnybeach.ui.popup.SobIntroPopup
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
+import com.blankj.utilcode.util.ScreenUtils
+import com.dylanc.longan.pxToDp
+import com.hjq.bar.TitleBar
+import com.lxj.xpopup.XPopup
+import com.lxj.xpopup.core.BottomPopupView
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.launch
 
 /**
@@ -83,6 +101,48 @@ class CreationCenterActivity : AppActivity() {
             }
             mAchievementAdapter.setData(data)
         }
+    }
+
+    override fun onRightClick(titleBar: TitleBar) {
+        XPopup.Builder(this)
+            .isLightStatusBar(true)
+            .dismissOnBackPressed(true)
+            .dismissOnTouchOutside(true)
+            .isDestroyOnDismiss(true)
+            .asCustom(object : BottomPopupView(this), SavedStateRegistryOwner {
+
+                private val mSavedStateRegistryController: SavedStateRegistryController = SavedStateRegistryController.create(this)
+
+                init {
+                    initLifecycle()
+                }
+
+                private fun initLifecycle() {
+                    setViewTreeLifecycleOwner(this)
+                    setViewTreeSavedStateRegistryOwner(this)
+                    mSavedStateRegistryController.performAttach()
+                    mSavedStateRegistryController.performRestore(bundleOf())
+                }
+
+                override val savedStateRegistry: SavedStateRegistry
+                    get() = mSavedStateRegistryController.savedStateRegistry
+
+                override fun getImplLayoutId(): Int = R.layout.popup_sob_intro
+
+                override fun onCreate() {
+                    super.onCreate()
+                    findViewById<ComposeView>(R.id.compose_view)
+                        .setContent {
+                            val maxHeight = remember { (ScreenUtils.getScreenHeight() / 4f * 3f).pxToDp().toFloat() }
+                            SobIntroPopup(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .heightIn(max = Dp(maxHeight))
+                            )
+                        }
+                }
+            })
+            .show()
     }
 
     override fun isStatusBarDarkFont() = true

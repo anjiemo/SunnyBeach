@@ -21,7 +21,13 @@ import com.hjq.umeng.UmengClient
 import com.hjq.umeng.UmengShare.OnShareListener
 import com.umeng.socialize.ShareAction
 import com.umeng.socialize.ShareContent
-import com.umeng.socialize.media.*
+import com.umeng.socialize.media.UMEmoji
+import com.umeng.socialize.media.UMImage
+import com.umeng.socialize.media.UMMin
+import com.umeng.socialize.media.UMQQMini
+import com.umeng.socialize.media.UMVideo
+import com.umeng.socialize.media.UMWeb
+import com.umeng.socialize.media.UMusic
 
 /**
  *    author : Android 轮子哥
@@ -45,8 +51,6 @@ class ShareDialog {
             val data: MutableList<ShareBean> = ArrayList()
             data.add(ShareBean(getDrawable(R.drawable.share_wechat_ic)!!, getString(R.string.share_platform_wechat)!!, Platform.WECHAT))
             data.add(ShareBean(getDrawable(R.drawable.share_moment_ic)!!, getString(R.string.share_platform_moment)!!, Platform.CIRCLE))
-            data.add(ShareBean(getDrawable(R.drawable.share_qq_ic)!!, getString(R.string.share_platform_qq)!!, Platform.QQ))
-            data.add(ShareBean(getDrawable(R.drawable.share_qzone_ic)!!, getString(R.string.share_platform_qzone)!!, Platform.QZONE))
             copyLink = ShareBean(getDrawable(R.drawable.share_link_ic)!!, getString(R.string.share_platform_link)!!, null)
             adapter = ShareAdapter(activity)
             adapter.setData(data)

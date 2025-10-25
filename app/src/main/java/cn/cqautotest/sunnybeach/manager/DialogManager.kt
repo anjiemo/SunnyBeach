@@ -80,12 +80,12 @@ class DialogManager private constructor(lifecycleOwner: LifecycleOwner) :
     /**
      * [LifecycleEventObserver]
      */
-    override fun onStateChanged(lifecycleOwner: LifecycleOwner, event: Lifecycle.Event) {
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         if (event != Lifecycle.Event.ON_DESTROY) {
             return
         }
-        DIALOG_MANAGER.remove(lifecycleOwner)
-        lifecycleOwner.lifecycle.removeObserver(this)
+        DIALOG_MANAGER.remove(source)
+        source.lifecycle.removeObserver(this)
         clearShow()
     }
 }
