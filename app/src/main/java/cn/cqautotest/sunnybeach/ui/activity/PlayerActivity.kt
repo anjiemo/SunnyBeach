@@ -11,12 +11,14 @@ import androidx.activity.viewModels
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.PlayerActivityBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.fromJson
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.startActivity
+import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.course.CoursePlayAuth
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
 import com.aliyun.player.AliPlayer
@@ -27,6 +29,7 @@ import com.aliyun.player.source.VidAuth
 import com.dylanc.longan.intentExtras
 import com.dylanc.longan.windowInsetsControllerCompat
 import com.gyf.immersionbar.ImmersionBar
+import dev.androidbroadcast.vbpd.viewBinding
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -68,9 +71,9 @@ class PlayerActivity : AppActivity() {
 
     override fun initView() {
         // 隐藏状态栏
-        windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.statusBars())
+        mBinding.root.windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.statusBars())
         // 隐藏底部导航栏
-        windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.navigationBars())
+        mBinding.root.windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.navigationBars())
         // 延迟获取刘海屏的高度
         window.decorView.post { mNotchHeight = ImmersionBar.getNotchHeight(this) }
         // 设置初始的屏幕方向

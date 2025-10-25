@@ -14,7 +14,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -37,6 +36,7 @@ import com.dylanc.longan.activity
 import com.dylanc.longan.context
 import com.dylanc.longan.windowInsetsControllerCompat
 import com.hjq.permissions.Permission
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
@@ -55,7 +55,7 @@ import kotlin.math.pow
  */
 class GalleryActivity : AppActivity() {
 
-    private val mBinding: GalleryActivityBinding by viewBinding()
+    private val mBinding by viewBinding(GalleryActivityBinding::bind)
     private val mWallpaperAdapter = WallpaperAdapter()
     private val mPhotoList = arrayListOf<WallpaperBean.Res.Vertical>()
     private val mDiscoverViewModel by viewModels<DiscoverViewModel>()
@@ -66,9 +66,9 @@ class GalleryActivity : AppActivity() {
 
     override fun initView() {
         // 隐藏状态栏
-        windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.statusBars())
+        mBinding.root.windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.statusBars())
         // 隐藏底部导航栏
-        windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.navigationBars())
+        mBinding.root.windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.navigationBars())
         mBinding.galleryViewPager2.apply {
             orientation = ViewPager2.ORIENTATION_VERTICAL
             adapter = mWallpaperAdapter

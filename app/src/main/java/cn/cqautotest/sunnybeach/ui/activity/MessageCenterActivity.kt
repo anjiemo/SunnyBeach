@@ -4,15 +4,24 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.MessageCenterActivityBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
+import cn.cqautotest.sunnybeach.ktx.ifLoginThen
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.ktx.setUnReadCount
+import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.model.msg.UnReadMsgCount
-import cn.cqautotest.sunnybeach.ui.activity.msg.*
+import cn.cqautotest.sunnybeach.ui.activity.msg.ArticleMsgListActivity
+import cn.cqautotest.sunnybeach.ui.activity.msg.AtMeMsgListActivity
+import cn.cqautotest.sunnybeach.ui.activity.msg.FishMsgListActivity
+import cn.cqautotest.sunnybeach.ui.activity.msg.LikeMsgListActivity
+import cn.cqautotest.sunnybeach.ui.activity.msg.QaMsgListActivity
+import cn.cqautotest.sunnybeach.ui.activity.msg.SystemMsgListActivity
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
 import com.hjq.bar.TitleBar
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -24,7 +33,7 @@ import kotlinx.coroutines.launch
  */
 class MessageCenterActivity : AppActivity() {
 
-    private val mBinding by viewBinding<MessageCenterActivityBinding>()
+    private val mBinding by viewBinding(MessageCenterActivityBinding::bind)
     private val mMsgViewModel by viewModels<MsgViewModel>()
 
     override fun getLayoutId(): Int = R.layout.message_center_activity

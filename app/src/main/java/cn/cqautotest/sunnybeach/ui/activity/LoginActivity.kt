@@ -17,7 +17,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -43,6 +42,7 @@ import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengClient
 import com.hjq.umeng.UmengLogin
 import com.hjq.widget.view.SubmitButton
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  *    author : Android 轮子哥 & A Lonely Cat
@@ -75,7 +75,7 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
         }
     }
 
-    private val mBinding by viewBinding<LoginActivityBinding>()
+    private val mBinding by viewBinding(LoginActivityBinding::bind)
     private val logoView: ImageView? by lazy { findViewById(R.id.iv_login_logo) }
     private val bodyLayout: ViewGroup? by lazy { findViewById(R.id.ll_login_body) }
     private val phoneView: EditText? by lazy { findViewById(R.id.et_login_phone) }

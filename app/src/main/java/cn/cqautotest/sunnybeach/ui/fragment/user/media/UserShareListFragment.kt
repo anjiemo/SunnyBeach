@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.ui.fragment.user.media
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingFragment
@@ -16,6 +15,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_SHARE_URL_PRE
 import cn.cqautotest.sunnybeach.viewmodel.ShareViewModel
 import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.collectLatest
  */
 class UserShareListFragment : PagingFragment<AppActivity>() {
 
-    private val mBinding by viewBinding<UserFishListFragmentBinding>()
+    private val mBinding by viewBinding(UserFishListFragmentBinding::bind)
     private val mAdapterDelegate = AdapterDelegate()
     private val mShareListAdapter = ShareListAdapter(mAdapterDelegate)
     private val mShareViewModel by activityViewModels<ShareViewModel>()

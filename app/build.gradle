@@ -377,11 +377,11 @@ dependencies {
     // implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
 
     // 使用 Android ViewBinding 更简单：https://github.com/androidbroadcast/ViewBindingPropertyDelegate
-    implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.3'
+    implementation 'dev.androidbroadcast.vbpd:vbpd:2.0.4'
     // Longan 是一个简化 Android 开发的 Kotlin 工具类集合，可以使代码更加简洁易读：https://github.com/DylanCaiCoding/Longan
-    implementation 'com.github.DylanCaiCoding.Longan:longan:1.0.0'
+    implementation 'com.github.DylanCaiCoding.Longan:longan:1.1.1'
     // Optional
-    implementation 'com.github.DylanCaiCoding.Longan:longan-design:1.0.0'
+    implementation 'com.github.DylanCaiCoding.Longan:longan-design:1.1.1'
     // 一个简单而友好的Android数据库调试库：https://github.com/guolindev/Glance/
     debugImplementation 'com.guolindev.glance:glance:1.1.0'
     // 一个帮助键盘平滑过渡到功能面板的框架：https://github.com/YummyLau/PanelSwitchHelper
