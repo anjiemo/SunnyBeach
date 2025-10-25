@@ -40,6 +40,7 @@ fun SobIntroPopup(modifier: Modifier = Modifier) {
             )
             .padding(top = 10.dp, bottom = 20.dp, start = 20.dp, end = 20.dp)
     ) {
+        // 绘制顶部指示器
         Canvas(
             modifier = Modifier
                 .padding(bottom = 20.dp)
@@ -53,6 +54,7 @@ fun SobIntroPopup(modifier: Modifier = Modifier) {
             )
         }
 
+        // 绘制内容区域（标题+内容列表）
         val sections = remember {
             listOf(
                 IntroSection(
