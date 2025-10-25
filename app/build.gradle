@@ -291,15 +291,16 @@ dependencies {
     // Shape 框架：https://github.com/getActivity/ShapeView
     implementation 'com.github.getActivity:ShapeView:8.5'
 
-    implementation "io.github.FlyJingFish.AndroidAop:android-aop-core:${android_aop_version}"
-    implementation "io.github.FlyJingFish.AndroidAop:android-aop-annotation:${android_aop_version}"
-    ksp "io.github.FlyJingFish.AndroidAop:android-aop-ksp:${android_aop_version}"
+    // AndroidAOP：https://github.com/FlyJingFish/AndroidAOP
+    implementation "io.github.flyjingfish:androidaop-core:${android_aop_version}"
+    implementation "io.github.flyjingfish:androidaop-extra:${android_aop_version}"
+    ksp "io.github.flyjingfish:androidaop-apt:${android_aop_version}"
 
     // 图片加载框架：https://github.com/bumptech/glide
     // 官方使用文档：https://github.com/Muyangmin/glide-docs-cn
-    implementation 'com.github.bumptech.glide:glide:4.16.0'
-    implementation 'com.github.bumptech.glide:okhttp3-integration:4.16.0'
-    ksp 'com.github.bumptech.glide:compiler:4.16.0'
+    implementation 'com.github.bumptech.glide:glide:5.0.5'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:5.0.5'
+    ksp 'com.github.bumptech.glide:compiler:5.0.5'
 
     // 沉浸式框架：https://github.com/gyf-dev/ImmersionBar
     implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
