@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import androidx.activity.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -29,6 +28,7 @@ import com.gyf.immersionbar.ImmersionBar
 import com.hjq.base.BaseActivity
 import com.hjq.widget.view.CountdownView
 import com.hjq.widget.view.SubmitButton
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  *    author : Android 轮子哥 & A Lonely Cat
@@ -64,7 +64,7 @@ class RegisterActivity : AppActivity(), OnEditorActionListener {
         }
     }
 
-    private val mBinding by viewBinding<RegisterActivityBinding>()
+    private val mBinding by viewBinding(RegisterActivityBinding::bind)
     private val phoneView: EditText? by lazy { findViewById(R.id.et_register_phone) }
     private val countdownView: CountdownView? by lazy { findViewById(R.id.cv_register_countdown) }
     private val codeView: EditText? by lazy { findViewById(R.id.et_register_code) }

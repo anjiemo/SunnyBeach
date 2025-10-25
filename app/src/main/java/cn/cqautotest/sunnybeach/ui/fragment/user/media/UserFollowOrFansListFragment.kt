@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.ui.fragment.user.media
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingFragment
@@ -17,6 +16,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.UserFollowListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.FollowOrFansViewModel
 import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.collectLatest
  */
 class UserFollowOrFansListFragment : PagingFragment<AppActivity>() {
 
-    private val mBinding by viewBinding<UserFollowOrFansListFragmentBinding>()
+    private val mBinding by viewBinding(UserFollowOrFansListFragmentBinding::bind)
     private val mAdapterDelegate = AdapterDelegate()
     private val mUserFollowListAdapter = UserFollowListAdapter(mAdapterDelegate)
     private val mFollowViewModel by viewModels<FollowOrFansViewModel>()

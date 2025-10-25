@@ -25,8 +25,9 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.other.AppConfig
 import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.gyf.immersionbar.ImmersionBar
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.PermissionNames
 import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,7 +43,7 @@ import java.util.regex.Pattern
 import kotlin.math.min
 
 /**
- *    author : Android 轮子哥
+ *    author : Android 轮子哥 & A Lonely Cat
  *    github : https://github.com/getActivity/AndroidProject-Kotlin
  *    time   : 2019/06/27
  *    desc   : 崩溃捕捉界面
@@ -199,25 +200,30 @@ class CrashActivity : AppActivity() {
                 .append("\n最近安装：\t").append(dateFormat.format(Date(packageInfo.lastUpdateTime)))
                 .append("\n崩溃时间：\t").append(dateFormat.format(Date()))
             val permissions: MutableList<String> = mutableListOf(*packageInfo.requestedPermissions)
-            if (permissions.contains(Permission.READ_EXTERNAL_STORAGE) ||
-                permissions.contains(Permission.WRITE_EXTERNAL_STORAGE)
+            if (permissions.contains(PermissionNames.READ_EXTERNAL_STORAGE) ||
+                permissions.contains(PermissionNames.WRITE_EXTERNAL_STORAGE)
             ) {
                 builder.append("\n存储权限：\t").append(
-                    if (XXPermissions.isGranted(this, *Permission.Group.STORAGE)) "已获得" else "未获得"
+                    if (XXPermissions.isGrantedPermission(this, PermissionLists.getWriteExternalStoragePermission())) "已获得" else "未获得"
                 )
             }
-            if (permissions.contains(Permission.ACCESS_FINE_LOCATION) ||
-                permissions.contains(Permission.ACCESS_COARSE_LOCATION)
+            if (permissions.contains(PermissionNames.ACCESS_FINE_LOCATION) ||
+                permissions.contains(PermissionNames.ACCESS_COARSE_LOCATION)
             ) {
                 builder.append("\n定位权限：\t")
-                if (XXPermissions.isGranted(this, Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION)) {
+                if (XXPermissions.isGrantedPermissions(
+                        this,
+                        arrayOf(PermissionLists.getAccessFineLocationPermission(), PermissionLists.getAccessCoarseLocationPermission())
+                    )
+                ) {
                     builder.append("精确、粗略")
                 } else {
                     when {
-                        XXPermissions.isGranted(this, Permission.ACCESS_FINE_LOCATION) -> {
+                        XXPermissions.isGrantedPermission(this, PermissionLists.getAccessFineLocationPermission()) -> {
                             builder.append("精确")
                         }
-                        XXPermissions.isGranted(this, Permission.ACCESS_COARSE_LOCATION) -> {
+
+                        XXPermissions.isGrantedPermission(this, PermissionLists.getAccessCoarseLocationPermission()) -> {
                             builder.append("粗略")
                         }
                         else -> {
@@ -226,23 +232,27 @@ class CrashActivity : AppActivity() {
                     }
                 }
             }
-            if (permissions.contains(Permission.CAMERA)) {
+            if (permissions.contains(PermissionNames.CAMERA)) {
                 builder.append("\n相机权限：\t")
-                    .append(if (XXPermissions.isGranted(this, Permission.CAMERA)) "已获得" else "未获得")
+                    .append(if (XXPermissions.isGrantedPermission(this, PermissionLists.getCameraPermission())) "已获得" else "未获得")
             }
-            if (permissions.contains(Permission.RECORD_AUDIO)) {
+            if (permissions.contains(PermissionNames.RECORD_AUDIO)) {
                 builder.append("\n录音权限：\t").append(
-                    if (XXPermissions.isGranted(this, Permission.RECORD_AUDIO)) "已获得" else "未获得"
+                    if (XXPermissions.isGrantedPermission(this, PermissionLists.getRecordAudioPermission())) "已获得" else "未获得"
                 )
             }
-            if (permissions.contains(Permission.SYSTEM_ALERT_WINDOW)) {
+            if (permissions.contains(PermissionNames.SYSTEM_ALERT_WINDOW)) {
                 builder.append("\n悬浮窗权限：\t").append(
-                    if (XXPermissions.isGranted(this, Permission.SYSTEM_ALERT_WINDOW)) "已获得" else "未获得"
+                    if (XXPermissions.isGrantedPermission(this, PermissionLists.getSystemAlertWindowPermission())) "已获得" else "未获得"
                 )
             }
-            if (permissions.contains(Permission.REQUEST_INSTALL_PACKAGES)) {
+            if (permissions.contains(PermissionNames.REQUEST_INSTALL_PACKAGES)) {
                 builder.append("\n安装包权限：\t").append(
-                    if (XXPermissions.isGranted(this, Permission.REQUEST_INSTALL_PACKAGES)) "已获得" else "未获得"
+                    if (XXPermissions.isGrantedPermission(
+                            this,
+                            PermissionLists.getRequestInstallPackagesPermission()
+                        )
+                    ) "已获得" else "未获得"
                 )
             }
             if (permissions.contains(Manifest.permission.INTERNET)) {

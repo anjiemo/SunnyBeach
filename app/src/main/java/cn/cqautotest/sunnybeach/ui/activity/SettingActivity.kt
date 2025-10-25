@@ -13,7 +13,6 @@ import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppApplication
@@ -42,13 +41,14 @@ import com.dylanc.longan.context
 import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.base.action.AnimAction
 import com.hjq.http.EasyHttp
-import com.hjq.http.listener.HttpCallback
+import com.hjq.http.listener.HttpCallbackProxy
 import com.hjq.widget.layout.SettingBar
 import com.lzf.easyfloat.EasyFloat
 import com.lzf.easyfloat.enums.ShowPattern
 import com.lzf.easyfloat.enums.SidePattern
 import com.lzf.easyfloat.utils.DisplayUtils
 import dagger.hilt.android.AndroidEntryPoint
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -63,7 +63,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SettingActivity : AppActivity() {
 
-    private val mBinding: SettingActivityBinding by viewBinding()
+    private val mBinding by viewBinding(SettingActivityBinding::bind)
     private val languageView: SettingBar? by lazy { findViewById(R.id.sb_setting_language) }
     private val cleanCacheView: SettingBar? by lazy { findViewById(R.id.sb_setting_cache) }
 
@@ -268,8 +268,8 @@ class SettingActivity : AppActivity() {
                 // 退出登录
                 EasyHttp.post(this)
                     .api(LogoutApi())
-                    .request(object : HttpCallback<HttpData<Void?>>(this) {
-                        override fun onSucceed(data: HttpData<Void?>) {
+                    .request(object : HttpCallbackProxy<HttpData<Void?>>(this) {
+                        override fun onHttpSuccess(result: HttpData<Void?>) {
                             LoginActivity.start(
                                 context,
                                 UserManager.getCurrLoginAccount(),

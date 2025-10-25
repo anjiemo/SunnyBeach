@@ -21,7 +21,7 @@ import com.blankj.utilcode.util.Utils
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.http.EasyHttp
-import com.hjq.http.listener.HttpCallback
+import com.hjq.http.listener.HttpCallbackProxy
 import com.hjq.widget.view.SlantedTextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -81,9 +81,9 @@ class SplashActivity : AppActivity() {
         // 刷新用户信息
         EasyHttp.post(this)
             .api(UserInfoApi())
-            .request(object : HttpCallback<HttpData<UserInfoApi.Bean?>>(this) {
+            .request(object : HttpCallbackProxy<HttpData<UserInfoApi.Bean?>>(this) {
 
-                override fun onSucceed(data: HttpData<UserInfoApi.Bean?>) {
+                override fun onHttpSuccess(result: HttpData<UserInfoApi.Bean?>) {
 
                 }
             })

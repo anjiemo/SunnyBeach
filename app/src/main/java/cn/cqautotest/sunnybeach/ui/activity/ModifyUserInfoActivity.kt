@@ -5,16 +5,21 @@ import android.content.Context
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.ModifyUserInfoActivityBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.fromJson
+import cn.cqautotest.sunnybeach.ktx.hideKeyboard
+import cn.cqautotest.sunnybeach.ktx.length
+import cn.cqautotest.sunnybeach.ktx.simpleToast
+import cn.cqautotest.sunnybeach.ktx.startActivity
+import cn.cqautotest.sunnybeach.ktx.toJson
 import cn.cqautotest.sunnybeach.model.PersonCenterInfo
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.dylanc.longan.intentExtras
 import com.dylanc.longan.textString
 import com.hjq.bar.TitleBar
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  * author : A Lonely Cat
@@ -24,7 +29,7 @@ import com.hjq.bar.TitleBar
  */
 class ModifyUserInfoActivity : AppActivity() {
 
-    private val mBinding by viewBinding<ModifyUserInfoActivityBinding>()
+    private val mBinding by viewBinding(ModifyUserInfoActivityBinding::bind)
     private val mUserViewModel by viewModels<UserViewModel>()
     private val modifyTypeJson by intentExtras<String>(MODIFY_TYPE)
     private val modifyType by lazy { fromJson<ModifyType>(modifyTypeJson) }

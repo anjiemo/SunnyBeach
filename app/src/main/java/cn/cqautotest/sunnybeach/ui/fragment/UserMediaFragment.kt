@@ -1,7 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.os.Bundle
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
@@ -9,8 +8,13 @@ import cn.cqautotest.sunnybeach.databinding.UserMediaFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.clearTooltipText
 import cn.cqautotest.sunnybeach.other.FollowType
 import cn.cqautotest.sunnybeach.other.IntentKey
-import cn.cqautotest.sunnybeach.ui.fragment.user.media.*
+import cn.cqautotest.sunnybeach.ui.fragment.user.media.UserArticleListFragment
+import cn.cqautotest.sunnybeach.ui.fragment.user.media.UserFishListFragment
+import cn.cqautotest.sunnybeach.ui.fragment.user.media.UserFollowOrFansListFragment
+import cn.cqautotest.sunnybeach.ui.fragment.user.media.UserQaListFragment
+import cn.cqautotest.sunnybeach.ui.fragment.user.media.UserShareListFragment
 import com.hjq.base.FragmentPagerAdapter
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  * author : A Lonely Cat
@@ -20,7 +24,7 @@ import com.hjq.base.FragmentPagerAdapter
  */
 class UserMediaFragment : AppFragment<AppActivity>() {
 
-    private val mBinding by viewBinding<UserMediaFragmentBinding>()
+    private val mBinding by viewBinding(UserMediaFragmentBinding::bind)
     private val mPagerAdapter by lazy { FragmentPagerAdapter<AppFragment<AppActivity>>(this) }
 
     var mUserId = ""

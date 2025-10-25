@@ -7,7 +7,7 @@ android {
     compileSdkVersion 34
     defaultConfig {
         // 最低安装版本
-        minSdkVersion 21
+        minSdkVersion 26
         // 目标适配版本
         targetSdkVersion 33
         versionName '5.4.0'

@@ -4,7 +4,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.databinding.FishTopicItemBinding
 import cn.cqautotest.sunnybeach.ktx.asInflate
 import cn.cqautotest.sunnybeach.ktx.dp
@@ -15,6 +14,7 @@ import cn.cqautotest.sunnybeach.other.TextViewTarget
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  * author : A Lonely Cat
@@ -27,7 +27,7 @@ class FishCategoryAdapter(private val adapterDelegate: AdapterDelegate) :
 
     inner class InnerHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val mBinding by viewBinding<FishTopicItemBinding>()
+        private val mBinding by viewBinding(FishTopicItemBinding::bind)
 
         fun onBinding(item: FishPondTopicList.TopicItem?, position: Int) {
             item ?: return

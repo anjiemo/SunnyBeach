@@ -17,7 +17,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -43,6 +42,7 @@ import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengClient
 import com.hjq.umeng.UmengLogin
 import com.hjq.widget.view.SubmitButton
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  *    author : Android 轮子哥 & A Lonely Cat
@@ -75,7 +75,7 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
         }
     }
 
-    private val mBinding by viewBinding<LoginActivityBinding>()
+    private val mBinding by viewBinding(LoginActivityBinding::bind)
     private val logoView: ImageView? by lazy { findViewById(R.id.iv_login_logo) }
     private val bodyLayout: ViewGroup? by lazy { findViewById(R.id.ll_login_body) }
     private val phoneView: EditText? by lazy { findViewById(R.id.et_login_phone) }
@@ -83,7 +83,6 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
     private val forgetView: View? by lazy { findViewById(R.id.tv_login_forget) }
     private val commitView: SubmitButton? by lazy { findViewById(R.id.btn_login_commit) }
     private val otherView: View? by lazy { findViewById(R.id.ll_login_other) }
-    private val qqView: View? by lazy { findViewById(R.id.iv_login_qq) }
     private val weChatView: View? by lazy { findViewById(R.id.iv_login_wechat) }
 
     /** logo 缩放比例 */
@@ -98,7 +97,7 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
 
     override fun initView() {
         with(mBinding) {
-            setOnClickListener(sivLoginVerifyCode, forgetView, commitView, qqView, weChatView)
+            setOnClickListener(sivLoginVerifyCode, forgetView, commitView, weChatView)
             etLoginVerifyCode.setOnEditorActionListener(this@LoginActivity)
             cbRememberPwd.isChecked = UserManager.isRememberPwd()
             commitView?.let {
@@ -120,18 +119,13 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
                 .setListener(this@LoginActivity)
         }, 500)
 
-        // 判断用户当前有没有安装 QQ
-        if (!UmengClient.isAppInstalled(this, Platform.QQ)) {
-            qqView?.visibility = View.GONE
-        }
-
         // 判断用户当前有没有安装微信
         if (!UmengClient.isAppInstalled(this, Platform.WECHAT)) {
             weChatView?.visibility = View.GONE
         }
 
         // 如果这两个都没有安装就隐藏提示
-        if (qqView?.visibility == View.GONE && weChatView?.visibility == View.GONE) {
+        if (weChatView?.visibility == View.GONE) {
             otherView?.visibility = View.GONE
         }
 
@@ -262,7 +256,7 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
             login(userAccount, userPassword, verifyCode)
             return
         }
-        if (view === qqView || view === weChatView) {
+        if (view === weChatView) {
             if (true) {
                 toast("暂未接入其他登录方式")
                 return
@@ -270,10 +264,6 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
             toast("记得改好第三方 AppID 和 Secret，否则会调不起来哦")
             val platform: Platform?
             when {
-                view === qqView -> {
-                    platform = Platform.QQ
-                }
-
                 view === weChatView -> {
                     if (packageName.endsWith(".debug")) {
                         toast("当前 buildType 不支持进行微信登录")
@@ -349,10 +339,6 @@ class LoginActivity : AppActivity(), UmengLogin.OnLoginListener,
             return
         }
         when (platform) {
-            Platform.QQ -> {
-
-            }
-
             Platform.WECHAT -> {
 
             }

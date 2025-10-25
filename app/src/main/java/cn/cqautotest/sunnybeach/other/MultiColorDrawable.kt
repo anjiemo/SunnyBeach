@@ -15,7 +15,7 @@ import androidx.appcompat.widget.LinearLayoutCompat
  * time   : 2022/12/18
  * desc   : 多色 Drawable，可设置填充方向 LinearLayoutCompat.HORIZONTAL or LinearLayoutCompat.VERTICAL，默认为 LinearLayoutCompat.VERTICAL 。
  */
-class MultiColorDrawable(@ColorInt val colorArr: Array<Int>) : Drawable() {
+class MultiColorDrawable(@field:ColorInt private val colorArr: Array<Int>) : Drawable() {
 
     private val mPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 

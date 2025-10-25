@@ -1,6 +1,10 @@
 package cn.cqautotest.sunnybeach.other
 
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.ColorFilter
+import android.graphics.Paint
+import android.graphics.PixelFormat
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
@@ -13,7 +17,7 @@ import androidx.core.graphics.toRectF
  * desc   : Very simple drawable that draws a rounded rectangle background with arbitrary corners and also reports proper outline for Lollipop.
  * Simpler and uses less resources compared to GradientDrawable or ShapeDrawable.
  */
-class RoundRectDrawable(@Px private val radius: Int, @ColorInt private val color: Int = Color.TRANSPARENT) : Drawable() {
+class RoundRectDrawable(@param:Px private val radius: Int, @param:ColorInt private val color: Int = Color.TRANSPARENT) : Drawable() {
 
     private val mPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { it.color = color }
 

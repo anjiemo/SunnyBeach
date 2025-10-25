@@ -95,6 +95,7 @@ private fun Context.showLoginDialog(listener: MessageDialog.OnListener? = null) 
             listener?.onConfirm(it)
             LoginActivity.start(this, UserManager.getCurrLoginAccount(), UserManager.getCurrLoginAccountPassword())
         }
+        .bindLeaksCleaner()
         .also { it.show() }
         .also { isShowing.set(true) }
 }

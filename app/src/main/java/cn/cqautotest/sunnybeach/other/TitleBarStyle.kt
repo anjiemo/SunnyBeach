@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import cn.cqautotest.sunnybeach.R
-import com.hjq.bar.style.RippleBarStyle
 
 /**
  *    author : Android 轮子哥 & A Lonely Cat

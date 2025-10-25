@@ -46,7 +46,6 @@ object UmengClient {
 
         // 初始化各个平台的 ID 和 Key
         PlatformConfig.setWeixin(BuildConfig.WX_ID, BuildConfig.WX_SECRET)
-        PlatformConfig.setQQZone(BuildConfig.QQ_ID, BuildConfig.QQ_SECRET)
 
         // 初始化各个平台的文件提供者（必须要初始化，否则会导致无法分享文件）
         val fileProvider = application?.packageName + ".provider"

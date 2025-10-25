@@ -65,7 +65,7 @@
         app:shape_radius="25dp"
         app:shape_solidPressedColor="@color/common_button_pressed_color"
         app:shape_strokeColor="@color/common_confirm_text_color"
-        app:shape_strokeWidth="2dp" />
+        app:shape_strokeSize="2dp" />
 
     <com.hjq.shape.view.ShapeTextView
         android:id="@+id/tv_copy"
