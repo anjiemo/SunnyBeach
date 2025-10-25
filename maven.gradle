@@ -1,4 +1,6 @@
 static def addCommonMaven(RepositoryHandler handler) {
+    // MavenCentral 远程仓库：https://mvnrepository.com
+    handler.mavenCentral()
     // 阿里云云效仓库：https://maven.aliyun.com/mvn/guide
     handler.maven { url 'https://maven.aliyun.com/repository/public' }
     handler.maven { url 'https://maven.aliyun.com/repository/google' }
@@ -6,8 +8,6 @@ static def addCommonMaven(RepositoryHandler handler) {
     handler.maven { url 'https://repo.huaweicloud.com/repository/maven' }
     // JitPack 远程仓库：https://jitpack.io
     handler.maven { url 'https://jitpack.io' }
-    // MavenCentral 远程仓库：https://mvnrepository.com
-    handler.mavenCentral()
     handler.google()
     // noinspection JcenterRepositoryObsolete
     handler.jcenter()
