@@ -6,16 +6,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:shape_solidColor="@color/common_window_background_color"
-    app:shape_topLeftRadius="@dimen/dp_20"
-    app:shape_topRightRadius="@dimen/dp_20"
+    app:shape_radiusInTopLeft="@dimen/dp_20"
+    app:shape_radiusInTopRight="@dimen/dp_20"
     tools:showIn="@layout/user_center_activity">
 
     <com.hjq.shape.layout.ShapeFrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:shape_solidColor="@color/white"
-        app:shape_topLeftRadius="@dimen/dp_20"
-        app:shape_topRightRadius="@dimen/dp_20">
+        app:shape_radiusInTopLeft="@dimen/dp_20"
+        app:shape_radiusInTopRight="@dimen/dp_20">
 
         <com.hjq.shape.view.ShapeView
             android:id="@+id/v_open_or_close"

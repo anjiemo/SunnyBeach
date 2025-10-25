@@ -16,7 +16,7 @@ import cn.cqautotest.sunnybeach.ktx.equilibriumAssignmentOfLinear
  */
 open class LinearSpaceItemDecoration(
     // 单位间距（实际间距的一半）
-    @Px private val unit: Int = 2.dp
+    @param:Px private val unit: Int = 2.dp
 ) : RecyclerView.ItemDecoration() {
 
     @CallSuper

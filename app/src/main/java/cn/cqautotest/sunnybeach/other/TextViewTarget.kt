@@ -16,7 +16,7 @@ import com.bumptech.glide.request.transition.Transition
  * desc   : A simple implementation of TextViewTarget,
  * usually used when you need the image and text to be aligned top and bottom, and you can specify the size of the drawable.
  */
-class TextViewTarget(private val textView: TextView, @Px private val drawableSize: Int = 0) :
+class TextViewTarget(private val textView: TextView, @param:Px private val drawableSize: Int = 0) :
     CustomViewTarget<TextView, Drawable>(textView) {
 
     private val defaultDrawable = ShapeDrawable(RectShape()).apply {

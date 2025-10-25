@@ -8,8 +8,8 @@ import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.flyjingfish.android_aop_core.annotations.SingleClick
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionNames
 
 /**
  *    author : Android 轮子哥
@@ -119,7 +119,7 @@ class MessageFragment : TitleBarFragment<HomeActivity>() {
         }
     }
 
-    @com.flyjingfish.android_aop_core.annotations.Permission(Permission.CAMERA)
+    @com.flyjingfish.android_aop_core.annotations.Permission(PermissionNames.CAMERA)
     private fun requestPermission() {
         toast("获取摄像头权限成功")
     }

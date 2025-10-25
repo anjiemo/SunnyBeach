@@ -24,12 +24,12 @@ import com.hjq.base.action.AnimAction
 import com.hjq.http.EasyHttp
 import com.hjq.http.listener.OnDownloadListener
 import com.hjq.http.model.HttpMethod
-import com.hjq.permissions.Permission
+import com.hjq.permissions.permission.PermissionNames
 import timber.log.Timber
 import java.io.File
 
 /**
- *    author : Android 轮子哥
+ *    author : Android 轮子哥 & A Lonely Cat
  *    github : https://github.com/getActivity/AndroidProject-Kotlin
  *    time   : 2019/03/20
  *    desc   : 升级对话框
@@ -135,7 +135,11 @@ class UpdateDialog {
          * 下载 Apk
          */
         @CheckNetwork(invokeListener = true)
-        @com.flyjingfish.android_aop_core.annotations.Permission(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE, Permission.REQUEST_INSTALL_PACKAGES)
+        @com.flyjingfish.android_aop_core.annotations.Permission(
+            PermissionNames.READ_EXTERNAL_STORAGE,
+            PermissionNames.WRITE_EXTERNAL_STORAGE,
+            PermissionNames.REQUEST_INSTALL_PACKAGES
+        )
         private fun downloadApk() {
             // 设置对话框不能被取消
             setCancelable(false)
@@ -186,7 +190,8 @@ class UpdateDialog {
                 .url(downloadUrl)
                 .md5(fileMd5)
                 .listener(object : OnDownloadListener {
-                    override fun onStart(file: File?) {
+
+                    override fun onDownloadStart(file: File) {
                         // 标记为下载中
                         downloading = true
                         // 标记成未下载完成
@@ -198,7 +203,7 @@ class UpdateDialog {
                         updateView?.setText(R.string.update_status_start)
                     }
 
-                    override fun onProgress(file: File, progress: Int) {
+                    override fun onDownloadProgressChange(file: File, progress: Int) {
                         updateView?.text = String.format(getString(R.string.update_status_running)!!, progress)
                         progressView?.progress = progress
                         // 更新下载通知
@@ -217,7 +222,7 @@ class UpdateDialog {
                         )
                     }
 
-                    override fun onComplete(file: File) {
+                    override fun onDownloadSuccess(file: File) {
                         // 显示下载成功通知
                         notificationManager.notify(
                             notificationId, notificationBuilder
@@ -247,7 +252,7 @@ class UpdateDialog {
                         installApk()
                     }
 
-                    override fun onError(file: File, e: Exception) {
+                    override fun onDownloadFail(file: File, throwable: Throwable) {
                         // 清除通知
                         notificationManager.cancel(notificationId)
                         updateView?.setText(R.string.update_status_failed)
@@ -255,7 +260,7 @@ class UpdateDialog {
                         file.delete()
                     }
 
-                    override fun onEnd(file: File) {
+                    override fun onDownloadEnd(file: File) {
                         // 更新进度条
                         progressView?.progress = 0
                         progressView?.visibility = View.GONE
@@ -272,7 +277,7 @@ class UpdateDialog {
         /**
          * 安装 Apk
          */
-        @com.flyjingfish.android_aop_core.annotations.Permission(Permission.REQUEST_INSTALL_PACKAGES)
+        @com.flyjingfish.android_aop_core.annotations.Permission(PermissionNames.REQUEST_INSTALL_PACKAGES)
         private fun installApk() {
             getContext().startActivity(getInstallIntent())
         }
