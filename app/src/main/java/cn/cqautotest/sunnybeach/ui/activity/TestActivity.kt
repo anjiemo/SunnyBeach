@@ -2,11 +2,11 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.os.Build
 import android.text.StaticLayout
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.Init
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.TestActivityBinding
+import dev.androidbroadcast.vbpd.viewBinding
 import timber.log.Timber
 
 /**
@@ -17,7 +17,7 @@ import timber.log.Timber
  */
 class TestActivity : AppActivity(), Init {
 
-    private val mBinding by viewBinding<TestActivityBinding>()
+    private val mBinding by viewBinding(TestActivityBinding::bind)
 
     override fun getLayoutId(): Int = R.layout.test_activity
 

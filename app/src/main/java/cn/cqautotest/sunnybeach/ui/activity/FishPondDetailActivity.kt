@@ -16,7 +16,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.Log
@@ -49,6 +48,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.dylanc.longan.intentExtras
 import com.hjq.bar.TitleBar
 import dagger.hilt.android.AndroidEntryPoint
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -65,7 +65,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class FishPondDetailActivity : AppActivity(), StatusAction {
 
-    private val mBinding: FishPondDetailActivityBinding by viewBinding()
+    private val mBinding by viewBinding(FishPondDetailActivityBinding::bind)
     private val mFishPondViewModel by viewModels<FishPondViewModel>()
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
 

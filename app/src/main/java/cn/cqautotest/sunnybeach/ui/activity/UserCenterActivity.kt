@@ -5,7 +5,6 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.UserCenterActivityBinding
@@ -35,6 +34,7 @@ import com.bumptech.glide.Glide
 import com.dylanc.longan.lifecycleOwner
 import com.scwang.smart.refresh.layout.wrapper.RefreshHeaderWrapper
 import com.umeng.analytics.MobclickAgent
+import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

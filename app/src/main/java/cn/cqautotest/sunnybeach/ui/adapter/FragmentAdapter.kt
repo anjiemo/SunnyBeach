@@ -112,6 +112,13 @@ class FragmentAdapter : FragmentStateAdapter {
         mItemIdCache.addAll(mFragments.map { it.first.hashCode().toLong() })
     }
 
+    private fun clear() {
+        val itemCount = mFragments.count()
+        mFragments.clear()
+        mItemIdCache.clear()
+        safeNotifyItemRangeRemoved(0, itemCount)
+    }
+
     /**
      * 安全地通知数据变化
      */
@@ -424,6 +431,10 @@ class FragmentAdapter : FragmentStateAdapter {
         } else {
             Timber.w("Move fragment failed: positions out of bounds (from=$fromPosition, to=$toPosition)")
         }
+    }
+
+    fun onCleared() {
+        clear()
     }
     // endregion
 }

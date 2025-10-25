@@ -59,3 +59,17 @@
 # XPopup：https://github.com/junixapp/XPopup
 -dontwarn com.lxj.xpopup.widget.**
 -keep class com.lxj.xpopup.widget.**{*;}
+
+# TitleBar：https://github.com/getActivity/TitleBar
+-keep class com.hjq.bar.** {*;}
+
+# EasyHttp：https://github.com/getActivity/EasyHttp
+# EasyHttp 框架混淆规则
+-keep class com.hjq.http.** {*;}
+# 必须要加上此规则，否则会导致泛型解析失败
+-keep class * implements com.hjq.http.listener.OnHttpListener {
+    *;
+}
+-keep class * extends com.hjq.http.model.ResponseClass {
+    *;
+}

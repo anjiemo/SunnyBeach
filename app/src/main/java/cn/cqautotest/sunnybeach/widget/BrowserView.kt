@@ -9,7 +9,17 @@ import android.net.http.SslError
 import android.os.Build
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.webkit.*
+import android.webkit.GeolocationPermissions
+import android.webkit.JsPromptResult
+import android.webkit.JsResult
+import android.webkit.SslErrorHandler
+import android.webkit.ValueCallback
+import android.webkit.WebChromeClient
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -28,14 +38,15 @@ import com.hjq.base.BaseActivity
 import com.hjq.base.BaseActivity.OnActivityCallback
 import com.hjq.base.BaseDialog
 import com.hjq.base.action.ActivityAction
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.base.IPermission
 import com.hjq.widget.layout.NestedScrollWebView
 import timber.log.Timber
 import java.io.File
 
 /**
- *    author : Android 轮子哥
+ *    author : Android 轮子哥 & A Lonely Cat
  *    github : https://github.com/getActivity/AndroidProject-Kotlin
  *    time   : 2019/09/24
  *    desc   : 基于原生 WebView 封装
@@ -338,10 +349,12 @@ class BrowserView @JvmOverloads constructor(
 
                     override fun onConfirm(dialog: BaseDialog?) {
                         XXPermissions.with(activity)
-                            .permission(Permission.ACCESS_FINE_LOCATION)
-                            .permission(Permission.ACCESS_COARSE_LOCATION)
+                            .permission(PermissionLists.getAccessFineLocationPermission())
+                            .permission(PermissionLists.getAccessCoarseLocationPermission())
                             .request(object : PermissionCallback() {
-                                override fun onGranted(permissions: MutableList<String>, all: Boolean) {
+
+                                override fun onResult(grantedList: List<IPermission>, deniedList: List<IPermission>) {
+                                    val all = deniedList.isEmpty()
                                     if (all) {
                                         callback.invoke(origin, true, true)
                                     }
@@ -369,17 +382,16 @@ class BrowserView @JvmOverloads constructor(
                 return false
             }
             XXPermissions.with(activity)
-                .permission(*Permission.Group.STORAGE)
+                .permission(PermissionLists.getWriteExternalStoragePermission())
                 .request(object : PermissionCallback() {
-                    override fun onGranted(permissions: MutableList<String>, all: Boolean) {
+
+                    override fun onResult(grantedList: List<IPermission>, deniedList: List<IPermission>) {
+                        val all = deniedList.isEmpty()
                         if (all) {
                             openSystemFileChooser(activity, params, callback)
+                        } else {
+                            callback.onReceiveValue(null)
                         }
-                    }
-
-                    override fun onDenied(permissions: MutableList<String>, never: Boolean) {
-                        super.onDenied(permissions, never)
-                        callback.onReceiveValue(null)
                     }
                 })
             return true

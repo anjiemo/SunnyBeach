@@ -12,15 +12,16 @@ import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.other.AppConfig
 import com.hjq.base.BaseActivity
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.permissions.permission.PermissionNames
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 /**
- *    author : Android 轮子哥
+ *    author : Android 轮子哥 & A Lonely Cat
  *    github : https://github.com/getActivity/AndroidProject-Kotlin
  *    time   : 2019/12/18
  *    desc   : 拍摄图片、视频
@@ -39,9 +40,9 @@ class CameraActivity : AppActivity() {
 
         @Log
         @com.flyjingfish.android_aop_core.annotations.Permission(
-            Permission.READ_MEDIA_IMAGES,
-            Permission.WRITE_EXTERNAL_STORAGE,
-            Permission.CAMERA
+            PermissionNames.READ_MEDIA_IMAGES,
+            PermissionNames.WRITE_EXTERNAL_STORAGE,
+            PermissionNames.CAMERA
         )
         fun start(activity: BaseActivity, video: Boolean, listener: OnCameraListener?) {
             val file: File = createCameraFile(video)
@@ -116,11 +117,13 @@ class CameraActivity : AppActivity() {
             // 拍摄照片
             intent.action = MediaStore.ACTION_IMAGE_CAPTURE
         }
-        if (intent.resolveActivity(packageManager) == null || !XXPermissions.isGranted(
+        if (intent.resolveActivity(packageManager) == null || !XXPermissions.isGrantedPermissions(
                 this,
-                Permission.READ_MEDIA_IMAGES,
-                Permission.WRITE_EXTERNAL_STORAGE,
-                Permission.CAMERA
+                arrayOf(
+                    PermissionLists.getReadMediaImagesPermission(),
+                    PermissionLists.getWriteExternalStoragePermission(),
+                    PermissionLists.getCameraPermission()
+                )
             )
         ) {
             setResult(RESULT_ERROR, Intent().putExtra(INTENT_KEY_OUT_ERROR, getString(R.string.camera_launch_fail)))

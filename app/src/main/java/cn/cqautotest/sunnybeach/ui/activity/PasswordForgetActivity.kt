@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import androidx.activity.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.PasswordForgetActivityBinding
@@ -22,6 +21,7 @@ import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.widget.view.CountdownView
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  *    author : Android 轮子哥 & A Lonely Cat
@@ -31,7 +31,7 @@ import com.hjq.widget.view.CountdownView
  */
 class PasswordForgetActivity : AppActivity(), OnEditorActionListener {
 
-    private val mBinding by viewBinding<PasswordForgetActivityBinding>()
+    private val mBinding by viewBinding(PasswordForgetActivityBinding::bind)
     private val phoneView: EditText? by lazy { findViewById(R.id.et_password_forget_phone) }
     private val codeView: EditText? by lazy { findViewById(R.id.et_password_forget_code) }
     private val countdownView: CountdownView? by lazy { findViewById(R.id.cv_password_forget_countdown) }

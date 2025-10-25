@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.Intent
 import android.net.Uri
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
@@ -17,6 +16,7 @@ import com.blankj.utilcode.util.AppUtils
 import com.hjq.bar.TitleBar
 import com.hjq.base.FragmentPagerAdapter
 import com.umeng.analytics.MobclickAgent
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  * author : A Lonely Cat
@@ -26,7 +26,7 @@ import com.umeng.analytics.MobclickAgent
  */
 class VipActivity : AppActivity() {
 
-    private val mBinding: VipActivityBinding by viewBinding()
+    private val mBinding by viewBinding(VipActivityBinding::bind)
     private lateinit var mFragmentAdapter: FragmentPagerAdapter<AppFragment<*>>
 
     override fun getLayoutId(): Int = R.layout.vip_activity

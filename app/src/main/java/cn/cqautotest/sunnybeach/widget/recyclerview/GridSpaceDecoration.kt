@@ -13,7 +13,7 @@ import kotlin.math.roundToInt
  *    time   : 2019/07/25
  *    desc   : 图片选择列表分割线
  */
-class GridSpaceDecoration(@Px private val space: Int) : RecyclerView.ItemDecoration() {
+class GridSpaceDecoration(@param:Px private val space: Int) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(rect: Rect, view: View, recyclerView: RecyclerView, state: RecyclerView.State) {
         val position: Int = recyclerView.getChildAdapterPosition(view)

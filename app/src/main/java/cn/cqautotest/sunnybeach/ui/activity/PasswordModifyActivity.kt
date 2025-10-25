@@ -9,7 +9,6 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.activity.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -21,6 +20,7 @@ import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.dialog.TipsDialog
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.flyjingfish.android_aop_core.annotations.SingleClick
+import dev.androidbroadcast.vbpd.viewBinding
 
 /**
  * author : A Lonely Cat
@@ -30,7 +30,7 @@ import com.flyjingfish.android_aop_core.annotations.SingleClick
  */
 class PasswordModifyActivity : AppActivity(), TextView.OnEditorActionListener {
 
-    private val mBinding by viewBinding<PasswordModifyActivityBinding>()
+    private val mBinding by viewBinding(PasswordModifyActivityBinding::bind)
     private val mUserViewModel by viewModels<UserViewModel>()
 
     /**
