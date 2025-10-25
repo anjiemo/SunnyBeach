@@ -266,10 +266,10 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$work_version"
 
     // 权限请求框架：https://github.com/getActivity/XXPermissions
-    implementation 'com.github.getActivity:XXPermissions:20.0'
+    implementation 'com.github.getActivity:XXPermissions:26.5'
 
     // 标题栏框架：https://github.com/getActivity/TitleBar
-    implementation 'com.github.getActivity:TitleBar:10.5'
+    implementation 'com.github.getActivity:TitleBar:10.6'
 
     // 吐司框架：https://github.com/getActivity/Toaster
     implementation 'com.github.getActivity:Toaster:13.6'
