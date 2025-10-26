@@ -2,9 +2,9 @@ apply plugin: 'kotlin-android'
 
 // 通用配置
 android {
+    compileSdk 35
 
     // 编译源码版本
-    compileSdkVersion 34
     defaultConfig {
         // 最低安装版本
         minSdkVersion 26

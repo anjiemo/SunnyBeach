@@ -7,6 +7,7 @@ import androidx.core.graphics.set
 
 fun Bitmap?.setTintColor(@ColorInt newColor: Int): Bitmap? {
     this ?: return null
+    val config = config ?: Bitmap.Config.ARGB_8888
     val newBitmap = copy(config, true)
     for (x in 0 until width) {
         for (y in 0 until height) {
