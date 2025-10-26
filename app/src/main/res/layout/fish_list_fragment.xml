@@ -35,9 +35,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.scwang.smart.refresh.header.TwoLevelHeader
+                android:id="@+id/two_level_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragment_container_view_tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </com.scwang.smart.refresh.header.TwoLevelHeader>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/common_window_background_color"
                 android:orientation="vertical">
 
                 <TextView
@@ -65,7 +78,7 @@
 
     </cn.cqautotest.sunnybeach.widget.StatusLayout>
 
-    <ImageView
+    <com.hjq.widget.view.FloatActionButton
         android:id="@+id/iv_publish"
         android:layout_width="@dimen/dp_48"
         android:layout_height="@dimen/dp_48"

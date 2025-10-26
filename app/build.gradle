@@ -315,9 +315,10 @@ dependencies {
     implementation 'com.airbnb.android:lottie:6.6.10'
 
     // 上拉刷新下拉加载框架：https://github.com/scwang90/SmartRefreshLayout
-    implementation 'io.github.scwang90:refresh-layout-kernel:2.1.0'
-    implementation 'io.github.scwang90:refresh-header-material:2.1.0'
-    implementation 'io.github.scwang90:refresh-header-classics:2.1.0'
+    implementation 'io.github.scwang90:refresh-layout-kernel:2.1.1'
+    implementation 'io.github.scwang90:refresh-header-material:2.1.1'
+    implementation 'io.github.scwang90:refresh-header-classics:2.1.1'
+    implementation 'io.github.scwang90:refresh-header-two-level:2.1.1'
 
     // 日志打印框架：https://github.com/JakeWharton/timber
     implementation 'com.jakewharton.timber:timber:5.0.1'

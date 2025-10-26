@@ -59,6 +59,9 @@ import com.hjq.bar.TitleBar
 import com.hjq.permissions.permission.PermissionNames
 import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.constant.RefreshState
+import com.scwang.smart.refresh.layout.simple.SimpleMultiListener
 import dagger.hilt.android.AndroidEntryPoint
 import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
@@ -167,6 +170,26 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             titleBar.setDoubleClickListener {
                 onBack2Top()
             }
+            refreshLayout.setOnMultiListener(object : SimpleMultiListener() {
+
+                override fun onStateChanged(refreshLayout: RefreshLayout, oldState: RefreshState, newState: RefreshState) {
+                    when (newState) {
+                        RefreshState.TwoLevelReleased -> {
+                            hidePublishButton()
+                            toast("打开二楼")
+                        }
+
+                        RefreshState.TwoLevelFinish -> {
+                            showPublishButton()
+                            toast("关闭二楼")
+                        }
+
+                        else -> {
+                            // Nothing to do.
+                        }
+                    }
+                }
+            })
             refreshLayout.setOnRefreshListener {
                 loadCategoryList()
                 mFishListAdapter.refresh()
@@ -213,6 +236,14 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mFishListAdapter.setOnNineGridClickListener { sources, index ->
             ImagePreviewActivity.start(requireContext(), sources.toMutableList(), index)
         }
+    }
+
+    private fun showPublishButton() {
+        mBinding.ivPublish.show()
+    }
+
+    private fun hidePublishButton() {
+        mBinding.ivPublish.hide()
     }
 
     private fun dynamicLikes(item: Fish.FishItem, position: Int) {
