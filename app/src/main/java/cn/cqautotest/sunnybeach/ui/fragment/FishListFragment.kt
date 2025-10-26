@@ -1,12 +1,10 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
@@ -20,7 +18,6 @@ import cn.cqautotest.sunnybeach.ktx.addAfterNextUpdateUIDefaultItemAnimator
 import cn.cqautotest.sunnybeach.ktx.clearItemAnimator
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.ifLogin
-import cn.cqautotest.sunnybeach.ktx.isNotEmpty
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import cn.cqautotest.sunnybeach.ktx.otherwise
 import cn.cqautotest.sunnybeach.ktx.removeMourningStyle
@@ -98,11 +95,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mBinding.refreshLayout.finishRefresh()
         mBinding.rvFishPondList.addAfterNextUpdateUIDefaultItemAnimator()
     }
-    private val mFishCategoryAdapterDataObserver = object : RecyclerView.AdapterDataObserver() {
-        override fun onChanged() {
-            mBinding.tvRecommend.isVisible = mFishCategoryAdapter.isNotEmpty()
-        }
-    }
     private val mScanLauncher = registerForActivityResult(GetScanContent()) { result ->
         when (result) {
             is CanParseUserId -> {
@@ -126,6 +118,13 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     override fun getLayoutId(): Int = R.layout.fish_list_fragment
 
     override fun initView() {
+        val fragment = childFragmentManager.findFragmentById(R.id.fragment_container_view_tag)
+        takeIf { fragment == null }?.let {
+            childFragmentManager.beginTransaction()
+                .add(R.id.fragment_container_view_tag, TwoLevelContentFragment.newInstance())
+                .commitAllowingStateLoss()
+        }
+
         // This emptyAdapter is like a hacker.
         // Its existence allows the PagingAdapter to scroll to the top before being refreshed,
         // avoiding the problem that the PagingAdapter cannot return to the top after being refreshed.
@@ -175,13 +174,11 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 override fun onStateChanged(refreshLayout: RefreshLayout, oldState: RefreshState, newState: RefreshState) {
                     when (newState) {
                         RefreshState.TwoLevelReleased -> {
-                            hidePublishButton()
-                            toast("打开二楼")
+                            twoLevelPageOpened()
                         }
 
                         RefreshState.TwoLevelFinish -> {
-                            showPublishButton()
-                            toast("关闭二楼")
+                            twoLevelPageClosed()
                         }
 
                         else -> {
@@ -238,6 +235,18 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         }
     }
 
+    private fun twoLevelPageOpened() {
+        LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE, true)
+        hidePublishButton()
+        toast("打开二楼")
+    }
+
+    private fun twoLevelPageClosed() {
+        LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE, false)
+        showPublishButton()
+        toast("关闭二楼")
+    }
+
     private fun showPublishButton() {
         mBinding.ivPublish.show()
     }
@@ -257,9 +266,11 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     override fun initObserver() {
         mAppViewModel.mourningCalendarListLiveData.observe(viewLifecycleOwner) { setMourningStyleByDate(it) }
         mFishPondViewModel.fishListStateLiveData.observe(viewLifecycleOwner) { mFishListAdapter.refresh() }
-        mFishCategoryAdapter.registerAdapterDataObserver(mFishCategoryAdapterDataObserver)
         LiveBusUtils.busReceive<Unit>(viewLifecycleOwner, LiveBusKeyConfig.BUS_PUT_FISH_SUCCESS) {
             mFishListAdapter.refresh()
+        }
+        LiveBusUtils.busReceive<Unit>(viewLifecycleOwner, LiveBusKeyConfig.BUS_TWO_LEVEL_BACK_TO_HOME_PAGE) {
+            mBinding.twoLevelHeader.finishTwoLevel()
         }
     }
 
@@ -295,7 +306,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     override fun onDestroyView() {
         super.onDestroyView()
         mFishListAdapter.removeLoadStateListener(loadStateListener)
-        mFishCategoryAdapter.unregisterAdapterDataObserver(mFishCategoryAdapterDataObserver)
     }
 
     override fun onBack2Top() {

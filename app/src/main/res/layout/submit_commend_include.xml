@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:shape_solidColor="@color/white"
-        app:shape_radiusInTopLeft="@dimen/dp_20"
+        app:shape_radiusInTopStart="@dimen/dp_20"
         app:shape_radiusInTopRight="@dimen/dp_20">
 
         <com.hjq.shape.view.ShapeView

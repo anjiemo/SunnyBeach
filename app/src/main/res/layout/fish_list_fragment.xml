@@ -53,16 +53,6 @@
                 android:background="@color/common_window_background_color"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_recommend"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:padding="@dimen/dp_10"
-                    android:text="推荐话题"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_14" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_fish_pond_list"
                     android:layout_width="match_parent"

@@ -80,7 +80,7 @@
                         android:layout_height="60dp"
                         android:orientation="vertical"
                         app:shape_solidColor="#F3F3F3"
-                        app:shape_radiusInTopLeft="10dp"
+                        app:shape_radiusInTopStart="10dp"
                         app:shape_radiusInTopRight="10dp">
 
                         <com.hjq.shape.view.ShapeView
@@ -135,7 +135,7 @@
                     android:layout_height="60dp"
                     android:orientation="vertical"
                     app:shape_solidColor="#F3F3F3"
-                    app:shape_radiusInTopLeft="10dp"
+                    app:shape_radiusInTopStart="10dp"
                     app:shape_radiusInTopRight="10dp">
 
                     <com.hjq.shape.view.ShapeView
