@@ -2,7 +2,7 @@ apply plugin: 'kotlin-android'
 
 // 通用配置
 android {
-    compileSdk 35
+    compileSdk 36
 
     // 编译源码版本
     defaultConfig {
@@ -69,13 +69,16 @@ dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 
     // AndroidX 库：https://github.com/androidx/androidx
-    implementation 'androidx.appcompat:appcompat:1.7.0'
+    // https://developer.android.com/jetpack/androidx/releases/appcompat?hl=zh-cn
+    implementation 'androidx.appcompat:appcompat:1.7.1'
     // Material 库：https://github.com/material-components/material-components-android
-    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'com.google.android.material:material:1.13.0'
 
     // Kotlin 协程：https://github.com/Kotlin/kotlinx.coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.7'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2'
+    // AndroidX 生命周期库：https://developer.android.com/jetpack/androidx/releases/lifecycle
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.9.4'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.9.4'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4'
 }
