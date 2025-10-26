@@ -3,7 +3,12 @@
 package cn.cqautotest.sunnybeach.ktx
 
 import android.annotation.SuppressLint
-import android.graphics.*
+import android.graphics.Color
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Paint
+import android.graphics.Point
+import android.graphics.Rect
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.view.LayoutInflater
@@ -14,9 +19,9 @@ import androidx.annotation.Px
 import androidx.annotation.RequiresApi
 import androidx.collection.SparseArrayCompat
 import androidx.collection.set
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.blankj.utilcode.util.TouchUtils
-import com.dylanc.longan.rootWindowInsetsCompat
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -96,7 +101,7 @@ fun View.asInflate(): LayoutInflater = context.asInflater()
  */
 @Px
 fun View.requireKeyboardHeight(): Int {
-    val insets = rootWindowInsetsCompat?.getInsets(WindowInsetsCompat.Type.ime()) ?: return 0
+    val insets = ViewCompat.getRootWindowInsets(this)?.getInsets(WindowInsetsCompat.Type.ime()) ?: return 0
     return insets.bottom - insets.top
 }
 

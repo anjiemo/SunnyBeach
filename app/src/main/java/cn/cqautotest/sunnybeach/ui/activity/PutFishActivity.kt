@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.core.graphics.toColorInt
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.addTextChangedListener
@@ -44,7 +45,6 @@ import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
-import com.dylanc.longan.rootWindowInsetsCompat
 import com.hjq.bar.TitleBar
 import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.CancellationException
@@ -130,7 +130,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
             }
             keyboardLayout.setKeyboardListener { isActive, _ ->
                 val navigationBarHeight =
-                    mBinding.root.rootWindowInsetsCompat?.getInsets(WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0
+                    ViewCompat.getRootWindowInsets(mBinding.root)?.getInsets(WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0
                 // Timber.d("initEvent：===> navigationBarHeight is $navigationBarHeight")
 
                 val keyboardHeight = mBinding.root.requireKeyboardHeight()
