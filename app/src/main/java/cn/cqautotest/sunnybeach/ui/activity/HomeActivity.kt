@@ -11,6 +11,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import cn.cqautotest.sunnybeach.R
@@ -18,6 +19,8 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.OnDoubleClickListener
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
+import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
+import cn.cqautotest.sunnybeach.event.LiveBusUtils
 import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
 import cn.cqautotest.sunnybeach.ktx.tryShowLoginDialog
 import cn.cqautotest.sunnybeach.manager.ActivityManager
@@ -163,6 +166,9 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         mAppViewModel.checkAppUpdate().observe(this) { result ->
             val appUpdateInfo = result.getOrNull() ?: return@observe
             onlyCheckOrUpdate(appUpdateInfo)
+        }
+        LiveBusUtils.busReceive<Boolean>(this, LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE) { isOpened ->
+            navigationView?.isVisible = isOpened.not()
         }
     }
 
