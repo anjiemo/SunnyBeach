@@ -16,7 +16,11 @@ apply from: '../common.gradle'
 
 // Android 代码规范文档：https://github.com/getActivity/AndroidCodeStandard
 android {
+
+    // 设置命名空间：https://developer.android.com/build/configure-app-module#set-namespace
     namespace 'cn.cqautotest.sunnybeach'
+
+    // Apk 签名的那些事：https://www.jianshu.com/p/a1f8e5896aa2
     signingConfigs {
         config {
             storeFile file(StoreFile)
@@ -25,16 +29,15 @@ android {
             keyPassword KeyPassword
         }
     }
-    buildTypes {
 
+    // 构建配置：https://developer.android.google.cn/studio/build/build-variants
+    buildTypes {
         debug {
             // 给包名添加后缀
             applicationIdSuffix '.debug'
             // 调试模式开关
             debuggable true
             jniDebuggable true
-            // 压缩对齐开关
-            zipAlignEnabled false
             // 移除无用的资源
             shrinkResources false
             // 代码混淆开关
@@ -66,8 +69,6 @@ android {
             // 调试模式开关
             debuggable false
             jniDebuggable false
-            // 压缩对齐开关
-            zipAlignEnabled true
             // 移除无用的资源
             shrinkResources true
             // 代码混淆开关
@@ -87,7 +88,6 @@ android {
             }
         }
     }
-    // 设置命名空间：https://developer.android.com/build/configure-app-module#set-namespace
 
     // 资源目录存放指引：https://developer.android.google.cn/guide/topics/resources/providing-resources
     defaultConfig {
@@ -111,7 +111,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    // Apk 签名的那些事：https://www.jianshu.com/p/a1f8e5896aa2
     // 剔除这个包下的所有文件（不会移除签名信息）
     packagingOptions {
         jniLibs {
@@ -121,8 +120,6 @@ android {
             excludes += ['META-INF/*******']
         }
     }
-
-    // 构建配置：https://developer.android.google.cn/studio/build/build-variants
 
     buildFeatures {
         compose true // 启用 Compose
