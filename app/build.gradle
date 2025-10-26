@@ -87,7 +87,6 @@ android {
             }
         }
     }
-
     // 设置命名空间：https://developer.android.com/build/configure-app-module#set-namespace
 
     // 资源目录存放指引：https://developer.android.google.cn/guide/topics/resources/providing-resources
@@ -234,10 +233,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 
-    implementation 'androidx.core:core-ktx:1.13.1'
-    implementation 'androidx.activity:activity-ktx:1.9.0'
-    implementation 'androidx.fragment:fragment-ktx:1.8.1'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.8.2'
+    // Android Core：https://developer.android.com/jetpack/androidx/releases/core?hl=zh-cn
+    implementation 'androidx.core:core-ktx:1.17.0'
+    // Activity ktx：https://developer.android.com/jetpack/androidx/releases/activity
+    implementation 'androidx.activity:activity-ktx:1.11.0'
+    // Fragment ktx：https://developer.android.com/jetpack/androidx/releases/fragment
+    implementation 'androidx.fragment:fragment-ktx:1.8.9'
 
     // Room 数据库：https://developer.android.com/jetpack/androidx/releases/room
     // CodeLab：https://developer.android.com/codelabs/android-room-with-a-view-kotlin#0
