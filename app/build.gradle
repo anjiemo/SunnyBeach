@@ -16,33 +16,7 @@ apply from: '../common.gradle'
 
 // Android 代码规范文档：https://github.com/getActivity/AndroidCodeStandard
 android {
-
-    // 设置命名空间：https://developer.android.com/build/configure-app-module#set-namespace
     namespace 'cn.cqautotest.sunnybeach'
-
-    // 资源目录存放指引：https://developer.android.google.cn/guide/topics/resources/providing-resources
-    defaultConfig {
-
-        // 无痛修改包名：https://www.jianshu.com/p/17327e191d2e
-        applicationId 'cn.cqautotest.sunnybeach'
-        // 仅保留中文语种的资源
-        // 仅保留 xxhdpi 图片资源（目前主流分辨率 1920 * 1080）
-        resourceConfigurations += ['zh,zh-rCN', 'xxhdpi']
-
-        // 混淆配置
-        proguardFiles 'proguard-sdk.pro', 'proguard-app.pro', 'removeLog.pro'
-
-        // 日志打印开关
-        buildConfigField('boolean', 'LOG_ENABLE', '' + LOG_ENABLE + '')
-        // 测试包下的 BuglyId
-        buildConfigField('String', 'BUGLY_ID', '"' + BUGLY_ID + '"')
-        // 测试服务器的主机地址
-        buildConfigField('String', 'HOST_URL', '"' + HOST_URL + '"')
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    // Apk 签名的那些事：https://www.jianshu.com/p/a1f8e5896aa2
     signingConfigs {
         config {
             storeFile file(StoreFile)
@@ -51,17 +25,6 @@ android {
             keyPassword KeyPassword
         }
     }
-    // 剔除这个包下的所有文件（不会移除签名信息）
-    packagingOptions {
-        jniLibs {
-            excludes += ['META-INF/*******']
-        }
-        resources {
-            excludes += ['META-INF/*******']
-        }
-    }
-
-    // 构建配置：https://developer.android.google.cn/studio/build/build-variants
     buildTypes {
 
         debug {
@@ -124,6 +87,43 @@ android {
             }
         }
     }
+
+    // 设置命名空间：https://developer.android.com/build/configure-app-module#set-namespace
+
+    // 资源目录存放指引：https://developer.android.google.cn/guide/topics/resources/providing-resources
+    defaultConfig {
+
+        // 无痛修改包名：https://www.jianshu.com/p/17327e191d2e
+        applicationId 'cn.cqautotest.sunnybeach'
+        // 仅保留中文语种的资源
+        // 仅保留 xxhdpi 图片资源（目前主流分辨率 1920 * 1080）
+        resourceConfigurations += ['zh,zh-rCN', 'xxhdpi']
+
+        // 混淆配置
+        proguardFiles 'proguard-sdk.pro', 'proguard-app.pro', 'removeLog.pro'
+
+        // 日志打印开关
+        buildConfigField('boolean', 'LOG_ENABLE', '' + LOG_ENABLE + '')
+        // 测试包下的 BuglyId
+        buildConfigField('String', 'BUGLY_ID', '"' + BUGLY_ID + '"')
+        // 测试服务器的主机地址
+        buildConfigField('String', 'HOST_URL', '"' + HOST_URL + '"')
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    // Apk 签名的那些事：https://www.jianshu.com/p/a1f8e5896aa2
+    // 剔除这个包下的所有文件（不会移除签名信息）
+    packagingOptions {
+        jniLibs {
+            excludes += ['META-INF/*******']
+        }
+        resources {
+            excludes += ['META-INF/*******']
+        }
+    }
+
+    // 构建配置：https://developer.android.google.cn/studio/build/build-variants
 
     buildFeatures {
         compose true // 启用 Compose
@@ -199,11 +199,11 @@ static def generateMD5(final file) {
 // 添加构建依赖项：https://developer.android.google.cn/studio/build/dependencies
 // api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
 dependencies {
-    def paging_version = "3.3.0"
-    def nav_version = "2.7.7"
+    def paging_version = "3.3.6"
+    def nav_version = "2.9.5"
     def emoji2_version = "1.0.0-beta01"
-    def room_version = "2.6.1"
-    def work_version = "2.9.0"
+    def room_version = "2.8.3"
+    def work_version = "2.11.0"
     def markwon_version = "4.6.2"
     def prism_version = "2.0.0"
     def qmui_arch_version = '2.0.1'
@@ -249,7 +249,7 @@ dependencies {
 
     // Paging 分页库：https://developer.android.google.cn/jetpack/androidx/releases/paging
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-    // Navigation 导航
+    // Navigation 导航：https://developer.android.com/jetpack/androidx/releases/navigation?hl=zh-cn
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     // Feature module Support

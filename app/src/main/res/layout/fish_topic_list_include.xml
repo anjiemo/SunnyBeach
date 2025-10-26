@@ -12,7 +12,6 @@
         android:id="@+id/tv_recommend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:padding="@dimen/dp_10"
         android:text="推荐话题"
         android:textColor="@color/black"
