@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:shape_solidColor="@color/white"
-            app:shape_radiusInTopLeft="@dimen/dp_14"
+            app:shape_radiusInTopStart="@dimen/dp_14"
             app:shape_radiusInTopRight="@dimen/dp_14">
 
             <com.hjq.shape.view.ShapeView

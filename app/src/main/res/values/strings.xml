@@ -308,4 +308,5 @@
         <item>分享内容奖励</item>
         <item>他人的打赏</item>
     </string-array>
+    <string name="back_to_home_page">回到首页</string>
 </resources>
