@@ -1,11 +1,13 @@
 package cn.cqautotest.sunnybeach.other
 
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.widget.TextView
 import androidx.annotation.Px
 import androidx.core.graphics.drawable.updateBounds
+import com.airbnb.lottie.SimpleColorFilter
 import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
 
@@ -21,6 +23,7 @@ class TextViewTarget(private val textView: TextView, @param:Px private val drawa
 
     private val defaultDrawable = ShapeDrawable(RectShape()).apply {
         updateBounds(right = drawableSize, bottom = drawableSize)
+        setColorFilter(SimpleColorFilter(Color.TRANSPARENT))
     }
 
     override fun onLoadFailed(errorDrawable: Drawable?) {

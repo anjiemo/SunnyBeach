@@ -1,5 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
+import android.view.ViewGroup
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.activityViewModels
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -46,6 +48,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.RecommendFishTopicListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.MultiOperationHelper
 import cn.cqautotest.sunnybeach.util.MyScanUtil
+import cn.cqautotest.sunnybeach.viewmodel.HomeViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -78,6 +81,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     private val mBinding by viewBinding(FishListFragmentBinding::bind)
 
+    private val mHomeViewModel by activityViewModels<HomeViewModel>()
     @Inject
     lateinit var mAppViewModel: AppViewModel
 
@@ -124,6 +128,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 .add(R.id.fragment_container_view_tag, TwoLevelContentFragment.newInstance())
                 .commitAllowingStateLoss()
         }
+        mBinding.twoLevelHeader.setEnablePullToCloseTwoLevel(false)
 
         // This emptyAdapter is like a hacker.
         // Its existence allows the PagingAdapter to scroll to the top before being refreshed,
@@ -236,12 +241,18 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     private fun twoLevelPageOpened() {
+        mBinding.llFishPondListContainer.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            topMargin = mHomeViewModel.bottomNavigationHeightFlow.value
+        }
         LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE, true)
         hidePublishButton()
         toast("打开二楼")
     }
 
     private fun twoLevelPageClosed() {
+        mBinding.llFishPondListContainer.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            topMargin = 0
+        }
         LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE, false)
         showPublishButton()
         toast("关闭二楼")

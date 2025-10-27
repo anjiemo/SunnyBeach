@@ -48,6 +48,7 @@
             </com.scwang.smart.refresh.header.TwoLevelHeader>
 
             <LinearLayout
+                android:id="@+id/ll_fish_pond_list_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/common_window_background_color"
