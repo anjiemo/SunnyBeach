@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:ellipsize="end"
     android:gravity="center"
-    android:minHeight="@dimen/dp_80"
+    android:minHeight="@dimen/dp_84"
+    android:paddingBottom="@dimen/dp_4"
     android:singleLine="true"
     android:textSize="@dimen/sp_12" />

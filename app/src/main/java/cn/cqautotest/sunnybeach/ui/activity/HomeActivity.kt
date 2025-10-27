@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
@@ -36,6 +37,7 @@ import cn.cqautotest.sunnybeach.ui.fragment.CourseListFragment
 import cn.cqautotest.sunnybeach.ui.fragment.FishListFragment
 import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment
 import cn.cqautotest.sunnybeach.ui.fragment.QaListFragment
+import cn.cqautotest.sunnybeach.viewmodel.HomeViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import com.gyf.immersionbar.ImmersionBar
 import com.tencent.bugly.crashreport.CrashReport
@@ -68,6 +70,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         }
     }
 
+    private val mHomeViewModel by viewModels<HomeViewModel>()
     private val viewPager2: ViewPager2? by lazy { findViewById(R.id.vp_home_pager2) }
     private val navigationView: RecyclerView? by lazy { findViewById(R.id.rv_home_navigation) }
     private var navigationAdapter: NavigationAdapter? = null
@@ -76,6 +79,10 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
 
     @Inject
     lateinit var mAppViewModel: AppViewModel
+    private val mOnLayoutChangedListener = View.OnLayoutChangeListener { _, _, top, _, bottom, _, _, _, _ ->
+        val newHeight = bottom - top
+        mHomeViewModel.updateBottomNavigationHeight(newHeight = newHeight)
+    }
 
     override fun getLayoutId() = R.layout.home_activity
 
@@ -160,6 +167,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             }
         })
         navigationAdapter?.setOnDoubleClickListener(this)
+        navigationView?.addOnLayoutChangeListener(mOnLayoutChangedListener)
     }
 
     override fun initObserver() {
@@ -256,6 +264,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         super.onDestroy()
         pagerAdapter?.onCleared()
         viewPager2?.adapter = null
+        navigationView?.removeOnLayoutChangeListener(mOnLayoutChangedListener)
         navigationView?.adapter = null
         navigationAdapter?.setOnNavigationListener(null)
     }
