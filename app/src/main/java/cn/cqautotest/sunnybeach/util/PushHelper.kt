@@ -61,7 +61,7 @@ object PushHelper {
 
     private fun Application.shouldInit(): Boolean {
         val am: ActivityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        val processInfoList: List<RunningAppProcessInfo> = am.runningAppProcesses
+        val processInfoList: List<RunningAppProcessInfo> = am.runningAppProcesses.orEmpty()
         val mainProcessName: String = applicationInfo.processName
         val myPid: Int = Process.myPid()
         for (info in processInfoList) {
