@@ -1,14 +1,23 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.os.Bundle
+import androidx.core.view.updateLayoutParams
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.TwoLevelContentFragmentBinding
 import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
 import cn.cqautotest.sunnybeach.event.LiveBusUtils
+import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
+import cn.cqautotest.sunnybeach.viewmodel.HomeViewModel
 import dev.androidbroadcast.vbpd.viewBinding
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
  * author : A Lonely Cat
@@ -19,6 +28,7 @@ import dev.androidbroadcast.vbpd.viewBinding
 class TwoLevelContentFragment : AppFragment<AppActivity>() {
 
     private val mBinding by viewBinding(TwoLevelContentFragmentBinding::bind)
+    private val mHomeViewModel by activityViewModels<HomeViewModel>()
 
     override fun getLayoutId(): Int = R.layout.two_level_content_fragment
 
@@ -33,6 +43,18 @@ class TwoLevelContentFragment : AppFragment<AppActivity>() {
     override fun initEvent() {
         mBinding.tvBackToHomePage.setFixOnClickListener {
             LiveBusUtils.busSend(LiveBusKeyConfig.BUS_TWO_LEVEL_BACK_TO_HOME_PAGE)
+        }
+    }
+
+    override fun initObserver() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            mHomeViewModel.bottomNavigationHeightFlow
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.CREATED)
+                .collectLatest {
+                    mBinding.tvBackToHomePage.updateLayoutParams {
+                        height = it + 10.dp
+                    }
+                }
         }
     }
 
