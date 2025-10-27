@@ -111,7 +111,7 @@ private fun SobIntroTitle(text: String, modifier: Modifier = Modifier) {
         text = text,
         modifier = modifier,
         color = colorResource(R.color.black),
-        fontSize = 18.sp,
+        fontSize = 20.sp,
         fontWeight = FontWeight.Bold
     )
 }
