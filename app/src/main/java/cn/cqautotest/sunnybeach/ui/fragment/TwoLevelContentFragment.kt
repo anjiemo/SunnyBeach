@@ -1,9 +1,13 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.R
@@ -29,6 +33,26 @@ class TwoLevelContentFragment : AppFragment<AppActivity>() {
 
     private val mBinding by viewBinding(TwoLevelContentFragmentBinding::bind)
     private val mHomeViewModel by activityViewModels<HomeViewModel>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val activity = activity ?: return
+        val fragmentOwner = this
+        // 使用此方法替代 onActivityCreated()
+        val lifecycleObserver = object : DefaultLifecycleObserver {
+            override fun onCreate(owner: LifecycleOwner) {
+                super.onCreate(owner)
+                owner.lifecycle.removeObserver(this)
+                activity.onBackPressedDispatcher.addCallback(fragmentOwner, object : OnBackPressedCallback(true) {
+
+                    override fun handleOnBackPressed() {
+                        LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE, false)
+                    }
+                })
+            }
+        }
+        activity.lifecycle.addObserver(lifecycleObserver)
+    }
 
     override fun getLayoutId(): Int = R.layout.two_level_content_fragment
 

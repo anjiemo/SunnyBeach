@@ -95,6 +95,13 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
                 // 退出 App 前，先回到首页 Fragment，防止用户误触
                 viewPager2?.currentItem?.takeUnless { it == 0 }?.let { return switchFragment(0) }
 
+                // 首先要关闭二楼界面
+                val showTwoLevelPage = mHomeViewModel.showTwoLevelPage.value
+                if (showTwoLevelPage) {
+                    LiveBusUtils.busSend(LiveBusKeyConfig.BUS_TWO_LEVEL_BACK_TO_HOME_PAGE)
+                    return
+                }
+
                 if (!DoubleClickHelper.isOnDoubleClick()) {
                     toast(R.string.home_exit_hint)
                     return

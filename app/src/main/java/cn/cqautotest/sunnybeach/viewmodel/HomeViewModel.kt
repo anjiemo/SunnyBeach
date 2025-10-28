@@ -14,8 +14,14 @@ import kotlinx.coroutines.launch
  */
 class HomeViewModel : ViewModel() {
 
+    private val _showTwoLevelPage = MutableStateFlow(false)
+    val showTwoLevelPage: StateFlow<Boolean> get() = _showTwoLevelPage
     private val _bottomNavigationHeightFlow = MutableStateFlow(0)
     val bottomNavigationHeightFlow: StateFlow<Int> get() = _bottomNavigationHeightFlow
+
+    fun setTwoLevelPageShowing(isShowing: Boolean) = viewModelScope.launch {
+        _showTwoLevelPage.emit(isShowing)
+    }
 
     fun updateBottomNavigationHeight(height: Int) = viewModelScope.launch {
         _bottomNavigationHeightFlow.emit(height)

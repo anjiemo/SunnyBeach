@@ -254,6 +254,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     private fun onTwoLevelPageOpened() {
+        mHomeViewModel.setTwoLevelPageShowing(true)
         mBinding.expandableLayout.collapse()
         val topHeight = mFishPondViewModel.fishPondTitleBarHeightFlow.value
         val bottomHeight = mHomeViewModel.bottomNavigationHeightFlow.value
@@ -266,6 +267,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     private fun onTwoLevelPageClosed() {
+        mHomeViewModel.setTwoLevelPageShowing(false)
         mBinding.expandableLayout.expand()
         mBinding.llFishPondListContainer.updateLayoutParams<ViewGroup.MarginLayoutParams> {
             topMargin = 0
