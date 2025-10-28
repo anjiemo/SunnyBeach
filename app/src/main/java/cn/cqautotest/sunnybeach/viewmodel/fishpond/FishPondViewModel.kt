@@ -18,8 +18,11 @@ import cn.cqautotest.sunnybeach.paging.source.UserFishPagingSource
 import cn.cqautotest.sunnybeach.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 
 /**
  * author : A Lonely Cat
@@ -39,7 +42,8 @@ class FishPondViewModel(private val savedStateHandle: SavedStateHandle) : ViewMo
             FishDetailCommendListPagingSource(momentId)
         }).flow.cachedIn(viewModelScope)
 
-    val fishListFlow = Pager(config = PagingConfig(30),
+    val fishListFlow = Pager(
+        config = PagingConfig(30),
         pagingSourceFactory = {
             val topicId = savedStateHandle.get<String>(IntentKey.ID).orEmpty().ifEmpty { "recommend" }
             FishPagingSource(topicId)
@@ -51,6 +55,9 @@ class FishPondViewModel(private val savedStateHandle: SavedStateHandle) : ViewMo
             val userId = savedStateHandle.get<String>(IntentKey.ID).orEmpty()
             UserFishPagingSource(userId)
         }).flow.cachedIn(viewModelScope)
+
+    private val _fishPondTitleBarHeightFlow = MutableStateFlow(0)
+    val fishPondTitleBarHeightFlow: StateFlow<Int> get() = _fishPondTitleBarHeightFlow
 
     fun refreshFishList() {
         _fishListStateLiveData.value = Unit
@@ -79,5 +86,9 @@ class FishPondViewModel(private val savedStateHandle: SavedStateHandle) : ViewMo
                 else -> throw ServiceException(result.getMessage())
             }
         }.flowOn(Dispatchers.IO)
+    }
+
+    fun updateFishPondTitleBarHeight(height: Int) = viewModelScope.launch {
+        _fishPondTitleBarHeightFlow.emit(height)
     }
 }
