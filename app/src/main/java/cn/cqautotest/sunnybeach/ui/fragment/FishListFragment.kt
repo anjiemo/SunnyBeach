@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.activityViewModels
@@ -82,6 +83,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     private val mBinding by viewBinding(FishListFragmentBinding::bind)
 
     private val mHomeViewModel by activityViewModels<HomeViewModel>()
+
     @Inject
     lateinit var mAppViewModel: AppViewModel
 
@@ -117,6 +119,10 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 // Nothing to do.
             }
         }
+    }
+    private val mOnLayoutChangedListener = View.OnLayoutChangeListener { _, _, top, _, bottom, _, _, _, _ ->
+        val newHeight = bottom - top
+        mFishPondViewModel.updateFishPondTitleBarHeight(height = newHeight)
     }
 
     override fun getLayoutId(): Int = R.layout.fish_list_fragment
@@ -174,16 +180,20 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             titleBar.setDoubleClickListener {
                 onBack2Top()
             }
+            titleBar.addOnLayoutChangeListener(mOnLayoutChangedListener)
+            mBinding.expandableLayout.setOnExpansionUpdateListener { expansionFraction, state ->
+                titleBar.alpha = expansionFraction
+            }
             refreshLayout.setOnMultiListener(object : SimpleMultiListener() {
 
                 override fun onStateChanged(refreshLayout: RefreshLayout, oldState: RefreshState, newState: RefreshState) {
                     when (newState) {
                         RefreshState.TwoLevelReleased -> {
-                            twoLevelPageOpened()
+                            onTwoLevelPageOpened()
                         }
 
                         RefreshState.TwoLevelFinish -> {
-                            twoLevelPageClosed()
+                            onTwoLevelPageClosed()
                         }
 
                         else -> {
@@ -240,16 +250,20 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         }
     }
 
-    private fun twoLevelPageOpened() {
+    private fun onTwoLevelPageOpened() {
+        mBinding.expandableLayout.collapse()
+        val topHeight = mFishPondViewModel.fishPondTitleBarHeightFlow.value
+        val bottomHeight = mHomeViewModel.bottomNavigationHeightFlow.value
         mBinding.llFishPondListContainer.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-            topMargin = mHomeViewModel.bottomNavigationHeightFlow.value
+            topMargin = topHeight + bottomHeight
         }
         LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE, true)
         hidePublishButton()
         toast("打开二楼")
     }
 
-    private fun twoLevelPageClosed() {
+    private fun onTwoLevelPageClosed() {
+        mBinding.expandableLayout.expand()
         mBinding.llFishPondListContainer.updateLayoutParams<ViewGroup.MarginLayoutParams> {
             topMargin = 0
         }
@@ -316,6 +330,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     override fun onDestroyView() {
         super.onDestroyView()
+        mBinding.titleBar.removeOnLayoutChangeListener(mOnLayoutChangedListener)
         mFishListAdapter.removeLoadStateListener(loadStateListener)
     }
 

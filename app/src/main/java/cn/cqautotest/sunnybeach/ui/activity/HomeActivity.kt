@@ -12,7 +12,7 @@ import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import cn.cqautotest.sunnybeach.R
@@ -81,7 +81,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     lateinit var mAppViewModel: AppViewModel
     private val mOnLayoutChangedListener = View.OnLayoutChangeListener { _, _, top, _, bottom, _, _, _, _ ->
         val newHeight = bottom - top
-        mHomeViewModel.updateBottomNavigationHeight(newHeight = newHeight)
+        mHomeViewModel.updateBottomNavigationHeight(height = newHeight)
     }
 
     override fun getLayoutId() = R.layout.home_activity
@@ -176,7 +176,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             onlyCheckOrUpdate(appUpdateInfo)
         }
         LiveBusUtils.busReceive<Boolean>(this, LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE) { isOpened ->
-            navigationView?.isVisible = isOpened.not()
+            navigationView?.isGone = isOpened
         }
     }
 

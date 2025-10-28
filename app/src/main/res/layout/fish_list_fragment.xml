@@ -6,20 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.FishListFragment">
 
-    <com.hjq.bar.TitleBar
-        android:id="@+id/titleBar"
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/expandable_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:barStyle="light"
+        app:el_duration="800"
+        app:el_expanded="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:leftIcon="@null"
-        app:rightHorizontalPadding="@dimen/dp_16"
-        app:rightIcon="@drawable/ic_scan_qr_code"
-        app:rightIconHeight="@dimen/dp_17"
-        app:rightIconWidth="@dimen/dp_17"
-        app:title="鱼塘" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.hjq.bar.TitleBar
+            android:id="@+id/titleBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:barStyle="light"
+            app:leftIcon="@null"
+            app:rightHorizontalPadding="@dimen/dp_16"
+            app:rightIcon="@drawable/ic_scan_qr_code"
+            app:rightIconHeight="@dimen/dp_17"
+            app:rightIconWidth="@dimen/dp_17"
+            app:title="鱼塘" />
+
+    </net.cachapa.expandablelayout.ExpandableLayout>
 
     <cn.cqautotest.sunnybeach.widget.StatusLayout
         android:id="@+id/hl_fish_pond_hint"
@@ -28,7 +37,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleBar">
+        app:layout_constraintTop_toBottomOf="@id/expandable_layout">
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/refresh_layout"
