@@ -370,7 +370,7 @@ dependencies {
     // // 自动生成语法高亮类的注解处理器
     // annotationProcessor "io.noties:prism4j-bundler:${prism_version}"
     // 支持动画展开和折叠其子视图的 Android 布局类：https://github.com/cachapa/ExpandableLayout
-    // implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
+    implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
 
     // 使用 Android ViewBinding 更简单：https://github.com/androidbroadcast/ViewBindingPropertyDelegate
     implementation 'dev.androidbroadcast.vbpd:vbpd:2.0.4'

@@ -17,7 +17,7 @@ class HomeViewModel : ViewModel() {
     private val _bottomNavigationHeightFlow = MutableStateFlow(0)
     val bottomNavigationHeightFlow: StateFlow<Int> get() = _bottomNavigationHeightFlow
 
-    fun updateBottomNavigationHeight(newHeight: Int) = viewModelScope.launch {
-        _bottomNavigationHeightFlow.emit(newHeight)
+    fun updateBottomNavigationHeight(height: Int) = viewModelScope.launch {
+        _bottomNavigationHeightFlow.emit(height)
     }
 }
