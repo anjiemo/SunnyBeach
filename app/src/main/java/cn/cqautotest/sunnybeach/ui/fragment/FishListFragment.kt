@@ -134,6 +134,9 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 .add(R.id.fragment_container_view_tag, TwoLevelContentFragment.newInstance())
                 .commitAllowingStateLoss()
         }
+        // fix: 修复在应用配置（如深色模式切换）发生变化时 expandableLayout 的显示状态错误问题
+        mBinding.expandableLayout.collapse(false)
+        mBinding.expandableLayout.expand()
         mBinding.twoLevelHeader.setEnablePullToCloseTwoLevel(false)
 
         // This emptyAdapter is like a hacker.
