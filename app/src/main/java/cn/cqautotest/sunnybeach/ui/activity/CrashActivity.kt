@@ -199,7 +199,7 @@ class CrashActivity : AppActivity() {
                 .append(dateFormat.format(Date(packageInfo.firstInstallTime)))
                 .append("\n最近安装：\t").append(dateFormat.format(Date(packageInfo.lastUpdateTime)))
                 .append("\n崩溃时间：\t").append(dateFormat.format(Date()))
-            val permissions: MutableList<String> = mutableListOf(*packageInfo.requestedPermissions)
+            val permissions: MutableList<String> = mutableListOf(*packageInfo.requestedPermissions.orEmpty())
             if (permissions.contains(PermissionNames.READ_EXTERNAL_STORAGE) ||
                 permissions.contains(PermissionNames.WRITE_EXTERNAL_STORAGE)
             ) {

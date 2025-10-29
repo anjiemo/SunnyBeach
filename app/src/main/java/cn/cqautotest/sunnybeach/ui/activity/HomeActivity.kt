@@ -8,9 +8,11 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import cn.cqautotest.sunnybeach.R
@@ -18,6 +20,8 @@ import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.OnDoubleClickListener
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
+import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
+import cn.cqautotest.sunnybeach.event.LiveBusUtils
 import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
 import cn.cqautotest.sunnybeach.ktx.tryShowLoginDialog
 import cn.cqautotest.sunnybeach.manager.ActivityManager
@@ -33,6 +37,7 @@ import cn.cqautotest.sunnybeach.ui.fragment.CourseListFragment
 import cn.cqautotest.sunnybeach.ui.fragment.FishListFragment
 import cn.cqautotest.sunnybeach.ui.fragment.MyMeFragment
 import cn.cqautotest.sunnybeach.ui.fragment.QaListFragment
+import cn.cqautotest.sunnybeach.viewmodel.HomeViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import com.gyf.immersionbar.ImmersionBar
 import com.tencent.bugly.crashreport.CrashReport
@@ -65,6 +70,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         }
     }
 
+    private val mHomeViewModel by viewModels<HomeViewModel>()
     private val viewPager2: ViewPager2? by lazy { findViewById(R.id.vp_home_pager2) }
     private val navigationView: RecyclerView? by lazy { findViewById(R.id.rv_home_navigation) }
     private var navigationAdapter: NavigationAdapter? = null
@@ -73,6 +79,10 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
 
     @Inject
     lateinit var mAppViewModel: AppViewModel
+    private val mOnLayoutChangedListener = View.OnLayoutChangeListener { _, _, top, _, bottom, _, _, _, _ ->
+        val newHeight = bottom - top
+        mHomeViewModel.updateBottomNavigationHeight(height = newHeight)
+    }
 
     override fun getLayoutId() = R.layout.home_activity
 
@@ -84,6 +94,13 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             override fun handleOnBackPressed() {
                 // 退出 App 前，先回到首页 Fragment，防止用户误触
                 viewPager2?.currentItem?.takeUnless { it == 0 }?.let { return switchFragment(0) }
+
+                // 首先要关闭二楼界面
+                val showTwoLevelPage = mHomeViewModel.showTwoLevelPage.value
+                if (showTwoLevelPage) {
+                    LiveBusUtils.busSend(LiveBusKeyConfig.BUS_TWO_LEVEL_BACK_TO_HOME_PAGE)
+                    return
+                }
 
                 if (!DoubleClickHelper.isOnDoubleClick()) {
                     toast(R.string.home_exit_hint)
@@ -157,12 +174,16 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
             }
         })
         navigationAdapter?.setOnDoubleClickListener(this)
+        navigationView?.addOnLayoutChangeListener(mOnLayoutChangedListener)
     }
 
     override fun initObserver() {
         mAppViewModel.checkAppUpdate().observe(this) { result ->
             val appUpdateInfo = result.getOrNull() ?: return@observe
             onlyCheckOrUpdate(appUpdateInfo)
+        }
+        LiveBusUtils.busReceive<Boolean>(this, LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE) { isOpened ->
+            navigationView?.isGone = isOpened
         }
     }
 
@@ -250,6 +271,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         super.onDestroy()
         pagerAdapter?.onCleared()
         viewPager2?.adapter = null
+        navigationView?.removeOnLayoutChangeListener(mOnLayoutChangedListener)
         navigationView?.adapter = null
         navigationAdapter?.setOnNavigationListener(null)
     }

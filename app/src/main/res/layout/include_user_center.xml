@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:shape_solidColor="@color/common_window_background_color"
-    app:shape_radiusInTopLeft="@dimen/dp_20"
+    app:shape_radiusInTopStart="@dimen/dp_20"
     app:shape_radiusInTopRight="@dimen/dp_20"
     tools:showIn="@layout/user_center_activity">
 
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:shape_solidColor="@color/white"
-        app:shape_radiusInTopLeft="@dimen/dp_20"
+        app:shape_radiusInTopStart="@dimen/dp_20"
         app:shape_radiusInTopRight="@dimen/dp_20">
 
         <com.hjq.shape.view.ShapeView
