@@ -25,7 +25,7 @@
             app:shape_solidGradientCenterColor="#FABB7AEA"
             app:shape_solidGradientEndColor="#E6FF4DE3"
             app:shape_solidGradientStartColor="#4C66FB"
-            app:shape_radiusInTopLeft="@dimen/dp_10"
+            app:shape_radiusInTopStart="@dimen/dp_10"
             app:shape_radiusInTopRight="@dimen/dp_10">
 
             <com.hjq.shape.view.ShapeImageView

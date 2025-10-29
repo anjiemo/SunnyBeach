@@ -1,13 +1,16 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.FishTopicListIncludeBinding
 import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.isNotEmpty
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
-import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceItemDecoration
+import cn.cqautotest.sunnybeach.util.SimpleAdapterDataObserver
+import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
 
 /**
  * author : A Lonely Cat
@@ -23,17 +26,23 @@ class RecommendFishTopicListAdapter(private val mFishCategoryAdapter: FishCatego
     fun setData(data: List<FishPondTopicList.TopicItem>) {
         mData.clear()
         mData += data
+        // 因为这里我们的 itemCount 始终为1，所以我们直接调用 notifyDataSetChanged() 对性能的影响可以忽略不计。
         notifyDataSetChanged()
     }
 
     inner class InnerHolder(binding: FishTopicListIncludeBinding) : RecyclerView.ViewHolder(binding.root) {
 
+        private val mFishCategoryAdapterDataObserver = SimpleAdapterDataObserver {
+            binding.tvRecommend.isVisible = mFishCategoryAdapter.isNotEmpty()
+        }
+
         init {
             binding.rvFishCategory.apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
                 adapter = mFishCategoryAdapter
-                addItemDecoration(LinearSpaceItemDecoration(5.dp))
+                addItemDecoration(SimpleLinearSpaceItemDecoration(10.dp))
             }
+            mFishCategoryAdapter.registerAdapterDataObserver(mFishCategoryAdapterDataObserver)
         }
     }
 

@@ -6,7 +6,11 @@ import android.text.Editable
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.DrawableRes
-import androidx.core.view.*
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsAnimationCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.databinding.SubmitCommendIncludeBinding
@@ -15,7 +19,6 @@ import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.textString
 import com.bumptech.glide.Glide
-import com.dylanc.longan.rootWindowInsetsCompat
 import com.dylanc.longan.windowInsetsControllerCompat
 import timber.log.Timber
 
@@ -30,7 +33,7 @@ class InputPopup(context: Context, attrs: AttributeSet? = null) : SuperPopupWind
     private var _binding: SubmitCommendIncludeBinding? = null
     private val mBinding get() = _binding!!
     private val mShowing: Boolean
-        get() = rootWindowInsetsCompat?.isVisible(WindowInsetsCompat.Type.ime()) ?: false
+        get() = ViewCompat.getRootWindowInsets(this)?.isVisible(WindowInsetsCompat.Type.ime()) ?: false
     private val defaultFlag = EMOJI_FLAG and IMAGE_FLAG
     var inputHint = ""
         set(value) {
@@ -125,7 +128,7 @@ class InputPopup(context: Context, attrs: AttributeSet? = null) : SuperPopupWind
         mBinding.etInputContent.requestFocus()
         postDelayed({
             windowInsetsControllerCompat?.show(WindowInsetsCompat.Type.ime())
-            rootWindowInsetsCompat?.let {
+            ViewCompat.getRootWindowInsets(this)?.let {
                 val imeInsets = it.getInsets(WindowInsetsCompat.Type.ime())
                 val imeHeight = imeInsets.bottom - imeInsets.top
                 mBinding.rvEmojiList.updateLayoutParams {

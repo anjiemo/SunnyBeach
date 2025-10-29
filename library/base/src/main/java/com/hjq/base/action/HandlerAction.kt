@@ -5,7 +5,7 @@ import android.os.Looper
 import android.os.SystemClock
 
 /**
- *    author : Android 轮子哥
+ *    author : Android 轮子哥 & A Lonely Cat
  *    github : https://github.com/getActivity/AndroidProject-Kotlin
  *    time   : 2019/09/15
  *    desc   : Handler 意图处理
@@ -33,8 +33,22 @@ interface HandlerAction {
     /**
      * 延迟一段时间执行
      */
+    fun postDelayed(delayMillis: Long, runnable: Runnable): Boolean {
+        return postDelayed(runnable, delayMillis)
+    }
+
+    /**
+     * 延迟一段时间执行
+     */
     fun postDelayed(runnable: Runnable, delayMillis: Long): Boolean {
         return postAtTime(runnable, SystemClock.uptimeMillis() + if (delayMillis < 0) 0 else delayMillis)
+    }
+
+    /**
+     * 在指定的时间执行
+     */
+    fun postAtTime(delayMillis: Long, runnable: Runnable): Boolean {
+        return postAtTime(runnable, delayMillis)
     }
 
     /**

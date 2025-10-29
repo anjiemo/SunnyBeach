@@ -1,12 +1,13 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
-import androidx.core.view.isVisible
+import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.activityViewModels
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.action.StatusAction
@@ -20,7 +21,6 @@ import cn.cqautotest.sunnybeach.ktx.addAfterNextUpdateUIDefaultItemAnimator
 import cn.cqautotest.sunnybeach.ktx.clearItemAnimator
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.ifLogin
-import cn.cqautotest.sunnybeach.ktx.isNotEmpty
 import cn.cqautotest.sunnybeach.ktx.loadStateListener
 import cn.cqautotest.sunnybeach.ktx.otherwise
 import cn.cqautotest.sunnybeach.ktx.removeMourningStyle
@@ -49,6 +49,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.RecommendFishTopicListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.MultiOperationHelper
 import cn.cqautotest.sunnybeach.util.MyScanUtil
+import cn.cqautotest.sunnybeach.viewmodel.HomeViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
@@ -59,6 +60,9 @@ import com.hjq.bar.TitleBar
 import com.hjq.permissions.permission.PermissionNames
 import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.constant.RefreshState
+import com.scwang.smart.refresh.layout.simple.SimpleMultiListener
 import dagger.hilt.android.AndroidEntryPoint
 import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
@@ -78,6 +82,8 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     private val mBinding by viewBinding(FishListFragmentBinding::bind)
 
+    private val mHomeViewModel by activityViewModels<HomeViewModel>()
+
     @Inject
     lateinit var mAppViewModel: AppViewModel
 
@@ -94,11 +100,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     private val loadStateListener = loadStateListener(mFishListAdapter) {
         mBinding.refreshLayout.finishRefresh()
         mBinding.rvFishPondList.addAfterNextUpdateUIDefaultItemAnimator()
-    }
-    private val mFishCategoryAdapterDataObserver = object : RecyclerView.AdapterDataObserver() {
-        override fun onChanged() {
-            mBinding.tvRecommend.isVisible = mFishCategoryAdapter.isNotEmpty()
-        }
     }
     private val mScanLauncher = registerForActivityResult(GetScanContent()) { result ->
         when (result) {
@@ -119,10 +120,26 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             }
         }
     }
+    private val mOnLayoutChangedListener = View.OnLayoutChangeListener { _, _, top, _, bottom, _, _, _, _ ->
+        val newHeight = bottom - top
+        mFishPondViewModel.updateFishPondTitleBarHeight(height = newHeight)
+    }
 
     override fun getLayoutId(): Int = R.layout.fish_list_fragment
 
     override fun initView() {
+        val fragment = childFragmentManager.findFragmentById(R.id.fragment_container_view_tag)
+        takeIf { fragment == null }?.let {
+            childFragmentManager.beginTransaction()
+                .add(R.id.fragment_container_view_tag, TwoLevelContentFragment.newInstance())
+                .commitAllowingStateLoss()
+        }
+        // fix: 修复在应用配置（如深色模式切换）发生变化时 expandableLayout 的显示状态错误问题
+        mBinding.expandableLayout.collapse(false)
+        mBinding.expandableLayout.expand()
+        mHomeViewModel.setTwoLevelPageShowing(false)
+        mBinding.twoLevelHeader.setEnablePullToCloseTwoLevel(false)
+
         // This emptyAdapter is like a hacker.
         // Its existence allows the PagingAdapter to scroll to the top before being refreshed,
         // avoiding the problem that the PagingAdapter cannot return to the top after being refreshed.
@@ -167,6 +184,28 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             titleBar.setDoubleClickListener {
                 onBack2Top()
             }
+            titleBar.addOnLayoutChangeListener(mOnLayoutChangedListener)
+            expandableLayout.setOnExpansionUpdateListener { expansionFraction, state ->
+                titleBar.alpha = expansionFraction
+            }
+            refreshLayout.setOnMultiListener(object : SimpleMultiListener() {
+
+                override fun onStateChanged(refreshLayout: RefreshLayout, oldState: RefreshState, newState: RefreshState) {
+                    when (newState) {
+                        RefreshState.TwoLevelReleased -> {
+                            onTwoLevelPageOpened()
+                        }
+
+                        RefreshState.TwoLevelFinish -> {
+                            onTwoLevelPageClosed()
+                        }
+
+                        else -> {
+                            // Nothing to do.
+                        }
+                    }
+                }
+            })
             refreshLayout.setOnRefreshListener {
                 loadCategoryList()
                 mFishListAdapter.refresh()
@@ -215,6 +254,38 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         }
     }
 
+    private fun onTwoLevelPageOpened() {
+        mHomeViewModel.setTwoLevelPageShowing(true)
+        mBinding.expandableLayout.collapse()
+        val topHeight = mFishPondViewModel.fishPondTitleBarHeightFlow.value
+        val bottomHeight = mHomeViewModel.bottomNavigationHeightFlow.value
+        mBinding.llFishPondListContainer.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            topMargin = topHeight + bottomHeight
+        }
+        LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE, true)
+        hidePublishButton()
+        toast("打开二楼")
+    }
+
+    private fun onTwoLevelPageClosed() {
+        mHomeViewModel.setTwoLevelPageShowing(false)
+        mBinding.expandableLayout.expand()
+        mBinding.llFishPondListContainer.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            topMargin = 0
+        }
+        LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE, false)
+        showPublishButton()
+        toast("关闭二楼")
+    }
+
+    private fun showPublishButton() {
+        mBinding.ivPublish.show()
+    }
+
+    private fun hidePublishButton() {
+        mBinding.ivPublish.hide()
+    }
+
     private fun dynamicLikes(item: Fish.FishItem, position: Int) {
         mMultiOperationHelper.dynamicLikes(viewLifecycleOwner, mFishPondViewModel, mFishListAdapter, item, position)
     }
@@ -226,9 +297,11 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     override fun initObserver() {
         mAppViewModel.mourningCalendarListLiveData.observe(viewLifecycleOwner) { setMourningStyleByDate(it) }
         mFishPondViewModel.fishListStateLiveData.observe(viewLifecycleOwner) { mFishListAdapter.refresh() }
-        mFishCategoryAdapter.registerAdapterDataObserver(mFishCategoryAdapterDataObserver)
         LiveBusUtils.busReceive<Unit>(viewLifecycleOwner, LiveBusKeyConfig.BUS_PUT_FISH_SUCCESS) {
             mFishListAdapter.refresh()
+        }
+        LiveBusUtils.busReceive<Unit>(viewLifecycleOwner, LiveBusKeyConfig.BUS_TWO_LEVEL_BACK_TO_HOME_PAGE) {
+            mBinding.twoLevelHeader.finishTwoLevel()
         }
     }
 
@@ -263,8 +336,8 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     override fun onDestroyView() {
         super.onDestroyView()
+        mBinding.titleBar.removeOnLayoutChangeListener(mOnLayoutChangedListener)
         mFishListAdapter.removeLoadStateListener(loadStateListener)
-        mFishCategoryAdapter.unregisterAdapterDataObserver(mFishCategoryAdapterDataObserver)
     }
 
     override fun onBack2Top() {
