@@ -137,6 +137,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         // fix: 修复在应用配置（如深色模式切换）发生变化时 expandableLayout 的显示状态错误问题
         mBinding.expandableLayout.collapse(false)
         mBinding.expandableLayout.expand()
+        mHomeViewModel.setTwoLevelPageShowing(false)
         mBinding.twoLevelHeader.setEnablePullToCloseTwoLevel(false)
 
         // This emptyAdapter is like a hacker.
@@ -184,7 +185,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 onBack2Top()
             }
             titleBar.addOnLayoutChangeListener(mOnLayoutChangedListener)
-            mBinding.expandableLayout.setOnExpansionUpdateListener { expansionFraction, state ->
+            expandableLayout.setOnExpansionUpdateListener { expansionFraction, state ->
                 titleBar.alpha = expansionFraction
             }
             refreshLayout.setOnMultiListener(object : SimpleMultiListener() {
