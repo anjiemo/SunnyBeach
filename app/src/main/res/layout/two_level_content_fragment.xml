@@ -4,6 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_marginBottom="-20dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_back_to_home_page"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
     <com.hjq.shape.view.ShapeTextView
         android:id="@+id/tv_back_to_home_page"
         android:layout_width="match_parent"

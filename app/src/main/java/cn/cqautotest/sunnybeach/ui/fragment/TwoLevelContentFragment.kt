@@ -34,6 +34,19 @@ class TwoLevelContentFragment : AppFragment<AppActivity>() {
     private val mBinding by viewBinding(TwoLevelContentFragmentBinding::bind)
     private val mHomeViewModel by activityViewModels<HomeViewModel>()
 
+    /**
+     * 可以在 Fragment 内部拦截 onBackPressed() 事件，只需调用 mOnBackPressedCallback.isEnabled = true 即可。
+     */
+    private val mOnBackPressedCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            // 处理具体的按下事件
+        }
+    }
+
+    /**
+     * 注册一个 Activity 创建的生命周期回调，该方法等效于 onActivityCreated()。
+     * 详情请参阅：[androidx.fragment.app.Fragment.onActivityCreated]
+     */
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val activity = activity ?: return
@@ -41,14 +54,8 @@ class TwoLevelContentFragment : AppFragment<AppActivity>() {
         // 使用此方法替代 onActivityCreated()
         val lifecycleObserver = object : DefaultLifecycleObserver {
             override fun onCreate(owner: LifecycleOwner) {
-                super.onCreate(owner)
                 owner.lifecycle.removeObserver(this)
-                activity.onBackPressedDispatcher.addCallback(fragmentOwner, object : OnBackPressedCallback(true) {
-
-                    override fun handleOnBackPressed() {
-                        LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE, false)
-                    }
-                })
+                activity.onBackPressedDispatcher.addCallback(fragmentOwner, mOnBackPressedCallback)
             }
         }
         activity.lifecycle.addObserver(lifecycleObserver)
