@@ -6,20 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.FishListFragment">
 
-    <com.hjq.bar.TitleBar
-        android:id="@+id/titleBar"
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/expandable_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:barStyle="light"
+        app:el_duration="800"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:leftIcon="@null"
-        app:rightHorizontalPadding="@dimen/dp_16"
-        app:rightIcon="@drawable/ic_scan_qr_code"
-        app:rightIconHeight="@dimen/dp_17"
-        app:rightIconWidth="@dimen/dp_17"
-        app:title="鱼塘" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.hjq.bar.TitleBar
+            android:id="@+id/titleBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:barStyle="light"
+            app:leftIcon="@null"
+            app:rightHorizontalPadding="@dimen/dp_16"
+            app:rightIcon="@drawable/ic_scan_qr_code"
+            app:rightIconHeight="@dimen/dp_17"
+            app:rightIconWidth="@dimen/dp_17"
+            app:title="鱼塘" />
+
+    </net.cachapa.expandablelayout.ExpandableLayout>
 
     <cn.cqautotest.sunnybeach.widget.StatusLayout
         android:id="@+id/hl_fish_pond_hint"
@@ -28,27 +36,31 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleBar">
+        app:layout_constraintTop_toBottomOf="@id/expandable_layout">
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.scwang.smart.refresh.header.TwoLevelHeader
+                android:id="@+id/two_level_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragment_container_view_tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </com.scwang.smart.refresh.header.TwoLevelHeader>
+
             <LinearLayout
+                android:id="@+id/ll_fish_pond_list_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/common_window_background_color"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_recommend"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:padding="@dimen/dp_10"
-                    android:text="推荐话题"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_14" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_fish_pond_list"
@@ -65,7 +77,7 @@
 
     </cn.cqautotest.sunnybeach.widget.StatusLayout>
 
-    <ImageView
+    <com.hjq.widget.view.FloatActionButton
         android:id="@+id/iv_publish"
         android:layout_width="@dimen/dp_48"
         android:layout_height="@dimen/dp_48"

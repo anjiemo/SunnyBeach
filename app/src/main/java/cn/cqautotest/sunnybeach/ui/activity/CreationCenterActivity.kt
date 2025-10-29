@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.unit.Dp
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
@@ -117,6 +118,9 @@ class CreationCenterActivity : AppActivity() {
                     initLifecycle()
                 }
 
+                /**
+                 * See：[androidx.fragment.app.Fragment.initLifecycle]
+                 */
                 private fun initLifecycle() {
                     setViewTreeLifecycleOwner(this)
                     setViewTreeSavedStateRegistryOwner(this)
@@ -132,6 +136,7 @@ class CreationCenterActivity : AppActivity() {
                 override fun onCreate() {
                     super.onCreate()
                     findViewById<ComposeView>(R.id.compose_view)
+                        .also { it.setViewCompositionStrategy(ViewCompositionStrategy.Default) }
                         .setContent {
                             val maxHeight = remember { (ScreenUtils.getScreenHeight() / 4f * 3f).pxToDp().toFloat() }
                             SobIntroPopup(
