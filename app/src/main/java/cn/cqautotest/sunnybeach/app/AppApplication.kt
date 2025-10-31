@@ -17,8 +17,8 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
-import cn.cqautotest.sunnybeach.db.CookieRoomDatabase
-import cn.cqautotest.sunnybeach.db.CookieRoomDatabase.Companion.getDatabase
+import cn.cqautotest.sunnybeach.db.AppRoomDatabase
+import cn.cqautotest.sunnybeach.db.AppRoomDatabase.Companion.getDatabase
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.http.interceptor.accountInterceptor
 import cn.cqautotest.sunnybeach.http.model.RequestHandler
@@ -115,7 +115,7 @@ class AppApplication : Application(), Configuration.Provider {
     companion object {
 
         private lateinit var mApp: AppApplication
-        private lateinit var database: CookieRoomDatabase
+        private lateinit var database: AppRoomDatabase
         private const val WEATHER_API_TOKEN = "7xoSm4k7GIK8X8E1"
 
         fun getInstance() = mApp
