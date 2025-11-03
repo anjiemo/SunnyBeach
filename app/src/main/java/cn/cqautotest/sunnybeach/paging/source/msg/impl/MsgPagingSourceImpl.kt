@@ -12,7 +12,7 @@ import timber.log.Timber
  * time   : 2021/10/27
  * desc   : 列表消息 PagingSource 实现类
  */
-class MsgPagingSourceImpl<T : IMsgContent>(private val msgListFactory: AbstractMsgListFactory) :
+class MsgPagingSourceImpl<T : IMsgContent>(private val msgListFactory: AbstractMsgListFactory, private val msgType: MsgType) :
     PagingSource<Int, T>() {
 
     override fun getRefreshKey(state: PagingState<Int, T>): Int? = null
@@ -31,7 +31,7 @@ class MsgPagingSourceImpl<T : IMsgContent>(private val msgListFactory: AbstractM
             val prevKey = if (responseData.isFirst()) null else page - 1
             val nextKey = if (responseData.isLast()) null else page + 1
             if (response.isSuccess()) LoadResult.Page(
-                data = responseData.getMsgContentList() as List<T>,
+                data = getFilteredMsgContentList(responseData.getMsgContentList()) as List<T>,
                 prevKey = prevKey,
                 nextKey = nextKey
             )
@@ -40,6 +40,10 @@ class MsgPagingSourceImpl<T : IMsgContent>(private val msgListFactory: AbstractM
             t.printStackTrace()
             LoadResult.Error(t)
         }
+    }
+
+    private suspend fun getFilteredMsgContentList(msgContentList: List<IMsgContent>): List<IMsgContent> {
+        return msgContentList
     }
 
     companion object {
