@@ -2,7 +2,7 @@ package cn.cqautotest.sunnybeach.model
 
 import com.google.gson.annotations.SerializedName
 
-class ApiResponse<T>(
+data class ApiResponse<T>(
     @SerializedName("code")
     private val code: Int,
     @SerializedName("success")
