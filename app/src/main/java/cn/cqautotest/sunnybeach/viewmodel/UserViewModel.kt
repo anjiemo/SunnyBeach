@@ -35,7 +35,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application), C
 
     private val checkUserParseRepository = CheckUserParseRepository()
     private val userBlockDao = AppApplication.getDatabase().userBlockDao()
-    private val blockRepository = UserBlockRepository(userBlockDao = userBlockDao)
+    private val userBlockRepository = UserBlockRepository(userBlockDao = userBlockDao)
     private val phoneLiveData = MutableLiveData<String>()
 
     val userAvatarLiveData = phoneLiveData.switchMap { account ->
@@ -230,34 +230,34 @@ class UserViewModel(application: Application) : AndroidViewModel(application), C
      * 拉黑用户
      */
     suspend fun blockUser(uId: String, targetUId: String, reason: String? = null) {
-        blockRepository.blockUser(uId, targetUId, reason)
+        userBlockRepository.blockUser(uId, targetUId, reason)
     }
 
     /**
      * 取消拉黑用户
      */
     suspend fun unblockUser(uId: String, targetUId: String) {
-        blockRepository.unblockUser(uId, targetUId)
+        userBlockRepository.unblockUser(uId, targetUId)
     }
 
     /**
      * 判断用户是否被拉黑
      */
     suspend fun isUserBlocked(uId: String, targetUId: String): Boolean {
-        return blockRepository.isUserBlocked(uId, targetUId)
+        return userBlockRepository.isUserBlocked(uId, targetUId)
     }
 
     /**
      * 获取用户拉黑列表
      */
     suspend fun getBlockList(uId: String): List<String> {
-        return blockRepository.getBlockList(uId)
+        return userBlockRepository.getBlockList(uId)
     }
 
     /**
      * 获取用户拉黑列表详情
      */
     suspend fun getBlockListDetails(uId: String): List<UserBlock> {
-        return blockRepository.getBlockListDetails(uId)
+        return userBlockRepository.getBlockListDetails(uId)
     }
 }
