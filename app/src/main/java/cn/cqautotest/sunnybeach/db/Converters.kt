@@ -36,4 +36,18 @@ class Converters {
     fun jsonFromCookies(json: String): List<Cookie> =
         GsonFactory.getSingletonGson()
             .fromJson(json, object : TypeToken<List<Cookie>>() {}.type)
+
+    @TypeConverter
+    fun stringListToJson(list: List<String>): String {
+        return GsonFactory.getSingletonGson().toJson(list)
+    }
+
+    @TypeConverter
+    fun jsonToStringList(json: String): List<String> {
+        return try {
+            GsonFactory.getSingletonGson().fromJson(json, object : TypeToken<List<String>>() {}.type)
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
 }
