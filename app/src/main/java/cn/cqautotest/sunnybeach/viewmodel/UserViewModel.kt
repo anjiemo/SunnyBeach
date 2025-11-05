@@ -229,15 +229,15 @@ class UserViewModel(application: Application) : AndroidViewModel(application), C
     /**
      * 拉黑用户
      */
-    suspend fun blockUser(uId: String, targetUId: String, reason: String? = null) {
-        userBlockRepository.blockUser(uId, targetUId, reason)
+    suspend fun blockUser(uId: String, targetUId: String, reason: String? = null): Boolean {
+        return userBlockRepository.blockUser(uId, targetUId, reason)
     }
 
     /**
      * 取消拉黑用户
      */
-    suspend fun unblockUser(uId: String, targetUId: String) {
-        userBlockRepository.unblockUser(uId, targetUId)
+    suspend fun unblockUser(uId: String, targetUId: String): Boolean {
+        return userBlockRepository.unblockUser(uId, targetUId)
     }
 
     /**
