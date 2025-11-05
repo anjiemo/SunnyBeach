@@ -6,7 +6,12 @@ import androidx.core.text.parseAsHtml
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.AtMeMsgListItemBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
+import cn.cqautotest.sunnybeach.ktx.context
+import cn.cqautotest.sunnybeach.ktx.createDefaultStyleBadge
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
+import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.msg.AtMeMsg
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import com.blankj.utilcode.util.TimeUtils
@@ -54,11 +59,17 @@ class AtMeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     }
 
     override fun onBindViewHolder(holder: AtMeMsgViewHolder, position: Int) {
-        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
         holder.onBinding(getItem(position), position)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AtMeMsgViewHolder = AtMeMsgViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AtMeMsgViewHolder = AtMeMsgViewHolder(parent).also { holder ->
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
+        with(holder.binding) {
+            ivAvatar.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
+            llTopContainer.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
+            tvDesc.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
+        }
+    }
 
     companion object {
 
