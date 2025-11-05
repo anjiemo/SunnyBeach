@@ -227,18 +227,22 @@ class ViewUserActivity : AppActivity() {
                         .also { it.setViewCompositionStrategy(ViewCompositionStrategy.Default) }
                         .setContent {
                             UserMoreActionPopup(
+                                currUserId = UserManager.loadCurrUserId(), targetUId = userId, userViewModel = mUserViewModel,
                                 modifier = Modifier
                                     .widthIn(max = Dp(100f))
                                     .heightIn(max = Dp(400f))
                                     .background(
-                                        color = androidx.compose.ui.graphics.Color.White,
-                                        shape = RoundedCornerShape(Dp(6f))
+                                        color = androidx.compose.ui.graphics.Color.White, shape = RoundedCornerShape(Dp(6f))
                                     )
                             ) { clickType ->
                                 dismiss()
                                 when (clickType) {
                                     ActionClickType.SHARE -> {
                                         onShareUser(userId)
+                                    }
+
+                                    ActionClickType.BLOCK -> {
+                                        onBlockUser(userId)
                                     }
 
                                     ActionClickType.REPORT -> {
@@ -271,6 +275,24 @@ class ViewUserActivity : AppActivity() {
                 }
             })
             .show()
+    }
+
+    private fun onBlockUser(userId: String) {
+        val currUserId = UserManager.loadCurrUserId()
+        if (currUserId == userId) {
+            toast("不能拉黑自己哦☺️")
+            return
+        }
+        lifecycleScope.launch {
+            val isBlockUser = mUserViewModel.isUserBlocked(uId = currUserId, targetUId = userId)
+            if (isBlockUser) {
+                val success = mUserViewModel.unblockUser(uId = currUserId, targetUId = userId)
+                if (success) toast("已取消拉黑☺️") else toast("取消拉黑失败😭")
+            } else {
+                val success = mUserViewModel.blockUser(uId = currUserId, targetUId = userId)
+                if (success) toast("已将该用户拉黑😤") else toast("拉黑用户失败☹️")
+            }
+        }
     }
 
     private fun onReportUser(userId: String) {
