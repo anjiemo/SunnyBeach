@@ -22,6 +22,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.setViewTreeLifecycleOwner
+import androidx.lifecycle.withCreated
 import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
@@ -43,6 +44,7 @@ import cn.cqautotest.sunnybeach.model.ReportType
 import cn.cqautotest.sunnybeach.model.UserInfo
 import cn.cqautotest.sunnybeach.other.FriendsStatus
 import cn.cqautotest.sunnybeach.other.IntentKey
+import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.ui.fragment.UserMediaFragment
 import cn.cqautotest.sunnybeach.ui.popup.ActionClickType
@@ -280,16 +282,32 @@ class ViewUserActivity : AppActivity() {
     private fun onBlockUser(userId: String) {
         val currUserId = UserManager.loadCurrUserId()
         if (currUserId == userId) {
-            toast("不能拉黑自己哦☺️")
+            toast("不能对自己操作哦☺️")
             return
         }
+        val context = this
         lifecycleScope.launch {
             val isBlockUser = mUserViewModel.isUserBlocked(uId = currUserId, targetUId = userId)
+            withCreated {
+                MessageDialog.Builder(context)
+                    .setTitle("系统消息")
+                    .setMessage("确认${if (isBlockUser) "取消拉黑" else "拉黑"}该用户吗？")
+                    .setConfirm(if (isBlockUser) "取消拉黑" else "拉黑")
+                    .setCancel("点错了")
+                    .setListener {
+                        doBlockOrUnBlockUser(currUserId = currUserId, targetUId = userId, isBlockUser = isBlockUser)
+                    }.show()
+            }
+        }
+    }
+
+    private fun doBlockOrUnBlockUser(currUserId: String, targetUId: String, isBlockUser: Boolean) {
+        lifecycleScope.launch {
             if (isBlockUser) {
-                val success = mUserViewModel.unblockUser(uId = currUserId, targetUId = userId)
+                val success = mUserViewModel.unblockUser(uId = currUserId, targetUId = targetUId)
                 if (success) toast("已取消拉黑☺️") else toast("取消拉黑失败😭")
             } else {
-                val success = mUserViewModel.blockUser(uId = currUserId, targetUId = userId)
+                val success = mUserViewModel.blockUser(uId = currUserId, targetUId = targetUId)
                 if (success) toast("已将该用户拉黑😤") else toast("拉黑用户失败☹️")
             }
         }

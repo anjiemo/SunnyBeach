@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.ui.popup
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -52,19 +53,21 @@ fun UserMoreActionPopup(
         modifier = modifier.padding(horizontal = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ActionMenuItem(text = "举报") {
-            onClick.invoke(ActionClickType.REPORT)
-        }
-        HorizontalDivider(color = colorResource(R.color.common_line_color))
-        if (isLoading) {
-            ActionMenuItem(text = "加载中...")
-        } else {
-            ActionMenuItem(text = if (isBlocked) "取消屏蔽" else "屏蔽") {
-                onClick.invoke(ActionClickType.BLOCK)
+        if (currUserId != targetUId) {
+            ActionMenuItem(text = "举报", modifier = Modifier.fillMaxWidth()) {
+                onClick.invoke(ActionClickType.REPORT)
             }
+            HorizontalDivider(color = colorResource(R.color.common_line_color))
+            if (isLoading) {
+                ActionMenuItem(text = "加载中...", modifier = Modifier.fillMaxWidth())
+            } else {
+                ActionMenuItem(text = if (isBlocked) "取消屏蔽" else "屏蔽", modifier = Modifier.fillMaxWidth()) {
+                    onClick.invoke(ActionClickType.BLOCK)
+                }
+            }
+            HorizontalDivider(color = colorResource(R.color.common_line_color))
         }
-        HorizontalDivider(color = colorResource(R.color.common_line_color))
-        ActionMenuItem(text = "分享") {
+        ActionMenuItem(text = "分享", modifier = Modifier.fillMaxWidth()) {
             onClick.invoke(ActionClickType.SHARE)
         }
     }
@@ -74,13 +77,13 @@ fun UserMoreActionPopup(
 private fun ActionMenuItem(text: String, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     Button(
         onClick = onClick,
+        modifier = modifier,
         shape = ButtonDefaults.shape,
         colors = ButtonDefaults.buttonColors(Color.Transparent),
         contentPadding = PaddingValues(horizontal = 0.dp)
     ) {
         Text(
             text = text,
-            modifier = modifier,
             color = colorResource(R.color.default_font_color),
             fontSize = 14.sp
         )
