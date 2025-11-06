@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,15 +22,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -37,10 +41,12 @@ import cn.cqautotest.sunnybeach.databinding.BlockedUserListActivityBinding
 import cn.cqautotest.sunnybeach.db.dao.UserBlock
 import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.manager.UserManager
+import cn.cqautotest.sunnybeach.model.UserInfoStatus
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import coil3.compose.AsyncImage
 import com.blankj.utilcode.util.TimeUtils
 import dev.androidbroadcast.vbpd.viewBinding
+import kotlinx.coroutines.cancel
 
 /**
  * author : A Lonely Cat
@@ -56,7 +62,10 @@ class BlockedUserListActivity : AppActivity() {
 
     override fun initView() {
         mBinding.composeView.setContent {
-            BlockedList(modifier = Modifier.fillMaxSize())
+            val context = LocalContext.current
+            BlockedList(onItemClick = { userBlock ->
+                ViewUserActivity.start(context, userId = userBlock.targetUId)
+            }, modifier = Modifier.fillMaxSize())
         }
     }
 
@@ -77,15 +86,20 @@ class BlockedUserListActivity : AppActivity() {
 }
 
 @Composable
-private fun BlockedList(modifier: Modifier = Modifier) {
+private fun BlockedList(onItemClick: (userBlock: UserBlock) -> Unit, modifier: Modifier = Modifier) {
     val userViewModel = viewModel<UserViewModel>()
     val currUserId by remember { mutableStateOf(UserManager.loadCurrUserId()) }
     val blockedUserList = remember { mutableStateListOf<UserBlock>() }
 
+    // 缓存用户信息: key=userId, value=UserInfoStatus
+    val userInfoCache = remember { mutableStateMapOf<String, UserInfoStatus>() }
+
+    // 加载屏蔽列表
     LaunchedEffect(currUserId) {
         val userBlockList = userViewModel.getBlockListDetails(currUserId)
         blockedUserList.clear()
         blockedUserList.addAll(userBlockList)
+        userInfoCache.clear()
     }
 
     LazyColumn(modifier = modifier) {
@@ -93,40 +107,138 @@ private fun BlockedList(modifier: Modifier = Modifier) {
             if (index != 0) {
                 Spacer(modifier = Modifier.height(1.dp))
             }
+
+            // 获取当前被拉黑的用户ID
+            val blockedUserId = userBlock.targetUId
+
+            LaunchedEffect(blockedUserId) {
+                if (!userInfoCache.containsKey(blockedUserId)) {
+                    // 初始标记为加载中
+                    userInfoCache[blockedUserId] = UserInfoStatus.Loading
+
+                    userViewModel.getUserInfo(blockedUserId).asFlow()
+                        .collect { result ->
+                            val status = when {
+                                result.isSuccess -> {
+                                    val info = result.getOrNull()
+                                    if (info != null) UserInfoStatus.Success(info)
+                                    else UserInfoStatus.Error(NullPointerException("User info is null"))
+                                }
+
+                                result.isFailure -> UserInfoStatus.Error(result.exceptionOrNull())
+                                else -> return@collect // 忽略非终态（如中间状态）
+                            }
+                            // 更新缓存
+                            userInfoCache[blockedUserId] = status
+
+                            // 已拿到终态，可取消收集（避免后续不必要的更新）
+                            this.coroutineContext.cancel()
+                        }
+                }
+            }
+
+            // 获取当前用户信息的UserInfo
+            val userInfoStatus = userInfoCache[blockedUserId]
+
             BlockedListItem(
                 userBlock = userBlock,
+                userInfoStatus = userInfoStatus,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
+                    .clickable(onClick = { onItemClick.invoke(userBlock) })
             )
         }
     }
 }
 
 @Composable
-private fun BlockedListItem(userBlock: UserBlock, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier
-            .height(66.dp)
-            .background(color = Color.White)
-    ) {
-        AsyncImage(
-            model = "https://cdn.sunofbeaches.com/images/default_avatar.png",
-            contentDescription = "用户头像",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .padding(start = 16.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
-                .size(40.dp)
-                .clip(CircleShape)
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(vertical = 10.dp),
-            verticalArrangement = Arrangement.SpaceAround
-        ) {
-            SobNickName(text = userBlock.targetUId)
-            SobDesc(text = TimeUtils.getFriendlyTimeSpanByNow(userBlock.createdAt))
+private fun BlockedListItem(
+    userBlock: UserBlock,
+    userInfoStatus: UserInfoStatus?,
+    modifier: Modifier = Modifier
+) {
+    when (userInfoStatus) {
+        is UserInfoStatus.Loading, null -> {
+            Row(
+                modifier = modifier
+                    .height(66.dp)
+                    .background(color = Color.White)
+            ) {
+                AsyncImage(
+                    model = R.mipmap.ic_default_avatar,
+                    contentDescription = "用户头像",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .padding(start = 16.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
+                        .size(40.dp)
+                        .clip(CircleShape)
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(vertical = 10.dp),
+                    verticalArrangement = Arrangement.SpaceAround
+                ) {
+                    SobNickName(text = "加载中...")
+                    SobDesc(text = "添加时间：${TimeUtils.millis2String(userBlock.createdAt)}")
+                }
+            }
+        }
+
+        is UserInfoStatus.Success -> {
+            val userInfo = userInfoStatus.info
+            Row(
+                modifier = modifier
+                    .height(66.dp)
+                    .background(color = Color.White)
+            ) {
+                AsyncImage(
+                    model = userInfo.avatar,
+                    contentDescription = "用户头像",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .padding(start = 16.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
+                        .size(40.dp)
+                        .clip(CircleShape)
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(vertical = 10.dp),
+                    verticalArrangement = Arrangement.SpaceAround
+                ) {
+                    SobNickName(text = userInfo.nickname)
+                    SobDesc(text = "添加时间：${TimeUtils.millis2String(userBlock.createdAt)}")
+                }
+            }
+        }
+
+        is UserInfoStatus.Error -> {
+            Row(
+                modifier = modifier
+                    .height(66.dp)
+                    .background(color = Color.White)
+            ) {
+                AsyncImage(
+                    model = R.mipmap.ic_default_avatar,
+                    contentDescription = "用户头像",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .padding(start = 16.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
+                        .size(40.dp)
+                        .clip(CircleShape)
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(vertical = 10.dp),
+                    verticalArrangement = Arrangement.SpaceAround
+                ) {
+                    SobNickName(text = "加载错误")
+                    SobDesc(text = "添加时间：${TimeUtils.millis2String(userBlock.createdAt)}")
+                }
+            }
         }
     }
 }
