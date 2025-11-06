@@ -23,6 +23,7 @@ import cn.cqautotest.sunnybeach.repository.CheckUserParseRepository
 import cn.cqautotest.sunnybeach.repository.Repository
 import cn.cqautotest.sunnybeach.repository.UserBlockRepository
 import com.blankj.utilcode.util.RegexUtils
+import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 /**
@@ -259,5 +260,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application), C
      */
     suspend fun getBlockListDetails(uId: String): List<UserBlock> {
         return userBlockRepository.getBlockListDetails(uId)
+    }
+
+    fun getBlockListDetailsByFlow(uId: String): Flow<List<UserBlock>> {
+        return userBlockRepository.getBlockListDetailsByFlow(uId)
     }
 }
