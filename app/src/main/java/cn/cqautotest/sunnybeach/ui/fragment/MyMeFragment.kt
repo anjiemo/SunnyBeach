@@ -47,6 +47,7 @@ import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -215,7 +216,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     /**
      * 等待登录后执行给定的 Lambda
      */
-    private suspend fun afterWaitingForLogin(block: () -> Unit) = suspendCoroutine { continuation ->
+    private suspend fun afterWaitingForLogin(block: () -> Unit) = suspendCancellableCoroutine { continuation ->
         when (UserManager.isLogin()) {
             true -> {
                 block.invoke()

@@ -20,9 +20,13 @@ import cn.cqautotest.sunnybeach.databinding.SettingActivityBinding
 import cn.cqautotest.sunnybeach.db.SobCacheManager
 import cn.cqautotest.sunnybeach.http.api.other.LogoutApi
 import cn.cqautotest.sunnybeach.http.model.HttpData
+import cn.cqautotest.sunnybeach.ktx.context
 import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.ifLogin
+import cn.cqautotest.sunnybeach.ktx.otherwise
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.startActivity
+import cn.cqautotest.sunnybeach.ktx.tryShowLoginDialog
 import cn.cqautotest.sunnybeach.manager.ActivityManager
 import cn.cqautotest.sunnybeach.manager.AppManager
 import cn.cqautotest.sunnybeach.manager.CacheDataManager
@@ -79,6 +83,7 @@ class SettingActivity : AppActivity() {
     override fun initView() {
         setOnClickListener(
             R.id.sb_setting_language,
+            R.id.sb_setting_blacklist_management,
             R.id.sb_setting_update,
             R.id.sb_setting_agreement,
             R.id.sb_setting_me_pay,
@@ -204,6 +209,19 @@ class SettingActivity : AppActivity() {
                     .setAnimStyle(AnimAction.ANIM_BOTTOM)
                     .show()
             }
+
+            R.id.sb_setting_blacklist_management -> {
+                val context = this
+                lifecycleScope.launch {
+                    // 操作按钮点击回调，判断是否已经登录过账号
+                    ifLogin {
+                        BlockedUserListActivity.start(context)
+                    } otherwise {
+                        tryShowLoginDialog()
+                    }
+                }
+            }
+
             R.id.sb_setting_update -> {
                 // 检查更新
                 mAppViewModel.checkAppUpdate().observe(this) {
@@ -211,14 +229,17 @@ class SettingActivity : AppActivity() {
                     mAppVersionLiveData.value = it.getOrNull()
                 }
             }
+
             R.id.sb_setting_phone -> {
                 SafeDialog.Builder(this)
                     .setListener { _, _, code -> PhoneResetActivity.start(this, code) }
                     .show()
             }
+
             R.id.sb_setting_agreement -> {
                 BrowserActivity.start(this, "https://github.com/anjiemo/SunnyBeach")
             }
+
             R.id.sb_setting_me_pay -> {
                 MessageDialog.Builder(this)
                     .setTitle("捐赠")
@@ -246,15 +267,18 @@ class SettingActivity : AppActivity() {
                     }
                     .show()
             }
+
             R.id.sb_setting_about -> {
                 startActivity<AboutActivity>()
             }
+
             R.id.sb_setting_cache -> {
                 mAppViewModel.clearCacheMemory().observe(this) {
                     val totalCacheSize = it.getOrNull() ?: return@observe
                     mBinding.sbSettingCache.setRightText(totalCacheSize)
                 }
             }
+
             R.id.sb_setting_exit -> {
                 MessageDialog.Builder(this)
                     .setTitle("退出账号")
