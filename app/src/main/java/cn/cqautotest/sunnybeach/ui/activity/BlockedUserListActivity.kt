@@ -161,87 +161,37 @@ private fun BlockedListItem(
     userInfoStatus: UserInfoStatus?,
     modifier: Modifier = Modifier
 ) {
-    when (userInfoStatus) {
-        is UserInfoStatus.Loading, null -> {
-            Row(
-                modifier = modifier
-                    .height(66.dp)
-                    .background(color = Color.White)
-            ) {
-                AsyncImage(
-                    model = R.mipmap.ic_default_avatar,
-                    contentDescription = "用户头像",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .padding(start = 16.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
-                        .size(40.dp)
-                        .clip(CircleShape)
-                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(vertical = 10.dp),
-                    verticalArrangement = Arrangement.SpaceAround
-                ) {
-                    SobNickName(text = "加载中...")
-                    SobDesc(text = "添加时间：${TimeUtils.millis2String(userBlock.createdAt)}")
-                }
-            }
-        }
-
+    val (avatar, nickname) = when (userInfoStatus) {
         is UserInfoStatus.Success -> {
             val userInfo = userInfoStatus.info
-            Row(
-                modifier = modifier
-                    .height(66.dp)
-                    .background(color = Color.White)
-            ) {
-                AsyncImage(
-                    model = userInfo.avatar,
-                    contentDescription = "用户头像",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .padding(start = 16.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
-                        .size(40.dp)
-                        .clip(CircleShape)
-                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(vertical = 10.dp),
-                    verticalArrangement = Arrangement.SpaceAround
-                ) {
-                    SobNickName(text = userInfo.nickname)
-                    SobDesc(text = "添加时间：${TimeUtils.millis2String(userBlock.createdAt)}")
-                }
-            }
+            userInfo.avatar to userInfo.nickname
         }
 
-        is UserInfoStatus.Error -> {
-            Row(
-                modifier = modifier
-                    .height(66.dp)
-                    .background(color = Color.White)
-            ) {
-                AsyncImage(
-                    model = R.mipmap.ic_default_avatar,
-                    contentDescription = "用户头像",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .padding(start = 16.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
-                        .size(40.dp)
-                        .clip(CircleShape)
-                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(vertical = 10.dp),
-                    verticalArrangement = Arrangement.SpaceAround
-                ) {
-                    SobNickName(text = "加载错误")
-                    SobDesc(text = "添加时间：${TimeUtils.millis2String(userBlock.createdAt)}")
-                }
-            }
+        is UserInfoStatus.Error -> R.mipmap.ic_default_avatar to "加载失败"
+        else -> R.mipmap.ic_default_avatar to "加载中..." // Loading or null.
+    }
+    Row(
+        modifier = modifier
+            .height(66.dp)
+            .background(color = Color.White)
+    ) {
+        AsyncImage(
+            model = avatar,
+            contentDescription = "用户头像",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .padding(start = 16.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
+                .size(40.dp)
+                .clip(CircleShape)
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(vertical = 10.dp),
+            verticalArrangement = Arrangement.SpaceAround
+        ) {
+            SobNickName(text = nickname)
+            SobDesc(text = "添加时间：${TimeUtils.millis2String(userBlock.createdAt)}")
         }
     }
 }
