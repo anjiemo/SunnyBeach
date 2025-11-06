@@ -11,42 +11,53 @@ import timber.log.Timber
 interface UserBlockDao {
 
     // region 基础CRUD操作
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertBlock(userBlock: UserBlock): Long
 
+    @Transaction
     @Query("DELETE FROM user_blocks WHERE uId = :uId AND targetUId = :targetUId")
     suspend fun deleteBlock(uId: String, targetUId: String): Int
 
+    @Transaction
     @Query("SELECT * FROM user_blocks WHERE uId = :uId AND targetUId = :targetUId")
     suspend fun getBlockRecord(uId: String, targetUId: String): UserBlock?
     // endregion
 
     // region 查询操作
+    @Transaction
     @Query("SELECT COUNT(*) FROM user_blocks WHERE uId = :uId AND targetUId = :targetUId")
     suspend fun isBlocked(uId: String, targetUId: String): Int
 
+    @Transaction
     @Query("SELECT targetUId FROM user_blocks WHERE uId = :uId")
     suspend fun getBlockedUsers(uId: String): List<String>
 
+    @Transaction
     @Query("SELECT * FROM user_blocks WHERE uId = :uId")
     suspend fun getUserBlocks(uId: String): List<UserBlock>
 
+    @Transaction
     @Query("SELECT uId FROM user_blocks WHERE targetUId = :targetUId")
     suspend fun getBlockedByUsers(targetUId: String): List<String>
     // endregion
 
     // region 统计操作
+    @Transaction
     @Query("SELECT COUNT(*) FROM user_blocks WHERE uId = :uId")
     suspend fun getBlockCount(uId: String): Int
 
+    @Transaction
     @Query("SELECT COUNT(*) FROM user_blocks WHERE targetUId = :targetUId")
     suspend fun getBlockedCount(targetUId: String): Int
     // endregion
 
     // region BlockSummary 表操作
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertBlockSummary(summary: BlockSummary)
 
+    @Transaction
     @Query("SELECT * FROM block_summary WHERE uId = :uId")
     suspend fun getBlockSummary(uId: String): BlockSummary?
     // endregion
