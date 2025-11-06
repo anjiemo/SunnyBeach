@@ -182,6 +182,7 @@
     <string name="setting_language_simple">简体中文</string>
     <string name="setting_language_complex">繁体中文</string>
     <string name="setting_update">检查更新</string>
+    <string name="setting_blacklist_management">黑名单管理</string>
 
     <string name="setting_phone">手机</string>
     <string name="setting_email">邮箱</string>
@@ -291,6 +292,8 @@
 
     <!-- App快捷方式 -->
     <string name="shortcut_put_fish">发布动态</string>
+
+    <!-- Sob 币简介 -->
     <string name="sob_intro_consume_method">我要这sunof币有何用？</string>
     <string-array name="sob_intro_consume_channels">
         <item>提问时你可以使用sunof作为悬赏</item>
@@ -308,5 +311,7 @@
         <item>分享内容奖励</item>
         <item>他人的打赏</item>
     </string-array>
+
+    <!-- 首页二楼 -->
     <string name="back_to_home_page">回到首页</string>
 </resources>
