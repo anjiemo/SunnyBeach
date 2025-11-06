@@ -89,7 +89,7 @@ private fun BlockedList(modifier: Modifier = Modifier) {
     }
 
     LazyColumn(modifier = modifier) {
-        itemsIndexed(blockedUserList) { index, userBlock ->
+        itemsIndexed(blockedUserList, key = { _, item -> item.uuid }) { index, userBlock ->
             if (index != 0) {
                 Spacer(modifier = Modifier.height(1.dp))
             }
