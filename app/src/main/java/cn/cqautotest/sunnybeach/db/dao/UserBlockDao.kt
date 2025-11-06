@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 
 @Dao
@@ -36,6 +37,10 @@ interface UserBlockDao {
     @Transaction
     @Query("SELECT * FROM user_blocks WHERE uId = :uId")
     suspend fun getUserBlocks(uId: String): List<UserBlock>
+
+    @Transaction
+    @Query("SELECT * FROM user_blocks WHERE uId = :uId")
+    fun getUserBlocksByFlow(uId: String): Flow<List<UserBlock>>
 
     @Transaction
     @Query("SELECT uId FROM user_blocks WHERE targetUId = :targetUId")

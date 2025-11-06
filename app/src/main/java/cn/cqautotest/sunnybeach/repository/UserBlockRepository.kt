@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.repository
 
 import cn.cqautotest.sunnybeach.db.dao.UserBlock
 import cn.cqautotest.sunnybeach.db.dao.UserBlockDao
+import kotlinx.coroutines.flow.Flow
 
 /**
  * author : A Lonely Cat
@@ -29,5 +30,9 @@ class UserBlockRepository(private val userBlockDao: UserBlockDao) {
 
     suspend fun getBlockListDetails(uId: String): List<UserBlock> {
         return userBlockDao.getUserBlocks(uId)
+    }
+
+    fun getBlockListDetailsByFlow(uId: String): Flow<List<UserBlock>> {
+        return userBlockDao.getUserBlocksByFlow(uId)
     }
 }

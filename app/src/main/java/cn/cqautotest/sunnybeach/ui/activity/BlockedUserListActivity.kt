@@ -20,8 +20,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -89,19 +89,22 @@ class BlockedUserListActivity : AppActivity() {
 private fun BlockedList(onItemClick: (userBlock: UserBlock) -> Unit, modifier: Modifier = Modifier) {
     val userViewModel = viewModel<UserViewModel>()
     val currUserId by remember { mutableStateOf(UserManager.loadCurrUserId()) }
-    val blockedUserList = remember { mutableStateListOf<UserBlock>() }
 
-    // 缓存用户信息: key=userId, value=UserInfoStatus
+    // 收集黑名单 Flow（自动响应数据变化，包括取消拉黑后）
+    val blockedUserList by userViewModel
+        .getBlockListDetailsByFlow(currUserId) // 直接监听 Flow
+        .collectAsState(initial = emptyList())
+
+    // 缓存用户信息：key=userId，value=用户信息状态
     val userInfoCache = remember { mutableStateMapOf<String, UserInfoStatus>() }
 
-    // 加载屏蔽列表
+    // 当黑名单变化时，清理已移除用户的缓存（优化：避免缓存无效数据）
     LaunchedEffect(currUserId) {
-        val userBlockList = userViewModel.getBlockListDetails(currUserId)
-        blockedUserList.clear()
-        blockedUserList.addAll(userBlockList)
-        userInfoCache.clear()
+        val currentUserIds = blockedUserList.map { it.targetUId }.toSet()
+        userInfoCache.keys.retainAll(currentUserIds) // 只保留当前列表中的用户缓存
     }
 
+    // 按需加载用户信息（已缓存则跳过，未缓存则请求）
     LazyColumn(modifier = modifier) {
         itemsIndexed(blockedUserList, key = { _, item -> item.uuid }) { index, userBlock ->
             if (index != 0) {
@@ -137,7 +140,7 @@ private fun BlockedList(onItemClick: (userBlock: UserBlock) -> Unit, modifier: M
                 }
             }
 
-            // 获取当前用户信息的UserInfo
+            // 获取当前用户的信息状态
             val userInfoStatus = userInfoCache[blockedUserId]
 
             BlockedListItem(
