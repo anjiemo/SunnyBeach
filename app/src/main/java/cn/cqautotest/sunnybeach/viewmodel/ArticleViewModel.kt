@@ -37,7 +37,8 @@ class ArticleViewModel(private val savedStateHandle: SavedStateHandle) : ViewMod
 
     val searchUserArticleListFlow = Pager(config = PagingConfig(30),
         pagingSourceFactory = {
-            val searchFilter = savedStateHandle.get<ArticleSearchFilter>(UserArticleListManagerFragment.SEARCH_FILTER) ?: ArticleSearchFilter()
+            val searchFilter =
+                savedStateHandle.get<ArticleSearchFilter>(UserArticleListManagerFragment.SEARCH_FILTER) ?: ArticleSearchFilter()
             UserPublishArticlePagingSource(searchFilter)
         }).flow.cachedIn(viewModelScope)
 
