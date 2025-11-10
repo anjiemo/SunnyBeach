@@ -73,11 +73,17 @@ class QaMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     }
 
     override fun onBindViewHolder(holder: QAMsgViewHolder, position: Int) {
-        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
         holder.onBinding(getItem(position), position)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QAMsgViewHolder = QAMsgViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QAMsgViewHolder = QAMsgViewHolder(parent).also { holder ->
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
+        with(holder.binding) {
+            ivAvatar.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
+            llTopContainer.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
+            tvDesc.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
+        }
+    }
 
     companion object {
 

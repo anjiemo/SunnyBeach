@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity.msg
 
+import android.view.View
 import androidx.activity.viewModels
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
@@ -10,8 +11,10 @@ import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
+import cn.cqautotest.sunnybeach.model.msg.AtMeMsg
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
+import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.AtMeMsgAdapter
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
@@ -52,21 +55,35 @@ class AtMeMsgListActivity : PagingActivity(), OnBack2TopListener {
     override fun initEvent() {
         super.initEvent()
         getTitleBar()?.setDoubleClickListener { onBack2Top() }
-        mAdapterDelegate.setOnItemClickListener { _, position ->
+        mAdapterDelegate.setOnItemClickListener { view, position ->
             mAtMeMsgAdapter.snapshotList.getOrNull(position)?.let {
-                it.hasRead = "1"
+                handleItemClick(view, it, position)
+            }
+        }
+    }
+
+    private fun handleItemClick(view: View, content: AtMeMsg.Content, position: Int) {
+        when (view.id) {
+            R.id.iv_avatar, R.id.ll_top_container, R.id.tv_desc -> {
+                ViewUserActivity.start(this, content.uid)
+            }
+
+            else -> {
+                content.hasRead = "1"
                 mAtMeMsgAdapter.notifyItemChanged(position)
-                mMsgViewModel.readAtMeMsg(it.id).observe(this) {}
-                when (it.type) {
+                mMsgViewModel.readAtMeMsg(content.id).observe(this) {}
+                when (content.type) {
                     "article" -> {
-                        val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${it.exId}"
+                        val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${content.exId}"
                         BrowserActivity.start(this, url)
                     }
-                    "moment" -> FishPondDetailActivity.start(this, it.exId)
+
+                    "moment" -> FishPondDetailActivity.start(this, content.exId)
                     "wenda" -> {
-                        val url = "$SUNNY_BEACH_QA_URL_PRE${it.exId}"
+                        val url = "$SUNNY_BEACH_QA_URL_PRE${content.exId}"
                         BrowserActivity.start(this, url)
                     }
+
                     else -> {}
                 }
             }
