@@ -11,9 +11,16 @@
         android:layout_height="wrap_content"
         app:title="@string/setting_blacklist_management" />
 
-    <androidx.compose.ui.platform.ComposeView
-        android:id="@+id/compose_view"
+    <cn.cqautotest.sunnybeach.widget.StatusLayout
+        android:id="@+id/status_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/compose_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </cn.cqautotest.sunnybeach.widget.StatusLayout>
 
 </LinearLayout>
