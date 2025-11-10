@@ -22,10 +22,6 @@
 -adaptclassstrings
 -keepattributes InnerClasses, EnclosingMethod, Signature, *Annotation*
 
--keepnames @org.aspectj.lang.annotation.Aspect class * {
-    public <methods>;
-}
-
 # OkHttp3
 -keepattributes Signature
 -keepattributes *Annotation*
@@ -73,3 +69,15 @@
 -keep class * extends com.hjq.http.model.ResponseClass {
     *;
 }
+
+# LiveEventBus：https://github.com/JeremyLiao/LiveEventBus
+-dontwarn com.jeremyliao.liveeventbus.**
+# 保留LiveEventBus核心类
+-keep class com.jeremyliao.liveeventbus.LiveEventBus { *; }
+-keep interface com.jeremyliao.liveeventbus.core.LiveEvent { *; }
+-keep class com.jeremyliao.liveeventbus.core.Observable { *; }
+-keep class com.jeremyliao.liveeventbus.core.LiveEventBusCore { *; }
+# 保留Lifecycle相关类（根据是否使用AndroidX选择）
+-keep class androidx.lifecycle.LiveData { *; }
+-keep class androidx.lifecycle.Observer { *; }
+-keep class androidx.arch.core.** { *; }
