@@ -36,6 +36,7 @@ import cn.cqautotest.sunnybeach.model.scan.CanParseUserId
 import cn.cqautotest.sunnybeach.model.scan.CancelScan
 import cn.cqautotest.sunnybeach.model.scan.Content
 import cn.cqautotest.sunnybeach.model.scan.NoContent
+import cn.cqautotest.sunnybeach.other.AppConfig
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
 import cn.cqautotest.sunnybeach.ui.activity.FishTopicActivity
 import cn.cqautotest.sunnybeach.ui.activity.ImagePreviewActivity
@@ -139,6 +140,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mBinding.expandableLayout.expand()
         mHomeViewModel.setTwoLevelPageShowing(false)
         mBinding.twoLevelHeader.setEnablePullToCloseTwoLevel(false)
+        mBinding.twoLevelHeader.setEnableTwoLevel(AppConfig.isDebug())
 
         // This emptyAdapter is like a hacker.
         // Its existence allows the PagingAdapter to scroll to the top before being refreshed,
@@ -264,7 +266,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         }
         LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE, true)
         hidePublishButton()
-        toast("打开二楼")
     }
 
     private fun onTwoLevelPageClosed() {
@@ -275,7 +276,6 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         }
         LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE, false)
         showPublishButton()
-        toast("关闭二楼")
     }
 
     private fun showPublishButton() {
