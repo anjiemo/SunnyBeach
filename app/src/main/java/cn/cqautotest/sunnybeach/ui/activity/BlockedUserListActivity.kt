@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.Context
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,20 +34,32 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.asFlow
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.BlockedUserListActivityBinding
 import cn.cqautotest.sunnybeach.db.dao.UserBlock
 import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.manager.UserManager
+import cn.cqautotest.sunnybeach.model.LoadStatus
 import cn.cqautotest.sunnybeach.model.UserInfoStatus
+import cn.cqautotest.sunnybeach.viewmodel.BlockedUserViewModel
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
+import cn.cqautotest.sunnybeach.widget.StatusLayout
 import coil3.compose.AsyncImage
 import com.blankj.utilcode.util.TimeUtils
 import dev.androidbroadcast.vbpd.viewBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 
 /**
  * author : A Lonely Cat
@@ -54,13 +67,15 @@ import kotlinx.coroutines.cancel
  * time   : 2025/11/06
  * desc   : 被屏蔽的用户列表界面
  */
-class BlockedUserListActivity : AppActivity() {
+class BlockedUserListActivity : AppActivity(), StatusAction {
 
     private val mBinding by viewBinding(BlockedUserListActivityBinding::bind)
+    private val mUserBlockedUserViewModel by viewModels<BlockedUserViewModel>()
 
     override fun getLayoutId(): Int = R.layout.blocked_user_list_activity
 
     override fun initView() {
+        mBinding.statusLayout.setHint("退出")
         mBinding.composeView.setContent {
             val context = LocalContext.current
             BlockedList(onItemClick = { userBlock ->
@@ -77,6 +92,26 @@ class BlockedUserListActivity : AppActivity() {
 
     }
 
+    override fun initObserver() {
+        lifecycleScope.launch {
+            mUserBlockedUserViewModel.blockLoadStatusFlow
+                .flowWithLifecycle(lifecycle, Lifecycle.State.CREATED)
+                .collect {
+                    when (it) {
+                        LoadStatus.Empty -> showEmpty()
+                        is LoadStatus.Error -> showError {
+                            finish()
+                        }
+
+                        LoadStatus.Loading -> showLoading()
+                        is LoadStatus.Success<*> -> showComplete()
+                    }
+                }
+        }
+    }
+
+    override fun getStatusLayout(): StatusLayout = mBinding.statusLayout
+
     companion object {
 
         fun start(context: Context) {
@@ -88,11 +123,23 @@ class BlockedUserListActivity : AppActivity() {
 @Composable
 private fun BlockedList(onItemClick: (userBlock: UserBlock) -> Unit, modifier: Modifier = Modifier) {
     val userViewModel = viewModel<UserViewModel>()
+    val blockedUserViewModel = viewModel<BlockedUserViewModel>()
     val currUserId by remember { mutableStateOf(UserManager.loadCurrUserId()) }
 
     // 收集黑名单 Flow（自动响应数据变化，包括取消拉黑后）
     val blockedUserList by userViewModel
         .getBlockListDetailsByFlow(currUserId) // 直接监听 Flow
+        .flowOn(Dispatchers.IO)
+        .onStart {
+            blockedUserViewModel.setUserBlockLoadStatus(loadStatus = LoadStatus.Loading)
+        }
+        .onEach {
+            if (it.isEmpty()) {
+                blockedUserViewModel.setUserBlockLoadStatus(loadStatus = LoadStatus.Empty)
+            } else {
+                blockedUserViewModel.setUserBlockLoadStatus(loadStatus = LoadStatus.Success(it))
+            }
+        }
         .collectAsState(initial = emptyList())
 
     // 缓存用户信息：key=userId，value=用户信息状态
