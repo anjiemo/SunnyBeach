@@ -32,6 +32,13 @@
                 tools:bar_rightTextHint="@string/setting_language_simple" />
 
             <com.hjq.widget.layout.SettingBar
+                android:id="@+id/sb_setting_blacklist_management"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                app:bar_leftText="@string/setting_blacklist_management" />
+
+            <com.hjq.widget.layout.SettingBar
                 android:id="@+id/sb_setting_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

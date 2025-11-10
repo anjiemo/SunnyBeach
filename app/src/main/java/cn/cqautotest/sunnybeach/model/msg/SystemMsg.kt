@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.model.msg
 
 import cn.cqautotest.sunnybeach.paging.source.msg.impl.IMsgContent
 import cn.cqautotest.sunnybeach.paging.source.msg.impl.IMsgPageData
+import cn.cqautotest.sunnybeach.paging.source.msg.impl.INormalMsgContent
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -49,7 +50,7 @@ data class SystemMsg(
         val title: String,
         @SerializedName("userId")
         val userId: String
-    ) : IMsgContent
+    ) : INormalMsgContent
 
     data class Pageable(
         @SerializedName("offset")

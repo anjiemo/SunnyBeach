@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.model.msg
 
 import cn.cqautotest.sunnybeach.paging.source.msg.impl.IMsgContent
 import cn.cqautotest.sunnybeach.paging.source.msg.impl.IMsgPageData
+import cn.cqautotest.sunnybeach.paging.source.msg.impl.IUserMsgContent
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -59,7 +60,10 @@ data class AtMeMsg(
         val uid: String,
         @SerializedName("url")
         val url: String
-    ) : IMsgContent {
+    ) : IUserMsgContent {
+
+        override fun getUId(): String = uid
+
         val isRead get() = hasRead == "1"
     }
 

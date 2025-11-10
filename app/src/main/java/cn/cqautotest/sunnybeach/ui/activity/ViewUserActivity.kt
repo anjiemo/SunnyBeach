@@ -4,13 +4,29 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.activity.viewModels
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.unit.Dp
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.toColorInt
+import androidx.core.os.bundleOf
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.setViewTreeLifecycleOwner
+import androidx.lifecycle.withCreated
+import androidx.savedstate.SavedStateRegistry
+import androidx.savedstate.SavedStateRegistryController
+import androidx.savedstate.SavedStateRegistryOwner
+import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -24,17 +40,23 @@ import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.setRoundRectBg
 import cn.cqautotest.sunnybeach.ktx.waitViewDrawFinished
 import cn.cqautotest.sunnybeach.manager.UserManager
+import cn.cqautotest.sunnybeach.model.ReportType
 import cn.cqautotest.sunnybeach.model.UserInfo
 import cn.cqautotest.sunnybeach.other.FriendsStatus
 import cn.cqautotest.sunnybeach.other.IntentKey
+import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
 import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.ui.fragment.UserMediaFragment
+import cn.cqautotest.sunnybeach.ui.popup.ActionClickType
+import cn.cqautotest.sunnybeach.ui.popup.UserMoreActionPopup
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_VIEW_USER_URL_PRE
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import com.dylanc.longan.lifecycleOwner
 import com.hjq.bar.TitleBar
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
+import com.lxj.xpopup.XPopup
+import com.lxj.xpopup.core.BubbleAttachPopupView
 import com.umeng.socialize.media.UMWeb
 import dagger.hilt.android.AndroidEntryPoint
 import dev.androidbroadcast.vbpd.viewBinding
@@ -101,7 +123,6 @@ class ViewUserActivity : AppActivity() {
         with(mBinding) {
             mUserViewModel.getUserInfo(userId).observe(lifecycleOwner) {
                 val userInfo = it.getOrNull() ?: return@observe
-                titleBar.rightTitle = "分享"
                 mUserInfo = userInfo
                 ivAvatar.setFixOnClickListener { ImagePreviewActivity.start(context, userInfo.avatar) }
                 ivAvatar.loadAvatar(userInfo.vip, userInfo.avatar)
@@ -168,8 +189,78 @@ class ViewUserActivity : AppActivity() {
 
     override fun onRightClick(titleBar: TitleBar) {
         val userId = mUserInfo?.userId ?: return
-        val content = UMWeb(SUNNY_BEACH_VIEW_USER_URL_PRE + userId)
+        XPopup.Builder(this)
+            .dismissOnBackPressed(true)
+            .dismissOnTouchOutside(true)
+            .isDestroyOnDismiss(true)
+            .atView(titleBar.rightView)
+            .offsetX((-6).dp)
+            .offsetY((-16).dp)
+            .asCustom(object : BubbleAttachPopupView(this), SavedStateRegistryOwner {
+
+                private val mSavedStateRegistryController: SavedStateRegistryController = SavedStateRegistryController.create(this)
+
+                init {
+                    initLifecycle()
+                }
+
+                /**
+                 * See：[androidx.fragment.app.Fragment.initLifecycle]
+                 */
+                private fun initLifecycle() {
+                    setViewTreeLifecycleOwner(this)
+                    setViewTreeSavedStateRegistryOwner(this)
+                    mSavedStateRegistryController.performAttach()
+                    mSavedStateRegistryController.performRestore(bundleOf())
+                }
+
+                override val savedStateRegistry: SavedStateRegistry
+                    get() = mSavedStateRegistryController.savedStateRegistry
+
+                override fun getImplLayoutId(): Int = R.layout.popup_user_more_action
+
+                override fun onCreate() {
+                    super.onCreate()
+                    setBubbleBgColor(Color.WHITE)
+                    setArrowWidth(8.dp)
+                    setArrowHeight(9.dp)
+                    setArrowRadius(2.dp)
+                    findViewById<ComposeView>(R.id.compose_view)
+                        .also { it.setViewCompositionStrategy(ViewCompositionStrategy.Default) }
+                        .setContent {
+                            UserMoreActionPopup(
+                                currUserId = UserManager.loadCurrUserId(), targetUId = userId, userViewModel = mUserViewModel,
+                                modifier = Modifier
+                                    .widthIn(max = Dp(100f))
+                                    .heightIn(max = Dp(400f))
+                                    .background(
+                                        color = androidx.compose.ui.graphics.Color.White, shape = RoundedCornerShape(Dp(6f))
+                                    )
+                            ) { clickType ->
+                                dismiss()
+                                when (clickType) {
+                                    ActionClickType.SHARE -> {
+                                        onShareUser(userId)
+                                    }
+
+                                    ActionClickType.BLOCK -> {
+                                        onBlockUser(userId)
+                                    }
+
+                                    ActionClickType.REPORT -> {
+                                        onReportUser(userId)
+                                    }
+                                }
+                            }
+                        }
+                }
+            })
+            .show()
+    }
+
+    private fun onShareUser(userId: String) {
         // 分享
+        val content = UMWeb(SUNNY_BEACH_VIEW_USER_URL_PRE + userId)
         ShareDialog.Builder(this)
             .setShareLink(content)
             .setListener(object : UmengShare.OnShareListener {
@@ -186,6 +277,44 @@ class ViewUserActivity : AppActivity() {
                 }
             })
             .show()
+    }
+
+    private fun onBlockUser(userId: String) {
+        val currUserId = UserManager.loadCurrUserId()
+        if (currUserId == userId) {
+            toast("不能对自己操作哦☺️")
+            return
+        }
+        val context = this
+        lifecycleScope.launch {
+            val isBlockUser = mUserViewModel.isUserBlocked(uId = currUserId, targetUId = userId)
+            withCreated {
+                MessageDialog.Builder(context)
+                    .setTitle("系统消息")
+                    .setMessage("确认${if (isBlockUser) "取消拉黑" else "拉黑"}该用户吗？")
+                    .setConfirm(if (isBlockUser) "取消拉黑" else "拉黑")
+                    .setCancel("点错了")
+                    .setListener {
+                        doBlockOrUnBlockUser(currUserId = currUserId, targetUId = userId, isBlockUser = isBlockUser)
+                    }.show()
+            }
+        }
+    }
+
+    private fun doBlockOrUnBlockUser(currUserId: String, targetUId: String, isBlockUser: Boolean) {
+        lifecycleScope.launch {
+            if (isBlockUser) {
+                val success = mUserViewModel.unblockUser(uId = currUserId, targetUId = targetUId)
+                if (success) toast("已取消拉黑☺️") else toast("取消拉黑失败😭")
+            } else {
+                val success = mUserViewModel.blockUser(uId = currUserId, targetUId = targetUId)
+                if (success) toast("已将该用户拉黑😤") else toast("拉黑用户失败☹️")
+            }
+        }
+    }
+
+    private fun onReportUser(userId: String) {
+        ReportActivity.start(this, ReportType.USER, userId)
     }
 
     companion object {
