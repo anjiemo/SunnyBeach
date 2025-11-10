@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -69,9 +70,9 @@ fun SobIntroPopup(modifier: Modifier = Modifier) {
         }
         val nestedScrollInterop = rememberNestedScrollInteropConnection()
         LazyColumn(modifier = Modifier.nestedScroll(nestedScrollInterop)) {
-            items(sections.size, key = { index -> "section_${index}" }) { index ->
+            itemsIndexed(sections, key = { index, _ -> "section_${index}" }) { index, item ->
                 IntroSectionContent(
-                    section = sections[index],
+                    section = item,
                     isLastSection = index == sections.lastIndex,
                     modifier = Modifier.fillMaxWidth()
                 )

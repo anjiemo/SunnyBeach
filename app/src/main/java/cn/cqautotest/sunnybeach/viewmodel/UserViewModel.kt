@@ -9,6 +9,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import cn.cqautotest.sunnybeach.action.CheckUserParseAction
+import cn.cqautotest.sunnybeach.app.AppApplication
+import cn.cqautotest.sunnybeach.db.dao.UserBlock
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.ModifyPwd
 import cn.cqautotest.sunnybeach.model.PersonCenterInfo
@@ -19,7 +21,9 @@ import cn.cqautotest.sunnybeach.model.UserBasicInfo
 import cn.cqautotest.sunnybeach.paging.source.RichPagingSource
 import cn.cqautotest.sunnybeach.repository.CheckUserParseRepository
 import cn.cqautotest.sunnybeach.repository.Repository
+import cn.cqautotest.sunnybeach.repository.UserBlockRepository
 import com.blankj.utilcode.util.RegexUtils
+import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 /**
@@ -31,6 +35,8 @@ import java.io.File
 class UserViewModel(application: Application) : AndroidViewModel(application), CheckUserParseAction {
 
     private val checkUserParseRepository = CheckUserParseRepository()
+    private val userBlockDao = AppApplication.getDatabase().userBlockDao()
+    private val userBlockRepository = UserBlockRepository(userBlockDao = userBlockDao)
     private val phoneLiveData = MutableLiveData<String>()
 
     val userAvatarLiveData = phoneLiveData.switchMap { account ->
@@ -40,7 +46,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application), C
     /**
      * 富豪榜
      */
-    val richListFlow = Pager(config = PagingConfig(30),
+    val richListFlow = Pager(
+        config = PagingConfig(30),
         pagingSourceFactory = {
             RichPagingSource()
         }).flow.cachedIn(viewModelScope)
@@ -219,4 +226,43 @@ class UserViewModel(application: Application) : AndroidViewModel(application), C
      * 验证码检查
      */
     private fun String.isVerifyCodeValid(): Boolean = isNotEmpty()
+
+    /**
+     * 拉黑用户
+     */
+    suspend fun blockUser(uId: String, targetUId: String, reason: String? = null): Boolean {
+        return userBlockRepository.blockUser(uId, targetUId, reason)
+    }
+
+    /**
+     * 取消拉黑用户
+     */
+    suspend fun unblockUser(uId: String, targetUId: String): Boolean {
+        return userBlockRepository.unblockUser(uId, targetUId)
+    }
+
+    /**
+     * 判断用户是否被拉黑
+     */
+    suspend fun isUserBlocked(uId: String, targetUId: String): Boolean {
+        return userBlockRepository.isUserBlocked(uId, targetUId)
+    }
+
+    /**
+     * 获取用户拉黑列表
+     */
+    suspend fun getBlockList(uId: String): List<String> {
+        return userBlockRepository.getBlockList(uId)
+    }
+
+    /**
+     * 获取用户拉黑列表详情
+     */
+    suspend fun getBlockListDetails(uId: String): List<UserBlock> {
+        return userBlockRepository.getBlockListDetails(uId)
+    }
+
+    fun getBlockListDetailsByFlow(uId: String): Flow<List<UserBlock>> {
+        return userBlockRepository.getBlockListDetailsByFlow(uId)
+    }
 }

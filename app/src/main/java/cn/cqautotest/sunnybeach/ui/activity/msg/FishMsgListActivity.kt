@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity.msg
 
+import android.view.View
 import androidx.activity.viewModels
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
@@ -10,7 +11,9 @@ import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
+import cn.cqautotest.sunnybeach.model.msg.MomentMsg
 import cn.cqautotest.sunnybeach.ui.activity.FishPondDetailActivity
+import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.MomentMsgAdapter
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
@@ -49,12 +52,24 @@ class FishMsgListActivity : PagingActivity(), OnBack2TopListener {
     override fun initEvent() {
         super.initEvent()
         getTitleBar()?.setDoubleClickListener { onBack2Top() }
-        mAdapterDelegate.setOnItemClickListener { _, position ->
+        mAdapterDelegate.setOnItemClickListener { view, position ->
             mMomentMsgAdapter.snapshotList.getOrNull(position)?.let {
-                it.hasRead = "1"
+                handleItemClick(view, it, position)
+            }
+        }
+    }
+
+    fun handleItemClick(view: View, content: MomentMsg.Content, position: Int) {
+        when (view.id) {
+            R.id.iv_avatar, R.id.ll_top_container, R.id.tv_desc -> {
+                ViewUserActivity.start(this, content.uid)
+            }
+
+            else -> {
+                content.hasRead = "1"
                 mMomentMsgAdapter.notifyItemChanged(position)
-                mMsgViewModel.readMomentMsg(it.id).observe(this) {}
-                FishPondDetailActivity.start(this, it.momentId)
+                mMsgViewModel.readMomentMsg(content.id).observe(this) {}
+                FishPondDetailActivity.start(this, content.momentId)
             }
         }
     }

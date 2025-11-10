@@ -1,5 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.activity.msg
 
+import android.view.View
 import androidx.activity.viewModels
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
@@ -10,7 +11,9 @@ import cn.cqautotest.sunnybeach.ktx.hideSupportActionBar
 import cn.cqautotest.sunnybeach.ktx.setDoubleClickListener
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
+import cn.cqautotest.sunnybeach.model.msg.ArticleMsg
 import cn.cqautotest.sunnybeach.ui.activity.BrowserActivity
+import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.ArticleMsgAdapter
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
@@ -50,12 +53,24 @@ class ArticleMsgListActivity : PagingActivity(), OnBack2TopListener {
     override fun initEvent() {
         super.initEvent()
         getTitleBar()?.setDoubleClickListener { onBack2Top() }
-        mAdapterDelegate.setOnItemClickListener { _, position ->
+        mAdapterDelegate.setOnItemClickListener { view, position ->
             mArticleMsgAdapter.snapshotList.getOrNull(position)?.let {
-                it.hasRead = "1"
+                handleItemClick(view, it, position)
+            }
+        }
+    }
+
+    private fun handleItemClick(view: View, content: ArticleMsg.Content, position: Int) {
+        when (view.id) {
+            R.id.iv_avatar, R.id.ll_top_container, R.id.tv_desc -> {
+                ViewUserActivity.start(this, content.uid)
+            }
+
+            else -> {
+                content.hasRead = "1"
                 mArticleMsgAdapter.notifyItemChanged(position)
-                val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${it.articleId}"
-                mMsgViewModel.readArticleMsg(it.id).observe(this) {}
+                val url = "$SUNNY_BEACH_ARTICLE_URL_PRE${content.articleId}"
+                mMsgViewModel.readArticleMsg(content.id).observe(this) {}
                 BrowserActivity.start(this, url)
             }
         }

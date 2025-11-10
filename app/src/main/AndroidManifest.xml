@@ -578,6 +578,12 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
+        <!-- 被屏蔽的用户列表页 -->
+        <activity
+            android:name=".ui.activity.BlockedUserListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
         <service
             android:name="com.xiaomi.push.service.XMPushService"
             android:enabled="true"

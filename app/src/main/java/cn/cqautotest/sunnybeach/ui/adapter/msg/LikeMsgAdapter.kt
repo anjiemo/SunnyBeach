@@ -6,7 +6,12 @@ import androidx.core.text.parseAsHtml
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.LikeMsgListItemBinding
-import cn.cqautotest.sunnybeach.ktx.*
+import cn.cqautotest.sunnybeach.ktx.asViewBinding
+import cn.cqautotest.sunnybeach.ktx.context
+import cn.cqautotest.sunnybeach.ktx.createDefaultStyleBadge
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
+import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
+import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.msg.LikeMsg
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import com.google.android.material.badge.BadgeUtils
@@ -52,11 +57,17 @@ class LikeMsgAdapter(private val adapterDelegate: AdapterDelegate) :
     }
 
     override fun onBindViewHolder(holder: LikeMsgViewHolder, position: Int) {
-        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, position) }
         holder.onBinding(getItem(position), position)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LikeMsgViewHolder = LikeMsgViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LikeMsgViewHolder = LikeMsgViewHolder(parent).also { holder ->
+        holder.itemView.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
+        with(holder.binding) {
+            ivAvatar.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
+            llTopContainer.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
+            tvDesc.setFixOnClickListener { adapterDelegate.onItemClick(it, holder.bindingAdapterPosition) }
+        }
+    }
 
     companion object {
 
