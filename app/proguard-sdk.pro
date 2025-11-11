@@ -81,3 +81,12 @@
 -keep class androidx.lifecycle.LiveData { *; }
 -keep class androidx.lifecycle.Observer { *; }
 -keep class androidx.arch.core.** { *; }
+
+# 阿里云播放器：https://help.aliyun.com/zh/vod/developer-reference/quick-integration-1?spm=a2c4g.11186623.0.0.7bd24addVQH3VE#16a8a40341cma
+-keep class com.alivc.**{*;}
+-keep class com.aliyun.**{*;}
+-keep class com.cicada.**{*;}
+
+-dontwarn com.alivc.**
+-dontwarn com.aliyun.**
+-dontwarn com.cicada.**
