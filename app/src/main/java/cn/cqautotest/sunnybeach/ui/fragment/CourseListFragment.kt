@@ -4,7 +4,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingTitleBarFragment
@@ -21,6 +20,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.CourseListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
+import cn.cqautotest.sunnybeach.widget.recyclerview.SafeStaggeredLayoutManager
 import cn.cqautotest.sunnybeach.widget.recyclerview.StaggeredGridSpaceDecoration
 import com.youth.banner.indicator.CircleIndicator
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,7 +62,7 @@ class CourseListFragment : PagingTitleBarFragment<AppActivity>() {
 
             pagingRecyclerView.apply {
                 val spanCount = 2
-                layoutManager = StaggeredGridLayoutManager(spanCount, RecyclerView.VERTICAL)
+                layoutManager = SafeStaggeredLayoutManager(spanCount, RecyclerView.VERTICAL)
                 adapter = concatAdapter
                 addItemDecoration(StaggeredGridSpaceDecoration(6.dp))
             }
