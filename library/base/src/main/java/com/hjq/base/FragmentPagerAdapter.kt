@@ -14,7 +14,7 @@ import androidx.viewpager.widget.ViewPager
  *    desc   : FragmentPagerAdapter 封装
  */
 @Suppress("deprecation")
-open class FragmentPagerAdapter<F : Fragment> constructor(manager: FragmentManager) :
+open class FragmentPagerAdapter<F : Fragment>(manager: FragmentManager) :
     FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     /** Fragment 集合 */

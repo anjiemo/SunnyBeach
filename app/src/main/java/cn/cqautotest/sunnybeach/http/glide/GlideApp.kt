@@ -1,7 +1,6 @@
 package cn.cqautotest.sunnybeach.http.glide
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.view.View
 import androidx.annotation.VisibleForTesting
@@ -48,16 +47,6 @@ object GlideApp {
     /**
      * @see Glide.init
      */
-    @Deprecated("")
-    @VisibleForTesting
-    @SuppressLint("VisibleForTests")
-    fun init(glide: Glide?) {
-        Glide.init(glide)
-    }
-
-    /**
-     * @see Glide.init
-     */
     @VisibleForTesting
     @SuppressLint("VisibleForTests")
     fun init(context: Context, builder: GlideBuilder) {
@@ -92,37 +81,21 @@ object GlideApp {
     /**
      * @see Glide.with
      */
-    @Deprecated("")
-    fun with(activity: Activity): RequestManager {
+    fun with(activity: FragmentActivity): RequestManager {
         return Glide.with(activity)
     }
 
     /**
      * @see Glide.with
      */
-    fun with(activity: FragmentActivity): RequestManager {
-        return Glide.with(activity) as RequestManager
-    }
-
-    /**
-     * @see Glide.with
-     */
     fun with(fragment: Fragment): RequestManager {
-        return Glide.with(fragment) as RequestManager
-    }
-
-    /**
-     * @see Glide.with
-     */
-    @Deprecated("")
-    fun with(fragment: android.app.Fragment): RequestManager {
-        return Glide.with(fragment) as RequestManager
+        return Glide.with(fragment)
     }
 
     /**
      * @see Glide.with
      */
     fun with(view: View): RequestManager {
-        return Glide.with(view) as RequestManager
+        return Glide.with(view)
     }
 }

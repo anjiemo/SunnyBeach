@@ -42,7 +42,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import timber.log.Timber
 import java.io.File
 import kotlin.coroutines.CoroutineContext
@@ -100,7 +100,7 @@ object Repository {
     suspend fun uploadUserCenterImageByCategoryId(imageFile: File, categoryId: String) = try {
         val fileName = imageFile.name
         Timber.d("===> fileName is $fileName")
-        val requestBody = RequestBody.Companion.create("image/png".toMediaType(), imageFile)
+        val requestBody = imageFile.asRequestBody("image/png".toMediaType())
         val part = MultipartBody.Part.createFormData("image", fileName, requestBody)
         val result = UserNetwork.uploadUserCenterImageByCategoryId(part, categoryId)
         Timber.d("result is ${result.toJson()}")
@@ -220,7 +220,7 @@ object Repository {
     suspend fun uploadFishImage(imageFile: File): Result<String> = try {
         val fileName = imageFile.name
         Timber.d("===> fileName is $fileName")
-        val requestBody = RequestBody.Companion.create("image/png".toMediaType(), imageFile)
+        val requestBody = imageFile.asRequestBody("image/png".toMediaType())
         val part = MultipartBody.Part.createFormData("image", fileName, requestBody)
         val result = FishNetwork.uploadFishImage(part)
         Timber.d("result is ${result.toJson()}")

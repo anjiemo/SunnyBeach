@@ -13,6 +13,7 @@ import cn.cqautotest.sunnybeach.widget.PlayerView
 import cn.cqautotest.sunnybeach.widget.PlayerView.OnPlayListener
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
+import com.hjq.base.ktx.getParcelableWithCompat
 import java.io.File
 
 /**
@@ -40,7 +41,7 @@ open class VideoPlayActivity : AppActivity(), OnPlayListener {
     }
 
     override fun initData() {
-        builder = getParcelable(INTENT_KEY_PARAMETERS)
+        builder = getParcelableWithCompat(INTENT_KEY_PARAMETERS)
         if (builder == null) {
             throw IllegalArgumentException("are you ok?")
         }
@@ -98,7 +99,7 @@ open class VideoPlayActivity : AppActivity(), OnPlayListener {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         // 读取播放进度
-        builder = savedInstanceState.getParcelable(INTENT_KEY_PARAMETERS)
+        builder = savedInstanceState.getParcelableWithCompat(INTENT_KEY_PARAMETERS)
     }
 
     /** 竖屏播放 */

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
-import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -130,7 +129,7 @@ class SearchActivity : AppActivity() {
         fun start(activity: Activity, sharedElement: View) {
             Intent(activity, SearchActivity::class.java).apply {
                 val activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, sharedElement, SHARED_ELEMENT_NAME)
-                ActivityCompat.startActivity(activity, this, activityOptionsCompat.toBundle())
+                activity.startActivity(this, activityOptionsCompat.toBundle())
             }
         }
     }

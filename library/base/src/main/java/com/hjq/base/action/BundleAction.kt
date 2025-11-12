@@ -1,8 +1,6 @@
 package com.hjq.base.action
 
 import android.os.Bundle
-import android.os.Parcelable
-import java.io.Serializable
 
 /**
  *    author : Android 轮子哥
@@ -62,17 +60,6 @@ interface BundleAction {
     fun getString(name: String): String? {
         val bundle: Bundle = getBundle() ?: return null
         return bundle.getString(name)
-    }
-
-    fun <P : Parcelable?> getParcelable(name: String): P? {
-        val bundle: Bundle = getBundle() ?: return null
-        return bundle.getParcelable(name)
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    fun <S : Serializable?> getSerializable(name: String): S? {
-        val bundle: Bundle = getBundle() ?: return null
-        return (bundle.getSerializable(name)) as S?
     }
 
     fun getStringArrayList(name: String): ArrayList<String?>? {

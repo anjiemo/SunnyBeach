@@ -20,6 +20,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -222,7 +223,6 @@ class BrowserView @JvmOverloads constructor(
         /**
          * 同名 API 兼容
          */
-        @TargetApi(Build.VERSION_CODES.N)
         override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
             return shouldOverrideUrlLoading(view, request.url.toString())
         }
@@ -232,7 +232,7 @@ class BrowserView @JvmOverloads constructor(
          */
         override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
             Timber.i("WebView shouldOverrideUrlLoading：%s", url)
-            val scheme: String = Uri.parse(url).scheme ?: return false
+            val scheme: String = url.toUri().scheme ?: return false
             when (scheme) {
                 "http", "https" -> view.loadUrl(url)
                 "tel" -> dialing(view, url)
