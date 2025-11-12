@@ -1,11 +1,11 @@
 package cn.cqautotest.sunnybeach.http
 
-import cn.android52.network.interceptor.BaseUrlInterceptor
 import cn.cqautotest.sunnybeach.http.interceptor.CodeInvokeInterceptor
 import cn.cqautotest.sunnybeach.http.interceptor.accountInterceptor
 import cn.cqautotest.sunnybeach.http.interceptor.loggingInterceptor
 import cn.cqautotest.sunnybeach.manager.LocalCookieManager
 import cn.cqautotest.sunnybeach.util.BASE_URL
+import cn.funkt.interceptor.BaseUrlInterceptor
 import com.hjq.gson.factory.GsonFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

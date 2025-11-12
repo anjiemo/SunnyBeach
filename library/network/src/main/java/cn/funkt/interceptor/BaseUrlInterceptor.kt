@@ -1,7 +1,7 @@
-package cn.android52.network.interceptor
+package cn.funkt.interceptor
 
-import cn.android52.network.annotation.BaseUrl
-import cn.android52.network.annotation.Ignore
+import cn.funkt.annotation.BaseUrl
+import cn.funkt.annotation.Ignore
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
