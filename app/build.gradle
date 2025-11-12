@@ -179,16 +179,9 @@ def printAppConfig(final variantName) {
 }
 
 static def generateMD5(final file) {
-    MessageDigest digest = MessageDigest.getInstance("MD5")
-    file.withInputStream() { is ->
-        byte[] buffer = new byte[8192]
-        while ((read = is.read(buffer)) > 0) {
-            digest.update(buffer, 0, read)
-        }
+    file.withInputStream { is ->
+        MessageDigest.getInstance("MD5").digest(is.bytes).encodeHex().toString()
     }
-    byte[] md5sum = digest.digest()
-    BigInteger bigInt = new BigInteger(1, md5sum)
-    bigInt.toString(16).padLeft(32, '0')
 }
 
 // MiPush 接入文档：https://dev.mi.com/console/doc/detail?pId=41#_0_0
