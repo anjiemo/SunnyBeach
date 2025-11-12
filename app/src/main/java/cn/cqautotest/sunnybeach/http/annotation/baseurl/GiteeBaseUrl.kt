@@ -1,7 +1,7 @@
 package cn.cqautotest.sunnybeach.http.annotation.baseurl
 
-import cn.android52.network.annotation.BaseUrl
 import cn.cqautotest.sunnybeach.util.GITEE_BASE_URL
+import cn.funkt.annotation.BaseUrl
 
 /**
  * author : A Lonely Cat
