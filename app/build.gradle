@@ -198,14 +198,14 @@ dependencies {
     def qmui_arch_version = '2.0.1'
     def aria_version = '3.8.16'
 
-    // 基类封装
-    implementation project(':library:base')
-    // 控件封装
-    implementation project(':library:widget')
-    // 友盟封装
-    implementation project(':library:umeng')
-    // 网络封装
-    implementation project(':library:network')
+    // // 基类封装
+    // implementation project(':library:base')
+    // // 控件封装
+    // implementation project(':library:widget')
+    // // 友盟封装
+    // implementation project(':library:umeng')
+    // // 网络封装
+    // implementation project(':library:network')
 
     // 友盟公共库
     implementation 'com.umeng.umsdk:common:9.4.7'
