@@ -87,7 +87,7 @@ object Repository {
 
     fun report(reportType: ReportType, contentId: String, url: String, why: String): LiveData<Result<String>> {
         val report = Report(type = reportType.type, contentId = contentId, url = url, why = why)
-        return launchAndGetData { UserNetwork.report(report) }
+        return launchAndGetMsg { UserNetwork.report(report) }
     }
 
     fun modifyAvatar(avatarUrl: String) = liveData(build = { UserNetwork.modifyAvatar(avatarUrl) }) {
@@ -347,25 +347,26 @@ object Repository {
     private inline fun <reified T> launchAndGetData(
         context: CoroutineContext = Dispatchers.IO,
         crossinline action: suspend () -> ApiResponse<T>
-    ) =
-        launchAndGet(context = context, action = action, onSuccess = { it.getData() })
+    ) = launchAndGet(context = context, action = action, onSuccess = { it.getData() })
 
     /**
      * 启动并获取消息
      */
-    private inline fun launchAndGetMsg(context: CoroutineContext = Dispatchers.IO, crossinline action: suspend () -> ApiResponse<Any>) =
-        launchAndGet(context = context, action = action, onSuccess = { it.getMessage() })
+    private inline fun <reified T> launchAndGetMsg(
+        context: CoroutineContext = Dispatchers.IO,
+        crossinline action: suspend () -> ApiResponse<T>
+    ) = launchAndGet<T, String>(context = context, action = action, onSuccess = { it.getMessage() })
 
     /**
      * 启动并获取
      * 返回一个
      */
-    private inline fun <reified T> launchAndGet(
+    private inline fun <reified T, R> launchAndGet(
         context: CoroutineContext = Dispatchers.IO,
         // 需要调用的接口
         crossinline action: suspend () -> ApiResponse<T>,
         // 请求成功时的回调
-        crossinline onSuccess: (ApiResponse<T>) -> T
+        crossinline onSuccess: (ApiResponse<T>) -> R
     ) = androidx.lifecycle.liveData(context = context) {
         val result = try {
             coroutineScope {
