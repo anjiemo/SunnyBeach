@@ -12,6 +12,7 @@ import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.other.AppConfig
 import com.hjq.base.BaseActivity
+import com.hjq.base.ktx.getSerializableWithCompat
 import com.hjq.permissions.XXPermissions
 import com.hjq.permissions.permission.PermissionLists
 import com.hjq.permissions.permission.PermissionNames
@@ -130,7 +131,7 @@ class CameraActivity : AppActivity() {
             finish()
             return
         }
-        val file: File? = getSerializable(INTENT_KEY_IN_FILE)
+        val file: File? = getSerializableWithCompat(INTENT_KEY_IN_FILE)
         if (file == null) {
             setResult(RESULT_ERROR, Intent().putExtra(INTENT_KEY_OUT_ERROR, getString(R.string.camera_image_error)))
             finish()

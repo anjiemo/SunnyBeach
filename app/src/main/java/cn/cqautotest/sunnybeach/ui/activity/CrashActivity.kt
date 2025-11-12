@@ -25,6 +25,7 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.other.AppConfig
 import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.gyf.immersionbar.ImmersionBar
+import com.hjq.base.ktx.getSerializableWithCompat
 import com.hjq.permissions.XXPermissions
 import com.hjq.permissions.permission.PermissionLists
 import com.hjq.permissions.permission.PermissionNames
@@ -105,7 +106,7 @@ class CrashActivity : AppActivity() {
     }
 
     override fun initData() {
-        val throwable: Throwable = getSerializable(INTENT_KEY_IN_THROWABLE) ?: return
+        val throwable: Throwable = getSerializableWithCompat(INTENT_KEY_IN_THROWABLE) ?: return
         titleView?.text = throwable.javaClass.simpleName
         val stringWriter = StringWriter()
         val printWriter = PrintWriter(stringWriter)

@@ -14,6 +14,7 @@ import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.other.AppConfig
 import com.hjq.base.BaseActivity
+import com.hjq.base.ktx.getParcelableExtraWithCompat
 import com.hjq.permissions.permission.PermissionNames
 import com.tencent.bugly.crashreport.CrashReport
 import java.io.File
@@ -63,7 +64,7 @@ class ImageCropActivity : AppActivity() {
                         RESULT_OK -> {
                             var uri: Uri? = null
                             if (data != null) {
-                                uri = data.getParcelableExtra(INTENT_KEY_OUT_FILE_URI)
+                                uri = data.getParcelableExtraWithCompat(INTENT_KEY_OUT_FILE_URI)
                             }
                             if (uri != null && data != null) {
                                 listener.onSucceed(uri, data.getStringExtra(INTENT_KEY_OUT_FILE_NAME)!!)

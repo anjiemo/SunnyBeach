@@ -43,7 +43,7 @@ abstract class BaseAdapter<VH : BaseAdapter<VH>.BaseViewHolder>(private val cont
         // 根据 ViewHolder 绑定的位置和传入的位置进行对比
         // 一般情况下这两个位置值是相等的，但是有一种特殊的情况
         // 在外层添加头部 View 的情况下，这两个位置值是不对等的
-        positionOffset = position - holder.adapterPosition
+        positionOffset = position - holder.bindingAdapterPosition
         holder.onBindView(position)
     }
 

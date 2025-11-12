@@ -2,10 +2,16 @@ package cn.cqautotest.sunnybeach.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.RectF
 import android.os.Build
 import android.util.AttributeSet
 import android.widget.RelativeLayout
+import androidx.core.graphics.withClip
 import cn.cqautotest.sunnybeach.R
 
 /**
@@ -61,7 +67,7 @@ class RoundRelativeLayout @JvmOverloads constructor(
 
     private fun draw27(canvas: Canvas) {
         if (isClipBackground) {
-            canvas.saveLayer(mRectF, null, Canvas.ALL_SAVE_FLAG)
+            canvas.saveLayer(mRectF, null)
             super.draw(canvas)
             canvas.drawPath(genPath(), mPaint)
             canvas.restore()
@@ -82,17 +88,16 @@ class RoundRelativeLayout @JvmOverloads constructor(
     }
 
     private fun dispatchDraw27(canvas: Canvas) {
-        canvas.saveLayer(mRectF, null, Canvas.ALL_SAVE_FLAG)
+        canvas.saveLayer(mRectF, null)
         super.dispatchDraw(canvas)
         canvas.drawPath(genPath(), mPaint)
         canvas.restore()
     }
 
     private fun dispatchDraw28(canvas: Canvas) {
-        canvas.save()
-        canvas.clipPath(genPath())
-        super.dispatchDraw(canvas)
-        canvas.restore()
+        canvas.withClip(genPath()) {
+            super.dispatchDraw(this)
+        }
     }
 
     private fun genPath(): Path {

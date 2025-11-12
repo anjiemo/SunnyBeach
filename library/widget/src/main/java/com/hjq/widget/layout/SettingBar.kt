@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
@@ -372,7 +373,7 @@ class SettingBar @JvmOverloads constructor(
         val drawable: Drawable? = getLeftDrawable()
         if (drawable != null && color != NO_COLOR) {
             drawable.mutate()
-            drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+            drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
         }
     }
 
@@ -384,7 +385,7 @@ class SettingBar @JvmOverloads constructor(
         val drawable: Drawable? = getRightDrawable()
         if (drawable != null && color != NO_COLOR) {
             drawable.mutate()
-            drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+            drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
         }
     }
 

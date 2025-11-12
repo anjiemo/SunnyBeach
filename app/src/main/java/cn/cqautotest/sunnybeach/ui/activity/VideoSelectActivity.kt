@@ -29,6 +29,7 @@ import com.hjq.bar.TitleBar
 import com.hjq.base.BaseActivity
 import com.hjq.base.BaseAdapter
 import com.hjq.base.BaseDialog
+import com.hjq.base.ktx.getParcelableArrayListExtraWithCompat
 import com.hjq.permissions.XXPermissions
 import com.hjq.permissions.permission.PermissionLists
 import com.hjq.permissions.permission.PermissionNames
@@ -78,7 +79,7 @@ class VideoSelectActivity : AppActivity(), StatusAction, Runnable, BaseAdapter.O
                         listener.onCancel()
                         return
                     }
-                    val list: ArrayList<VideoBean>? = data.getParcelableArrayListExtra(INTENT_KEY_OUT_VIDEO_LIST)
+                    val list: ArrayList<VideoBean>? = data.getParcelableArrayListExtraWithCompat(INTENT_KEY_OUT_VIDEO_LIST)
                     if (list.isNullOrEmpty()) {
                         listener.onCancel()
                         return
@@ -493,9 +494,9 @@ class VideoSelectActivity : AppActivity(), StatusAction, Runnable, BaseAdapter.O
             return videoSize
         }
 
-        override fun equals(obj: Any?): Boolean {
-            if (obj is VideoBean) {
-                return (videoPath == obj.videoPath)
+        override fun equals(other: Any?): Boolean {
+            if (other is VideoBean) {
+                return (videoPath == other.videoPath)
             }
             return false
         }
