@@ -1,4 +1,4 @@
-package cn.android52.network.annotation
+package cn.funkt.annotation
 
 /**
  * author : A Lonely Cat
