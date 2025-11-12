@@ -23,6 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_m_1"
+                android:scaleType="fitXY"
                 app:srcCompat="@drawable/update_app_top_bg" />
 
             <LinearLayout
@@ -74,12 +75,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_20"
                 android:layout_marginVertical="@dimen/dp_10"
-                android:lineSpacingExtra="@dimen/dp_5"
-                android:maxLines="4"
+                android:lineSpacingExtra="@dimen/dp_2"
+                android:maxLines="8"
                 android:minLines="3"
                 android:scrollbars="vertical"
                 android:textColor="@color/black60"
-                android:textSize="@dimen/sp_15"
+                android:textSize="@dimen/sp_11"
                 tools:text="6\n66\n666\n6666\n66666" />
 
             <ProgressBar
