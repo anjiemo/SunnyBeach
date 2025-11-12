@@ -2,7 +2,6 @@ package cn.cqautotest.sunnybeach.manager
 
 import android.content.Context
 import android.view.View
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +10,7 @@ import kotlin.math.abs
 import kotlin.math.min
 
 /**
- *    author : 钉某人 & Android 轮子哥
+ *    author : 钉某人 & Android 轮子哥 & A Lonely Cat
  *    github : https://github.com/DingMouRen/LayoutManagerGroup
  *    time   : 2019/09/11
  *    desc   : 选择器布局管理器
@@ -53,8 +52,8 @@ class PickerLayoutManager private constructor(
     }
 
     override fun onMeasure(recycler: Recycler, state: RecyclerView.State, widthSpec: Int, heightSpec: Int) {
-        var width: Int = chooseSize(widthSpec, paddingLeft + paddingRight, ViewCompat.getMinimumWidth(recyclerView!!))
-        var height: Int = chooseSize(heightSpec, paddingTop + paddingBottom, ViewCompat.getMinimumHeight(recyclerView!!))
+        var width: Int = chooseSize(widthSpec, paddingLeft + paddingRight, recyclerView!!.minimumWidth)
+        var height: Int = chooseSize(heightSpec, paddingTop + paddingBottom, recyclerView!!.minimumHeight)
         if (state.itemCount != 0 && maxItem != 0) {
             val itemView: View = recycler.getViewForPosition(0)
             measureChildWithMargins(itemView, widthSpec, heightSpec)

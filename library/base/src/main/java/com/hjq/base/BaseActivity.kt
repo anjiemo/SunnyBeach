@@ -139,6 +139,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityAction,
         return super.dispatchKeyEvent(event)
     }
 
+    @Deprecated("Deprecated in Java")
     @Suppress("deprecation")
     override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
         // 隐藏软键，避免内存泄漏

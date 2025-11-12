@@ -14,6 +14,7 @@ import cn.cqautotest.sunnybeach.model.scan.NoContent
 import cn.cqautotest.sunnybeach.model.scan.ScanCodeResult
 import cn.cqautotest.sunnybeach.repository.CheckUserParseRepository
 import cn.cqautotest.sunnybeach.ui.activity.ScanCodeActivity
+import com.hjq.base.ktx.getParcelableExtraWithCompat
 import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
@@ -38,7 +39,7 @@ class GetScanContent(checkUserRepository: CheckUserParseRepository = CheckUserPa
         if (resultCode != Activity.RESULT_OK || intent == null) {
             return CancelScan
         }
-        return intent.getParcelableExtra<HmsScan>(ScanUtil.RESULT)?.let {
+        return intent.getParcelableExtraWithCompat<HmsScan>(ScanUtil.RESULT)?.let {
             Timber.d("parseResult：===> hmsScan originalValue is ${it.originalValue}")
             val (canBeParse, userId) = canBeParse(it)
             if (canBeParse) {

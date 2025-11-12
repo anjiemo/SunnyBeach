@@ -40,6 +40,7 @@ import cn.cqautotest.sunnybeach.ui.fragment.QaListFragment
 import cn.cqautotest.sunnybeach.viewmodel.HomeViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import com.gyf.immersionbar.ImmersionBar
+import com.hjq.base.ktx.getSerializableWithCompat
 import com.tencent.bugly.crashreport.CrashReport
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -209,7 +210,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         pagerAdapter?.let {
-            switchFragment(it.getFragmentIndex(getSerializable(INTENT_KEY_IN_FRAGMENT_CLASS)))
+            switchFragment(it.getFragmentIndex(getSerializableWithCompat(INTENT_KEY_IN_FRAGMENT_CLASS)))
         }
     }
 

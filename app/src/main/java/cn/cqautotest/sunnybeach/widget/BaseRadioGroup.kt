@@ -18,7 +18,7 @@ open class BaseRadioGroup @JvmOverloads constructor(
 
     override fun setOnClickListener(l: OnClickListener?) {
         super.setOnClickListener(l)
-        getViews()?.forEach { it.setOnClickListener(l) }
+        getViews()?.forEach { it?.setOnClickListener(l) }
     }
 
     open fun getViews() = (parent as? ViewGroup)?.let { parent -> referencedIds.map { parent.findViewById<View?>(it) } }

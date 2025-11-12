@@ -49,7 +49,7 @@ class RadioGroup @JvmOverloads constructor(
      */
     fun selected(id: Int) {
         dispatchSelect(false)
-        getViews()?.find { it.id == id }?.also { it.isSelected = true }?.also(onSelected)
+        getViews()?.find { it?.id == id }?.also { it.isSelected = true }?.also(onSelected)
         isInitialization = true
     }
 }
