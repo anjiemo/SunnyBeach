@@ -2,11 +2,33 @@ package cn.cqautotest.sunnybeach.http.api.sob
 
 import cn.cqautotest.sunnybeach.http.ServiceCreator
 import cn.cqautotest.sunnybeach.http.annotation.baseurl.SobBaseUrl
-
-import cn.cqautotest.sunnybeach.model.*
+import cn.cqautotest.sunnybeach.model.ApiResponse
+import cn.cqautotest.sunnybeach.model.ArticleSearchFilter
+import cn.cqautotest.sunnybeach.model.IntegralRule
+import cn.cqautotest.sunnybeach.model.ModifyPwd
+import cn.cqautotest.sunnybeach.model.Page
+import cn.cqautotest.sunnybeach.model.PersonCenterInfo
+import cn.cqautotest.sunnybeach.model.QuestionSearchFilter
+import cn.cqautotest.sunnybeach.model.Report
+import cn.cqautotest.sunnybeach.model.RichList
+import cn.cqautotest.sunnybeach.model.SmsInfo
+import cn.cqautotest.sunnybeach.model.User
+import cn.cqautotest.sunnybeach.model.UserAchievement
+import cn.cqautotest.sunnybeach.model.UserArticle
+import cn.cqautotest.sunnybeach.model.UserBasicInfo
+import cn.cqautotest.sunnybeach.model.UserInfo
+import cn.cqautotest.sunnybeach.model.VipUserInfoSummary
 import cn.cqautotest.sunnybeach.model.msg.SobIEDetail
 import okhttp3.MultipartBody
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Part
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 @SobBaseUrl
 interface UserApi {
@@ -46,7 +68,7 @@ interface UserApi {
      * 本接口详细描述请参见：https://www.sunofbeach.net/a/1529277017319542785
      */
     @POST("uc/report")
-    suspend fun report(@Body report: Report): ApiResponse<String>
+    suspend fun report(@Body report: Report): ApiResponse<Any>
 
     /**
      * 修改用户头像
