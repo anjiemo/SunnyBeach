@@ -26,7 +26,7 @@ android {
     }
 
     kotlinOptions {
-        freeCompilerArgs = ["-Xcontext-receivers"]
+        freeCompilerArgs += ["-Xcontext-receivers"]
     }
 
     // 设置存放 so 文件的目录
