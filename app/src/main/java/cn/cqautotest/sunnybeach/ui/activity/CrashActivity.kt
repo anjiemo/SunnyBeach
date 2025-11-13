@@ -299,7 +299,7 @@ class CrashActivity : AppActivity() {
 
     override fun createStatusBarConfig(): ImmersionBar {
         return super.createStatusBarConfig() // 指定导航栏背景颜色
-            .navigationBarColor(R.color.white)
+            .navigationBarColor(com.hjq.base.R.color.white)
     }
 
     /**

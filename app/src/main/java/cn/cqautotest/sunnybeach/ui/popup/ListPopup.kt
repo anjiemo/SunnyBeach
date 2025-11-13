@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppAdapter
 import cn.cqautotest.sunnybeach.other.ArrowDrawable
 import com.hjq.base.BaseAdapter
@@ -42,8 +41,8 @@ class ListPopup {
             ArrowDrawable.Builder(context)
                 .setArrowOrientation(Gravity.TOP)
                 .setArrowGravity(Gravity.CENTER)
-                .setShadowSize(context.resources.getDimension(R.dimen.dp_10).toInt())
-                .setBackgroundColor(getColor(R.color.white))
+                .setShadowSize(context.resources.getDimension(com.hjq.base.R.dimen.dp_10).toInt())
+                .setBackgroundColor(getColor(com.hjq.base.R.color.white))
                 .apply(recyclerView)
         }
 
@@ -105,17 +104,17 @@ class ListPopup {
             private val textView: TextView by lazy { getItemView() as TextView }
 
             init {
-                textView.setTextColor(getColor(R.color.black50))
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().resources.getDimension(R.dimen.sp_16))
+                textView.setTextColor(getColor(com.hjq.base.R.color.black50))
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().resources.getDimension(com.hjq.base.R.dimen.sp_16))
             }
 
             override fun onBindView(position: Int) {
                 textView.text = getItem(position).toString()
                 textView.setPaddingRelative(
-                    getContext().resources.getDimension(R.dimen.dp_12).toInt(),
-                    if (position == 0) getContext().resources.getDimension(R.dimen.dp_12).toInt() else 0,
-                    getContext().resources.getDimension(R.dimen.dp_12).toInt(),
-                    getContext().resources.getDimension(R.dimen.dp_10).toInt()
+                    getContext().resources.getDimension(com.hjq.base.R.dimen.dp_12).toInt(),
+                    if (position == 0) getContext().resources.getDimension(com.hjq.base.R.dimen.dp_12).toInt() else 0,
+                    getContext().resources.getDimension(com.hjq.base.R.dimen.dp_12).toInt(),
+                    getContext().resources.getDimension(com.hjq.base.R.dimen.dp_10).toInt()
                 )
             }
         }

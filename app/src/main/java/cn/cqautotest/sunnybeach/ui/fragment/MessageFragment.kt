@@ -77,7 +77,7 @@ class MessageFragment : TitleBarFragment<HomeActivity>() {
                     it.visibility = View.VISIBLE
                     GlideApp.with(this)
                         .load("https://www.baidu.com/img/bd_logo.png")
-                        .transform(RoundedCorners(resources.getDimension(R.dimen.dp_20).toInt()))
+                        .transform(RoundedCorners(resources.getDimension(com.hjq.base.R.dimen.dp_20).toInt()))
                         .into(it)
                 }
             }

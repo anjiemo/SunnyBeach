@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
-import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.Init
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
@@ -35,7 +34,7 @@ class ScanCodeActivity : ScanKitActivity(), Init {
     }
 
     override fun initEvent() {
-        findViewById<View>(R.id.img_btn).setFixOnClickListener {
+        findViewById<View>(com.huawei.hms.scankit.R.id.img_btn).setFixOnClickListener {
             selectImage()
         }
     }
