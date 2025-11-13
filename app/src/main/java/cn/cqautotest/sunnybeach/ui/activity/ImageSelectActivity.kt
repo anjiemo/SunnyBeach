@@ -132,7 +132,7 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
             // 禁用动画效果
             it.itemAnimator = null
             // 添加分割线
-            it.addItemDecoration(GridSpaceDecoration(resources.getDimension(R.dimen.dp_3).toInt()))
+            it.addItemDecoration(GridSpaceDecoration(resources.getDimension(com.hjq.base.R.dimen.dp_3).toInt()))
             // 设置滚动监听
             it.doScrollStateChanged { _, newState ->
                 when (newState) {
@@ -193,7 +193,7 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
                         }
                         // 执行列表动画
                         recyclerView?.layoutAnimation = AnimationUtils.loadLayoutAnimation(
-                            getActivity(), R.anim.layout_from_right
+                            getActivity(), com.hjq.base.R.anim.layout_from_right
                         )
                         recyclerView?.scheduleLayoutAnimation()
                     }
@@ -397,7 +397,7 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
             }
 
             // 执行列表动画
-            recyclerView?.layoutAnimation = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_fall_down)
+            recyclerView?.layoutAnimation = AnimationUtils.loadLayoutAnimation(getActivity(), com.hjq.base.R.anim.layout_fall_down)
             recyclerView?.scheduleLayoutAnimation()
             if (allImage.isEmpty()) {
                 // 显示空布局

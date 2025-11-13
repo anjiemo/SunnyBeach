@@ -11,7 +11,6 @@ import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import cn.cqautotest.sunnybeach.R
 import com.scwang.smart.refresh.header.material.CircleImageView
 import com.scwang.smart.refresh.header.material.MaterialProgressDrawable
 import com.scwang.smart.refresh.layout.api.RefreshHeader
@@ -60,7 +59,7 @@ class MaterialHeader @JvmOverloads constructor(context: Context, attrs: Attribut
 
     init {
         mSpinnerStyle = SpinnerStyle.MatchLayout
-        minimumHeight = resources.getDimension(R.dimen.dp_100).toInt()
+        minimumHeight = resources.getDimension(com.hjq.base.R.dimen.dp_100).toInt()
         progressDrawable = MaterialProgressDrawable(this)
         progressDrawable.setColorSchemeColors(
             Color.parseColor("#0099CC"),
@@ -73,29 +72,52 @@ class MaterialHeader @JvmOverloads constructor(context: Context, attrs: Attribut
         circleView.setImageDrawable(progressDrawable)
         circleView.alpha = 0f
         addView(circleView)
-        circleDiameter = resources.getDimension(R.dimen.dp_40).toInt()
+        circleDiameter = resources.getDimension(com.hjq.base.R.dimen.dp_40).toInt()
         bezierPath = Path()
         bezierPaint = Paint()
         bezierPaint.isAntiAlias = true
         bezierPaint.style = Paint.Style.FILL
-        val typedArray: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.MaterialHeader)
-        showBezierWave = typedArray.getBoolean(R.styleable.MaterialHeader_srlShowBezierWave, showBezierWave)
-        scrollableWhenRefreshing = typedArray.getBoolean(R.styleable.MaterialHeader_srlScrollableWhenRefreshing, scrollableWhenRefreshing)
-        bezierPaint.color = typedArray.getColor(R.styleable.MaterialHeader_srlPrimaryColor, Color.parseColor("#11BBFF"))
-        if (typedArray.hasValue(R.styleable.MaterialHeader_srlShadowRadius)) {
-            val radius: Int = typedArray.getDimensionPixelOffset(R.styleable.MaterialHeader_srlShadowRadius, 0)
-            val color: Int = typedArray.getColor(R.styleable.MaterialHeader_mhShadowColor, Color.parseColor("#000000"))
+        val typedArray: TypedArray =
+            context.obtainStyledAttributes(attrs, com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader)
+        showBezierWave =
+            typedArray.getBoolean(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_srlShowBezierWave, showBezierWave)
+        scrollableWhenRefreshing = typedArray.getBoolean(
+            com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_srlScrollableWhenRefreshing,
+            scrollableWhenRefreshing
+        )
+        bezierPaint.color = typedArray.getColor(
+            com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_srlPrimaryColor,
+            Color.parseColor("#11BBFF")
+        )
+        if (typedArray.hasValue(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_srlShadowRadius)) {
+            val radius: Int =
+                typedArray.getDimensionPixelOffset(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_srlShadowRadius, 0)
+            val color: Int = typedArray.getColor(
+                com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhShadowColor,
+                Color.parseColor("#000000")
+            )
             bezierPaint.setShadowLayer(radius.toFloat(), 0f, 0f, color)
             setLayerType(LAYER_TYPE_SOFTWARE, null)
         }
-        showBezierWave = typedArray.getBoolean(R.styleable.MaterialHeader_mhShowBezierWave, showBezierWave)
-        scrollableWhenRefreshing = typedArray.getBoolean(R.styleable.MaterialHeader_mhScrollableWhenRefreshing, scrollableWhenRefreshing)
-        if (typedArray.hasValue(R.styleable.MaterialHeader_mhPrimaryColor)) {
-            bezierPaint.color = typedArray.getColor(R.styleable.MaterialHeader_mhPrimaryColor, Color.parseColor("#11BBFF"))
+        showBezierWave =
+            typedArray.getBoolean(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhShowBezierWave, showBezierWave)
+        scrollableWhenRefreshing = typedArray.getBoolean(
+            com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhScrollableWhenRefreshing,
+            scrollableWhenRefreshing
+        )
+        if (typedArray.hasValue(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhPrimaryColor)) {
+            bezierPaint.color = typedArray.getColor(
+                com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhPrimaryColor,
+                Color.parseColor("#11BBFF")
+            )
         }
-        if (typedArray.hasValue(R.styleable.MaterialHeader_mhShadowRadius)) {
-            val radius: Int = typedArray.getDimensionPixelOffset(R.styleable.MaterialHeader_mhShadowRadius, 0)
-            val color: Int = typedArray.getColor(R.styleable.MaterialHeader_mhShadowColor, Color.parseColor("#000000"))
+        if (typedArray.hasValue(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhShadowRadius)) {
+            val radius: Int =
+                typedArray.getDimensionPixelOffset(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhShadowRadius, 0)
+            val color: Int = typedArray.getColor(
+                com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhShadowColor,
+                Color.parseColor("#000000")
+            )
             bezierPaint.setShadowLayer(radius.toFloat(), 0f, 0f, color)
             setLayerType(LAYER_TYPE_SOFTWARE, null)
         }
@@ -253,7 +275,8 @@ class MaterialHeader @JvmOverloads constructor(context: Context, attrs: Attribut
             return@apply
         }
         circleDiameter =
-            if (style == BALL_STYLE_LARGE) resources.getDimension(R.dimen.dp_56).toInt() else resources.getDimension(R.dimen.dp_40).toInt()
+            if (style == BALL_STYLE_LARGE) resources.getDimension(com.hjq.base.R.dimen.dp_56)
+                .toInt() else resources.getDimension(com.hjq.base.R.dimen.dp_40).toInt()
         // force the bounds of the progress circle inside the circle view to
         // update by setting it to null before updating its size and then
         // re-setting it

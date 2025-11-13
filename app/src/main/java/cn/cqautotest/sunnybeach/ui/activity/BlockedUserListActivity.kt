@@ -248,7 +248,7 @@ private fun SobNickName(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         modifier = modifier,
-        color = colorResource(R.color.black),
+        color = colorResource(com.hjq.base.R.color.black),
         fontSize = 16.sp
     )
 }

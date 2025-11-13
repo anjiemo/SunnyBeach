@@ -44,7 +44,7 @@ class RichListAdapter(private val adapterDelegate: AdapterDelegate) :
                     .error(R.mipmap.ic_default_avatar)
                     .circleCrop()
                     .into(ivAvatar)
-                val nickNameColor = if (item.vip) R.color.pink else R.color.black
+                val nickNameColor = if (item.vip) R.color.pink else com.hjq.base.R.color.black
                 tvNickName.setTextColor(ContextCompat.getColor(context, nickNameColor))
                 tvNickName.text = item.nickname
                 tvDesc.text = "财富值：${item.sob}"
