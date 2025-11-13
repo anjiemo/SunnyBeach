@@ -36,7 +36,7 @@ fun SobIntroPopup(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .background(
-                color = colorResource(R.color.white),
+                color = colorResource(com.hjq.base.R.color.white),
                 shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
             )
             .padding(top = 10.dp, bottom = 20.dp, start = 20.dp, end = 20.dp)
@@ -111,7 +111,7 @@ private fun SobIntroTitle(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         modifier = modifier,
-        color = colorResource(R.color.black),
+        color = colorResource(com.hjq.base.R.color.black),
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold
     )

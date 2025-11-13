@@ -45,13 +45,13 @@ class SmartBallPulseFooter @JvmOverloads constructor(context: Context, attrs: At
     private val textWidth: Float
 
     init {
-        minimumHeight = resources.getDimension(R.dimen.dp_60).toInt()
+        minimumHeight = resources.getDimension(com.hjq.base.R.dimen.dp_60).toInt()
         paint.color = Color.WHITE
         paint.style = Paint.Style.FILL
         paint.isAntiAlias = true
         mSpinnerStyle = SpinnerStyle.Translate
-        circleSpacing = resources.getDimension(R.dimen.dp_2)
-        paint.textSize = resources.getDimension(R.dimen.sp_14)
+        circleSpacing = resources.getDimension(com.hjq.base.R.dimen.dp_2)
+        paint.textSize = resources.getDimension(com.hjq.base.R.dimen.sp_14)
         textWidth = paint.measureText(getContext().getString(R.string.common_no_more_data))
     }
 

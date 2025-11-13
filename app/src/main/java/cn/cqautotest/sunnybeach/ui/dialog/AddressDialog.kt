@@ -344,14 +344,16 @@ class AddressDialog {
             textView.gravity = Gravity.CENTER_VERTICAL
             textView.setBackgroundResource(R.drawable.transparent_selector)
             textView.setTextColor(Color.parseColor("#222222"))
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.sp_14))
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(com.hjq.base.R.dimen.sp_14))
             textView.layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
             textView.setPadding(
-                getResources().getDimension(R.dimen.dp_20).toInt(), getResources().getDimension(R.dimen.dp_10).toInt(),
-                getResources().getDimension(R.dimen.dp_20).toInt(), getResources().getDimension(R.dimen.dp_10).toInt()
+                getResources().getDimension(com.hjq.base.R.dimen.dp_20).toInt(),
+                getResources().getDimension(com.hjq.base.R.dimen.dp_10).toInt(),
+                getResources().getDimension(com.hjq.base.R.dimen.dp_20).toInt(),
+                getResources().getDimension(com.hjq.base.R.dimen.dp_10).toInt()
             )
             return ViewHolder(textView)
         }

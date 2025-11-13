@@ -3,7 +3,6 @@ package cn.cqautotest.sunnybeach.app
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.TitleBarAction
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.bar.TitleBar
@@ -72,7 +71,7 @@ abstract class TitleBarFragment<A : AppActivity> : AppFragment<A>(), TitleBarAct
             // 默认状态栏字体颜色为黑色
             .statusBarDarkFont(isStatusBarDarkFont())
             // 指定导航栏背景颜色
-            .navigationBarColor(R.color.white)
+            .navigationBarColor(com.hjq.base.R.color.white)
             // 状态栏字体和导航栏内容自动变色，必须指定状态栏颜色和导航栏颜色才可以自动变色
             .autoDarkModeEnable(true, 0.2f)
     }

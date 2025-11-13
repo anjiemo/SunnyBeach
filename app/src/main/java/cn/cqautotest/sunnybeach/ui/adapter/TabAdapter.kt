@@ -139,8 +139,8 @@ class TabAdapter @JvmOverloads constructor(
         private val titleView: TextView? by lazy { findViewById(R.id.tv_tab_sliding_title) }
         private val lineView: View? by lazy { findViewById(R.id.v_tab_sliding_line) }
 
-        private val mDefaultTextSize: Int by lazy { getResources().getDimension(R.dimen.sp_14).toInt() }
-        private val mSelectedTextSize: Int by lazy { getResources().getDimension(R.dimen.sp_15).toInt() }
+        private val mDefaultTextSize: Int by lazy { getResources().getDimension(com.hjq.base.R.dimen.sp_14).toInt() }
+        private val mSelectedTextSize: Int by lazy { getResources().getDimension(com.hjq.base.R.dimen.sp_15).toInt() }
 
         init {
             titleView?.setTextSize(TypedValue.COMPLEX_UNIT_PX, mDefaultTextSize.toFloat())
