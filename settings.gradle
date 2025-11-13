@@ -1,3 +1,18 @@
+pluginManagement {
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+
+buildCache {
+    local {
+        directory = new File(rootDir, ".gradle/build-cache")
+    }
+}
+
 include ':app'
 // include ':library:base'
 // include ':library:widget'
