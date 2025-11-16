@@ -4,6 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
@@ -98,7 +100,10 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     private val mFishCategoryAdapter = FishCategoryAdapter(mRecommendFishTopicListAdapterDelegate)
     private val mRecommendFishTopicListAdapter = RecommendFishTopicListAdapter(mFishCategoryAdapter)
     private val mFishListAdapter = FishListAdapter(mFishListAdapterDelegate)
-    private val loadStateListener = loadStateListener(mFishListAdapter) {
+    private val loadStateListener = loadStateListener(mFishListAdapter, onRetry = {
+        loadCategoryList()
+        mFishListAdapter.refresh()
+    }) {
         mBinding.refreshLayout.finishRefresh()
         mBinding.rvFishPondList.addAfterNextUpdateUIDefaultItemAnimator()
     }
@@ -167,9 +172,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     private fun loadCategoryList() {
-        mFishPondViewModel.loadTopicList().observe(viewLifecycleOwner) {
-            mFishCategoryAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.from(it.getOrNull().orEmpty()))
-        }
+        mFishPondViewModel.loadTopicListWithFlow()
     }
 
     private fun loadFishList() {
@@ -296,6 +299,13 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     override fun initObserver() {
         mAppViewModel.mourningCalendarListLiveData.observe(viewLifecycleOwner) { setMourningStyleByDate(it) }
+        viewLifecycleScope.launch {
+            mFishPondViewModel.fishPondTopicListFlow
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.CREATED)
+                .collect {
+                    mFishCategoryAdapter.submitData(PagingData.from(it.getOrNull().orEmpty()))
+                }
+        }
         mFishPondViewModel.fishListStateLiveData.observe(viewLifecycleOwner) { mFishListAdapter.refresh() }
         LiveBusUtils.busReceive<Unit>(viewLifecycleOwner, LiveBusKeyConfig.BUS_PUT_FISH_SUCCESS) {
             mFishListAdapter.refresh()
