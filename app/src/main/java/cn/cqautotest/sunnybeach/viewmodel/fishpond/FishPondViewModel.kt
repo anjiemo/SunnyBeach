@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.viewmodel.fishpond
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -11,6 +12,7 @@ import androidx.paging.cachedIn
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.http.network.FishNetwork
 import cn.cqautotest.sunnybeach.model.Fish
+import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.paging.source.FishDetailCommendListPagingSource
 import cn.cqautotest.sunnybeach.paging.source.FishPagingSource
@@ -18,7 +20,9 @@ import cn.cqautotest.sunnybeach.paging.source.UserFishPagingSource
 import cn.cqautotest.sunnybeach.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -32,6 +36,8 @@ import kotlinx.coroutines.launch
  */
 class FishPondViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
+    private val _fishPondTopicListFlow = MutableSharedFlow<Result<FishPondTopicList>>()
+    val fishPondTopicListFlow: SharedFlow<Result<FishPondTopicList>> get() = _fishPondTopicListFlow
     private val _fishListStateLiveData = MutableLiveData(Unit)
     val fishListStateLiveData = _fishListStateLiveData.switchMap { MutableLiveData(it) }
 
@@ -70,6 +76,12 @@ class FishPondViewModel(private val savedStateHandle: SavedStateHandle) : ViewMo
     fun followFishTopic(topicId: String) = Repository.followFishTopic(topicId)
 
     fun loadTopicList() = Repository.loadTopicList()
+
+    fun loadTopicListWithFlow() = viewModelScope.launch {
+        Repository.loadTopicList().asFlow().collect {
+            _fishPondTopicListFlow.emit(it)
+        }
+    }
 
     fun dynamicLikes(momentId: String) = Repository.dynamicLikes(momentId)
 
