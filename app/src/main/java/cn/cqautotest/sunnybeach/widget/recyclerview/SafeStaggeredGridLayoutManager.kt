@@ -12,9 +12,7 @@ import timber.log.Timber
  * time   : 2025/11/11
  * desc   : 修复 StaggeredGridLayoutManager 导致的崩溃问题
  */
-class SafeStaggeredLayoutManager : StaggeredGridLayoutManager {
-
-    private var mIsDetachedFromWindow = false
+class SafeStaggeredGridLayoutManager : StaggeredGridLayoutManager {
 
     constructor(spanCount: Int, orientation: Int) : super(spanCount, orientation)
 

@@ -20,7 +20,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.CourseListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.EmptyAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
-import cn.cqautotest.sunnybeach.widget.recyclerview.SafeStaggeredLayoutManager
+import cn.cqautotest.sunnybeach.widget.recyclerview.SafeStaggeredGridLayoutManager
 import cn.cqautotest.sunnybeach.widget.recyclerview.StaggeredGridSpaceDecoration
 import com.youth.banner.indicator.CircleIndicator
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,7 +62,7 @@ class CourseListFragment : PagingTitleBarFragment<AppActivity>() {
 
             pagingRecyclerView.apply {
                 val spanCount = 2
-                layoutManager = SafeStaggeredLayoutManager(spanCount, RecyclerView.VERTICAL)
+                layoutManager = SafeStaggeredGridLayoutManager(spanCount, RecyclerView.VERTICAL)
                 adapter = concatAdapter
                 addItemDecoration(StaggeredGridSpaceDecoration(6.dp))
             }
@@ -101,6 +101,13 @@ class CourseListFragment : PagingTitleBarFragment<AppActivity>() {
     override fun showLoading(id: Int) {
         takeIf { mRefreshStatus.isFirstRefresh }?.let { super.showLoading(id) }
         mRefreshStatus.isFirstRefresh = false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // fix：IndexOutOfBoundsException when using GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS as gap strategy
+        // https://issuetracker.google.com/issues/133176002#comment2
+        mBinding.pagingRecyclerView.requestLayout()
     }
 
     override fun isStatusBarEnabled(): Boolean {
