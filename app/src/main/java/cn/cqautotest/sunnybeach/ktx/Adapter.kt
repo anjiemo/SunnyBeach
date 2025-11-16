@@ -19,15 +19,18 @@ fun interface OnItemLongClickListener {
  * Take over the action of StatusAction, returns CombinedLoadStates instance,then execute the given lambda expression.
  */
 fun <T : Any, VH : RecyclerView.ViewHolder> StatusAction.loadStateListener(
-    pagingAdapter: PagingDataAdapter<T, VH>, block: () -> Unit
+    pagingAdapter: PagingDataAdapter<T, VH>,
+    onRetry: () -> Unit = { pagingAdapter.refresh() },
+    block: () -> Unit
 ): (CombinedLoadStates) -> Unit = { cls ->
     when (cls.refresh) {
         is LoadState.NotLoading -> {
             block.invoke()
             if (pagingAdapter.isEmpty()) showEmpty() else showComplete()
         }
+
         is LoadState.Loading -> showLoading()
-        is LoadState.Error -> showError { pagingAdapter.refresh() }
+        is LoadState.Error -> showError { onRetry.invoke() }
     }
 }
 
