@@ -10,4 +10,7 @@
     <integer name="verify_code_length">8</integer>
     <!-- 昵称的长度 -->
     <integer name="nick_name_length">16</integer>
+
+    <!-- 弹窗退出动画延时 -->
+    <integer name="dialog_exit_animation_delay_ms">100</integer>
 </resources>
