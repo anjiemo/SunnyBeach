@@ -110,10 +110,7 @@ class CourseListFragment : PagingTitleBarFragment<AppActivity>() {
         mBinding.pagingRecyclerView.requestLayout()
     }
 
-    override fun isStatusBarEnabled(): Boolean {
-        // 使用沉浸式状态栏
-        return !super.isStatusBarEnabled()
-    }
+    override fun isStatusBarEnabled() = true
 
     companion object {
 

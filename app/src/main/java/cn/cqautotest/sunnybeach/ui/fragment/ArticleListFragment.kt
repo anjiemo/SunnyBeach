@@ -119,10 +119,7 @@ class ArticleListFragment : PagingTitleBarFragment<HomeActivity>(), OnBack2TopLi
         mRefreshStatus.isFirstRefresh = false
     }
 
-    override fun isStatusBarEnabled(): Boolean {
-        // 使用沉浸式状态栏
-        return !super.isStatusBarEnabled()
-    }
+    override fun isStatusBarEnabled() = true
 
     override fun onBack2Top() {
         mBinding.pagingRecyclerView.scrollToPosition(0)
