@@ -339,10 +339,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     override fun getStatusLayout(): StatusLayout = mBinding.hlFishPondHint
 
-    override fun isStatusBarEnabled(): Boolean {
-        // 使用沉浸式状态栏
-        return !super.isStatusBarEnabled()
-    }
+    override fun isStatusBarEnabled() = true
 
     override fun onDestroyView() {
         super.onDestroyView()

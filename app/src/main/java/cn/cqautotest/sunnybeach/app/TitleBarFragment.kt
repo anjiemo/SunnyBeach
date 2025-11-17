@@ -40,9 +40,11 @@ abstract class TitleBarFragment<A : AppActivity> : AppFragment<A>(), TitleBarAct
 
     override fun onResume() {
         super.onResume()
-        if (isStatusBarEnabled()) {
-            // 重新初始化状态栏
-            getStatusBarConfig().init()
+        post {
+            if (isStatusBarEnabled()) {
+                // 重新初始化状态栏
+                getStatusBarConfig().init()
+            }
         }
     }
 
