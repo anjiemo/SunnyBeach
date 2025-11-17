@@ -50,7 +50,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import timber.log.Timber
 import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 /**
  * author : A Lonely Cat
@@ -270,10 +269,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
 
     override fun isStatusBarDarkFont() = false
 
-    override fun isStatusBarEnabled(): Boolean {
-        // 使用沉浸式状态栏
-        return !super.isStatusBarEnabled()
-    }
+    override fun isStatusBarEnabled() = true
 
     companion object {
 
