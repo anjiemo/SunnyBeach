@@ -37,6 +37,7 @@ import com.dylanc.longan.intentExtras
 import com.flyjingfish.android_aop_core.annotations.CheckNetwork
 import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
@@ -104,6 +105,7 @@ class CourseDetailActivity : PagingActivity() {
     private fun playCourseVideo(courseId: String, videoId: String, videoTitle: String) {
         lifecycleScope.launch {
             flow {
+                showDialog()
                 // 1、先校验是否有登录
                 Repository.checkToken() ?: throw NotLoginException()
                 // 2、校验是否有购买该课程
@@ -116,13 +118,18 @@ class CourseDetailActivity : PagingActivity() {
                 .flowWithLifecycle(lifecycle, Lifecycle.State.CREATED)
                 .catch {
                     Timber.e(it)
+                    hideDialog()
+                    delay(resources.getInteger(R.integer.dialog_exit_animation_delay_ms).toLong())
                     when (it) {
                         is NotLoginException -> tryShowLoginDialog()
                         // 可以提示并引导用户去购买课程
                         is NotBuyException -> toast(it.message)
                         else -> toast(it.message)
                     }
-                }.collectLatest {
+                }
+                .collectLatest {
+                    hideDialog()
+                    delay(resources.getInteger(R.integer.dialog_exit_animation_delay_ms).toLong())
                     PlayerActivity.start(this@CourseDetailActivity, it, videoTitle)
                 }
         }
