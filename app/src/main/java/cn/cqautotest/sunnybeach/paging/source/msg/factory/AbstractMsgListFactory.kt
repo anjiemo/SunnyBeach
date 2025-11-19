@@ -25,7 +25,7 @@ abstract class AbstractMsgListFactory(val msgType: MsgType) {
 
     abstract suspend fun createMsgListByType(page: Int): IApiResponse<IMsgPageData>
 
-    context (ViewModel)
+    context (viewModel: ViewModel)
     fun <T : IMsgContent> get(userBlockDao: UserBlockDao): Flow<PagingData<T>> {
         return Pager(
             config = PagingConfig(DEFAULT_PAGE_SIZE),
@@ -36,7 +36,7 @@ abstract class AbstractMsgListFactory(val msgType: MsgType) {
                     userId = UserManager.loadCurrUserId(),
                     userBlockDao = userBlockDao
                 )
-            }).flow.cachedIn(viewModelScope)
+            }).flow.cachedIn(viewModel.viewModelScope)
     }
 
     interface Creator {
