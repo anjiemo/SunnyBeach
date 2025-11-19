@@ -425,7 +425,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
 
         fun getData() = mData.toList()
 
-        context (RecyclerView.ViewHolder)
+        context (_: RecyclerView.ViewHolder)
         fun getDataSource() = mData
 
         fun setOnItemClickListener(
