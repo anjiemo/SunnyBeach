@@ -8,10 +8,10 @@ import org.json.JSONObject
 
 fun json(build: JSONObject.() -> Unit) = JSONObject().apply { build() }
 
-context(JSONObject)
-        infix fun String.by(build: JSONObject.() -> Unit): JSONObject = put(this, JSONObject().build())
+context(jsonObject: JSONObject)
+infix fun String.by(build: JSONObject.() -> Unit): JSONObject = jsonObject.put(this, JSONObject().build())
 
-context(JSONObject)
-        infix fun String.by(value: Any): JSONObject = put(this, value)
+context(jsonObject: JSONObject)
+infix fun String.by(value: Any): JSONObject = jsonObject.put(this, value)
 
 // endregion
