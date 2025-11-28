@@ -58,6 +58,8 @@ jobs:
       # 运行 Gradle 命令来编译和打包带签名的 APK。
       - name: 构建 Release APK
         run: ./gradlew :app:assembleRelease
+        env:
+          GRADLE_OPTS: -Xmx4g -Dfile.encoding=UTF-8
 
       # 第7步：从 build.gradle 获取版本名
       # 通过脚本从 app/build.gradle 文件中提取 versionName。
