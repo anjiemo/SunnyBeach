@@ -66,24 +66,20 @@ jobs:
       - name: 获取版本名称
         id: get_version
         run: |
-          VERSION_NAME=$(grep 'versionName "' app/build.gradle | sed -n 's/.*versionName "\(.*\)".*/\1/p')
+          VERSION_NAME=$(grep 'versionName "' app/build.gradle | sed -n 's/.*versionName \"\(.*\)".*/\1/p')
           echo "version=$VERSION_NAME" >> $GITHUB_OUTPUT
 
-      # 第8步：重命名 APK
-      # 将构建生成的 app-release.apk 文件重命名为更具描述性的格式。
-      - name: 重命名 APK
-        id: rename_apk
+      # 第8步：获取 APK 路径
+      # 从输出目录中找到构建生成的 APK 文件。
+      - name: 获取 APK 路径
+        id: get_apk_path
         run: |
-          VERSION_NAME=${{ steps.get_version.outputs.version }}
-          if [ -z "$VERSION_NAME" ]; then
-            VERSION_NAME="1.0" # 如果获取失败，使用默认版本号
+          APK_PATH=$(find app/build/outputs/apk/release -type f -name "*.apk" | head -n 1)
+          if [ -z "$APK_PATH" ]; then
+            echo "错误：在 app/build/outputs/apk/release 目录中找不到 APK 文件。" >&2
+            exit 1
           fi
-          APK_NAME="SunnyBeach-v$VERSION_NAME.apk"
-          SOURCE_APK_PATH="app/build/outputs/apk/release/app-release.apk"
-          RENAMED_APK_PATH="app/build/outputs/apk/release/$APK_NAME"
-          echo "重命名: $SOURCE_APK_PATH -> $RENAMED_APK_PATH"
-          mv $SOURCE_APK_PATH $RENAMED_APK_PATH
-          echo "apk_path=$RENAMED_APK_PATH" >> $GITHUB_OUTPUT
+          echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
 
       # 第9步：创建 GitHub Release
       # 使用 softprops/action-gh-release 这个 action 来创建 Release 并上传 APK。
@@ -91,7 +87,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           # 上传的文件路径
-          files: ${{ steps.rename_apk.outputs.apk_path }}
+          files: ${{ steps.get_apk_path.outputs.apk_path }}
           # Release 的标题
           name: "Release ${{ github.ref_name }}"
           # Release 的描述内容
