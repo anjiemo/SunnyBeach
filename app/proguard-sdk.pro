@@ -42,6 +42,8 @@
 #-keep class com.qmuiteam.qmui.arch.scheme.SchemeMapImpl {*;}
 
 # HMS Core SDK
+-dontwarn com.huawei.hms.**
+-dontwarn org.chromium.net.**
 -ignorewarnings
 -keepattributes *Annotation*
 -keepattributes Exceptions
