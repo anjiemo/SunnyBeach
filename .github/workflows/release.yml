@@ -61,12 +61,16 @@ jobs:
         env:
           GRADLE_OPTS: -Xmx4g -Dfile.encoding=UTF-8
 
+      # 新增的调试步骤
+      - name: 调试：列出构建输出
+        run: ls -R app/build/outputs
+
       # 第7步：从 build.gradle 获取版本名
       # 通过脚本从 app/build.gradle 文件中提取 versionName。
       - name: 获取版本名称
         id: get_version
         run: |
-          VERSION_NAME=$(grep 'versionName "' app/build.gradle | sed -n 's/.*versionName \"\(.*\)".*/\1/p')
+          VERSION_NAME=$(grep 'versionName "' app/build.gradle | sed -n 's/.*versionName \"\(.*\)\".*/\1/p')
           echo "version=$VERSION_NAME" >> $GITHUB_OUTPUT
 
       # 第8步：获取 APK 路径
