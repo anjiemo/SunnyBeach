@@ -63,7 +63,7 @@ jobs:
 
       # 调试步骤（暂时保留，用于确认构建是否生成目录）
       - name: 调试：列出构建输出
-        run: ls -R app/build/outputs
+        run: ls -R build/app/outputs
 
       # 第7步：从 build.gradle 获取版本名
       # 通过脚本从 app/build.gradle 文件中提取 versionName。
@@ -78,9 +78,9 @@ jobs:
       - name: 获取 APK 路径
         id: get_apk_path
         run: |
-          APK_PATH=$(find app/build/outputs/apk/release -type f -name "*.apk" | head -n 1)
+          APK_PATH=$(find build/app/outputs/apk/release -type f -name "*.apk" | head -n 1)
           if [ -z "$APK_PATH" ]; then
-            echo "错误：在 app/build/outputs/apk/release 目录中找不到 APK 文件。" >&2
+            echo "错误：在 build/app/outputs/apk/release 目录中找不到 APK 文件。" >&2
             exit 1
           fi
           echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
