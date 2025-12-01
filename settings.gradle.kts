@@ -1,10 +1,11 @@
 pluginManagement {
     repositories {
-        // 优先使用国内镜像，可以提升下载速度
-        maven { url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
+        // 优先使用官方仓库，确保能获取最新插件（特别是在 CI/CD 环境中）
         gradlePluginPortal()
         google()
         mavenCentral()
+        // 国内镜像作为备用，可以提升下载速度
+        maven { url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
         // 华为插件仓库，解决 'com.huawei.agconnect' 插件找不到的问题
         maven { url = uri("https://developer.huawei.com/repo/") }
     }
