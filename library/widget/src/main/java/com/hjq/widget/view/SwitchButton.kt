@@ -2,7 +2,13 @@ package com.hjq.widget.view
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.RadialGradient
+import android.graphics.RectF
+import android.graphics.Shader
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
@@ -10,6 +16,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import com.hjq.widget.R
+import com.hjq.base.R as BaseR
 
 /**
  *    author : Android 轮子哥
@@ -107,7 +114,7 @@ class SwitchButton @JvmOverloads constructor(
         when (MeasureSpec.getMode(finalWidthMeasureSpec)) {
             MeasureSpec.AT_MOST, MeasureSpec.UNSPECIFIED -> {
                 finalWidthMeasureSpec = MeasureSpec.makeMeasureSpec(
-                    (resources.getDimension(R.dimen.dp_56) + paddingLeft + paddingRight).toInt(), MeasureSpec.EXACTLY
+                    (resources.getDimension(BaseR.dimen.dp_56) + paddingLeft + paddingRight).toInt(), MeasureSpec.EXACTLY
                 )
             }
             MeasureSpec.EXACTLY -> {}

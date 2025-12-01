@@ -31,7 +31,7 @@ object UmengClient {
     fun init(application: Application?, logEnable: Boolean) {
         preInit(application, logEnable)
         // 友盟统计：https://developer.umeng.com/docs/66632/detail/101814#h1-u521Du59CBu5316u53CAu901Au7528u63A5u53E32
-        UMConfigure.init(application, BuildConfig.UM_KEY, "umeng", UMConfigure.DEVICE_TYPE_PHONE, "")
+        UMConfigure.init(application, application?.getString(R.string.um_key), "umeng", UMConfigure.DEVICE_TYPE_PHONE, "")
         // 获取设备的 oaid
         UMConfigure.getOaid(application) { oaid: String? -> deviceOaid = oaid }
     }
@@ -40,12 +40,12 @@ object UmengClient {
      * 预初始化 SDK（在用户没有同意隐私协议前调用）
      */
     fun preInit(application: Application?, logEnable: Boolean) {
-        UMConfigure.preInit(application, BuildConfig.UM_KEY, "umeng")
+        UMConfigure.preInit(application, application?.getString(R.string.um_key), "umeng")
         // 选用自动采集模式：https://developer.umeng.com/docs/119267/detail/118588#h1-u9875u9762u91C7u96C63
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
 
         // 初始化各个平台的 ID 和 Key
-        PlatformConfig.setWeixin(BuildConfig.WX_ID, BuildConfig.WX_SECRET)
+        PlatformConfig.setWeixin(application?.getString(R.string.wx_id), application?.getString(R.string.wx_secret))
 
         // 初始化各个平台的文件提供者（必须要初始化，否则会导致无法分享文件）
         val fileProvider = application?.packageName + ".provider"
