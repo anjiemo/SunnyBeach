@@ -99,7 +99,7 @@ jobs:
       # 第10步：创建 GitHub Release（仅 tag 触发时）
       # 使用 softprops/action-gh-release 这个 action 来创建 Release 并上传 APK。
       - name: 创建 GitHub Release
-        if: startsWith(github.ref, 'refs/tags/')
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           # 上传的文件路径
