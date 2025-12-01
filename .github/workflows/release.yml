@@ -86,9 +86,20 @@ jobs:
           fi
           echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
 
-      # 第9步：创建 GitHub Release
+      # 第9步：上传 APK 为 Artifact（仅手动触发时）
+      # 手动触发工作流时，将 APK 上传为 artifact，方便下载测试
+      - name: 上传 APK 为 Artifact
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-${{ steps.get_version.outputs.version }}
+          path: ${{ steps.get_apk_path.outputs.apk_path }}
+          retention-days: 30
+
+      # 第10步：创建 GitHub Release（仅 tag 触发时）
       # 使用 softprops/action-gh-release 这个 action 来创建 Release 并上传 APK。
       - name: 创建 GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           # 上传的文件路径
@@ -106,7 +117,7 @@ jobs:
           # 需要 GITHUB_TOKEN 才能有权限创建 Release
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 第10步：清理工作区
+      # 第11步：清理工作区
       # 删除生成的签名文件和配置文件，确保它们不会被意外泄露。
       - name: 清理签名文件和配置
         if: always() # 保证无论之前的步骤成功或失败，此步骤都会执行
