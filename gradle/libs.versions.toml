@@ -1,0 +1,256 @@
+[versions]
+# Gradle 和 Android 相关版本
+agp = "8.13.0"
+kotlin = "2.2.20"
+ksp = "2.2.20-2.0.4"
+agcp = "1.9.4.300"
+hilt = "2.57.2"
+androidAop = "2.7.3"
+
+# AndroidX 核心库
+androidxCore = "1.17.0"
+androidxAppcompat = "1.7.1"
+androidxActivity = "1.11.0"
+androidxFragment = "1.8.9"
+androidxLifecycle = "2.9.4"
+androidxRoom = "2.8.3"
+androidxPaging = "3.3.6"
+androidxNavigation = "2.9.5"
+androidxWork = "2.11.0"
+androidxPalette = "1.0.0"
+
+# Compose 相关
+composeBom = "2025.11.00"
+
+# Material Design
+material = "1.13.0"
+
+# Kotlin 协程
+kotlinxCoroutines = "1.10.2"
+
+# 网络库
+okhttp = "5.3.0"
+retrofit = "3.0.0"
+gson = "2.13.2"
+
+# 图片加载
+glide = "5.0.5"
+coil = "3.3.0"
+
+# 友盟和微信
+umengCommon = "9.4.7"
+umengAsms = "1.4.1"
+umengShare = "7.1.7"
+wechatSdk = "6.7.9"
+
+# 华为服务
+huaweiAgconnect = "1.9.4.300"
+huaweiScan = "2.13.0.302"
+
+# 第三方 UI 库
+titleBar = "10.6"
+toaster = "13.6"
+shapeView = "10.0"
+immersionBar = "3.2.2"
+photoView = "2.3.0"
+lottie = "6.6.10"
+smartRefresh = "2.1.1"
+circleIndicator = "2.1.6"
+banner = "2.2.3"
+baseRecyclerViewAdapter = "3.0.4"
+expandableLayout = "2.9.2"
+basePopup = "3.2.1"
+xpopup = "2.10.0"
+
+# 工具库
+xxPermissions = "26.5"
+easyHttp = "13.0"
+gsonFactory = "10.3"
+timber = "5.0.1"
+mmkv = "2.2.4"
+utilcodex = "1.31.1"
+luban = "1.1.8"
+vbpd = "2.0.4"
+longan = "1.1.1"
+easyWindow = "11.2"
+liveEventBus = "1.8.0"
+
+# Bugly
+bugly = "4.1.9.3"
+buglyNative = "3.9.2"
+
+# 阿里云播放器
+aliyunPlayer = "5.4.9.2-full"
+
+# 图表库
+mpAndroidChart = "v3.1.0"
+
+# 小米更新 SDK
+xiaomiUpdate = "4.0.3"
+
+# 测试库
+junit = "4.13.2"
+androidxJunit = "1.2.1"
+androidxEspresso = "3.6.1"
+
+# 调试工具
+leakcanary = "2.14"
+glance = "1.1.0"
+
+[libraries]
+# AndroidX 核心库
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppcompat" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidxActivity" }
+androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "androidxFragment" }
+
+# AndroidX 生命周期库
+androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "androidxLifecycle" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
+androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose" }
+
+# Room 数据库
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidxRoom" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidxRoom" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidxRoom" }
+
+# Paging 分页库
+androidx-paging-runtime-ktx = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "androidxPaging" }
+
+# Navigation 导航
+androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "androidxNavigation" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "androidxNavigation" }
+androidx-navigation-dynamic-features = { group = "androidx.navigation", name = "navigation-dynamic-features-fragment", version.ref = "androidxNavigation" }
+
+# WorkManager
+androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidxWork" }
+
+# Palette
+androidx-palette = { group = "androidx.palette", name = "palette", version.ref = "androidxPalette" }
+
+# Material Design
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+# Kotlin 协程
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+
+# 网络库
+okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+
+# Json 解析
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+gson-factory = { group = "com.github.getActivity", name = "GsonFactory", version.ref = "gsonFactory" }
+
+# 图片加载
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide-okhttp3-integration = { group = "com.github.bumptech.glide", name = "okhttp3-integration", version.ref = "glide" }
+glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-network-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
+coil-gif = { group = "io.coil-kt.coil3", name = "coil-gif", version.ref = "coil" }
+
+# 友盟和微信
+umeng-common = { group = "com.umeng.umsdk", name = "common", version.ref = "umengCommon" }
+umeng-asms = { group = "com.umeng.umsdk", name = "asms", version.ref = "umengAsms" }
+umeng-share-core = { group = "com.umeng.umsdk", name = "share-core", version.ref = "umengShare" }
+umeng-share-wx = { group = "com.umeng.umsdk", name = "share-wx", version.ref = "umengShare" }
+wechat-sdk = { group = "com.tencent.mm.opensdk", name = "wechat-sdk-android-without-mta", version.ref = "wechatSdk" }
+
+# 华为服务
+huawei-agconnect-core = { group = "com.huawei.agconnect", name = "agconnect-core", version.ref = "huaweiAgconnect" }
+huawei-scan = { group = "com.huawei.hms", name = "scan", version.ref = "huaweiScan" }
+
+# Hilt 依赖注入
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+
+# AndroidAOP
+androidaop-core = { group = "io.github.flyjingfish", name = "androidaop-core", version.ref = "androidAop" }
+androidaop-extra = { group = "io.github.flyjingfish", name = "androidaop-extra", version.ref = "androidAop" }
+androidaop-apt = { group = "io.github.flyjingfish", name = "androidaop-apt", version.ref = "androidAop" }
+
+# 第三方 UI 库
+titlebar = { group = "com.github.getActivity", name = "TitleBar", version.ref = "titleBar" }
+toaster = { group = "com.github.getActivity", name = "Toaster", version.ref = "toaster" }
+shapeview = { group = "com.github.getActivity", name = "ShapeView", version.ref = "shapeView" }
+immersionbar = { group = "com.geyifeng.immersionbar", name = "immersionbar", version.ref = "immersionBar" }
+immersionbar-ktx = { group = "com.geyifeng.immersionbar", name = "immersionbar-ktx", version.ref = "immersionBar" }
+photoview = { group = "com.github.Baseflow", name = "PhotoView", version.ref = "photoView" }
+lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
+smartrefresh-kernel = { group = "io.github.scwang90", name = "refresh-layout-kernel", version.ref = "smartRefresh" }
+smartrefresh-header-material = { group = "io.github.scwang90", name = "refresh-header-material", version.ref = "smartRefresh" }
+smartrefresh-header-classics = { group = "io.github.scwang90", name = "refresh-header-classics", version.ref = "smartRefresh" }
+smartrefresh-header-two-level = { group = "io.github.scwang90", name = "refresh-header-two-level", version.ref = "smartRefresh" }
+circleindicator = { group = "me.relex", name = "circleindicator", version.ref = "circleIndicator" }
+banner = { group = "io.github.youth5201314", name = "banner", version.ref = "banner" }
+baserecyclerviewadapter = { group = "com.github.CymChad", name = "BaseRecyclerViewAdapterHelper", version.ref = "baseRecyclerViewAdapter" }
+expandablelayout = { group = "com.github.cachapa", name = "ExpandableLayout", version.ref = "expandableLayout" }
+basepopup = { group = "io.github.razerdp", name = "BasePopup", version.ref = "basePopup" }
+xpopup = { group = "com.github.li-xiaojun", name = "XPopup", version.ref = "xpopup" }
+
+# 工具库
+xxpermissions = { group = "com.github.getActivity", name = "XXPermissions", version.ref = "xxPermissions" }
+easyhttp = { group = "com.github.getActivity", name = "EasyHttp", version.ref = "easyHttp" }
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+mmkv = { group = "com.tencent", name = "mmkv-static", version.ref = "mmkv" }
+utilcodex = { group = "com.blankj", name = "utilcodex", version.ref = "utilcodex" }
+luban = { group = "top.zibin", name = "Luban", version.ref = "luban" }
+vbpd = { group = "dev.androidbroadcast.vbpd", name = "vbpd", version.ref = "vbpd" }
+longan = { group = "com.github.DylanCaiCoding.Longan", name = "longan", version.ref = "longan" }
+longan-design = { group = "com.github.DylanCaiCoding.Longan", name = "longan-design", version.ref = "longan" }
+easywindow = { group = "com.github.getActivity", name = "EasyWindow", version.ref = "easyWindow" }
+easyfloat = { group = "com.github.princekin-f", name = "EasyFloat", version = "2.0.4" }
+liveeventbus = { group = "io.github.jeremyliao", name = "live-event-bus-x", version.ref = "liveEventBus" }
+
+# Bugly
+bugly-crashreport = { group = "com.tencent.bugly", name = "crashreport", version.ref = "bugly" }
+bugly-nativecrashreport = { group = "com.tencent.bugly", name = "nativecrashreport", version.ref = "buglyNative" }
+
+# 阿里云播放器
+aliyun-player = { group = "com.aliyun.sdk.android", name = "AliyunPlayer", version.ref = "aliyunPlayer" }
+
+# 图表库
+mpandroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpAndroidChart" }
+
+# 小米更新 SDK
+xiaomi-update = { group = "mi-appstore", name = "xiaomi-update-sdk", version.ref = "xiaomiUpdate" }
+
+# Compose BOM
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-activity = { group = "androidx.activity", name = "activity-compose" }
+
+# 测试库
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspresso" }
+
+# 调试工具
+leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
+glance = { group = "com.guolindev.glance", name = "glance", version.ref = "glance" }
+
+[plugins]
+# Android 插件
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+
+# Kotlin 插件
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+# KSP 插件
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+# Hilt 插件
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+
+# 注意：华为 AGConnect 插件不在这里定义，需要在 buildscript 中配置
+# 注意：AndroidAOP 插件不在这里定义，需要在 buildscript 中配置

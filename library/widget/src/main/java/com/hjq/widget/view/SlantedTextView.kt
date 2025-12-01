@@ -1,8 +1,16 @@
-package com.hjq.widget.view
+﻿package com.hjq.widget.view
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.Rect
+import android.graphics.RectF
+import android.graphics.Typeface
 import android.text.TextPaint
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -12,6 +20,7 @@ import android.view.View
 import androidx.annotation.StringRes
 import com.hjq.widget.R
 import kotlin.math.max
+import com.hjq.base.R as BaseR
 
 /**
  *    author : HaoZhang & Android 轮子哥
@@ -66,7 +75,7 @@ class SlantedTextView @JvmOverloads constructor(
         setTextSize(
             TypedValue.COMPLEX_UNIT_PX, array.getDimensionPixelSize(
                 R.styleable.SlantedTextView_android_textSize,
-                resources.getDimension(R.dimen.sp_12).toInt()
+                resources.getDimension(BaseR.dimen.sp_12).toInt()
             ).toFloat()
         )
         setTextColor(array.getColor(R.styleable.SlantedTextView_android_textColor, Color.WHITE))
@@ -374,7 +383,7 @@ class SlantedTextView @JvmOverloads constructor(
      */
     private fun getAccentColor(): Int {
         val typedValue = TypedValue()
-        context.theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
+        context.theme.resolveAttribute(android.R.attr.colorAccent, typedValue, true)
         return typedValue.data
     }
 }
