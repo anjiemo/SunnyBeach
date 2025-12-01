@@ -6,6 +6,7 @@ on:
   push:
     tags:
       - 'v*' # 当一个以 'v' 开头的标签被推送到仓库时触发 (例如 v1.0, v2.1.0)
+  workflow_dispatch: # 支持手动触发工作流
 
 # 定义一个或多个作业
 jobs:
