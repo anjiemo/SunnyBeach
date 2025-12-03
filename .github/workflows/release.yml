@@ -62,6 +62,11 @@ jobs:
         env:
           GRADLE_OPTS: -Xmx4g -Dfile.encoding=UTF-8
 
+      # 第6.5步：生成 appConfig.json
+      # 运行自定义任务生成 appConfig.json 文件
+      - name: 生成 appConfig.json
+        run: ./gradlew :app:printReleaseAppConfig
+
       # 调试步骤（暂时保留，用于确认构建是否生成目录）
       - name: 调试：列出构建输出
         run: ls -R build/app/outputs
@@ -89,6 +94,13 @@ jobs:
           echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
           echo "apk_name=$APK_NAME" >> $GITHUB_OUTPUT
 
+          APP_CONFIG_PATH=$(find build/app/outputs/apk/release -type f -name "appConfig.json" | head -n 1)
+          if [ -z "$APP_CONFIG_PATH" ]; then
+            echo "错误：在 build/app/outputs/apk/release 目录中找不到 appConfig.json 文件。" >&2
+          else
+            echo "app_config_path=$APP_CONFIG_PATH" >> $GITHUB_OUTPUT
+          fi
+
       # 第9步：上传 APK 为 Artifact（仅手动触发时）
       # 手动触发工作流时，将 APK 上传为 artifact，方便下载测试
       - name: 上传 APK 为 Artifact
@@ -96,7 +108,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.get_apk_path.outputs.apk_name }}
-          path: ${{ steps.get_apk_path.outputs.apk_path }}
+          path: |
+            ${{ steps.get_apk_path.outputs.apk_path }}
+            ${{ steps.get_apk_path.outputs.app_config_path }}
           retention-days: 30
 
       # 第10步：创建 GitHub Release（仅 tag 触发时）
@@ -106,7 +120,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           # 上传的文件路径
-          files: ${{ steps.get_apk_path.outputs.apk_path }}
+          files: |
+            ${{ steps.get_apk_path.outputs.apk_path }}
+            ${{ steps.get_apk_path.outputs.app_config_path }}
           # Release 的标题
           name: "Release ${{ github.ref_name }}"
           # Release 的描述内容
