@@ -58,9 +58,10 @@ jobs:
       # 第6步：构建 Release 版本的 APK
       # 运行 Gradle 命令来编译和打包带签名的 APK。
       - name: 构建 Release APK
-        run: ./gradlew :app:assembleRelease --stacktrace
+        # 临时调试，使用 Debug 模式
+        run: ./gradlew :app:assembleDebug --stacktrace
         env:
-          GRADLE_OPTS: -Xmx4g -Dfile.encoding=UTF-8
+          GRADLE_OPTS: -Xmx8g -Dfile.encoding=UTF-8
 
       # 调试步骤（暂时保留，用于确认构建是否生成目录）
       - name: 调试：列出构建输出
