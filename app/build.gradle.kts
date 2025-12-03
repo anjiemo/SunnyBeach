@@ -1,5 +1,6 @@
 import AppConfigUtils.printAppConfig
 import groovy.json.JsonSlurper
+import groovy.xml.XmlParser
 import java.io.FileInputStream
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
@@ -166,7 +167,49 @@ android {
 
 object AppConfigUtils {
 
+    /**
+     * 从 strings.xml 中读取特定的字符串值
+     */
+    private fun getAppNameFromStrings(project: Project): String? {
+        // 假设 strings.xml 位于 app 模块的默认位置
+        val stringsFile = project.file("src/main/res/values/strings.xml")
+
+        if (!stringsFile.exists()) {
+            println("警告: strings.xml 文件不存在于 ${stringsFile.absolutePath}")
+            return null
+        }
+
+        return try {
+            val parser = XmlParser(false, false)
+            // 显式将解析结果转换为 groovy.util.Node 类型，增强 IDE 识别
+            val xml = parser.parse(stringsFile) as groovy.util.Node
+
+            // 查找 name="app_name" 的 <string> 标签
+            val appNameNode = xml.children().find {
+                // 1. 强制将 Any? 类型的迭代元素安全转换为 Node
+                val node = it as? groovy.util.Node ?: return@find false
+
+                // 2. 现在 node.name() 和 node.attributes() 可以被识别
+                node.name() == "string" && node.attributes()["name"] == "app_name"
+            }
+
+            // 返回节点内容，并去除可能的空格
+            if (appNameNode != null) {
+                // 3. 对找到的元素进行最终类型转换并访问 text()
+                (appNameNode as groovy.util.Node).text()?.trim()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            println("错误: 解析 strings.xml 失败: ${e.message}")
+            // 打印异常堆栈，方便调试文件读取或解析错误
+            // e.printStackTrace()
+            null
+        }
+    }
+
     fun Project.printAppConfig(variantName: String) {
+        val appName = getAppNameFromStrings(project) ?: project.name
         val outputDirPath = "${projectDir.path}${File.separator}$variantName"
 
         val apkConfig = File("$outputDirPath${File.separator}output-metadata.json").readText()
@@ -174,27 +217,27 @@ object AppConfigUtils {
         val elements = apkConfigJson["elements"] as List<*>
         val outputConfig = elements[0] as Map<*, *>
         val outputFileName = outputConfig["outputFile"] as String
-        val versionName = outputConfig["versionName"] as String
+        val configVersionName = outputConfig["versionName"] as String
         val versionCode = outputConfig["versionCode"] as Int
         val apkFile = File(outputDirPath + File.separator + outputFileName)
-
-        // 调用同一对象内的静态方法
         val apkMd5 = generateMD5(apkFile)
+        val combinedVersionName = "$appName$configVersionName"
 
-        println("apkConfig：===> variantName is $variantName versionName is $versionName")
+        println("apkConfig：===> variantName is $variantName combinedVersionName is $combinedVersionName")
+        println("apkConfig：===> variantName is $variantName versionName is $configVersionName")
         println("apkConfig：===> variantName is $variantName versionCode is $versionCode")
         println("apkConfig：===> variantName is $variantName apkSize     is ${apkFile.length()}")
         println("apkConfig：===> variantName is $variantName apkHash     is $apkMd5")
 
         // 生成 appConfig.json
         val appConfigMap = mapOf(
-            "versionName" to versionName,
+            "versionName" to combinedVersionName,
             "versionCode" to versionCode,
             "apkSize" to apkFile.length(),
             "apkHash" to apkMd5
         )
         val appConfigJsonString = groovy.json.JsonOutput.toJson(appConfigMap)
-        val appConfigPrettyJsonString = groovy.json.JsonOutput.prettyPrint(appConfigJsonString)
+        val appConfigPrettyJsonString = groovy.json.JsonOutput.prettyPrint(appConfigJsonString, true)
 
         val appConfigFile = File(outputDirPath + File.separator + "appConfig.json")
         appConfigFile.writeText(appConfigPrettyJsonString)
