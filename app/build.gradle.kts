@@ -1,3 +1,4 @@
+import AppConfigUtils.printAppConfig
 import groovy.json.JsonSlurper
 import java.io.FileInputStream
 import java.security.MessageDigest
@@ -5,6 +6,12 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.Properties
+
+// 将 Date.format 放在顶部，它不依赖 Project 或 Task
+fun Date.format(pattern: String): String {
+    val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+    return sdf.format(this)
+}
 
 plugins {
     alias(libs.plugins.android.application)
@@ -157,27 +164,11 @@ android {
     }
 }
 
-tasks.register("printReleaseAppConfig") {
-    doLast {
-        printAppConfig("release")
-    }
-}
+object AppConfigUtils {
 
-tasks.register("printPreviewAppConfig") {
-    doLast {
-        printAppConfig("preview")
-    }
-}
-
-tasks.register("printDebugAppConfig") {
-    doLast {
-        printAppConfig("debug")
-    }
-}
-
-fun printAppConfig(variantName: String) {
-    try {
+    fun Project.printAppConfig(variantName: String) {
         val outputDirPath = "${projectDir.path}${File.separator}$variantName"
+
         val apkConfig = File("$outputDirPath${File.separator}output-metadata.json").readText()
         val apkConfigJson = JsonSlurper().parseText(apkConfig) as Map<*, *>
         val elements = apkConfigJson["elements"] as List<*>
@@ -186,31 +177,62 @@ fun printAppConfig(variantName: String) {
         val versionName = outputConfig["versionName"] as String
         val versionCode = outputConfig["versionCode"] as Int
         val apkFile = File(outputDirPath + File.separator + outputFileName)
+
+        // 调用同一对象内的静态方法
         val apkMd5 = generateMD5(apkFile)
+
         println("apkConfig：===> variantName is $variantName versionName is $versionName")
         println("apkConfig：===> variantName is $variantName versionCode is $versionCode")
         println("apkConfig：===> variantName is $variantName apkSize     is ${apkFile.length()}")
         println("apkConfig：===> variantName is $variantName apkHash     is $apkMd5")
-    } catch (ignored: Exception) {
-        println("printAppConfig：===> variantName is $variantName 未识别到打包后的 apk 文件或目录")
-    }
-}
 
-fun generateMD5(file: File): String {
-    return file.inputStream().use { inputStream ->
-        val digest = MessageDigest.getInstance("MD5")
-        val buffer = ByteArray(8192)
-        var read: Int
-        while (inputStream.read(buffer).also { read = it } > 0) {
-            digest.update(buffer, 0, read)
+        // 生成 appConfig.json
+        val appConfigMap = mapOf(
+            "versionName" to versionName,
+            "versionCode" to versionCode,
+            "apkSize" to apkFile.length(),
+            "apkHash" to apkMd5
+        )
+        val appConfigJsonString = groovy.json.JsonOutput.toJson(appConfigMap)
+        val appConfigPrettyJsonString = groovy.json.JsonOutput.prettyPrint(appConfigJsonString)
+
+        val appConfigFile = File(outputDirPath + File.separator + "appConfig.json")
+        appConfigFile.writeText(appConfigPrettyJsonString)
+        println("apkConfig：===> appConfig.json generated at ${appConfigFile.absolutePath}")
+    }
+
+    fun generateMD5(file: File): String {
+        return file.inputStream().use { inputStream ->
+            val digest = MessageDigest.getInstance("MD5")
+            val buffer = ByteArray(8192)
+            var read: Int
+            while (inputStream.read(buffer).also { read = it } > 0) {
+                digest.update(buffer, 0, read)
+            }
+            digest.digest().joinToString("") { "%02x".format(it) }
         }
-        digest.digest().joinToString("") { "%02x".format(it) }
     }
 }
 
-fun Date.format(pattern: String): String {
-    val sdf = SimpleDateFormat(pattern, Locale.getDefault())
-    return sdf.format(this)
+tasks.register("printReleaseAppConfig") {
+    doLast {
+        // 静态调用：AppConfigUtils.printAppConfig(project, "release")
+        project.printAppConfig("release")
+    }
+}
+
+tasks.register("printPreviewAppConfig") {
+    doLast {
+        // 静态调用：AppConfigUtils.printAppConfig(project, "preview")
+        project.printAppConfig("preview")
+    }
+}
+
+tasks.register("printDebugAppConfig") {
+    doLast {
+        // 静态调用：AppConfigUtils.printAppConfig(project, "debug")
+        project.printAppConfig("debug")
+    }
 }
 
 // MiPush 接入文档：https://dev.mi.com/console/doc/detail?pId=41#_0_0
