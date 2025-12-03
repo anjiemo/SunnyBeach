@@ -62,14 +62,14 @@ jobs:
         env:
           GRADLE_OPTS: -Xmx4g -Dfile.encoding=UTF-8
 
+      # 调试步骤（暂时保留，用于确认构建是否生成目录）
+      - name: 调试：列出构建输出
+        run: ls -R build/app/outputs
+
       # 第6.5步：生成 appConfig.json
       # 运行自定义任务生成 appConfig.json 文件
       - name: 生成 appConfig.json
         run: ./gradlew :app:printReleaseAppConfig
-
-      # 调试步骤（暂时保留，用于确认构建是否生成目录）
-      - name: 调试：列出构建输出
-        run: ls -R build/app/outputs
 
       # 第7步：从 build.gradle.kts 获取版本名
       # 通过脚本从 build.gradle.kts 文件中提取 versionName。
