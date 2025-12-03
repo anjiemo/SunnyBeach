@@ -210,7 +210,7 @@ object AppConfigUtils {
 
     fun Project.printAppConfig(variantName: String) {
         val appName = getAppNameFromStrings(project) ?: project.name
-        val outputDirPath = "${projectDir.path}${File.separator}$variantName"
+        val outputDirPath = layout.projectDirectory.dir(variantName).asFile.absolutePath
 
         val apkConfig = File("$outputDirPath${File.separator}output-metadata.json").readText()
         val apkConfigJson = JsonSlurper().parseText(apkConfig) as Map<*, *>
