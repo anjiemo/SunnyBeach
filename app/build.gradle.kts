@@ -259,21 +259,18 @@ object AppConfigUtils {
 
 tasks.register("printReleaseAppConfig") {
     doLast {
-        // 静态调用：AppConfigUtils.printAppConfig(project, "release")
         project.printAppConfig("release")
     }
 }
 
 tasks.register("printPreviewAppConfig") {
     doLast {
-        // 静态调用：AppConfigUtils.printAppConfig(project, "preview")
         project.printAppConfig("preview")
     }
 }
 
 tasks.register("printDebugAppConfig") {
     doLast {
-        // 静态调用：AppConfigUtils.printAppConfig(project, "debug")
         project.printAppConfig("debug")
     }
 }
