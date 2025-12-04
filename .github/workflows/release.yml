@@ -7,6 +7,17 @@ on:
     tags:
       - 'v*' # 当一个以 'v' 开头的标签被推送到仓库时触发 (例如 v1.0, v2.1.0)
   workflow_dispatch: # 支持手动触发工作流
+    inputs:
+      version_code:
+        description: '版本号 (versionCode)，留空则使用 version.properties 中的值'
+        required: false
+        type: string
+        default: ''
+      version_name:
+        description: '版本名称 (versionName)，留空则使用 version.properties 中的值'
+        required: false
+        type: string
+        default: ''
 
 # 定义一个或多个作业
 jobs:
@@ -58,10 +69,12 @@ jobs:
       # 第6步：构建 Release 版本的 APK
       # 运行 Gradle 命令来编译和打包带签名的 APK。
       - name: 构建 Release APK
-        # 临时调试，使用 Debug 模式
         run: ./gradlew :app:assembleRelease --stacktrace
         env:
           GRADLE_OPTS: -Xmx8g -Dfile.encoding=UTF-8
+          # 手动触发时传递版本参数，留空则使用 version.properties 中的值
+          APP_VERSION_CODE: ${{ github.event.inputs.version_code }}
+          APP_VERSION_NAME: ${{ github.event.inputs.version_name }}
 
       # 调试步骤（暂时保留，用于确认构建是否生成目录）
       - name: 调试：列出构建输出
@@ -72,13 +85,28 @@ jobs:
       - name: 生成 appConfig.json
         run: ./gradlew :app:printReleaseAppConfig
 
-      # 第7步：从 build.gradle.kts 获取版本名
-      # 通过脚本从 build.gradle.kts 文件中提取 versionName。
+      # 第7步：获取版本信息
+      # 从 version.properties 文件中读取版本信息，如果有手动输入则优先使用手动输入的值。
       - name: 获取版本名称
         id: get_version
         run: |
-          VERSION_NAME=$(grep 'versionName =' build.gradle.kts | sed -n 's/.*versionName = \"\(.*\)\".*/\1/p')
+          # 读取 version.properties 中的值作为默认值
+          VERSION_NAME=$(grep 'versionName=' version.properties | cut -d'=' -f2)
+          VERSION_CODE=$(grep 'versionCode=' version.properties | cut -d'=' -f2)
+          
+          # 如果提供了手动输入的版本名称，则使用手动输入的值
+          if [ -n "${{ github.event.inputs.version_name }}" ]; then
+            VERSION_NAME="${{ github.event.inputs.version_name }}"
+          fi
+          
+          # 如果提供了手动输入的版本号，则使用手动输入的值
+          if [ -n "${{ github.event.inputs.version_code }}" ]; then
+            VERSION_CODE="${{ github.event.inputs.version_code }}"
+          fi
+          
           echo "version=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+          echo "::notice::Building with versionName=$VERSION_NAME, versionCode=$VERSION_CODE"
 
       # 第8步：获取 APK 路径
       # 从输出目录中找到构建生成的 APK 文件。
