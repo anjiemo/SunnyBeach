@@ -16,9 +16,11 @@ val versionProps = Properties().apply {
     }
 }
 
-// 优先使用环境变量，否则使用 version.properties 中的值
-val appVersionCode: Int = (System.getenv("APP_VERSION_CODE") ?: versionProps.getProperty("versionCode", "22")).toInt()
-val appVersionName: String = System.getenv("APP_VERSION_NAME") ?: versionProps.getProperty("versionName", "5.4.1")
+// 优先使用环境变量（非空时），否则使用 version.properties 中的值
+val appVersionCode: Int = (System.getenv("APP_VERSION_CODE")?.takeIf { it.isNotBlank() }
+    ?: versionProps.getProperty("versionCode", "22")).toInt()
+val appVersionName: String = System.getenv("APP_VERSION_NAME")?.takeIf { it.isNotBlank() }
+    ?: versionProps.getProperty("versionName", "5.4.1")
 
 buildscript {
     repositories {
