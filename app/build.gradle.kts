@@ -210,9 +210,39 @@ object AppConfigUtils {
 
     fun Project.printAppConfig(variantName: String) {
         val appName = getAppNameFromStrings(project) ?: project.name
-        val outputDirPath = layout.projectDirectory.dir(variantName).asFile.absolutePath
 
-        val apkConfig = File("$outputDirPath${File.separator}output-metadata.json").readText()
+
+        // 1. 尝试从标准构建输出目录查找 (适配 layout.buildDirectory 配置)
+        val standardOutputFile = layout.buildDirectory.file("outputs/apk/$variantName/output-metadata.json").get().asFile
+
+        // 2. 回退到旧的自定义目录 (app/<variantName>)
+        val customOutputFile = layout.projectDirectory.file("$variantName/output-metadata.json").asFile
+
+        val configFile = when {
+            standardOutputFile.exists() -> {
+                println("Found output-metadata.json at: ${standardOutputFile.absolutePath}")
+                standardOutputFile
+            }
+
+            customOutputFile.exists() -> {
+                println("Found output-metadata.json at: ${customOutputFile.absolutePath}")
+                customOutputFile
+            }
+
+            else -> {
+                val msg = """
+                    output-metadata.json not found!
+                    Checked locations:
+                    1. ${standardOutputFile.absolutePath}
+                    2. ${customOutputFile.absolutePath}
+                    Please ensure 'assemble$variantName' has run successfully.
+                """.trimIndent()
+                throw GradleException(msg)
+            }
+        }
+
+        val outputDirPath = configFile.parentFile.absolutePath
+        val apkConfig = configFile.readText()
         val apkConfigJson = JsonSlurper().parseText(apkConfig) as Map<*, *>
         val elements = apkConfigJson["elements"] as List<*>
         val outputConfig = elements[0] as Map<*, *>
