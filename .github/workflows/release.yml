@@ -9,12 +9,12 @@ on:
   workflow_dispatch: # 支持手动触发工作流
     inputs:
       version_code:
-        description: '版本号 (versionCode)，留空则使用 version.properties 中的值'
+        description: '版本号 (versionCode，如：1)，留空则使用 version.properties 中的值'
         required: false
         type: string
         default: ''
       version_name:
-        description: '版本名称 (versionName)，留空则使用 version.properties 中的值'
+        description: '版本名称 (versionName，如：1.0.0)，留空则使用 version.properties 中的值'
         required: false
         type: string
         default: ''
