@@ -3,9 +3,22 @@
 import com.android.build.gradle.BaseExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.util.Properties
 
 // 导入配置文件
 apply(from = "configs.gradle.kts")
+
+// 读取版本配置
+val versionPropsFile = file("version.properties")
+val versionProps = Properties().apply {
+    if (versionPropsFile.exists()) {
+        versionPropsFile.inputStream().use { load(it) }
+    }
+}
+
+// 优先使用环境变量，否则使用 version.properties 中的值
+val appVersionCode: Int = (System.getenv("APP_VERSION_CODE") ?: versionProps.getProperty("versionCode", "22")).toInt()
+val appVersionName: String = System.getenv("APP_VERSION_NAME") ?: versionProps.getProperty("versionName", "5.4.1")
 
 buildscript {
     repositories {
@@ -102,8 +115,8 @@ subprojects {
             defaultConfig {
                 minSdkVersion(26)
                 targetSdkVersion(33)
-                versionName = "5.4.1"
-                versionCode = 22
+                versionName = appVersionName
+                versionCode = appVersionCode
             }
 
             // 支持 Java JDK 21
