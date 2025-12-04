@@ -59,7 +59,7 @@ jobs:
       # 运行 Gradle 命令来编译和打包带签名的 APK。
       - name: 构建 Release APK
         # 临时调试，使用 Debug 模式
-        run: ./gradlew :app:assembleDebug --stacktrace
+        run: ./gradlew :app:assembleRelease --stacktrace
         env:
           GRADLE_OPTS: -Xmx8g -Dfile.encoding=UTF-8
 
