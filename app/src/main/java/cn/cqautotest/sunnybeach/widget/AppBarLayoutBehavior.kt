@@ -28,9 +28,9 @@ class AppBarLayoutBehavior(context: Context?, attrs: AttributeSet?) : AppBarLayo
         // Timber.d("onInterceptTouchEvent：===> ${child.totalScrollRange}")
         shouldBlockNestedScroll = isFlinging
         when (ev.actionMasked) {
-            MotionEvent.ACTION_DOWN -> {}
+            MotionEvent.ACTION_DOWN -> stopAppbarLayoutFling(child)
             // 手指滑动屏幕的时候停止 Fling 事件
-            MotionEvent.ACTION_MOVE -> stopAppbarLayoutFling(child)
+            MotionEvent.ACTION_MOVE -> {}
             else -> {}
         }
         return super.onInterceptTouchEvent(parent, child, ev)
