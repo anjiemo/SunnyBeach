@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             app:elevation="0px"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
+            app:layout_behavior="cn.cqautotest.sunnybeach.widget.AppBarLayoutBehavior">
 
             <cn.cqautotest.sunnybeach.widget.XCollapsingToolbarLayout
                 android:id="@+id/toolbar_layout"
