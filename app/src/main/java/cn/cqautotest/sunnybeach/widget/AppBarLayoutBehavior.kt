@@ -10,73 +10,67 @@ import androidx.core.view.ViewCompat
 import com.google.android.material.appbar.AppBarLayout
 import timber.log.Timber
 import java.lang.reflect.Field
+import kotlin.math.abs
 
 /**
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2023/03/06
- * desc   : 修复 AppBarLayout 导致的滑动抖动问题
- * CoordinatorLayout 滑动抖动究极解决办法：https://www.jianshu.com/p/7863310a4a6c
- * Used dependent library：com.google.android.material:material:1.6.1@aar
+ * desc   : 修复 AppBarLayout 导致的滑动抖动相关问题
+ * 1. Fling 状态下反向滑动导致的抖动
+ * 2. 吸顶状态拉出时的偏移突变
+ * 3. 嵌套滑动过程中的物理打断冲突
  */
-class AppBarLayoutBehavior(context: Context?, attrs: AttributeSet?) : AppBarLayout.Behavior(context, attrs) {
+class AppBarLayoutBehavior(context: Context, attrs: AttributeSet?) : AppBarLayout.Behavior(context, attrs) {
 
-    private var isFlinging = false
-    private var shouldBlockNestedScroll = false
+    private var scrollerField: Field? = null
+    private var isTouchInProgress = false
+    private var lastAcceptedOffset = Int.MIN_VALUE
+    private var lastTrend = TREND_NONE // 最近一次被接受的变化方向
+
+    // 基于系统配置动态计算阈值
+    private val mTouchSlop = android.view.ViewConfiguration.get(context).scaledTouchSlop
+    private val mJitterThreshold = mTouchSlop / 4
+    private val mSignificantMoveThreshold = mTouchSlop / 8
+
+    init {
+        findScrollerField()
+    }
+
+    private fun findScrollerField() {
+        try {
+            var clazz: Class<*>? = javaClass.superclass
+            while (clazz != null && clazz != Any::class.java) {
+                scrollerField = clazz.declaredFields.find { it.type == OverScroller::class.java }?.apply { isAccessible = true }
+                if (scrollerField != null) break
+                clazz = clazz.superclass
+            }
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+    }
+
+    private fun stopAppbarScroll() {
+        try {
+            val scroller = scrollerField?.get(this) as? OverScroller
+            if (scroller != null && !scroller.isFinished) {
+                scroller.abortAnimation()
+            }
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+    }
 
     override fun onInterceptTouchEvent(parent: CoordinatorLayout, child: AppBarLayout, ev: MotionEvent): Boolean {
-        // Timber.d("onInterceptTouchEvent：===> ${child.totalScrollRange}")
-        shouldBlockNestedScroll = isFlinging
         when (ev.actionMasked) {
-            MotionEvent.ACTION_DOWN -> stopAppbarLayoutFling(child)
-            // 手指滑动屏幕的时候停止 Fling 事件
-            MotionEvent.ACTION_MOVE -> {}
-            else -> {}
+            MotionEvent.ACTION_DOWN -> {
+                isTouchInProgress = true
+                stopAppbarScroll()
+            }
+
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> isTouchInProgress = false
         }
         return super.onInterceptTouchEvent(parent, child, ev)
-    }
-
-    /**
-     * 通过反射获取私有的 flingRunnable 属性
-     */
-    private fun getFlingRunnableField(): Field? {
-        // com.google.android.material.appbar.HeaderBehavior.flingRunnable
-        val headerBehaviorType = javaClass.superclass.superclass.superclass
-        return headerBehaviorType?.getDeclaredField("flingRunnable")
-    }
-
-    /**
-     * 反射获取私有的 scroller 属性
-     */
-    private fun getScrollerField(): Field? {
-        // com.google.android.material.appbar.HeaderBehavior.scroller
-        val headerBehaviorType: Class<*>? = javaClass.superclass.superclass.superclass
-        return headerBehaviorType?.getDeclaredField("scroller")
-    }
-
-    /**
-     * 停止 AppbarLayout 的 Fling 事件
-     */
-    private fun stopAppbarLayoutFling(appBarLayout: AppBarLayout) {
-        // 通过反射拿到 HeaderBehavior 中的 flingRunnable 变量
-        runCatching {
-            val flingRunnableField = getFlingRunnableField()
-            flingRunnableField?.isAccessible = true
-            (flingRunnableField?.get(this) as? Runnable)?.let {
-                Timber.d("stopAppbarLayoutFling：===> 存在 flingRunnable 变量")
-                appBarLayout.removeCallbacks(it)
-                flingRunnableField[this] = null
-            }
-            val scrollerField: Field? = getScrollerField()
-            scrollerField?.isAccessible = true
-            (scrollerField?.get(this) as? OverScroller)?.let {
-                if (it.isFinished.not()) {
-                    it.abortAnimation()
-                }
-            }
-        }.onFailure {
-            Timber.e(it)
-        }
     }
 
     override fun onStartNestedScroll(
@@ -87,8 +81,10 @@ class AppBarLayoutBehavior(context: Context?, attrs: AttributeSet?) : AppBarLayo
         nestedScrollAxes: Int,
         type: Int
     ): Boolean {
-        Timber.d("onStartNestedScroll：===> directTargetChild is ${directTargetChild.javaClass} target is ${target.javaClass}")
-        stopAppbarLayoutFling(child)
+        if (type == ViewCompat.TYPE_TOUCH) {
+            isTouchInProgress = true
+            stopAppbarScroll()
+        }
         return super.onStartNestedScroll(parent, child, directTargetChild, target, nestedScrollAxes, type)
     }
 
@@ -101,45 +97,55 @@ class AppBarLayoutBehavior(context: Context?, attrs: AttributeSet?) : AppBarLayo
         consumed: IntArray,
         type: Int
     ) {
-        Timber.d("onNestedPreScroll：===> ${child.totalScrollRange}, dx:$dx, dy:$dy, type:$type")
-        // 当 type 返回 ViewCompat.TYPE_NON_TOUCH 时，表示当前 target 处于非 Touch 的滑动，
-        // 该 bug 是因为 AppBarLayout 在滑动时，CoordinatorLayout 内的实现 NestedScrollingChild2 接口的滑动子类还未结束其自身的 Fling导致的，
-        // 所以这里监听子类的非 Touch 时的滑动，然后 block 掉滑动事件传递给 AppBarLayout。
-        takeIf { type == ViewCompat.TYPE_NON_TOUCH }?.let { isFlinging = true }
-        takeUnless { shouldBlockNestedScroll }?.let { super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type) }
+        super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type)
     }
 
-    override fun onNestedScroll(
-        coordinatorLayout: CoordinatorLayout,
-        child: AppBarLayout,
-        target: View,
-        dxConsumed: Int,
-        dyConsumed: Int,
-        dxUnconsumed: Int,
-        dyUnconsumed: Int,
-        type: Int,
-        consumed: IntArray
-    ) {
-        Timber.d("onNestedScroll: ===> target:${target.javaClass}, ${child.totalScrollRange}, dxConsumed:$dxConsumed, dyConsumed:$dyConsumed, type:$type")
-        takeUnless { shouldBlockNestedScroll }?.let {
-            super.onNestedScroll(
-                coordinatorLayout,
-                child,
-                target,
-                dxConsumed,
-                dyConsumed,
-                dxUnconsumed,
-                dyUnconsumed,
-                type,
-                consumed
-            )
+    override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout, child: AppBarLayout, target: View, type: Int) {
+        super.onStopNestedScroll(coordinatorLayout, child, target, type)
+        if (type == ViewCompat.TYPE_TOUCH) isTouchInProgress = false
+    }
+
+    override fun setTopAndBottomOffset(offset: Int): Boolean {
+        if (lastAcceptedOffset == Int.MIN_VALUE) lastAcceptedOffset = topAndBottomOffset
+        if (offset == 0) {
+            lastTrend = TREND_NONE
+            return applyOffsetActual(offset)
         }
+        val diff = offset - lastAcceptedOffset
+        if (diff == 0) return false
+        if (isJitter(diff)) return false
+        return applyOffsetActual(offset)
     }
 
-    override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout, abl: AppBarLayout, target: View, type: Int) {
-        Timber.d("onStopNestedScroll：===> calling me...")
-        super.onStopNestedScroll(coordinatorLayout, abl, target, type)
-        isFlinging = false
-        shouldBlockNestedScroll = false
+    private fun isJitter(diff: Int): Boolean {
+        if (!isTouchInProgress || lastTrend == TREND_NONE) return false
+        val currentTrend = getTrend(diff)
+        // 方向反转且幅度小于阈值视为抖动
+        return currentTrend != lastTrend && abs(diff) < mJitterThreshold
+    }
+
+    private fun getTrend(diff: Int): Int = when {
+        diff > 0 -> TREND_DOWN // 展开
+        diff < 0 -> TREND_UP   // 折叠
+        else -> TREND_NONE
+    }
+
+    private fun applyOffsetActual(offset: Int): Boolean {
+        val changed = super.setTopAndBottomOffset(offset)
+        if (changed) {
+            val diff = offset - lastAcceptedOffset
+            if (abs(diff) > mSignificantMoveThreshold) {
+                lastTrend = getTrend(diff)
+            }
+            lastAcceptedOffset = offset
+        }
+        return changed
+    }
+
+    companion object {
+
+        private const val TREND_NONE = 0 // 无方向
+        private const val TREND_UP = 1    // 向上折叠
+        private const val TREND_DOWN = -1 // 向下展开
     }
 }
