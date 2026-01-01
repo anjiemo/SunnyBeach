@@ -29,7 +29,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.FishListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.MultiOperationHelper
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
-import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import com.blankj.utilcode.util.ConvertUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -86,7 +86,7 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
             tvTopicName.text = mTopicItem.topicName
             tvTopicDesc.text = mTopicItem.description
             updateTopicSimpleInfo()
-            pagingRecyclerView.addItemDecoration(LinearSpaceDecoration(mainSpace = 6.dp, crossSpace = 0))
+            pagingRecyclerView.addItemDecoration(UniversalSpaceDecoration(mainSpace = 6.dp, crossSpace = 0))
         }
     }
 

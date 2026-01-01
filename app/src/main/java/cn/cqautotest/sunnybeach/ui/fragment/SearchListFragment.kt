@@ -28,7 +28,7 @@ import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_SHARE_URL_PRE
 import cn.cqautotest.sunnybeach.viewmodel.SearchViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import com.dylanc.longan.safeArguments
 import com.dylanc.longan.viewLifecycleScope
 import dev.androidbroadcast.vbpd.viewBinding
@@ -57,7 +57,7 @@ class SearchListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack
         mBinding.rvSearchList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = mSearchResultListAdapter
-            addItemDecoration(LinearSpaceDecoration(mainSpace = 4.dp, crossSpace = 0))
+            addItemDecoration(UniversalSpaceDecoration(mainSpace = 4.dp, crossSpace = 0))
         }
     }
 

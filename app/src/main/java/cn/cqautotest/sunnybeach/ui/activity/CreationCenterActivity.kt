@@ -30,7 +30,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.AchievementAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.popup.SobIntroPopup
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
-import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import com.blankj.utilcode.util.ScreenUtils
 import com.dylanc.longan.pxToDp
 import com.hjq.bar.TitleBar
@@ -58,7 +58,7 @@ class CreationCenterActivity : AppActivity() {
         mBinding.rvAchievementList.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = mAchievementAdapter
-            addItemDecoration(GridSpaceDecoration(8.dp))
+            addItemDecoration(UniversalSpaceDecoration(8.dp))
         }
     }
 
