@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commitNow
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.paging.LoadState
@@ -136,8 +137,10 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     override fun initView() {
         val fragment = childFragmentManager.findFragmentById(R.id.fragment_container_view_tag)
         takeIf { fragment == null }?.let {
+            val twoLevelContentFragment = TwoLevelContentFragment.newInstance()
             childFragmentManager.beginTransaction()
-                .add(R.id.fragment_container_view_tag, TwoLevelContentFragment.newInstance())
+                .add(R.id.fragment_container_view_tag, twoLevelContentFragment)
+                .hide(twoLevelContentFragment)
                 .commitAllowingStateLoss()
         }
         // fix: 修复在应用配置（如深色模式切换）发生变化时 expandableLayout 的显示状态错误问题
@@ -268,6 +271,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             topMargin = topHeight + bottomHeight
         }
         LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE, true)
+        showTwoLevelPage(true)
         hidePublishButton()
     }
 
@@ -278,7 +282,16 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             topMargin = 0
         }
         LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE, false)
+        showTwoLevelPage(false)
         showPublishButton()
+    }
+
+    private fun showTwoLevelPage(show: Boolean) {
+        val fragment = childFragmentManager.findFragmentById(R.id.fragment_container_view_tag) ?: return
+        if (fragment.isVisible) return
+        childFragmentManager.commitNow(allowStateLoss = true) {
+            if (show) show(fragment) else hide(fragment)
+        }
     }
 
     private fun showPublishButton() {
