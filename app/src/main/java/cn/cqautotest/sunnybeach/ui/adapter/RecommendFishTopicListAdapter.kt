@@ -10,7 +10,7 @@ import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.isNotEmpty
 import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.util.SimpleAdapterDataObserver
-import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceDecoration
 
 /**
  * author : A Lonely Cat
@@ -40,7 +40,7 @@ class RecommendFishTopicListAdapter(private val mFishCategoryAdapter: FishCatego
             binding.rvFishCategory.apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
                 adapter = mFishCategoryAdapter
-                addItemDecoration(SimpleLinearSpaceItemDecoration(10.dp))
+                addItemDecoration(LinearSpaceDecoration(mainSpace = 10.dp, crossSpace = 0))
             }
             mFishCategoryAdapter.registerAdapterDataObserver(mFishCategoryAdapterDataObserver)
         }

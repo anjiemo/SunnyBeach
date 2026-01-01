@@ -10,7 +10,7 @@ import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.ui.adapter.CollectionListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.CollectionViewModel
-import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceDecoration
 import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 
@@ -36,7 +36,7 @@ class CollectionListActivity : PagingActivity() {
 
     override fun initView() {
         super.initView()
-        mBinding.pagingRecyclerView.addItemDecoration(SimpleLinearSpaceItemDecoration(4.dp))
+        mBinding.pagingRecyclerView.addItemDecoration(LinearSpaceDecoration(mainSpace = 4.dp, crossSpace = 0))
     }
 
     override fun initEvent() {

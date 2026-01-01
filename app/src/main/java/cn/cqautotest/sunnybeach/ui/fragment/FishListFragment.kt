@@ -57,7 +57,7 @@ import cn.cqautotest.sunnybeach.viewmodel.HomeViewModel
 import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceDecoration
 import com.dylanc.longan.startActivity
 import com.dylanc.longan.viewLifecycleScope
 import com.hjq.bar.TitleBar
@@ -160,7 +160,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             rvFishPondList.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = concatAdapter
-                addItemDecoration(SimpleLinearSpaceItemDecoration(6.dp))
+                addItemDecoration(LinearSpaceDecoration(mainSpace = 6.dp, crossSpace = 0))
                 clearItemAnimator()
             }
         }

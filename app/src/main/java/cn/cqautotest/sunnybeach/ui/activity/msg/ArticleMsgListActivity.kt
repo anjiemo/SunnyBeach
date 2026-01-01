@@ -18,7 +18,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.ArticleMsgAdapter
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
-import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceDecoration
 import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 
@@ -43,7 +43,7 @@ class ArticleMsgListActivity : PagingActivity(), OnBack2TopListener {
     override fun initView() {
         hideSupportActionBar()
         super.initView()
-        mBinding.pagingRecyclerView.addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
+        mBinding.pagingRecyclerView.addItemDecoration(LinearSpaceDecoration(mainSpace = 1.dp, crossSpace = 0))
     }
 
     override suspend fun loadListData() {
