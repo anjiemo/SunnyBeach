@@ -41,7 +41,7 @@ import cn.cqautotest.sunnybeach.util.EmojiImageGetter
 import cn.cqautotest.sunnybeach.util.MultiOperationHelper
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import com.blankj.utilcode.util.TimeUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -84,14 +84,14 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
             pagingRecyclerView.apply {
                 adapter = mFishPondDetailCommendListAdapter
                 layoutManager = LinearLayoutManager(context)
-                addItemDecoration(LinearSpaceDecoration(mainSpace = 1.dp, crossSpace = 0))
+                addItemDecoration(UniversalSpaceDecoration(mainSpace = 1.dp, crossSpace = 0))
                 // 移除 RecyclerView 的默认动画
                 clearItemAnimator()
             }
             pagingRecyclerViewFloat.apply {
                 adapter = mFishPondDetailCommendListAdapter
                 layoutManager = LinearLayoutManager(context)
-                addItemDecoration(LinearSpaceDecoration(mainSpace = 1.dp, crossSpace = 0))
+                addItemDecoration(UniversalSpaceDecoration(mainSpace = 1.dp, crossSpace = 0))
                 // 移除 RecyclerView 的默认动画
                 clearItemAnimator()
             }

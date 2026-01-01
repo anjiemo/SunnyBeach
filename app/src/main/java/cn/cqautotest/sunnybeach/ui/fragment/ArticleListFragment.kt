@@ -24,7 +24,7 @@ import cn.cqautotest.sunnybeach.ui.dialog.ShareDialog
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.UmengReportKey
 import cn.cqautotest.sunnybeach.viewmodel.ArticleViewModel
-import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import com.hjq.umeng.Platform
 import com.hjq.umeng.UmengShare
 import com.umeng.analytics.MobclickAgent
@@ -53,7 +53,7 @@ class ArticleListFragment : PagingTitleBarFragment<HomeActivity>(), OnBack2TopLi
 
     override fun initView() {
         super.initView()
-        mBinding.pagingRecyclerView.addItemDecoration(LinearSpaceDecoration(mainSpace = 4.dp, crossSpace = 0))
+        mBinding.pagingRecyclerView.addItemDecoration(UniversalSpaceDecoration(mainSpace = 4.dp, crossSpace = 0))
     }
 
     override suspend fun loadListData() {

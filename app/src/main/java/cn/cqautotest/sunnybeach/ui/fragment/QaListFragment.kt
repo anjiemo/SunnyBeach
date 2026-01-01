@@ -16,7 +16,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.QaListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
 import cn.cqautotest.sunnybeach.viewmodel.QaViewModel
-import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 
@@ -40,7 +40,7 @@ class QaListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopListener
 
     override fun initView() {
         super.initView()
-        mBinding.pagingRecyclerView.addItemDecoration(LinearSpaceDecoration(mainSpace = 4.dp, crossSpace = 0))
+        mBinding.pagingRecyclerView.addItemDecoration(UniversalSpaceDecoration(mainSpace = 4.dp, crossSpace = 0))
     }
 
     override suspend fun loadListData() {

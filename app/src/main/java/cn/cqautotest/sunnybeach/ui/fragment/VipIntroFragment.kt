@@ -7,7 +7,7 @@ import cn.cqautotest.sunnybeach.databinding.VipIntroFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ui.activity.CopyActivity
 import cn.cqautotest.sunnybeach.ui.adapter.VipIntroAdapter
-import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import dev.androidbroadcast.vbpd.viewBinding
 
 /**
@@ -27,7 +27,7 @@ class VipIntroFragment : AppFragment<CopyActivity>() {
         mBinding.rvVipIntroduction.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = mVipIntroAdapter
-            addItemDecoration(GridSpaceDecoration(4.dp))
+            addItemDecoration(UniversalSpaceDecoration(4.dp))
         }
     }
 

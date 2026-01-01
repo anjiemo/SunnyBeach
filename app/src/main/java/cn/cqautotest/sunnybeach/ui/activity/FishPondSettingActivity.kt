@@ -15,7 +15,7 @@ import cn.cqautotest.sunnybeach.model.FishPondTopicList
 import cn.cqautotest.sunnybeach.ui.adapter.FishPondAdapter
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import com.blankj.utilcode.util.DeviceUtils
 import com.chad.library.adapter.base.module.BaseDraggableModule
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -85,7 +85,7 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
             val draggableModule = BaseDraggableModule(mFishPondAdapter)
             draggableModule.attachToRecyclerView(this)
             draggableModule.isDragEnabled = true
-            addItemDecoration(GridSpaceDecoration(8.dp))
+            addItemDecoration(UniversalSpaceDecoration(8.dp))
         }
     }
 

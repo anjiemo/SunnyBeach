@@ -20,7 +20,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.ImageSelectAdapter
 import cn.cqautotest.sunnybeach.ui.dialog.AlbumDialog
 import cn.cqautotest.sunnybeach.ui.dialog.AlbumDialog.AlbumInfo
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.bar.TitleBar
 import com.hjq.base.BaseActivity
@@ -132,7 +132,7 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
             // 禁用动画效果
             it.itemAnimator = null
             // 添加分割线
-            it.addItemDecoration(GridSpaceDecoration(resources.getDimension(com.hjq.base.R.dimen.dp_3).toInt()))
+            it.addItemDecoration(UniversalSpaceDecoration(resources.getDimension(com.hjq.base.R.dimen.dp_3).toInt()))
             // 设置滚动监听
             it.doScrollStateChanged { _, newState ->
                 when (newState) {

@@ -41,7 +41,7 @@ import cn.cqautotest.sunnybeach.repository.Repository
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
-import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
 import com.bumptech.glide.Glide
@@ -96,7 +96,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         rvPreviewImage.apply {
             layoutManager = GridLayoutManager(context, 4)
             adapter = mPreviewAdapter
-            addItemDecoration(GridSpaceDecoration(4.dp))
+            addItemDecoration(UniversalSpaceDecoration(4.dp))
         }
     }
 

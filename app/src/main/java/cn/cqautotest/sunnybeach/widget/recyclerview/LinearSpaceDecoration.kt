@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
  * @property includeEnd 是否包含列表结束边缘的间距（垂直布局为右边缘，水平布局为右边缘）。
  * @property includeBottom 列表最底端是否包含间距。
  */
-open class LinearSpaceDecoration(
+class LinearSpaceDecoration(
     @param:Px private val mainSpace: Int,
     @param:Px private val crossSpace: Int = mainSpace,
     @param:Px private val adapterGap: Int = 0,

@@ -13,7 +13,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.VipUserListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.UserViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
-import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import dev.androidbroadcast.vbpd.viewBinding
@@ -36,7 +36,7 @@ class VipListFragment : AppFragment<CopyActivity>(), StatusAction, OnRefreshList
     override fun initView() {
         mBinding.rvVipUserList.apply {
             adapter = mVipUserListAdapter
-            addItemDecoration(GridSpaceDecoration(4.dp))
+            addItemDecoration(UniversalSpaceDecoration(4.dp))
         }
     }
 
