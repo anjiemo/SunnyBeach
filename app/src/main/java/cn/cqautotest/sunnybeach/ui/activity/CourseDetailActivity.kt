@@ -31,7 +31,7 @@ import cn.cqautotest.sunnybeach.repository.Repository
 import cn.cqautotest.sunnybeach.ui.adapter.CourseChapterListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
-import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceDecoration
 import com.bumptech.glide.Glide
 import com.dylanc.longan.intentExtras
 import com.flyjingfish.android_aop_core.annotations.CheckNetwork
@@ -70,7 +70,7 @@ class CourseDetailActivity : PagingActivity() {
         Glide.with(this)
             .load(courseItem.cover)
             .into(mBinding.ivCover)
-        mBinding.pagingRecyclerView.addItemDecoration(SimpleLinearSpaceItemDecoration(1.dp))
+        mBinding.pagingRecyclerView.addItemDecoration(LinearSpaceDecoration(mainSpace = 1.dp, crossSpace = 0))
         val price = courseItem.price
         mBinding.tvBuyCourse.text = if (price.isZero) "已购买" else "购买 ¥ ${courseItem.price}"
     }

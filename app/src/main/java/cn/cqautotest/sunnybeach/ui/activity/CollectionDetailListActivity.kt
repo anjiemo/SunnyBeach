@@ -16,7 +16,7 @@ import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.CollectionDetailListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.viewmodel.CollectionViewModel
-import cn.cqautotest.sunnybeach.widget.recyclerview.SimpleLinearSpaceItemDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceDecoration
 import com.dylanc.longan.intentExtras
 import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
@@ -45,7 +45,7 @@ class CollectionDetailListActivity : PagingActivity() {
         super.initView()
         with(mBinding) {
             titleBar.title = collectionItem.name
-            pagingRecyclerView.addItemDecoration(SimpleLinearSpaceItemDecoration(4.dp))
+            pagingRecyclerView.addItemDecoration(LinearSpaceDecoration(mainSpace = 4.dp, crossSpace = 0))
         }
     }
 

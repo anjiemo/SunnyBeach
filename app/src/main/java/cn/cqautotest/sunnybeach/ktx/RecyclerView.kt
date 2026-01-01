@@ -1,10 +1,6 @@
 package cn.cqautotest.sunnybeach.ktx
 
-import android.graphics.Rect
-import android.view.View
-import androidx.annotation.Px
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 fun RecyclerView.clearItemDecorations() = repeat(itemDecorationCount) { removeItemDecorationAt(it) }
@@ -59,95 +55,8 @@ inline fun RecyclerView.addOnScrollListener(
     return scrollListener
 }
 
-/**
- * {@link ItemDecoration#getItemOffsets(outRect: Rect,view: View,parent: RecyclerView)} or
- * {@link ItemDecoration#getItemOffsets(outRect: Rect,view: View,parent: RecyclerView,state: RecyclerView.State)}.
- * 均分 LinearLayoutManager 间距的便捷方法
- */
-fun equilibriumAssignmentOfLinear(
-    @Px unit: Int,
-    outRect: Rect,
-    view: View,
-    parent: RecyclerView
-) {
-    // item 的个数
-    val itemCount = parent.getItemCount()
-    // 当前 item 的 position
-    val itemPosition = parent.getChildAdapterPosition(view)
-    val layoutManager = parent.checkLinearLayoutManager() ?: return
-    // 获取 LinearLayoutManager 的布局方向
-    val orientation = layoutManager.orientation
-    // 遍历所有 item
-    for (index in 0..itemCount) {
-        when (itemPosition) {
-            // 第一个
-            0 -> {
-                if (orientation == RecyclerView.VERTICAL) {
-                    // 第一个 && VERTICAL 布局方式 -> 对item的底部特殊处理
-                    outRect.top = unit * 2
-                    outRect.bottom = unit
-                    outRect.left = unit * 2
-                    outRect.right = unit * 2
-                } else {
-                    // 第一个 && HORIZONTAL 布局方式 -> 对item的右边特殊处理
-                    outRect.top = unit * 2
-                    outRect.bottom = unit * 2
-                    outRect.left = unit * 2
-                    outRect.right = unit
-                }
-            }
-            // 最后一个
-            itemCount - 1 -> {
-                if (orientation == RecyclerView.VERTICAL) {
-                    // 最后一个 && VERTICAL 布局方式 -> 对item的顶部特殊处理
-                    outRect.top = unit
-                    outRect.bottom = unit * 2
-                    outRect.left = unit * 2
-                    outRect.right = unit * 2
-                } else {
-                    // 最后一个 && HORIZONTAL 布局方式 -> 对item的左边特殊处理
-                    outRect.top = unit * 2
-                    outRect.bottom = unit * 2
-                    outRect.left = unit
-                    outRect.right = unit * 2
-                }
-            }
-            // 中间的item
-            else -> {
-                if (orientation == RecyclerView.VERTICAL) {
-                    // 中间的item && VERTICAL 布局方式 -> 对item的顶部和底部特殊处理
-                    outRect.top = unit
-                    outRect.bottom = unit
-                    outRect.left = unit * 2
-                    outRect.right = unit * 2
-                } else {
-                    // 中间的item && HORIZONTAL 布局方式 -> 对item的左边和右边特殊处理
-                    outRect.top = unit * 2
-                    outRect.bottom = unit * 2
-                    outRect.left = unit
-                    outRect.right = unit
-                }
-            }
-        }
-    }
-}
-
-/**
- * 返回绑定到父 RecyclerView 的适配器中的项目数
- */
-fun RecyclerView.getItemCount(): Int {
-    val layoutManager = layoutManager ?: return 0
-    return layoutManager.itemCount
-}
-
-/**
- * 检查 RecyclerView 设置的 LinearLayoutManager
- */
-private fun RecyclerView.checkLinearLayoutManager(): LinearLayoutManager? {
-    val layoutManager = layoutManager ?: return null
-    require(layoutManager is LinearLayoutManager) { "Make sure you are using the LinearLayoutManager！" }
-    return layoutManager
-}
+val RecyclerView.itemCount
+    get() = adapter?.itemCount ?: 0
 
 /**
  * 在下一次 UI 绘制后添加默认动画

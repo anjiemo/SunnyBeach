@@ -359,6 +359,8 @@ dependencies {
     // 对 Room 的 Kotlin 扩展和协程支持
     implementation(libs.androidx.room.ktx)
 
+    // RecyclerView：https://developer.android.com/jetpack/androidx/releases/recyclerview?hl=zh-cn
+    implementation(libs.androidx.recyclerview)
     // Paging 分页库：https://developer.android.google.cn/jetpack/androidx/releases/paging
     implementation(libs.androidx.paging.runtime.ktx)
     // Navigation 导航：https://developer.android.com/jetpack/androidx/releases/navigation?hl=zh-cn
