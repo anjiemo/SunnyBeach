@@ -3,11 +3,8 @@ package cn.cqautotest.sunnybeach.ui.adapter
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.toColorInt
-import androidx.core.view.forEach
-import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
@@ -19,6 +16,7 @@ import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.manager.UserManager
 import cn.cqautotest.sunnybeach.model.QaInfo
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
+import cn.cqautotest.sunnybeach.widget.tag.TextTagAdapter
 import com.blankj.utilcode.util.TimeUtils
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -33,6 +31,7 @@ class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
     PagingDataAdapter<QaInfo.QaInfoItem, QaListAdapter.QaListViewHolder>(diffCallback) {
 
     private val mSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.SIMPLIFIED_CHINESE)
+    private val mTagAdapter = TextTagAdapter()
 
     inner class QaListViewHolder(val binding: QaListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -82,19 +81,8 @@ class QaListAdapter(private val adapterDelegate: AdapterDelegate) :
 
                 tvQaTitle.text = item.title
                 tvDesc.text = TimeUtils.getFriendlyTimeSpanByNow(item.createTime, mSdf)
-                llQaLabelContainer.apply {
-                    forEach {
-                        it.isVisible = false
-                        (it as? TextView)?.text = ""
-                    }
-                    item.labels.onEachIndexed { index, text ->
-                        if (index < itemCount) {
-                            val labelView = getChildAt(index) as? TextView
-                            labelView?.isVisible = true
-                            labelView?.text = text
-                        }
-                    }
-                }
+                tagContainer.setMaxTagCount(5)
+                    .setupTags(item.labels, mTagAdapter)
             }
         }
     }

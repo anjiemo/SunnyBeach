@@ -45,4 +45,8 @@
         <attr name="maxItemLines" format="integer" />
     </declare-styleable>
 
+    <declare-styleable name="SingleLineTagContainer">
+        <attr name="tagGap" format="dimension" />
+        <attr name="maxTagCount" format="integer" />
+    </declare-styleable>
 </resources>
