@@ -20,7 +20,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.msg.AtMeMsgAdapter
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_ARTICLE_URL_PRE
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_QA_URL_PRE
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
-import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 
@@ -45,7 +45,7 @@ class AtMeMsgListActivity : PagingActivity(), OnBack2TopListener {
     override fun initView() {
         hideSupportActionBar()
         super.initView()
-        mBinding.pagingRecyclerView.addItemDecoration(LinearSpaceDecoration(mainSpace = 1.dp, crossSpace = 0))
+        mBinding.pagingRecyclerView.addItemDecoration(UniversalSpaceDecoration(mainSpace = 1.dp, crossSpace = 0))
     }
 
     override suspend fun loadListData() {

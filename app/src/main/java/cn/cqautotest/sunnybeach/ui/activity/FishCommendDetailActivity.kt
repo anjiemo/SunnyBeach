@@ -23,7 +23,7 @@ import cn.cqautotest.sunnybeach.model.FishPondComment
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.ui.adapter.FishCommendDetailListAdapter
 import cn.cqautotest.sunnybeach.ui.fragment.SubmitCommentFragment
-import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import com.blankj.utilcode.util.TimeUtils
 import dev.androidbroadcast.vbpd.viewBinding
 import timber.log.Timber
@@ -49,7 +49,7 @@ class FishCommendDetailActivity : AppActivity() {
         mBinding.rvFishCommendDetailList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = mFishCommendDetailListAdapter
-            addItemDecoration(LinearSpaceDecoration(mainSpace = 1.dp, crossSpace = 0))
+            addItemDecoration(UniversalSpaceDecoration(mainSpace = 1.dp, crossSpace = 0))
         }
     }
 

@@ -17,7 +17,7 @@ import cn.cqautotest.sunnybeach.ui.activity.ViewUserActivity
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.adapter.msg.MomentMsgAdapter
 import cn.cqautotest.sunnybeach.viewmodel.MsgViewModel
-import cn.cqautotest.sunnybeach.widget.recyclerview.LinearSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 
@@ -42,7 +42,7 @@ class FishMsgListActivity : PagingActivity(), OnBack2TopListener {
     override fun initView() {
         hideSupportActionBar()
         super.initView()
-        mBinding.pagingRecyclerView.addItemDecoration(LinearSpaceDecoration(mainSpace = 1.dp, crossSpace = 0))
+        mBinding.pagingRecyclerView.addItemDecoration(UniversalSpaceDecoration(mainSpace = 1.dp, crossSpace = 0))
     }
 
     override suspend fun loadListData() {

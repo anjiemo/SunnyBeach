@@ -17,7 +17,7 @@ import cn.cqautotest.sunnybeach.ui.adapter.PhotoListAdapter
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.util.CustomAnimation
 import cn.cqautotest.sunnybeach.viewmodel.PhotoViewModel
-import cn.cqautotest.sunnybeach.widget.recyclerview.GridSpaceDecoration
+import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import com.bumptech.glide.Glide
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
@@ -56,7 +56,7 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
         }
         mBinding.pagingRecyclerView.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
-            addItemDecoration(GridSpaceDecoration(8.dp))
+            addItemDecoration(UniversalSpaceDecoration(8.dp))
         }
     }
 
