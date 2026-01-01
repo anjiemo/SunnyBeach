@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.shape.view.ShapeTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tv_tag_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:contentDescription="话题标签"
+    android:paddingHorizontal="@dimen/dp_4"
+    android:paddingVertical="@dimen/dp_1"
+    android:textColor="@color/default_font_color"
+    android:textSize="11sp"
+    app:shape_radius="@dimen/dp_4"
+    app:shape_solidColor="@color/common_window_background_color"
+    tools:text="安卓/IOS" />

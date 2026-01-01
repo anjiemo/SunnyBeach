@@ -3,4 +3,5 @@
     <item name="paging_status_layout" type="id" />
     <item name="paging_refresh_layout" type="id" />
     <item name="paging_recycler_view" type="id" />
+    <item name="tag_view_holder" type="id" />
 </resources>
