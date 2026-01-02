@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -44,10 +45,12 @@ class QaListFragment : PagingTitleBarFragment<AppActivity>(), OnBack2TopListener
     }
 
     override suspend fun loadListData() {
-        mQaViewModel.qaListFlow.collectLatest {
-            onBack2Top()
-            mQaListAdapter.submitData(it)
-        }
+        mQaViewModel.qaListFlow
+            .flowWithLifecycle(lifecycle)
+            .collectLatest {
+                onBack2Top()
+                mQaListAdapter.submitData(it)
+            }
     }
 
     override fun initEvent() {

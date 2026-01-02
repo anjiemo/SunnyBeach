@@ -51,9 +51,11 @@ class PagingUiDelegate(
             pagingDataAdapter.retry()
         }
         pagingDataAdapter.addLoadStateListener { states ->
-            when (states.append) {
-                !is LoadState.Loading -> {
+            when (val appendState = states.append) {
+                is LoadState.NotLoading -> {
                     refreshLayout?.finishLoadMore()
+                    val endOfPaginationReached = appendState.endOfPaginationReached
+                    refreshLayout?.setEnableLoadMore(endOfPaginationReached.not())
                 }
 
                 else -> {

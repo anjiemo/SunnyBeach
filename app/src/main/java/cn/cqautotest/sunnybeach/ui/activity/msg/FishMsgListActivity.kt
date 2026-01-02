@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.ui.activity.msg
 
 import android.view.View
 import androidx.activity.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.app.PagingActivity
@@ -46,7 +47,9 @@ class FishMsgListActivity : PagingActivity(), OnBack2TopListener {
     }
 
     override suspend fun loadListData() {
-        mMsgViewModel.getMomentMsgList().collectLatest { mMomentMsgAdapter.submitData(it) }
+        mMsgViewModel.getMomentMsgList()
+            .flowWithLifecycle(lifecycle)
+            .collectLatest { mMomentMsgAdapter.submitData(it) }
     }
 
     override fun initEvent() {

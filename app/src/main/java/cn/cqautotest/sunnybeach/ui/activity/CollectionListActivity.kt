@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import androidx.activity.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.CollectionListActivityBinding
@@ -32,7 +33,11 @@ class CollectionListActivity : PagingActivity() {
 
     override fun getLayoutId(): Int = R.layout.collection_list_activity
 
-    override suspend fun loadListData() = mCollectionViewModel.collectionListFlow.collectLatest { getPagingAdapter().submitData(it) }
+    override suspend fun loadListData() {
+        mCollectionViewModel.collectionListFlow
+            .flowWithLifecycle(lifecycle)
+            .collectLatest { getPagingAdapter().submitData(it) }
+    }
 
     override fun initView() {
         super.initView()

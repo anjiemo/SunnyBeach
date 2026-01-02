@@ -222,9 +222,11 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 mFishListAdapter.retry()
             }
             mFishListAdapter.addLoadStateListener { states ->
-                when (states.append) {
-                    !is LoadState.Loading -> {
+                when (val appendState = states.append) {
+                    is LoadState.NotLoading -> {
                         refreshLayout.finishLoadMore()
+                        val endOfPaginationReached = appendState.endOfPaginationReached
+                        refreshLayout.setEnableLoadMore(endOfPaginationReached.not())
                     }
 
                     else -> {

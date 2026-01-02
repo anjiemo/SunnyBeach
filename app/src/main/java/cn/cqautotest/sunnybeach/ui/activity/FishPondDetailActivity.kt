@@ -13,6 +13,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -106,14 +107,18 @@ class FishPondDetailActivity : AppActivity(), StatusAction {
     override fun initData() {
         showLoading()
         loadFishDetail()
-        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { loadListData() } }
+        lifecycleScope.launch {
+            loadListData()
+        }
     }
 
     private suspend fun loadListData() {
-        mFishPondViewModel.fishCommendListFlow.collectLatest {
-            mBinding.pagingRecyclerView.scrollToPosition(0)
-            mFishPondDetailCommendListAdapter.submitData(it)
-        }
+        mFishPondViewModel.fishCommendListFlow
+            .flowWithLifecycle(lifecycle)
+            .collectLatest {
+                mBinding.pagingRecyclerView.scrollToPosition(0)
+                mFishPondDetailCommendListAdapter.submitData(it)
+            }
     }
 
     fun refreshFishPondDetailCommendList() {

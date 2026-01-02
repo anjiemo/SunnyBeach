@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import androidx.activity.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.ktx.snapshotList
@@ -41,9 +42,11 @@ class HotArticleListActivity : PagingActivity() {
     }
 
     override suspend fun loadListData() {
-        mHotArticleViewModel.userArticleListFlow.collectLatest {
-            mHotArticleAdapter.submitData(it)
-        }
+        mHotArticleViewModel.userArticleListFlow
+            .flowWithLifecycle(lifecycle)
+            .collectLatest {
+                mHotArticleAdapter.submitData(it)
+            }
     }
 
     override fun initEvent() {

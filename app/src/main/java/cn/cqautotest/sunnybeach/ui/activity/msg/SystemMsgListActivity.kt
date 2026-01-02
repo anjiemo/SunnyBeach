@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.activity.msg
 
 import androidx.activity.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.app.PagingActivity
@@ -46,7 +47,9 @@ class SystemMsgListActivity : PagingActivity(), OnBack2TopListener {
     }
 
     override suspend fun loadListData() {
-        mMsgViewModel.getSystemMsgList().collectLatest { mSystemMsgAdapter.submitData(it) }
+        mMsgViewModel.getSystemMsgList()
+            .flowWithLifecycle(lifecycle)
+            .collectLatest { mSystemMsgAdapter.submitData(it) }
     }
 
     override fun initEvent() {
