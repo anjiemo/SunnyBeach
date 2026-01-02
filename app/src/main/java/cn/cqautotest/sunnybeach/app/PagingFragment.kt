@@ -1,15 +1,13 @@
 package cn.cqautotest.sunnybeach.app
 
 import androidx.annotation.CallSuper
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.ui.delegate.PagingUiDelegate
 import cn.cqautotest.sunnybeach.widget.StatusLayout
+import com.dylanc.longan.viewLifecycleScope
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import kotlinx.coroutines.launch
 
@@ -59,10 +57,8 @@ abstract class PagingFragment<A : AppActivity> : AppFragment<A>(), StatusAction 
 
     @CallSuper
     override fun initData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
-                loadListData()
-            }
+        viewLifecycleScope.launch {
+            loadListData()
         }
     }
 

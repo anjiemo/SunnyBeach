@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.ui.fragment.user.content
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.paging.PagingDataAdapter
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -52,7 +53,9 @@ class UserArticleListManagerFragment : PagingFragment<AppActivity>() {
     }
 
     override suspend fun loadListData() {
-        mArticleViewModel.searchUserArticleListFlow.collectLatest { mUserArticleAdapter.submitData(it) }
+        mArticleViewModel.searchUserArticleListFlow
+            .flowWithLifecycle(lifecycle)
+            .collectLatest { mUserArticleAdapter.submitData(it) }
     }
 
     override fun initEvent() {

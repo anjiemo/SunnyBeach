@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.Context
 import androidx.activity.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.CollectionDetailListActivityBinding
@@ -50,7 +51,9 @@ class CollectionDetailListActivity : PagingActivity() {
     }
 
     override suspend fun loadListData() {
-        mCollectionViewModel.collectionDetailListFlow.collectLatest { mCollectionDetailListAdapter.submitData(it) }
+        mCollectionViewModel.collectionDetailListFlow
+            .flowWithLifecycle(lifecycle)
+            .collectLatest { mCollectionDetailListAdapter.submitData(it) }
     }
 
     override fun initEvent() {

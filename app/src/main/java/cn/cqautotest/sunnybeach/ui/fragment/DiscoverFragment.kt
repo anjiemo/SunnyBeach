@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.graphics.Color
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -61,9 +62,11 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
     }
 
     override suspend fun loadListData() {
-        mPhotoViewModel.wallpaperListFlow.collectLatest {
-            mPhotoListAdapter.submitData(it)
-        }
+        mPhotoViewModel.wallpaperListFlow
+            .flowWithLifecycle(lifecycle)
+            .collectLatest {
+                mPhotoListAdapter.submitData(it)
+            }
     }
 
     override fun initEvent() {

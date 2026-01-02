@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.ui.fragment.user.media
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingFragment
@@ -41,9 +42,11 @@ class UserShareListFragment : PagingFragment<AppActivity>() {
     }
 
     override suspend fun loadListData() {
-        mShareViewModel.userShareListFlow.collectLatest {
-            mShareListAdapter.submitData(it)
-        }
+        mShareViewModel.userShareListFlow
+            .flowWithLifecycle(lifecycle)
+            .collectLatest {
+                mShareListAdapter.submitData(it)
+            }
     }
 
     override fun initEvent() {

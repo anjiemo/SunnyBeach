@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import androidx.activity.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.model.RefreshStatus
@@ -26,7 +27,9 @@ class RichListActivity : PagingActivity() {
     override fun getLayoutId(): Int = R.layout.rich_list_activity
 
     override suspend fun loadListData() {
-        mUserViewModel.richListFlow.collectLatest { mRichListAdapter.submitData(it) }
+        mUserViewModel.richListFlow
+            .flowWithLifecycle(lifecycle)
+            .collectLatest { mRichListAdapter.submitData(it) }
     }
 
     override fun showLoading(id: Int) {

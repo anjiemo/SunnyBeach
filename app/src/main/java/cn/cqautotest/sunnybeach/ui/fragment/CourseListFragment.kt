@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -81,9 +82,11 @@ class CourseListFragment : PagingTitleBarFragment<AppActivity>() {
     }
 
     override suspend fun loadListData() {
-        mCourseViewModel.courseListFlow.collectLatest {
-            mCourseListAdapter.submitData(it)
-        }
+        mCourseViewModel.courseListFlow
+            .flowWithLifecycle(lifecycle)
+            .collectLatest {
+                mCourseListAdapter.submitData(it)
+            }
     }
 
     override fun initEvent() {

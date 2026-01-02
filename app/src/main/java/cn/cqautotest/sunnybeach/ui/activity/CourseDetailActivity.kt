@@ -76,7 +76,9 @@ class CourseDetailActivity : PagingActivity() {
     }
 
     override suspend fun loadListData() {
-        mCourseViewModel.courseChapterListFlow.collectLatest { mCourseChapterListAdapter.submitData(it) }
+        mCourseViewModel.courseChapterListFlow
+            .flowWithLifecycle(lifecycle)
+            .collectLatest { mCourseChapterListAdapter.submitData(it) }
     }
 
     override fun initEvent() {

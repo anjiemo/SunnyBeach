@@ -1,9 +1,7 @@
 package cn.cqautotest.sunnybeach.app
 
 import androidx.annotation.CallSuper
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
@@ -37,7 +35,9 @@ abstract class PagingActivity : AppActivity(), StatusAction {
     }
 
     override fun initData() {
-        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.RESUMED) { loadListData() } }
+        lifecycleScope.launch {
+            loadListData()
+        }
     }
 
     abstract suspend fun loadListData()
