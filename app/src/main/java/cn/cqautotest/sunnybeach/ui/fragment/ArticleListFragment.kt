@@ -3,6 +3,7 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.OnBack2TopListener
 import cn.cqautotest.sunnybeach.app.PagingTitleBarFragment
@@ -57,9 +58,11 @@ class ArticleListFragment : PagingTitleBarFragment<HomeActivity>(), OnBack2TopLi
     }
 
     override suspend fun loadListData() {
-        mArticleViewModel.articleListFlow.collectLatest {
-            mArticleAdapter.submitData(it)
-        }
+        mArticleViewModel.articleListFlow
+            .flowWithLifecycle(lifecycle)
+            .collectLatest {
+                mArticleAdapter.submitData(it)
+            }
     }
 
     @SuppressLint("InflateParams")

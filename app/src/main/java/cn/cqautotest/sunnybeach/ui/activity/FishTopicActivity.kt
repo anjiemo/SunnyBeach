@@ -8,7 +8,6 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.PagingDataAdapter
 import androidx.palette.graphics.Palette
 import cn.cqautotest.sunnybeach.R
@@ -96,9 +95,12 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
     }
 
     override fun initData() {
-
-        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { getFollowedTopicList() } }
-        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { loadListData() } }
+        lifecycleScope.launch {
+            getFollowedTopicList()
+        }
+        lifecycleScope.launch {
+            loadListData()
+        }
     }
 
     @CheckNetwork(invokeListener = true)
@@ -118,9 +120,11 @@ class FishTopicActivity : PagingActivity(), RequestListener<Drawable> {
     }
 
     override suspend fun loadListData() {
-        mFishPondViewModel.fishListFlow.collectLatest {
-            mFishListAdapter.submitData(it)
-        }
+        mFishPondViewModel.fishListFlow
+            .flowWithLifecycle(lifecycle)
+            .collectLatest {
+                mFishListAdapter.submitData(it)
+            }
     }
 
     override fun initEvent() {

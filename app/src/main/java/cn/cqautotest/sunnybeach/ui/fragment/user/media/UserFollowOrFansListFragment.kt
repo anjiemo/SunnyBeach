@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.ui.fragment.user.media
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingFragment
@@ -42,9 +43,11 @@ class UserFollowOrFansListFragment : PagingFragment<AppActivity>() {
     }
 
     override suspend fun loadListData() {
-        mFollowViewModel.userFollowOrFansListStateFlow.collectLatest {
-            mUserFollowListAdapter.submitData(it)
-        }
+        mFollowViewModel.userFollowOrFansListStateFlow
+            .flowWithLifecycle(lifecycle)
+            .collectLatest {
+                mUserFollowListAdapter.submitData(it)
+            }
     }
 
     override fun initEvent() {
