@@ -60,6 +60,14 @@ allprojects {
         addCommonMaven()
     }
 
+    plugins.withType<JavaBasePlugin>().configureEach {
+        extensions.configure<JavaPluginExtension> {
+            toolchain {
+                languageVersion.set(JavaLanguageVersion.of(21))
+            }
+        }
+    }
+
     tasks.withType<JavaCompile>().configureEach {
         // 设置全局编码
         options.encoding = "UTF-8"
