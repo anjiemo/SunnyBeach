@@ -99,6 +99,13 @@ leakcanary = "2.14"
 glance = "1.1.0"
 
 [libraries]
+# Gradle 插件依赖（用于 build-logic 模块）
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "symbol-processing-gradle-plugin", version.ref = "ksp" }
+compose-gradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
+hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
+
 # AndroidX 核心库
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppcompat" }
@@ -258,3 +265,9 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
 # 注意：华为 AGConnect 插件不在这里定义，需要在 buildscript 中配置
 # 注意：AndroidAOP 插件不在这里定义，需要在 buildscript 中配置
+
+# SunnyBeach 约定插件
+sunnybeach-android-application = { id = "sunnybeach.android.application", version = "unspecified" }
+sunnybeach-android-library = { id = "sunnybeach.android.library", version = "unspecified" }
+sunnybeach-android-compose = { id = "sunnybeach.android.compose", version = "unspecified" }
+sunnybeach-hilt = { id = "sunnybeach.hilt", version = "unspecified" }
