@@ -1,6 +1,8 @@
 pluginManagement {
+    // 包含 build-logic 约定插件模块
+    includeBuild("build-logic")
     repositories {
-        // 优先使用官方仓库，确保能获取最新插件（特别是在 CI/CD 环境中）
+        // 优先使用官方仓库，确保能获取最新插件
         gradlePluginPortal()
         google()
         mavenCentral()
@@ -18,16 +20,19 @@ plugins {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
-        // 优先使用国内镜像
+        // 阿里云云效仓库：https://maven.aliyun.com/mvn/guide
         maven { url = uri("https://maven.aliyun.com/repository/public") }
         maven { url = uri("https://maven.aliyun.com/repository/google") }
-        google()
-        mavenCentral()
-        // 华为相关仓库
-        maven { url = uri("https://developer.huawei.com/repo/") }
+        // 华为开源镜像：https://mirrors.huaweicloud.com
         maven { url = uri("https://repo.huaweicloud.com/repository/maven") }
-        // 其他仓库
+        // JitPack 远程仓库：https://jitpack.io
         maven { url = uri("https://jitpack.io") }
+        // MavenCentral 远程仓库：https://mvnrepository.com
+        mavenCentral()
+        google()
+        // 配置HMS Core SDK的Maven仓地址
+        maven { url = uri("https://developer.huawei.com/repo/") }
+        // 阿里云视频SDK所在的仓库
         maven { url = uri("https://maven.aliyun.com/nexus/content/repositories/releases") }
     }
 }
