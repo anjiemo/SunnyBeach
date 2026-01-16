@@ -33,9 +33,9 @@ buildscript {
     }
     dependencies {
         // 华为 AGConnect 插件
-        classpath("com.huawei.agconnect:agcp:1.9.4.300")
+        classpath(libs.huawei.agconnect.plugin)
         // AndroidAOP 插件
-        classpath("io.github.flyjingfish:androidaop-plugin:2.7.3")
+        classpath(libs.androidaop.plugin)
     }
 }
 
