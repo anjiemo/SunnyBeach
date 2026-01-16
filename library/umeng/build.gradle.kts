@@ -29,13 +29,13 @@ android {
 // 友盟社会化集成文档：https://developer.umeng.com/docs/128606/detail/193879
 dependencies {
     // 友盟公共库
-    api("com.umeng.umsdk:common:9.4.7")
-    api("com.umeng.umsdk:asms:1.4.1")
+    api(libs.umeng.common)
+    api(libs.umeng.asms)
     // 友盟分享库
-    api("com.umeng.umsdk:share-core:7.1.7")
+    api(libs.umeng.share.core)
     // 友盟微信分享
-    api("com.umeng.umsdk:share-wx:7.1.7")
+    api(libs.umeng.share.wx)
 
     // 微信组件：https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html
-    api("com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.7.9")
+    api(libs.wechat.sdk)
 }
