@@ -15,16 +15,14 @@ fun Date.format(pattern: String): String {
 }
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
-    // 华为 AGConnect 插件（使用字符串 ID）
+    // 使用 SunnyBeach 约定插件
+    alias(libs.plugins.sunnybeach.android.application)
+    alias(libs.plugins.sunnybeach.android.compose)
+    alias(libs.plugins.sunnybeach.hilt)
+    // 华为 AGConnect 插件
     id("com.huawei.agconnect")
-    // AndroidAOP 插件（使用字符串 ID）
+    // AndroidAOP 插件
     id("android.aop")
-    // 此版本与 Kotlin 版本匹配
-    alias(libs.plugins.kotlin.compose)
 }
 
 // Android 代码规范文档：https://github.com/getActivity/AndroidCodeStandard
@@ -145,8 +143,10 @@ android {
         }
     }
 
-    buildFeatures {
-        compose = true // 启用 Compose
+    defaultConfig {
+        // 设置版本信息
+        versionName = rootProject.extra["appVersionName"] as String
+        versionCode = rootProject.extra["appVersionCode"] as Int
     }
 
     applicationVariants.all {
@@ -309,6 +309,9 @@ tasks.register("printDebugAppConfig") {
 // 添加构建依赖项：https://developer.android.google.cn/studio/build/dependencies
 // api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
 dependencies {
+    // 依赖 libs 目录下所有的 jar 和 aar 包
+    implementation(fileTree(mapOf("include" to listOf("*.jar", "*.aar"), "dir" to "libs")))
+
     val pagingVersion = "3.3.6"
     val navVersion = "2.9.5"
     val emoji2Version = "1.0.0-beta01"

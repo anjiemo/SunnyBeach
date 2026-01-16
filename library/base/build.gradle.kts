@@ -1,5 +1,6 @@
 plugins {
-    id("com.android.library")
+    // 使用 SunnyBeach Android Library 约定插件
+    alias(libs.plugins.sunnybeach.android.library)
 }
 
 android {

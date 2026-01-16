@@ -1,5 +1,6 @@
 plugins {
-    id("com.android.library")
+    // 使用 SunnyBeach Android Library 约定插件
+    alias(libs.plugins.sunnybeach.android.library)
 }
 
 android {
@@ -19,6 +20,9 @@ android {
         manifestPlaceholders["WX_ID"] = rootProject.extra["WX_APP_ID"] as String
         manifestPlaceholders["WX_SECRET"] = rootProject.extra["WX_APP_SECRET"] as String
     }
+
+    // umeng 模块需要生成 BuildConfig
+    buildFeatures.buildConfig = true
 }
 
 // 友盟统计集成文档：https://developer.umeng.com/docs/119267/detail/118584
