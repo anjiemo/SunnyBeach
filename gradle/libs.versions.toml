@@ -228,7 +228,7 @@ bugly-crashreport = { group = "com.tencent.bugly", name = "crashreport", version
 bugly-nativecrashreport = { group = "com.tencent.bugly", name = "nativecrashreport", version.ref = "buglyNative" }
 
 # 阿里云播放器
-aliyun-player = { group = "com.aliyun.sdk.android", name = "AliyunPlayer", version = "7.11.0-full" }
+aliyun-player = { group = "com.aliyun.sdk.android", name = "AliyunPlayer", version = "5.4.9.2-full" }
 
 # 图表库
 mpandroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpAndroidChart" }
