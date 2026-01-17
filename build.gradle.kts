@@ -81,8 +81,14 @@ allprojects {
 
     // 将构建文件统一输出到项目根目录下的 build 文件夹
     layout.buildDirectory.set(file("$rootDir/build/${path.replace(":", "/")}"))
-}
 
-tasks.register<Delete>("clean") {
-    delete(rootProject.layout.buildDirectory)
+    // 为所有项目注册 clean 任务（如果还没有的话）
+    // 这样就不需要在每个项目中单独配置
+    afterEvaluate {
+        if (!tasks.names.contains("clean")) {
+            tasks.register<Delete>("clean") {
+                delete(layout.buildDirectory)
+            }
+        }
+    }
 }
