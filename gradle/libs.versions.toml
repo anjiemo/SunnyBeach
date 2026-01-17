@@ -1,26 +1,26 @@
 [versions]
 # Gradle 和 Android 相关版本
-agp = "8.13.2"
-kotlin = "2.2.21"
-ksp = "2.2.20-2.0.4"
+agp = "9.0.0"
+kotlin = "2.3.0"
+ksp = "2.3.4"
 agcp = "1.9.4.300"
-hilt = "2.57.2"
+hilt = "2.58"
 androidAop = "2.7.4"
 
 # AndroidX 核心库
 androidxCore = "1.17.0"
 androidxAppcompat = "1.7.1"
-androidxActivity = "1.12.1"
+androidxActivity = "1.12.2"
 androidxFragment = "1.8.9"
 androidxLifecycle = "2.10.0"
 androidxRoom = "2.8.4"
 androidxPaging = "3.3.6"
-androidxNavigation = "2.9.5"
+androidxNavigation = "2.9.6"
 androidxWork = "2.11.0"
 androidxPalette = "1.0.0"
 
 # Compose 相关
-composeBom = "2025.12.00"
+composeBom = "2026.01.00"
 
 # Material Design
 material = "1.13.0"
@@ -39,18 +39,18 @@ glide = "5.0.5"
 coil = "3.3.0"
 
 # 友盟和微信
-umengCommon = "9.4.7"
-umengAsms = "1.4.1"
-umengShare = "7.1.7"
-wechatSdk = "6.7.9"
+umengCommon = "9.8.9"
+umengAsms = "1.8.7.2"
+umengShare = "7.3.7"
+wechatSdk = "6.8.34"
 
 # 华为服务
 huaweiAgconnect = "1.9.4.300"
-huaweiScan = "2.13.0.302"
+huaweiScan = "2.13.0.303"
 
 # 第三方 UI 库
-titleBar = "10.6"
-toaster = "13.6"
+titleBar = "10.8"
+toaster = "13.8"
 shapeView = "10.0"
 immersionBar = "3.2.2"
 photoView = "2.3.0"
@@ -65,15 +65,15 @@ xpopup = "2.10.0"
 
 # 工具库
 xxPermissions = "28.0"
-easyHttp = "13.0"
-gsonFactory = "10.3"
+easyHttp = "13.5"
+gsonFactory = "10.5"
 timber = "5.0.1"
 mmkv = "2.3.0"
 utilcodex = "1.31.1"
 luban = "1.1.8"
 vbpd = "2.0.4"
 longan = "1.1.1"
-easyWindow = "11.2"
+easyWindow = "13.2"
 liveEventBus = "1.8.0"
 
 # Bugly
@@ -81,7 +81,7 @@ bugly = "4.1.9.3"
 buglyNative = "3.9.2"
 
 # 阿里云播放器
-aliyunPlayer = "5.4.9.2-full"
+aliyunPlayer = "7.11.0"
 
 # 图表库
 mpAndroidChart = "v3.1.0"
@@ -175,7 +175,7 @@ umeng-common = { group = "com.umeng.umsdk", name = "common", version.ref = "umen
 umeng-asms = { group = "com.umeng.umsdk", name = "asms", version.ref = "umengAsms" }
 umeng-share-core = { group = "com.umeng.umsdk", name = "share-core", version.ref = "umengShare" }
 umeng-share-wx = { group = "com.umeng.umsdk", name = "share-wx", version.ref = "umengShare" }
-wechat-sdk = { group = "com.tencent.mm.opensdk", name = "wechat-sdk-android-without-mta", version.ref = "wechatSdk" }
+wechat-sdk = { group = "com.tencent.mm.opensdk", name = "wechat-sdk-android", version.ref = "wechatSdk" }
 
 # 华为服务
 huawei-agconnect-core = { group = "com.huawei.agconnect", name = "agconnect-core", version.ref = "huaweiAgconnect" }
@@ -228,7 +228,7 @@ bugly-crashreport = { group = "com.tencent.bugly", name = "crashreport", version
 bugly-nativecrashreport = { group = "com.tencent.bugly", name = "nativecrashreport", version.ref = "buglyNative" }
 
 # 阿里云播放器
-aliyun-player = { group = "com.aliyun.sdk.android", name = "AliyunPlayer", version.ref = "aliyunPlayer" }
+aliyun-player = { group = "com.aliyun.sdk.android", name = "AliyunPlayer", version = "7.11.0-full" }
 
 # 图表库
 mpandroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpAndroidChart" }

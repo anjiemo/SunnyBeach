@@ -130,7 +130,7 @@ class AppApplication : Application(), Configuration.Provider {
         fun initSdk(application: Application) {
             fixWebViewDataDirectoryBug(application)
             // 设置标题栏初始化器
-            TitleBar.setDefaultStyle(TitleBarStyle())
+            TitleBar.setGlobalStyle(TitleBarStyle())
 
             // 设置全局的 Header 构建器
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context: Context, _: RefreshLayout ->

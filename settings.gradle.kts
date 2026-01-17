@@ -20,6 +20,10 @@ plugins {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
+        // 优先使用核心仓库
+        google()
+        // MavenCentral 远程仓库：https://mvnrepository.com
+        mavenCentral()
         // 阿里云云效仓库：https://maven.aliyun.com/mvn/guide
         maven { url = uri("https://maven.aliyun.com/repository/public") }
         maven { url = uri("https://maven.aliyun.com/repository/google") }
@@ -27,13 +31,10 @@ dependencyResolutionManagement {
         maven { url = uri("https://repo.huaweicloud.com/repository/maven") }
         // JitPack 远程仓库：https://jitpack.io
         maven { url = uri("https://jitpack.io") }
-        // MavenCentral 远程仓库：https://mvnrepository.com
-        mavenCentral()
-        google()
         // 配置HMS Core SDK的Maven仓地址
         maven { url = uri("https://developer.huawei.com/repo/") }
         // 阿里云视频SDK所在的仓库
-        maven { url = uri("https://maven.aliyun.com/nexus/content/repositories/releases") }
+        maven { url = uri("https://maven.aliyun.com/repository/releases") }
     }
 }
 
