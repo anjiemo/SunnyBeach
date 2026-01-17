@@ -113,9 +113,15 @@ jobs:
       - name: 获取 APK 路径
         id: get_apk_path
         run: |
-          APK_PATH=$(find build/app/outputs/apk/release -type f -name "*.apk" | head -n 1)
+          # 优先查找重命名后的 APK
+          APK_PATH=$(find build/app/outputs/apk-renamed/release -type f -name "*.apk" | head -n 1)
+          # 如果找不到，回退到标准目录（作为兜底）
           if [ -z "$APK_PATH" ]; then
-            echo "错误：在 build/app/outputs/apk/release 目录中找不到 APK 文件。" >&2
+            APK_PATH=$(find build/app/outputs/apk/release -type f -name "*.apk" | head -n 1)
+          fi
+          
+          if [ -z "$APK_PATH" ]; then
+            echo "错误：在构建输出目录中找不到 APK 文件。" >&2
             exit 1
           fi
           # 获取文件名（不带扩展名），用于 Artifact 命名
@@ -123,9 +129,10 @@ jobs:
           echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
           echo "apk_name=$APK_NAME" >> $GITHUB_OUTPUT
 
-          APP_CONFIG_PATH=$(find build/app/outputs/apk/release -type f -name "appConfig.json" | head -n 1)
+          # 在全 outputs 目录下查找 appConfig.json（提高鲁棒性）
+          APP_CONFIG_PATH=$(find build/app/outputs -type f -name "appConfig.json" | head -n 1)
           if [ -z "$APP_CONFIG_PATH" ]; then
-            echo "错误：在 build/app/outputs/apk/release 目录中找不到 appConfig.json 文件。" >&2
+            echo "错误：找不到 appConfig.json 文件。" >&2
           else
             echo "app_config_path=$APP_CONFIG_PATH" >> $GITHUB_OUTPUT
           fi

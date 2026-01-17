@@ -21,12 +21,16 @@ class HiltConventionPlugin : Plugin<Project> {
             }
 
             // 针对 Android 模块的特殊配置
-            pluginManager.withPlugin("com.android.base") {
-                // 应用 Hilt Android 插件
+            // 兼容性提醒：在 AGP 9.0 + newDsl=false 时，Hilt 需要 BaseExtension
+            pluginManager.withPlugin("com.android.application") {
                 apply(plugin = "dagger.hilt.android.plugin")
-
                 dependencies {
-                    // Hilt 依赖注入
+                    add("implementation", libs.findLibrary("hilt-android").get())
+                }
+            }
+            pluginManager.withPlugin("com.android.library") {
+                apply(plugin = "dagger.hilt.android.plugin")
+                dependencies {
                     add("implementation", libs.findLibrary("hilt-android").get())
                 }
             }

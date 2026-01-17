@@ -5,7 +5,9 @@
 
 package cn.cqautotest.sunnybeach
 
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
@@ -16,44 +18,68 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
  * 配置 Kotlin Android 基础选项
- * 包括 compileSdk、minSdk、compileOptions、Kotlin 编译选项等
+ * 适配 AGP 9.0：彻底分离 Application 和 Library 的配置逻辑
  */
-internal fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *, *>,
-) {
-    commonExtension.apply {
-        compileSdk = 36
+internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension) {
+    commonExtension.compileSdk = 36
 
-        defaultConfig {
-            minSdk = 26
+    when (commonExtension) {
+        is ApplicationExtension -> {
+            commonExtension.run {
+                defaultConfig {
+                    minSdk = 26
+                }
+                compileOptions {
+                    sourceCompatibility = JavaVersion.VERSION_21
+                    targetCompatibility = JavaVersion.VERSION_21
+                }
+                buildFeatures {
+                    viewBinding = true
+                    resValues = true
+                }
+                sourceSets.getByName("main") {
+                    jniLibs {
+                        directories += "libs"
+                    }
+                }
+                buildTypes {
+                    getByName("debug") {}
+                    create("preview") {}
+                    getByName("release") {}
+                }
+                lint {
+                    disable += setOf("HardcodedText", "ContentDescription")
+                }
+            }
         }
 
-        // 支持 Java JDK 21
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_21
-            targetCompatibility = JavaVersion.VERSION_21
-        }
-
-        // 启用 ViewBinding
-        buildFeatures.viewBinding = true
-
-        // 设置存放 so 文件的目录
-        sourceSets.getByName("main") {
-            jniLibs.srcDirs("libs")
-        }
-
-        // 可在 Studio 最左侧中的 Build Variants 选项中切换默认的构建类型
-        buildTypes {
-            getByName("debug") {}
-            create("preview") {}
-            getByName("release") {}
-        }
-
-        // 代码警告配置
-        lint {
-            // 禁用文本硬编码警告
-            // 禁用图片描述警告
-            disable += setOf("HardcodedText", "ContentDescription")
+        is LibraryExtension -> {
+            commonExtension.run {
+                defaultConfig {
+                    minSdk = 26
+                }
+                compileOptions {
+                    sourceCompatibility = JavaVersion.VERSION_21
+                    targetCompatibility = JavaVersion.VERSION_21
+                }
+                buildFeatures {
+                    viewBinding = true
+                    resValues = true
+                }
+                sourceSets.getByName("main") {
+                    jniLibs {
+                        directories += "libs"
+                    }
+                }
+                buildTypes {
+                    getByName("debug") {}
+                    create("preview") {}
+                    getByName("release") {}
+                }
+                lint {
+                    disable += setOf("HardcodedText", "ContentDescription")
+                }
+            }
         }
     }
 

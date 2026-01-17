@@ -157,30 +157,4 @@ class RequestHandler constructor(private val application: Application) : IReques
         }
         return HttpException(e.message, e)
     }
-
-    override fun readCache(httpRequest: HttpRequest<*>, type: Type, cacheTime: Long): Any? {
-        val cacheKey: String? = GsonFactory.getSingletonGson().toJson(httpRequest.requestApi)
-        val cacheValue: String? = mmkv.getString(cacheKey, null)
-        if ((cacheValue == null) || ("" == cacheValue) || ("{}" == cacheValue)) {
-            return null
-        }
-        EasyLog.printLog(httpRequest, "---------- cacheKey ----------")
-        EasyLog.printJson(httpRequest, cacheKey)
-        EasyLog.printLog(httpRequest, "---------- cacheValue ----------")
-        EasyLog.printJson(httpRequest, cacheValue)
-        return GsonFactory.getSingletonGson().fromJson(cacheValue, type)
-    }
-
-    override fun writeCache(httpRequest: HttpRequest<*>, response: Response, result: Any): Boolean {
-        val cacheKey: String? = GsonFactory.getSingletonGson().toJson(httpRequest.requestApi)
-        val cacheValue: String? = GsonFactory.getSingletonGson().toJson(result)
-        if ((cacheValue == null) || ("" == cacheValue) || ("{}" == cacheValue)) {
-            return false
-        }
-        EasyLog.printLog(httpRequest, "---------- cacheKey ----------")
-        EasyLog.printJson(httpRequest, cacheKey)
-        EasyLog.printLog(httpRequest, "---------- cacheValue ----------")
-        EasyLog.printJson(httpRequest, cacheValue)
-        return mmkv.putString(cacheKey, cacheValue).commit()
-    }
 }

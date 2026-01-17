@@ -1,4 +1,5 @@
 import AppConfigUtils.printAppConfig
+import com.android.build.api.dsl.ApplicationExtension
 import groovy.json.JsonSlurper
 import groovy.xml.XmlParser
 import java.security.MessageDigest
@@ -7,7 +8,6 @@ import java.util.Date
 import java.util.Locale
 import java.util.Properties
 
-// 将 Date.format 放在顶部，它不依赖 Project 或 Task
 fun Date.format(pattern: String): String {
     val sdf = SimpleDateFormat(pattern, Locale.getDefault())
     return sdf.format(this)
@@ -25,7 +25,7 @@ plugins {
 }
 
 // Android 代码规范文档：https://github.com/getActivity/AndroidCodeStandard
-android {
+extensions.configure<ApplicationExtension> {
 
     // 设置命名空间：https://developer.android.com/build/configure-app-module#set-namespace
     namespace = "cn.cqautotest.sunnybeach"
@@ -111,9 +111,6 @@ android {
         // 无痛修改包名：https://www.jianshu.com/p/17327e191d2e
         applicationId = "cn.cqautotest.sunnybeach"
 
-        // 仅保留 xxhdpi 图片资源（目前主流分辨率 1920 * 1080）
-        resConfigs("xxhdpi")
-
         // 混淆配置
         proguardFiles("proguard-sdk.pro", "proguard-app.pro", "removeLog.pro")
 
@@ -147,19 +144,36 @@ android {
         versionName = rootProject.extra["appVersionName"] as String
         versionCode = rootProject.extra["appVersionCode"] as Int
     }
+}
 
-    // APK 输出文件名配置
-    @Suppress("DEPRECATION")
-    applicationVariants.all {
-        outputs.all {
-            val variantOutputImpl = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
-            val buildTypeName = buildType.name
-            var fileName = "${rootProject.name}_v${versionName}_${buildTypeName}"
-            if (buildTypeName == "release") {
-                fileName += "_${Date().format("MMdd")}"
-            }
-            fileName += ".apk"
-            variantOutputImpl.outputFileName = fileName
+// APK 输出文件名配置 (AGP 9.0+ 现代化实现)
+androidComponents {
+    onVariants { variant ->
+        val buildTypeName = variant.buildType
+        val versionName = variant.outputs.first().versionName.get()
+
+        var fileName = "${rootProject.name}_v${versionName}_${buildTypeName}"
+        if (buildTypeName == "release") {
+            fileName += "_${SimpleDateFormat("MMdd").format(Date())}"
+        }
+        fileName += ".apk"
+
+        // 注册重命名任务
+        val renameTaskName = "rename${variant.name.replaceFirstChar { it.uppercase() }}Apk"
+        val renameTask = tasks.register<Copy>(renameTaskName) {
+            val apkArtifact = variant.artifacts.get(com.android.build.api.artifact.SingleArtifact.APK)
+            from(apkArtifact)
+            into(layout.buildDirectory.dir("outputs/apk-renamed/${variant.name}"))
+            rename { fileName }
+            duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
+            // 执行完重命名后，运行配置打印任务
+            finalizedBy("print${variant.name.replaceFirstChar { it.uppercase() }}AppConfig")
+        }
+
+        // 确保 assemble 任务执行后会自动触发重命名
+        afterEvaluate {
+            tasks.findByName("assemble${variant.name.replaceFirstChar { it.uppercase() }}")?.finalizedBy(renameTask)
         }
     }
 }
@@ -271,7 +285,12 @@ object AppConfigUtils {
         val appConfigFile = File(outputDirPath + File.separator + "appConfig.json")
         appConfigFile.writeText(appConfigPrettyJsonString)
 
-        // 输出文件路径 - 单独一行，便于 IDE 识别和点击
+        // 同时输出到重命名的目录（如果存在），以兼容 GitHub Workflow
+        val renamedDir = layout.buildDirectory.dir("outputs/apk-renamed/$variantName").get().asFile
+        if (renamedDir.exists()) {
+            File(renamedDir, "appConfig.json").writeText(appConfigPrettyJsonString)
+        }
+
         println("apkConfig：===> Generated files:")
         println("  APK: ${apkFile.absolutePath}")
         println("  Config: ${appConfigFile.absolutePath}")
