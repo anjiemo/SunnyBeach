@@ -15,8 +15,6 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
         with(target) {
             // 应用 Android Application 插件
             apply(plugin = "com.android.application")
-            // 应用 Kotlin Android 插件
-            apply(plugin = "org.jetbrains.kotlin.android")
 
             // 配置 Android Application 扩展
             extensions.configure<ApplicationExtension> {
@@ -25,7 +23,9 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 // 设置 targetSdk
                 defaultConfig.targetSdk = 33
                 // 只有 app 模块才生成 BuildConfig
-                buildFeatures.buildConfig = true
+                buildFeatures {
+                    buildConfig = true
+                }
             }
         }
     }

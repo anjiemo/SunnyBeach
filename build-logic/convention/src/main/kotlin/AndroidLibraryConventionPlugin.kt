@@ -17,17 +17,15 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
         with(target) {
             // 应用 Android Library 插件
             apply(plugin = "com.android.library")
-            // 应用 Kotlin Android 插件
-            apply(plugin = "org.jetbrains.kotlin.android")
 
             // 配置 Android Library 扩展
             extensions.configure<LibraryExtension> {
                 // 应用通用 Kotlin Android 配置
                 configureKotlinAndroid(this)
-                // 设置 targetSdk
-                defaultConfig.targetSdk = 33
                 // Library 模块默认不生成 BuildConfig
-                buildFeatures.buildConfig = false
+                buildFeatures {
+                    buildConfig = false
+                }
             }
 
             // 通用依赖配置（排除 library:base，因为它使用 api 依赖）
