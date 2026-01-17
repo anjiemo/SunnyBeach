@@ -271,7 +271,11 @@ object AppConfigUtils {
 
         val appConfigFile = File(outputDirPath + File.separator + "appConfig.json")
         appConfigFile.writeText(appConfigPrettyJsonString)
-        println("apkConfig：===> appConfig.json generated at ${appConfigFile.absolutePath}")
+
+        // 输出文件路径 - 单独一行，便于 IDE 识别和点击
+        println("apkConfig：===> Generated files:")
+        println("  APK: ${apkFile.absolutePath}")
+        println("  Config: ${appConfigFile.absolutePath}")
     }
 
     fun generateMD5(file: File): String {
