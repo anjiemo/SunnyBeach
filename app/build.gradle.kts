@@ -1,7 +1,6 @@
 import AppConfigUtils.printAppConfig
 import groovy.json.JsonSlurper
 import groovy.xml.XmlParser
-import java.io.FileInputStream
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -21,7 +20,7 @@ plugins {
     alias(libs.plugins.sunnybeach.hilt)
     // 华为 AGConnect 插件
     id("com.huawei.agconnect")
-    // AndroidAOP 插件
+    // AndroidAOP 插件（不在 Gradle Plugin Portal 中，使用旧式 ID 方式）
     id("android.aop")
 }
 
@@ -35,7 +34,7 @@ android {
     val keystorePropertiesFile = file("gradle.properties")
     val keystoreProperties = Properties()
     if (keystorePropertiesFile.exists()) {
-        keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+        keystorePropertiesFile.inputStream().use { keystoreProperties.load(it) }
     }
     val storeFile = keystoreProperties.getProperty("StoreFile")
     val storePassword = keystoreProperties.getProperty("StorePassword")
@@ -149,18 +148,18 @@ android {
         versionCode = rootProject.extra["appVersionCode"] as Int
     }
 
+    // APK 输出文件名配置
+    @Suppress("DEPRECATION")
     applicationVariants.all {
-        // apk 输出文件名配置
         outputs.all {
-            val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
-            val variantName = name
+            val variantOutputImpl = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
             val buildTypeName = buildType.name
-            var outputFileName = "${rootProject.name}_v${versionName}_${buildTypeName}"
+            var fileName = "${rootProject.name}_v${versionName}_${buildTypeName}"
             if (buildTypeName == "release") {
-                outputFileName += "_${Date().format("MMdd")}"
+                fileName += "_${Date().format("MMdd")}"
             }
-            outputFileName += ".apk"
-            output.outputFileName = outputFileName
+            fileName += ".apk"
+            variantOutputImpl.outputFileName = fileName
         }
     }
 }
