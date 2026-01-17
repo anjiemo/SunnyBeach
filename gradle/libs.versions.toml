@@ -268,8 +268,8 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 # Hilt 插件
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
-# 注意：华为 AGConnect 插件不在这里定义，需要在 buildscript 中配置
-# 注意：AndroidAOP 插件不在这里定义，需要在 buildscript 中配置
+# 注意：华为 AGConnect 插件需要在 buildscript 中配置（华为官方推荐方式）
+# 注意：AndroidAOP 插件不在 Gradle Plugin Portal 中，必须在 buildscript 中配置
 
 # SunnyBeach 约定插件
 sunnybeach-android-application = { id = "sunnybeach.android.application", version = "unspecified" }
