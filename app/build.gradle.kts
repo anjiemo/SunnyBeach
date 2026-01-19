@@ -470,7 +470,7 @@ dependencies {
 
     // 内存泄漏监测框架：https://github.com/square/leakcanary
     debugImplementation(libs.leakcanary)
-    "previewImplementation"(libs.leakcanary)
+    previewImplementation(libs.leakcanary)
 
     // 多语种：https://github.com/getActivity/MultiLanguages
     // 悬浮窗：https://github.com/getActivity/XToast
