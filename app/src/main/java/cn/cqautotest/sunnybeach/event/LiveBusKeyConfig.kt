@@ -19,4 +19,7 @@ object LiveBusKeyConfig {
 
     // 首页二楼状态（true：已经打开，false：已经关闭）
     const val BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE = "BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE"
+
+    // 首页触发扫码
+    const val BUS_HOME_START_SCAN = "BUS_HOME_START_SCAN"
 }

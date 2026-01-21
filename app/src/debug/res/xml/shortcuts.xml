@@ -13,4 +13,16 @@
             android:targetPackage="cn.cqautotest.sunnybeach.debug" />
     </shortcut>
 
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_scan_qr"
+        android:shortcutId="shortcut_scan_code"
+        android:shortcutShortLabel="@string/shortcut_scan_code">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="sob://dl/scanCode"
+            android:targetClass="cn.cqautotest.sunnybeach.ui.activity.SplashActivity"
+            android:targetPackage="cn.cqautotest.sunnybeach.debug" />
+    </shortcut>
+
 </shortcuts>

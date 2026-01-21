@@ -16,7 +16,8 @@ object AppSchemeServiceDispatcher {
     private val mServiceHandlers = mutableMapOf<String, AppSchemeService>()
     private val SCHEME_HANDLES by lazy {
         mapOf(
-            "/putFish" to PutFishServiceHandler::class.java
+            "/putFish" to PutFishServiceHandler::class.java,
+            "/scanCode" to ScanCodeServiceHandler::class.java
         )
     }
 
