@@ -497,9 +497,6 @@ dependencies {
     // 轮播图库：https://github.com/youth5201314/banner
     implementation(libs.banner)
 
-    // 小米更新SDK：https://dev.mi.com/console/doc/detail?pId=4
-    implementation(libs.xiaomi.update)
-
     // // Markwon是一个适用于 Android 的Markdown库：https://noties.io/Markwon/
     // implementation("io.noties.markwon:core:$markwonVersion")
     // implementation("io.noties.markwon:html:$markwonVersion")

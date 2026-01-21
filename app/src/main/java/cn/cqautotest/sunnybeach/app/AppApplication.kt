@@ -4,11 +4,8 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
-import android.net.ConnectivityManager
-import android.net.Network
 import android.os.Build
 import android.webkit.WebView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.work.Configuration
@@ -34,10 +31,11 @@ import cn.cqautotest.sunnybeach.other.SmartBallPulseFooter
 import cn.cqautotest.sunnybeach.other.TitleBarStyle
 import cn.cqautotest.sunnybeach.other.ToastStyle
 import cn.cqautotest.sunnybeach.util.ActivityLifecycleLogger
-import cn.cqautotest.sunnybeach.util.PushHelper
+import cn.cqautotest.sunnybeach.util.SimpleNetworkStatusChangedListener
 import cn.cqautotest.sunnybeach.util.permission.XXPermissionTransformer
 import cn.cqautotest.sunnybeach.util.toast.AppToastLogInterceptor
 import cn.cqautotest.sunnybeach.work.CacheCleanupWorker
+import com.blankj.utilcode.util.NetworkUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
@@ -267,26 +265,21 @@ class AppApplication : Application(), Configuration.Provider {
                 Timber.plant(DebugLoggerTree())
             }
 
-            // MiPush 初始化
-            PushHelper.init(application)
-
             // 注册网络状态变化监听
-            val connectivityManager: ConnectivityManager? = ContextCompat.getSystemService(application, ConnectivityManager::class.java)
-            if (connectivityManager != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                connectivityManager.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
-                    override fun onLost(network: Network) {
-                        val topActivity: Activity? = ActivityManager.getInstance().getTopActivity()
-                        if (topActivity !is LifecycleOwner) {
-                            return
-                        }
-                        val lifecycleOwner: LifecycleOwner = topActivity
-                        if (lifecycleOwner.lifecycle.currentState != Lifecycle.State.RESUMED) {
-                            return
-                        }
-                        Toaster.show(R.string.common_network_error)
+            NetworkUtils.registerNetworkStatusChangedListener(object : SimpleNetworkStatusChangedListener() {
+
+                override fun onDisconnected() {
+                    val topActivity: Activity? = ActivityManager.getInstance().getTopActivity()
+                    if (topActivity !is LifecycleOwner) {
+                        return
                     }
-                })
-            }
+                    val lifecycleOwner: LifecycleOwner = topActivity
+                    if (lifecycleOwner.lifecycle.currentState != Lifecycle.State.RESUMED) {
+                        return
+                    }
+                    Toaster.show(R.string.common_network_error)
+                }
+            })
             // 初始化 Room 数据库
             database = getDatabase(application)
             // 初始化 Glide 的 Cookie 管理
