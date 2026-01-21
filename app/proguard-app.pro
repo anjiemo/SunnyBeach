@@ -17,7 +17,6 @@
 -keep class cn.cqautotest.sunnybeach.http.model.** {
     <fields>;
 }
--keep class cn.cqautotest.sunnybeach.push.xiaomi.MiPushBroadcastReceiver {*;}
 
 # 不混淆被 Log 注解的方法信息
 -keepclassmembernames class ** {
