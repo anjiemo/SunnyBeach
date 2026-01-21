@@ -292,6 +292,7 @@
 
     <!-- App快捷方式 -->
     <string name="shortcut_put_fish">发布动态</string>
+    <string name="shortcut_scan_code">扫一扫</string>
 
     <!-- Sob 币简介 -->
     <string name="sob_intro_consume_method">我要这sunof币有何用？</string>
