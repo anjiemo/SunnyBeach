@@ -17,7 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2021/09/22
- * desc   : 简单宫格视图 - 支持动态图片数量和智能圆角
+ * desc   : 宫格视图组件 - 支持动态图片数量及智能圆角剪裁
  */
 class SimpleGridLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
@@ -26,11 +26,10 @@ class SimpleGridLayout @JvmOverloads constructor(
     private var currentImages: List<String> = emptyList()
     private var mOnNineGridClickListener: OnNineGridClickListener? = null
 
-    // 圆角半径和图片间距，可根据需求调整
     private val cornerRadius = 8.dp.toFloat()
     private val imageSpace = 4.dp
 
-    // 缓存计算的图片尺寸
+    // 缓存计算出的单项尺寸，由 onMeasure 确定
     private var cachedImageSize = 0
 
     init {
@@ -46,21 +45,18 @@ class SimpleGridLayout @JvmOverloads constructor(
             return@apply
         }
 
-        // 计算新的列数
+        // 根据图片数量动态调整网格列数
         val newColumnCount = when (images.size) {
             1 -> 1
             2, 4 -> 2
             else -> 3
         }
 
-        // ⚠️ 关键修复：必须先清空所有子视图，再改变列数，避免 columnCount 异常
+        // 切换布局前必须先清空视图，避免 columnCount 与子视图分配冲突
         removeAllViews()
         columnCount = newColumnCount
-
-        // 重置缓存，让 onMeasure 重新计算
         cachedImageSize = 0
 
-        // 重新添加所有 ImageView
         images.forEachIndexed { index, url ->
             val imageView = createImageView(index, newColumnCount)
             addView(imageView)
@@ -72,11 +68,15 @@ class SimpleGridLayout @JvmOverloads constructor(
         val width = MeasureSpec.getSize(widthSpec)
 
         if (width > 0 && isNotEmpty() && cachedImageSize == 0) {
-            // 计算每个图片的尺寸：(总宽度 - 间距) / 列数
-            val totalSpacing = imageSpace * (columnCount + 1)
-            cachedImageSize = (width - totalSpacing) / columnCount
+            if (columnCount == 1) {
+                // 单张图限制最大宽度为容器的 60%
+                cachedImageSize = (width * 0.6f).toInt()
+            } else {
+                val totalSpacing = imageSpace * (columnCount + 1)
+                cachedImageSize = (width - totalSpacing) / columnCount
+            }
 
-            // 更新所有子视图的尺寸
+            // 同步子视图尺寸
             for (i in 0 until childCount) {
                 val child = getChildAt(i)
                 val lp = child.layoutParams as LayoutParams
@@ -101,11 +101,7 @@ class SimpleGridLayout @JvmOverloads constructor(
         val col = index % cols
 
         return ImageView(context).apply {
-            layoutParams = LayoutParams(
-                spec(row),
-                spec(col)
-            ).apply {
-                // 初始尺寸，会在 onMeasure 中更新
+            layoutParams = LayoutParams(spec(row), spec(col)).apply {
                 width = 0
                 height = 0
                 setMargins(imageSpace / 2, imageSpace / 2, imageSpace / 2, imageSpace / 2)
@@ -115,7 +111,6 @@ class SimpleGridLayout @JvmOverloads constructor(
     }
 
     private fun bindImage(imageView: ImageView, url: String, index: Int, total: Int) {
-        // 计算当前位置应该有的圆角
         val corners = calculateCorners(index, total)
 
         Glide.with(imageView)
@@ -131,53 +126,35 @@ class SimpleGridLayout @JvmOverloads constructor(
             )
             .into(imageView)
 
-        // 设置点击监听器
-        val clickIndex = index
         imageView.setFixOnClickListener {
-            mOnNineGridClickListener?.onNineGridItemClick(currentImages, clickIndex)
+            mOnNineGridClickListener?.onNineGridItemClick(currentImages, index)
         }
     }
 
     /**
-     * 根据图片在网格中的位置计算应该有的圆角。
-     * 只有位于整体边缘的图片的外角才有圆角。
+     * 计算特定位置图片的圆角。仅在网格整体矩形的顶点处应用圆角。
      */
     private fun calculateCorners(index: Int, total: Int): CornerRadii {
-        // 根据总数确定列数
         val cols = when (total) {
             1 -> 1
             2, 4 -> 2
             else -> 3
         }
-
-        // 计算行数
         val rows = (total + cols - 1) / cols
 
-        // 计算当前图片所在的行列
         val row = index / cols
         val col = index % cols
 
-        // 判断是否是第一行/第一列
         val isFirstRow = row == 0
         val isFirstCol = col == 0
-
-        // 判断是否是最后一行
         val isLastRow = row == rows - 1
-
-        // 判断是否是最后一列（考虑最后一行可能不满的情况）
-        val isLastCol = if (isLastRow) {
-            // 最后一行：检查是否是该行的最后一个
-            val itemsInLastRow = total - (rows - 1) * cols
-            col == itemsInLastRow - 1
-        } else {
-            col == cols - 1
-        }
+        val isLastColFixed = col == cols - 1
 
         return CornerRadii(
             topLeft = if (isFirstRow && isFirstCol) cornerRadius else 0f,
-            topRight = if (isFirstRow && isLastCol) cornerRadius else 0f,
+            topRight = if (isFirstRow && isLastColFixed) cornerRadius else 0f,
             bottomLeft = if (isLastRow && isFirstCol) cornerRadius else 0f,
-            bottomRight = if (isLastRow && isLastCol) cornerRadius else 0f
+            bottomRight = if (isLastRow && isLastColFixed) cornerRadius else 0f
         )
     }
 
@@ -186,12 +163,13 @@ class SimpleGridLayout @JvmOverloads constructor(
     }
 
     fun interface OnNineGridClickListener {
+
+        /**
+         * 宫格项点击回调
+         */
         fun onNineGridItemClick(sources: List<String>, index: Int)
     }
 
-    /**
-     * 圆角数据类，存储四个角的圆角半径
-     */
     private data class CornerRadii(
         val topLeft: Float,
         val topRight: Float,
