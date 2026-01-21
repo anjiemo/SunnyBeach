@@ -13,3 +13,21 @@ inline fun <reified T : ViewBinding> ViewGroup.asViewBinding(): T {
 
 fun ViewGroup?.inflate(@LayoutRes layoutId: Int): View? =
     takeIf { this != null }?.context?.asInflater()?.inflate(layoutId, this, false)
+
+inline fun ViewGroup.doOnChildViewAdded(crossinline action: (parent: View, child: View) -> Unit) {
+    doOnHierarchyChange(onAdded = action)
+}
+
+inline fun ViewGroup.doOnChildViewRemoved(crossinline action: (parent: View, child: View) -> Unit) {
+    doOnHierarchyChange(onRemoved = action)
+}
+
+inline fun ViewGroup.doOnHierarchyChange(
+    crossinline onAdded: (parent: View, child: View) -> Unit = { _, _ -> },
+    crossinline onRemoved: (parent: View, child: View) -> Unit = { _, _ -> }
+) {
+    setOnHierarchyChangeListener(object : ViewGroup.OnHierarchyChangeListener {
+        override fun onChildViewAdded(parent: View, child: View) = onAdded(parent, child)
+        override fun onChildViewRemoved(parent: View, child: View) = onRemoved(parent, child)
+    })
+}
