@@ -222,7 +222,6 @@ liveeventbus = { group = "io.github.jeremyliao", name = "live-event-bus-x", vers
 
 # Bugly
 bugly-crashreport = { group = "com.tencent.bugly", name = "crashreport", version.ref = "bugly" }
-bugly-nativecrashreport = { group = "com.tencent.bugly", name = "nativecrashreport", version.ref = "buglyNative" }
 
 # 阿里云播放器
 aliyun-player = { group = "com.aliyun.sdk.android", name = "AliyunPlayer", version = "5.4.9.2-full" }

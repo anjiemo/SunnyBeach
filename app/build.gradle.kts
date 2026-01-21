@@ -447,7 +447,6 @@ dependencies {
 
     // Bugly 异常捕捉：https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190418140644
     implementation(libs.bugly.crashreport)
-    implementation(libs.bugly.nativecrashreport)
 
     // 动画解析库：https://github.com/airbnb/lottie-android
     // 动画资源：https://lottiefiles.com、https://icons8.com/animated-icons
