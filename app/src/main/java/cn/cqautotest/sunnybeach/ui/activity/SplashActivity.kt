@@ -138,6 +138,14 @@ class SplashActivity : AppActivity() {
         })
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        // 设置新的 Intent，确保 handleAppDeepLink 获取的是最新的 DeepLink 数据
+        setIntent(intent)
+        // 重新处理 DeepLink 逻辑，防止在 singleTop 模式下实例复用导致分发失败
+        handleAppDeepLink()
+    }
+
     override fun onDestroy() {
         // 因为修复了一个启动页被重复启动的问题，所以有可能 Activity 还没有初始化完成就已经销毁了
         // 所以如果需要在此处释放对象资源需要先对这个对象进行判空，否则可能会导致空指针异常

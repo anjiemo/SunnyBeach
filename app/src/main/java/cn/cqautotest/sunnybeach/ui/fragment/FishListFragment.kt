@@ -328,6 +328,11 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         LiveBusUtils.busReceive<Unit>(viewLifecycleOwner, LiveBusKeyConfig.BUS_TWO_LEVEL_BACK_TO_HOME_PAGE) {
             mBinding.twoLevelHeader.finishTwoLevel()
         }
+        LiveBusUtils.busReceive<Unit>(viewLifecycleOwner, LiveBusKeyConfig.BUS_HOME_START_SCAN, isSticky = true) {
+            // 消费后立即清除粘性消息，防止生命周期重建（如旋屏）时重复触发扫码
+            LiveBusUtils.clearSticky(LiveBusKeyConfig.BUS_HOME_START_SCAN)
+            onRightClick(mBinding.titleBar)
+        }
     }
 
     private fun setMourningStyleByDate(mourningCalendarList: List<MourningCalendar>) {
