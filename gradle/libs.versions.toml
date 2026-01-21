@@ -86,9 +86,6 @@ aliyunPlayer = "7.11.0"
 # 图表库
 mpAndroidChart = "v3.1.0"
 
-# 小米更新 SDK
-xiaomiUpdate = "4.0.3"
-
 # 测试库
 junit = "4.13.2"
 androidxJunit = "1.3.0"
@@ -232,9 +229,6 @@ aliyun-player = { group = "com.aliyun.sdk.android", name = "AliyunPlayer", versi
 
 # 图表库
 mpandroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpAndroidChart" }
-
-# 小米更新 SDK
-xiaomi-update = { group = "mi-appstore", name = "xiaomi-update-sdk", version.ref = "xiaomiUpdate" }
 
 # Compose BOM
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
