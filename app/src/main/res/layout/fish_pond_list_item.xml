@@ -68,6 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_6"
+        android:layout_marginBottom="@dimen/dp_10"
         android:visibility="gone"
         tools:visibility="visible" />
 
