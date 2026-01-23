@@ -12,11 +12,8 @@ import cn.cqautotest.sunnybeach.app.PagingActivity
 import cn.cqautotest.sunnybeach.databinding.CourseDetailActivityBinding
 import cn.cqautotest.sunnybeach.execption.NotBuyException
 import cn.cqautotest.sunnybeach.execption.NotLoginException
-import cn.cqautotest.sunnybeach.execption.ServiceException
-import cn.cqautotest.sunnybeach.http.network.CourseNetwork
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.fromJson
-import cn.cqautotest.sunnybeach.ktx.getOrNull
 import cn.cqautotest.sunnybeach.ktx.isZero
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.snapshotList
@@ -35,6 +32,7 @@ import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import com.bumptech.glide.Glide
 import com.dylanc.longan.intentExtras
 import com.flyjingfish.android_aop_core.annotations.CheckNetwork
+import dagger.hilt.android.AndroidEntryPoint
 import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -51,6 +49,7 @@ import timber.log.Timber
  * time   : 2022/04/23
  * desc   : 课程详情页
  */
+@AndroidEntryPoint
 class CourseDetailActivity : PagingActivity() {
 
     private val mBinding by viewBinding(CourseDetailActivityBinding::bind)
@@ -112,10 +111,7 @@ class CourseDetailActivity : PagingActivity() {
                 Repository.checkToken() ?: throw NotLoginException()
                 // 2、校验是否有购买该课程
                 Repository.checkCourseHasBuy(courseId).getOrThrow()
-                // 3、获取课程视频播放凭证
-                val result = CourseNetwork.getCoursePlayAuth(videoId)
-                val coursePlayAuth = result.getOrNull() ?: throw ServiceException(result.getMessage())
-                emit(coursePlayAuth)
+                emit(videoId)
             }.flowOn(Dispatchers.IO)
                 .flowWithLifecycle(lifecycle, Lifecycle.State.CREATED)
                 .catch {

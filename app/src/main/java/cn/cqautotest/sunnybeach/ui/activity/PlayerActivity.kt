@@ -11,25 +11,28 @@ import androidx.activity.viewModels
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.PlayerActivityBinding
-import cn.cqautotest.sunnybeach.ktx.fromJson
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.startActivity
-import cn.cqautotest.sunnybeach.ktx.toJson
-import cn.cqautotest.sunnybeach.model.course.CoursePlayAuth
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
 import com.aliyun.player.AliPlayer
 import com.aliyun.player.AliPlayerFactory
 import com.aliyun.player.IPlayer
 import com.aliyun.player.bean.InfoCode
-import com.aliyun.player.source.VidAuth
+import com.aliyun.player.source.UrlSource
 import com.dylanc.longan.intentExtras
 import com.dylanc.longan.windowInsetsControllerCompat
 import com.gyf.immersionbar.ImmersionBar
+import dagger.hilt.android.AndroidEntryPoint
 import dev.androidbroadcast.vbpd.viewBinding
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -42,12 +45,12 @@ import java.util.concurrent.TimeUnit
  * 运行Demo源码：https://help.aliyun.com/document_detail/383401.html?spm=a2c4g.11186623.0.0.7bd24addVQH3VE
  * 快速集成：https://help.aliyun.com/document_detail/124711.html?spm=a2c4g.11186623.0.0.7bd24addVQH3VE
  */
+@AndroidEntryPoint
 class PlayerActivity : AppActivity() {
 
     private val mCourseViewModel by viewModels<CourseViewModel>()
     private val mBinding by viewBinding(PlayerActivityBinding::bind)
-    private val mCoursePlayAuthJson by intentExtras<String>(COURSE_PLAY_AUTH)
-    private val mCoursePlayAuth by lazy { fromJson<CoursePlayAuth>(mCoursePlayAuthJson) }
+    private val mVideoId by intentExtras(VIDEO_ID, "")
     private val mVideoTitle by intentExtras(VIDEO_TITLE, "")
     private val mScreenOrientation by intentExtras(SCREEN_ORIENTATION, DEFAULT_SCREEN_ORIENTATION)
     private lateinit var mAliPlayer: AliPlayer
@@ -67,9 +70,13 @@ class PlayerActivity : AppActivity() {
     // 刘海屏的高度
     private var mNotchHeight = 0
 
+    // 首帧是否已经渲染
+    private var mIsFirstFrameRendered = false
+
     override fun getLayoutId(): Int = R.layout.player_activity
 
     override fun initView() {
+        preloadVideoInfo()
         // 隐藏状态栏
         mBinding.root.windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.statusBars())
         // 隐藏底部导航栏
@@ -78,8 +85,10 @@ class PlayerActivity : AppActivity() {
         window.decorView.post { mNotchHeight = ImmersionBar.getNotchHeight(this) }
         // 设置初始的屏幕方向
         requestedOrientation = mScreenOrientation
-        mAliPlayer = createPlayer()
         mBinding.tvTitle.text = mVideoTitle
+        mAliPlayer = createPlayer().apply {
+            isAutoPlay = true
+        }
     }
 
     private fun createPlayer() = AliPlayerFactory.createAliPlayer(this)
@@ -90,7 +99,6 @@ class PlayerActivity : AppActivity() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun initEvent() {
-        mAliPlayer.isAutoPlay = true
         mAliPlayer.initAliPlayerListener()
         mBinding.apply {
             surfaceView.holder.addCallback(object : SurfaceHolder.Callback {
@@ -143,7 +151,6 @@ class PlayerActivity : AppActivity() {
                 autoHideMediaController()
             }
         }
-        startPlay()
     }
 
     private fun toggleScreenOrientation() {
@@ -159,6 +166,9 @@ class PlayerActivity : AppActivity() {
             val errorCode = it.code
             // 错误描述
             val errorMsg = it.msg
+            hideLoadingForce()
+            Timber.e("initAliPlayerListener：===> errorCode is $errorCode，errorMsg is $errorMsg")
+            toast("播放失败：$errorMsg")
             // 出错后需要停止播放器
             stop()
         }
@@ -175,6 +185,11 @@ class PlayerActivity : AppActivity() {
                 autoHideTopBarController()
                 autoHideMediaController()
             }
+        }
+        setOnRenderingStartListener {
+            // 渲染开始，此时首帧画面已经出现
+            mIsFirstFrameRendered = true
+            hideLoadingForce()
         }
         setOnCompletionListener {
             // 播放完成之后，就会回调到此接口。
@@ -199,6 +214,7 @@ class PlayerActivity : AppActivity() {
                     val extraValue = value.toInt()
                     mBinding.seekBar.progress = extraValue
                 }
+
                 else -> {}
             }
         }
@@ -227,22 +243,59 @@ class PlayerActivity : AppActivity() {
     }
 
     private fun hideLoading() {
+        if (mIsFirstFrameRendered) {
+            mBinding.progressBar.isVisible = false
+        }
+    }
+
+    /**
+     * 强制隐藏加载
+     */
+    private fun hideLoadingForce() {
         mBinding.progressBar.isVisible = false
     }
 
     /**
-     * 开启播放界面
+     * 预加载视频播放逻辑：
+     * 1、触发 ViewModel 获取视频播放信息。
+     * 2、观察 videoPlayState 状态流，驱动播放器状态变更。
      */
-    private fun startPlay() {
-        val videoId = mCoursePlayAuth.videoId
-        val playAuth = mCoursePlayAuth.playAuth
-        Timber.d("startPlay：===> videoId is $videoId playAuth is $playAuth")
-        mAliPlayer.setDataSource(VidAuth().apply {
-            vid = videoId
-            setPlayAuth(playAuth)
-            region = "cn-shanghai"
-        })
-        mAliPlayer.prepare()
+    private fun preloadVideoInfo() {
+        val videoId = mVideoId
+        // 预加载视频信息
+        mCourseViewModel.fetchVideoInfo(videoId)
+        lifecycleScope.launch {
+            mCourseViewModel.videoPlayState
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collectLatest { state ->
+                    when (state) {
+                        is CourseViewModel.VideoPlayState.Idle -> {}
+                        is CourseViewModel.VideoPlayState.Loading -> showLoading()
+                        is CourseViewModel.VideoPlayState.Success -> {
+                            val info = state.info
+                            // 优先取第一个播放链接
+                            val url = info.playUrls.firstOrNull()?.url
+                            if (url != null) {
+                                mAliPlayer.setDataSource(UrlSource().apply {
+                                    uri = url
+                                })
+                                mAliPlayer.prepare()
+                            } else {
+                                hideLoadingForce()
+                                toast("未找到可播放的视频链接")
+                                finish()
+                            }
+                        }
+
+                        is CourseViewModel.VideoPlayState.Error -> {
+                            val e = state.throwable
+                            hideLoadingForce()
+                            toast("视频加载失败：${e.message}")
+                            Timber.e(e)
+                        }
+                    }
+                }
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -252,10 +305,12 @@ class PlayerActivity : AppActivity() {
                 // 竖屏
                 mBinding.llTopBarController.updatePadding(top = mNotchHeight)
             }
+
             Configuration.ORIENTATION_LANDSCAPE -> {
                 // 横屏
                 mBinding.llTopBarController.updatePadding(top = 0)
             }
+
             else -> {}
         }
     }
@@ -341,6 +396,7 @@ class PlayerActivity : AppActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        mCourseViewModel.resetVideoPlayState()
         mAliPlayer.stop()
         mAliPlayer.release()
         mAliPlayer.setSurface(null)
@@ -348,7 +404,7 @@ class PlayerActivity : AppActivity() {
 
     companion object {
 
-        private const val COURSE_PLAY_AUTH = "COURSE_PLAY_AUTH"
+        private const val VIDEO_ID = "VIDEO_ID"
         private const val SCREEN_ORIENTATION = "SCREEN_ORIENTATION"
         private const val VIDEO_TITLE = "VIDEO_TITLE"
 
@@ -358,12 +414,12 @@ class PlayerActivity : AppActivity() {
         @Log
         fun start(
             context: Context,
-            coursePlayAuth: CoursePlayAuth,
+            videoId: String,
             videoTitle: String = "",
             screenOrientation: Int = DEFAULT_SCREEN_ORIENTATION
         ) {
             context.startActivity<PlayerActivity> {
-                putExtra(COURSE_PLAY_AUTH, coursePlayAuth.toJson())
+                putExtra(VIDEO_ID, videoId)
                 putExtra(VIDEO_TITLE, videoTitle)
                 putExtra(SCREEN_ORIENTATION, screenOrientation)
             }
