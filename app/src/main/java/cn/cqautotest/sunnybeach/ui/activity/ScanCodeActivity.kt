@@ -6,15 +6,21 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.action.Init
+import cn.cqautotest.sunnybeach.action.LifecycleAction
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
-import cn.cqautotest.sunnybeach.manager.ThreadPoolManager
+import com.blankj.utilcode.util.Utils
 import com.dylanc.longan.toast
 import com.huawei.hms.hmsscankit.ScanKitActivity
 import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 /**
@@ -23,13 +29,15 @@ import timber.log.Timber
  * time   : 2022/04/20
  * desc   : 自定义的扫码界面，暂时只支持扫描二维码
  */
-class ScanCodeActivity : ScanKitActivity(), Init {
+class ScanCodeActivity : ScanKitActivity(), Init, LifecycleAction {
 
-    private var instanceState: Bundle? = null
+    private val lifecycleRegistry = LifecycleRegistry(this)
+
+    override fun getLifecycleRegistry(): LifecycleRegistry = lifecycleRegistry
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        initLifecycle(this)
         super.onCreate(savedInstanceState)
-        instanceState = savedInstanceState
         initEvent()
     }
 
@@ -60,17 +68,21 @@ class ScanCodeActivity : ScanKitActivity(), Init {
 
     private fun parseScanResult(uri: Uri) {
         Timber.d("parseScanResult：===> uri is $uri")
-        ThreadPoolManager.getInstance().execute {
-            val bitmap = GlideApp.with(this)
-                .asBitmap()
-                .load(uri)
-                .submit()
-                .get()
+        lifecycleScope.launch {
+            val bitmap = withContext(Dispatchers.IO) {
+                GlideApp.with(Utils.getApp())
+                    .asBitmap()
+                    .load(uri)
+                    .submit()
+                    .get()
+            }
             // “QRCODE_SCAN_TYPE”和“DATAMATRIX_SCAN_TYPE”表示只扫描QR和Data Matrix的码
             val options = HmsScanAnalyzerOptions.Creator()
                 .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
                 .create()
-            val hmsScans = ScanUtil.decodeWithBitmap(this, bitmap, options)
+            val hmsScans = withContext(Dispatchers.IO) {
+                ScanUtil.decodeWithBitmap(Utils.getApp(), bitmap, options)
+            }
             setResultAndFinish(hmsScans)
         }
     }
