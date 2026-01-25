@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.action.Init
 import cn.cqautotest.sunnybeach.action.LifecycleAction
+import cn.cqautotest.sunnybeach.action.lifecycleRegistry
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import com.blankj.utilcode.util.Utils
@@ -31,12 +32,11 @@ import timber.log.Timber
  */
 class ScanCodeActivity : ScanKitActivity(), Init, LifecycleAction {
 
-    private val lifecycleRegistry = LifecycleRegistry(this)
+    private val mLifecycleRegistry by lifecycleRegistry()
 
-    override fun getLifecycleRegistry(): LifecycleRegistry = lifecycleRegistry
+    override fun getLifecycleRegistry(): LifecycleRegistry = mLifecycleRegistry
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        initLifecycle(this)
         super.onCreate(savedInstanceState)
         initEvent()
     }
