@@ -229,9 +229,8 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                         refreshLayout.setEnableLoadMore(endOfPaginationReached.not())
                     }
 
-                    else -> {
-                        // Nothing to do.
-                    }
+                    is LoadState.Loading -> refreshLayout.finishLoadMore()
+                    is LoadState.Error -> refreshLayout.finishLoadMore(false)
                 }
             }
             ivPublish.setFixOnClickListener {

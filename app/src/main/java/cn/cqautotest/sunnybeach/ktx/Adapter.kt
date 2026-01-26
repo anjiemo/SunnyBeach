@@ -30,7 +30,10 @@ fun <T : Any, VH : RecyclerView.ViewHolder> StatusAction.loadStateListener(
         }
 
         is LoadState.Loading -> showLoading()
-        is LoadState.Error -> showError { onRetry.invoke() }
+        is LoadState.Error -> {
+            block.invoke()
+            showError { onRetry.invoke() }
+        }
     }
 }
 
