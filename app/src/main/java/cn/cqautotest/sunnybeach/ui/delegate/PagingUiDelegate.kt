@@ -58,9 +58,8 @@ class PagingUiDelegate(
                     refreshLayout?.setEnableLoadMore(endOfPaginationReached.not())
                 }
 
-                else -> {
-                    // Nothing to do.
-                }
+                is LoadState.Loading -> refreshLayout?.finishLoadMore()
+                is LoadState.Error -> refreshLayout?.finishLoadMore(false)
             }
         }
         // 需要在 View 销毁的时候移除 listener
