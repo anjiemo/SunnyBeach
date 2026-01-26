@@ -289,7 +289,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     private fun showTwoLevelPage(show: Boolean) {
         val fragment = childFragmentManager.findFragmentById(R.id.fragment_container_view_tag) ?: return
-        if (fragment.isVisible) return
+        if (fragment.isVisible == show) return
         childFragmentManager.commitNow(allowStateLoss = true) {
             if (show) show(fragment) else hide(fragment)
         }
