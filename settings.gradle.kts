@@ -33,8 +33,6 @@ dependencyResolutionManagement {
         maven { url = uri("https://jitpack.io") }
         // 配置HMS Core SDK的Maven仓地址
         maven { url = uri("https://developer.huawei.com/repo/") }
-        // 阿里云视频SDK所在的仓库
-        maven { url = uri("https://maven.aliyun.com/repository/releases") }
     }
 }
 

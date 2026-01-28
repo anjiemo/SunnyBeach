@@ -166,9 +166,6 @@ androidComponents {
             into(layout.buildDirectory.dir("outputs/apk-renamed/${variant.name}"))
             rename { fileName }
             duplicatesStrategy = DuplicatesStrategy.INCLUDE
-
-            // 执行完重命名后，运行配置打印任务
-            finalizedBy("print${variant.name.replaceFirstChar { it.uppercase() }}AppConfig")
         }
 
         // 确保 assemble 任务执行后会自动触发重命名
@@ -243,14 +240,12 @@ object AppConfigUtils {
             }
 
             else -> {
-                val msg = """
-                    output-metadata.json not found!
-                    Checked locations:
-                    1. ${standardOutputFile.absolutePath}
-                    2. ${customOutputFile.absolutePath}
-                    Please ensure 'assemble$variantName' has run successfully.
-                """.trimIndent()
-                throw GradleException(msg)
+                println("警告: output-metadata.json 未找到！")
+                println("检查位置:")
+                println("1. ${standardOutputFile.absolutePath}")
+                println("2. ${customOutputFile.absolutePath}")
+                println("请确保 'assemble${variantName}' 已成功运行。由于文件缺失，跳过配置生成任务。")
+                return
             }
         }
 
@@ -327,7 +322,6 @@ tasks.register("printDebugAppConfig") {
     }
 }
 
-// MiPush 接入文档：https://dev.mi.com/console/doc/detail?pId=41#_0_0
 // 添加构建依赖项：https://developer.android.google.cn/studio/build/dependencies
 // api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
 dependencies {
@@ -559,8 +553,10 @@ dependencies {
     // 悬浮窗框架：https://github.com/getActivity/EasyWindow
     implementation(libs.easywindow)
 
-    // 阿里云视频播放器 SDK：https://help.aliyun.com/document_detail/124711.html?spm=a2c4g.11186623.0.0.7bd24addVQH3VE
-    implementation(libs.aliyun.player)
+    // Media3 ExoPlayer：https://developer.android.com/guide/topics/media/exoplayer
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.media3.common)
 
     // implementation("me.laoyuyu.aria:core:$ariaVersion")
     // annotationProcessor("me.laoyuyu.aria:compiler:$ariaVersion")

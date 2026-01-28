@@ -78,10 +78,8 @@ liveEventBus = "1.8.0"
 
 # Bugly
 bugly = "4.1.9.3"
-buglyNative = "3.9.2"
 
-# 阿里云播放器
-aliyunPlayer = "7.11.0"
+media3 = "1.9.1"
 
 # 图表库
 mpAndroidChart = "v3.1.0"
@@ -223,8 +221,10 @@ liveeventbus = { group = "io.github.jeremyliao", name = "live-event-bus-x", vers
 # Bugly
 bugly-crashreport = { group = "com.tencent.bugly", name = "crashreport", version.ref = "bugly" }
 
-# 阿里云播放器
-aliyun-player = { group = "com.aliyun.sdk.android", name = "AliyunPlayer", version = "5.4.9.2-full" }
+
+androidx-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3" }
+androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3" }
+androidx-media3-common = { group = "androidx.media3", name = "media3-common", version.ref = "media3" }
 
 # 图表库
 mpandroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpAndroidChart" }

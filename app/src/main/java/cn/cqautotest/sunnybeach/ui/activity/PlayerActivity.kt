@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
-import android.view.SurfaceHolder
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.activity.viewModels
@@ -14,6 +13,10 @@ import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
@@ -21,17 +24,15 @@ import cn.cqautotest.sunnybeach.databinding.PlayerActivityBinding
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.startActivity
 import cn.cqautotest.sunnybeach.viewmodel.CourseViewModel
-import com.aliyun.player.AliPlayer
-import com.aliyun.player.AliPlayerFactory
-import com.aliyun.player.IPlayer
-import com.aliyun.player.bean.InfoCode
-import com.aliyun.player.source.UrlSource
 import com.dylanc.longan.intentExtras
 import com.dylanc.longan.windowInsetsControllerCompat
 import com.gyf.immersionbar.ImmersionBar
 import dagger.hilt.android.AndroidEntryPoint
 import dev.androidbroadcast.vbpd.viewBinding
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -41,9 +42,6 @@ import java.util.concurrent.TimeUnit
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2022/04/24
  * desc   : 课程视频播放界面
- * 阿里云视频播放 SDK 文档：
- * 运行Demo源码：https://help.aliyun.com/document_detail/383401.html?spm=a2c4g.11186623.0.0.7bd24addVQH3VE
- * 快速集成：https://help.aliyun.com/document_detail/124711.html?spm=a2c4g.11186623.0.0.7bd24addVQH3VE
  */
 @AndroidEntryPoint
 class PlayerActivity : AppActivity() {
@@ -53,7 +51,9 @@ class PlayerActivity : AppActivity() {
     private val mVideoId by intentExtras(VIDEO_ID, "")
     private val mVideoTitle by intentExtras(VIDEO_TITLE, "")
     private val mScreenOrientation by intentExtras(SCREEN_ORIENTATION, DEFAULT_SCREEN_ORIENTATION)
-    private lateinit var mAliPlayer: AliPlayer
+    private lateinit var mExoPlayer: ExoPlayer
+    private var mProgressUpdateJob: Job? = null
+
     private val mHideTopBarControllerTask = Runnable {
         hideTopBarController()
     }
@@ -86,12 +86,12 @@ class PlayerActivity : AppActivity() {
         // 设置初始的屏幕方向
         requestedOrientation = mScreenOrientation
         mBinding.tvTitle.text = mVideoTitle
-        mAliPlayer = createPlayer().apply {
-            isAutoPlay = true
-        }
+        mExoPlayer = createPlayer()
     }
 
-    private fun createPlayer() = AliPlayerFactory.createAliPlayer(this)
+    private fun createPlayer() = ExoPlayer.Builder(this).build().apply {
+        playWhenReady = true
+    }
 
     override fun initData() {
 
@@ -99,22 +99,50 @@ class PlayerActivity : AppActivity() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun initEvent() {
-        mAliPlayer.initAliPlayerListener()
+        mExoPlayer.addListener(object : Player.Listener {
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                when (playbackState) {
+                    Player.STATE_BUFFERING -> showLoading()
+                    Player.STATE_READY -> {
+                        mIsFirstFrameRendered = true
+                        hideLoading()
+                        mBinding.seekBar.max = mExoPlayer.duration.toInt()
+                        updatePlayBtnState()
+                        startProgressUpdate()
+                    }
+
+                    Player.STATE_ENDED -> {
+                        stopProgressUpdate()
+                        mExoPlayer.pause()
+                        updatePlayBtnState()
+                    }
+
+                    Player.STATE_IDLE -> {
+                        stopProgressUpdate()
+                    }
+                }
+            }
+
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                if (isPlaying) {
+                    startProgressUpdate()
+                } else {
+                    stopProgressUpdate()
+                }
+                updatePlayBtnState()
+            }
+
+            override fun onPlayerError(error: PlaybackException) {
+                hideLoadingForce()
+                Timber.e("ExoPlayer Error: ${error.message}")
+                toast("播放失败：${error.message}")
+                stopProgressUpdate()
+            }
+        })
+
         mBinding.apply {
-            surfaceView.holder.addCallback(object : SurfaceHolder.Callback {
+            mExoPlayer.setVideoSurfaceHolder(surfaceView.holder)
 
-                override fun surfaceCreated(holder: SurfaceHolder) {
-                    mAliPlayer.setSurface(holder.surface)
-                }
-
-                override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-                    mAliPlayer.surfaceChanged()
-                }
-
-                override fun surfaceDestroyed(holder: SurfaceHolder) {
-                    mAliPlayer.setSurface(null)
-                }
-            })
             ivBack.setFixOnClickListener {
                 finish()
             }
@@ -132,15 +160,17 @@ class PlayerActivity : AppActivity() {
             seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
 
                 override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar) {
-
+                    stopProgressUpdate()
                 }
 
                 override fun onStopTrackingTouch(seekBar: SeekBar) {
-                    mAliPlayer.seekTo(seekBar.progress.toLong(), IPlayer.SeekMode.Inaccurate)
+                    mExoPlayer.seekTo(seekBar.progress.toLong())
+                    if (mExoPlayer.isPlaying) {
+                        startProgressUpdate()
+                    }
                     autoHideTopBarController()
                     autoHideMediaController()
                 }
@@ -153,89 +183,26 @@ class PlayerActivity : AppActivity() {
         }
     }
 
+    private fun startProgressUpdate() {
+        mProgressUpdateJob?.cancel()
+        mProgressUpdateJob = lifecycleScope.launch {
+            while (isActive) {
+                mBinding.seekBar.progress = mExoPlayer.currentPosition.toInt()
+                delay(1000)
+            }
+        }
+    }
+
+    private fun stopProgressUpdate() {
+        mProgressUpdateJob?.cancel()
+        mProgressUpdateJob = null
+    }
+
     private fun toggleScreenOrientation() {
         requestedOrientation = when (requestedOrientation) {
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             else -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
-    }
-
-    private fun AliPlayer.initAliPlayerListener() {
-        setOnErrorListener {
-            // 错误码
-            val errorCode = it.code
-            // 错误描述
-            val errorMsg = it.msg
-            hideLoadingForce()
-            Timber.e("initAliPlayerListener：===> errorCode is $errorCode，errorMsg is $errorMsg")
-            toast("播放失败：$errorMsg")
-            // 出错后需要停止播放器
-            stop()
-        }
-        setOnPreparedListener {
-            // 调用aliPlayer.prepare()方法后，播放器开始读取并解析数据。成功后，会回调此接口。
-            mBinding.apply {
-                seekBar.max = mAliPlayer.duration.toInt()
-                seekBar.progress = 0
-            }
-            // 一般调用start开始播放视频。
-            takeUnless { mIsPause || mIsOnBackground }?.let {
-                start()
-                updatePlayBtnState()
-                autoHideTopBarController()
-                autoHideMediaController()
-            }
-        }
-        setOnRenderingStartListener {
-            // 渲染开始，此时首帧画面已经出现
-            mIsFirstFrameRendered = true
-            hideLoadingForce()
-        }
-        setOnCompletionListener {
-            // 播放完成之后，就会回调到此接口。
-            // 一般调用stop停止播放视频。
-            stop()
-        }
-        setOnInfoListener {
-            // 播放器中的一些信息，包括：当前进度、缓存位置等等。
-            // 信息码
-            val code = it.code
-            // 信息内容
-            val msg = it.extraMsg
-            // 信息值
-            val value = it.extraValue
-
-            // 当前进度：InfoCode.CurrentPosition
-            // 当前缓存位置：InfoCode.BufferedPosition
-            Timber.d("initEvent：===> value is $value")
-            when (it.code) {
-                InfoCode.CurrentPosition -> {
-                    // extraValue为当前播放进度，单位为毫秒
-                    val extraValue = value.toInt()
-                    mBinding.seekBar.progress = extraValue
-                }
-
-                else -> {}
-            }
-        }
-        setOnLoadingStatusListener(object : IPlayer.OnLoadingStatusListener {
-
-            override fun onLoadingBegin() {
-                // 开始加载。画面和声音不足以播放。
-                // 一般在此处显示圆形加载。
-                showLoading()
-            }
-
-            override fun onLoadingProgress(percent: Int, netSpeed: Float) {
-                // 加载进度。百分比和网速。
-            }
-
-            override fun onLoadingEnd() {
-                // 结束加载。画面和声音可以播放。
-                // 一般在此处隐藏圆形加载。
-                hideLoading()
-            }
-        })
     }
 
     private fun showLoading() {
@@ -276,10 +243,9 @@ class PlayerActivity : AppActivity() {
                             // 优先取第一个播放链接
                             val url = info.playUrls.firstOrNull()?.url
                             if (url != null) {
-                                mAliPlayer.setDataSource(UrlSource().apply {
-                                    uri = url
-                                })
-                                mAliPlayer.prepare()
+                                val mediaItem = MediaItem.fromUri(url)
+                                mExoPlayer.setMediaItem(mediaItem)
+                                mExoPlayer.prepare()
                             } else {
                                 hideLoadingForce()
                                 toast("未找到可播放的视频链接")
@@ -329,7 +295,7 @@ class PlayerActivity : AppActivity() {
     private fun pausePlay() {
         mIsPause = true
         updatePlayBtnState()
-        mAliPlayer.pause()
+        mExoPlayer.pause()
     }
 
     /**
@@ -338,11 +304,11 @@ class PlayerActivity : AppActivity() {
     private fun resumePlay() {
         mIsPause = false
         updatePlayBtnState()
-        mAliPlayer.start()
+        mExoPlayer.play()
     }
 
     private fun updatePlayBtnState() {
-        mBinding.ivPlay.isSelected = !mIsPause
+        mBinding.ivPlay.isSelected = mExoPlayer.isPlaying
     }
 
     private fun topBarControllerIsVisible() = mBinding.llTopBarController.isVisible
@@ -396,10 +362,9 @@ class PlayerActivity : AppActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        stopProgressUpdate()
         mCourseViewModel.resetVideoPlayState()
-        mAliPlayer.stop()
-        mAliPlayer.release()
-        mAliPlayer.setSurface(null)
+        mExoPlayer.release()
     }
 
     companion object {
