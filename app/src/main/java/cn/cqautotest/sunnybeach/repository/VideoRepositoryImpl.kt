@@ -48,7 +48,7 @@ class VideoRepositoryImpl @Inject constructor(
             val token = authJson.get("SecurityToken").asString
             val authInfo = authJson.get("AuthInfo").asString
 
-            // 计算签名并请求阿里云 (Aliyun 接口)
+            // 计算签名并请求视频点播接口 (GetPlayInfo)
             val signedParams = AliyunVodSigner.sign(
                 method = "GET",
                 action = "GetPlayInfo",
