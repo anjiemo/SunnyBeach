@@ -1,14 +1,14 @@
 # 基于 sdk/tools/proguard/proguard-android-optimize.txt 修改
--optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
--optimizationpasses 5
--allowaccessmodification
--dontpreverify
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
--verbose
+# -optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
+# -optimizationpasses 5
+# -allowaccessmodification
+# -dontpreverify
+# -dontusemixedcaseclassnames
+# -dontskipnonpubliclibraryclasses
+# -verbose
 
 # 不要删除无用代码
--dontshrink
+# -dontshrink
 
 # 不混淆泛型
 -keepattributes Signature

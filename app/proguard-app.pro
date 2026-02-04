@@ -1,6 +1,15 @@
 # 忽略警告
 #-ignorewarning
 
+# 全局优化配置
+-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
+-optimizationpasses 5
+-allowaccessmodification
+-dontpreverify
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-verbose
+
 # 混淆保护自己项目的部分代码以及引用的第三方jar包
 #-libraryjars libs/xxxxxxxxx.jar
 
