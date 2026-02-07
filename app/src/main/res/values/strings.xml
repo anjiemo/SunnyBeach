@@ -315,4 +315,8 @@
 
     <!-- 首页二楼 -->
     <string name="back_to_home_page">回到首页</string>
+
+    <!-- 播放器界面 -->
+    <string name="player_default_time">00:00</string>
+    <string name="player_playback_speed">倍速</string>
 </resources>
