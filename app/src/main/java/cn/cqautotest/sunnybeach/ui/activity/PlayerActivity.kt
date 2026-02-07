@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.text.format.DateUtils
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.activity.viewModels
@@ -36,6 +37,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * author : A Lonely Cat
@@ -58,6 +60,7 @@ class PlayerActivity : AppActivity() {
         hideTopBarController()
     }
     private val mHideMediaControllerTask = Runnable {
+        hideCenterController()
         hideMediaController()
     }
 
@@ -87,10 +90,16 @@ class PlayerActivity : AppActivity() {
         requestedOrientation = mScreenOrientation
         mBinding.tvTitle.text = mVideoTitle
         mExoPlayer = createPlayer()
+        initializePlayInfoView()
     }
 
     private fun createPlayer() = ExoPlayer.Builder(this).build().apply {
         playWhenReady = true
+    }
+
+    private fun initializePlayInfoView() {
+        mBinding.tvCurrentTime.text = getString(R.string.player_default_time)
+        mBinding.tvEndTime.text = getString(R.string.player_default_time)
     }
 
     override fun initData() {
@@ -108,11 +117,24 @@ class PlayerActivity : AppActivity() {
                         hideLoading()
                         mBinding.seekBar.max = mExoPlayer.duration.toInt()
                         updatePlayBtnState()
+
+                        // 设置当前播放时间
+                        val startTimeSecond = mExoPlayer.currentPosition.milliseconds.inWholeSeconds
+                        mBinding.tvCurrentTime.text = DateUtils.formatElapsedTime(startTimeSecond)
+
+                        // 设置总时长
+                        val endTimeSecond = mExoPlayer.duration.milliseconds.inWholeSeconds
+                        mBinding.tvEndTime.text = DateUtils.formatElapsedTime(endTimeSecond)
+
+                        autoHideTopBarController()
+                        autoHideMediaController()
+
                         startProgressUpdate()
                     }
 
                     Player.STATE_ENDED -> {
                         stopProgressUpdate()
+
                         mExoPlayer.pause()
                         updatePlayBtnState()
                     }
@@ -149,6 +171,7 @@ class PlayerActivity : AppActivity() {
             flVideoContainer.setFixOnClickListener {
                 toggleTopBarController()
                 toggleMediaController()
+                showCenterController()
                 autoHideTopBarController()
                 autoHideMediaController()
             }
@@ -175,6 +198,12 @@ class PlayerActivity : AppActivity() {
                     autoHideMediaController()
                 }
             })
+            tvPlaybackSpeed.setFixOnClickListener {
+                showPlaybackSpeedDialog()
+                hideTopBarController()
+                hideMediaController()
+                hideCenterController()
+            }
             ivFullScreen.setFixOnClickListener {
                 toggleScreenOrientation()
                 autoHideTopBarController()
@@ -183,10 +212,16 @@ class PlayerActivity : AppActivity() {
         }
     }
 
+    private fun showPlaybackSpeedDialog() {
+        toast("敬请期待")
+    }
+
     private fun startProgressUpdate() {
         mProgressUpdateJob?.cancel()
         mProgressUpdateJob = lifecycleScope.launch {
             while (isActive) {
+                val startTimeSecond = mExoPlayer.currentPosition.milliseconds.inWholeSeconds
+                mBinding.tvCurrentTime.text = DateUtils.formatElapsedTime(startTimeSecond)
                 mBinding.seekBar.progress = mExoPlayer.currentPosition.toInt()
                 delay(1000)
             }
@@ -207,12 +242,14 @@ class PlayerActivity : AppActivity() {
 
     private fun showLoading() {
         mBinding.progressBar.isVisible = true
+        hideCenterController()
     }
 
     private fun hideLoading() {
         if (mIsFirstFrameRendered) {
             mBinding.progressBar.isVisible = false
         }
+        showCenterController()
     }
 
     /**
@@ -220,6 +257,7 @@ class PlayerActivity : AppActivity() {
      */
     private fun hideLoadingForce() {
         mBinding.progressBar.isVisible = false
+        showCenterController()
     }
 
     /**
@@ -337,6 +375,18 @@ class PlayerActivity : AppActivity() {
 
     private fun showMediaController() {
         mBinding.llMediaController.isVisible = true
+    }
+
+    private fun showCenterController() {
+        if (mediaControllerIsVisible().not()) {
+            mBinding.llCenterController.isVisible = false
+            return
+        }
+        mBinding.llCenterController.isVisible = true
+    }
+
+    private fun hideCenterController() {
+        mBinding.llCenterController.isVisible = false
     }
 
     private fun autoHideTopBarController() {
