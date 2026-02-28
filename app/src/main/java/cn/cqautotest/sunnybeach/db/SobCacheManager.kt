@@ -4,6 +4,7 @@ import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
 import cn.cqautotest.sunnybeach.event.LiveBusUtils
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_API_BASE_URL
 import cn.cqautotest.sunnybeach.util.StringUtil
+import com.google.common.net.HttpHeaders
 import com.tencent.mmkv.MMKV
 import okhttp3.Headers
 import okhttp3.Request
@@ -32,12 +33,12 @@ object SobCacheManager {
                     url.contains("uc/user/register") ||
                     url.contains("uc/ut/forget/send-sms") -> {
                 Timber.d("addHeadersByNeed：===> sobCaptchaKey is $sobCaptchaKey")
-                requestBuilder.addHeader(SOB_CAPTCHA_KEY_NAME, sobCaptchaKey)
+                requestBuilder.header(SOB_CAPTCHA_KEY_NAME, sobCaptchaKey)
             }
             url.contains(topDomain) -> {
                 val sobToken = getHeader(SOB_TOKEN_NAME)
                 Timber.d("addHeadersByNeed：===> sobToken is $sobToken")
-                requestBuilder.addHeader(SOB_TOKEN_NAME, sobToken)
+                requestBuilder.header(HttpHeaders.COOKIE, "${SOB_TOKEN_NAME}=${sobToken}")
             }
             else -> {
                 // Nothing to do.
