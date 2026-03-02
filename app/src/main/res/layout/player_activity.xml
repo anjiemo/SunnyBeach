@@ -19,20 +19,42 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/ll_center_controller"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
+        <!-- 快退 15s -->
+        <ImageView
+            android:id="@+id/iv_rewind"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_seek_rewind" />
+
+        <!-- 播放/暂停 -->
         <ImageView
             android:id="@+id/iv_play"
             android:layout_width="@dimen/dp_50"
             android:layout_height="@dimen/dp_50"
+            android:layout_marginHorizontal="24dp"
             android:padding="4dp"
             android:src="@drawable/play_btn_selector" />
 
-    </FrameLayout>
+        <!-- 快进 15s -->
+        <ImageView
+            android:id="@+id/iv_forward"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_seek_forward" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_top_bar_controller"
@@ -156,5 +178,19 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <!-- 滑动快进/快退时显示的时间提示，最后渲染确保在最上层 -->
+    <TextView
+        android:id="@+id/tv_seek_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#80000000"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
 </FrameLayout>
