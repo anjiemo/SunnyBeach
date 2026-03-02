@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.text.format.DateUtils
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.activity.viewModels
@@ -37,6 +39,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
+import kotlin.math.abs
 import kotlin.time.Duration.Companion.milliseconds
 
 /**
@@ -55,6 +58,49 @@ class PlayerActivity : AppActivity() {
     private val mScreenOrientation by intentExtras(SCREEN_ORIENTATION, DEFAULT_SCREEN_ORIENTATION)
     private lateinit var mExoPlayer: ExoPlayer
     private var mProgressUpdateJob: Job? = null
+
+    // 水平滑动 Seek 状态
+    private var mIsSeekScrolling = false
+    private var mSeekScrollStartPos = 0L
+    private var mSeekScrollAccumDx = 0f
+
+    private val mGestureDetector by lazy {
+        GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
+            // onDown 必须返回 true，GestureDetector 才能接收后续事件
+            override fun onDown(e: MotionEvent) = true
+
+            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                toggleTopBarController()
+                toggleMediaController()
+                showCenterController()
+                autoHideTopBarController()
+                autoHideMediaController()
+                return true
+            }
+
+            override fun onScroll(
+                e1: MotionEvent?,
+                e2: MotionEvent,
+                distanceX: Float,
+                distanceY: Float
+            ): Boolean {
+                // 水平方向明显大于垂直方向才处理（2:1 阈值）
+                if (abs(distanceX) <= abs(distanceY)) return false
+                if (!mIsSeekScrolling) {
+                    mIsSeekScrolling = true
+                    mSeekScrollStartPos = mExoPlayer.currentPosition
+                    mSeekScrollAccumDx = 0f
+                    stopProgressUpdate()
+                    removeCallbacks(mHideTopBarControllerTask)
+                    removeCallbacks(mHideMediaControllerTask)
+                }
+                // distanceX 正值 = 手指向左 = 快退；负值 = 手指向右 = 快进
+                mSeekScrollAccumDx -= distanceX
+                showSeekIndicator(calcSwipeSeekDelta())
+                return true
+            }
+        })
+    }
 
     private val mHideTopBarControllerTask = Runnable {
         hideTopBarController()
@@ -168,10 +214,32 @@ class PlayerActivity : AppActivity() {
             ivBack.setFixOnClickListener {
                 finish()
             }
-            flVideoContainer.setFixOnClickListener {
-                toggleTopBarController()
-                toggleMediaController()
-                showCenterController()
+            flVideoContainer.setOnTouchListener { _, event ->
+                if (event.actionMasked == MotionEvent.ACTION_UP ||
+                    event.actionMasked == MotionEvent.ACTION_CANCEL
+                ) {
+                    if (mIsSeekScrolling) {
+                        val delta = calcSwipeSeekDelta()
+                        val newPos = (mSeekScrollStartPos + delta)
+                            .coerceIn(0L, mExoPlayer.duration.coerceAtLeast(0L))
+                        mExoPlayer.seekTo(newPos)
+                        mIsSeekScrolling = false
+                        hideSeekIndicator()
+                        if (mExoPlayer.isPlaying) startProgressUpdate()
+                        autoHideTopBarController()
+                        autoHideMediaController()
+                    }
+                }
+                mGestureDetector.onTouchEvent(event)
+                true
+            }
+            ivRewind.setFixOnClickListener {
+                seekBy(-SEEK_STEP_MS)
+                autoHideTopBarController()
+                autoHideMediaController()
+            }
+            ivForward.setFixOnClickListener {
+                seekBy(SEEK_STEP_MS)
                 autoHideTopBarController()
                 autoHideMediaController()
             }
@@ -233,6 +301,38 @@ class PlayerActivity : AppActivity() {
     private fun stopProgressUpdate() {
         mProgressUpdateJob?.cancel()
         mProgressUpdateJob = null
+    }
+
+    /**
+     * 相对当前播放位置跳转 deltaMs 毫秒（正数快进，负数快退）
+     */
+    private fun seekBy(deltaMs: Long) {
+        val duration = mExoPlayer.duration.coerceAtLeast(0L)
+        val newPos = (mExoPlayer.currentPosition + deltaMs).coerceIn(0L, duration)
+        mExoPlayer.seekTo(newPos)
+    }
+
+    /**
+     * 将水平累计滑动像素换算为毫秒偏移量
+     * 约定：屏幕宽度对应 120 秒（即每 100dp ≈ 10~15 秒，体感舒适）
+     */
+    private fun calcSwipeSeekDelta(): Long {
+        val screenWidth = resources.displayMetrics.widthPixels.toFloat()
+        return (mSeekScrollAccumDx / screenWidth * 120_000L).toLong()
+    }
+
+    /**
+     * 显示快进/快退时间提示（正数快进，负数快退）
+     */
+    private fun showSeekIndicator(deltaMs: Long) {
+        val absSecs = abs(deltaMs) / 1000
+        val text = if (deltaMs >= 0) "$absSecs s »" else "« $absSecs s"
+        mBinding.tvSeekIndicator.text = text
+        mBinding.tvSeekIndicator.isVisible = true
+    }
+
+    private fun hideSeekIndicator() {
+        mBinding.tvSeekIndicator.isVisible = false
     }
 
     private fun toggleScreenOrientation() {
@@ -424,6 +524,7 @@ class PlayerActivity : AppActivity() {
         private const val VIDEO_ID = "VIDEO_ID"
         private const val SCREEN_ORIENTATION = "SCREEN_ORIENTATION"
         private const val VIDEO_TITLE = "VIDEO_TITLE"
+        private const val SEEK_STEP_MS = 15_000L
 
         // 默认屏幕方向
         private const val DEFAULT_SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
