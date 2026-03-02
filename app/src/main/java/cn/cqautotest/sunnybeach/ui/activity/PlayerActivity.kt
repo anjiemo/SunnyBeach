@@ -187,6 +187,8 @@ class PlayerActivity : AppActivity() {
 
                 override fun onStartTrackingTouch(seekBar: SeekBar) {
                     stopProgressUpdate()
+                    removeCallbacks(mHideTopBarControllerTask)
+                    removeCallbacks(mHideMediaControllerTask)
                 }
 
                 override fun onStopTrackingTouch(seekBar: SeekBar) {
