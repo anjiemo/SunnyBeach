@@ -90,9 +90,9 @@ jobs:
       - name: 获取版本名称
         id: get_version
         run: |
-          # 读取 version.properties 中的值作为默认值
-          VERSION_NAME=$(grep 'versionName=' version.properties | cut -d'=' -f2)
-          VERSION_CODE=$(grep 'versionCode=' version.properties | cut -d'=' -f2)
+          # 读取 version.properties 中的值作为默认值，使用 tr 删除可能存在的 Windows 回车符
+          VERSION_NAME=$(grep 'versionName=' version.properties | cut -d'=' -f2 | tr -d '\r')
+          VERSION_CODE=$(grep 'versionCode=' version.properties | cut -d'=' -f2 | tr -d '\r')
           
           # 如果提供了手动输入的版本名称，则使用手动输入的值
           if [ -n "${{ github.event.inputs.version_name }}" ]; then
@@ -109,15 +109,17 @@ jobs:
           echo "::notice::Building with versionName=$VERSION_NAME, versionCode=$VERSION_CODE"
 
       # 第8步：获取 APK 路径
-      # 从输出目录中找到构建生成的 APK 文件。
+      # 从输出目录中全局搜索构建生成的 APK 文件。
       - name: 获取 APK 路径
         id: get_apk_path
         run: |
-          # 优先查找重命名后的 APK
-          APK_PATH=$(find build/app/outputs/apk-renamed/release -type f -name "*.apk" | head -n 1)
-          # 如果找不到，回退到标准目录（作为兜底）
+          # 在整个 build 目录搜索真实重命名后的 APK，不局限于由于 Baseline Profile 生成的具体子目录结构。
+          # -v 过滤掉原生的 app-release-unsigned / unaligned 等中间产物。
+          APK_PATH=$(find build -type f -name "*.apk" | grep -v "unsigned" | grep -i "apk-renamed" | head -n 1)
+          
+          # 如果在 renamed 目录找不到，回退到全局搜索 release 下的 apk。
           if [ -z "$APK_PATH" ]; then
-            APK_PATH=$(find build/app/outputs/apk/release -type f -name "*.apk" | head -n 1)
+            APK_PATH=$(find build -type f -name "*.apk" | grep -v "unsigned" | grep "release" | head -n 1)
           fi
           
           if [ -z "$APK_PATH" ]; then
