@@ -162,7 +162,11 @@ androidComponents {
         val renameTaskName = "rename${variant.name.replaceFirstChar { it.uppercase() }}Apk"
         val renameTask = tasks.register<Copy>(renameTaskName) {
             val apkArtifact = variant.artifacts.get(com.android.build.api.artifact.SingleArtifact.APK)
-            from(apkArtifact)
+            from(apkArtifact) {
+                // AGP 7+ 以上这个 Artifact 返回的是包含产物的整个目录
+                // 我们只需要真正的全量 .apk 文件，剔除 output-metadata.json 等不相关产物
+                include("**/*.apk")
+            }
             into(layout.buildDirectory.dir("outputs/apk-renamed/${variant.name}"))
             rename { fileName }
             duplicatesStrategy = DuplicatesStrategy.INCLUDE
