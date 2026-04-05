@@ -45,3 +45,8 @@
 -keep @interface cn.funkt.annotation.BaseUrl
 -keep @interface cn.funkt.annotation.Ignore
 -keep @interface cn.cqautotest.sunnybeach.http.annotation.baseurl.**
+
+# DeepLink 调度器混淆规则：保留 AppSchemeService 的实现类及其无参构造函数，避免反射失败
+-keep class * implements cn.cqautotest.sunnybeach.deeplink.AppSchemeService {
+    <init>();
+}
