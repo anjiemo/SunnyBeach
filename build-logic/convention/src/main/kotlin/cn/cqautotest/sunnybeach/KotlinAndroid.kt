@@ -11,6 +11,7 @@ import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -24,66 +25,76 @@ internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension) {
     commonExtension.compileSdk = 36
 
     when (commonExtension) {
-        is ApplicationExtension -> {
-            commonExtension.run {
-                defaultConfig {
-                    minSdk = 26
-                }
-                compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_21
-                    targetCompatibility = JavaVersion.VERSION_21
-                }
-                buildFeatures {
-                    viewBinding = true
-                    resValues = true
-                }
-                sourceSets.getByName("main") {
-                    jniLibs {
-                        directories += "libs"
-                    }
-                }
-                buildTypes {
-                    getByName("debug") {}
-                    create("preview") {}
-                    getByName("release") {}
-                }
-                lint {
-                    disable += setOf("HardcodedText", "ContentDescription")
-                }
-            }
-        }
-
-        is LibraryExtension -> {
-            commonExtension.run {
-                defaultConfig {
-                    minSdk = 26
-                }
-                compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_21
-                    targetCompatibility = JavaVersion.VERSION_21
-                }
-                buildFeatures {
-                    viewBinding = true
-                    resValues = true
-                }
-                sourceSets.getByName("main") {
-                    jniLibs {
-                        directories += "libs"
-                    }
-                }
-                buildTypes {
-                    getByName("debug") {}
-                    create("preview") {}
-                    getByName("release") {}
-                }
-                lint {
-                    disable += setOf("HardcodedText", "ContentDescription")
-                }
-            }
-        }
+        is ApplicationExtension -> configureAndroidExtension(commonExtension)
+        is LibraryExtension -> configureAndroidExtension(commonExtension)
     }
 
     configureKotlin()
+    configureJavaEncoding()
+}
+
+/**
+ * 配置 ApplicationExtension
+ */
+private fun configureAndroidExtension(extension: ApplicationExtension) {
+    extension.run {
+        defaultConfig {
+            minSdk = 26
+        }
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_21
+            targetCompatibility = JavaVersion.VERSION_21
+        }
+        buildFeatures {
+            viewBinding = true
+            resValues = true
+        }
+        sourceSets.getByName("main") {
+            jniLibs {
+                directories += "libs"
+            }
+        }
+        buildTypes {
+            getByName("debug") {}
+            create("preview") {}
+            getByName("release") {}
+        }
+        lint {
+            disable += setOf("HardcodedText", "ContentDescription")
+        }
+    }
+}
+
+/**
+ * 配置 LibraryExtension
+ */
+private fun configureAndroidExtension(extension: LibraryExtension) {
+    extension.run {
+        defaultConfig {
+            minSdk = 26
+        }
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_21
+            targetCompatibility = JavaVersion.VERSION_21
+        }
+        buildFeatures {
+            viewBinding = true
+            resValues = true
+        }
+        sourceSets.getByName("main") {
+            jniLibs {
+                directories += "libs"
+            }
+        }
+        buildTypes {
+            getByName("debug") {}
+            create("preview") {}
+            getByName("release") {}
+        }
+        lint {
+            disable += setOf("HardcodedText", "ContentDescription")
+        }
+    }
 }
 
 /**
@@ -96,6 +107,16 @@ internal fun Project.configureKotlin() {
             jvmTarget.set(JvmTarget.JVM_21)
             freeCompilerArgs.add("-Xcontext-parameters")
         }
+    }
+}
+
+/**
+ * 配置 Java 编码为 UTF-8
+ * 从根 build.gradle.kts 的 allprojects 中迁移到此处
+ */
+private fun Project.configureJavaEncoding() {
+    tasks.withType<JavaCompile>().configureEach {
+        options.encoding = "UTF-8"
     }
 }
 

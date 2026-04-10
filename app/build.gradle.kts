@@ -228,36 +228,20 @@ object AppConfigUtils {
     fun Project.printAppConfig(variantName: String) {
         val appName = getAppNameFromStrings(project) ?: project.name
 
+        // 从标准构建输出目录查找
+        val metadataFile = layout.buildDirectory.file("outputs/apk/$variantName/output-metadata.json").get().asFile
 
-        // 1. 尝试从标准构建输出目录查找 (适配 layout.buildDirectory 配置)
-        val standardOutputFile = layout.buildDirectory.file("outputs/apk/$variantName/output-metadata.json").get().asFile
-
-        // 2. 回退到旧的自定义目录 (app/<variantName>)
-        val customOutputFile = layout.projectDirectory.file("$variantName/output-metadata.json").asFile
-
-        val configFile = when {
-            standardOutputFile.exists() -> {
-                println("Found output-metadata.json at: ${standardOutputFile.absolutePath}")
-                standardOutputFile
-            }
-
-            customOutputFile.exists() -> {
-                println("Found output-metadata.json at: ${customOutputFile.absolutePath}")
-                customOutputFile
-            }
-
-            else -> {
-                println("警告: output-metadata.json 未找到！")
-                println("检查位置:")
-                println("1. ${standardOutputFile.absolutePath}")
-                println("2. ${customOutputFile.absolutePath}")
-                println("请确保 'assemble${variantName}' 已成功运行。由于文件缺失，跳过配置生成任务。")
-                return
-            }
+        if (!metadataFile.exists()) {
+            println("警告: output-metadata.json 未找到！")
+            println("检查位置: ${metadataFile.absolutePath}")
+            println("请确保 'assemble${variantName}' 已成功运行。由于文件缺失，跳过配置生成任务。")
+            return
         }
 
-        val outputDirPath = configFile.parentFile.absolutePath
-        val apkConfig = configFile.readText()
+        println("Found output-metadata.json at: ${metadataFile.absolutePath}")
+
+        val outputDirPath = metadataFile.parentFile.absolutePath
+        val apkConfig = metadataFile.readText()
         val apkConfigJson = JsonSlurper().parseText(apkConfig) as Map<*, *>
         val elements = apkConfigJson["elements"] as List<*>
         val outputConfig = elements[0] as Map<*, *>
@@ -287,15 +271,40 @@ object AppConfigUtils {
         val appConfigFile = File(outputDirPath + File.separator + "appConfig.json")
         appConfigFile.writeText(appConfigPrettyJsonString)
 
-        // 同时输出到重命名的目录（如果存在），以兼容 GitHub Workflow
+        // 同时输出到重命名的目录（如果存在）
         val renamedDir = layout.buildDirectory.dir("outputs/apk-renamed/$variantName").get().asFile
+        var renamedAppConfigFile: File? = null
         if (renamedDir.exists()) {
-            File(renamedDir, "appConfig.json").writeText(appConfigPrettyJsonString)
+            renamedAppConfigFile = File(renamedDir, "appConfig.json")
+            renamedAppConfigFile.writeText(appConfigPrettyJsonString)
         }
 
+        // 查找重命名后的 APK 文件（如果存在）
+        val renamedApkFile = renamedDir.takeIf { it.exists() }
+            ?.listFiles { file -> file.extension == "apk" }
+            ?.firstOrNull()
+
+        // 确定最终的 APK 路径和 appConfig 路径（优先使用重命名的版本）
+        val finalApkFile = renamedApkFile ?: apkFile
+        val finalAppConfigFile = renamedAppConfigFile ?: appConfigFile
+
         println("apkConfig：===> Generated files:")
-        println("  APK: ${apkFile.absolutePath}")
-        println("  Config: ${appConfigFile.absolutePath}")
+        println("  APK: ${finalApkFile.absolutePath}")
+        println("  Config: ${finalAppConfigFile.absolutePath}")
+
+        // 生成 build-manifest.json 到项目根目录，供 GitHub Workflow 使用
+        val buildManifestMap = mapOf(
+            "variantName" to variantName,
+            "versionName" to configVersionName,
+            "versionCode" to versionCode,
+            "apkPath" to finalApkFile.absolutePath,
+            "apkName" to finalApkFile.nameWithoutExtension,
+            "appConfigPath" to finalAppConfigFile.absolutePath
+        )
+        val buildManifestJson = JsonOutput.prettyPrint(JsonOutput.toJson(buildManifestMap), true)
+        val buildManifestFile = rootProject.file("build-manifest.json")
+        buildManifestFile.writeText(buildManifestJson)
+        println("apkConfig：===> Build manifest: ${buildManifestFile.absolutePath}")
     }
 
     fun generateMD5(file: File): String {
@@ -332,18 +341,14 @@ tasks.register("printDebugAppConfig") {
 // 添加构建依赖项：https://developer.android.google.cn/studio/build/dependencies
 // api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
 dependencies {
-    // 依赖 libs 目录下所有的 jar 和 aar 包
-    implementation(fileTree(mapOf("include" to listOf("*.jar", "*.aar"), "dir" to "libs")))
-
-    val pagingVersion = "3.3.6"
-    val navVersion = "2.9.5"
     val emoji2Version = "1.0.0-beta01"
-    val roomVersion = "2.8.3"
-    val workVersion = "2.11.0"
     val markwonVersion = "4.6.2"
     val prismVersion = "2.0.0"
     val qmuiArchVersion = "2.0.1"
     val ariaVersion = "3.8.16"
+
+    // 依赖 libs 目录下所有的 jar 和 aar 包
+    implementation(fileTree(mapOf("include" to listOf("*.jar", "*.aar"), "dir" to "libs")))
 
     // 基类封装
     implementation(project(":library:base"))

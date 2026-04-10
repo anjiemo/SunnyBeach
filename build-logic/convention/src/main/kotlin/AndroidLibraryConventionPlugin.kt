@@ -48,20 +48,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                     add("implementation", libs.findLibrary("androidx-lifecycle-viewmodel-ktx").get())
                 }
             }
-
-            // 针对 Library 模块的特殊配置：禁用 BuildConfig 生成任务（除 umeng 模块外）
-            afterEvaluate {
-                if (name != "umeng") {
-                    // 排除 BuildConfig.class
-                    try {
-                        tasks.named("generateReleaseBuildConfig").configure { enabled = false }
-                        tasks.named("generatePreviewBuildConfig").configure { enabled = false }
-                        tasks.named("generateDebugBuildConfig").configure { enabled = false }
-                    } catch (_: Exception) {
-                        // 忽略任务不存在的异常
-                    }
-                }
-            }
         }
     }
 }
