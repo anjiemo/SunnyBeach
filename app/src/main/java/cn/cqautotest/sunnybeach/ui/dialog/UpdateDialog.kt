@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.ui.dialog
+﻿package cn.cqautotest.sunnybeach.ui.dialog
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -18,6 +18,7 @@ import androidx.core.content.FileProvider
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.other.AppConfig
 import com.flyjingfish.android_aop_core.annotations.CheckNetwork
+import com.flyjingfish.android_aop_core.annotations.Permission
 import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.base.BaseDialog
 import com.hjq.base.action.AnimAction
@@ -135,7 +136,7 @@ class UpdateDialog {
          * 下载 Apk
          */
         @CheckNetwork(invokeListener = true)
-        @com.flyjingfish.android_aop_core.annotations.Permission(
+        @Permission(
             PermissionNames.READ_EXTERNAL_STORAGE,
             PermissionNames.WRITE_EXTERNAL_STORAGE,
             PermissionNames.REQUEST_INSTALL_PACKAGES
@@ -277,7 +278,7 @@ class UpdateDialog {
         /**
          * 安装 Apk
          */
-        @com.flyjingfish.android_aop_core.annotations.Permission(PermissionNames.REQUEST_INSTALL_PACKAGES)
+        @Permission(PermissionNames.REQUEST_INSTALL_PACKAGES)
         private fun installApk() {
             getContext().startActivity(getInstallIntent())
         }
