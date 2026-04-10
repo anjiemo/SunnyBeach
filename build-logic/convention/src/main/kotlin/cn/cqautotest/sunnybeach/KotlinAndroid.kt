@@ -41,6 +41,7 @@ private fun configureAndroidExtension(extension: ApplicationExtension) {
         defaultConfig {
             minSdk = 26
         }
+        // 支持 Java JDK 21
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_21
             targetCompatibility = JavaVersion.VERSION_21
@@ -49,6 +50,7 @@ private fun configureAndroidExtension(extension: ApplicationExtension) {
             viewBinding = true
             resValues = true
         }
+        // 设置存放 so 文件的目录
         sourceSets.getByName("main") {
             jniLibs {
                 directories += "libs"
@@ -59,7 +61,10 @@ private fun configureAndroidExtension(extension: ApplicationExtension) {
             create("preview") {}
             getByName("release") {}
         }
+        // 代码警告配置
         lint {
+            // 禁用文本硬编码警告
+            // 禁用图片描述警告
             disable += setOf("HardcodedText", "ContentDescription")
         }
     }
@@ -73,6 +78,7 @@ private fun configureAndroidExtension(extension: LibraryExtension) {
         defaultConfig {
             minSdk = 26
         }
+        // 支持 Java JDK 21
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_21
             targetCompatibility = JavaVersion.VERSION_21
@@ -81,6 +87,7 @@ private fun configureAndroidExtension(extension: LibraryExtension) {
             viewBinding = true
             resValues = true
         }
+        // 设置存放 so 文件的目录
         sourceSets.getByName("main") {
             jniLibs {
                 directories += "libs"
@@ -91,7 +98,10 @@ private fun configureAndroidExtension(extension: LibraryExtension) {
             create("preview") {}
             getByName("release") {}
         }
+        // 代码警告配置
         lint {
+            // 禁用文本硬编码警告
+            // 禁用图片描述警告
             disable += setOf("HardcodedText", "ContentDescription")
         }
     }
@@ -116,6 +126,7 @@ internal fun Project.configureKotlin() {
  */
 private fun Project.configureJavaEncoding() {
     tasks.withType<JavaCompile>().configureEach {
+        // 设置全局编码
         options.encoding = "UTF-8"
     }
 }
