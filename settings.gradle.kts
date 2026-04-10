@@ -1,3 +1,4 @@
+@file:Suppress("UnstableApiUsage")
 pluginManagement {
     // 包含 build-logic 约定插件模块
     includeBuild("build-logic")
