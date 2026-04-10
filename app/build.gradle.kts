@@ -321,18 +321,21 @@ object AppConfigUtils {
 }
 
 tasks.register("printReleaseAppConfig") {
+    mustRunAfter("assembleRelease")
     doLast {
         project.printAppConfig("release")
     }
 }
 
 tasks.register("printPreviewAppConfig") {
+    mustRunAfter("assemblePreview")
     doLast {
         project.printAppConfig("preview")
     }
 }
 
 tasks.register("printDebugAppConfig") {
+    mustRunAfter("assembleDebug")
     doLast {
         project.printAppConfig("debug")
     }
