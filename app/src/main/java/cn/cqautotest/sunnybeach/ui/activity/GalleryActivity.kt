@@ -20,11 +20,11 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.GalleryActivityBinding
 import cn.cqautotest.sunnybeach.ktx.simpleToast
 import cn.cqautotest.sunnybeach.ktx.toJson
-import cn.cqautotest.sunnybeach.manager.ThreadPoolManager
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.repository.Repository
 import cn.cqautotest.sunnybeach.ui.adapter.WallpaperAdapter
+import cn.cqautotest.sunnybeach.ui.dialog.MessageDialog
 import cn.cqautotest.sunnybeach.util.DownloadHelper
 import cn.cqautotest.sunnybeach.viewmodel.discover.DiscoverViewModel
 import com.blankj.utilcode.util.FileUtils
@@ -37,14 +37,14 @@ import com.dylanc.longan.context
 import com.dylanc.longan.windowInsetsControllerCompat
 import com.hjq.permissions.permission.PermissionNames
 import dev.androidbroadcast.vbpd.viewBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.util.Random
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 import kotlin.math.pow
 
 /**
@@ -149,12 +149,23 @@ class GalleryActivity : AppActivity() {
             val success = FileUtils.copy(oldFile, newFile)
             // 刷新媒体库
             MediaScannerConnection.scanFile(context, arrayOf(newFile.path), arrayOf("image/$fileExtension"), null)
-            simpleToast(if (success) "文件下载成功" else "文件下载失败")
-            // 打开指定的一张照片
-            Intent(Intent.ACTION_VIEW).apply {
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                setDataAndType(UriUtils.file2Uri(newFile), "image/*")
-                startActivity(this)
+            if (success) {
+                MessageDialog.Builder(this@GalleryActivity)
+                    .setTitle("下载成功")
+                    .setMessage("图片已保存至相册，是否立即查看？")
+                    .setConfirm("立即查看")
+                    .setCancel("稍后再说")
+                    .setListener {
+                        // 打开指定的一张照片
+                        Intent(Intent.ACTION_VIEW).apply {
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            setDataAndType(UriUtils.file2Uri(newFile), "image/*")
+                            startActivity(this)
+                        }
+                    }
+                    .show()
+            } else {
+                simpleToast("文件下载失败")
             }
         }
     }
@@ -198,15 +209,13 @@ class GalleryActivity : AppActivity() {
     //         }
     // }
 
-    private suspend fun WallpaperManager.setWallpaper(inputStream: InputStream) = suspendCoroutine {
-        ThreadPoolManager.getInstance().execute {
-            try {
-                setStream(inputStream)
-                it.resume(true)
-            } catch (e: IOException) {
-                e.printStackTrace()
-                it.resume(false)
-            }
+    private suspend fun WallpaperManager.setWallpaper(inputStream: InputStream) = withContext(Dispatchers.IO) {
+        try {
+            setStream(inputStream)
+            true
+        } catch (e: IOException) {
+            e.printStackTrace()
+            false
         }
     }
 
