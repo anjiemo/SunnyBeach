@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.ui.fragment
+﻿package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.view.View
 import android.widget.ImageView
@@ -7,6 +7,7 @@ import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
 import cn.cqautotest.sunnybeach.ui.activity.HomeActivity
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.flyjingfish.android_aop_core.annotations.Permission
 import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.permissions.XXPermissions
 import com.hjq.permissions.permission.PermissionNames
@@ -119,7 +120,7 @@ class MessageFragment : TitleBarFragment<HomeActivity>() {
         }
     }
 
-    @com.flyjingfish.android_aop_core.annotations.Permission(PermissionNames.CAMERA)
+    @Permission(PermissionNames.CAMERA)
     private fun requestPermission() {
         toast("获取摄像头权限成功")
     }

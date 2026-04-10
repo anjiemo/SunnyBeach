@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.ui.activity
+﻿package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.ContentResolver
 import android.content.Intent
@@ -24,6 +24,7 @@ import cn.cqautotest.sunnybeach.ui.dialog.AlbumDialog
 import cn.cqautotest.sunnybeach.ui.dialog.AlbumDialog.AlbumInfo
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
+import com.flyjingfish.android_aop_core.annotations.Permission
 import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.bar.TitleBar
 import com.hjq.base.BaseActivity
@@ -59,7 +60,7 @@ class VideoSelectActivity : AppActivity(), StatusAction, Runnable, BaseAdapter.O
         }
 
         @Log
-        @com.flyjingfish.android_aop_core.annotations.Permission(
+        @Permission(
             PermissionNames.READ_EXTERNAL_STORAGE,
             PermissionNames.WRITE_EXTERNAL_STORAGE
         )

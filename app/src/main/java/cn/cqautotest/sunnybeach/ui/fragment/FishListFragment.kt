@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.ui.fragment
+﻿package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.view.View
 import android.view.ViewGroup
@@ -60,6 +60,7 @@ import cn.cqautotest.sunnybeach.widget.StatusLayout
 import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import com.dylanc.longan.startActivity
 import com.dylanc.longan.viewLifecycleScope
+import com.flyjingfish.android_aop_core.annotations.Permission
 import com.hjq.bar.TitleBar
 import com.hjq.permissions.permission.PermissionNames
 import com.huawei.hms.ml.scan.HmsScan
@@ -342,7 +343,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             ?: rootView.removeMourningStyle()
     }
 
-    @com.flyjingfish.android_aop_core.annotations.Permission(PermissionNames.CAMERA)
+    @Permission(PermissionNames.CAMERA)
     override fun onRightClick(titleBar: TitleBar) {
         // “QRCODE_SCAN_TYPE”和“DATAMATRIX_SCAN_TYPE”表示只扫描QR和Data Matrix的码
         val options = HmsScanAnalyzerOptions.Creator()

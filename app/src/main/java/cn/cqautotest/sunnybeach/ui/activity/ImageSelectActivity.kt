@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.ui.activity
+﻿package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.ContentResolver
 import android.content.Intent
@@ -21,6 +21,7 @@ import cn.cqautotest.sunnybeach.ui.dialog.AlbumDialog
 import cn.cqautotest.sunnybeach.ui.dialog.AlbumDialog.AlbumInfo
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
+import com.flyjingfish.android_aop_core.annotations.Permission
 import com.flyjingfish.android_aop_core.annotations.SingleClick
 import com.hjq.bar.TitleBar
 import com.hjq.base.BaseActivity
@@ -54,7 +55,7 @@ class ImageSelectActivity : AppActivity(), StatusAction, Runnable,
         }
 
         @Log
-        @com.flyjingfish.android_aop_core.annotations.Permission(PermissionNames.READ_MEDIA_IMAGES, PermissionNames.WRITE_EXTERNAL_STORAGE)
+        @Permission(PermissionNames.READ_MEDIA_IMAGES, PermissionNames.WRITE_EXTERNAL_STORAGE)
         fun start(activity: BaseActivity, maxSelect: Int, listener: OnPhotoSelectListener?) {
             if (maxSelect < 1) {
                 // 最少要选择一个图片
