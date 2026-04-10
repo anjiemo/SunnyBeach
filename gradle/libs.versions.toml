@@ -1,26 +1,26 @@
 [versions]
 # Gradle 和 Android 相关版本
-agp = "9.0.0"
-kotlin = "2.3.0"
-ksp = "2.3.4"
+agp = "9.1.0"
+kotlin = "2.3.20"
+ksp = "2.3.6"
 agcp = "1.9.4.300"
-hilt = "2.58"
+hilt = "2.59.2"
 androidAop = "2.7.4"
 
 # AndroidX 核心库
-androidxCore = "1.17.0"
+androidxCore = "1.18.0"
 androidxAppcompat = "1.7.1"
-androidxActivity = "1.12.2"
+androidxActivity = "1.13.0"
 androidxFragment = "1.8.9"
 androidxLifecycle = "2.10.0"
 androidxRoom = "2.8.4"
-androidxPaging = "3.3.6"
-androidxNavigation = "2.9.6"
-androidxWork = "2.11.0"
+androidxPaging = "3.4.2"
+androidxNavigation = "2.9.7"
+androidxWork = "2.11.2"
 androidxPalette = "1.0.0"
 
 # Compose 相关
-composeBom = "2026.01.00"
+composeBom = "2026.03.01"
 
 # Material Design
 material = "1.13.0"
@@ -36,10 +36,10 @@ gson = "2.13.2"
 
 # 图片加载
 glide = "5.0.5"
-coil = "3.3.0"
+coil = "3.4.0"
 
 # 友盟和微信
-umengCommon = "9.8.9"
+umengCommon = "9.9.1"
 umengAsms = "1.8.7.2"
 umengShare = "7.3.7"
 wechatSdk = "6.8.34"
@@ -68,7 +68,7 @@ xxPermissions = "28.0"
 easyHttp = "13.5"
 gsonFactory = "10.5"
 timber = "5.0.1"
-mmkv = "2.3.0"
+mmkv = "2.4.0"
 utilcodex = "1.31.1"
 luban = "1.1.8"
 vbpd = "2.0.4"
@@ -79,7 +79,7 @@ liveEventBus = "1.8.0"
 # Bugly
 bugly = "4.1.9.3"
 
-media3 = "1.9.1"
+media3 = "1.10.0"
 
 # 图表库
 mpAndroidChart = "v3.1.0"
