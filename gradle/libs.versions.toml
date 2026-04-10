@@ -64,7 +64,7 @@ basePopup = "3.2.1"
 xpopup = "2.10.0"
 
 # 工具库
-xxPermissions = "28.0"
+xxPermissions = "28.2"
 easyHttp = "13.5"
 gsonFactory = "10.5"
 timber = "5.0.1"
