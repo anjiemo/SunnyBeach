@@ -1,3 +1,4 @@
+@file:Suppress("UnstableApiUsage")
 // build-logic 模块设置
 // 此模块为 SunnyBeach 项目提供约定插件
 
