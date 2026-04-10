@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.ui.activity
+﻿package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.Intent
 import android.media.MediaScannerConnection
@@ -11,6 +11,7 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.other.AppConfig
+import com.flyjingfish.android_aop_core.annotations.Permission
 import com.hjq.base.BaseActivity
 import com.hjq.base.ktx.getSerializableWithCompat
 import com.hjq.permissions.XXPermissions
@@ -40,7 +41,7 @@ class CameraActivity : AppActivity() {
         }
 
         @Log
-        @com.flyjingfish.android_aop_core.annotations.Permission(
+        @Permission(
             PermissionNames.READ_MEDIA_IMAGES,
             PermissionNames.WRITE_EXTERNAL_STORAGE,
             PermissionNames.CAMERA

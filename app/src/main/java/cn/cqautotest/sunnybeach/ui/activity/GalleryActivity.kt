@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.ui.activity
+﻿package cn.cqautotest.sunnybeach.ui.activity
 
 import android.app.Activity
 import android.app.WallpaperManager
@@ -35,6 +35,7 @@ import com.blankj.utilcode.util.UriUtils
 import com.dylanc.longan.activity
 import com.dylanc.longan.context
 import com.dylanc.longan.windowInsetsControllerCompat
+import com.flyjingfish.android_aop_core.annotations.Permission
 import com.hjq.permissions.permission.PermissionNames
 import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.Dispatchers
@@ -134,7 +135,7 @@ class GalleryActivity : AppActivity() {
         }
     }
 
-    @com.flyjingfish.android_aop_core.annotations.Permission(PermissionNames.READ_MEDIA_IMAGES)
+    @Permission(PermissionNames.READ_MEDIA_IMAGES)
     fun downloadImage() {
         lifecycleScope.launch {
             simpleToast("正在下载图片，请稍后...")

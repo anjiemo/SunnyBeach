@@ -1,4 +1,4 @@
-package cn.cqautotest.sunnybeach.ui.activity
+﻿package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.ActivityNotFoundException
 import android.content.ContentValues
@@ -13,6 +13,7 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.other.AppConfig
+import com.flyjingfish.android_aop_core.annotations.Permission
 import com.hjq.base.BaseActivity
 import com.hjq.base.ktx.getParcelableExtraWithCompat
 import com.hjq.permissions.permission.PermissionNames
@@ -45,7 +46,7 @@ class ImageCropActivity : AppActivity() {
         }
 
         @Log
-        @com.flyjingfish.android_aop_core.annotations.Permission(
+        @Permission(
             PermissionNames.READ_EXTERNAL_STORAGE,
             PermissionNames.WRITE_EXTERNAL_STORAGE
         )
