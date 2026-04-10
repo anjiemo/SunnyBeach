@@ -1,6 +1,9 @@
 import AppConfigUtils.printAppConfig
+import com.android.build.api.artifact.SingleArtifact
 import com.android.build.api.dsl.ApplicationExtension
+import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
+import groovy.util.Node
 import groovy.xml.XmlParser
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
@@ -161,7 +164,7 @@ androidComponents {
         // 注册重命名任务
         val renameTaskName = "rename${variant.name.replaceFirstChar { it.uppercase() }}Apk"
         val renameTask = tasks.register<Copy>(renameTaskName) {
-            val apkArtifact = variant.artifacts.get(com.android.build.api.artifact.SingleArtifact.APK)
+            val apkArtifact = variant.artifacts.get(SingleArtifact.APK)
             from(apkArtifact) {
                 // AGP 7+ 以上这个 Artifact 返回的是包含产物的整个目录
                 // 我们只需要真正的全量 .apk 文件，剔除 output-metadata.json 等不相关产物
@@ -196,12 +199,12 @@ object AppConfigUtils {
         return try {
             val parser = XmlParser(false, false)
             // 显式将解析结果转换为 groovy.util.Node 类型，增强 IDE 识别
-            val xml = parser.parse(stringsFile) as groovy.util.Node
+            val xml = parser.parse(stringsFile) as Node
 
             // 查找 name="app_name" 的 <string> 标签
             val appNameNode = xml.children().find {
                 // 1. 强制将 Any? 类型的迭代元素安全转换为 Node
-                val node = it as? groovy.util.Node ?: return@find false
+                val node = it as? Node ?: return@find false
 
                 // 2. 现在 node.name() 和 node.attributes() 可以被识别
                 node.name() == "string" && node.attributes()["name"] == "app_name"
@@ -210,7 +213,7 @@ object AppConfigUtils {
             // 返回节点内容，并去除可能的空格
             if (appNameNode != null) {
                 // 3. 对找到的元素进行最终类型转换并访问 text()
-                (appNameNode as groovy.util.Node).text()?.trim()
+                (appNameNode as Node).text()?.trim()
             } else {
                 null
             }
@@ -278,8 +281,8 @@ object AppConfigUtils {
             "apkSize" to apkFile.length(),
             "apkHash" to apkMd5
         )
-        val appConfigJsonString = groovy.json.JsonOutput.toJson(appConfigMap)
-        val appConfigPrettyJsonString = groovy.json.JsonOutput.prettyPrint(appConfigJsonString, true)
+        val appConfigJsonString = JsonOutput.toJson(appConfigMap)
+        val appConfigPrettyJsonString = JsonOutput.prettyPrint(appConfigJsonString, true)
 
         val appConfigFile = File(outputDirPath + File.separator + "appConfig.json")
         appConfigFile.writeText(appConfigPrettyJsonString)
