@@ -1,112 +1,106 @@
-# 工作流名称
 name: 创建 Release 并上传 APK
 
-# 工作流触发条件
 on:
   push:
     tags:
-      - 'v*' # 当一个以 'v' 开头的标签被推送到仓库时触发 (例如 v1.0, v2.1.0)
-  workflow_dispatch: # 支持手动触发工作流
+      - 'v*'
+  workflow_dispatch:
     inputs:
       version_code:
-        description: '版本号 (versionCode，如：1)，留空则使用 version.properties 中的值'
+        description: '版本号 (versionCode)，留空则使用 version.properties 中的值'
         required: false
         type: string
         default: ''
       version_name:
-        description: '版本名称 (versionName，如：1.0.0)，留空则使用 version.properties 中的值'
+        description: '版本名称 (versionName)，留空则使用 version.properties 中的值'
         required: false
         type: string
         default: ''
 
-# 定义一个或多个作业
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  # 作业ID
   build-and-release:
-    # 指定运行此作业的虚拟机环境
     runs-on: ubuntu-latest
-    # 定义作业中的各个步骤
+    timeout-minutes: 60
+
+    permissions:
+      contents: write
+
     steps:
-      # 第1步：检出代码
-      # actions/checkout 是一个官方的 action，用于检出你的仓库代码，以便工作流可以访问它。
       - name: 检出代码
         uses: actions/checkout@v4
 
-      # 第2步：设置 Java 环境
-      # actions/setup-java 用于配置 Java 环境。
       - name: 设置 JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '21'
-          cache: 'gradle' # 缓存 Gradle 依赖，加快构建速度
 
-      # 第3步：解码签名文件
-      # 从 GitHub Secrets 中获取 Base64 编码的签名文件内容，并解码还原成 .jks 文件。
-      - name: 解码签名文件 (Keystore)
-        id: decode_keystore
-        run: |
-          echo "从 Secrets 中解码签名文件..."
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.jks
-          echo "签名文件已成功解码到 app/release.jks"
+      - name: 设置 Gradle
+        uses: gradle/actions/setup-gradle@v4
 
-      # 第4步：创建签名配置
-      # 创建一个临时的 gradle.properties 文件，并写入从 Secrets 获取的签名信息。
-      - name: 为签名创建 gradle.properties
-        run: |
-          echo "为签名创建 app/gradle.properties 文件..."
-          echo "StoreFile=release.jks" > app/gradle.properties
-          echo "StorePassword=${{ secrets.STORE_PASSWORD }}" >> app/gradle.properties
-          echo "KeyAlias=${{ secrets.KEY_ALIAS }}" >> app/gradle.properties
-          echo "KeyPassword=${{ secrets.KEY_PASSWORD }}" >> app/gradle.properties
-          echo "gradle.properties 文件创建成功。"
-
-      # 第5步：为 gradlew 添加执行权限
-      # 在 Linux/macOS 系统中，需要给 gradlew 脚本添加执行权限。
       - name: 授予 gradlew 执行权限
         run: chmod +x gradlew
 
-      # 第6步：构建 Release 版本的 APK
-      # 运行 Gradle 命令来编译和打包带签名的 APK。
-      - name: 构建 Release APK
-        run: ./gradlew :app:assembleRelease --stacktrace
+      - name: 验证签名 Secrets
+        run: |
+          missing=""
+          [ -z "${{ secrets.KEYSTORE_BASE64 }}" ] && missing="$missing KEYSTORE_BASE64"
+          [ -z "${{ secrets.STORE_PASSWORD }}" ] && missing="$missing STORE_PASSWORD"
+          [ -z "${{ secrets.KEY_ALIAS }}" ] && missing="$missing KEY_ALIAS"
+          [ -z "${{ secrets.KEY_PASSWORD }}" ] && missing="$missing KEY_PASSWORD"
+          if [ -n "$missing" ]; then
+            echo "::error::以下 Secrets 未配置:$missing"
+            exit 1
+          fi
+
+      - name: 准备签名文件
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.jks
+          printf '%s\n' \
+            "StoreFile=release.jks" \
+            "StorePassword=${{ secrets.STORE_PASSWORD }}" \
+            "KeyAlias=${{ secrets.KEY_ALIAS }}" \
+            "KeyPassword=${{ secrets.KEY_PASSWORD }}" \
+            > app/gradle.properties
+
+      - name: 构建 Release APK 并生成构建清单
+        run: ./gradlew :app:assembleRelease :app:printReleaseAppConfig --stacktrace
         env:
-          GRADLE_OPTS: -Xmx8g -Dfile.encoding=UTF-8
-          # 手动触发时传递版本参数，留空则使用 version.properties 中的值
+          GRADLE_OPTS: -Xmx512m -Dfile.encoding=UTF-8
           APP_VERSION_CODE: ${{ github.event.inputs.version_code }}
           APP_VERSION_NAME: ${{ github.event.inputs.version_name }}
 
-      # 第7步：生成 appConfig.json 和 build-manifest.json
-      # 运行自定义 Gradle 任务，生成 appConfig.json 并输出 build-manifest.json 到项目根目录
-      - name: 生成构建清单
-        run: ./gradlew :app:printReleaseAppConfig
-
-      # 第8步：从 build-manifest.json 读取产物路径
-      # 由 Gradle 任务生成的清单文件包含所有产物的绝对路径，工作流直接读取即可
       - name: 读取构建清单
         id: manifest
         run: |
           if [ ! -f build-manifest.json ]; then
-            echo "错误：build-manifest.json 未找到，请确保上一步执行成功。" >&2
+            echo "::error::build-manifest.json 未找到，请确保构建步骤执行成功。"
             exit 1
           fi
+
+          echo "=== 构建清单内容 ==="
           cat build-manifest.json
-          echo "apk_path=$(jq -r '.apkPath' build-manifest.json)" >> $GITHUB_OUTPUT
-          echo "apk_name=$(jq -r '.apkName' build-manifest.json)" >> $GITHUB_OUTPUT
-          echo "app_config_path=$(jq -r '.appConfigPath' build-manifest.json)" >> $GITHUB_OUTPUT
-          echo "version_name=$(jq -r '.versionName' build-manifest.json)" >> $GITHUB_OUTPUT
 
-      # 第9步：获取版本信息
-      # 优先使用 build-manifest.json 中的版本信息，手动输入的版本参数已通过环境变量传递给 Gradle
-      - name: 获取版本名称
-        id: get_version
-        run: |
-          VERSION_NAME="${{ steps.manifest.outputs.version_name }}"
-          echo "version=$VERSION_NAME" >> $GITHUB_OUTPUT
-          echo "::notice::Release version: $VERSION_NAME"
+          APK_PATH=$(jq -r '.apkPath' build-manifest.json)
+          APK_NAME=$(jq -r '.apkName' build-manifest.json)
+          APP_CONFIG_PATH=$(jq -r '.appConfigPath' build-manifest.json)
+          VERSION_NAME=$(jq -r '.versionName' build-manifest.json)
 
-      # 第10步：上传 APK 为 Artifact（仅手动触发时）
-      # 手动触发工作流时，将 APK 上传为 artifact，方便下载测试
+          if [ ! -f "$APK_PATH" ]; then
+            echo "::error::APK 文件不存在: $APK_PATH"
+            exit 1
+          fi
+
+          echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
+          echo "apk_name=$APK_NAME" >> $GITHUB_OUTPUT
+          echo "app_config_path=$APP_CONFIG_PATH" >> $GITHUB_OUTPUT
+          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "::notice::构建成功 — $APK_NAME (v$VERSION_NAME)"
+
       - name: 上传 APK 为 Artifact
         if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
@@ -115,38 +109,24 @@ jobs:
           path: |
             ${{ steps.manifest.outputs.apk_path }}
             ${{ steps.manifest.outputs.app_config_path }}
+          if-no-files-found: error
           retention-days: 30
 
-      # 第11步：创建 GitHub Release（仅 tag 触发时）
-      # 使用 softprops/action-gh-release 这个 action 来创建 Release 并上传 APK。
       - name: 创建 GitHub Release
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          # 上传的文件路径
           files: |
             ${{ steps.manifest.outputs.apk_path }}
             ${{ steps.manifest.outputs.app_config_path }}
-          # Release 的标题
           name: "Release ${{ github.ref_name }}"
-          # Release 的描述内容
           body: |
-            **版本:** ${{ steps.get_version.outputs.version }}
+            **版本:** ${{ steps.manifest.outputs.version_name }}
             
             此版本由 GitHub Actions 自动构建和发布。
-          # 是否为预发布版本
           prerelease: false
-        env:
-          # 需要 GITHUB_TOKEN 才能有权限创建 Release
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_unmatched_files: true
 
-      # 第12步：清理工作区
-      # 删除生成的签名文件和配置文件，确保它们不会被意外泄露。
-      - name: 清理签名文件和配置
-        if: always() # 保证无论之前的步骤成功或失败，此步骤都会执行
-        run: |
-          echo "清理工作区..."
-          rm -f app/release.jks
-          rm -f app/gradle.properties
-          rm -f build-manifest.json
-          echo "清理完成。"
+      - name: 清理敏感文件
+        if: always()
+        run: rm -f app/release.jks app/gradle.properties build-manifest.json
