@@ -76,82 +76,48 @@ jobs:
           APP_VERSION_CODE: ${{ github.event.inputs.version_code }}
           APP_VERSION_NAME: ${{ github.event.inputs.version_name }}
 
-      # 调试步骤（暂时保留，用于确认构建是否生成目录）
-      - name: 调试：列出构建输出
-        run: ls -R build/app/outputs
-
-      # 第6.5步：生成 appConfig.json
-      # 运行自定义任务生成 appConfig.json 文件
-      - name: 生成 appConfig.json
+      # 第7步：生成 appConfig.json 和 build-manifest.json
+      # 运行自定义 Gradle 任务，生成 appConfig.json 并输出 build-manifest.json 到项目根目录
+      - name: 生成构建清单
         run: ./gradlew :app:printReleaseAppConfig
 
-      # 第7步：获取版本信息
-      # 从 version.properties 文件中读取版本信息，如果有手动输入则优先使用手动输入的值。
+      # 第8步：从 build-manifest.json 读取产物路径
+      # 由 Gradle 任务生成的清单文件包含所有产物的绝对路径，工作流直接读取即可
+      - name: 读取构建清单
+        id: manifest
+        run: |
+          if [ ! -f build-manifest.json ]; then
+            echo "错误：build-manifest.json 未找到，请确保上一步执行成功。" >&2
+            exit 1
+          fi
+          cat build-manifest.json
+          echo "apk_path=$(jq -r '.apkPath' build-manifest.json)" >> $GITHUB_OUTPUT
+          echo "apk_name=$(jq -r '.apkName' build-manifest.json)" >> $GITHUB_OUTPUT
+          echo "app_config_path=$(jq -r '.appConfigPath' build-manifest.json)" >> $GITHUB_OUTPUT
+          echo "version_name=$(jq -r '.versionName' build-manifest.json)" >> $GITHUB_OUTPUT
+
+      # 第9步：获取版本信息
+      # 优先使用 build-manifest.json 中的版本信息，手动输入的版本参数已通过环境变量传递给 Gradle
       - name: 获取版本名称
         id: get_version
         run: |
-          # 读取 version.properties 中的值作为默认值，使用 tr 删除可能存在的 Windows 回车符
-          VERSION_NAME=$(grep 'versionName=' version.properties | cut -d'=' -f2 | tr -d '\r')
-          VERSION_CODE=$(grep 'versionCode=' version.properties | cut -d'=' -f2 | tr -d '\r')
-          
-          # 如果提供了手动输入的版本名称，则使用手动输入的值
-          if [ -n "${{ github.event.inputs.version_name }}" ]; then
-            VERSION_NAME="${{ github.event.inputs.version_name }}"
-          fi
-          
-          # 如果提供了手动输入的版本号，则使用手动输入的值
-          if [ -n "${{ github.event.inputs.version_code }}" ]; then
-            VERSION_CODE="${{ github.event.inputs.version_code }}"
-          fi
-          
+          VERSION_NAME="${{ steps.manifest.outputs.version_name }}"
           echo "version=$VERSION_NAME" >> $GITHUB_OUTPUT
-          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
-          echo "::notice::Building with versionName=$VERSION_NAME, versionCode=$VERSION_CODE"
+          echo "::notice::Release version: $VERSION_NAME"
 
-      # 第8步：获取 APK 路径
-      # 从输出目录中全局搜索构建生成的 APK 文件。
-      - name: 获取 APK 路径
-        id: get_apk_path
-        run: |
-          # 在整个 build 目录搜索真实重命名后的 APK，不局限于由于 Baseline Profile 生成的具体子目录结构。
-          # -v 过滤掉原生的 app-release-unsigned / unaligned 等中间产物。
-          APK_PATH=$(find build -type f -name "*.apk" | grep -v "unsigned" | grep -i "apk-renamed" | head -n 1)
-          
-          # 如果在 renamed 目录找不到，回退到全局搜索 release 下的 apk。
-          if [ -z "$APK_PATH" ]; then
-            APK_PATH=$(find build -type f -name "*.apk" | grep -v "unsigned" | grep "release" | head -n 1)
-          fi
-          
-          if [ -z "$APK_PATH" ]; then
-            echo "错误：在构建输出目录中找不到 APK 文件。" >&2
-            exit 1
-          fi
-          # 获取文件名（不带扩展名），用于 Artifact 命名
-          APK_NAME=$(basename "$APK_PATH" .apk)
-          echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
-          echo "apk_name=$APK_NAME" >> $GITHUB_OUTPUT
-
-          # 在全 outputs 目录下查找 appConfig.json（提高鲁棒性）
-          APP_CONFIG_PATH=$(find build/app/outputs -type f -name "appConfig.json" | head -n 1)
-          if [ -z "$APP_CONFIG_PATH" ]; then
-            echo "错误：找不到 appConfig.json 文件。" >&2
-          else
-            echo "app_config_path=$APP_CONFIG_PATH" >> $GITHUB_OUTPUT
-          fi
-
-      # 第9步：上传 APK 为 Artifact（仅手动触发时）
+      # 第10步：上传 APK 为 Artifact（仅手动触发时）
       # 手动触发工作流时，将 APK 上传为 artifact，方便下载测试
       - name: 上传 APK 为 Artifact
         if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.get_apk_path.outputs.apk_name }}
+          name: ${{ steps.manifest.outputs.apk_name }}
           path: |
-            ${{ steps.get_apk_path.outputs.apk_path }}
-            ${{ steps.get_apk_path.outputs.app_config_path }}
+            ${{ steps.manifest.outputs.apk_path }}
+            ${{ steps.manifest.outputs.app_config_path }}
           retention-days: 30
 
-      # 第10步：创建 GitHub Release（仅 tag 触发时）
+      # 第11步：创建 GitHub Release（仅 tag 触发时）
       # 使用 softprops/action-gh-release 这个 action 来创建 Release 并上传 APK。
       - name: 创建 GitHub Release
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
@@ -159,8 +125,8 @@ jobs:
         with:
           # 上传的文件路径
           files: |
-            ${{ steps.get_apk_path.outputs.apk_path }}
-            ${{ steps.get_apk_path.outputs.app_config_path }}
+            ${{ steps.manifest.outputs.apk_path }}
+            ${{ steps.manifest.outputs.app_config_path }}
           # Release 的标题
           name: "Release ${{ github.ref_name }}"
           # Release 的描述内容
@@ -174,7 +140,7 @@ jobs:
           # 需要 GITHUB_TOKEN 才能有权限创建 Release
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 第11步：清理工作区
+      # 第12步：清理工作区
       # 删除生成的签名文件和配置文件，确保它们不会被意外泄露。
       - name: 清理签名文件和配置
         if: always() # 保证无论之前的步骤成功或失败，此步骤都会执行
@@ -182,4 +148,5 @@ jobs:
           echo "清理工作区..."
           rm -f app/release.jks
           rm -f app/gradle.properties
+          rm -f build-manifest.json
           echo "清理完成。"
