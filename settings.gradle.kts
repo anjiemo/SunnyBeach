@@ -15,8 +15,6 @@ pluginManagement {
         mavenCentral()
         // 国内镜像作为备用，可以提升下载速度
         maven { url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
-        // 华为插件仓库，解决 'com.huawei.agconnect' 插件找不到的问题
-        maven { url = uri("https://developer.huawei.com/repo/") }
     }
 }
 
@@ -44,8 +42,6 @@ dependencyResolutionManagement {
         maven { url = uri("https://repo.huaweicloud.com/repository/maven") }
         // JitPack 远程仓库：https://jitpack.io
         maven { url = uri("https://jitpack.io") }
-        // 配置HMS Core SDK的Maven仓地址
-        maven { url = uri("https://developer.huawei.com/repo/") }
     }
 }
 

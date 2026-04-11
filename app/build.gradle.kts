@@ -21,8 +21,7 @@ plugins {
     alias(libs.plugins.sunnybeach.android.application)
     alias(libs.plugins.sunnybeach.android.compose)
     alias(libs.plugins.sunnybeach.hilt)
-    // 华为 AGConnect 插件
-    id("com.huawei.agconnect")
+    // 华为 AGConnect 插件（已移除）
     // AndroidAOP 插件（不在 Gradle Plugin Portal 中，使用旧式 ID 方式）
     id("android.aop")
 }
@@ -543,9 +542,10 @@ dependencies {
     // implementation("com.qmuiteam:qmui:$qmuiArchVersion")
     // implementation("com.qmuiteam:arch:$qmuiArchVersion")
     // kapt("com.qmuiteam:arch-compiler:$qmuiArchVersion")
-    // 华为统一扫码服务：https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/service-introduction-0000001050041994
-    implementation(libs.huawei.agconnect.core)
-    implementation(libs.huawei.scan)
+    // MLKit 扫码
+    implementation(libs.mlkit.scan)
+    // ZXing 用于生成二维码
+    implementation(libs.zxing.core)
 
     // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
     // 组件层次结构备忘录：https://dagger.dev/hilt/components.html#component-lifetimes
@@ -603,4 +603,10 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
     implementation(libs.coil.gif)
+
+    // MLKit 扫码相关依赖
+    implementation(libs.mlkit.common)
+    implementation(libs.mlkit.scan)
+    implementation("com.github.jenly1314:viewfinderview:1.4.0")
+    implementation(libs.zxing.core)
 }

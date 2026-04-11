@@ -9,8 +9,6 @@ pluginManagement {
         google()
         // MavenCentral 远程仓库：https://mvnrepository.com
         mavenCentral()
-        // 华为插件仓库
-        maven { url = uri("https://developer.huawei.com/repo/") }
     }
 }
 
@@ -19,8 +17,6 @@ dependencyResolutionManagement {
         google()
         // MavenCentral 远程仓库：https://mvnrepository.com
         mavenCentral()
-        // 配置HMS Core SDK的Maven仓地址
-        maven { url = uri("https://developer.huawei.com/repo/") }
     }
     versionCatalogs {
         create("libs") {
