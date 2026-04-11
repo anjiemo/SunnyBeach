@@ -1,4 +1,4 @@
-﻿package cn.cqautotest.sunnybeach.ui.fragment
+package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.view.View
 import android.view.ViewGroup
@@ -58,13 +58,12 @@ import cn.cqautotest.sunnybeach.viewmodel.app.AppViewModel
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
+import com.blankj.utilcode.util.ToastUtils
 import com.dylanc.longan.startActivity
 import com.dylanc.longan.viewLifecycleScope
 import com.flyjingfish.android_aop_core.annotations.Permission
 import com.hjq.bar.TitleBar
 import com.hjq.permissions.permission.PermissionNames
-import com.huawei.hms.ml.scan.HmsScan
-import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.constant.RefreshState
 import com.scwang.smart.refresh.layout.simple.SimpleMultiListener
@@ -116,7 +115,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
             }
 
             is Content -> {
-                ScanResultActivity.start(requireContext(), result.hmsScan)
+                ScanResultActivity.start(requireContext(), result.scanResult)
             }
 
             is NoContent -> {
@@ -345,11 +344,8 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
 
     @Permission(PermissionNames.CAMERA)
     override fun onRightClick(titleBar: TitleBar) {
-        // “QRCODE_SCAN_TYPE”和“DATAMATRIX_SCAN_TYPE”表示只扫描QR和Data Matrix的码
-        val options = HmsScanAnalyzerOptions.Creator()
-            .setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE)
-            .create()
-        MyScanUtil.startScan(mScanLauncher, options)
+        // 启动 MLKit 扫码
+        MyScanUtil.startScan(mScanLauncher, null)
     }
 
     override fun showLoading(id: Int) {
@@ -372,7 +368,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
     }
 
     private fun showNoContentTips() {
-        toast("什么内容也没有~")
+        ToastUtils.showShort("什么内容也没有~")
     }
 
     companion object {

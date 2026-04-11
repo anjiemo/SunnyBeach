@@ -12,12 +12,10 @@ import cn.cqautotest.sunnybeach.model.scan.CancelScan
 import cn.cqautotest.sunnybeach.model.scan.Content
 import cn.cqautotest.sunnybeach.model.scan.NoContent
 import cn.cqautotest.sunnybeach.model.scan.ScanCodeResult
+import cn.cqautotest.sunnybeach.model.scan.ScanResult
 import cn.cqautotest.sunnybeach.repository.CheckUserParseRepository
 import cn.cqautotest.sunnybeach.ui.activity.ScanCodeActivity
 import com.hjq.base.ktx.getParcelableExtraWithCompat
-import com.huawei.hms.hmsscankit.ScanUtil
-import com.huawei.hms.ml.scan.HmsScan
-import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
 import timber.log.Timber
 
 /**
@@ -27,11 +25,11 @@ import timber.log.Timber
  * desc   : 获取扫描内容
  */
 class GetScanContent(checkUserRepository: CheckUserParseRepository = CheckUserParseRepository()) :
-    ActivityResultContract<HmsScanAnalyzerOptions, ScanCodeResult>(), CheckUserParseAction by checkUserRepository {
+    ActivityResultContract<Int?, ScanCodeResult>(), CheckUserParseAction by checkUserRepository {
 
-    override fun createIntent(context: Context, input: HmsScanAnalyzerOptions): Intent {
+    override fun createIntent(context: Context, input: Int?): Intent {
         return Intent(context, ScanCodeActivity::class.java).apply {
-            putExtra("ScanFormatValue", input.mode)
+            putExtra("ScanFormatValue", input)
         }
     }
 
@@ -39,8 +37,8 @@ class GetScanContent(checkUserRepository: CheckUserParseRepository = CheckUserPa
         if (resultCode != Activity.RESULT_OK || intent == null) {
             return CancelScan
         }
-        return intent.getParcelableExtraWithCompat<HmsScan>(ScanUtil.RESULT)?.let {
-            Timber.d("parseResult：===> hmsScan originalValue is ${it.originalValue}")
+        return intent.getParcelableExtraWithCompat<ScanResult>("SCAN_RESULT")?.let {
+            Timber.d("parseResult：===> scanResult searchValue is ${it.searchValue}")
             val (canBeParse, userId) = canBeParse(it)
             if (canBeParse) {
                 CanParseUserId(userId, it)
@@ -50,8 +48,8 @@ class GetScanContent(checkUserRepository: CheckUserParseRepository = CheckUserPa
         } ?: NoContent
     }
 
-    private fun canBeParse(hmsScan: HmsScan?): Pair<Boolean, String> {
-        val content = hmsScan?.getShowResult() ?: return false to ""
+    private fun canBeParse(scanResult: ScanResult?): Pair<Boolean, String> {
+        val content = scanResult?.getShowResult() ?: return false to ""
         // content can never be null.
         val uri = content.toUri()
         val scheme = uri.scheme.orEmpty()
