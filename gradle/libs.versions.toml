@@ -3,7 +3,6 @@
 agp = "9.1.0"
 kotlin = "2.3.20"
 ksp = "2.3.6"
-agcp = "1.9.4.300"
 hilt = "2.59.2"
 androidAop = "2.7.4"
 
@@ -44,9 +43,10 @@ umengAsms = "1.8.7.2"
 umengShare = "7.3.7"
 wechatSdk = "6.8.34"
 
-# 华为服务
-huaweiAgconnect = "1.9.4.300"
-huaweiScan = "2.13.0.303"
+# MLKit
+mlkitScan = "2.4.0"
+viewfinderview = "1.4.0"
+zxing = "3.5.4"
 
 # 第三方 UI 库
 titleBar = "10.8"
@@ -102,7 +102,6 @@ compose-gradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-compile
 hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 
 # Buildscript classpath 依赖
-huawei-agconnect-plugin = { group = "com.huawei.agconnect", name = "agcp", version.ref = "agcp" }
 androidaop-plugin = { group = "io.github.flyjingfish", name = "androidaop-plugin", version.ref = "androidAop" }
 
 # AndroidX 核心库
@@ -172,9 +171,11 @@ umeng-share-core = { group = "com.umeng.umsdk", name = "share-core", version.ref
 umeng-share-wx = { group = "com.umeng.umsdk", name = "share-wx", version.ref = "umengShare" }
 wechat-sdk = { group = "com.tencent.mm.opensdk", name = "wechat-sdk-android", version.ref = "wechatSdk" }
 
-# 华为服务
-huawei-agconnect-core = { group = "com.huawei.agconnect", name = "agconnect-core", version.ref = "huaweiAgconnect" }
-huawei-scan = { group = "com.huawei.hms", name = "scan", version.ref = "huaweiScan" }
+# MLKit 扫码
+mlkit-common = { group = "com.github.jenly1314.MLKit", name = "mlkit-common", version.ref = "mlkitScan" }
+mlkit-scan = { group = "com.github.jenly1314.MLKit", name = "mlkit-barcode-scanning", version.ref = "mlkitScan" }
+viewfinderview = { group = "com.github.jenly1314", name = "viewfinderview", version.ref = "viewfinderview" }
+zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
 
 # Hilt 依赖注入
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }

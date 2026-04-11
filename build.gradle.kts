@@ -28,12 +28,8 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        // 华为仓库
-        maven { url = uri("https://developer.huawei.com/repo/") }
     }
     dependencies {
-        // 华为 AGConnect 插件（华为官方推荐使用 buildscript 方式）
-        classpath(libs.huawei.agconnect.plugin)
         // AndroidAOP 插件（不在 Gradle Plugin Portal 中，必须使用 buildscript 方式）
         classpath(libs.androidaop.plugin)
     }

@@ -2,39 +2,70 @@ package cn.cqautotest.sunnybeach.ktx
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.createBitmap
 import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.RegexUtils
-import com.huawei.hms.hmsscankit.ScanUtil
-import com.huawei.hms.hmsscankit.WriterException
-import com.huawei.hms.ml.scan.HmsBuildBitmapOption
-import com.huawei.hms.ml.scan.HmsScan
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
+import com.google.zxing.MultiFormatWriter
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import java.util.Hashtable
 
-fun String?.toQrCodeBitmapOrNull(
+/**
+ * 将字符串转换成二维码图片，使用 ZXing 优化并对齐项目原有 API
+ */
+fun String.toQrCodeBitmapOrNull(
     size: Int = 400,
-    bgColor: Int = Color.WHITE,
+    logo: Bitmap? = null,
     qrColor: Int = Color.BLACK,
-    margin: Int = 2,
-    qrLogoBitmap: Bitmap? = null
+    bgColor: Int = Color.WHITE,
+    margin: Int = 1
 ): Bitmap? {
-    val type = HmsScan.QRCODE_SCAN_TYPE
-    val options = HmsBuildBitmapOption.Creator()
-        .setBitmapBackgroundColor(bgColor)
-        .setBitmapColor(qrColor)
-        .setBitmapMargin(margin)
-        .setQRLogoBitmap(qrLogoBitmap)
-        .create()
+    if (isEmpty()) return null
     return try {
-        // 如果未设置HmsBuildBitmapOption对象，生成二维码参数options置null。
-        ScanUtil.buildBitmap(this, type, size, size, options)
-    } catch (e: WriterException) {
+        val hints = Hashtable<EncodeHintType, Any>().apply {
+            put(EncodeHintType.CHARACTER_SET, "utf-8")
+            put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H)
+            put(EncodeHintType.MARGIN, margin)
+        }
+        val bitMatrix = MultiFormatWriter().encode(this, BarcodeFormat.QR_CODE, size, size, hints)
+        val pixels = IntArray(size * size)
+        for (y in 0 until size) {
+            for (x in 0 until size) {
+                pixels[y * size + x] = if (bitMatrix[x, y]) qrColor else bgColor
+            }
+        }
+        val result = createBitmap(size, size, Bitmap.Config.ARGB_8888).apply {
+            setPixels(pixels, 0, size, 0, 0, size, size)
+        }
+        logo?.let { addLogo(result, it) } ?: result
+    } catch (e: Exception) {
         e.printStackTrace()
         null
     }
 }
 
-fun String?.ifNullOrEmpty(defaultValue: () -> String) = if (isNullOrEmpty()) defaultValue() else this
+/**
+ * 在二维码中间添加 Logo，使用官方 KTX 简化绘制逻辑
+ */
+private fun addLogo(src: Bitmap, logo: Bitmap): Bitmap {
+    val srcWidth = src.width
+    val srcHeight = src.height
+    val logoWidth = logo.width
+    val logoHeight = logo.height
+    val scaleFactor = srcWidth * 1.0f / 5 / logoWidth
+    return src.copy(Bitmap.Config.ARGB_8888, true).applyCanvas {
+        save()
+        scale(scaleFactor, scaleFactor, srcWidth / 2f, srcHeight / 2f)
+        drawBitmap(logo, (srcWidth - logoWidth) / 2f, (srcHeight - logoHeight) / 2f, null)
+        restore()
+    }
+}
 
-fun String?.ifNullOrBlank(defaultValue: () -> String) = if (isNullOrBlank()) defaultValue() else this
+fun String?.ifNullOrEmpty(defaultValue: () -> String): String = if (isNullOrEmpty()) defaultValue() else this!!
+
+fun String?.ifNullOrBlank(defaultValue: () -> String): String = if (isNullOrBlank()) defaultValue() else this!!
 
 fun String.notContains(other: CharSequence, ignoreCase: Boolean = false) = !contains(other, ignoreCase)
 
