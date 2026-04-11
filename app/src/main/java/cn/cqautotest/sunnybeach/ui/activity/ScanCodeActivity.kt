@@ -5,7 +5,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
@@ -14,6 +16,7 @@ import cn.cqautotest.sunnybeach.model.scan.ScanResult
 import com.blankj.utilcode.util.ToastUtils
 import com.blankj.utilcode.util.Utils
 import com.google.mlkit.vision.barcode.common.Barcode
+import com.gyf.immersionbar.ImmersionBar
 import com.king.camera.scan.AnalyzeResult
 import com.king.mlkit.vision.barcode.BarcodeCameraScanActivity
 import com.king.mlkit.vision.barcode.BarcodeDecoder
@@ -26,34 +29,51 @@ import timber.log.Timber
  * author : A Lonely Cat
  * github : https://github.com/anjiemo/SunnyBeach
  * time   : 2022/04/20
- * desc   : 自定义的扫码界面，适配 MLKit 2.4.0 架构
+ * desc   : 自定义的扫码界面，适配 MLKit 2.4.0 架构并复刻华为 ScanKit UI
  */
 class ScanCodeActivity : BarcodeCameraScanActivity() {
-
-    private var isFlashlightOpen = false
 
     override fun getLayoutId(): Int = R.layout.activity_scan_code
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 沉浸式透明状态栏
+        ImmersionBar.with(this).init()
+        initView()
         initEvent()
     }
 
+    private fun initView() {
+        val viewfinderView = findViewById<com.king.view.viewfinderview.ViewfinderView>(R.id.viewfinderView)
+        // 代码配置扫描框样式（对应原型图中的蓝色风格）
+        viewfinderView?.setLaserColor(android.graphics.Color.parseColor("#3F86FF"))
+        viewfinderView?.setFrameColor(android.graphics.Color.parseColor("#3F86FF"))
+    }
+
     private fun initEvent() {
-        val ivPhoto = findViewById<ImageView>(R.id.ivPhoto)
-        ivPhoto?.setFixOnClickListener {
+        // 返回按键
+        findViewById<View>(R.id.ivBack)?.setFixOnClickListener {
+            finish()
+        }
+        // 相册选择
+        findViewById<View>(R.id.ivPhoto)?.setFixOnClickListener {
             selectImage()
         }
+        // 闪光灯控制
+        val llFlash = findViewById<View>(R.id.llFlash)
         val ivFlash = findViewById<ImageView>(R.id.ivFlash)
-        ivFlash?.setFixOnClickListener {
-            toggleFlashlight(ivFlash)
+        val tvFlashHint = findViewById<TextView>(R.id.tvFlashHint)
+        llFlash?.setFixOnClickListener {
+            toggleFlashlight(ivFlash, tvFlashHint)
         }
     }
 
-    private fun toggleFlashlight(ivFlash: ImageView) {
+    private fun toggleFlashlight(ivFlash: ImageView, tvFlashHint: TextView) {
         val isTorch = cameraScan.isTorchEnabled
         cameraScan.enableTorch(!isTorch)
-        ivFlash.setImageResource(if (!isTorch) R.drawable.ic_flash else R.drawable.ic_flash_off)
+        val isOpen = !isTorch
+        ivFlash.setImageResource(if (isOpen) R.drawable.ic_flash else R.drawable.ic_flash_off)
+        tvFlashHint.text = if (isOpen) "轻触关闭" else "轻触照亮"
     }
 
     private fun selectImage() {
