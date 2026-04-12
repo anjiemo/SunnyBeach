@@ -2,6 +2,7 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -11,6 +12,7 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.http.glide.GlideApp
+import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.model.scan.ScanResult
 import com.blankj.utilcode.util.ToastUtils
@@ -20,6 +22,7 @@ import com.gyf.immersionbar.ImmersionBar
 import com.king.camera.scan.AnalyzeResult
 import com.king.mlkit.vision.barcode.BarcodeCameraScanActivity
 import com.king.mlkit.vision.barcode.BarcodeDecoder
+import com.king.view.viewfinderview.ViewfinderView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -44,10 +47,16 @@ class ScanCodeActivity : BarcodeCameraScanActivity() {
     }
 
     private fun initView() {
-        val viewfinderView = findViewById<com.king.view.viewfinderview.ViewfinderView>(R.id.viewfinderView)
-        // 代码配置扫描框样式（对应原型图中的蓝色风格）
-        viewfinderView?.setLaserColor(android.graphics.Color.parseColor("#3F86FF"))
-        viewfinderView?.setFrameColor(android.graphics.Color.parseColor("#3F86FF"))
+        val viewfinderView = findViewById<ViewfinderView>(R.id.viewfinderView)
+        // 设置扫描框的与视图宽的占比
+        viewfinderView?.setFrameRatio(0.85f)
+        // 隐藏遮罩和扫描框，实现无框沉浸感
+        viewfinderView?.setMaskColor(Color.TRANSPARENT)
+        viewfinderView?.setFrameColor(Color.TRANSPARENT)
+        // 扫描框边角的大小
+        viewfinderView?.setFrameCornerSize(0)
+        // 激光扫描线的移动速度
+        viewfinderView?.setLaserMovementSpeed(4.dp)
     }
 
     private fun initEvent() {
