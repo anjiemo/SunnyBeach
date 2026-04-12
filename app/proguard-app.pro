@@ -1,5 +1,18 @@
 # 忽略警告
-#-ignorewarning
+-dontwarn androidx.databinding.DataBindingUtil
+-dontwarn androidx.databinding.ViewDataBinding
+-dontwarn androidx.window.extensions.WindowExtensions
+-dontwarn androidx.window.extensions.WindowExtensionsProvider
+-dontwarn androidx.window.extensions.area.ExtensionWindowAreaPresentation
+-dontwarn androidx.window.extensions.area.ExtensionWindowAreaStatus
+-dontwarn androidx.window.extensions.area.WindowAreaComponent
+-dontwarn androidx.window.extensions.core.util.function.Consumer
+-dontwarn androidx.window.extensions.core.util.function.Function
+-dontwarn androidx.window.extensions.core.util.function.Predicate
+-dontwarn androidx.window.extensions.layout.DisplayFeature
+-dontwarn androidx.window.extensions.layout.FoldingFeature
+-dontwarn androidx.window.extensions.layout.WindowLayoutComponent
+-dontwarn androidx.window.extensions.layout.WindowLayoutInfo
 
 # 全局优化配置
 -optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
@@ -34,6 +47,7 @@
 
 # EasyWindow 混淆规则：https://github.com/getActivity/EasyWindow
 -keep class com.hjq.window.** {*;}
+-dontwarn com.hjq.window.**
 
 # 保留 Retrofit 服务接口，避免 release 混淆后运行时反射拿不到接口注解信息，
 # 导致 BaseUrlInterceptor 无法替换到正确的域名。
