@@ -55,6 +55,18 @@
 # EasyHttp：https://github.com/getActivity/EasyHttp
 # EasyHttp 框架混淆规则
 -keep class com.hjq.http.** {*;}
+
+# Toaster：https://github.com/getActivity/Toaster
+-keep class com.hjq.toast.** {*;}
+
+# XXPermissions：https://github.com/getActivity/XXPermissions
+-keep class com.hjq.permissions.** {*;}
+
+# ShapeView：https://github.com/getActivity/ShapeView
+-keep class com.hjq.shapeview.** {*;}
+
+# 忽略 getActivity 框架中的警告（通常是因为其引用了可选的依赖或系统私有 API）
+-dontwarn com.hjq.**
 # 必须要加上此规则，否则会导致泛型解析失败
 -keep class * implements com.hjq.http.listener.OnHttpListener {
     *;
