@@ -39,8 +39,6 @@ plugins {
     // Gradle 插件版本说明：https://developer.android.google.cn/studio/releases/gradle-plugin.html#updating-plugin
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
-    // Kotlin 插件：https://plugins.jetbrains.com/plugin/6954-kotlin
-    alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.compose) apply false
     // KSP插件：https://developer.android.com/build/migrate-to-ksp?hl=zh-cn#add-ksp
     // https://kotlinlang.org/docs/ksp-quickstart.html#add-a-processor

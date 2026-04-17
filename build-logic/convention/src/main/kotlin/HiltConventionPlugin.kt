@@ -21,7 +21,6 @@ class HiltConventionPlugin : Plugin<Project> {
             }
 
             // 针对 Android 模块的特殊配置
-            // 兼容性提醒：在 AGP 9.0 + newDsl=false 时，Hilt 需要 BaseExtension
             pluginManager.withPlugin("com.android.application") {
                 apply(plugin = "dagger.hilt.android.plugin")
                 dependencies {

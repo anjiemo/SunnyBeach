@@ -252,8 +252,6 @@ glance = { group = "com.guolindev.glance", name = "glance", version.ref = "glanc
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 
-# Kotlin 插件
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 # KSP 插件
