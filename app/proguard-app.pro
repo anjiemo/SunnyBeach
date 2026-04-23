@@ -13,6 +13,7 @@
 -dontwarn androidx.window.extensions.layout.FoldingFeature
 -dontwarn androidx.window.extensions.layout.WindowLayoutComponent
 -dontwarn androidx.window.extensions.layout.WindowLayoutInfo
+-dontwarn androidx.window.sidecar.**
 
 # 全局优化配置
 -optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
