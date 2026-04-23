@@ -552,7 +552,7 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    // // 从图片中提取具有代表性的调色板：https://developer.android.com/jetpack/androidx/releases/palette
+    // 从图片中提取具有代表性的调色板：https://developer.android.com/jetpack/androidx/releases/palette
     implementation(libs.androidx.palette)
 
     // Android下打造通用便捷的PopupWindow弹窗库：https://github.com/razerdp/BasePopup

@@ -10,101 +10,59 @@ import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.tasks.compile.JavaCompile
-import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.DependencyHandlerScope
+import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
  * 配置 Kotlin Android 基础选项
- * 适配 AGP 9.0：彻底分离 Application 和 Library 的配置逻辑
+ * 适配现代 AGP：通过公共 DSL 接口配置通用选项
  */
 internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension) {
-    commonExtension.compileSdk = 36
+    commonExtension.apply {
+        compileSdk = 36
 
-    when (commonExtension) {
-        is ApplicationExtension -> configureAndroidExtension(commonExtension)
-        is LibraryExtension -> configureAndroidExtension(commonExtension)
+        defaultConfig.minSdk = 26
+
+        compileOptions.sourceCompatibility = JavaVersion.VERSION_21
+        compileOptions.targetCompatibility = JavaVersion.VERSION_21
+
+        // 处理不同模块类型的 buildFeatures 差异
+        when (this) {
+            is ApplicationExtension -> {
+                buildFeatures.viewBinding = true
+                buildFeatures.resValues = true
+            }
+
+            is LibraryExtension -> {
+                buildFeatures.viewBinding = true
+                buildFeatures.resValues = true
+            }
+        }
+
+        // 设置存放 so 文件的目录
+        sourceSets.getByName("main") {
+            jniLibs {
+                directories += "libs"
+            }
+        }
+
+        buildTypes {
+            getByName("debug") {}
+            create("preview") {}
+            getByName("release") {}
+        }
+
+        // 代码警告配置
+        lint.disable.addAll(setOf("HardcodedText", "ContentDescription"))
     }
 
     configureKotlin()
     configureJavaEncoding()
-}
-
-/**
- * 配置 ApplicationExtension
- */
-private fun configureAndroidExtension(extension: ApplicationExtension) {
-    extension.run {
-        defaultConfig {
-            minSdk = 26
-        }
-        // 支持 Java JDK 21
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_21
-            targetCompatibility = JavaVersion.VERSION_21
-        }
-        buildFeatures {
-            viewBinding = true
-            resValues = true
-        }
-        // 设置存放 so 文件的目录
-        sourceSets.getByName("main") {
-            jniLibs {
-                directories += "libs"
-            }
-        }
-        buildTypes {
-            getByName("debug") {}
-            create("preview") {}
-            getByName("release") {}
-        }
-        // 代码警告配置
-        lint {
-            // 禁用文本硬编码警告
-            // 禁用图片描述警告
-            disable += setOf("HardcodedText", "ContentDescription")
-        }
-    }
-}
-
-/**
- * 配置 LibraryExtension
- */
-private fun configureAndroidExtension(extension: LibraryExtension) {
-    extension.run {
-        defaultConfig {
-            minSdk = 26
-        }
-        // 支持 Java JDK 21
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_21
-            targetCompatibility = JavaVersion.VERSION_21
-        }
-        buildFeatures {
-            viewBinding = true
-            resValues = true
-        }
-        // 设置存放 so 文件的目录
-        sourceSets.getByName("main") {
-            jniLibs {
-                directories += "libs"
-            }
-        }
-        buildTypes {
-            getByName("debug") {}
-            create("preview") {}
-            getByName("release") {}
-        }
-        // 代码警告配置
-        lint {
-            // 禁用文本硬编码警告
-            // 禁用图片描述警告
-            disable += setOf("HardcodedText", "ContentDescription")
-        }
-    }
 }
 
 /**
@@ -115,6 +73,7 @@ internal fun Project.configureKotlin() {
     tasks.withType<KotlinCompile>().configureEach {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_21)
+            // 启用现代 Kotlin 特性
             freeCompilerArgs.add("-Xcontext-parameters")
         }
     }
@@ -122,7 +81,6 @@ internal fun Project.configureKotlin() {
 
 /**
  * 配置 Java 编码为 UTF-8
- * 从根 build.gradle.kts 的 allprojects 中迁移到此处
  */
 private fun Project.configureJavaEncoding() {
     tasks.withType<JavaCompile>().configureEach {
@@ -132,12 +90,21 @@ private fun Project.configureJavaEncoding() {
 }
 
 /**
- * 配置 Java 工具链
+ * 配置 Android 模块的基础依赖
  */
-internal fun Project.configureJavaToolchain() {
-    extensions.configure<JavaPluginExtension> {
-        toolchain {
-            languageVersion.set(org.gradle.jvm.toolchain.JavaLanguageVersion.of(21))
-        }
-    }
+internal fun DependencyHandlerScope.configureCommonDependencies(libs: VersionCatalog) {
+    add("implementation", libs.findLibrary("androidx-core-ktx").get())
+    add("implementation", libs.findLibrary("androidx-activity-ktx").get())
+    add("implementation", libs.findLibrary("androidx-fragment-ktx").get())
+    add("implementation", libs.findLibrary("androidx-appcompat").get())
+    add("implementation", libs.findLibrary("material").get())
+
+    // Kotlin 协程
+    add("implementation", libs.findLibrary("kotlinx-coroutines-core").get())
+    add("implementation", libs.findLibrary("kotlinx-coroutines-android").get())
+
+    // AndroidX 生命周期库
+    add("implementation", libs.findLibrary("androidx-lifecycle-livedata-ktx").get())
+    add("implementation", libs.findLibrary("androidx-lifecycle-runtime-ktx").get())
+    add("implementation", libs.findLibrary("androidx-lifecycle-viewmodel-ktx").get())
 }

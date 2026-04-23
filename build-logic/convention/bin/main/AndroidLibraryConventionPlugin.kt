@@ -3,6 +3,7 @@
  * 为 library 模块提供统一的 Library 配置
  */
 
+import cn.cqautotest.sunnybeach.configureCommonDependencies
 import cn.cqautotest.sunnybeach.configureKotlinAndroid
 import cn.cqautotest.sunnybeach.libs
 import com.android.build.api.dsl.LibraryExtension
@@ -34,18 +35,8 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                     // 依赖 libs 目录下所有的 jar 和 aar 包
                     add("implementation", fileTree(mapOf("include" to listOf("*.jar", "*.aar"), "dir" to "libs")))
 
-                    // AndroidX 库
-                    add("implementation", libs.findLibrary("androidx-appcompat").get())
-                    // Material 库
-                    add("implementation", libs.findLibrary("material").get())
-
-                    // Kotlin 协程
-                    add("implementation", libs.findLibrary("kotlinx-coroutines-core").get())
-                    add("implementation", libs.findLibrary("kotlinx-coroutines-android").get())
-                    // AndroidX 生命周期库
-                    add("implementation", libs.findLibrary("androidx-lifecycle-livedata-ktx").get())
-                    add("implementation", libs.findLibrary("androidx-lifecycle-runtime-ktx").get())
-                    add("implementation", libs.findLibrary("androidx-lifecycle-viewmodel-ktx").get())
+                    // 应用基础依赖
+                    configureCommonDependencies(libs)
                 }
             }
         }
