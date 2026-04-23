@@ -34,7 +34,7 @@ retrofit = "3.0.0"
 gson = "2.13.2"
 
 # 图片加载
-glide = "5.0.5"
+glide = "5.0.7"
 coil = "3.4.0"
 
 # 友盟和微信
@@ -75,6 +75,7 @@ vbpd = "2.0.4"
 longan = "1.1.1"
 easyWindow = "15.0"
 liveEventBus = "1.8.0"
+easyFloat = "2.0.4"
 
 # Bugly
 bugly = "4.1.9.3"
@@ -216,7 +217,7 @@ vbpd = { group = "dev.androidbroadcast.vbpd", name = "vbpd", version.ref = "vbpd
 longan = { group = "com.github.DylanCaiCoding.Longan", name = "longan", version.ref = "longan" }
 longan-design = { group = "com.github.DylanCaiCoding.Longan", name = "longan-design", version.ref = "longan" }
 easywindow = { group = "com.github.getActivity", name = "EasyWindow", version.ref = "easyWindow" }
-easyfloat = { group = "com.github.princekin-f", name = "EasyFloat", version = "2.0.4" }
+easyfloat = { group = "com.github.princekin-f", name = "EasyFloat", version.ref = "easyFloat" }
 liveeventbus = { group = "io.github.jeremyliao", name = "live-event-bus-x", version.ref = "liveEventBus" }
 
 # Bugly
