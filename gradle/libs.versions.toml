@@ -1,8 +1,8 @@
 [versions]
 # Gradle 和 Android 相关版本
-agp = "9.1.0"
-kotlin = "2.3.20"
-ksp = "2.3.6"
+agp = "9.2.0"
+kotlin = "2.3.21"
+ksp = "2.3.7"
 hilt = "2.59.2"
 androidAop = "2.7.4"
 
@@ -14,12 +14,12 @@ androidxFragment = "1.8.9"
 androidxLifecycle = "2.10.0"
 androidxRoom = "2.8.4"
 androidxPaging = "3.4.2"
-androidxNavigation = "2.9.7"
+androidxNavigation = "2.9.8"
 androidxWork = "2.11.2"
 androidxPalette = "1.0.0"
 
 # Compose 相关
-composeBom = "2026.03.01"
+composeBom = "2026.04.01"
 
 # Material Design
 material = "1.13.0"
