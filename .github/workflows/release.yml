@@ -77,18 +77,20 @@ jobs:
       - name: 读取构建清单
         id: manifest
         run: |
-          if [ ! -f build-manifest.json ]; then
+          MANIFEST_PATH="app/build/outputs/build-manifest.json"
+          if [ ! -f "$MANIFEST_PATH" ]; then
             echo "::error::build-manifest.json 未找到，请确保构建步骤执行成功。"
+            echo "预期路径: $MANIFEST_PATH"
             exit 1
           fi
 
           echo "=== 构建清单内容 ==="
-          cat build-manifest.json
+          cat "$MANIFEST_PATH"
 
-          APK_PATH=$(jq -r '.apkPath' build-manifest.json)
-          APK_NAME=$(jq -r '.apkName' build-manifest.json)
-          APP_CONFIG_PATH=$(jq -r '.appConfigPath' build-manifest.json)
-          VERSION_NAME=$(jq -r '.versionName' build-manifest.json)
+          APK_PATH=$(jq -r '.apkPath' "$MANIFEST_PATH")
+          APK_NAME=$(jq -r '.apkName' "$MANIFEST_PATH")
+          APP_CONFIG_PATH=$(jq -r '.appConfigPath' "$MANIFEST_PATH")
+          VERSION_NAME=$(jq -r '.versionName' "$MANIFEST_PATH")
 
           if [ ! -f "$APK_PATH" ]; then
             echo "::error::APK 文件不存在: $APK_PATH"
@@ -129,4 +131,4 @@ jobs:
 
       - name: 清理敏感文件
         if: always()
-        run: rm -f app/release.jks app/gradle.properties build-manifest.json
+        run: rm -f app/release.jks app/gradle.properties app/build/outputs/build-manifest.json

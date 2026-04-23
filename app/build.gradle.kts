@@ -291,7 +291,7 @@ object AppConfigUtils {
         println("  APK: ${finalApkFile.absolutePath}")
         println("  Config: ${finalAppConfigFile.absolutePath}")
 
-        // 生成 build-manifest.json 到项目根目录，供 GitHub Workflow 使用
+        // 生成 build-manifest.json 到构建输出目录，供 GitHub Workflow 使用
         val buildManifestMap = mapOf(
             "variantName" to variantName,
             "versionName" to configVersionName,
@@ -301,7 +301,7 @@ object AppConfigUtils {
             "appConfigPath" to finalAppConfigFile.absolutePath
         )
         val buildManifestJson = JsonOutput.prettyPrint(JsonOutput.toJson(buildManifestMap), true)
-        val buildManifestFile = rootProject.file("build-manifest.json")
+        val buildManifestFile = layout.buildDirectory.file("outputs/build-manifest.json").get().asFile
         buildManifestFile.writeText(buildManifestJson)
         println("apkConfig：===> Build manifest: ${buildManifestFile.absolutePath}")
     }
