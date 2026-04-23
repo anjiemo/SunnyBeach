@@ -607,6 +607,6 @@ dependencies {
     // MLKit 扫码相关依赖
     implementation(libs.mlkit.common)
     implementation(libs.mlkit.scan)
-    implementation("com.github.jenly1314:viewfinderview:1.4.0")
+    implementation(libs.viewfinderview)
     implementation(libs.zxing.core)
 }
