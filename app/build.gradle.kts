@@ -361,28 +361,10 @@ dependencies {
     // 网络封装
     implementation(project(":library:network"))
 
-    // 友盟公共库
-    implementation(libs.umeng.common)
-    implementation(libs.umeng.asms)
-    // 友盟分享库
-    implementation(libs.umeng.share.core)
-    // 友盟微信分享
-    implementation(libs.umeng.share.wx)
-
-    // 微信组件：https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html
-    implementation(libs.wechat.sdk)
-
     // 单元测试
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    // Android Core：https://developer.android.com/jetpack/androidx/releases/core?hl=zh-cn
-    implementation(libs.androidx.core.ktx)
-    // Activity ktx：https://developer.android.com/jetpack/androidx/releases/activity
-    implementation(libs.androidx.activity.ktx)
-    // Fragment ktx：https://developer.android.com/jetpack/androidx/releases/fragment
-    implementation(libs.androidx.fragment.ktx)
 
     // Room 数据库：https://developer.android.com/jetpack/androidx/releases/room
     // CodeLab：https://developer.android.com/codelabs/android-room-with-a-view-kotlin#0
@@ -542,11 +524,6 @@ dependencies {
     // implementation("com.qmuiteam:qmui:$qmuiArchVersion")
     // implementation("com.qmuiteam:arch:$qmuiArchVersion")
     // kapt("com.qmuiteam:arch-compiler:$qmuiArchVersion")
-    // MLKit 扫码
-    implementation(libs.mlkit.scan)
-    // ZXing 用于生成二维码
-    implementation(libs.zxing.core)
-
     // Hilt依赖注入：https://developer.android.google.cn/jetpack/androidx/releases/hilt
     // 组件层次结构备忘录：https://dagger.dev/hilt/components.html#component-lifetimes
     implementation(libs.hilt.android)
@@ -584,20 +561,6 @@ dependencies {
 
     // 消息总线，基于LiveData，具有生命周期感知能力：https://github.com/JeremyLiao/LiveEventBus
     implementation(libs.liveeventbus)
-
-    // 使用物料清单：https://developer.android.com/develop/ui/compose/bom?hl=zh-cn#kts
-    // BOM 与库版本对应表：https://developer.android.com/develop/ui/compose/bom/bom-mapping?hl=zh-cn
-    val composeBom = platform(libs.compose.bom)
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
-
-    // Compose 库，无需指定版本 (BOM已管理)
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.tooling.preview) // 预览支持
-    debugImplementation(libs.compose.ui.tooling) // 调试工具
-    implementation(libs.compose.material3) // Material 3 组件
-    implementation(libs.compose.activity) // 与 Activity 集成
-    implementation(libs.androidx.lifecycle.viewmodel.compose) // ViewModel 集成
 
     // Android 和 Compose 多平台图像加载：https://github.com/coil-kt/coil
     implementation(libs.coil.compose)
