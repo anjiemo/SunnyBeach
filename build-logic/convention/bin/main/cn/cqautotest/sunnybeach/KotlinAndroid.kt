@@ -5,9 +5,7 @@
 
 package cn.cqautotest.sunnybeach
 
-import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension
-import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
@@ -31,17 +29,10 @@ internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension) {
         compileOptions.sourceCompatibility = JavaVersion.VERSION_21
         compileOptions.targetCompatibility = JavaVersion.VERSION_21
 
-        // 处理不同模块类型的 buildFeatures 差异
-        when (this) {
-            is ApplicationExtension -> {
-                buildFeatures.viewBinding = true
-                buildFeatures.resValues = true
-            }
-
-            is LibraryExtension -> {
-                buildFeatures.viewBinding = true
-                buildFeatures.resValues = true
-            }
+        // 处理通用 buildFeatures 配置
+        buildFeatures.apply {
+            viewBinding = true
+            resValues = true
         }
 
         // 设置存放 so 文件的目录

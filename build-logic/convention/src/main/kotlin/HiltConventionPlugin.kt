@@ -3,6 +3,7 @@
  * 为使用 Hilt 的模块提供统一的 Hilt 配置
  */
 
+import cn.cqautotest.sunnybeach.androidExtension
 import cn.cqautotest.sunnybeach.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -21,15 +22,13 @@ class HiltConventionPlugin : Plugin<Project> {
             }
 
             // 针对 Android 模块的特殊配置
-            val applyHilt: () -> Unit = {
+            androidExtension {
                 apply(plugin = "com.google.dagger.hilt.android")
                 dependencies {
                     add("implementation", libs.findLibrary("hilt-android").get())
                 }
             }
-
-            pluginManager.withPlugin("com.android.application") { applyHilt() }
-            pluginManager.withPlugin("com.android.library") { applyHilt() }
         }
     }
 }
+

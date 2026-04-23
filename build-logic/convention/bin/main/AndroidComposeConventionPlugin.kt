@@ -3,14 +3,11 @@
  * 为使用 Compose 的模块提供统一的 Compose 配置与依赖
  */
 
+import cn.cqautotest.sunnybeach.androidExtension
 import cn.cqautotest.sunnybeach.libs
-import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.api.dsl.CommonExtension
-import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
 class AndroidComposeConventionPlugin : Plugin<Project> {
@@ -20,23 +17,8 @@ class AndroidComposeConventionPlugin : Plugin<Project> {
             apply(plugin = "org.jetbrains.kotlin.plugin.compose")
 
             // 通用 Compose 配置
-            val configureCompose: (CommonExtension) -> Unit = { extension ->
-                extension.apply {
-                    buildFeatures.compose = true
-                }
-            }
-
-            // 根据模块类型配置
-            pluginManager.withPlugin("com.android.application") {
-                extensions.configure<ApplicationExtension> {
-                    configureCompose(this)
-                }
-            }
-
-            pluginManager.withPlugin("com.android.library") {
-                extensions.configure<LibraryExtension> {
-                    configureCompose(this)
-                }
+            androidExtension {
+                buildFeatures.compose = true
             }
 
             // 自动化 Compose 基础依赖
