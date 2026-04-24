@@ -38,10 +38,16 @@ extensions.configure<ApplicationExtension> {
     if (keystorePropertiesFile.exists()) {
         keystorePropertiesFile.inputStream().use { keystoreProperties.load(it) }
     }
-    val storeFile = keystoreProperties.getProperty("StoreFile")
-    val storePassword = keystoreProperties.getProperty("StorePassword")
-    val keyAlias = keystoreProperties.getProperty("KeyAlias")
-    val keyPassword = keystoreProperties.getProperty("KeyPassword")
+
+    // 优先从 Project 属性读取（支持 -P 注入），然后回退到本地文件
+    fun getSignProperty(key: String): String? {
+        return (project.findProperty(key) as? String) ?: keystoreProperties.getProperty(key)
+    }
+
+    val storeFile = getSignProperty("StoreFile")
+    val storePassword = getSignProperty("StorePassword")
+    val keyAlias = getSignProperty("KeyAlias")
+    val keyPassword = getSignProperty("KeyPassword")
 
     // Apk 签名的那些事：https://www.jianshu.com/p/a1f8e5896aa2
     signingConfigs {
