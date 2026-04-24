@@ -26,10 +26,10 @@ extra["appVersionName"] = appVersionName
 
 buildscript {
     repositories {
-        maven { url = uri("https://maven.aliyun.com/repository/google") }
-        maven { url = uri("https://maven.aliyun.com/repository/public") }
         google()
         mavenCentral()
+        maven { url = uri("https://maven.aliyun.com/repository/google") }
+        maven { url = uri("https://maven.aliyun.com/repository/public") }
     }
     dependencies {
         // AndroidAOP 插件（不在 Gradle Plugin Portal 中，必须使用 buildscript 方式）
