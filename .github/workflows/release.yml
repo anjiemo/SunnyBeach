@@ -58,21 +58,19 @@ jobs:
           fi
 
       - name: 准备签名文件
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.jks
-          printf '%s\n' \
-            "StoreFile=release.jks" \
-            "StorePassword=${{ secrets.STORE_PASSWORD }}" \
-            "KeyAlias=${{ secrets.KEY_ALIAS }}" \
-            "KeyPassword=${{ secrets.KEY_PASSWORD }}" \
-            > app/gradle.properties
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.jks
 
       - name: 构建 Release APK 并生成构建清单
-        run: ./gradlew :app:assembleRelease :app:printReleaseAppConfig --stacktrace
+        run: |
+          ./gradlew :app:assembleRelease :app:printReleaseAppConfig --stacktrace \
+            -PStoreFile=release.jks \
+            -PStorePassword="${{ secrets.STORE_PASSWORD }}" \
+            -PKeyAlias="${{ secrets.KEY_ALIAS }}" \
+            -PKeyPassword="${{ secrets.KEY_PASSWORD }}"
         env:
-          GRADLE_OPTS: -Xmx512m -Dfile.encoding=UTF-8
-          APP_VERSION_CODE: ${{ github.event.inputs.version_code }}
-          APP_VERSION_NAME: ${{ github.event.inputs.version_name }}
+          GRADLE_OPTS: -Xmx2g -Dfile.encoding=UTF-8
+          APP_VERSION_CODE: ${{ github.event.inputs.version_code || '' }}
+          APP_VERSION_NAME: ${{ github.event.inputs.version_name || '' }}
 
       - name: 读取构建清单
         id: manifest
