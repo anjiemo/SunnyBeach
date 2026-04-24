@@ -3,14 +3,14 @@ pluginManagement {
     // 包含 build-logic 约定插件模块
     includeBuild("build-logic")
     repositories {
-        // 优先使用国内镜像，提升下载速度
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        // 国内镜像
         maven { url = uri("https://maven.aliyun.com/repository/google") }
         maven { url = uri("https://maven.aliyun.com/repository/public") }
         maven { url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
         maven { url = uri("https://repo.huaweicloud.com/repository/maven") }
-        gradlePluginPortal()
-        google()
-        mavenCentral()
     }
 }
 
@@ -21,11 +21,11 @@ plugins {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        // 优先使用国内镜像，提升下载速度
-        maven { url = uri("https://maven.aliyun.com/repository/google") }
-        maven { url = uri("https://maven.aliyun.com/repository/public") }
         google()
         mavenCentral()
+        // 国内镜像
+        maven { url = uri("https://maven.aliyun.com/repository/google") }
+        maven { url = uri("https://maven.aliyun.com/repository/public") }
         // 华为开源镜像：https://mirrors.huaweicloud.com
         maven { url = uri("https://repo.huaweicloud.com/repository/maven") }
         // JitPack 远程仓库：https://jitpack.io
