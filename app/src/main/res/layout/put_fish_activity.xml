@@ -140,7 +140,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <cn.cqautotest.sunnybeach.widget.EmojiListView
+    <cn.cqautotest.sunnybeach.widget.EmojiPanelView
         android:id="@+id/rv_emoji_list"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_200" />

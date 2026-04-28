@@ -41,6 +41,7 @@ import cn.cqautotest.sunnybeach.repository.Repository
 import cn.cqautotest.sunnybeach.ui.adapter.delegate.AdapterDelegate
 import cn.cqautotest.sunnybeach.ui.dialog.InputDialog
 import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
+import cn.cqautotest.sunnybeach.widget.EmojiPanelView
 import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
@@ -138,7 +139,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                 if (isActive) {
                     rvEmojiList.updateLayoutParams {
                         // 此处应该减去底部导航栏的高度，否则在经典导航栏模式下高度过剩
-                        height = keyboardHeight - navigationBarHeight
+                        height = keyboardHeight - navigationBarHeight + EmojiPanelView.TAB_HEIGHT
                     }
                 }
                 val emojiIcon = if (isActive) R.mipmap.ic_emoji_normal else R.mipmap.ic_keyboard

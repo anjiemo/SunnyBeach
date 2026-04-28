@@ -125,7 +125,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <cn.cqautotest.sunnybeach.widget.EmojiListView
+            <cn.cqautotest.sunnybeach.widget.EmojiPanelView
                 android:id="@+id/rv_emoji_list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
