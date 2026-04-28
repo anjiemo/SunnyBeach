@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ui.adapter.EmojiAdapter
 import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
@@ -23,7 +24,8 @@ class EmojiListView @JvmOverloads constructor(
     init {
         layoutManager = GridLayoutManager(context, 7)
         adapter = mEmojiAdapter
-        addItemDecoration(UniversalSpaceDecoration(10.dp))
+        addItemDecoration(UniversalSpaceDecoration(6.dp))
+        setBackgroundResource(R.color.common_window_background_color)
     }
 
     fun setEmojiList(emojiList: List<String>) {

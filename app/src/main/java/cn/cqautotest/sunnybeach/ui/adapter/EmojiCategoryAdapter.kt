@@ -1,10 +1,13 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.annotation.SuppressLint
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.ktx.dp
 
 /**
@@ -36,23 +39,28 @@ class EmojiCategoryAdapter : RecyclerView.Adapter<EmojiCategoryAdapter.ViewHolde
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val ivIcon: ImageView = itemView as ImageView
-    }
+    class ViewHolder(itemView: View, val ivIcon: ImageView) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val imageView = ImageView(parent.context).apply {
-            layoutParams = ViewGroup.LayoutParams(50.dp, 50.dp)
-            setPadding(10.dp, 10.dp, 10.dp, 10.dp)
+            layoutParams = FrameLayout.LayoutParams(50.dp, 36.dp).apply {
+                gravity = Gravity.CENTER
+            }
+            setPadding(12.dp, 8.dp, 12.dp, 8.dp)
             scaleType = ImageView.ScaleType.CENTER_INSIDE
+            setBackgroundResource(R.drawable.selector_emoji_category)
         }
-        return ViewHolder(imageView)
+        val frameLayout = FrameLayout(parent.context).apply {
+            layoutParams = ViewGroup.LayoutParams(50.dp, ViewGroup.LayoutParams.MATCH_PARENT)
+            addView(imageView)
+        }
+        return ViewHolder(frameLayout, imageView)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val resId = mData[position]
         holder.ivIcon.setImageResource(resId)
-        holder.itemView.isSelected = mSelectedPosition == position
+        holder.ivIcon.isSelected = mSelectedPosition == position
         holder.itemView.setOnClickListener {
             mOnItemClickListener(position)
         }
