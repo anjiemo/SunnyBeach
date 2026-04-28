@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.widget
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +21,7 @@ class EmojiPanelView @JvmOverloads constructor(
 ) : LinearLayout(context, attrs) {
 
     companion object {
-        val TAB_HEIGHT = 50.dp
+        val TAB_HEIGHT = 48.dp
     }
 
     private val mCategoryAdapter = EmojiCategoryAdapter()
@@ -41,6 +42,7 @@ class EmojiPanelView @JvmOverloads constructor(
 
     private fun setupCategoryRecyclerView() {
         val recyclerView = RecyclerView(context).apply {
+            setBackgroundColor(Color.WHITE)
             layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, TAB_HEIGHT)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = mCategoryAdapter
