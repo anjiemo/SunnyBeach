@@ -18,6 +18,7 @@ import cn.cqautotest.sunnybeach.ktx.clearText
 import cn.cqautotest.sunnybeach.ktx.setDefaultEmojiParser
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.textString
+import cn.cqautotest.sunnybeach.widget.EmojiPanelView
 import com.bumptech.glide.Glide
 import com.dylanc.longan.windowInsetsControllerCompat
 import timber.log.Timber
@@ -132,7 +133,7 @@ class InputPopup(context: Context, attrs: AttributeSet? = null) : SuperPopupWind
                 val imeInsets = it.getInsets(WindowInsetsCompat.Type.ime())
                 val imeHeight = imeInsets.bottom - imeInsets.top
                 mBinding.rvEmojiList.updateLayoutParams {
-                    height = imeHeight
+                    height = imeHeight + EmojiPanelView.TAB_HEIGHT
                 }
             }
             updateEmojiIcon()
@@ -152,7 +153,7 @@ class InputPopup(context: Context, attrs: AttributeSet? = null) : SuperPopupWind
                 val navigationBarsHeight = navigationBarsInsets.bottom - navigationBarsInsets.top
                 Timber.d("onProgress：===> imeHeight is $imeHeight navigationBarsHeight is $navigationBarsHeight")
                 mBinding.rvEmojiList.updateLayoutParams {
-                    height = if (imeHeight - navigationBarsHeight <= 0) 0 else imeHeight - navigationBarsHeight
+                    height = if (imeHeight - navigationBarsHeight <= 0) 0 else imeHeight - navigationBarsHeight + EmojiPanelView.TAB_HEIGHT
                 }
                 return insets
             }

@@ -2,12 +2,10 @@ package cn.cqautotest.sunnybeach.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ui.adapter.EmojiAdapter
-import cn.cqautotest.sunnybeach.util.EmojiMapHelper
 import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 
 /**
@@ -20,26 +18,19 @@ class EmojiListView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : RecyclerView(context, attrs) {
 
-    private val mBilibiliAdapter = EmojiAdapter()
+    private val mEmojiAdapter = EmojiAdapter()
 
     init {
         layoutManager = GridLayoutManager(context, 7)
-        val concatAdapter = ConcatAdapter(mBilibiliAdapter)
-        adapter = concatAdapter
+        adapter = mEmojiAdapter
         addItemDecoration(UniversalSpaceDecoration(10.dp))
-        mBilibiliAdapter.setData(loadBilibiliEmojiList())
     }
 
-    private fun loadBilibiliEmojiList(): List<String> {
-        val emojiList = arrayListOf<String>()
-        EmojiMapHelper.bilibiliEmojiMap.onEach {
-            val emoji = it.key
-            emojiList.add(emoji)
-        }
-        return emojiList
+    fun setEmojiList(emojiList: List<String>) {
+        mEmojiAdapter.setData(emojiList)
     }
 
     fun setOnEmojiClickListener(listener: (emoji: String, position: Int) -> Unit) {
-        mBilibiliAdapter.setOnItemClickListener(listener)
+        mEmojiAdapter.setOnItemClickListener(listener)
     }
 }
