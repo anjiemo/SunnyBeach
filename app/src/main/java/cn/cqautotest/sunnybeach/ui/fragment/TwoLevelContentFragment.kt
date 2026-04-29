@@ -14,8 +14,8 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
 import cn.cqautotest.sunnybeach.databinding.TwoLevelContentFragmentBinding
-import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
-import cn.cqautotest.sunnybeach.event.LiveBusUtils
+import cn.cqautotest.sunnybeach.event.FlowBus
+import cn.cqautotest.sunnybeach.event.FlowBusKey
 import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.viewmodel.HomeViewModel
@@ -73,7 +73,7 @@ class TwoLevelContentFragment : AppFragment<AppActivity>() {
 
     override fun initEvent() {
         mBinding.tvBackToHomePage.setFixOnClickListener {
-            LiveBusUtils.busSend(LiveBusKeyConfig.BUS_TWO_LEVEL_BACK_TO_HOME_PAGE)
+            FlowBus.post(FlowBusKey.TWO_LEVEL_BACK_TO_HOME_PAGE)
         }
     }
 

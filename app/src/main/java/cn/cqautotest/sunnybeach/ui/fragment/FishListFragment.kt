@@ -18,8 +18,8 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.contract.GetScanContent
 import cn.cqautotest.sunnybeach.databinding.FishListFragmentBinding
-import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
-import cn.cqautotest.sunnybeach.event.LiveBusUtils
+import cn.cqautotest.sunnybeach.event.FlowBus
+import cn.cqautotest.sunnybeach.event.FlowBusKey
 import cn.cqautotest.sunnybeach.ktx.addAfterNextUpdateUIDefaultItemAnimator
 import cn.cqautotest.sunnybeach.ktx.clearItemAnimator
 import cn.cqautotest.sunnybeach.ktx.dp
@@ -271,7 +271,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mBinding.llFishPondListContainer.updateLayoutParams<ViewGroup.MarginLayoutParams> {
             topMargin = topHeight + bottomHeight
         }
-        LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE, true)
+        FlowBus.post(FlowBusKey.HOME_PAGE_TWO_LEVEL_PAGE_STATE, true)
         showTwoLevelPage(true)
         hidePublishButton()
     }
@@ -282,7 +282,7 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
         mBinding.llFishPondListContainer.updateLayoutParams<ViewGroup.MarginLayoutParams> {
             topMargin = 0
         }
-        LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_PAGE_TWO_LEVEL_PAGE_STATE, false)
+        FlowBus.post(FlowBusKey.HOME_PAGE_TWO_LEVEL_PAGE_STATE, false)
         showTwoLevelPage(false)
         showPublishButton()
     }
@@ -321,15 +321,15 @@ class FishListFragment : TitleBarFragment<AppActivity>(), StatusAction, OnBack2T
                 }
         }
         mFishPondViewModel.fishListStateLiveData.observe(viewLifecycleOwner) { mFishListAdapter.refresh() }
-        LiveBusUtils.busReceive<Unit>(viewLifecycleOwner, LiveBusKeyConfig.BUS_PUT_FISH_SUCCESS) {
+        FlowBus.observe<Unit>(viewLifecycleOwner, FlowBusKey.PUT_FISH_SUCCESS) {
             mFishListAdapter.refresh()
         }
-        LiveBusUtils.busReceive<Unit>(viewLifecycleOwner, LiveBusKeyConfig.BUS_TWO_LEVEL_BACK_TO_HOME_PAGE) {
+        FlowBus.observe<Unit>(viewLifecycleOwner, FlowBusKey.TWO_LEVEL_BACK_TO_HOME_PAGE) {
             mBinding.twoLevelHeader.finishTwoLevel()
         }
-        LiveBusUtils.busReceive<Unit>(viewLifecycleOwner, LiveBusKeyConfig.BUS_HOME_START_SCAN, isSticky = true) {
+        FlowBus.observe<Unit>(viewLifecycleOwner, FlowBusKey.HOME_START_SCAN, isSticky = true) {
             // 消费后立即清除粘性消息，防止生命周期重建（如旋屏）时重复触发扫码
-            LiveBusUtils.clearSticky(LiveBusKeyConfig.BUS_HOME_START_SCAN)
+            FlowBus.clearSticky(FlowBusKey.HOME_START_SCAN)
             onRightClick(mBinding.titleBar)
         }
     }

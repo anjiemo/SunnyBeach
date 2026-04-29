@@ -20,8 +20,8 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.ImageChooseItemBinding
 import cn.cqautotest.sunnybeach.databinding.PutFishActivityBinding
-import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
-import cn.cqautotest.sunnybeach.event.LiveBusUtils
+import cn.cqautotest.sunnybeach.event.FlowBus
+import cn.cqautotest.sunnybeach.event.FlowBusKey
 import cn.cqautotest.sunnybeach.execption.ServiceException
 import cn.cqautotest.sunnybeach.ktx.asViewBinding
 import cn.cqautotest.sunnybeach.ktx.clearText
@@ -322,7 +322,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                 mBinding.etInputContent.clearText()
                 resetTopicSelection()
                 simpleToast("发布非常成功😃")
-                LiveBusUtils.busSend(LiveBusKeyConfig.BUS_PUT_FISH_SUCCESS)
+                FlowBus.post(FlowBusKey.PUT_FISH_SUCCESS)
                 setResult(Activity.RESULT_OK)
                 finish()
             }.onFailure {

@@ -355,6 +355,10 @@ dependencies {
     val qmuiArchVersion = "2.0.1"
     val ariaVersion = "3.8.16"
 
+    // 协程和生命周期相关
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.process)
+
     // 依赖 libs 目录下所有的 jar 和 aar 包
     implementation(fileTree(mapOf("include" to listOf("*.jar", "*.aar"), "dir" to "libs")))
 
@@ -565,8 +569,6 @@ dependencies {
     // // 如果需要使用m3u8下载功能，请增加该组件
     // implementation("me.laoyuyu.aria:m3u8:$ariaVersion")
 
-    // 消息总线，基于LiveData，具有生命周期感知能力：https://github.com/JeremyLiao/LiveEventBus
-    implementation(libs.liveeventbus)
 
     // Android 和 Compose 多平台图像加载：https://github.com/coil-kt/coil
     implementation(libs.coil.compose)

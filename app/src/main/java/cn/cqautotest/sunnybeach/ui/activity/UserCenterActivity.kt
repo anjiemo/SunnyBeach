@@ -8,8 +8,8 @@ import androidx.lifecycle.lifecycleScope
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.UserCenterActivityBinding
-import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
-import cn.cqautotest.sunnybeach.event.LiveBusUtils
+import cn.cqautotest.sunnybeach.event.FlowBus
+import cn.cqautotest.sunnybeach.event.FlowBusKey
 import cn.cqautotest.sunnybeach.ktx.context
 import cn.cqautotest.sunnybeach.ktx.ifLoginThen
 import cn.cqautotest.sunnybeach.ktx.ifNullOrEmpty
@@ -297,7 +297,7 @@ class UserCenterActivity : AppActivity() {
                 tvFansNum.text = userAchievement.fansCount.toString()
             }
         }
-        LiveBusUtils.busReceive<Unit>(this, LiveBusKeyConfig.BUS_LOGIN_INFO_UPDATE) {
+        FlowBus.observe<Unit>(this, FlowBusKey.LOGIN_INFO_UPDATE) {
             queryUserInfo()
             loadAvatar()
             mBinding.tvNickName.text = mUserBasicInfo?.nickname.ifNullOrEmpty { "游客" }
