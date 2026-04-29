@@ -11,8 +11,8 @@ import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.MyMeFragmentBinding
-import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
-import cn.cqautotest.sunnybeach.event.LiveBusUtils
+import cn.cqautotest.sunnybeach.event.FlowBus
+import cn.cqautotest.sunnybeach.event.FlowBusKey
 import cn.cqautotest.sunnybeach.ktx.context
 import cn.cqautotest.sunnybeach.ktx.createDefaultStyleBadge
 import cn.cqautotest.sunnybeach.ktx.dp
@@ -93,7 +93,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
                 }
             }
         }
-        LiveBusUtils.busReceive<Unit>(viewLifecycleOwner, LiveBusKeyConfig.BUS_LOGIN_INFO_UPDATE) {
+        FlowBus.observe<Unit>(viewLifecycleOwner, FlowBusKey.LOGIN_INFO_UPDATE) {
             viewLifecycleScope.launch {
                 updateUserInfoUI()
                 mMsgViewModel.getUnReadMsgCount().collectLatest {

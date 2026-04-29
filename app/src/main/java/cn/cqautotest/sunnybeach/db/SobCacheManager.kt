@@ -1,7 +1,7 @@
 package cn.cqautotest.sunnybeach.db
 
-import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
-import cn.cqautotest.sunnybeach.event.LiveBusUtils
+import cn.cqautotest.sunnybeach.event.FlowBus
+import cn.cqautotest.sunnybeach.event.FlowBusKey
 import cn.cqautotest.sunnybeach.util.SUNNY_BEACH_API_BASE_URL
 import cn.cqautotest.sunnybeach.util.StringUtil
 import com.google.common.net.HttpHeaders
@@ -86,6 +86,6 @@ object SobCacheManager {
 
     fun onAccountLoginOut() {
         mmkv.clearAll()
-        LiveBusUtils.busSend(LiveBusKeyConfig.BUS_LOGIN_INFO_UPDATE)
+        FlowBus.post(FlowBusKey.LOGIN_INFO_UPDATE)
     }
 }

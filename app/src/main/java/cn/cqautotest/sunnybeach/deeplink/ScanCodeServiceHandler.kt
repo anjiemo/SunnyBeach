@@ -2,8 +2,8 @@ package cn.cqautotest.sunnybeach.deeplink
 
 import android.content.Context
 import android.content.Intent
-import cn.cqautotest.sunnybeach.event.LiveBusKeyConfig
-import cn.cqautotest.sunnybeach.event.LiveBusUtils
+import cn.cqautotest.sunnybeach.event.FlowBus
+import cn.cqautotest.sunnybeach.event.FlowBusKey
 
 /**
  * author : A Lonely Cat
@@ -14,6 +14,6 @@ import cn.cqautotest.sunnybeach.event.LiveBusUtils
 class ScanCodeServiceHandler : AppSchemeService {
 
     override fun navigation(context: Context, intent: Intent) {
-        LiveBusUtils.busSend(LiveBusKeyConfig.BUS_HOME_START_SCAN, Unit)
+        FlowBus.post(FlowBusKey.HOME_START_SCAN)
     }
 }
