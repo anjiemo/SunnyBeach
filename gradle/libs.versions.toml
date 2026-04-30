@@ -4,7 +4,7 @@ agp = "9.2.0"
 kotlin = "2.3.21"
 ksp = "2.3.7"
 hilt = "2.59.2"
-androidAop = "2.7.4"
+androidAop = "2.7.5"
 
 # AndroidX 核心库
 androidxCore = "1.18.0"
