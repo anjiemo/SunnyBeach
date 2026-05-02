@@ -86,7 +86,7 @@ class ImagePreviewActivity : AppActivity(), BaseAdapter.OnItemClickListener {
 
     override fun initData() {
         val images = getStringArrayList(INTENT_KEY_IN_IMAGE_LIST)
-        if (images == null || images.isEmpty()) {
+        if (images.isNullOrEmpty()) {
             finish()
             return
         }
