@@ -21,7 +21,6 @@ plugins {
     alias(libs.plugins.sunnybeach.android.application)
     alias(libs.plugins.sunnybeach.android.compose)
     alias(libs.plugins.sunnybeach.hilt)
-    // 华为 AGConnect 插件（已移除）
     // AndroidAOP 插件（不在 Gradle Plugin Portal 中，使用旧式 ID 方式）
     id("android.aop")
 }
