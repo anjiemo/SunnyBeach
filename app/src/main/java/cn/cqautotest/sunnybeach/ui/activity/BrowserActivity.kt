@@ -279,7 +279,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
     private inner class AppBrowserChromeClient constructor(view: BrowserView) : BrowserChromeClient(view) {
 
         override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
-            Timber.d("onConsoleMessage：===> " + consoleMessage?.message())
+            Timber.d("onConsoleMessage：===> %s", consoleMessage?.message())
             return true
         }
 
