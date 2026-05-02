@@ -58,7 +58,7 @@ lottie = "6.7.1"
 smartRefresh = "3.0.0-alpha"
 circleIndicator = "2.1.6"
 banner = "2.2.3"
-baseRecyclerViewAdapter = "3.0.12"
+baseRecyclerViewAdapter = "4.3.4"
 expandableLayout = "2.9.2"
 basePopup = "3.2.1"
 xpopup = "2.10.0"
@@ -202,7 +202,7 @@ smartrefresh-header-classics = { group = "io.github.scwang90", name = "refresh-h
 smartrefresh-header-two-level = { group = "io.github.scwang90", name = "refresh-header-two-level", version.ref = "smartRefresh" }
 circleindicator = { group = "me.relex", name = "circleindicator", version.ref = "circleIndicator" }
 banner = { group = "io.github.youth5201314", name = "banner", version.ref = "banner" }
-baserecyclerviewadapter = { group = "com.github.CymChad", name = "BaseRecyclerViewAdapterHelper", version.ref = "baseRecyclerViewAdapter" }
+baserecyclerviewadapter = { group = "io.github.cymchad", name = "BaseRecyclerViewAdapterHelper4", version.ref = "baseRecyclerViewAdapter" }
 expandablelayout = { group = "com.github.cachapa", name = "ExpandableLayout", version.ref = "expandableLayout" }
 basepopup = { group = "io.github.razerdp", name = "BasePopup", version.ref = "basePopup" }
 xpopup = { group = "com.github.li-xiaojun", name = "XPopup", version.ref = "xpopup" }

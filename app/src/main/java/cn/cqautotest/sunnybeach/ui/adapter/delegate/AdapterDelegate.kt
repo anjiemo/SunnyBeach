@@ -5,8 +5,8 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.ktx.OnItemClickListener
 import cn.cqautotest.sunnybeach.ktx.OnItemLongClickListener
-import com.chad.library.adapter.base.animation.AlphaInAnimation
-import com.chad.library.adapter.base.animation.BaseAnimation
+import com.chad.library.adapter4.animation.AlphaInAnimation
+import com.chad.library.adapter4.animation.ItemAnimator
 
 /**
  * author : A Lonely Cat
@@ -18,7 +18,7 @@ class AdapterDelegate {
 
     private var mOnItemClickListener: OnItemClickListener? = null
     private var mOnItemLongClickListener: OnItemLongClickListener? = null
-    var adapterAnimation: BaseAnimation? = null
+    var adapterAnimation: ItemAnimator? = null
     private var mLastPosition = -1
 
     fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
@@ -27,8 +27,8 @@ class AdapterDelegate {
 
     private fun addAnimation(holder: RecyclerView.ViewHolder) {
         if (holder.layoutPosition <= mLastPosition) return
-        val animation: BaseAnimation = adapterAnimation ?: AlphaInAnimation()
-        animation.animators(holder.itemView).forEach { startAnim(it) }
+        val animation: ItemAnimator = adapterAnimation ?: AlphaInAnimation()
+        startAnim(animation.animator(holder.itemView))
         mLastPosition = holder.layoutPosition
     }
 

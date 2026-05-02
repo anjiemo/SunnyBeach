@@ -4,20 +4,20 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.view.View
 import android.view.animation.Interpolator
-import com.chad.library.adapter.base.animation.BaseAnimation
+import com.chad.library.adapter4.animation.ItemAnimator
 import kotlin.math.pow
 import kotlin.math.sin
 
 /**
  * 自定义动画
  */
-class CustomAnimation : BaseAnimation {
+class CustomAnimation : ItemAnimator {
 
-    override fun animators(view: View): Array<Animator> {
+    override fun animator(view: View): Animator {
         val translationX: Animator = ObjectAnimator.ofFloat(view, "translationX", -view.rootView.width.toFloat(), 0f)
         translationX.duration = 800
         translationX.interpolator = MyInterpolator()
-        return arrayOf(translationX)
+        return translationX
     }
 
     internal class MyInterpolator : Interpolator {

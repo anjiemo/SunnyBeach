@@ -32,6 +32,9 @@ import com.blankj.utilcode.util.ImageUtils
 import com.blankj.utilcode.util.IntentUtils
 import com.blankj.utilcode.util.PathUtils
 import com.blankj.utilcode.util.UriUtils
+import com.chad.library.adapter4.QuickAdapterHelper
+import com.chad.library.adapter4.loadState.LoadState
+import com.chad.library.adapter4.loadState.trailing.TrailingLoadStateAdapter
 import com.dylanc.longan.activity
 import com.dylanc.longan.context
 import com.dylanc.longan.windowInsetsControllerCompat
@@ -58,6 +61,7 @@ class GalleryActivity : AppActivity() {
 
     private val mBinding by viewBinding(GalleryActivityBinding::bind)
     private val mWallpaperAdapter = WallpaperAdapter()
+    private lateinit var mAdapterHelper: QuickAdapterHelper
     private val mPhotoList = arrayListOf<WallpaperBean.Res.Vertical>()
     private val mDiscoverViewModel by viewModels<DiscoverViewModel>()
     private var mCurrentPageIndex = 0
@@ -70,9 +74,10 @@ class GalleryActivity : AppActivity() {
         mBinding.root.windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.statusBars())
         // 隐藏底部导航栏
         mBinding.root.windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.navigationBars())
+        mAdapterHelper = QuickAdapterHelper.Builder(mWallpaperAdapter).build()
         mBinding.galleryViewPager2.apply {
             orientation = ViewPager2.ORIENTATION_VERTICAL
-            adapter = mWallpaperAdapter
+            adapter = mAdapterHelper.adapter
         }
     }
 
@@ -86,7 +91,7 @@ class GalleryActivity : AppActivity() {
             addAll(cacheVerticalPhotoList)
         }
         mCurrentPageIndex = mPhotoList.indexOfFirst { photoId == it.id }
-        mWallpaperAdapter.setList(mPhotoList)
+        mWallpaperAdapter.submitList(mPhotoList)
         mBinding.galleryViewPager2.setCurrentItem(mCurrentPageIndex, false)
     }
 
@@ -99,12 +104,15 @@ class GalleryActivity : AppActivity() {
         //         }
         //     }
         // }
-        mWallpaperAdapter.loadMoreModule.run {
-            setOnLoadMoreListener {
-                isEnableLoadMore = false
+        mAdapterHelper.trailingLoadStateAdapter?.setOnLoadMoreListener(object : TrailingLoadStateAdapter.OnTrailingListener {
+            override fun onLoad() {
                 mDiscoverViewModel.loadMorePhotoList()
             }
-        }
+
+            override fun onFailRetry() {
+                mDiscoverViewModel.loadMorePhotoList()
+            }
+        })
         mWallpaperAdapter.setOnItemClickListener { _, _ -> toggleStatus() }
         with(mBinding) {
             shareTv.setOnClickListener {
@@ -172,14 +180,10 @@ class GalleryActivity : AppActivity() {
     }
 
     override fun initObserver() {
-        val loadMoreModule = mWallpaperAdapter.loadMoreModule
         mDiscoverViewModel.verticalPhotoList.observe(this) { verticalPhotoList ->
             Timber.d(verticalPhotoList.toJson())
-            loadMoreModule.apply {
-                mWallpaperAdapter.addData(verticalPhotoList.toList())
-                isEnableLoadMore = true
-                loadMoreComplete()
-            }
+            mWallpaperAdapter.addAll(verticalPhotoList.toList())
+            mAdapterHelper.trailingLoadState = LoadState.NotLoading(false)
         }
     }
 
