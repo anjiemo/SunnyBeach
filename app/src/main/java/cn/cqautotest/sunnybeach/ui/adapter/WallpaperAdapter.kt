@@ -1,14 +1,14 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
+import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
+import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.module.LoadMoreModule
-import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.chad.library.adapter4.BaseQuickAdapter
+import com.chad.library.adapter4.viewholder.QuickViewHolder
 
 /**
  * author : A Lonely Cat
@@ -16,7 +16,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
  * time   : 2021/09/07
  * desc   : 图片浏览适配器
  */
-class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, BaseViewHolder>(R.layout.wallpaper_list_item), LoadMoreModule {
+class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, QuickViewHolder>(itemDiffCallback({ old, new -> old.id == new.id }, { old, new -> old == new })) {
 
     private var mItemClickListener: (verticalPhoto: WallpaperBean.Res.Vertical, position: Int) -> Unit =
         { _, _ -> }
@@ -31,7 +31,8 @@ class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, BaseViewHo
         mItemLongClickListener = listener
     }
 
-    override fun convert(holder: BaseViewHolder, item: WallpaperBean.Res.Vertical) {
+    override fun onBindViewHolder(holder: QuickViewHolder, position: Int, item: WallpaperBean.Res.Vertical?) {
+        item ?: return
         holder.run {
             val photoIv = getView<ImageView>(R.id.photoIv)
             val imageWidth = photoIv.width
@@ -47,15 +48,17 @@ class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, BaseViewHo
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .override(imageWidth, imageHeight)
                 .into(photoIv)
-            with(holder as RecyclerView.ViewHolder) {
-                itemView.setOnClickListener {
-                    mItemClickListener(item, bindingAdapterPosition)
-                }
-                itemView.setOnLongClickListener {
-                    mItemLongClickListener(item, bindingAdapterPosition)
-                    true
-                }
+            itemView.setOnClickListener {
+                mItemClickListener(item, holder.bindingAdapterPosition)
+            }
+            itemView.setOnLongClickListener {
+                mItemLongClickListener(item, holder.bindingAdapterPosition)
+                true
             }
         }
+    }
+
+    override fun onCreateViewHolder(context: android.content.Context, parent: ViewGroup, viewType: Int): QuickViewHolder {
+        return QuickViewHolder(R.layout.wallpaper_list_item, parent)
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.Log
@@ -17,7 +18,8 @@ import cn.cqautotest.sunnybeach.viewmodel.fishpond.FishPondViewModel
 import cn.cqautotest.sunnybeach.widget.StatusLayout
 import cn.cqautotest.sunnybeach.widget.recyclerview.UniversalSpaceDecoration
 import com.blankj.utilcode.util.DeviceUtils
-import com.chad.library.adapter.base.module.BaseDraggableModule
+import com.chad.library.adapter4.QuickAdapterHelper
+import com.chad.library.adapter4.dragswipe.QuickDragAndSwipe
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
@@ -37,6 +39,7 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
     private lateinit var mStatusLayout: StatusLayout
     private lateinit var mRefreshLayout: SmartRefreshLayout
     private val mFishPondAdapter = FishPondAdapter()
+    private lateinit var mAdapterHelper: QuickAdapterHelper
 
     override fun getLayoutId(): Int = R.layout.fish_pond_setting_activity
 
@@ -54,7 +57,7 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
         }
         showComplete()
         Timber.d("topic is $fishFishPondTopicList")
-        mFishPondAdapter.setList(fishFishPondTopicList)
+        mFishPondAdapter.submitList(fishFishPondTopicList)
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
@@ -77,14 +80,16 @@ class FishPondSettingActivity : AppActivity(), StatusAction, OnRefreshListener {
     override fun initView() {
         mStatusLayout = mBinding.hlFishPondHint
         mRefreshLayout = mBinding.rlStatusRefresh
+        val dragAndSwipe = QuickDragAndSwipe()
+            .setDragMoveFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+        mAdapterHelper = QuickAdapterHelper.Builder(mFishPondAdapter)
+            .build()
         mBinding.rvFishPondLabelsList.apply {
             // 如果是平板则展示两列，否则展示一列
             val spanCount = if (DeviceUtils.isTablet()) 6 else 3
             layoutManager = GridLayoutManager(this@FishPondSettingActivity, spanCount)
-            adapter = mFishPondAdapter
-            val draggableModule = BaseDraggableModule(mFishPondAdapter)
-            draggableModule.attachToRecyclerView(this)
-            draggableModule.isDragEnabled = true
+            adapter = mAdapterHelper.adapter
+            dragAndSwipe.attachToRecyclerView(this)
             addItemDecoration(UniversalSpaceDecoration(8.dp))
         }
     }
