@@ -1,6 +1,6 @@
 package cn.cqautotest.sunnybeach.util
 
-import android.net.Uri
+import androidx.core.net.toUri
 import java.util.regex.Pattern
 
 /**
@@ -133,8 +133,8 @@ object StringUtil {
      */
     fun isSameOrigin(firstUrl: String, secondUrl: String): Boolean {
         takeIf { firstUrl.isNotBlank() && firstUrl == secondUrl }?.let { return true }
-        val firstUri = Uri.parse(firstUrl)
-        val secondUri = Uri.parse(secondUrl)
+        val firstUri = firstUrl.toUri()
+        val secondUri = secondUrl.toUri()
         return firstUri.scheme == secondUri.scheme
                 && firstUri.host == secondUri.host
                 && firstUri.port == secondUri.port

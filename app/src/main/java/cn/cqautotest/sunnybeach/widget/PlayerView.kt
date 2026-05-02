@@ -13,11 +13,24 @@ import android.provider.Settings
 import android.provider.Settings.SettingNotFoundException
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.view.*
-import android.widget.*
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewConfiguration
+import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.TextView
+import android.widget.VideoView
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -29,7 +42,8 @@ import com.hjq.base.action.ActivityAction
 import com.hjq.widget.layout.SimpleLayout
 import com.hjq.widget.view.PlayButton
 import java.io.File
-import java.util.*
+import java.util.Formatter
+import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -342,7 +356,7 @@ class PlayerView @JvmOverloads constructor(
             if (translationY != -topLayout.height) {
                 return@AnimatorUpdateListener
             }
-            if (topLayout.visibility == INVISIBLE) {
+            if (topLayout.isInvisible) {
                 topLayout.visibility = VISIBLE
             }
         })
@@ -355,7 +369,7 @@ class PlayerView @JvmOverloads constructor(
             if (translationY != bottomLayout.height) {
                 return@AnimatorUpdateListener
             }
-            if (bottomLayout.visibility == INVISIBLE) {
+            if (bottomLayout.isInvisible) {
                 bottomLayout.visibility = VISIBLE
             }
         })
@@ -369,10 +383,10 @@ class PlayerView @JvmOverloads constructor(
             if (alpha != 0f) {
                 return@AnimatorUpdateListener
             }
-            if (lockView.visibility == INVISIBLE) {
+            if (lockView.isInvisible) {
                 lockView.visibility = VISIBLE
             }
-            if (controlView.visibility == INVISIBLE) {
+            if (controlView.isInvisible) {
                 controlView.visibility = VISIBLE
             }
         })
@@ -395,7 +409,7 @@ class PlayerView @JvmOverloads constructor(
             if (translationY != -topLayout.height) {
                 return@AnimatorUpdateListener
             }
-            if (topLayout.visibility == VISIBLE) {
+            if (topLayout.isVisible) {
                 topLayout.visibility = INVISIBLE
             }
         })
@@ -408,7 +422,7 @@ class PlayerView @JvmOverloads constructor(
             if (translationY != bottomLayout.height) {
                 return@AnimatorUpdateListener
             }
-            if (bottomLayout.visibility == VISIBLE) {
+            if (bottomLayout.isVisible) {
                 bottomLayout.visibility = INVISIBLE
             }
         })
@@ -422,10 +436,10 @@ class PlayerView @JvmOverloads constructor(
             if (alpha != 0f) {
                 return@AnimatorUpdateListener
             }
-            if (lockView.visibility == VISIBLE) {
+            if (lockView.isVisible) {
                 lockView.visibility = INVISIBLE
             }
-            if (controlView.visibility == VISIBLE) {
+            if (controlView.isVisible) {
                 controlView.visibility = INVISIBLE
             }
         })
@@ -830,11 +844,11 @@ class PlayerView @JvmOverloads constructor(
             progressView.progress = progress
             progressView.secondaryProgress = (videoView.bufferPercentage / 100f * videoView.duration).toInt()
             if (videoView.isPlaying) {
-                if (!lockMode && bottomLayout.visibility == GONE) {
+                if (!lockMode && bottomLayout.isGone) {
                     bottomLayout.visibility = VISIBLE
                 }
             } else {
-                if (bottomLayout.visibility == VISIBLE) {
+                if (bottomLayout.isVisible) {
                     bottomLayout.visibility = GONE
                 }
             }

@@ -3,7 +3,6 @@
 import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
@@ -138,12 +137,9 @@ class CameraActivity : AppActivity() {
             finish()
             return
         }
-        val imageUri: Uri? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        val imageUri: Uri? =
             // 通过 FileProvider 创建一个 Content 类型的 Uri 文件
             FileProvider.getUriForFile(this, AppConfig.getPackageName() + ".provider", file)
-        } else {
-            Uri.fromFile(file)
-        }
         // 对目标应用临时授权该 Uri 所代表的文件
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
         // 将拍取的照片保存到指定 Uri

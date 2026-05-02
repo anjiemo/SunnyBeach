@@ -1,13 +1,18 @@
 package com.hjq.base
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import android.view.MotionEvent
+import android.view.View
 import android.view.View.OnTouchListener
+import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.withStyledAttributes
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
@@ -102,10 +107,9 @@ open class BottomSheetDialog @JvmOverloads constructor(context: Context, themeRe
 
     private fun shouldWindowCloseOnTouchOutside(): Boolean {
         if (!canceledOnTouchOutsideSet) {
-            val array: TypedArray =
-                context.obtainStyledAttributes(intArrayOf(android.R.attr.windowCloseOnTouchOutside))
-            canceledOnTouchOutside = array.getBoolean(0, true)
-            array.recycle()
+            context.withStyledAttributes(attrs = intArrayOf(android.R.attr.windowCloseOnTouchOutside)) {
+                canceledOnTouchOutside = getBoolean(0, true)
+            }
             canceledOnTouchOutsideSet = true
         }
         return canceledOnTouchOutside

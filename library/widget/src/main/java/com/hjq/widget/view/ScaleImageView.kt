@@ -1,9 +1,9 @@
 package com.hjq.widget.view
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.withStyledAttributes
 import com.hjq.widget.R
 
 /**
@@ -20,9 +20,9 @@ class ScaleImageView @JvmOverloads constructor(
     private var scaleSize: Float = 1.2f
 
     init {
-        val array: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.ScaleImageView)
-        setScaleSize(array.getFloat(R.styleable.ScaleImageView_scaleRatio, scaleSize))
-        array.recycle()
+        context.withStyledAttributes(attrs, R.styleable.ScaleImageView) {
+            setScaleSize(getFloat(R.styleable.ScaleImageView_scaleRatio, scaleSize))
+        }
     }
 
     override fun dispatchSetPressed(pressed: Boolean) {

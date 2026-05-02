@@ -148,18 +148,16 @@ class UpdateDialog {
             val notificationId = getContext().applicationInfo.uid
             var channelId = ""
             // 适配 Android 8.0 通知渠道新特性
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val channel = NotificationChannel(
-                    getString(R.string.update_notification_channel_id),
-                    getString(R.string.update_notification_channel_name), NotificationManager.IMPORTANCE_LOW
-                )
-                channel.enableLights(false)
-                channel.enableVibration(false)
-                channel.vibrationPattern = longArrayOf(0)
-                channel.setSound(null, null)
-                notificationManager.createNotificationChannel(channel)
-                channelId = channel.id
-            }
+            val channel = NotificationChannel(
+                getString(R.string.update_notification_channel_id),
+                getString(R.string.update_notification_channel_name), NotificationManager.IMPORTANCE_LOW
+            )
+            channel.enableLights(false)
+            channel.enableVibration(false)
+            channel.vibrationPattern = longArrayOf(0)
+            channel.setSound(null, null)
+            notificationManager.createNotificationChannel(channel)
+            channelId = channel.id
             val notificationBuilder: NotificationCompat.Builder = NotificationCompat.Builder(getContext(), channelId)
                 // 设置通知时间
                 .setWhen(System.currentTimeMillis())
@@ -289,13 +287,8 @@ class UpdateDialog {
         private fun getInstallIntent(): Intent {
             val intent = Intent()
             intent.action = Intent.ACTION_VIEW
-            val uri: Uri?
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                uri = FileProvider.getUriForFile(getContext(), AppConfig.getPackageName() + ".provider", apkFile!!)
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-            } else {
-                uri = Uri.fromFile(apkFile)
-            }
+            val uri: Uri? = FileProvider.getUriForFile(getContext(), AppConfig.getPackageName() + ".provider", apkFile!!)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             intent.setDataAndType(uri, "application/vnd.android.package-archive")
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             return intent

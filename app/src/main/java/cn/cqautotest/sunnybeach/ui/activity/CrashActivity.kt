@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.graphics.Color
 import android.os.Build
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -17,6 +16,7 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.core.graphics.toColorInt
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
@@ -123,7 +123,7 @@ class CrashActivity : AppActivity() {
                 val end: Int = matcher.end() - ")".length
 
                 // 代码信息颜色
-                var codeColor: Int = Color.parseColor("#999999")
+                var codeColor: Int = "#999999".toColorInt()
                 val lineIndex: Int = stackTrace.lastIndexOf("at ", start)
                 if (lineIndex != -1) {
                     val lineData: String = spannable.subSequence(lineIndex, start).toString()
@@ -139,7 +139,7 @@ class CrashActivity : AppActivity() {
                         }
                     }
                     if (highlight) {
-                        codeColor = Color.parseColor("#287BDE")
+                        codeColor = "#287BDE".toColorInt()
                     }
                 }
 

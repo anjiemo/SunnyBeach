@@ -5,17 +5,37 @@ import android.app.Activity
 import android.app.Application.ActivityLifecycleCallbacks
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.SparseArray
-import android.view.*
-import android.widget.*
-import androidx.annotation.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.PopupWindow
+import android.widget.TextView
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.annotation.FloatRange
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
+import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.util.size
 import androidx.core.widget.PopupWindowCompat
-import com.hjq.base.action.*
+import com.hjq.base.action.ActivityAction
+import com.hjq.base.action.AnimAction
+import com.hjq.base.action.ClickAction
+import com.hjq.base.action.HandlerAction
+import com.hjq.base.action.KeyboardAction
+import com.hjq.base.action.ResourcesAction
 import java.lang.ref.SoftReference
 
 /**
@@ -574,14 +594,14 @@ open class BasePopupWindow constructor(private val context: Context) : PopupWind
                 popupWindow.isFocusable = focusable
                 popupWindow.isTouchable = touchable
                 popupWindow.isOutsideTouchable = outsideTouchable
-                popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                popupWindow.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
                 popupWindow.setOnShowListeners(showListeners)
                 popupWindow.setOnDismissListeners(dismissListeners)
                 popupWindow.setBackgroundDimAmount(backgroundDimAmount)
 
                 clickArray?.let { array ->
                     var i = 0
-                    while (i < array.size()) {
+                    while (i < array.size) {
                         contentView!!.findViewById<View?>(array.keyAt(i))
                             ?.setOnClickListener(ViewClickWrapper(popupWindow, array.valueAt(i)))
                         i++

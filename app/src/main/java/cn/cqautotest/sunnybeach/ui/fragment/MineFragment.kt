@@ -3,8 +3,8 @@ package cn.cqautotest.sunnybeach.ui.fragment
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.net.Uri
 import android.view.View
+import androidx.core.net.toUri
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.TitleBarFragment
 import cn.cqautotest.sunnybeach.ui.activity.AboutActivity
@@ -181,7 +181,7 @@ class MineFragment : TitleBarFragment<HomeActivity>() {
                                 try {
                                     val intent = Intent(Intent.ACTION_VIEW)
                                     intent.data =
-                                        Uri.parse("alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=https%3A%2F%2Fqr.alipay.com%2FFKX04202G4K6AVCF5GIY66%3F_s%3Dweb-other")
+                                        "alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=https%3A%2F%2Fqr.alipay.com%2FFKX04202G4K6AVCF5GIY66%3F_s%3Dweb-other".toUri()
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                     startActivity(intent)
                                 } catch (e: ActivityNotFoundException) {

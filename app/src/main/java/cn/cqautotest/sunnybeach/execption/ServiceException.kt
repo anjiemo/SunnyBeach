@@ -1,8 +1,5 @@
 package cn.cqautotest.sunnybeach.execption
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-
 class ServiceException : RuntimeException {
 
     constructor() : super()
@@ -29,7 +26,6 @@ class ServiceException : RuntimeException {
      *
      * @since 1.7
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     constructor(
         message: String,
         cause: Throwable,

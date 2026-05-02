@@ -2,8 +2,8 @@ package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
@@ -255,7 +255,7 @@ class MyMeFragment : TitleBarFragment<AppActivity>() {
     private fun joinQQGroup(key: String = "_ZSAyNbMN2gme8AxZuUoUhIGeFiD6XaU"): Boolean {
         val intent = Intent()
         intent.data =
-            Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26jump_from%3Dwebapi%26k%3D$key")
+            "mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26jump_from%3Dwebapi%26k%3D$key".toUri()
         // 此Flag可根据具体产品需要自定义，如设置，则在加群界面按返回，返回手Q主界面，不设置，按返回会返回到呼起产品界面
         // intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         return try {

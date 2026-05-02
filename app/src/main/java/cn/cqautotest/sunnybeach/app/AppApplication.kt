@@ -302,10 +302,8 @@ class AppApplication : Application(), Configuration.Provider {
             // 构造工作执行的约束条件
             val builder = Constraints.Builder() // 电池电量不低
                 .setRequiresBatteryNotLow(true)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // 设备处于空闲状态
-                builder.setRequiresDeviceIdle(true)
-            }
+            // 设备处于空闲状态
+            builder.setRequiresDeviceIdle(true)
             val constraints = builder.build()
             // 定期工作请求（间隔三天工作一次）
             val workRequest = PeriodicWorkRequest.Builder(CacheCleanupWorker::class.java, 3, TimeUnit.DAYS) // 设置约束条件

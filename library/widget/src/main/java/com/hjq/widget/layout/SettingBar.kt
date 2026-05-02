@@ -1,11 +1,9 @@
 package com.hjq.widget.layout
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
 import android.text.TextUtils
@@ -20,6 +18,8 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.content.withStyledAttributes
+import androidx.core.graphics.drawable.toDrawable
 import com.hjq.widget.R
 import com.hjq.base.R as BaseR
 
@@ -86,148 +86,148 @@ class SettingBar @JvmOverloads constructor(
             resources.getDimension(BaseR.dimen.dp_15).toInt(),
             resources.getDimension(BaseR.dimen.dp_12).toInt()
         )
-        val array: TypedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SettingBar)
+        getContext().withStyledAttributes(attrs, R.styleable.SettingBar) {
 
-        // 文本设置
-        if (array.hasValue(R.styleable.SettingBar_bar_leftText)) {
-            setLeftText(array.getString(R.styleable.SettingBar_bar_leftText))
-        }
-        if (array.hasValue(R.styleable.SettingBar_bar_rightText)) {
-            setRightText(array.getString(R.styleable.SettingBar_bar_rightText))
-        }
+            // 文本设置
+            if (hasValue(R.styleable.SettingBar_bar_leftText)) {
+                setLeftText(getString(R.styleable.SettingBar_bar_leftText))
+            }
+            if (hasValue(R.styleable.SettingBar_bar_rightText)) {
+                setRightText(getString(R.styleable.SettingBar_bar_rightText))
+            }
 
-        // 提示设置
-        if (array.hasValue(R.styleable.SettingBar_bar_leftTextHint)) {
-            setLeftTextHint(array.getString(R.styleable.SettingBar_bar_leftTextHint))
-        }
-        if (array.hasValue(R.styleable.SettingBar_bar_rightTextHint)) {
-            setRightTextHint(array.getString(R.styleable.SettingBar_bar_rightTextHint))
-        }
+            // 提示设置
+            if (hasValue(R.styleable.SettingBar_bar_leftTextHint)) {
+                setLeftTextHint(getString(R.styleable.SettingBar_bar_leftTextHint))
+            }
+            if (hasValue(R.styleable.SettingBar_bar_rightTextHint)) {
+                setRightTextHint(getString(R.styleable.SettingBar_bar_rightTextHint))
+            }
 
-        // 图标显示的大小
-        if (array.hasValue(R.styleable.SettingBar_bar_leftDrawableSize)) {
-            setLeftDrawableSize(
-                array.getDimensionPixelSize(
-                    R.styleable.SettingBar_bar_leftDrawableSize,
+            // 图标显示的大小
+            if (hasValue(R.styleable.SettingBar_bar_leftDrawableSize)) {
+                setLeftDrawableSize(
+                    getDimensionPixelSize(
+                        R.styleable.SettingBar_bar_leftDrawableSize,
+                        0
+                    )
+                )
+            }
+            if (hasValue(R.styleable.SettingBar_bar_rightDrawableSize)) {
+                setRightDrawableSize(
+                    getDimensionPixelSize(
+                        R.styleable.SettingBar_bar_rightDrawableSize,
+                        0
+                    )
+                )
+            }
+
+            // 图标着色器
+            if (hasValue(R.styleable.SettingBar_bar_leftDrawableTint)) {
+                setLeftDrawableTint(
+                    getColor(
+                        R.styleable.SettingBar_bar_leftDrawableTint,
+                        NO_COLOR
+                    )
+                )
+            }
+            if (hasValue(R.styleable.SettingBar_bar_rightDrawableTint)) {
+                setRightDrawableTint(
+                    getColor(
+                        R.styleable.SettingBar_bar_rightDrawableTint,
+                        NO_COLOR
+                    )
+                )
+            }
+
+            // 图标和文字之间的间距
+            setLeftDrawablePadding(
+                if (hasValue(R.styleable.SettingBar_bar_leftDrawablePadding)) getDimensionPixelSize(
+                    R.styleable.SettingBar_bar_leftDrawablePadding,
                     0
+                ) else resources.getDimension(BaseR.dimen.dp_10).toInt()
+            )
+            setRightDrawablePadding(
+                if (hasValue(R.styleable.SettingBar_bar_rightDrawablePadding))
+                    getDimensionPixelSize(R.styleable.SettingBar_bar_rightDrawablePadding, 0)
+                else
+                    resources.getDimension(BaseR.dimen.dp_10).toInt()
+            )
+
+            // 图标设置
+            if (hasValue(R.styleable.SettingBar_bar_leftDrawable)) {
+                setLeftDrawable(getDrawable(R.styleable.SettingBar_bar_leftDrawable))
+            }
+            if (hasValue(R.styleable.SettingBar_bar_rightDrawable)) {
+                setRightDrawable(getDrawable(R.styleable.SettingBar_bar_rightDrawable))
+            }
+
+            // 文字颜色设置
+            setLeftTextColor(
+                getColor(
+                    R.styleable.SettingBar_bar_leftTextColor,
+                    ContextCompat.getColor(getContext(), BaseR.color.black80)
                 )
             )
-        }
-        if (array.hasValue(R.styleable.SettingBar_bar_rightDrawableSize)) {
-            setRightDrawableSize(
-                array.getDimensionPixelSize(
-                    R.styleable.SettingBar_bar_rightDrawableSize,
-                    0
+            setRightTextColor(
+                getColor(
+                    R.styleable.SettingBar_bar_rightTextColor,
+                    ContextCompat.getColor(getContext(), BaseR.color.black60)
                 )
             )
-        }
 
-        // 图标着色器
-        if (array.hasValue(R.styleable.SettingBar_bar_leftDrawableTint)) {
-            setLeftDrawableTint(
-                array.getColor(
-                    R.styleable.SettingBar_bar_leftDrawableTint,
-                    NO_COLOR
+            // 文字大小设置
+            setLeftTextSize(
+                TypedValue.COMPLEX_UNIT_PX, getDimensionPixelSize(
+                    R.styleable.SettingBar_bar_leftTextSize, resources.getDimension(BaseR.dimen.sp_15).toInt()
+                ).toFloat()
+            )
+            setRightTextSize(
+                TypedValue.COMPLEX_UNIT_PX, getDimensionPixelSize(
+                    R.styleable.SettingBar_bar_rightTextSize, resources.getDimension(BaseR.dimen.sp_14).toInt()
+                ).toFloat()
+            )
+
+            // 分割线设置
+            if (hasValue(R.styleable.SettingBar_bar_lineDrawable)) {
+                setLineDrawable(getDrawable(R.styleable.SettingBar_bar_lineDrawable))
+            } else {
+                setLineDrawable(Color.parseColor("#ECECEC").toDrawable())
+            }
+            if (hasValue(R.styleable.SettingBar_bar_lineVisible)) {
+                setLineVisible(getBoolean(R.styleable.SettingBar_bar_lineVisible, true))
+            }
+            if (hasValue(R.styleable.SettingBar_bar_lineSize)) {
+                setLineSize(getDimensionPixelSize(R.styleable.SettingBar_bar_lineSize, 0))
+            }
+            if (hasValue(R.styleable.SettingBar_bar_lineMargin)) {
+                setLineMargin(getDimensionPixelSize(R.styleable.SettingBar_bar_lineMargin, 0))
+            }
+            if (background == null) {
+                val drawable = StateListDrawable()
+                drawable.addState(
+                    intArrayOf(android.R.attr.state_pressed),
+                    ContextCompat.getColor(getContext(), BaseR.color.black5).toDrawable()
                 )
-            )
-        }
-        if (array.hasValue(R.styleable.SettingBar_bar_rightDrawableTint)) {
-            setRightDrawableTint(
-                array.getColor(
-                    R.styleable.SettingBar_bar_rightDrawableTint,
-                    NO_COLOR
+                drawable.addState(
+                    intArrayOf(android.R.attr.state_selected),
+                    ContextCompat.getColor(getContext(), BaseR.color.black5).toDrawable()
                 )
-            )
-        }
+                drawable.addState(
+                    intArrayOf(android.R.attr.state_focused),
+                    ContextCompat.getColor(getContext(), BaseR.color.black5).toDrawable()
+                )
+                drawable.addState(
+                    intArrayOf(),
+                    ContextCompat.getColor(getContext(), BaseR.color.white).toDrawable()
+                )
+                background = drawable
 
-        // 图标和文字之间的间距
-        setLeftDrawablePadding(
-            if (array.hasValue(R.styleable.SettingBar_bar_leftDrawablePadding)) array.getDimensionPixelSize(
-                R.styleable.SettingBar_bar_leftDrawablePadding,
-                0
-            ) else resources.getDimension(BaseR.dimen.dp_10).toInt()
-        )
-        setRightDrawablePadding(
-            if (array.hasValue(R.styleable.SettingBar_bar_rightDrawablePadding))
-                array.getDimensionPixelSize(R.styleable.SettingBar_bar_rightDrawablePadding, 0)
-            else
-                resources.getDimension(BaseR.dimen.dp_10).toInt()
-        )
-
-        // 图标设置
-        if (array.hasValue(R.styleable.SettingBar_bar_leftDrawable)) {
-            setLeftDrawable(array.getDrawable(R.styleable.SettingBar_bar_leftDrawable))
+                // 必须要设置可点击，否则点击屏幕任何角落都会触发按压事件
+                isFocusable = true
+                isClickable = true
+            }
         }
-        if (array.hasValue(R.styleable.SettingBar_bar_rightDrawable)) {
-            setRightDrawable(array.getDrawable(R.styleable.SettingBar_bar_rightDrawable))
-        }
-
-        // 文字颜色设置
-        setLeftTextColor(
-            array.getColor(
-                R.styleable.SettingBar_bar_leftTextColor,
-                ContextCompat.getColor(getContext(), BaseR.color.black80)
-            )
-        )
-        setRightTextColor(
-            array.getColor(
-                R.styleable.SettingBar_bar_rightTextColor,
-                ContextCompat.getColor(getContext(), BaseR.color.black60)
-            )
-        )
-
-        // 文字大小设置
-        setLeftTextSize(
-            TypedValue.COMPLEX_UNIT_PX, array.getDimensionPixelSize(
-                R.styleable.SettingBar_bar_leftTextSize, resources.getDimension(BaseR.dimen.sp_15).toInt()
-            ).toFloat()
-        )
-        setRightTextSize(
-            TypedValue.COMPLEX_UNIT_PX, array.getDimensionPixelSize(
-                R.styleable.SettingBar_bar_rightTextSize, resources.getDimension(BaseR.dimen.sp_14).toInt()
-            ).toFloat()
-        )
-
-        // 分割线设置
-        if (array.hasValue(R.styleable.SettingBar_bar_lineDrawable)) {
-            setLineDrawable(array.getDrawable(R.styleable.SettingBar_bar_lineDrawable))
-        } else {
-            setLineDrawable(ColorDrawable(Color.parseColor("#ECECEC")))
-        }
-        if (array.hasValue(R.styleable.SettingBar_bar_lineVisible)) {
-            setLineVisible(array.getBoolean(R.styleable.SettingBar_bar_lineVisible, true))
-        }
-        if (array.hasValue(R.styleable.SettingBar_bar_lineSize)) {
-            setLineSize(array.getDimensionPixelSize(R.styleable.SettingBar_bar_lineSize, 0))
-        }
-        if (array.hasValue(R.styleable.SettingBar_bar_lineMargin)) {
-            setLineMargin(array.getDimensionPixelSize(R.styleable.SettingBar_bar_lineMargin, 0))
-        }
-        if (background == null) {
-            val drawable = StateListDrawable()
-            drawable.addState(
-                intArrayOf(android.R.attr.state_pressed),
-                ColorDrawable(ContextCompat.getColor(getContext(), BaseR.color.black5))
-            )
-            drawable.addState(
-                intArrayOf(android.R.attr.state_selected),
-                ColorDrawable(ContextCompat.getColor(getContext(), BaseR.color.black5))
-            )
-            drawable.addState(
-                intArrayOf(android.R.attr.state_focused),
-                ColorDrawable(ContextCompat.getColor(getContext(), BaseR.color.black5))
-            )
-            drawable.addState(
-                intArrayOf(),
-                ColorDrawable(ContextCompat.getColor(getContext(), BaseR.color.white))
-            )
-            background = drawable
-
-            // 必须要设置可点击，否则点击屏幕任何角落都会触发按压事件
-            isFocusable = true
-            isClickable = true
-        }
-        array.recycle()
         mainLayout.addView(leftView)
         mainLayout.addView(rightView)
         addView(mainLayout, 0)
@@ -429,7 +429,7 @@ class SettingBar @JvmOverloads constructor(
      * 设置分割线的颜色
      */
     fun setLineColor(@ColorInt color: Int): SettingBar = apply {
-        setLineDrawable(ColorDrawable(color))
+        setLineDrawable(color.toDrawable())
     }
 
     fun setLineDrawable(drawable: Drawable?): SettingBar = apply {

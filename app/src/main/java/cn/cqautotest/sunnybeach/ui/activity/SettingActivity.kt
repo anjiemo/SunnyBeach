@@ -2,13 +2,13 @@ package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.view.Gravity
 import android.view.View
 import android.webkit.CookieManager
 import android.widget.TextClock
 import androidx.activity.viewModels
 import androidx.core.graphics.toColorInt
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.MutableLiveData
@@ -255,7 +255,7 @@ class SettingActivity : AppActivity() {
                             try {
                                 val intent = Intent(
                                     Intent.ACTION_VIEW,
-                                    Uri.parse("alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=https%3A%2F%2Fqr.alipay.com%2FFKX051528LQJA7OWAZ76A4%3F_s%3Dweb-other")
+                                    "alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=https%3A%2F%2Fqr.alipay.com%2FFKX051528LQJA7OWAZ76A4%3F_s%3Dweb-other".toUri()
                                 )
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                 startActivity(intent)

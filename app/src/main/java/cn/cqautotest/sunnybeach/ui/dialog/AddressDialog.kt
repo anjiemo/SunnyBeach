@@ -1,7 +1,6 @@
 package cn.cqautotest.sunnybeach.ui.dialog
 
 import android.content.Context
-import android.graphics.Color
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
@@ -10,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
@@ -343,7 +343,7 @@ class AddressDialog {
             val textView = TextView(parent.context)
             textView.gravity = Gravity.CENTER_VERTICAL
             textView.setBackgroundResource(R.drawable.transparent_selector)
-            textView.setTextColor(Color.parseColor("#222222"))
+            textView.setTextColor("#222222".toColorInt())
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(com.hjq.base.R.dimen.sp_14))
             textView.layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,

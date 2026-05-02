@@ -1,9 +1,7 @@
 package cn.cqautotest.sunnybeach.other
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
@@ -11,6 +9,9 @@ import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import androidx.core.content.withStyledAttributes
+import androidx.core.graphics.toColorInt
+import androidx.core.view.isEmpty
 import com.scwang.smart.refresh.header.material.CircleImageView
 import com.scwang.smart.refresh.header.material.MaterialProgressDrawable
 import com.scwang.smart.refresh.layout.api.RefreshHeader
@@ -41,7 +42,7 @@ class MaterialHeader @JvmOverloads constructor(context: Context, attrs: Attribut
         /** 刷新球默认样式 */
         const val BALL_STYLE_DEFAULT: Int = 1
 
-        private val CIRCLE_BG_LIGHT: Int = Color.parseColor("#FAFAFA")
+        private val CIRCLE_BG_LIGHT: Int = "#FAFAFA".toColorInt()
         private const val MAX_PROGRESS_ANGLE: Float = 0.8f
     }
 
@@ -62,11 +63,11 @@ class MaterialHeader @JvmOverloads constructor(context: Context, attrs: Attribut
         minimumHeight = resources.getDimension(com.hjq.base.R.dimen.dp_100).toInt()
         progressDrawable = MaterialProgressDrawable(this)
         progressDrawable.setColorSchemeColors(
-            Color.parseColor("#0099CC"),
-            Color.parseColor("#FF4444"),
-            Color.parseColor("#669900"),
-            Color.parseColor("#AA66CC"),
-            Color.parseColor("#FF8800")
+            "#0099CC".toColorInt(),
+            "#FF4444".toColorInt(),
+            "#669900".toColorInt(),
+            "#AA66CC".toColorInt(),
+            "#FF8800".toColorInt()
         )
         circleView = CircleImageView(context, CIRCLE_BG_LIGHT)
         circleView.setImageDrawable(progressDrawable)
@@ -77,51 +78,50 @@ class MaterialHeader @JvmOverloads constructor(context: Context, attrs: Attribut
         bezierPaint = Paint()
         bezierPaint.isAntiAlias = true
         bezierPaint.style = Paint.Style.FILL
-        val typedArray: TypedArray =
-            context.obtainStyledAttributes(attrs, com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader)
-        showBezierWave =
-            typedArray.getBoolean(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_srlShowBezierWave, showBezierWave)
-        scrollableWhenRefreshing = typedArray.getBoolean(
-            com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_srlScrollableWhenRefreshing,
-            scrollableWhenRefreshing
-        )
-        bezierPaint.color = typedArray.getColor(
-            com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_srlPrimaryColor,
-            Color.parseColor("#11BBFF")
-        )
-        if (typedArray.hasValue(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_srlShadowRadius)) {
-            val radius: Int =
-                typedArray.getDimensionPixelOffset(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_srlShadowRadius, 0)
-            val color: Int = typedArray.getColor(
-                com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhShadowColor,
-                Color.parseColor("#000000")
+        context.withStyledAttributes(set = attrs, attrs = com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader) {
+            showBezierWave =
+                getBoolean(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_srlShowBezierWave, showBezierWave)
+            scrollableWhenRefreshing = getBoolean(
+                com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_srlScrollableWhenRefreshing,
+                scrollableWhenRefreshing
             )
-            bezierPaint.setShadowLayer(radius.toFloat(), 0f, 0f, color)
-            setLayerType(LAYER_TYPE_SOFTWARE, null)
-        }
-        showBezierWave =
-            typedArray.getBoolean(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhShowBezierWave, showBezierWave)
-        scrollableWhenRefreshing = typedArray.getBoolean(
-            com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhScrollableWhenRefreshing,
-            scrollableWhenRefreshing
-        )
-        if (typedArray.hasValue(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhPrimaryColor)) {
-            bezierPaint.color = typedArray.getColor(
-                com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhPrimaryColor,
-                Color.parseColor("#11BBFF")
+            bezierPaint.color = getColor(
+                com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_srlPrimaryColor,
+                "#11BBFF".toColorInt()
             )
-        }
-        if (typedArray.hasValue(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhShadowRadius)) {
-            val radius: Int =
-                typedArray.getDimensionPixelOffset(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhShadowRadius, 0)
-            val color: Int = typedArray.getColor(
-                com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhShadowColor,
-                Color.parseColor("#000000")
+            if (hasValue(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_srlShadowRadius)) {
+                val radius: Int =
+                    getDimensionPixelOffset(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_srlShadowRadius, 0)
+                val color: Int = getColor(
+                    com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhShadowColor,
+                    "#000000".toColorInt()
+                )
+                bezierPaint.setShadowLayer(radius.toFloat(), 0f, 0f, color)
+                setLayerType(LAYER_TYPE_SOFTWARE, null)
+            }
+            showBezierWave =
+                getBoolean(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhShowBezierWave, showBezierWave)
+            scrollableWhenRefreshing = getBoolean(
+                com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhScrollableWhenRefreshing,
+                scrollableWhenRefreshing
             )
-            bezierPaint.setShadowLayer(radius.toFloat(), 0f, 0f, color)
-            setLayerType(LAYER_TYPE_SOFTWARE, null)
+            if (hasValue(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhPrimaryColor)) {
+                bezierPaint.color = getColor(
+                    com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhPrimaryColor,
+                    "#11BBFF".toColorInt()
+                )
+            }
+            if (hasValue(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhShadowRadius)) {
+                val radius: Int =
+                    getDimensionPixelOffset(com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhShadowRadius, 0)
+                val color: Int = getColor(
+                    com.scwang.smart.refresh.header.material.R.styleable.MaterialHeader_mhShadowColor,
+                    "#000000".toColorInt()
+                )
+                bezierPaint.setShadowLayer(radius.toFloat(), 0f, 0f, color)
+                setLayerType(LAYER_TYPE_SOFTWARE, null)
+            }
         }
-        typedArray.recycle()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -134,7 +134,7 @@ class MaterialHeader @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        if (childCount == 0) {
+        if (isEmpty()) {
             return
         }
         val width: Int = measuredWidth

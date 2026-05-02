@@ -7,6 +7,7 @@ import android.view.View
 import android.view.View.OnLongClickListener
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.core.util.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hjq.base.action.ResourcesAction
@@ -79,12 +80,12 @@ abstract class BaseAdapter<VH : BaseAdapter<VH>.BaseViewHolder>(private val cont
             }
 
             // 设置条目子 View 点击事件
-            for (i in 0 until childClickListeners.size()) {
+            for (i in 0 until childClickListeners.size) {
                 findViewById<View>(childClickListeners.keyAt(i))?.setOnClickListener(this)
             }
 
             // 设置条目子 View 长按事件
-            for (i in 0 until childLongClickListeners.size()) {
+            for (i in 0 until childLongClickListeners.size) {
                 findViewById<View>(childLongClickListeners.keyAt(i))?.setOnLongClickListener(this)
             }
         }

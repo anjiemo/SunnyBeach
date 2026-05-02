@@ -11,6 +11,7 @@ import android.graphics.RectF
 import android.os.Build
 import android.util.AttributeSet
 import android.widget.RelativeLayout
+import androidx.core.content.withStyledAttributes
 import androidx.core.graphics.withClip
 import cn.cqautotest.sunnybeach.R
 
@@ -31,10 +32,10 @@ class RoundRelativeLayout @JvmOverloads constructor(
     private var isClipBackground = false
 
     init {
-        val ta = context.obtainStyledAttributes(attrs, R.styleable.RoundRelativeLayout)
-        mRadius = ta.getDimension(R.styleable.RoundRelativeLayout_rlRadius, 0f)
-        isClipBackground = ta.getBoolean(R.styleable.RoundRelativeLayout_rlClipBackground, true)
-        ta.recycle()
+        context.withStyledAttributes(attrs, R.styleable.RoundRelativeLayout) {
+            mRadius = getDimension(R.styleable.RoundRelativeLayout_rlRadius, 0f)
+            isClipBackground = getBoolean(R.styleable.RoundRelativeLayout_rlClipBackground, true)
+        }
         mPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
     }
 
@@ -78,10 +79,9 @@ class RoundRelativeLayout @JvmOverloads constructor(
 
     private fun draw28(canvas: Canvas) {
         if (isClipBackground) {
-            canvas.save()
-            canvas.clipPath(genPath())
-            super.draw(canvas)
-            canvas.restore()
+            canvas.withClip(genPath()) {
+                super.draw(this)
+            }
         } else {
             super.draw(canvas)
         }

@@ -3,8 +3,6 @@ package cn.cqautotest.sunnybeach.ui.activity
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
@@ -12,6 +10,8 @@ import android.view.ViewConfiguration
 import android.webkit.ConsoleMessage
 import android.webkit.WebView
 import android.widget.ProgressBar
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.net.toUri
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.Log
@@ -107,7 +107,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
                 val nickName = getString(NICK_NAME)
                 val avatar = getString(AVATAR_URL)
                 Timber.d("initData：===> openId is $openId nickName is $nickName avatar is $avatar")
-                Uri.parse(url)
+                url.toUri()
                     .buildUpon()
                     .appendQueryParameter("nickname", nickName ?: "游客")
                     .appendQueryParameter("avatar", avatar.orEmpty())
@@ -291,7 +291,7 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
         }
 
         override fun onReceivedIcon(view: WebView, icon: Bitmap?) {
-            icon?.let { setRightIcon(BitmapDrawable(resources, icon)) }
+            icon?.let { setRightIcon(icon.toDrawable(resources)) }
         }
 
         /**
