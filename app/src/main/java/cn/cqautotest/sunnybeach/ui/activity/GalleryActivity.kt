@@ -91,8 +91,9 @@ class GalleryActivity : AppActivity() {
             addAll(cacheVerticalPhotoList)
         }
         mCurrentPageIndex = mPhotoList.indexOfFirst { photoId == it.id }
-        mWallpaperAdapter.submitList(mPhotoList)
-        mBinding.galleryViewPager2.setCurrentItem(mCurrentPageIndex, false)
+        mWallpaperAdapter.submitList(mPhotoList) {
+            mBinding.galleryViewPager2.setCurrentItem(mCurrentPageIndex, false)
+        }
     }
 
     override fun initEvent() {
