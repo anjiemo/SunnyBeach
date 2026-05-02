@@ -127,20 +127,20 @@ private fun BlockedList(onItemClick: (userBlock: UserBlock) -> Unit, modifier: M
     val currUserId by remember { mutableStateOf(UserManager.loadCurrUserId()) }
 
     // 收集黑名单 Flow（自动响应数据变化，包括取消拉黑后）
-    val blockedUserList by userViewModel
-        .getBlockListDetailsByFlow(currUserId) // 直接监听 Flow
-        .flowOn(Dispatchers.IO)
-        .onStart {
-            blockedUserViewModel.setUserBlockLoadStatus(loadStatus = LoadStatus.Loading)
-        }
-        .onEach {
-            if (it.isEmpty()) {
-                blockedUserViewModel.setUserBlockLoadStatus(loadStatus = LoadStatus.Empty)
-            } else {
-                blockedUserViewModel.setUserBlockLoadStatus(loadStatus = LoadStatus.Success(it))
+    val blockedUserList by remember(currUserId) {
+        userViewModel.getBlockListDetailsByFlow(currUserId) // 直接监听 Flow
+            .flowOn(Dispatchers.IO)
+            .onStart {
+                blockedUserViewModel.setUserBlockLoadStatus(loadStatus = LoadStatus.Loading)
             }
-        }
-        .collectAsState(initial = emptyList())
+            .onEach {
+                if (it.isEmpty()) {
+                    blockedUserViewModel.setUserBlockLoadStatus(loadStatus = LoadStatus.Empty)
+                } else {
+                    blockedUserViewModel.setUserBlockLoadStatus(loadStatus = LoadStatus.Success(it))
+                }
+            }
+    }.collectAsState(initial = emptyList())
 
     // 缓存用户信息：key=userId，value=用户信息状态
     val userInfoCache = remember { mutableStateMapOf<String, UserInfoStatus>() }
