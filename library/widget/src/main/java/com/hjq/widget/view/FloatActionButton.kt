@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.view.isInvisible
 
 /**
  *    author : Android 轮子哥
@@ -42,7 +43,7 @@ class FloatActionButton @JvmOverloads constructor(
      * 显示悬浮球动画
      */
     private val showRunnable: Runnable = Runnable {
-        if (visibility == INVISIBLE) {
+        if (isInvisible) {
             visibility = VISIBLE
         }
         val valueAnimator: ValueAnimator = ValueAnimator.ofFloat(0f, 1f)
@@ -60,7 +61,7 @@ class FloatActionButton @JvmOverloads constructor(
      * 隐藏悬浮球动画
      */
     private val hideRunnable: Runnable = Runnable {
-        if (visibility == INVISIBLE) {
+        if (isInvisible) {
             return@Runnable
         }
         val valueAnimator: ValueAnimator = ValueAnimator.ofFloat(1f, 0f)

@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.withStyledAttributes
 import cn.cqautotest.sunnybeach.R
 
 /**
@@ -35,28 +36,28 @@ class ListMenuItemContainer @JvmOverloads constructor(
     val ivShare: ImageView by lazy { viewContainer.findViewById(R.id.iv_share) }
 
     init {
-        val ta = context.obtainStyledAttributes(attrs, R.styleable.ListMenuItemContainer)
-        val firstIcon = ta.getDrawable(R.styleable.ListMenuItemContainer_defaultFirstIcon)
-        val secondIcon = ta.getDrawable(R.styleable.ListMenuItemContainer_defaultSecondIcon)
-        val shareIcon = ta.getDrawable(R.styleable.ListMenuItemContainer_defaultShareIcon)
-        val firstText = ta.getString(R.styleable.ListMenuItemContainer_defaultFirstText)
-        val secondText = ta.getString(R.styleable.ListMenuItemContainer_defaultSecondText)
-        firstIcon?.let {
-            ivComment.setImageDrawable(firstIcon)
+        context.withStyledAttributes(set = attrs, attrs = R.styleable.ListMenuItemContainer) {
+            val firstIcon = getDrawable(R.styleable.ListMenuItemContainer_defaultFirstIcon)
+            val secondIcon = getDrawable(R.styleable.ListMenuItemContainer_defaultSecondIcon)
+            val shareIcon = getDrawable(R.styleable.ListMenuItemContainer_defaultShareIcon)
+            val firstText = getString(R.styleable.ListMenuItemContainer_defaultFirstText)
+            val secondText = getString(R.styleable.ListMenuItemContainer_defaultSecondText)
+            firstIcon?.let {
+                ivComment.setImageDrawable(firstIcon)
+            }
+            secondIcon?.let {
+                ivGreat.setImageDrawable(secondIcon)
+            }
+            shareIcon?.let {
+                ivShare.setImageDrawable(shareIcon)
+            }
+            firstText?.let {
+                tvComment.text = firstText
+            }
+            secondText?.let {
+                tvGreat.text = secondText
+            }
         }
-        secondIcon?.let {
-            ivGreat.setImageDrawable(secondIcon)
-        }
-        shareIcon?.let {
-            ivShare.setImageDrawable(shareIcon)
-        }
-        firstText?.let {
-            tvComment.text = firstText
-        }
-        secondText?.let {
-            tvGreat.text = secondText
-        }
-        ta.recycle()
         // 偷梁换柱，去掉一层布局嵌套
         (parent as? ViewGroup)?.let {
             val view = (viewContainer as ViewGroup).getChildAt(0)

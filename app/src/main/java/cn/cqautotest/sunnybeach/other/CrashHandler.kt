@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Process
+import androidx.core.content.edit
 import cn.cqautotest.sunnybeach.ui.activity.CrashActivity
 import cn.cqautotest.sunnybeach.ui.activity.RestartActivity
 import kotlin.system.exitProcess
@@ -50,7 +51,9 @@ class CrashHandler private constructor(private val application: Application) :
         val currentCrashTime: Long = System.currentTimeMillis()
         val lastCrashTime: Long = sharedPreferences.getLong(KEY_CRASH_TIME, 0)
         // 记录当前崩溃的时间，以便下次崩溃时进行比对
-        sharedPreferences.edit().putLong(KEY_CRASH_TIME, currentCrashTime).commit()
+        sharedPreferences.edit(commit = true) {
+            putLong(KEY_CRASH_TIME, currentCrashTime)
+        }
 
         // 致命异常标记：如果上次崩溃的时间距离当前崩溃小于 5 分钟，那么判定为致命异常
         val deadlyCrash: Boolean = currentCrashTime - lastCrashTime < 1000 * 60 * 5

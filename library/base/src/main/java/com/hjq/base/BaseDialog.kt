@@ -29,6 +29,7 @@ import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatDialog
 import androidx.core.content.ContextCompat
+import androidx.core.util.size
 import androidx.lifecycle.LifecycleOwner
 import com.hjq.base.action.ActivityAction
 import com.hjq.base.action.AnimAction
@@ -783,7 +784,7 @@ open class BaseDialog constructor(context: Context, @StyleRes themeResId: Int = 
 
                 clickArray?.let { array ->
                     var i = 0
-                    while (i < array.size()) {
+                    while (i < array.size) {
                         contentView!!.findViewById<View?>(array.keyAt(i))?.setOnClickListener(ViewClickWrapper(dialog, array.valueAt(i)))
                         i++
                     }

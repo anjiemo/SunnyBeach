@@ -1,9 +1,9 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.webkit.WebView
+import androidx.core.net.toUri
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.action.StatusAction
 import cn.cqautotest.sunnybeach.aop.Log
@@ -113,7 +113,7 @@ class BrowserFragment : AppFragment<AppActivity>(), StatusAction, OnRefreshListe
          * 跳转到其他链接
          */
         override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-            val scheme: String = Uri.parse(url).scheme ?: return true
+            val scheme: String = url.toUri().scheme ?: return true
             when (scheme.lowercase(Locale.getDefault())) {
                 "http", "https" -> BrowserActivity.start(getAttachActivity()!!, url)
             }

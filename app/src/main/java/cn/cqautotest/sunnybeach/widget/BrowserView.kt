@@ -1,12 +1,10 @@
 package cn.cqautotest.sunnybeach.widget
 
-import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.net.http.SslError
-import android.os.Build
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.webkit.GeolocationPermissions
@@ -84,10 +82,8 @@ class BrowserView @JvmOverloads constructor(
         settings.loadsImagesAutomatically = true
         // 本地 DOM 存储（解决加载某些网页出现白板现象）
         settings.domStorageEnabled = true
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // 解决 Android 5.0 上 WebView 默认不允许加载 Http 与 Https 混合内容
-            settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-        }
+        // 解决 Android 5.0 上 WebView 默认不允许加载 Http 与 Https 混合内容
+        settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
 
         // 不显示滚动条
         isVerticalScrollBarEnabled = false
@@ -206,7 +202,6 @@ class BrowserView @JvmOverloads constructor(
         /**
          * 同名 API 兼容
          */
-        @TargetApi(Build.VERSION_CODES.M)
         override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
             if (request.isForMainFrame) {
                 onReceivedError(view, error.errorCode, error.description.toString(), request.url.toString())
@@ -255,15 +250,12 @@ class BrowserView @JvmOverloads constructor(
                 .setConfirm(R.string.common_web_call_phone_allow)
                 .setCancel(R.string.common_web_call_phone_reject)
                 .setCancelable(false)
-                .setListener(object : MessageDialog.OnListener {
-
-                    override fun onConfirm(dialog: BaseDialog?) {
-                        val intent = Intent(Intent.ACTION_DIAL)
-                        intent.data = Uri.parse(url)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        context.startActivity(intent)
-                    }
-                })
+                .setListener {
+                    val intent = Intent(Intent.ACTION_DIAL)
+                    intent.data = url.toUri()
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(intent)
+                }
                 .show()
         }
     }

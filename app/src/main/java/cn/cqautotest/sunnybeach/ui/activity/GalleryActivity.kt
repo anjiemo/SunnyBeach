@@ -10,6 +10,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.net.toUri
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -234,7 +235,7 @@ class GalleryActivity : AppActivity() {
     private fun getImageUri(): Uri {
         val imageUrl = getImageUrl()
         Timber.d("getImageUri：===> imageUrl is $imageUrl")
-        return Uri.parse(imageUrl)
+        return imageUrl.toUri()
     }
 
     private fun getCurrentVerticalPhotoBean() = mPhotoList[mBinding.galleryViewPager2.currentItem]

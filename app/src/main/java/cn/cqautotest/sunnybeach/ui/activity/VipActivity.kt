@@ -1,7 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.activity
 
 import android.content.Intent
-import android.net.Uri
+import androidx.core.net.toUri
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.AppFragment
@@ -69,7 +69,7 @@ class VipActivity : AppActivity() {
      * 打开淘宝 APP
      */
     private fun openTaobaoApp() {
-        val uri = Uri.parse(SUNNY_BEACH_TAOBAO_SHOP_VIP)
+        val uri = SUNNY_BEACH_TAOBAO_SHOP_VIP.toUri()
         startActivity(Intent(Intent.ACTION_VIEW, uri).apply {
             setClassName("com.taobao.taobao", "com.taobao.tao.detail.activity.DetailActivity")
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

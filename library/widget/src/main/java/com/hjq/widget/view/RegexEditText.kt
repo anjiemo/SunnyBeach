@@ -1,12 +1,12 @@
 package com.hjq.widget.view
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.text.InputFilter
 import android.text.Spanned
 import android.text.TextUtils
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.content.withStyledAttributes
 import com.hjq.widget.R
 import java.util.regex.Pattern
 
@@ -49,21 +49,21 @@ open class RegexEditText @JvmOverloads constructor(
     private var pattern: Pattern? = null
 
     init {
-        val array: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.RegexEditText)
-        if (array.hasValue(R.styleable.RegexEditText_inputRegex)) {
-            setInputRegex(array.getString(R.styleable.RegexEditText_inputRegex))
-        } else if (array.hasValue(R.styleable.RegexEditText_regexType)) {
-            when (array.getInt(R.styleable.RegexEditText_regexType, 0)) {
-                0x01 -> setInputRegex(REGEX_MOBILE)
-                0x02 -> setInputRegex(REGEX_CHINESE)
-                0x03 -> setInputRegex(REGEX_ENGLISH)
-                0x04 -> setInputRegex(REGEX_NUMBER)
-                0x05 -> setInputRegex(REGEX_COUNT)
-                0x06 -> setInputRegex(REGEX_NAME)
-                0x07 -> setInputRegex(REGEX_NONNULL)
+        context.withStyledAttributes(attrs, R.styleable.RegexEditText) {
+            if (hasValue(R.styleable.RegexEditText_inputRegex)) {
+                setInputRegex(getString(R.styleable.RegexEditText_inputRegex))
+            } else if (hasValue(R.styleable.RegexEditText_regexType)) {
+                when (getInt(R.styleable.RegexEditText_regexType, 0)) {
+                    0x01 -> setInputRegex(REGEX_MOBILE)
+                    0x02 -> setInputRegex(REGEX_CHINESE)
+                    0x03 -> setInputRegex(REGEX_ENGLISH)
+                    0x04 -> setInputRegex(REGEX_NUMBER)
+                    0x05 -> setInputRegex(REGEX_COUNT)
+                    0x06 -> setInputRegex(REGEX_NAME)
+                    0x07 -> setInputRegex(REGEX_NONNULL)
+                }
             }
         }
-        array.recycle()
     }
 
     /**

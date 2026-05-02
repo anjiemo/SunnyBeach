@@ -1,10 +1,10 @@
 package com.hjq.widget.layout
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import androidx.core.content.withStyledAttributes
 import com.hjq.widget.R
 
 /**
@@ -96,22 +96,24 @@ class RatioFrameLayout @JvmOverloads constructor(
     }
 
     init {
-        val array: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.RatioFrameLayout)
-        val sizeRatio: String? = array.getString(R.styleable.RatioFrameLayout_sizeRatio)
-        if (!TextUtils.isEmpty(sizeRatio)) {
-            val arrays: Array<String> = sizeRatio!!.split(":").toTypedArray()
-            when (arrays.size) {
-                1 -> {
-                    widthRatio = arrays[0].toFloat()
-                    heightRatio = 1f
+        context.withStyledAttributes(attrs, R.styleable.RatioFrameLayout) {
+            val sizeRatio: String? = getString(R.styleable.RatioFrameLayout_sizeRatio)
+            if (!TextUtils.isEmpty(sizeRatio)) {
+                val arrays: Array<String> = sizeRatio!!.split(":").toTypedArray()
+                when (arrays.size) {
+                    1 -> {
+                        widthRatio = arrays[0].toFloat()
+                        heightRatio = 1f
+                    }
+
+                    2 -> {
+                        widthRatio = arrays[0].toFloat()
+                        heightRatio = arrays[1].toFloat()
+                    }
+
+                    else -> throw IllegalArgumentException("are you ok?")
                 }
-                2 -> {
-                    widthRatio = arrays[0].toFloat()
-                    heightRatio = arrays[1].toFloat()
-                }
-                else -> throw IllegalArgumentException("are you ok?")
             }
         }
-        array.recycle()
     }
 }

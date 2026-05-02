@@ -2,11 +2,11 @@ package cn.cqautotest.sunnybeach.widget
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.graphics.toColorInt
 
 /**
  *    author : Android 轮子哥
@@ -27,10 +27,10 @@ class PasswordView @JvmOverloads constructor
         private const val POINT_RADIUS: Int = 15
 
         /** 中心黑点的颜色 */
-        private val POINT_COLOR: Int = Color.parseColor("#666666")
+        private val POINT_COLOR: Int = "#666666".toColorInt()
 
         /** 密码框边界线的颜色值 */
-        private val STROKE_COLOR: Int = Color.parseColor("#ECECEC")
+        private val STROKE_COLOR: Int = "#ECECEC".toColorInt()
 
         /** 密码总个数 */
         const val PASSWORD_COUNT: Int = 6

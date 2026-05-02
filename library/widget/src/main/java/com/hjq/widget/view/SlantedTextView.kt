@@ -1,7 +1,6 @@
 ﻿package com.hjq.widget.view
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -18,6 +17,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import androidx.annotation.StringRes
+import androidx.core.content.withStyledAttributes
 import com.hjq.widget.R
 import kotlin.math.max
 import com.hjq.base.R as BaseR
@@ -70,20 +70,20 @@ class SlantedTextView @JvmOverloads constructor(
         backgroundPaint.isAntiAlias = true
         textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
         textPaint.isAntiAlias = true
-        val array: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.SlantedTextView)
-        setText(array.getString(R.styleable.SlantedTextView_android_text))
-        setTextSize(
-            TypedValue.COMPLEX_UNIT_PX, array.getDimensionPixelSize(
-                R.styleable.SlantedTextView_android_textSize,
-                resources.getDimension(BaseR.dimen.sp_12).toInt()
-            ).toFloat()
-        )
-        setTextColor(array.getColor(R.styleable.SlantedTextView_android_textColor, Color.WHITE))
-        setTextStyle(Typeface.defaultFromStyle(array.getInt(R.styleable.SlantedTextView_android_textStyle, Typeface.NORMAL)))
-        setGravity(array.getInt(R.styleable.SlantedTextView_android_gravity, Gravity.END))
-        setColorBackground(array.getColor(R.styleable.SlantedTextView_android_colorBackground, getAccentColor()))
-        setTriangle(array.getBoolean(R.styleable.SlantedTextView_triangle, false))
-        array.recycle()
+        context.withStyledAttributes(attrs, R.styleable.SlantedTextView) {
+            setText(getString(R.styleable.SlantedTextView_android_text))
+            setTextSize(
+                TypedValue.COMPLEX_UNIT_PX, getDimensionPixelSize(
+                    R.styleable.SlantedTextView_android_textSize,
+                    resources.getDimension(BaseR.dimen.sp_12).toInt()
+                ).toFloat()
+            )
+            setTextColor(getColor(R.styleable.SlantedTextView_android_textColor, Color.WHITE))
+            setTextStyle(Typeface.defaultFromStyle(getInt(R.styleable.SlantedTextView_android_textStyle, Typeface.NORMAL)))
+            setGravity(getInt(R.styleable.SlantedTextView_android_gravity, Gravity.END))
+            setColorBackground(getColor(R.styleable.SlantedTextView_android_colorBackground, getAccentColor()))
+            setTriangle(getBoolean(R.styleable.SlantedTextView_triangle, false))
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

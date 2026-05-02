@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.withSave
 import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.RegexUtils
 import com.google.zxing.BarcodeFormat
@@ -25,7 +26,7 @@ fun String.toQrCodeBitmapOrNull(
     if (isEmpty()) return null
     return try {
         val hints = Hashtable<EncodeHintType, Any>().apply {
-            put(EncodeHintType.CHARACTER_SET, "utf-8")
+            put(EncodeHintType.CHARACTER_SET, Charsets.UTF_8.name())
             put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H)
             put(EncodeHintType.MARGIN, margin)
         }
@@ -56,16 +57,16 @@ private fun addLogo(src: Bitmap, logo: Bitmap): Bitmap {
     val logoHeight = logo.height
     val scaleFactor = srcWidth * 1.0f / 5 / logoWidth
     return src.copy(Bitmap.Config.ARGB_8888, true).applyCanvas {
-        save()
-        scale(scaleFactor, scaleFactor, srcWidth / 2f, srcHeight / 2f)
-        drawBitmap(logo, (srcWidth - logoWidth) / 2f, (srcHeight - logoHeight) / 2f, null)
-        restore()
+        withSave {
+            scale(scaleFactor, scaleFactor, srcWidth / 2f, srcHeight / 2f)
+            drawBitmap(logo, (srcWidth - logoWidth) / 2f, (srcHeight - logoHeight) / 2f, null)
+        }
     }
 }
 
-fun String?.ifNullOrEmpty(defaultValue: () -> String): String = if (isNullOrEmpty()) defaultValue() else this!!
+fun String?.ifNullOrEmpty(defaultValue: () -> String): String = if (isNullOrEmpty()) defaultValue() else this
 
-fun String?.ifNullOrBlank(defaultValue: () -> String): String = if (isNullOrBlank()) defaultValue() else this!!
+fun String?.ifNullOrBlank(defaultValue: () -> String): String = if (isNullOrBlank()) defaultValue() else this
 
 fun String.notContains(other: CharSequence, ignoreCase: Boolean = false) = !contains(other, ignoreCase)
 
