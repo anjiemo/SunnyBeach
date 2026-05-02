@@ -93,6 +93,7 @@ androidxEspresso = "3.7.0"
 # 调试工具
 leakcanary = "2.14"
 glance = "1.1.0"
+leakcanaryVersion = "+"
 
 [libraries]
 # Gradle 插件依赖（用于 build-logic 模块）
@@ -247,6 +248,7 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 # 调试工具
 leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 glance = { group = "com.guolindev.glance", name = "glance", version.ref = "glance" }
+android-leakcanary = { group = "com.android.tools.studio.leakcanary", name = "leakcanary", version.ref = "leakcanaryVersion" }
 
 [plugins]
 # Android 插件
