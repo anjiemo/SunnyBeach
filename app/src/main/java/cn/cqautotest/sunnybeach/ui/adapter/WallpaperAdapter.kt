@@ -8,6 +8,8 @@ import cn.cqautotest.sunnybeach.ktx.itemDiffCallback
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
@@ -45,16 +47,16 @@ class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, QuickViewH
         item ?: return
         holder.run {
             val photoIv = getView<ImageView>(R.id.photoIv)
+            // 初始设置为 CENTER_CROP，保证转场瞬间与列表页 100% 一致，避免比例计算冲突
+            photoIv.scaleType = ImageView.ScaleType.CENTER_CROP
             photoIv.transitionName = item.id
-            val imageWidth = photoIv.width
-            val imageHeight = photoIv.height
 
-            // 缩略图请求：通常已经在列表页缓存，可以快速加载并用于触发动画
+            // 缩略图请求
             val thumbnailRequest = Glide.with(itemView)
                 .load(item.thumb)
                 .centerCrop()
-                .dontAnimate() // 缩略图本身不需要动画，避免干扰共享元素
-                .override(imageWidth, imageHeight)
+                .dontAnimate()
+                .format(DecodeFormat.PREFER_RGB_565)
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
                         mOnImageLoadListener?.invoke(holder.bindingAdapterPosition)
@@ -68,7 +70,6 @@ class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, QuickViewH
                         dataSource: DataSource,
                         isFirstResource: Boolean
                     ): Boolean {
-                        // 缩略图就绪，通知界面启动动画
                         mOnImageLoadListener?.invoke(holder.bindingAdapterPosition)
                         return false
                     }
@@ -78,9 +79,28 @@ class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, QuickViewH
             Glide.with(itemView)
                 .load(item.preview)
                 .thumbnail(thumbnailRequest)
-                .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade(300)) // 明确指定淡入淡出时长
-                .override(imageWidth, imageHeight)
+                .format(DecodeFormat.PREFER_RGB_565)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .transition(DrawableTransitionOptions.withCrossFade(300))
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
+                        // 加载失败也切换到 FIT_CENTER 确保至少能看到缩略图的全貌
+                        photoIv.scaleType = ImageView.ScaleType.FIT_CENTER
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        model: Any,
+                        target: Target<Drawable>,
+                        dataSource: DataSource,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        // 高清图就绪后，切换为 FIT_CENTER 以完整展示，此时转场动画已基本结束，不会产生冲突
+                        photoIv.scaleType = ImageView.ScaleType.FIT_CENTER
+                        return false
+                    }
+                })
                 .into(photoIv)
 
             itemView.setOnClickListener {
