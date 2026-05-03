@@ -1,6 +1,11 @@
 package cn.cqautotest.sunnybeach.ui.fragment
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
+import android.view.View
+import android.widget.ImageView
+import androidx.core.app.SharedElementCallback
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,6 +17,7 @@ import cn.cqautotest.sunnybeach.ktx.dp
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBannerBean
+import cn.cqautotest.sunnybeach.other.IntentKey
 import cn.cqautotest.sunnybeach.repository.Repository
 import cn.cqautotest.sunnybeach.ui.activity.GalleryActivity
 import cn.cqautotest.sunnybeach.ui.adapter.PhotoListAdapter
@@ -42,10 +48,17 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
         adapterAnimation = CustomAnimation()
     }
     private val mPhotoListAdapter = PhotoListAdapter(mAdapterDelegate)
+    private var mExitPosition = -1
+    private var mIsLoadingDetail = false
 
     override fun getPagingAdapter() = mPhotoListAdapter
 
     override fun getLayoutId(): Int = R.layout.discover_fragment
+
+    override fun onResume() {
+        super.onResume()
+        mIsLoadingDetail = false
+    }
 
     override fun initView() {
         super.initView()
@@ -59,6 +72,22 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
             layoutManager = GridLayoutManager(requireContext(), 2)
             addItemDecoration(UniversalSpaceDecoration(8.dp))
         }
+        setExitSharedElementCallback(object : SharedElementCallback() {
+            override fun onMapSharedElements(names: MutableList<String>, sharedElements: MutableMap<String, View>) {
+                if (mExitPosition != -1) {
+                    val viewHolder =
+                        mBinding.pagingRecyclerView.findViewHolderForAdapterPosition(mExitPosition) as? PhotoListAdapter.PhotoListViewHolder
+                    val sharedView = viewHolder?.itemView?.findViewById<ImageView>(R.id.photoIv)
+                    if (sharedView != null) {
+                        val item = mPhotoListAdapter.snapshot().items.getOrNull(mExitPosition)
+                        if (item != null) {
+                            sharedElements[item.id] = sharedView
+                        }
+                    }
+                    mExitPosition = -1
+                }
+            }
+        })
     }
 
     override suspend fun loadListData() {
@@ -72,8 +101,24 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
     override fun initEvent() {
         super.initEvent()
         mAdapterDelegate.setOnItemClickListener { view, position ->
+            if (mIsLoadingDetail) return@setOnItemClickListener
+            mIsLoadingDetail = true
             Repository.setPhotoIdList(mPhotoListAdapter.snapshot().items.toList())
             mPhotoListAdapter.snapshotList.getOrNull(position)?.let { GalleryActivity.smoothEntry(requireActivity(), it.id, view) }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1024 && resultCode == Activity.RESULT_OK && data != null) {
+            val index = data.getIntExtra(IntentKey.INDEX, -1)
+            if (index != -1) {
+                mExitPosition = index
+                mBinding.pagingRecyclerView.scrollToPosition(index)
+                mBinding.pagingRecyclerView.post {
+                    requireActivity().supportStartPostponedEnterTransition()
+                }
+            }
         }
     }
 
