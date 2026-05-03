@@ -7,13 +7,16 @@ import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.view.View
+import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.app.SharedElementCallback
 import androidx.core.net.toUri
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.aop.Log
@@ -36,6 +39,7 @@ import com.blankj.utilcode.util.UriUtils
 import com.chad.library.adapter4.QuickAdapterHelper
 import com.chad.library.adapter4.loadState.LoadState
 import com.chad.library.adapter4.loadState.trailing.TrailingLoadStateAdapter
+import com.chad.library.adapter4.viewholder.QuickViewHolder
 import com.dylanc.longan.activity
 import com.dylanc.longan.context
 import com.dylanc.longan.windowInsetsControllerCompat
@@ -49,8 +53,6 @@ import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
-import java.util.Random
-import kotlin.math.pow
 
 /**
  * author : A Lonely Cat
@@ -67,10 +69,17 @@ class GalleryActivity : AppActivity() {
     private val mDiscoverViewModel by viewModels<DiscoverViewModel>()
     private var mCurrentPageIndex = 0
     private var isShow = true
+    private var mIsTransitionStarted = false
 
     override fun getLayoutId() = R.layout.gallery_activity
 
     override fun initView() {
+        // 推迟过渡动画
+        supportPostponeEnterTransition()
+        // 增加超时保护，防止 ANR
+        mBinding.root.postDelayed({
+            safeStartPostponedEnterTransition()
+        }, 1000)
         // 隐藏状态栏
         mBinding.root.windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.statusBars())
         // 隐藏底部导航栏
@@ -80,6 +89,15 @@ class GalleryActivity : AppActivity() {
             orientation = ViewPager2.ORIENTATION_VERTICAL
             adapter = mAdapterHelper.adapter
         }
+        setEnterSharedElementCallback(object : SharedElementCallback() {
+            override fun onMapSharedElements(names: MutableList<String>, sharedElements: MutableMap<String, View>) {
+                val currentPhoto = mPhotoList.getOrNull(mBinding.galleryViewPager2.currentItem) ?: return
+                val recyclerView = mBinding.galleryViewPager2.getChildAt(0) as? RecyclerView ?: return
+                val viewHolder = recyclerView.findViewHolderForAdapterPosition(mBinding.galleryViewPager2.currentItem) as? QuickViewHolder ?: return
+                val sharedView = viewHolder.getView<ImageView>(R.id.photoIv)
+                sharedElements[currentPhoto.id] = sharedView
+            }
+        })
     }
 
     override fun initData() {
@@ -98,14 +116,16 @@ class GalleryActivity : AppActivity() {
     }
 
     override fun initEvent() {
-        // mBinding.galleryViewPager2.doPageSelected { position ->
-        //     mPhotoAdapter.getItemOrNull(position)?.let { wallpaperBean ->
-        //         val thumb = wallpaperBean.thumb
-        //         lifecycleScope.launchWhenCreated {
-        //             DownloadHelper.ofType<Bitmap>(context, thumb.toUri())?.let { fixStatusBar(it) }
-        //         }
-        //     }
-        // }
+        mWallpaperAdapter.setOnImageLoadListener { position ->
+            if (position == mCurrentPageIndex) {
+                safeStartPostponedEnterTransition()
+            }
+        }
+        mBinding.galleryViewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                mCurrentPageIndex = position
+            }
+        })
         mAdapterHelper.trailingLoadStateAdapter?.setOnLoadMoreListener(object : TrailingLoadStateAdapter.OnTrailingListener {
             override fun onLoad() {
                 mDiscoverViewModel.loadMorePhotoList()
@@ -249,9 +269,22 @@ class GalleryActivity : AppActivity() {
         mBinding.toolMenuGroup.isVisible = isShow
     }
 
-    companion object {
+    private fun safeStartPostponedEnterTransition() {
+        if (mIsTransitionStarted) return
+        mIsTransitionStarted = true
+        supportStartPostponedEnterTransition()
+    }
 
-        private const val SHARE_ELEMENT_NAME = "photo"
+    override fun finishAfterTransition() {
+        // 确保在退出前取消推迟，防止退出时卡顿或状态异常
+        safeStartPostponedEnterTransition()
+        val intent = Intent()
+        intent.putExtra(IntentKey.INDEX, mCurrentPageIndex)
+        setResult(RESULT_OK, intent)
+        super.finishAfterTransition()
+    }
+
+    companion object {
 
         @JvmStatic
         @Log
@@ -270,12 +303,12 @@ class GalleryActivity : AppActivity() {
             val aos = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 activity,
                 shareElement,
-                SHARE_ELEMENT_NAME
+                id
             )
             val intent = Intent(activity, GalleryActivity::class.java)
             intent.putExtra(IntentKey.ID, id)
             // 请求码必须在 2 的 16 次方以内
-            val requestCode = Random().nextInt(2.0.pow(16.0).toInt())
+            val requestCode = 1024
             ActivityCompat.startActivityForResult(activity, intent, requestCode, aos.toBundle())
         }
     }

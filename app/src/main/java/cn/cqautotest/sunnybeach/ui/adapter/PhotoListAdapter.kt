@@ -34,7 +34,7 @@ class PhotoListAdapter(private val adapterDelegate: AdapterDelegate) :
                     .into(photoIv)
                 itemView.setFixOnClickListener {
                     photoIv.transitionName = item.id
-                    adapterDelegate.onItemClick(it, bindingAdapterPosition)
+                    adapterDelegate.onItemClick(photoIv, bindingAdapterPosition)
                 }
                 itemView.setOnLongClickListener {
                     mItemLongClickListener.invoke(item, bindingAdapterPosition)
@@ -57,7 +57,6 @@ class PhotoListAdapter(private val adapterDelegate: AdapterDelegate) :
     }
 
     override fun onBindViewHolder(holder: PhotoListViewHolder, position: Int) {
-        holder.itemView.setOnClickListener { adapterDelegate.onItemClick(it, position) }
         holder.onBinding(getItem(position), position)
     }
 
