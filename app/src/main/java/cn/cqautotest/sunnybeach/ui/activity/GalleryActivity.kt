@@ -112,6 +112,13 @@ class GalleryActivity : AppActivity() {
                 val recyclerView = mBinding.galleryViewPager2.getChildAt(0) as? RecyclerView ?: return
                 val viewHolder = recyclerView.findViewHolderForAdapterPosition(mBinding.galleryViewPager2.currentItem) as? QuickViewHolder ?: return
                 val sharedView = viewHolder.getView<ImageView>(R.id.photoIv)
+
+                // 如果当前显示的 ID 与进入时的 ID 不同（发生了滑动），需要更新 names 列表
+                if (names.isNotEmpty() && names[0] != currentPhoto.id) {
+                    names.clear()
+                    names.add(currentPhoto.id)
+                }
+                sharedElements.clear()
                 sharedElements[currentPhoto.id] = sharedView
             }
         })
@@ -295,8 +302,15 @@ class GalleryActivity : AppActivity() {
     override fun finishAfterTransition() {
         // 确保在退出前取消推迟，防止退出时卡顿或状态异常
         safeStartPostponedEnterTransition()
+
+        val recyclerView = mBinding.galleryViewPager2.getChildAt(0) as? RecyclerView
+        val viewHolder = recyclerView?.findViewHolderForAdapterPosition(mBinding.galleryViewPager2.currentItem) as? QuickViewHolder
+        val sharedView = viewHolder?.getView<ImageView>(R.id.photoIv)
+        sharedView?.scaleType = ImageView.ScaleType.CENTER_CROP
+
         val intent = Intent()
-        intent.putExtra(IntentKey.INDEX, mCurrentPageIndex)
+        val currentPhoto = mPhotoList.getOrNull(mBinding.galleryViewPager2.currentItem)
+        intent.putExtra(IntentKey.ID, currentPhoto?.id)
         setResult(RESULT_OK, intent)
         super.finishAfterTransition()
     }

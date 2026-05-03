@@ -29,13 +29,13 @@ class PhotoListAdapter(private val adapterDelegate: AdapterDelegate) :
             item ?: return
             with(binding) {
                 photoIv.scaleType = ImageView.ScaleType.CENTER_CROP
+                photoIv.transitionName = item.id
                 Glide.with(itemView)
                     .load(item.thumb)
                     .thumbnail()
                     .centerCrop()
                     .into(photoIv)
                 itemView.setFixOnClickListener {
-                    photoIv.transitionName = item.id
                     adapterDelegate.onItemClick(photoIv, bindingAdapterPosition)
                 }
                 itemView.setOnLongClickListener {
