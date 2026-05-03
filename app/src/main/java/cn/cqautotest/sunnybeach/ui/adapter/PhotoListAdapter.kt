@@ -1,6 +1,7 @@
 package cn.cqautotest.sunnybeach.ui.adapter
 
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.databinding.PhotoListItemBinding
@@ -27,6 +28,7 @@ class PhotoListAdapter(private val adapterDelegate: AdapterDelegate) :
         fun onBinding(item: WallpaperBean.Res.Vertical?, position: Int) {
             item ?: return
             with(binding) {
+                photoIv.scaleType = ImageView.ScaleType.CENTER_CROP
                 Glide.with(itemView)
                     .load(item.thumb)
                     .thumbnail()

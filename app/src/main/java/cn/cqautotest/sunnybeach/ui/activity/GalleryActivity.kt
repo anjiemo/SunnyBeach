@@ -6,6 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
+import android.transition.ChangeBounds
+import android.transition.ChangeImageTransform
+import android.transition.ChangeTransform
+import android.transition.TransitionSet
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.viewModels
@@ -74,6 +78,17 @@ class GalleryActivity : AppActivity() {
     override fun getLayoutId() = R.layout.gallery_activity
 
     override fun initView() {
+        // 配置共享元素变换动画
+        window.sharedElementEnterTransition = TransitionSet().apply {
+            addTransition(ChangeBounds())
+            addTransition(ChangeTransform())
+            addTransition(ChangeImageTransform())
+        }
+        window.sharedElementReturnTransition = TransitionSet().apply {
+            addTransition(ChangeBounds())
+            addTransition(ChangeTransform())
+            addTransition(ChangeImageTransform())
+        }
         // 推迟过渡动画
         supportPostponeEnterTransition()
         // 增加超时保护，防止 ANR
@@ -88,6 +103,8 @@ class GalleryActivity : AppActivity() {
         mBinding.galleryViewPager2.apply {
             orientation = ViewPager2.ORIENTATION_VERTICAL
             adapter = mAdapterHelper.adapter
+            // 限制离屏缓存数量，防止 OOM
+            offscreenPageLimit = 1
         }
         setEnterSharedElementCallback(object : SharedElementCallback() {
             override fun onMapSharedElements(names: MutableList<String>, sharedElements: MutableMap<String, View>) {
