@@ -133,7 +133,29 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
         // 查找 ID 在当前列表中的位置以进行滚动
         val index = mPhotoListAdapter.snapshot().items.indexOfFirst { it.id == id }
         if (index != -1) {
-            mBinding.pagingRecyclerView.scrollToPosition(index)
+            val layoutManager = mBinding.pagingRecyclerView.layoutManager as? GridLayoutManager
+            layoutManager?.let {
+                val firstVisible = it.findFirstCompletelyVisibleItemPosition()
+                val lastVisible = it.findLastCompletelyVisibleItemPosition()
+                // 如果目标 item 不在完全可见范围内（即部分可见或完全不可见）
+                if (index !in firstVisible..lastVisible) {
+                    if (index < firstVisible) {
+                        // 如果在上方，滚动到顶部完全展示
+                        it.scrollToPositionWithOffset(index, 0)
+                    } else {
+                        // 如果在下方，滚动到刚好在底部完全展示
+                        val child = it.getChildAt(0)
+                        if (child != null) {
+                            val decoratedHeight = it.getDecoratedMeasuredHeight(child)
+                            // 考虑到 RecyclerView 的 padding 和 ItemDecoration 的间距
+                            val offset = mBinding.pagingRecyclerView.height - decoratedHeight - mBinding.pagingRecyclerView.paddingBottom
+                            it.scrollToPositionWithOffset(index, offset)
+                        } else {
+                            it.scrollToPosition(index)
+                        }
+                    }
+                }
+            }
         }
         // 最佳实践方案：使用 doOnPreDraw 监听视图树准备就绪
         // 这比使用固定时间的 postDelayed 更加安全且符合 Android 官方推荐的共享元素过渡规范
