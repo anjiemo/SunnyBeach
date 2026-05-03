@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
@@ -134,26 +135,11 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
         if (index != -1) {
             mBinding.pagingRecyclerView.scrollToPosition(index)
         }
-        // 无论是否需要滚动，都要在布局后尝试开始动画
-        mBinding.pagingRecyclerView.post {
-            // 检查目标 View 是否就绪
-            var found = false
-            for (i in 0 until mBinding.pagingRecyclerView.childCount) {
-                val child = mBinding.pagingRecyclerView.getChildAt(i)
-                val photoIv = child.findViewById<ImageView>(R.id.photoIv)
-                if (photoIv?.transitionName == id) {
-                    found = true
-                    break
-                }
-            }
-            if (found) {
-                requireActivity().supportStartPostponedEnterTransition()
-            } else {
-                // 如果滚动还未完成，增加最后的缓冲
-                mBinding.pagingRecyclerView.postDelayed({
-                    requireActivity().supportStartPostponedEnterTransition()
-                }, 100)
-            }
+        // 最佳实践方案：使用 doOnPreDraw 监听视图树准备就绪
+        // 这比使用固定时间的 postDelayed 更加安全且符合 Android 官方推荐的共享元素过渡规范
+        // 它确保在 RecyclerView 完成布局并准备好绘制的那一刻开始过渡动画
+        mBinding.pagingRecyclerView.doOnPreDraw {
+            requireActivity().supportStartPostponedEnterTransition()
         }
     }
 
