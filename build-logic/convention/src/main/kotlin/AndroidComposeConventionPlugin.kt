@@ -7,14 +7,13 @@ import cn.cqautotest.sunnybeach.androidExtension
 import cn.cqautotest.sunnybeach.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.dependencies
 
 class AndroidComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             // 应用 Kotlin Compose 编译器插件
-            apply(plugin = "org.jetbrains.kotlin.plugin.compose")
+            pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
 
             // 通用 Compose 配置
             androidExtension {

@@ -266,7 +266,8 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 # 注意：AndroidAOP 插件不在 Gradle Plugin Portal 中，必须在 buildscript 中配置
 
 # SunnyBeach 约定插件
-sunnybeach-android-application = { id = "sunnybeach.android.application", version = "unspecified" }
-sunnybeach-android-library = { id = "sunnybeach.android.library", version = "unspecified" }
-sunnybeach-android-compose = { id = "sunnybeach.android.compose", version = "unspecified" }
-sunnybeach-hilt = { id = "sunnybeach.hilt", version = "unspecified" }
+sunnybeach-android-application = { id = "sunnybeach.android.application" }
+sunnybeach-android-library = { id = "sunnybeach.android.library" }
+sunnybeach-android-compose = { id = "sunnybeach.android.compose" }
+sunnybeach-hilt = { id = "sunnybeach.hilt" }
+sunnybeach-project-config = { id = "sunnybeach.project.config" }

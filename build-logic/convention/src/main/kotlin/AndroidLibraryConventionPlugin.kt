@@ -9,7 +9,6 @@ import cn.cqautotest.sunnybeach.libs
 import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
@@ -17,7 +16,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             // 应用 Android Library 插件
-            apply(plugin = "com.android.library")
+            pluginManager.apply("com.android.library")
 
             // 配置 Android Library 扩展
             extensions.configure<LibraryExtension> {
