@@ -3,9 +3,6 @@
 
 import java.util.Properties
 
-// 导入配置文件
-apply(from = "configs.gradle.kts")
-
 // 读取版本配置
 val versionPropsFile = file("version.properties")
 val versionProps = Properties().apply {
@@ -38,6 +35,9 @@ buildscript {
 }
 
 plugins {
+    // 应用项目全局配置插件
+    id("sunnybeach.project.config")
+
     // Gradle 插件版本说明：https://developer.android.google.cn/studio/releases/gradle-plugin.html#updating-plugin
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false

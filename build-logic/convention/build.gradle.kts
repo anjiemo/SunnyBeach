@@ -58,5 +58,10 @@ gradlePlugin {
             id = "sunnybeach.hilt"
             implementationClass = "HiltConventionPlugin"
         }
+        // 项目全局配置约定插件
+        register("projectConfig") {
+            id = "sunnybeach.project.config"
+            implementationClass = "ProjectConfigConventionPlugin"
+        }
     }
 }
