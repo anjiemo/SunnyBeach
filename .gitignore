@@ -17,3 +17,17 @@ local.properties
 /app/gradle.properties
 /.kotlin/
 /build-logic/.kotlin/
+
+# Trellis
+.trellis/.developer
+.trellis/.current-task
+.trellis/.runtime/
+.trellis/.ralph-state.json
+.trellis/.plan-log
+.trellis/.agent-log
+.trellis/.session-id
+.trellis/*.tmp
+.trellis/.backup-*
+.trellis/*.new
+.trellis/.template-hashes.json
+.trellis/.version
