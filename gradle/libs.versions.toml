@@ -22,7 +22,7 @@ androidxPalette = "1.0.0"
 composeBom = "2026.05.01"
 
 # Material Design
-material = "1.13.0"
+material = "1.14.0"
 
 # Kotlin 协程
 kotlinxCoroutines = "1.10.2"
@@ -58,7 +58,7 @@ lottie = "6.7.1"
 smartRefresh = "3.0.0-alpha"
 circleIndicator = "2.1.6"
 banner = "2.2.3"
-baseRecyclerViewAdapter = "4.3.4"
+baseRecyclerViewAdapter = "4.4.0"
 expandableLayout = "2.9.2"
 basePopup = "3.2.1"
 xpopup = "2.10.0"
@@ -73,14 +73,14 @@ utilcodex = "1.31.1"
 luban = "1.1.8"
 vbpd = "2.0.4"
 longan = "1.1.1"
-easyWindow = "15.3"
+easyWindow = "15.6"
 
 easyFloat = "2.0.4"
 
 # Bugly
 bugly = "4.1.9.3"
 
-media3 = "1.10.0"
+media3 = "1.10.1"
 
 # 图表库
 mpAndroidChart = "v3.1.0"
