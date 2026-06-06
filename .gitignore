@@ -1,21 +1,55 @@
-.gradle
-.idea
-.cxx
-.externalNativeBuild
-build
-captures
+# Built application files
+*.apk
+*.ap_
 
-._*
-*.iml
-.DS_Store
+# Files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+build/
+generated/
+
+# Gradle cache
+.gradle
+
+# Local configuration file (sdk path, etc)
 local.properties
 
+# Android Studio / IntelliJ IDEA
+.idea
+*.iml
+.cxx
+.externalNativeBuild
+
+# Eclipse project files
+.classpath
+.project
+
+# macOS system files
+.DS_Store
+._*
+
+# Captures folder
+captures/
+
+# Sandbox stuff
+_sandbox
+
+# App-specific
 /app/release
 /app/preview
 /app/debug
 /app/release.jks
 /app/gradle.properties
-/.kotlin/
+
+# Kotlin
+.kotlin
 /build-logic/.kotlin/
 
 # Trellis
