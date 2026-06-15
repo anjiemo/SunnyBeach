@@ -50,13 +50,15 @@ extensions.configure<ApplicationExtension> {
 
     // Apk 签名的那些事：https://www.jianshu.com/p/a1f8e5896aa2
     signingConfigs {
-        if (storeFile != null && storePassword != null && keyAlias != null && keyPassword != null) {
+        if (!storeFile.isNullOrBlank() && !storePassword.isNullOrBlank() && !keyAlias.isNullOrBlank() && !keyPassword.isNullOrBlank()) {
             create("config") {
                 this.storeFile = file(storeFile)
                 this.storePassword = storePassword
                 this.keyAlias = keyAlias
                 this.keyPassword = keyPassword
             }
+        } else {
+            logger.warn("警告: 未在 gradle.properties 或命令行参数中配置完整的正式环境签名属性 (StoreFile, StorePassword, KeyAlias, KeyPassword)。'config' 签名配置未创建，构建 Release 包时将会失败！")
         }
     }
 
@@ -73,7 +75,9 @@ extensions.configure<ApplicationExtension> {
             // 代码混淆开关
             isMinifyEnabled = false
             // 签名信息配置
-            signingConfig = signingConfigs.getByName("config")
+            signingConfigs.findByName("config")?.let {
+                signingConfig = it
+            }
             // 添加清单占位符
             manifestPlaceholders["app_name"] = "阳光沙滩 Debug 版"
             // 调试模式下只保留一种架构的 so 库，提升打包速度
@@ -100,7 +104,9 @@ extensions.configure<ApplicationExtension> {
             // 代码混淆开关
             isMinifyEnabled = true
             // 签名信息配置
-            signingConfig = signingConfigs.getByName("config")
+            signingConfigs.findByName("config")?.let {
+                signingConfig = it
+            }
             // 添加清单占位符
             manifestPlaceholders["app_name"] = "@string/app_name"
             // 仅保留两种架构的 so 库，根据 Bugly 统计得出
@@ -150,6 +156,16 @@ extensions.configure<ApplicationExtension> {
         // 设置版本信息
         versionName = rootProject.extra["appVersionName"] as String
         versionCode = rootProject.extra["appVersionCode"] as Int
+    }
+
+    if (signingConfigs.findByName("config") == null) {
+        project.tasks.configureEach {
+            if (name == "preReleaseBuild") {
+                doFirst {
+                    throw GradleException("错误: Release 构建必须使用正式环境签名！请在 gradle.properties 或命令行参数中配置完整的正式环境签名属性 (StoreFile, StorePassword, KeyAlias, KeyPassword)。")
+                }
+            }
+        }
     }
 }
 
