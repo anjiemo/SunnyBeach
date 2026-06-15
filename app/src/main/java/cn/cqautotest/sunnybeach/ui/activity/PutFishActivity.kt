@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
-import cn.cqautotest.sunnybeach.app.AppApplication
 import cn.cqautotest.sunnybeach.databinding.ImageChooseItemBinding
 import cn.cqautotest.sunnybeach.databinding.PutFishActivityBinding
 import cn.cqautotest.sunnybeach.event.FlowBus
@@ -65,12 +64,9 @@ import kotlinx.coroutines.flow.retryWhen
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import top.zibin.luban.Luban
-import top.zibin.luban.OnCompressListener
+import top.zibin.luban.api.compressToFile
 import java.io.File
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * author : A Lonely Cat
@@ -277,7 +273,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                     // 服务器错误时，重试三次，每次间隔 100ms
                     .retryWhen { cause, attempt ->
                         val needRetry = (cause is ServiceException) && attempt < 3
-                        if (needRetry) delay(100L)
+                        if (needRetry) delay(100L.milliseconds)
                         needRetry
                     }
                     .catch { exceptionHandler.handleException(dispatcher, it) }
@@ -341,36 +337,13 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         }
     }
 
-    /**
-     * 根据原始图片文件路径压缩图片文件到指定路径
-     */
-    private suspend fun zipImageFile(imgFile: File): Result<File> = suspendCoroutine { con ->
-        // val unZipFileSize = Formatter.formatFileSize(this, imgFile.length())
-        // Timber.d("zipImageFile：===> unZipFileSize is $unZipFileSize")
-        Luban.with(AppApplication.getInstance())
-            .load(imgFile)
-            .ignoreBy(TIMES)
-            .filter { it.isNotBlank() }
-            .setTargetDir(PathUtils.getExternalAppCachePath())
-            .setCompressListener(object : OnCompressListener {
-
-                override fun onStart() {
-                    // 压缩开始前调用
-                    // Ignore this callback, because we don't want to do anything.
-                }
-
-                override fun onSuccess(file: File) {
-                    // val zippedFileSize = Formatter.formatFileSize(context, file.length())
-                    // Timber.d("zipImageFile：===> zippedFileSize is $zippedFileSize")
-                    con.resume(Result.success(file))
-                }
-
-                override fun onError(e: Throwable?) {
-                    con.resumeWithException(e ?: RuntimeException("图片压缩失败"))
-                    // 当压缩过程出现问题时调用
-                    e?.printStackTrace()
-                }
-            }).launch()
+    private suspend fun zipImageFile(imgFile: File): Result<File> {
+        val targetSizeInBytes = TIMES * 1024L
+        if (imgFile.length() <= targetSizeInBytes) {
+            return Result.success(imgFile)
+        }
+        val targetDir = File(PathUtils.getExternalAppCachePath())
+        return imgFile.compressToFile(targetDir)
     }
 
     override fun onSelected(data: MutableList<String>) {
