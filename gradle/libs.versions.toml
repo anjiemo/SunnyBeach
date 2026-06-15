@@ -70,7 +70,7 @@ gsonFactory = "10.5"
 timber = "5.0.1"
 mmkv = "2.4.0"
 utilcodex = "1.31.1"
-luban = "1.1.8"
+luban = "2.0.1"
 vbpd = "2.0.4"
 longan = "1.1.1"
 easyWindow = "15.6"
@@ -213,7 +213,7 @@ easyhttp = { group = "com.github.getActivity", name = "EasyHttp", version.ref = 
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 mmkv = { group = "com.tencent", name = "mmkv-static", version.ref = "mmkv" }
 utilcodex = { group = "com.blankj", name = "utilcodex", version.ref = "utilcodex" }
-luban = { group = "top.zibin", name = "Luban", version.ref = "luban" }
+luban = { group = "top.zibin", name = "luban", version.ref = "luban" }
 vbpd = { group = "dev.androidbroadcast.vbpd", name = "vbpd", version.ref = "vbpd" }
 longan = { group = "com.github.DylanCaiCoding.Longan", name = "longan", version.ref = "longan" }
 longan-design = { group = "com.github.DylanCaiCoding.Longan", name = "longan-design", version.ref = "longan" }
