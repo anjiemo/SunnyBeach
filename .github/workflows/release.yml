@@ -69,6 +69,7 @@ jobs:
             -PKeyPassword="${{ secrets.KEY_PASSWORD }}"
         env:
           GRADLE_OPTS: -Xmx2g -Dfile.encoding=UTF-8
+          CI_BUILD: "true"
           APP_VERSION_CODE: ${{ github.event.inputs.version_code || '' }}
           APP_VERSION_NAME: ${{ github.event.inputs.version_name || '' }}
 
