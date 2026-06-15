@@ -14,9 +14,11 @@ android {
     sourceSets {
         getByName("main") {
             // res 资源目录配置
-            res.srcDirs(
-                "src/main/res",
-                "src/main/res-sw"
+            res.directories.addAll(
+                listOf(
+                    "src/main/res",
+                    "src/main/res-sw"
+                )
             )
         }
     }
