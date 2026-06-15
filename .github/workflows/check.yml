@@ -1,0 +1,42 @@
+name: CI 编译检查
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+    paths-ignore:
+      - '**.md'
+      - '.trellis/**'
+  pull_request:
+    branches: [ "main", "dev" ]
+  workflow_dispatch:
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 JDK 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: 设置 Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: 授予 gradlew 执行权限
+        run: chmod +x gradlew
+
+      - name: 执行编译检查
+        run: ./gradlew :app:assembleDebug --stacktrace
+        env:
+          GRADLE_OPTS: -Xmx2g -Dfile.encoding=UTF-8
+          CI_BUILD: "true"
