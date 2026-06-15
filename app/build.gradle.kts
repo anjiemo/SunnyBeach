@@ -58,7 +58,10 @@ extensions.configure<ApplicationExtension> {
                 this.keyPassword = keyPassword
             }
         } else {
-            logger.warn("警告: 未在 gradle.properties 或命令行参数中配置完整的正式环境签名属性 (StoreFile, StorePassword, KeyAlias, KeyPassword)。'config' 签名配置未创建，构建 Release 包时将会失败！")
+            val isCiBuild = System.getenv("CI") != null || System.getenv("CI_BUILD") != null
+            if (!isCiBuild) {
+                logger.warn("警告: 未在 gradle.properties 或命令行参数中配置完整的正式环境签名属性 (StoreFile, StorePassword, KeyAlias, KeyPassword)。'config' 签名配置未创建，构建 Release 包时将会失败！")
+            }
         }
     }
 
