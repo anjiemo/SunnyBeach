@@ -12,8 +12,9 @@ pluginManagement {
             // Nothing to do.
         } else {
             // 国内镜像优先
+            // 阿里云云效仓库（Gradle 插件）：https://maven.aliyun.com/mvn/guide
             maven {
-                url = uri("https://maven.aliyun.com/repository/google")
+                url = uri("https://maven.aliyun.com/repository/gradle-plugin")
                 excludeUnmirrored()
             }
             maven {
@@ -21,14 +22,17 @@ pluginManagement {
                 excludeUnmirrored()
             }
             maven {
-                url = uri("https://maven.aliyun.com/repository/gradle-plugin")
-                excludeUnmirrored()
-            }
-            maven {
                 url = uri("https://repo.huaweicloud.com/repository/maven")
                 excludeUnmirrored()
             }
+            maven {
+                url = uri("https://maven.aliyun.com/repository/google")
+                excludeUnmirrored()
+            }
         }
+        gradlePluginPortal()
+        // MavenCentral 远程仓库：https://mvnrepository.com
+        mavenCentral()
         // 官方镜像备用
         google {
             content {
@@ -37,8 +41,6 @@ pluginManagement {
                 includeGroupByRegex("androidx.*")
             }
         }
-        mavenCentral()
-        gradlePluginPortal()
     }
 }
 
@@ -57,12 +59,13 @@ dependencyResolutionManagement {
             // Nothing to do.
         } else {
             // 国内镜像
+            // 阿里云云效仓库：https://maven.aliyun.com/mvn/guide
             maven {
-                url = uri("https://maven.aliyun.com/repository/google")
+                url = uri("https://maven.aliyun.com/repository/public")
                 excludeUnmirrored()
             }
             maven {
-                url = uri("https://maven.aliyun.com/repository/public")
+                url = uri("https://maven.aliyun.com/repository/google")
                 excludeUnmirrored()
             }
             // 华为开源镜像：https://mirrors.huaweicloud.com
@@ -71,6 +74,10 @@ dependencyResolutionManagement {
                 excludeUnmirrored()
             }
         }
+        // JitPack 远程仓库：https://jitpack.io
+        maven { url = uri("https://jitpack.io") }
+        // MavenCentral 远程仓库：https://mvnrepository.com
+        mavenCentral()
         // 官方镜像
         google {
             content {
@@ -79,9 +86,6 @@ dependencyResolutionManagement {
                 includeGroupByRegex("androidx.*")
             }
         }
-        mavenCentral()
-        // JitPack 远程仓库：https://jitpack.io
-        maven { url = uri("https://jitpack.io") }
     }
 }
 
