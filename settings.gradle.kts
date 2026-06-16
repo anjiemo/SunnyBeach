@@ -74,16 +74,24 @@ dependencyResolutionManagement {
                 excludeUnmirrored()
             }
         }
-        // JitPack 远程仓库：https://jitpack.io
-        maven { url = uri("https://jitpack.io") }
-        // MavenCentral 远程仓库：https://mvnrepository.com
-        mavenCentral()
-        // 官方镜像
+        // 官方仓库优先，避免 androidx 等依赖误走 JitPack 导致 CI 超时
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
                 includeGroupByRegex("com\\.google.*")
                 includeGroupByRegex("androidx.*")
+            }
+        }
+        // MavenCentral 远程仓库：https://mvnrepository.com
+        mavenCentral()
+        // JitPack 远程仓库：https://jitpack.io
+        // JitPack 仅解析 GitHub 托管的第三方库（getActivity、androidaop 等）
+        maven {
+            url = uri("https://jitpack.io")
+            content {
+                includeGroupByRegex("com\\.github\\..*")
+                includeGroup("io.github.flyjingfish")
+                includeGroup("com.guolindev.glance")
             }
         }
     }
