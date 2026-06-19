@@ -226,16 +226,16 @@ object AppConfigUtils {
 
             // 查找 name="app_name" 的 <string> 标签
             val appNameNode = xml.children().find {
-                // 1. 强制将 Any? 类型的迭代元素安全转换为 Node
+                // 强制将 Any? 类型的迭代元素安全转换为 Node
                 val node = it as? Node ?: return@find false
 
-                // 2. 现在 node.name() 和 node.attributes() 可以被识别
+                // 现在 node.name() 和 node.attributes() 可以被识别
                 node.name() == "string" && node.attributes()["name"] == "app_name"
             }
 
             // 返回节点内容，并去除可能的空格
             if (appNameNode != null) {
-                // 3. 对找到的元素进行最终类型转换并访问 text()
+                // 对找到的元素进行最终类型转换并访问 text()
                 (appNameNode as Node).text()?.trim()
             } else {
                 null

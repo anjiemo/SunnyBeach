@@ -224,8 +224,8 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
         val uploadedImages = arrayListOf<Pair<Int, String>>()
         lifecycleScope.launch {
             withContext(dispatcher) {
-                // 1、压缩图片
-                // 2、上传图片
+                // 压缩所选图片
+                // 将图片上传至服务器
                 // 阻塞当前协程，直到内部的协程结束任务或引发异常，以便我们在图片上传之前不会执行发布动态的操作
                 coroutineScope { zipAndUploadImages(dispatcher, images, uploadedImages, exceptionHandler) }
                 Timber.d("onRightClick：===> uploadedImages size is ${uploadedImages.size}")
@@ -235,7 +235,7 @@ class PutFishActivity : AppActivity(), ImageSelectActivity.OnPhotoSelectListener
                     // 有图片上传失败，取消当前协程
                     cancel()
                 }
-                // 3、发布摸鱼（需要按照选择的图片顺序进行排序，否则图片列表是乱序的）
+                // 发布动态内容（需严格按照选择的图片顺序排列，以防展示乱序）
                 withContext(Dispatchers.Main) {
                     putFish(content, uploadedImages.sortedBy { it.first }.map { it.second })
                 }

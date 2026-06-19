@@ -35,10 +35,10 @@ class WallpaperActivity : AppActivity() {
     }
 
     override fun onActivityReenter(resultCode: Int, data: Intent?) {
-        // 1. 立即推迟 Activity 动画（至关重要）
+        // 立即推迟 Activity 动画以确保共享元素平滑过渡
         supportPostponeEnterTransition()
         super.onActivityReenter(resultCode, data)
-        // 2. 转发给内部的 DiscoverFragment 处理滚动
+        // 转发给内部的 DiscoverFragment 处理滚动定位
         val fragment = supportFragmentManager.findFragmentById(R.id.wallpaper_fragment_container) as? DiscoverFragment
         fragment?.handleActivityReenter(resultCode, data)
     }

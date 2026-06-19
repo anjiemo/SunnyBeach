@@ -20,10 +20,10 @@ import cn.cqautotest.sunnybeach.R
  *
  * 该容器专为在 [RecyclerView] 列表嵌套场景下使用而设计。
  * 与传统的嵌套 RecyclerView 方案相比，它具有以下优势：
- * 1、**高性能**：自研轻量级视图复用机制，避免了 RecyclerView 繁重的滚动与回收逻辑，显著降低滑动卡顿。
- * 2、**智能截断**：自动计算容器宽度，当标签总宽度超过可用空间时，自动移除末尾标签并替换为“N+”或自定义的更多样式。
- * 3、**类型安全**：利用 Kotlin 闭包捕获泛型，在绑定标签时无需手动强转数据类型。
- * 4、**高度可定制**：通过 [TagViewAdapter] 接口，可自由定义普通标签与“更多”标签的 UI 表现和点击交互。
+ * - **高性能**：自研轻量级视图复用机制，避免了 RecyclerView 繁重的滚动与回收逻辑，显著降低滑动卡顿。
+ * - **智能截断**：自动计算容器宽度，当标签总宽度超过可用空间时，自动移除末尾标签并替换为“N+”或自定义的更多样式。
+ * - **类型安全**：利用 Kotlin 闭包捕获泛型，在绑定标签时无需手动强转数据类型。
+ * - **高度可定制**：通过 [TagViewAdapter] 接口，可自由定义普通标签与“更多”标签的 UI 表现和点击交互。
  *
  * 使用示例：
  * ```kotlin
@@ -116,14 +116,14 @@ class SingleLineTagContainer @JvmOverloads constructor(
     }
 
     private fun <T, VH : TagViewHolder> getOrCreateViewHolder(index: Int, adapter: TagViewAdapter<T, VH>): VH {
-        // 1. 尝试直接通过索引找现有的 View
+        // 尝试直接通过索引找现有的 View
         val child = if (index < childCount) getChildAt(index) else null
 
-        // 2. 如果有 View，尝试找 Holder
+        // 如果有 View，尝试找 Holder
         @Suppress("UNCHECKED_CAST")
         var holder = child?.getTag(R.id.tag_view_holder) as? VH
 
-        // 3. 这里的逻辑是关键：
+        // 这里的逻辑是关键：
         // 如果没有 Holder，或者现有的 View 是“更多”标签（占位错误），则需要创建
         if (holder == null || child == mMoreViewHolder?.itemView) {
             val newHolder = adapter.createViewHolder(mInflater, this)
@@ -161,14 +161,14 @@ class SingleLineTagContainer @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        // 1. 优先从 MeasureSpec 中获取真实宽度，而不是依赖 measuredWidth
+        // 优先从 MeasureSpec 中获取真实宽度，而不是依赖 measuredWidth
         val widthSize = MeasureSpec.getSize(widthMeasureSpec)
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
 
         // 如果父布局还没准备好宽度（通常在初次测量时），给一个暂时的宽
         val availableWidth = (widthSize - paddingLeft - paddingRight).coerceAtLeast(0)
 
-        // 2. 只有在宽度模式确定或宽度大于 0 时才运行闭包
+        // 只有在宽度模式确定或宽度大于 0 时才运行闭包
         val contentHeight = if (availableWidth > 0 || widthMode == MeasureSpec.UNSPECIFIED) {
             mMeasureLogic?.invoke(availableWidth) ?: 0
         } else 0
