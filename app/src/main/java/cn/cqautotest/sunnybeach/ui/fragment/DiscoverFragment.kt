@@ -128,17 +128,10 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
      * 处理共享元素返回逻辑
      */
     fun handleActivityReenter(resultCode: Int, data: Intent?) {
-        // 尝试从 Intent 中获取 ID，如果拿不到，我们也会在 onMapSharedElements 中尝试获取
         val id = data?.getStringExtra(IntentKey.ID) ?: mExitId ?: return
         mExitId = id
 
-        // 1. 强制展开 AppBarLayout 并强制请求布局。
-        // 这确保了后续滚动定位逻辑运行在“已知且稳定”的视图状态（完全展开）之上。
-        mBinding.appBar.setExpanded(true, false)
-        mBinding.root.requestLayout()
-
-        // 2. 延迟执行定位逻辑，让 CoordinatorLayout 的 Behavior 有时间处理布局位移，
-        // 从而彻底解决 AppBar 展开导致的 RecyclerView 顶部被裁切或重叠的问题。
+        // 延迟执行定位逻辑，确保 CoordinatorLayout 的 Behavior 完成布局位移处理
         mBinding.pagingRecyclerView.post {
             val index = mPhotoListAdapter.snapshot().items.indexOfFirst { it.id == id }
             if (index == RecyclerView.NO_POSITION) {
@@ -154,7 +147,7 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
             val firstVisible = layoutManager.findFirstCompletelyVisibleItemPosition()
             val lastVisible = layoutManager.findLastCompletelyVisibleItemPosition()
 
-            // 如果目标 item 已经在完全可见范围内，直接开始动画
+            // 目标视图已在完全可见范围内，直接开始过渡动画
             if (index in firstVisible..lastVisible) {
                 mBinding.pagingRecyclerView.doOnPreDraw {
                     requireActivity().supportStartPostponedEnterTransition()
@@ -162,14 +155,13 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
                 return@post
             }
 
-            // 如果不在完全可见范围内，需要滚动对齐
-            // 防止由于 CustomAnimation 导致转场动画漂移：提前跳过目标项及其周围项的入场动画
+            // 目标视图不可见时，跳过其入场动画以防止转场动画坐标偏移
             mAdapterDelegate.skipAnimationTo(index + 10)
             
-            // 第一步：先粗略滚动到目标 index 让 View 被创建
+            // 粗略滚动至目标位置以触发视图创建
             layoutManager.scrollToPosition(index)
             
-            // 第二步：嵌套 post 确保 ViewHolder 已就绪，进行像素级对齐
+            // 嵌套 post 确保 ViewHolder 构建完成，随后进行像素级对齐
             mBinding.pagingRecyclerView.post {
                 val targetView = layoutManager.findViewByPosition(index)
                 if (targetView != null) {
@@ -189,7 +181,7 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
                     layoutManager.scrollToPositionWithOffset(index, offset)
                 }
                 
-                // 最终定位后的绘制前开启过渡
+                // 定位完成后，在下一帧绘制前启动过渡动画
                 mBinding.pagingRecyclerView.doOnPreDraw {
                     requireActivity().supportStartPostponedEnterTransition()
                 }
