@@ -108,6 +108,7 @@ class GalleryActivity : AppActivity() {
         }
         setEnterSharedElementCallback(object : SharedElementCallback() {
             override fun onMapSharedElements(names: MutableList<String>, sharedElements: MutableMap<String, View>) {
+                sharedElements.clear()
                 val currentPhoto = mPhotoList.getOrNull(mBinding.galleryViewPager2.currentItem) ?: return
                 val recyclerView = mBinding.galleryViewPager2.getChildAt(0) as? RecyclerView ?: return
                 val viewHolder = recyclerView.findViewHolderForAdapterPosition(mBinding.galleryViewPager2.currentItem) as? QuickViewHolder ?: return
@@ -118,7 +119,6 @@ class GalleryActivity : AppActivity() {
                     names.clear()
                     names.add(currentPhoto.id)
                 }
-                sharedElements.clear()
                 sharedElements[currentPhoto.id] = sharedView
             }
         })

@@ -29,7 +29,11 @@ class WallpaperActivity : AppActivity() {
         setExitSharedElementCallback(object : SharedElementCallback() {
             override fun onMapSharedElements(names: MutableList<String>, sharedElements: MutableMap<String, View>) {
                 val fragment = supportFragmentManager.findFragmentById(R.id.wallpaper_fragment_container) as? DiscoverFragment
-                fragment?.onMapSharedElements(names, sharedElements)
+                if (fragment == null) {
+                    sharedElements.clear()
+                    return
+                }
+                fragment.onMapSharedElements(names, sharedElements)
             }
         })
     }

@@ -79,7 +79,10 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
      * 由 Activity 委托调用的共享元素映射
      */
     fun onMapSharedElements(names: MutableList<String>, sharedElements: MutableMap<String, View>) {
-        if (isUiInvalid) return
+        if (isUiInvalid) {
+            sharedElements.clear()
+            return
+        }
         // 如果 names 为空，说明没有共享元素
         if (names.isEmpty()) return
         // 关键：从 names 中获取目标 ID（由详情页传回）
