@@ -79,6 +79,7 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
      * 由 Activity 委托调用的共享元素映射
      */
     fun onMapSharedElements(names: MutableList<String>, sharedElements: MutableMap<String, View>) {
+        if (isUiInvalid) return
         // 如果 names 为空，说明没有共享元素
         if (names.isEmpty()) return
         // 关键：从 names 中获取目标 ID（由详情页传回）
@@ -127,11 +128,15 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
         val id = data?.getStringExtra(IntentKey.ID) ?: mExitId ?: return
         mExitId = id
 
+        if (isUiInvalid) {
+            activity?.supportStartPostponedEnterTransition()
+            return
+        }
+
         val recyclerView = mBinding.pagingRecyclerView
 
         // 延迟执行定位逻辑，确保 CoordinatorLayout 的 Behavior 完成布局位移处理
         recyclerView.post {
-            // 安全检查：如果 Fragment 已分离或 View 已销毁，则终止后续的 UI 操作
             if (isUiInvalid) {
                 activity?.supportStartPostponedEnterTransition()
                 return@post
