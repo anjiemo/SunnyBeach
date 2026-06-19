@@ -8,6 +8,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingTitleBarFragment
@@ -130,38 +131,69 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
         // 尝试从 Intent 中获取 ID，如果拿不到，我们也会在 onMapSharedElements 中尝试获取
         val id = data?.getStringExtra(IntentKey.ID) ?: mExitId ?: return
         mExitId = id
-        // 查找 ID 在当前列表中的位置以进行滚动
-        val index = mPhotoListAdapter.snapshot().items.indexOfFirst { it.id == id }
-        if (index != -1) {
-            val layoutManager = mBinding.pagingRecyclerView.layoutManager as? GridLayoutManager
-            layoutManager?.let {
-                val firstVisible = it.findFirstCompletelyVisibleItemPosition()
-                val lastVisible = it.findLastCompletelyVisibleItemPosition()
-                // 如果目标 item 不在完全可见范围内（即部分可见或完全不可见）
-                if (index !in firstVisible..lastVisible) {
-                    if (index < firstVisible) {
-                        // 如果在上方，滚动到顶部完全展示
-                        it.scrollToPositionWithOffset(index, 0)
+
+        // 1. 强制展开 AppBarLayout 并强制请求布局。
+        // 这确保了后续滚动定位逻辑运行在“已知且稳定”的视图状态（完全展开）之上。
+        mBinding.appBar.setExpanded(true, false)
+        mBinding.root.requestLayout()
+
+        // 2. 延迟执行定位逻辑，让 CoordinatorLayout 的 Behavior 有时间处理布局位移，
+        // 从而彻底解决 AppBar 展开导致的 RecyclerView 顶部被裁切或重叠的问题。
+        mBinding.pagingRecyclerView.post {
+            val index = mPhotoListAdapter.snapshot().items.indexOfFirst { it.id == id }
+            if (index == RecyclerView.NO_POSITION) {
+                requireActivity().supportStartPostponedEnterTransition()
+                return@post
+            }
+
+            val layoutManager = mBinding.pagingRecyclerView.layoutManager as? GridLayoutManager ?: run {
+                requireActivity().supportStartPostponedEnterTransition()
+                return@post
+            }
+
+            val firstVisible = layoutManager.findFirstCompletelyVisibleItemPosition()
+            val lastVisible = layoutManager.findLastCompletelyVisibleItemPosition()
+
+            // 如果目标 item 已经在完全可见范围内，直接开始动画
+            if (index in firstVisible..lastVisible) {
+                mBinding.pagingRecyclerView.doOnPreDraw {
+                    requireActivity().supportStartPostponedEnterTransition()
+                }
+                return@post
+            }
+
+            // 如果不在完全可见范围内，需要滚动对齐
+            // 防止由于 CustomAnimation 导致转场动画漂移：提前跳过目标项及其周围项的入场动画
+            mAdapterDelegate.skipAnimationTo(index + 10)
+            
+            // 第一步：先粗略滚动到目标 index 让 View 被创建
+            layoutManager.scrollToPosition(index)
+            
+            // 第二步：嵌套 post 确保 ViewHolder 已就绪，进行像素级对齐
+            mBinding.pagingRecyclerView.post {
+                val targetView = layoutManager.findViewByPosition(index)
+                if (targetView != null) {
+                    val spanCount = layoutManager.spanCount
+                    val row = index / spanCount
+                    val totalRows = (layoutManager.itemCount + spanCount - 1) / spanCount
+                    val isLastRow = row == totalRows - 1
+                    
+                    val decoratedHeight = layoutManager.getDecoratedMeasuredHeight(targetView)
+                    val offset = if (isLastRow) {
+                        mBinding.pagingRecyclerView.height - decoratedHeight - mBinding.pagingRecyclerView.paddingBottom
+                    } else if (row == 0) {
+                        mBinding.pagingRecyclerView.paddingTop
                     } else {
-                        // 如果在下方，滚动到刚好在底部完全展示
-                        val child = it.getChildAt(0)
-                        if (child != null) {
-                            val decoratedHeight = it.getDecoratedMeasuredHeight(child)
-                            // 考虑到 RecyclerView 的 padding 和 ItemDecoration 的间距
-                            val offset = mBinding.pagingRecyclerView.height - decoratedHeight - mBinding.pagingRecyclerView.paddingBottom
-                            it.scrollToPositionWithOffset(index, offset)
-                        } else {
-                            it.scrollToPosition(index)
-                        }
+                        (mBinding.pagingRecyclerView.height - decoratedHeight) / 2
                     }
+                    layoutManager.scrollToPositionWithOffset(index, offset)
+                }
+                
+                // 最终定位后的绘制前开启过渡
+                mBinding.pagingRecyclerView.doOnPreDraw {
+                    requireActivity().supportStartPostponedEnterTransition()
                 }
             }
-        }
-        // 最佳实践方案：使用 doOnPreDraw 监听视图树准备就绪
-        // 这比使用固定时间的 postDelayed 更加安全且符合 Android 官方推荐的共享元素过渡规范
-        // 它确保在 RecyclerView 完成布局并准备好绘制的那一刻开始过渡动画
-        mBinding.pagingRecyclerView.doOnPreDraw {
-            requireActivity().supportStartPostponedEnterTransition()
         }
     }
 
