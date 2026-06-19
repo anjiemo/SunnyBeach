@@ -21,6 +21,12 @@ class AdapterDelegate {
     var adapterAnimation: ItemAnimator? = null
     private var mLastPosition = -1
 
+    fun skipAnimationTo(position: Int) {
+        if (position > mLastPosition) {
+            mLastPosition = position
+        }
+    }
+
     fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
         addAnimation(holder)
     }

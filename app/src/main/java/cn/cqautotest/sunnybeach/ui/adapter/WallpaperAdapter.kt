@@ -47,8 +47,7 @@ class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, QuickViewH
         item ?: return
         holder.run {
             val photoIv = getView<ImageView>(R.id.photoIv)
-            // 初始设置为 CENTER_CROP，保证转场瞬间与列表页 100% 一致，避免比例计算冲突
-            photoIv.scaleType = ImageView.ScaleType.CENTER_CROP
+            photoIv.scaleType = ImageView.ScaleType.FIT_CENTER
             photoIv.transitionName = item.id
 
             // 缩略图请求
@@ -81,26 +80,6 @@ class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, QuickViewH
                 .thumbnail(thumbnailRequest)
                 .format(DecodeFormat.PREFER_RGB_565)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .transition(DrawableTransitionOptions.withCrossFade(300))
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
-                        // 加载失败也切换到 FIT_CENTER 确保至少能看到缩略图的全貌
-                        photoIv.scaleType = ImageView.ScaleType.FIT_CENTER
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        model: Any,
-                        target: Target<Drawable>,
-                        dataSource: DataSource,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        // 高清图就绪后，切换为 FIT_CENTER 以完整展示，此时转场动画已基本结束，不会产生冲突
-                        photoIv.scaleType = ImageView.ScaleType.FIT_CENTER
-                        return false
-                    }
-                })
                 .into(photoIv)
 
             itemView.setOnClickListener {

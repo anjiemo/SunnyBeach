@@ -1,4 +1,4 @@
-﻿package cn.cqautotest.sunnybeach.ui.activity
+package cn.cqautotest.sunnybeach.ui.activity
 
 import android.app.Activity
 import android.app.WallpaperManager
@@ -302,11 +302,6 @@ class GalleryActivity : AppActivity() {
     override fun finishAfterTransition() {
         // 确保在退出前取消推迟，防止退出时卡顿或状态异常
         safeStartPostponedEnterTransition()
-
-        val recyclerView = mBinding.galleryViewPager2.getChildAt(0) as? RecyclerView
-        val viewHolder = recyclerView?.findViewHolderForAdapterPosition(mBinding.galleryViewPager2.currentItem) as? QuickViewHolder
-        val sharedView = viewHolder?.getView<ImageView>(R.id.photoIv)
-        sharedView?.scaleType = ImageView.ScaleType.CENTER_CROP
 
         val intent = Intent()
         val currentPhoto = mPhotoList.getOrNull(mBinding.galleryViewPager2.currentItem)
