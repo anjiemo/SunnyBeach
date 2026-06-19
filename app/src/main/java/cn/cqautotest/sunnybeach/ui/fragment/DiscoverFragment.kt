@@ -14,6 +14,7 @@ import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.app.PagingTitleBarFragment
 import cn.cqautotest.sunnybeach.databinding.DiscoverFragmentBinding
 import cn.cqautotest.sunnybeach.ktx.dp
+import cn.cqautotest.sunnybeach.ktx.isUiInvalid
 import cn.cqautotest.sunnybeach.ktx.snapshotList
 import cn.cqautotest.sunnybeach.model.RefreshStatus
 import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBannerBean
@@ -126,16 +127,24 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
         val id = data?.getStringExtra(IntentKey.ID) ?: mExitId ?: return
         mExitId = id
 
+        val recyclerView = mBinding.pagingRecyclerView
+
         // 延迟执行定位逻辑，确保 CoordinatorLayout 的 Behavior 完成布局位移处理
-        mBinding.pagingRecyclerView.post {
-            val index = mPhotoListAdapter.snapshot().items.indexOfFirst { it.id == id }
-            if (index == RecyclerView.NO_POSITION) {
-                requireActivity().supportStartPostponedEnterTransition()
+        recyclerView.post {
+            // 安全检查：如果 Fragment 已分离或 View 已销毁，则终止后续的 UI 操作
+            if (isUiInvalid) {
+                activity?.supportStartPostponedEnterTransition()
                 return@post
             }
 
-            val layoutManager = mBinding.pagingRecyclerView.layoutManager as? GridLayoutManager ?: run {
-                requireActivity().supportStartPostponedEnterTransition()
+            val index = mPhotoListAdapter.snapshot().items.indexOfFirst { it.id == id }
+            if (index == RecyclerView.NO_POSITION) {
+                activity?.supportStartPostponedEnterTransition()
+                return@post
+            }
+
+            val layoutManager = recyclerView.layoutManager as? GridLayoutManager ?: run {
+                activity?.supportStartPostponedEnterTransition()
                 return@post
             }
 
@@ -144,8 +153,8 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
 
             // 目标视图已在完全可见范围内，直接开始过渡动画
             if (index in firstVisible..lastVisible) {
-                mBinding.pagingRecyclerView.doOnPreDraw {
-                    requireActivity().supportStartPostponedEnterTransition()
+                recyclerView.doOnPreDraw {
+                    activity?.supportStartPostponedEnterTransition()
                 }
                 return@post
             }
@@ -157,7 +166,12 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
             layoutManager.scrollToPosition(index)
             
             // 嵌套 post 确保 ViewHolder 构建完成，随后进行像素级对齐
-            mBinding.pagingRecyclerView.post {
+            recyclerView.post {
+                if (isUiInvalid) {
+                    activity?.supportStartPostponedEnterTransition()
+                    return@post
+                }
+
                 val targetView = layoutManager.findViewByPosition(index)
                 if (targetView != null) {
                     val spanCount = layoutManager.spanCount
@@ -167,18 +181,18 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
                     
                     val decoratedHeight = layoutManager.getDecoratedMeasuredHeight(targetView)
                     val offset = if (isLastRow) {
-                        mBinding.pagingRecyclerView.height - decoratedHeight - mBinding.pagingRecyclerView.paddingBottom
+                        recyclerView.height - decoratedHeight - recyclerView.paddingBottom
                     } else if (row == 0) {
-                        mBinding.pagingRecyclerView.paddingTop
+                        recyclerView.paddingTop
                     } else {
-                        (mBinding.pagingRecyclerView.height - decoratedHeight) / 2
+                        (recyclerView.height - decoratedHeight) / 2
                     }
                     layoutManager.scrollToPositionWithOffset(index, offset)
                 }
                 
                 // 定位完成后，在下一帧绘制前启动过渡动画
-                mBinding.pagingRecyclerView.doOnPreDraw {
-                    requireActivity().supportStartPostponedEnterTransition()
+                recyclerView.doOnPreDraw {
+                    activity?.supportStartPostponedEnterTransition()
                 }
             }
         }
