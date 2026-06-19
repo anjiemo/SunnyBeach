@@ -119,11 +119,6 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        // 共享元素返回逻辑已移至 handleActivityReenter
-    }
-
     /**
      * 处理共享元素返回逻辑
      */

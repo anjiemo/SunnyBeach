@@ -88,18 +88,6 @@ class AppBarLayoutBehavior(context: Context, attrs: AttributeSet?) : AppBarLayou
         return super.onStartNestedScroll(parent, child, directTargetChild, target, nestedScrollAxes, type)
     }
 
-    override fun onNestedPreScroll(
-        coordinatorLayout: CoordinatorLayout,
-        child: AppBarLayout,
-        target: View,
-        dx: Int,
-        dy: Int,
-        consumed: IntArray,
-        type: Int
-    ) {
-        super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type)
-    }
-
     override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout, child: AppBarLayout, target: View, type: Int) {
         super.onStopNestedScroll(coordinatorLayout, child, target, type)
         if (type == ViewCompat.TYPE_TOUCH) isTouchInProgress = false
