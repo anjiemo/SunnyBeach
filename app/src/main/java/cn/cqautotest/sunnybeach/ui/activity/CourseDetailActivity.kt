@@ -107,9 +107,9 @@ class CourseDetailActivity : PagingActivity() {
         lifecycleScope.launch {
             flow {
                 showDialog()
-                // 1、先校验是否有登录
+                // 校验用户登录状态
                 Repository.checkToken() ?: throw NotLoginException()
-                // 2、校验是否有购买该课程
+                // 验证当前用户是否已购买该课程
                 Repository.checkCourseHasBuy(courseId).getOrThrow()
                 emit(videoId)
             }.flowOn(Dispatchers.IO)

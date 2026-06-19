@@ -92,11 +92,11 @@ open class SuperPopupWindow @JvmOverloads constructor(
     }
 
     open fun detachFromWindow() {
-        // 1、清除焦点
+        // 清除焦点
         findFocus()?.clearFocus()
-        // 2、隐藏键盘
+        // 隐藏软键盘
         windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.ime())
-        // 3、从父容器中移除自己
+        // 从父容器中移除当前视图
         (parent as? ViewGroup)?.removeView(this)
     }
 
