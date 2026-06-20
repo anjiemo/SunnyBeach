@@ -7,8 +7,6 @@ import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.transition.ChangeBounds
-import android.transition.ChangeImageTransform
-import android.transition.ChangeTransform
 import android.transition.TransitionSet
 import android.view.View
 import android.widget.ImageView
@@ -81,13 +79,9 @@ class GalleryActivity : AppActivity() {
         // 配置共享元素变换动画
         window.sharedElementEnterTransition = TransitionSet().apply {
             addTransition(ChangeBounds())
-            addTransition(ChangeTransform())
-            addTransition(ChangeImageTransform())
         }
         window.sharedElementReturnTransition = TransitionSet().apply {
             addTransition(ChangeBounds())
-            addTransition(ChangeTransform())
-            addTransition(ChangeImageTransform())
         }
         // 推迟过渡动画
         supportPostponeEnterTransition()
@@ -142,7 +136,10 @@ class GalleryActivity : AppActivity() {
     override fun initEvent() {
         mWallpaperAdapter.setOnImageLoadListener { position ->
             if (position == mCurrentPageIndex) {
-                safeStartPostponedEnterTransition()
+                // 必须等待下一帧，确保 Glide 已将 Drawable 设入 ImageView 且 ViewPager 已完成 Layout
+                mBinding.galleryViewPager2.post {
+                    safeStartPostponedEnterTransition()
+                }
             }
         }
         mBinding.galleryViewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
