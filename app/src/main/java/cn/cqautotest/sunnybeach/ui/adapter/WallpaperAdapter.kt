@@ -55,7 +55,7 @@ class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, QuickViewH
                 .format(DecodeFormat.PREFER_RGB_565)
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
-                        mOnImageLoadListener?.invoke(position)
+                        mOnImageLoadListener?.invoke(holder.bindingAdapterPosition)
                         return false
                     }
 
@@ -66,7 +66,7 @@ class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, QuickViewH
                         dataSource: DataSource,
                         isFirstResource: Boolean
                     ): Boolean {
-                        mOnImageLoadListener?.invoke(position)
+                        mOnImageLoadListener?.invoke(holder.bindingAdapterPosition)
                         return false
                     }
                 })
