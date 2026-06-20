@@ -9,9 +9,7 @@ import cn.cqautotest.sunnybeach.model.wallpaper.WallpaperBean
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.chad.library.adapter4.BaseQuickAdapter
@@ -53,12 +51,11 @@ class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, QuickViewH
             // 缩略图请求
             val thumbnailRequest = Glide.with(itemView)
                 .load(item.thumb)
-                .centerCrop()
                 .dontAnimate()
                 .format(DecodeFormat.PREFER_RGB_565)
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
-                        mOnImageLoadListener?.invoke(holder.bindingAdapterPosition)
+                        mOnImageLoadListener?.invoke(position)
                         return false
                     }
 
@@ -69,17 +66,16 @@ class WallpaperAdapter : BaseQuickAdapter<WallpaperBean.Res.Vertical, QuickViewH
                         dataSource: DataSource,
                         isFirstResource: Boolean
                     ): Boolean {
-                        mOnImageLoadListener?.invoke(holder.bindingAdapterPosition)
+                        mOnImageLoadListener?.invoke(position)
                         return false
                     }
                 })
 
-            // 高清图请求
+            // 原图请求
             Glide.with(itemView)
                 .load(item.preview)
                 .thumbnail(thumbnailRequest)
-                .format(DecodeFormat.PREFER_RGB_565)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .centerCrop()
                 .into(photoIv)
 
             itemView.setOnClickListener {

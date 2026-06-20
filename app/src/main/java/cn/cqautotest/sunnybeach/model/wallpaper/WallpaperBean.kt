@@ -29,10 +29,18 @@ data class WallpaperBean(
             val favs: Int,
             @SerializedName("id")
             val id: String,
+
+            /**
+             * 高清图，1080P（1080 × 1920）
+             */
             @SerializedName("img")
             val img: String,
             @SerializedName("ncos")
             val ncos: Int,
+
+            /**
+             * 原图
+             */
             @SerializedName("preview")
             val preview: String,
             @SerializedName("rank")
@@ -45,6 +53,10 @@ data class WallpaperBean(
             val store: String,
             @SerializedName("tag")
             val tag: List<Any>,
+
+            /**
+             * 缩略图，540P（350 × 540）
+             */
             @SerializedName("thumb")
             val thumb: String,
             @SerializedName("url")
