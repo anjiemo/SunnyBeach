@@ -321,7 +321,7 @@ class AppApplication : Application(), Configuration.Provider {
                 .permissions(permissionList)
                 .request(object : PermissionCallback() {
 
-                    override fun onResult(grantedList: List<IPermission>, deniedList: List<IPermission>) {
+                    override fun onPermissionResult(grantedList: List<IPermission>, deniedList: List<IPermission>) {
                         val all = deniedList.isEmpty()
                         if (all) {
                             try {

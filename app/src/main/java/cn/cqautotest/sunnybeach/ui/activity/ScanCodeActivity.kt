@@ -132,7 +132,7 @@ class ScanCodeActivity : BarcodeCameraScanActivity() {
         }
     }
 
-    override fun onScanResultCallback(result: AnalyzeResult<MutableList<Barcode>>) {
+    override fun onScanResultCallback(result: AnalyzeResult<List<Barcode>>) {
         // 扫码结果回调，基类会自动处理停止扫描
         val barcode = result.result.firstOrNull()
         setResultAndFinish(barcode)
