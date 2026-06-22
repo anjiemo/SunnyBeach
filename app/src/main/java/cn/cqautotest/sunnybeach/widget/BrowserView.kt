@@ -345,7 +345,7 @@ class BrowserView @JvmOverloads constructor(
                             .permission(PermissionLists.getAccessCoarseLocationPermission())
                             .request(object : PermissionCallback() {
 
-                                override fun onResult(grantedList: List<IPermission>, deniedList: List<IPermission>) {
+                                override fun onPermissionResult(grantedList: List<IPermission>, deniedList: List<IPermission>) {
                                     val all = deniedList.isEmpty()
                                     if (all) {
                                         callback.invoke(origin, true, true)
@@ -377,7 +377,7 @@ class BrowserView @JvmOverloads constructor(
                 .permission(PermissionLists.getWriteExternalStoragePermission())
                 .request(object : PermissionCallback() {
 
-                    override fun onResult(grantedList: List<IPermission>, deniedList: List<IPermission>) {
+                    override fun onPermissionResult(grantedList: List<IPermission>, deniedList: List<IPermission>) {
                         val all = deniedList.isEmpty()
                         if (all) {
                             openSystemFileChooser(activity, params, callback)

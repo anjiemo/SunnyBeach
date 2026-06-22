@@ -4,7 +4,7 @@ agp = "9.2.1"
 kotlin = "2.3.21"
 ksp = "2.3.9"
 hilt = "2.59.2"
-androidAop = "2.7.5"
+androidAop = "2.7.6"
 
 # AndroidX 核心库
 androidxCore = "1.18.0"
@@ -28,7 +28,7 @@ material = "1.14.0"
 kotlinxCoroutines = "1.10.2"
 
 # 网络库
-okhttp = "5.3.2"
+okhttp = "5.4.0"
 recyclerview = "1.4.0"
 retrofit = "3.0.0"
 gson = "2.14.0"
@@ -44,7 +44,7 @@ umengShare = "7.3.7"
 wechatSdk = "6.8.34"
 
 # MLKit
-mlkitScan = "2.4.0"
+mlkitScan = "2.5.0"
 viewfinderview = "1.4.0"
 zxing = "3.5.4"
 
@@ -64,7 +64,7 @@ basePopup = "3.2.1"
 xpopup = "2.10.0"
 
 # 工具库
-xxPermissions = "28.2"
+xxPermissions = "28.3"
 easyHttp = "13.5"
 gsonFactory = "10.5"
 timber = "5.0.1"
@@ -73,7 +73,7 @@ utilcodex = "1.31.1"
 luban = "2.0.1"
 vbpd = "2.0.4"
 longan = "1.1.1"
-easyWindow = "15.6"
+easyWindow = "15.8"
 
 easyFloat = "2.0.4"
 

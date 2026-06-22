@@ -20,7 +20,7 @@ import com.hjq.toast.Toaster
  */
 abstract class PermissionCallback : OnPermissionCallback {
 
-    override fun onResult(grantedList: List<IPermission>, deniedList: List<IPermission>) {
+    override fun onPermissionResult(grantedList: List<IPermission>, deniedList: List<IPermission>) {
         if (deniedList.isNotEmpty()) {
             val activity = ActivityManager.getInstance().getTopActivity() ?: return
             val never = deniedList.any { permission -> permission.isDoNotAskAgainPermission(activity) }
