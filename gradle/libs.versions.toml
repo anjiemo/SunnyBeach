@@ -1,17 +1,17 @@
 [versions]
 # Gradle 和 Android 相关版本
 agp = "9.2.1"
-kotlin = "2.3.21"
+kotlin = "2.4.0"
 ksp = "2.3.9"
 hilt = "2.59.2"
 androidAop = "2.7.6"
 
 # AndroidX 核心库
-androidxCore = "1.18.0"
+androidxCore = "1.19.0"
 androidxAppcompat = "1.7.1"
 androidxActivity = "1.13.0"
 androidxFragment = "1.8.9"
-androidxLifecycle = "2.10.0"
+androidxLifecycle = "2.11.0"
 androidxRoom = "2.8.4"
 androidxPaging = "3.5.0"
 androidxNavigation = "2.9.8"
@@ -19,13 +19,13 @@ androidxWork = "2.11.2"
 androidxPalette = "1.0.0"
 
 # Compose 相关
-composeBom = "2026.05.01"
+composeBom = "2026.06.00"
 
 # Material Design
 material = "1.14.0"
 
 # Kotlin 协程
-kotlinxCoroutines = "1.10.2"
+kotlinxCoroutines = "1.11.0"
 
 # 网络库
 okhttp = "5.4.0"
@@ -35,10 +35,10 @@ gson = "2.14.0"
 
 # 图片加载
 glide = "5.0.7"
-coil = "3.4.0"
+coil = "3.5.0"
 
 # 友盟和微信
-umengCommon = "9.9.1"
+umengCommon = "9.9.2"
 umengAsms = "1.8.7.2"
 umengShare = "7.3.7"
 wechatSdk = "6.8.34"
@@ -99,6 +99,7 @@ leakcanaryVersion = "+"
 # Gradle 插件依赖（用于 build-logic 模块）
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-metadata-jvm = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "symbol-processing-gradle-plugin", version.ref = "ksp" }
 hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 

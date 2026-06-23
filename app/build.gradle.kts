@@ -373,6 +373,10 @@ dependencies {
     val qmuiArchVersion = "2.0.1"
     val ariaVersion = "3.8.16"
 
+
+    // 解决构建报错：`错误: [Hilt] Provided Metadata instance has version 2.4.0, while maximum supported version is 2.3.0. To support newer versions, update the kotlin-metadata-jvm library.: java.lang.IllegalArgumentException: Provided Metadata instance has version 2.4.0, while maximum supported version is 2.3.0. To support newer versions, update the kotlin-metadata-jvm library.`
+    ksp(libs.kotlin.metadata.jvm)
+
     // 协程和生命周期相关
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.process)
