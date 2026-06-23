@@ -167,6 +167,10 @@ class DiscoverFragment : PagingTitleBarFragment<AppActivity>() {
                 return@post
             }
 
+            val spanCount = layoutManager.spanCount
+            val row = index / spanCount
+            mBinding.appBar.setExpanded(row == 0, false)
+
             // 目标视图不可见时，跳过其入场动画以防止转场动画坐标偏移
             mAdapterDelegate.skipAnimationTo(index + 10)
             
