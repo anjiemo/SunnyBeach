@@ -23,7 +23,7 @@ SunnyBeach 是基于 [阳光沙滩社区开放 API](https://www.sunofbeach.net/)
 - **网络与通信**：[Retrofit](https://square.github.io/retrofit/)、OkHttp、EasyHttp
 - **持久化**：[Room](https://developer.android.google.cn/training/data-storage/room)
 - **图像加载**：[Glide](https://github.com/bumptech/glide)
-- **集成服务**：UmengSDK (友盟统计)、MiPush (小米推送)
+- **集成服务**：UmengSDK (友盟统计)
 
 ## Building & Development
 
