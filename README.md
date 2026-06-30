@@ -1,92 +1,69 @@
-# 阳光沙滩App
+# SunnyBeach Android
 
-#### 项目简介
+![Kotlin](https://img.shields.io/badge/Language-Kotlin-brightgreen.svg)
+![Android](https://img.shields.io/badge/Platform-Android-blue.svg)
+![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)
+![Stars](https://img.shields.io/github/stars/anjiemo/SunnyBeach.svg?style=social)
 
-该项目使用Kotlin、Java语言进行开发，采用MVVM架构 +
-Google [Jetpack](https://developer.android.google.cn/jetpack)组件搭建项目，主要使用阳光沙滩社区开放Api实现相关功能，正在持续更新中...
+SunnyBeach 是基于 [阳光沙滩社区开放 API](https://www.sunofbeach.net/) 开发的非官方/社区开源 Android 客户端。项目贯彻 **Kotlin First** 原则，遵循现代 Android 应用架构（Modern Android Architecture）最佳实践。
 
-#### 技术栈
+## Architecture & Tech Stack
 
-Kotlin、Glide、EasyHttp、Retrofit、OkHttp、BRVAH、XXPermissions、AndroidUtilCode、Room、UmengSDK、MiPush等...
+本项目采用模块化工程设计与经典的 **MVVM** 架构体系。
 
-#### 项目截图
+### Project Structure
+- `:app` - 应用主入口与宿主业务层。
+- `:library` - 沉淀的通用 UI 组件与基础核心功能封装。
+- `:build-logic` - (基于 Gradle KTS) 统一的构建逻辑与插件管理。
 
-[点击查看项目截图](./SCREENSHOTS.md)
+### Tech Stack
+- **语言**：[Kotlin](https://kotlinlang.org/) (100% Kotlin First)
+- **架构组件**：[Google Jetpack](https://developer.android.google.cn/jetpack) (ViewModel, LiveData 等)
+- **UI / 基础组件**：[BRVAH](https://github.com/CymChad/BaseRecyclerViewAdapterHelper) (列表适配器)、[XXPermissions](https://github.com/getActivity/XXPermissions) (权限管理)、AndroidUtilCode
+- **网络与通信**：[Retrofit](https://square.github.io/retrofit/)、OkHttp、EasyHttp
+- **持久化**：[Room](https://developer.android.google.cn/training/data-storage/room)
+- **图像加载**：[Glide](https://github.com/bumptech/glide)
+- **集成服务**：UmengSDK (友盟统计)、MiPush (小米推送)
 
-#### 项目体验
+## Building & Development
 
-* [蒲公英下载地址](https://www.pgyer.com/sob-app)
-  <br>
-  ![蒲公英渠道扫码下载](https://www.pgyer.com/app/qrcode/sob-app)
-  <br>
-* [蓝奏云下载地址](https://wwa.lanzoui.com/b02zz8dva)（密码：5qlt）
+### 1. Requirements
+- 推荐使用最新稳定版 **Android Studio**。
+- Git clone 本仓库后，请将 IDE 视图切换为 **Project** 模式。
 
-<br>
+### 2. Configuration (必备签名与密钥)
+为保障编译通过及核心服务运行，您需要配置签名文件与第三方开放凭证。
 
-#### 快速开始
+创建/修改项目根目录的配置文件：
+- **`app/gradle.properties`**：配置 App 签名信息。（项目中已内置测试用的 `AppSignature.jks`，可直接填入如下默认配置，且不会被提交到 Git）：
+  ```properties
+  StoreFile=AppSignature.jks
+  StorePassword=AndroidProject
+  KeyAlias=AndroidProject
+  KeyPassword=AndroidProject
+  ```
+- **`configs.gradle`**：配置第三方 SDK 的专属参数（如 `UMENG_APP_KEY`, `WX_APP_ID`, `WX_APP_SECRET`, `BUGLY_ID` 等）。
 
-- clone 本项目源码并使用 AndroidStudio 打开（建议从官网下载最新版本）
-- 将项目视图切换为 Project 视图
-- 复制您的 app 签名文件到 app 模块下
+配置完成后，点击 **Sync Now**，即可编译运行 `:app`。
 
-Tips：如果您还没有创建自己的 app 签名文件，请先生成自己的 app 签名文件。
+## Screenshots & Download
 
-不会生成 app 签名文件？[请点这里](https://www.jianshu.com/p/a1f8e5896aa2)
+> 预发布/测试版本的体验下载方式：
 
-如果您不想生成，那么建议您使用项目中的 AppSignature.jks 文件作为本项目的签名文件，并填写如下信息到 app 模块下的 gradle.properties 文件中。
+|                                                      蒲公英下载 (扫码或点击)                                                       | 蓝奏云下载 |
+|:------------------------------------------------------------------------------------------------------------------------:| :---: |
+| <img src="https://www.pgyer.com/app/qrcode/sob-app" alt="蒲公英下载" width="120" /> <br> [点击下载](https://www.pgyer.com/sob-app) | 密码：`5qlt` <br><br> [点击下载](https://wwa.lanzoui.com/b02zz8dva) |
 
-<br>
+完整的应用界面运行截图，请查阅 [SCREENSHOTS.md](./docs/SCREENSHOTS.md)。
 
-gradle.properties
+## Community & Support
 
-```properties
-StoreFile=AppSignature.jks
-StorePassword=AndroidProject
-KeyAlias=AndroidProject
-KeyPassword=AndroidProject
-```
-
-- 在 app 模块下创建 gradle.properties 文件并填写您的签名信息（已添加到 gitignore 忽略文件中，进行 git 提交时不会泄露您的秘钥信息）
-- 将项目根目录下 configs.gradle 文件中的 UMENG_APP_KEY、WX_APP_ID、WX_APP_SECRET、BUGLY_ID
-  替换为自己的相关信息
-- 点击 AndroidStudio 右上角 <font color="blue">Sync Now</font> 按钮进行同步，并等待同步完成即可
-
-Tips：建议使用最新版本的 AndroidStudio 运行本项目
-
-#### [优化、BUG或建议请点这里](https://support.qq.com/product/333302)
-
-#### 关于我们
-
-阳光沙滩创立于2014年11月22日，那是一个阳光明媚的下午。
-
-韩寒的电影《后会无期》里面有一句台词：sun of beach （阳光沙滩），于是阳光沙滩创立。阳光沙滩是一个学习编程的社区网站。
-
-你可以在这里学习，写博客，写笔记，分享经验，提问题，分享链接。你可以遇到志同道合的人，收获知识、经验与同性朋友。
-
-#### 我们的使命
-
-让学习编程变得更加简单。
-
-#### 我们的愿景
-
-让每一个热爱编程的年轻人成为优秀的程序员。
-
-#### 阳光沙滩社区：[<font color="#FA7299">A Lonely Cat</font>](https://www.sunofbeach.net/u/1204736502274318336)
-
-<br>
-<img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210624130828.png" alt="阳光沙滩社区个人主页" width="180" />
-<br>
-
-#### 如果您觉得我的这个项目对你有帮助，请扫描下方的二维码随意打赏，要是能打赏个 10.24 :monkey_face:就太:thumbsup:了。您的支持将鼓励我继续创作:octocat:
-
-<br>
-<img src="https://gitee.com/anjiemo/figure-bed/raw/master/img/20210624125821.png" alt="打赏作者" width="260" />
-<br>
+关于阳光沙滩的创立故事、使命愿景以及作者赞赏打赏信息，请阅读 👉 [ABOUT.md](./docs/ABOUT.md)。
 
 ## License
 
 ```text
-Copyright 2021 He XiaoFeng
+Copyright 2021 He XiaoFeng (anjiemo)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
