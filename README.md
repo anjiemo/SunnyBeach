@@ -42,7 +42,7 @@ SunnyBeach 是基于 [阳光沙滩社区开放 API](https://www.sunofbeach.net/)
   KeyAlias=AndroidProject
   KeyPassword=AndroidProject
   ```
-- **`configs.gradle`**：配置第三方 SDK 的专属参数（如 `UMENG_APP_KEY`, `WX_APP_ID`, `WX_APP_SECRET`, `BUGLY_ID` 等）。
+- **[`ProjectConfig.kt`](./build-logic/convention/src/main/kotlin/cn/cqautotest/sunnybeach/ProjectConfig.kt)**：配置第三方 SDK 的专属参数（如 `UMENG_APP_KEY`, `WX_APP_ID`, `WX_APP_SECRET`, `BUGLY_ID` 等）。
 
 配置完成后，点击 **Sync Now**，即可编译运行 `:app`。
 
