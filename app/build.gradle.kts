@@ -427,6 +427,9 @@ dependencies {
 
     // 标题栏框架：https://github.com/getActivity/TitleBar
     implementation(libs.titlebar)
+    
+    // Hidden API Bypass（用于绕过 Android 深灰名单限制，修复 Framework 级 BUG）：https://github.com/LSPosed/AndroidHiddenApiBypass
+    implementation(libs.hiddenapibypass)
 
     // 吐司框架：https://github.com/getActivity/Toaster
     implementation(libs.toaster)

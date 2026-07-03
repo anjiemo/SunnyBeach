@@ -12,8 +12,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import cn.cqautotest.sunnybeach.R
 import cn.cqautotest.sunnybeach.app.AppActivity
 import cn.cqautotest.sunnybeach.databinding.SearchActivityBinding
+import cn.cqautotest.sunnybeach.ktx.backupEnterTransitionCoordinator
 import cn.cqautotest.sunnybeach.ktx.hideKeyboard
 import cn.cqautotest.sunnybeach.ktx.reduceDragSensitivity
+import cn.cqautotest.sunnybeach.ktx.restoreEnterTransitionCoordinator
 import cn.cqautotest.sunnybeach.ktx.setFixOnClickListener
 import cn.cqautotest.sunnybeach.ktx.textString
 import cn.cqautotest.sunnybeach.model.SearchFilterItem
@@ -35,6 +37,12 @@ class SearchActivity : AppActivity() {
 
     private val mBinding by viewBinding(SearchActivityBinding::bind)
     private val mSearchViewModel by viewModels<SearchViewModel>()
+
+    /**
+     * 保存系统由于进入后台（onStop）而被销毁的 EnterTransitionCoordinator 实例。
+     * 用于在 onStart 恢复该实例，以修复 Android Framework 官方陈年 BUG 导致的退场共享动画丢失问题。
+     */
+    private var mSavedEnterTransitionCoordinator: Any? = null
 
     override fun getLayoutId(): Int = R.layout.search_activity
 
@@ -113,6 +121,16 @@ class SearchActivity : AppActivity() {
         with(mBinding.searchView.textString) {
             takeUnless { isEmpty() }?.let { mSearchViewModel.setKeywords(this) } ?: toast("关键字不能为空哦~")
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        restoreEnterTransitionCoordinator(mSavedEnterTransitionCoordinator)
+    }
+
+    override fun onStop() {
+        mSavedEnterTransitionCoordinator = backupEnterTransitionCoordinator()
+        super.onStop()
     }
 
     override fun onDestroy() {
