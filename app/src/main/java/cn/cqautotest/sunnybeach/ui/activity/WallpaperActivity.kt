@@ -47,6 +47,12 @@ class WallpaperActivity : AppActivity() {
         fragment?.handleActivityReenter(resultCode, data)
     }
 
+    override fun finish() {
+        // 清除共享元素回调，防止退出到无共享元素的界面时触发 GhostView 残影
+        setExitSharedElementCallback(null as SharedElementCallback?)
+        super.finish()
+    }
+
     override fun initData() {
 
     }
