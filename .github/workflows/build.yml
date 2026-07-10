@@ -1,4 +1,8 @@
-name: 创建 Release 并上传 APK
+# 打包工作流：支持 debug / preview / release，并向飞书推送状态卡片
+# Secrets（勿硬编码）:
+#   FEISHU_BUILD_WEBHOOK_URL / FEISHU_BUILD_WEBHOOK_SECRET
+#   KEYSTORE_BASE64 / STORE_PASSWORD / KEY_ALIAS / KEY_PASSWORD（仅正式版）
+name: 打包构建
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -9,6 +13,15 @@ on:
       - 'v*'
   workflow_dispatch:
     inputs:
+      build_type:
+        description: '构建类型'
+        required: true
+        type: choice
+        options:
+          - debug
+          - preview
+          - release
+        default: release
       version_code:
         description: '版本号 (versionCode)，留空则使用 version.properties 中的值'
         required: false
@@ -21,7 +34,7 @@ on:
         default: ''
 
 concurrency:
-  group: release-${{ github.ref }}
+  group: build-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -31,10 +44,124 @@ jobs:
 
     permissions:
       contents: write
+      actions: read
 
     steps:
       - name: 检出代码
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: 解析构建参数与元数据
+        id: meta
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            BUILD_TYPE="${{ github.event.inputs.build_type }}"
+            TRIGGER_LABEL="手动触发"
+          else
+            # Tag 推送固定正式版；卡片触发方式显示「自动触发」（禁止「Tag 触发」）
+            BUILD_TYPE="release"
+            TRIGGER_LABEL="自动触发"
+          fi
+
+          case "${BUILD_TYPE}" in
+            debug)   BUILD_TYPE_LABEL="测试版" ;;
+            preview) BUILD_TYPE_LABEL="预发布版" ;;
+            release) BUILD_TYPE_LABEL="正式版" ;;
+            *)
+              echo "::error::未知 build_type: ${BUILD_TYPE}"
+              exit 1
+              ;;
+          esac
+
+          APP_NAME=$(grep -oP 'name="app_name">\K[^<]+' app/src/main/res/values/strings.xml | head -n 1 || true)
+          if [ -z "${APP_NAME}" ]; then
+            APP_NAME="SunnyBeach"
+          fi
+
+          # 分支：heads 用 ref_name；tag 用包含该提交的远程分支，优先 origin/dev 再 origin/main
+          if [[ "${{ github.ref }}" == refs/heads/* ]]; then
+            BRANCH="${{ github.ref_name }}"
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            BRANCHES=$(git branch -r --contains HEAD 2>/dev/null || true)
+            if echo "${BRANCHES}" | grep -q 'origin/dev$'; then
+              BRANCH="dev"
+            elif echo "${BRANCHES}" | grep -q 'origin/main$'; then
+              BRANCH="main"
+            else
+              BRANCH=$(echo "${BRANCHES}" | sed 's|^[[:space:]]*origin/||' | head -n 1 | tr -d '[:space:]')
+              [ -z "${BRANCH}" ] && BRANCH="-"
+            fi
+          else
+            BRANCH="-"
+          fi
+
+          VERSION_CODE_INPUT="${{ github.event.inputs.version_code || '' }}"
+          VERSION_NAME_INPUT="${{ github.event.inputs.version_name || '' }}"
+          if [ -n "${VERSION_CODE_INPUT}" ]; then
+            VERSION_CODE="${VERSION_CODE_INPUT}"
+          else
+            VERSION_CODE=$(grep -E '^versionCode=' version.properties | cut -d= -f2- | tr -d '[:space:]')
+          fi
+          if [ -n "${VERSION_NAME_INPUT}" ]; then
+            VERSION_NAME="${VERSION_NAME_INPUT}"
+          else
+            VERSION_NAME=$(grep -E '^versionName=' version.properties | cut -d= -f2- | tr -d '[:space:]')
+          fi
+
+          GIT_SHA=$(git rev-parse --short=7 HEAD)
+          GIT_MESSAGE=$(git log -1 --pretty=%s)
+
+          CREATED_AT=$(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S')
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          BUILD_ID="${{ github.run_number }}"
+
+          {
+            echo "build_type=${BUILD_TYPE}"
+            echo "build_type_label=${BUILD_TYPE_LABEL}"
+            echo "trigger_label=${TRIGGER_LABEL}"
+            echo "app_name=${APP_NAME}"
+            echo "branch=${BRANCH}"
+            echo "version_code=${VERSION_CODE}"
+            echo "version_name=${VERSION_NAME}"
+            echo "git_sha=${GIT_SHA}"
+            echo "created_at=${CREATED_AT}"
+            echo "run_url=${RUN_URL}"
+            echo "build_id=${BUILD_ID}"
+          } >> "$GITHUB_OUTPUT"
+
+          # 多行 git message 用 delimiter 写入，避免破坏 GITHUB_OUTPUT
+          {
+            echo "git_message<<EOF"
+            echo "${GIT_MESSAGE}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "BUILD_TYPE=${BUILD_TYPE} LABEL=${BUILD_TYPE_LABEL} TRIGGER=${TRIGGER_LABEL}"
+          echo "APP=${APP_NAME} BRANCH=${BRANCH} VERSION=${VERSION_NAME}(${VERSION_CODE})"
+
+      - name: 飞书通知 — 打包开始
+        continue-on-error: true
+        env:
+          WEBHOOK_URL: ${{ secrets.FEISHU_BUILD_WEBHOOK_URL }}
+          WEBHOOK_SECRET: ${{ secrets.FEISHU_BUILD_WEBHOOK_SECRET }}
+          STATUS: start
+          SCENE: build
+          BUILD_ID: ${{ steps.meta.outputs.build_id }}
+          APP_NAME: ${{ steps.meta.outputs.app_name }}
+          BUILD_TYPE_LABEL: ${{ steps.meta.outputs.build_type_label }}
+          TRIGGER_LABEL: ${{ steps.meta.outputs.trigger_label }}
+          BRANCH: ${{ steps.meta.outputs.branch }}
+          VERSION_NAME: ${{ steps.meta.outputs.version_name }}
+          VERSION_CODE: ${{ steps.meta.outputs.version_code }}
+          GIT_SHA: ${{ steps.meta.outputs.git_sha }}
+          GIT_MESSAGE: ${{ steps.meta.outputs.git_message }}
+          RUN_URL: ${{ steps.meta.outputs.run_url }}
+          CREATED_AT: ${{ steps.meta.outputs.created_at }}
+          UPDATED_AT: ${{ steps.meta.outputs.created_at }}
+        run: bash .github/scripts/feishu_notify.sh
 
       - name: 设置 JDK 21
         uses: actions/setup-java@v5
@@ -49,6 +176,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: 验证签名 Secrets
+        if: steps.meta.outputs.build_type == 'release'
         run: |
           missing=""
           [ -z "${{ secrets.KEYSTORE_BASE64 }}" ] && missing="$missing KEYSTORE_BASE64"
@@ -61,22 +189,37 @@ jobs:
           fi
 
       - name: 准备签名文件
+        if: steps.meta.outputs.build_type == 'release'
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.jks
 
-      - name: 构建 Release APK 并生成构建清单
+      - name: 构建 APK 并生成构建清单
+        id: build
         run: |
-          ./gradlew :app:assembleRelease :app:printReleaseAppConfig --stacktrace \
-            -PStoreFile=release.jks \
-            -PStorePassword="${{ secrets.STORE_PASSWORD }}" \
-            -PKeyAlias="${{ secrets.KEY_ALIAS }}" \
-            -PKeyPassword="${{ secrets.KEY_PASSWORD }}" || (
+          set -euo pipefail
+          BUILD_TYPE="${{ steps.meta.outputs.build_type }}"
+
+          run_gradle() {
+            case "${BUILD_TYPE}" in
+              debug)
+                ./gradlew :app:assembleDebug :app:printDebugAppConfig --stacktrace
+                ;;
+              preview)
+                ./gradlew :app:assemblePreview :app:printPreviewAppConfig --stacktrace
+                ;;
+              release)
+                ./gradlew :app:assembleRelease :app:printReleaseAppConfig --stacktrace \
+                  -PStoreFile=release.jks \
+                  -PStorePassword="${{ secrets.STORE_PASSWORD }}" \
+                  -PKeyAlias="${{ secrets.KEY_ALIAS }}" \
+                  -PKeyPassword="${{ secrets.KEY_PASSWORD }}"
+                ;;
+            esac
+          }
+
+          run_gradle || (
             echo "Build failed, retrying in 15s..."
             sleep 15
-            ./gradlew :app:assembleRelease :app:printReleaseAppConfig --stacktrace \
-              -PStoreFile=release.jks \
-              -PStorePassword="${{ secrets.STORE_PASSWORD }}" \
-              -PKeyAlias="${{ secrets.KEY_ALIAS }}" \
-              -PKeyPassword="${{ secrets.KEY_PASSWORD }}"
+            run_gradle
           )
         env:
           GRADLE_OPTS: >-
@@ -105,6 +248,7 @@ jobs:
           APK_NAME=$(jq -r '.apkName' "$MANIFEST_PATH")
           APP_CONFIG_PATH=$(jq -r '.appConfigPath' "$MANIFEST_PATH")
           VERSION_NAME=$(jq -r '.versionName' "$MANIFEST_PATH")
+          VERSION_CODE=$(jq -r '.versionCode // empty' "$MANIFEST_PATH")
 
           if [ ! -f "$APK_PATH" ]; then
             echo "::error::APK 文件不存在: $APK_PATH"
@@ -115,10 +259,13 @@ jobs:
           echo "apk_name=$APK_NAME" >> $GITHUB_OUTPUT
           echo "app_config_path=$APP_CONFIG_PATH" >> $GITHUB_OUTPUT
           echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+          if [ -n "${VERSION_CODE}" ] && [ "${VERSION_CODE}" != "null" ]; then
+            echo "version_code=${VERSION_CODE}" >> $GITHUB_OUTPUT
+          fi
           echo "::notice::构建成功 — $APK_NAME (v$VERSION_NAME)"
 
       - name: 上传 APK 为 Artifact
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch' && steps.meta.outputs.build_type == 'release'
         uses: actions/upload-artifact@v5
         with:
           name: ${{ steps.manifest.outputs.apk_name }}
@@ -138,10 +285,87 @@ jobs:
           name: "Release ${{ github.ref_name }}"
           body: |
             **版本:** ${{ steps.manifest.outputs.version_name }}
-            
+
             此版本由 GitHub Actions 自动构建和发布。
           prerelease: false
           fail_on_unmatched_files: true
+
+      - name: 解析 Job URL
+        if: always() && (success() || failure())
+        id: joburl
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          JOB_URL=""
+          JOB_NAME="${{ github.job }}"
+          # gh api 无 --arg；用 jq --arg 按 job id（默认即 name）匹配，再回退最新 job
+          JOBS_JSON=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" 2>/dev/null)
+          if [ -n "${JOBS_JSON}" ]; then
+            JOB_URL=$(printf '%s' "${JOBS_JSON}" | jq -r --arg name "${JOB_NAME}" \
+              '.jobs[] | select(.name == $name) | .html_url' 2>/dev/null | head -n 1)
+            if [ -z "${JOB_URL}" ] || [ "${JOB_URL}" = "null" ]; then
+              JOB_URL=$(printf '%s' "${JOBS_JSON}" | jq -r \
+                '.jobs | sort_by(.started_at) | reverse | .[0].html_url // empty' 2>/dev/null)
+            fi
+          fi
+          if [ -z "${JOB_URL}" ] || [ "${JOB_URL}" = "null" ]; then
+            JOB_URL="${{ steps.meta.outputs.run_url }}"
+            echo "::warning::未能解析 Job html_url，回退为 RUN_URL"
+          fi
+          echo "job_url=${JOB_URL}" >> "$GITHUB_OUTPUT"
+          set -e
+
+      - name: 飞书通知 — 打包成功
+        if: success()
+        continue-on-error: true
+        env:
+          WEBHOOK_URL: ${{ secrets.FEISHU_BUILD_WEBHOOK_URL }}
+          WEBHOOK_SECRET: ${{ secrets.FEISHU_BUILD_WEBHOOK_SECRET }}
+          STATUS: success
+          SCENE: build
+          BUILD_ID: ${{ steps.meta.outputs.build_id }}
+          APP_NAME: ${{ steps.meta.outputs.app_name }}
+          BUILD_TYPE_LABEL: ${{ steps.meta.outputs.build_type_label }}
+          TRIGGER_LABEL: ${{ steps.meta.outputs.trigger_label }}
+          BRANCH: ${{ steps.meta.outputs.branch }}
+          VERSION_NAME: ${{ steps.manifest.outputs.version_name || steps.meta.outputs.version_name }}
+          VERSION_CODE: ${{ steps.manifest.outputs.version_code || steps.meta.outputs.version_code }}
+          GIT_SHA: ${{ steps.meta.outputs.git_sha }}
+          GIT_MESSAGE: ${{ steps.meta.outputs.git_message }}
+          RUN_URL: ${{ steps.meta.outputs.run_url }}
+          JOB_URL: ${{ steps.joburl.outputs.job_url || steps.meta.outputs.run_url }}
+          CREATED_AT: ${{ steps.meta.outputs.created_at }}
+        run: |
+          UPDATED_AT=$(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S')
+          export UPDATED_AT
+          bash .github/scripts/feishu_notify.sh
+
+      - name: 飞书通知 — 打包失败
+        if: failure()
+        continue-on-error: true
+        env:
+          WEBHOOK_URL: ${{ secrets.FEISHU_BUILD_WEBHOOK_URL }}
+          WEBHOOK_SECRET: ${{ secrets.FEISHU_BUILD_WEBHOOK_SECRET }}
+          STATUS: failure
+          SCENE: build
+          BUILD_ID: ${{ steps.meta.outputs.build_id }}
+          APP_NAME: ${{ steps.meta.outputs.app_name }}
+          BUILD_TYPE_LABEL: ${{ steps.meta.outputs.build_type_label }}
+          TRIGGER_LABEL: ${{ steps.meta.outputs.trigger_label }}
+          BRANCH: ${{ steps.meta.outputs.branch }}
+          VERSION_NAME: ${{ steps.meta.outputs.version_name }}
+          VERSION_CODE: ${{ steps.meta.outputs.version_code }}
+          GIT_SHA: ${{ steps.meta.outputs.git_sha }}
+          GIT_MESSAGE: ${{ steps.meta.outputs.git_message }}
+          RUN_URL: ${{ steps.meta.outputs.run_url }}
+          JOB_URL: ${{ steps.joburl.outputs.job_url || steps.meta.outputs.run_url }}
+          CREATED_AT: ${{ steps.meta.outputs.created_at }}
+        run: |
+          UPDATED_AT=$(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S')
+          export UPDATED_AT
+          bash .github/scripts/feishu_notify.sh
 
       - name: 清理敏感文件
         if: always()
