@@ -1,0 +1,3 @@
+{"file": ".trellis/spec/backend/index.md", "reason": "Project backend/spec index and pre-dev checklist"}
+{"file": ".trellis/tasks/07-10-feishu-build-webhook/research/feishu-webhook-sign.md", "reason": "Feishu webhook HMAC sign algorithm and interactive card payload format"}
+{"file": ".trellis/tasks/07-10-feishu-build-webhook/prd.md", "reason": "Confirmed requirements for build/CI Feishu notifications"}
