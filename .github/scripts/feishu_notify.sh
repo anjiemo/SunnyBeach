@@ -10,7 +10,9 @@
 #   SCENE: build|check
 #   BUILD_ID, APP_NAME, BUILD_TYPE_LABEL, TRIGGER_LABEL, BRANCH
 #   VERSION_NAME, VERSION_CODE, GIT_SHA, GIT_MESSAGE
-#   RUN_URL, JOB_URL (成功/失败时 JOB_URL 必填)
+#   RUN_URL, JOB_URL
+#     - SCENE=check：各状态均尽量带「工作流」+「Gradle 日志」；JOB_URL 空则回退 RUN_URL
+#     - SCENE=build：开始仅「工作流」；成功/失败再加「Gradle 日志」
 #   CREATED_AT, UPDATED_AT
 #
 # 任何异常均 exit 0，避免拖垮 CI/打包。
@@ -72,6 +74,8 @@ case "${SCENE}" in
 esac
 
 STATUS_TEXT="${TITLE}"
+# 卡片 header：打包 id + 状态文案，例如「123 - 检查开始🚀」
+HEADER_TITLE="${BUILD_ID} - ${TITLE}"
 
 MD_CONTENT=$(cat <<EOF
 **打包 id：** ${BUILD_ID}
@@ -79,8 +83,8 @@ MD_CONTENT=$(cat <<EOF
 **应用：** ${APP_NAME}/${BUILD_TYPE_LABEL}
 **触发方式：** ${TRIGGER_LABEL}
 **分支：** ${BRANCH}
-**版本：** \`${VERSION_NAME}（${VERSION_CODE}）\`
-**Git：** \`${GIT_SHA}\`
+**版本：** ${VERSION_NAME}（${VERSION_CODE}）
+**Git：** ${GIT_SHA}
 **提交：** ${GIT_MESSAGE_LINE}
 **创建时间：** ${CREATED_AT}
 **更新时间：** ${UPDATED_AT}
@@ -92,55 +96,28 @@ timestamp=$(date +%s)
 string_to_sign=$(printf '%s\n%s' "${timestamp}" "${WEBHOOK_SECRET:-}")
 sign=$(printf '' | openssl dgst -sha256 -hmac "${string_to_sign}" -binary | openssl base64 -A)
 
-if [ "${STATUS}" = "start" ]; then
-  PAYLOAD=$(jq -n \
-    --arg timestamp "${timestamp}" \
-    --arg sign "${sign}" \
-    --arg title "${TITLE}" \
-    --arg template "${TEMPLATE}" \
-    --arg md "${MD_CONTENT}" \
-    --arg run_url "${RUN_URL}" \
-    '{
-      timestamp: $timestamp,
-      sign: $sign,
-      msg_type: "interactive",
-      card: {
-        header: {
-          title: { tag: "plain_text", content: $title },
-          template: $template
-        },
-        elements: [
-          { tag: "div", text: { tag: "lark_md", content: $md } },
-          {
-            tag: "action",
-            actions: [
-              {
-                tag: "button",
-                text: { tag: "plain_text", content: "工作流" },
-                url: $run_url,
-                type: "primary"
-              }
-            ]
-          }
-        ]
-      }
-    }')
-else
-  # 成功/失败：工作流 + Gradle 日志；JOB_URL 为空时仅保留工作流，避免空 url 被飞书拒收
-  if [ -z "${JOB_URL}" ]; then
-    echo "::warning::JOB_URL 为空（STATUS=${STATUS}），仍尝试推送（仅工作流按钮）"
+# CI 检查：各状态均展示「工作流」+「Gradle 日志」；打包开始仅「工作流」
+NEED_GRADLE_BTN=0
+if [ "${SCENE}" = "check" ]; then
+  NEED_GRADLE_BTN=1
+elif [ "${STATUS}" != "start" ]; then
+  NEED_GRADLE_BTN=1
+fi
+
+if [ "${NEED_GRADLE_BTN}" -eq 1 ]; then
+  EFFECTIVE_JOB_URL="${JOB_URL}"
+  if [ -z "${EFFECTIVE_JOB_URL}" ]; then
+    if [ "${SCENE}" = "check" ] && [ -n "${RUN_URL}" ]; then
+      EFFECTIVE_JOB_URL="${RUN_URL}"
+      echo "::warning::JOB_URL 为空（SCENE=check STATUS=${STATUS}），Gradle 日志回退为 RUN_URL"
+    else
+      echo "::warning::JOB_URL 为空（STATUS=${STATUS}），仍尝试推送（仅工作流按钮）"
+    fi
+  fi
+  if [ -n "${EFFECTIVE_JOB_URL}" ]; then
     ACTIONS_JSON=$(jq -n \
       --arg run_url "${RUN_URL}" \
-      '[{
-        tag: "button",
-        text: { tag: "plain_text", content: "工作流" },
-        url: $run_url,
-        type: "primary"
-      }]')
-  else
-    ACTIONS_JSON=$(jq -n \
-      --arg run_url "${RUN_URL}" \
-      --arg job_url "${JOB_URL}" \
+      --arg job_url "${EFFECTIVE_JOB_URL}" \
       '[
         {
           tag: "button",
@@ -155,32 +132,52 @@ else
           type: "default"
         }
       ]')
+  else
+    ACTIONS_JSON=$(jq -n \
+      --arg run_url "${RUN_URL}" \
+      '[{
+        tag: "button",
+        text: { tag: "plain_text", content: "工作流" },
+        url: $run_url,
+        type: "primary"
+      }]')
   fi
-  PAYLOAD=$(jq -n \
-    --arg timestamp "${timestamp}" \
-    --arg sign "${sign}" \
-    --arg title "${TITLE}" \
-    --arg template "${TEMPLATE}" \
-    --arg md "${MD_CONTENT}" \
-    --argjson actions "${ACTIONS_JSON}" \
-    '{
-      timestamp: $timestamp,
-      sign: $sign,
-      msg_type: "interactive",
-      card: {
-        header: {
-          title: { tag: "plain_text", content: $title },
-          template: $template
-        },
-        elements: [
-          { tag: "div", text: { tag: "lark_md", content: $md } },
-          { tag: "action", actions: $actions }
-        ]
-      }
-    }')
+else
+  # 打包开始：仅工作流
+  ACTIONS_JSON=$(jq -n \
+    --arg run_url "${RUN_URL}" \
+    '[{
+      tag: "button",
+      text: { tag: "plain_text", content: "工作流" },
+      url: $run_url,
+      type: "primary"
+    }]')
 fi
 
-echo "推送飞书卡片: SCENE=${SCENE} STATUS=${STATUS} TITLE=${TITLE}"
+PAYLOAD=$(jq -n \
+  --arg timestamp "${timestamp}" \
+  --arg sign "${sign}" \
+  --arg title "${HEADER_TITLE}" \
+  --arg template "${TEMPLATE}" \
+  --arg md "${MD_CONTENT}" \
+  --argjson actions "${ACTIONS_JSON}" \
+  '{
+    timestamp: $timestamp,
+    sign: $sign,
+    msg_type: "interactive",
+    card: {
+      header: {
+        title: { tag: "plain_text", content: $title },
+        template: $template
+      },
+      elements: [
+        { tag: "div", text: { tag: "lark_md", content: $md } },
+        { tag: "action", actions: $actions }
+      ]
+    }
+  }')
+
+echo "推送飞书卡片: SCENE=${SCENE} STATUS=${STATUS} TITLE=${HEADER_TITLE}"
 HTTP_CODE=0
 RESPONSE=""
 set +e

@@ -43,11 +43,14 @@ sign=$(printf '' | openssl dgst -sha256 -hmac "${string_to_sign}" -binary | open
 
 | Field | Rule |
 |---|---|
+| Card header title | `{BUILD_ID} - {STATUS_TEXT}` e.g. `123 - 检查开始🚀` / `45 - 打包失败❌` |
+| Body version/git | Plain text only — no markdown backticks around version or git sha |
 | Trigger label | `手动触发` / `自动触发` only — never `Tag 触发` |
 | Branch | Branch name only; tag runs resolve via `git branch -r --contains` |
 | app_name | Read from `app/src/main/res/values/strings.xml` |
 | Artifact | Only `workflow_dispatch` + `release` |
 | Notify failure | Must not fail the job (`continue-on-error` / script `exit 0`) |
+| CI buttons | SCENE=check: start/success/failure all show 工作流 + Gradle 日志; resolve JOB_URL before check-start |
 
 ## Validation & Error Matrix
 

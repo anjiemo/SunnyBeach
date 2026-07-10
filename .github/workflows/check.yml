@@ -99,6 +99,34 @@ jobs:
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
+      # 须在「检查开始」之前解析，使开始卡片也能带真实 JOB_URL（成功/失败复用）
+      - name: 解析 Job URL
+        if: github.event_name != 'pull_request'
+        id: joburl
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          JOB_URL=""
+          JOB_NAME="${{ github.job }}"
+          # gh api 无 --arg；用 jq --arg 按 job id（默认即 name）匹配，再回退最新 job
+          JOBS_JSON=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" 2>/dev/null)
+          if [ -n "${JOBS_JSON}" ]; then
+            JOB_URL=$(printf '%s' "${JOBS_JSON}" | jq -r --arg name "${JOB_NAME}" \
+              '.jobs[] | select(.name == $name) | .html_url' 2>/dev/null | head -n 1)
+            if [ -z "${JOB_URL}" ] || [ "${JOB_URL}" = "null" ]; then
+              JOB_URL=$(printf '%s' "${JOBS_JSON}" | jq -r \
+                '.jobs | sort_by(.started_at) | reverse | .[0].html_url // empty' 2>/dev/null)
+            fi
+          fi
+          if [ -z "${JOB_URL}" ] || [ "${JOB_URL}" = "null" ]; then
+            JOB_URL="${{ steps.meta.outputs.run_url }}"
+            echo "::warning::未能解析 Job html_url，回退为 RUN_URL"
+          fi
+          echo "job_url=${JOB_URL}" >> "$GITHUB_OUTPUT"
+          set -e
+
       - name: 飞书通知 — 检查开始
         if: github.event_name != 'pull_request'
         continue-on-error: true
@@ -117,6 +145,7 @@ jobs:
           GIT_SHA: ${{ steps.meta.outputs.git_sha }}
           GIT_MESSAGE: ${{ steps.meta.outputs.git_message }}
           RUN_URL: ${{ steps.meta.outputs.run_url }}
+          JOB_URL: ${{ steps.joburl.outputs.job_url || steps.meta.outputs.run_url }}
           CREATED_AT: ${{ steps.meta.outputs.created_at }}
           UPDATED_AT: ${{ steps.meta.outputs.created_at }}
         run: bash .github/scripts/feishu_notify.sh
@@ -147,33 +176,6 @@ jobs:
             -Dorg.gradle.internal.http.connectionTimeout=180000
             -Dorg.gradle.internal.http.socketTimeout=180000
           CI_BUILD: "true"
-
-      - name: 解析 Job URL
-        if: always() && github.event_name != 'pull_request' && (success() || failure())
-        id: joburl
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set +e
-          JOB_URL=""
-          JOB_NAME="${{ github.job }}"
-          # gh api 无 --arg；用 jq --arg 按 job id（默认即 name）匹配，再回退最新 job
-          JOBS_JSON=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" 2>/dev/null)
-          if [ -n "${JOBS_JSON}" ]; then
-            JOB_URL=$(printf '%s' "${JOBS_JSON}" | jq -r --arg name "${JOB_NAME}" \
-              '.jobs[] | select(.name == $name) | .html_url' 2>/dev/null | head -n 1)
-            if [ -z "${JOB_URL}" ] || [ "${JOB_URL}" = "null" ]; then
-              JOB_URL=$(printf '%s' "${JOBS_JSON}" | jq -r \
-                '.jobs | sort_by(.started_at) | reverse | .[0].html_url // empty' 2>/dev/null)
-            fi
-          fi
-          if [ -z "${JOB_URL}" ] || [ "${JOB_URL}" = "null" ]; then
-            JOB_URL="${{ steps.meta.outputs.run_url }}"
-            echo "::warning::未能解析 Job html_url，回退为 RUN_URL"
-          fi
-          echo "job_url=${JOB_URL}" >> "$GITHUB_OUTPUT"
-          set -e
 
       - name: 飞书通知 — 检查成功
         if: success() && github.event_name != 'pull_request'
