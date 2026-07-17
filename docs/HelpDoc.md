@@ -54,11 +54,11 @@
 
 #### 为什么没有用 MVP
 
-![](picture/help/mvp1.jpg)
+![](../picture/help/mvp1.jpg)
 
-![](picture/help/mvp2.jpg)
+![](../picture/help/mvp2.jpg)
 
-![](picture/help/mvp3.jpg)
+![](../picture/help/mvp3.jpg)
 
 * AndroidProject 舍弃 MVP 的最大一个原因，需要写各种类，各种回调，如果这个页面比较简单的话，使用 MVP 会让原本简单的代码变复杂，导致后续开发和维护成本是非常高，前期付出的代价和后期的维护不成正比关系，当然这种说法只适用于各种中小型项目，大型的项目我还没有经历过，不过我觉得，无论是 MVC、MVP、MVVM，它们出现的目的是为了解决代码多并且乱的问题，作用就是给代码做分类，但是可以跟大家分享我的心得，我并不看好 MVP，因为它让我开发和维护都很痛苦，所以我就直接将它从 AndroidProject 移除，目的也很简单，不推荐大家使用，因为 MVP 不适合大多数项目的开发和维护。我更推荐大家直接将代码写在 Activity，但是有一个前提条件需要大家遵守，大家要做好代码封装和重复代码的抽取，尽量让 Activity 成为只有业务代码的类，这样一个项目里面的大多数 Activity 代码量都能很好控制在 1000 行代码以内。但是这种看似简单的操作，但是实际要做到是一件不容易的事情，这里面不仅要解决代码带来的问题，还要解决带来的各种人性矛盾，困难重重，这种想法经过很长一段时间的思考，虽然写法在开发和维护中效率是非常高的，但是不被大多数人认可，大家更愿意相信 MVC、MVP、MVVM，而很少有人理解这三种模式的本质是什么，就是为了给代码做分类，但这三种模式都不够灵活，很生硬，像是一套套规则，而这样的代码分类，只会让大多数人的开发越来越头疼。
 
@@ -118,7 +118,7 @@ ActivityXxxxBinding binding = DataBindingUtil.setContentView(this, R.layout.acti
 
 * AndroidProject 其实有加入过这个功能，但是在 [v9.0 版本](https://github.com/getActivity/AndroidProject/releases/tag/9.0) 就移除了，原因是第三方侧滑框架 [BGASwipeBackLayout](https://github.com/bingoogolapple/BGASwipeBackLayout-Android) 在 Android 9.0 上面会[闪屏](https://github.com/bingoogolapple/BGASwipeBackLayout-Android/issues/173)，并且还是 **100% 必现**，**用户体验极差**，我也跟作者反馈过这个问题，但结果不了了之，所以不得不移除。但是到了 [v10.0 版本](https://github.com/getActivity/AndroidProject/releases/tag/10.0)，我又加上界面侧滑功能了，不过这次我换成了 [SmartSwipe](https://github.com/luckybilly/SmartSwipe) 来做，但是我又再一次失望了，这个框架在 Android 11 上面，如果 Activity 上有 WindowManager 正在显示，然后使用界面侧滑，那么会出现闪屏的情况，具体效果如下图：
 
-![](picture/help/Swipe.jpg)
+![](../picture/help/swipe.jpg)
 
 * 就这个情况我也联系过作者，并详细阐述了产生的原因和具体的复现步骤，但是我等了三天连个回复都没有，实属有些让我心寒，在等待的期间我看到 Github 的 issue 已经基本没有回复了，并且最后一次提交是在 13 个月前了，种种迹象都已经表明，所以经过慎重考虑，最终决定在 [v12.1 版本](https://github.com/getActivity/AndroidProject/releases/tag/12.1) 移除界面侧滑功能。
 
@@ -148,7 +148,7 @@ xxxhdpi：1dp=4px
 
 * 另外谈谈我的经历，我自己之前的公司主要是做平板上面的应用，所以也用过 [AutoSize 框架](https://github.com/JessYanCoding/AndroidAutoSize)，一年多的使用体验下来，发现这个框架 Bug 还算是比较多的，例如框架会偶尔出现机型适配失效，重写了 **getResources** 方法情况之后出现的情况少了一些，但是仍然还有一些奇奇怪怪的问题，这里就不一一举例了，最后总结下来就是框架还不够成熟，但是框架的思想还是很不错的。我后面换了一家公司，也是做平板应用，项目用的是用[通配符的适配方案](https://github.com/wildma/ScreenAdaptation)，跟 AutoSize 相对比，没有了那些奇奇怪怪的问题，但是代码的侵入性比较高。这两种方案各有优缺点，大家看着选择。
 
-![](picture/help/vote2.jpg)
+![](../picture/help/vote2.jpg)
 
 * 在这块我也发起过群投票，相比谷歌的适配方案，大多数人更认同那种百分比适配方案，秉承着少数服从多数的理念，我在 AndroidProject [v13.0 版本](https://github.com/getActivity/AndroidProject/releases/tag/13.0) 加入了通配符的适配方案。虽然有一部分人不认同，但是我想跟这些人说的是：我的每一个决定都是十分谨慎的，因为这其中涉及到许多人的利益，AndroidProject 虽然是我创造的，但是它早就不是我一个人的了，而是大家的，每个重要的决定我都会考虑再三才会去做，在做决定的时候我会把大众的利益放在第一位，把自己的利益放在最后一位，所以大家唯一能做的是，相信我的选择。或许你可能觉得这样不太对，也随时欢迎你提出不同的意见给到我，我不认为自己做的决定一定都是对的，但是我会一直朝着对的方向前进。
 
@@ -262,7 +262,7 @@ xxxhdpi：1dp=4px
 
 * 常用的图片加载框架无非就两种，最常用的是 Glide，其次是 Fresco。我曾做过一个技术调研：
 
-![](picture/help/vote1.jpg)
+![](../picture/help/vote1.jpg)
 
 * 无疑 Glide 已成大家最喜爱的图片加载框架，当然也有人使用 Fresco，但是占比极少。
 
@@ -286,7 +286,7 @@ xxxhdpi：1dp=4px
 
 * 想把 AndroidProject 做出来并不难，我当时只花了一两个星期，而做好它需要无限的时间和精力，我花了两年多的时间仍然还在半路之上，尽管有很多人认为它很好用，没有任何 Bug，但是在我看来还不够，因为每个人衡量标准的程度不同，我的标准是随着时间的推移和技术的提升而不断提高。具体付出了多少努力，[可以先让我们看一组数据](https://github.com/getActivity/AndroidProject/graphs/contributors)：
 
-![](picture/help/contributors.jpg)
+![](../picture/help/contributors.jpg)
 
 * 与其说 AndroidProject 做的是模板工程，但实际我在架构设计上花费的时间和精力会更多，其实这两者我都有在做，因为我的目的只有一个，能够帮助大家更好地开发和维护项目。具体 AndroidProject 在代码设计上有什么亮点，这里我建议你看一下里面的代码，我相信你看完后会有收获的，后面我可能也会出一篇文章具体讲述 AndroidProject 的亮点。
 
