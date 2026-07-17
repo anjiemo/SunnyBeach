@@ -75,3 +75,37 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 3: 修正工作流触发分支：补齐 master
+
+**Date**: 2026-07-17
+**Task**: 修正工作流触发分支：补齐 master
+**Branch**: `dev`
+
+### Summary
+
+发现并修复 commit-guard.yml 与 check.yml 的触发分支写成 [main, dev]，而本仓库根本没有 main 分支（默认分支为 master）——导致署名校验与编译检查在发布分支上从未触发。改为 [main, master, dev]（保留 main 为将来重命名留后路）。该 bug 躲过了实现、复核与协调三方审查，只有拿配置与真实远端 git ls-remote 对撞才暴露，已将此教训写入 spec 的 Wrong vs Correct。
+
+### Main Changes
+
+(Add details)
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `ef503a9f` | (see git log) |
+| `d3ed0d37` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
