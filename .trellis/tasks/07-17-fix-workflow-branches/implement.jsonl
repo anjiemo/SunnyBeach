@@ -1,0 +1,2 @@
+{"file": ".trellis/spec/backend/git-hooks-commit-guard.md", "reason": "commit-guard.yml 的可执行契约：明确规定该 workflow 必须独立、不得有 paths-ignore、必须 fetch-depth: 0。本次只改分支列表，不得触碰这些约定。文末还需按 Technical Notes 补一条 Wrong vs Correct（触发分支须对着 git ls-remote 核实）。"}
+{"file": ".trellis/spec/backend/github-actions-feishu-notify.md", "reason": "check.yml 的既有约定（飞书卡片、Secrets 消费方、通知失败不得让 job 失败）。本次给 check.yml 加 master 会让编译检查首次真正在 master 上运行并推卡片，需确认不违反既有契约。"}

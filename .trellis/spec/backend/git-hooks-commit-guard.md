@@ -97,6 +97,7 @@ Four enforcement layers. Each covers what the others structurally cannot — non
 | `git add` a hook on Windows and assume it runs | Windows records `100644`; the hook then **silently never runs** on Linux. Use `git update-index --add --chmod=+x` |
 | Ship hooks without `.gitattributes` | `core.autocrlf=true` checks them out CRLF → `bad interpreter: /bin/sh^M` on Linux. Pin `.githooks/** text eol=lf` |
 | Put the check in `check.yml` | Its `push.paths-ignore` includes `**.md` and `.trellis/**` → doc-only commits skip it entirely. `commit-guard.yml` must stay standalone with **no `paths-ignore`** |
+| Copy the trigger branch list from another workflow in this repo | Verify branches against the real remote — `git ls-remote --heads origin` / `gh repo view --json defaultBranchRef`. This repo's default branch is **`master`**; `main` does not exist. `commit-guard.yml` shipped as `[main, dev]`, leaving the release branch with **no guard at all** — implement, review, and coordination all missed it; only colliding the config with the real remote exposed it |
 | `actions/checkout` with default depth | `fetch-depth: 0` is required; depth=1 makes `base..head` a `bad revision` |
 
 ---

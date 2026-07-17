@@ -1,0 +1,2 @@
+{"file": ".trellis/spec/backend/git-hooks-commit-guard.md", "reason": "核验 commit-guard.yml 的既有契约未被破坏：仍无 paths-ignore、仍有 fetch-depth: 0、range 解析四种边界与 fail-closed 逻辑原样保留。并核验新增的 Wrong vs Correct 条目准确。"}
+{"file": ".trellis/spec/backend/github-actions-feishu-notify.md", "reason": "核验 check.yml 改动未违反飞书通知既有约定。"}
