@@ -104,6 +104,28 @@ include(":library:widget")
 include(":library:umeng")
 include(":library:network")
 
+// 自动启用版本化 git hooks（.githooks/ 下的提交署名校验）。
+// core.hooksPath 是本地 config，无法随仓库提交；放在配置期执行 → 每次 sync / build 自动校正，
+// 开发者无需记忆 `git config core.hooksPath .githooks`。
+// 幂等：已设置则不重复写入。整体 runCatching 包住——没装 git、源码 zip 等非 git 环境不能让 sync 失败。
+// 跳过 CI：CI 不需要本地 hook。
+if (System.getenv("CI").isNullOrBlank() && rootDir.resolve(".git").exists()) {
+    val hooksDir = rootDir.resolve(".githooks")
+    if (hooksDir.isDirectory) {
+        runCatching {
+            val current = providers.exec {
+                commandLine("git", "config", "--get", "core.hooksPath")
+                isIgnoreExitValue = true
+            }.standardOutput.asText.get().trim()
+            if (current != ".githooks") {
+                providers.exec {
+                    commandLine("git", "config", "core.hooksPath", ".githooks")
+                }.result.get()
+            }
+        }
+    }
+}
+
 check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_21)) {
     """
     SunnyBeach requires JDK 21+ but it is currently using JDK ${JavaVersion.current()}.

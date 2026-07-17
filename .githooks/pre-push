@@ -1,0 +1,45 @@
+#!/bin/sh
+# 禁止 AI 署名进入远端 —— 本地第二道防线（整批拦截）。
+#
+# 相对 commit-msg 的价值：commit-msg 只看**当前这一条**新提交，且在 merge / rebase
+# 重放旧提交时不稳定触发；pre-push 会遍历**整个推送范围**，因此能挡住
+# 「rebase 把带署名的旧提交带进来」这类 commit-msg 漏掉的路径，
+# 并且能可靠地校验 author/committer 身份（此时提交已成形）。
+#
+# stdin 每行：<local ref> <local sha> <remote ref> <remote sha>
+#
+# 局限：`git push --no-verify` 跳过本 hook → 由 CI 兜底。
+set -eu
+
+# 必须忽略 SIGPIPE —— 理由同 commit-msg：git 会把「死于 SIGPIPE 的 hook」当作成功，
+# 而本 hook 拒绝时向 stderr 写多行诊断，一旦 git 的 stderr 管道被提前关闭就会静默放行。
+# 本 hook 的输出量比 commit-msg 更大（每条违规提交一段），触发面更宽。
+trap '' PIPE
+
+. "$(dirname "$0")/lib/ai-signature-rules.sh"
+
+NULL_SHA='0000000000000000000000000000000000000000'
+rc=0
+
+while read -r _local_ref local_sha _remote_ref remote_sha; do
+    # local_sha 全 0 = 删除远端分支，没有新提交可校验。
+    if [ "$local_sha" = "$NULL_SHA" ]; then
+        continue
+    fi
+
+    if [ "$remote_sha" = "$NULL_SHA" ]; then
+        # remote_sha 全 0 = 新分支首推，没有 base 可比。
+        # 退化为「本地这条链上、尚未出现在任何远端分支的提交」，避免把全历史重扫一遍。
+        ai_sig_check_range "$local_sha" --not --remotes || rc=1
+    else
+        ai_sig_check_range "${remote_sha}..${local_sha}" || rc=1
+    fi
+done
+
+if [ "$rc" -ne 0 ]; then
+    printf '%s\n' '✗ 推送被拒：范围内存在含 AI 署名的提交。' >&2
+    ai_sig_print_help
+    exit 1
+fi
+
+exit 0

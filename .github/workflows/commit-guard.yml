@@ -1,0 +1,81 @@
+# 提交署名校验：禁止 AI 署名进入提交历史（消息侧 + author/committer 身份侧）。
+#
+# 为什么必须独立成文件，而不是塞进 check.yml：
+#   check.yml 的 push 触发带 `paths-ignore: ['**.md', '.trellis/**']`，
+#   一条只改文档的提交（哪怕带 AI 署名）会**整个跳过**那个 workflow。
+#   本 workflow 刻意**不设任何 paths-ignore** —— 文档提交同样受约束。
+#
+# 本 workflow 是本地 hook 的兜底：`git commit --no-verify`、GitHub 网页端编辑、
+# 未执行过 `git config core.hooksPath` 的新 clone，都绕不过这里。
+#
+# 规则不在本文件里写死，一律复用 .githooks/lib/ai-signature-rules.sh（唯一事实来源）。
+name: 提交署名校验
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main", "dev" ]
+  workflow_dispatch:
+
+concurrency:
+  group: commit-guard-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v5
+        with:
+          # 必需：默认 fetch-depth=1 只有一个提交，base..head 会直接 bad revision
+          fetch-depth: 0
+
+      - name: 校验提交署名
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          . .githooks/lib/ai-signature-rules.sh
+
+          if [ "${EVENT_NAME}" = "pull_request" ]; then
+            set -- "${PR_BASE}..${PR_HEAD}"
+          elif [ "${EVENT_NAME}" = "push" ] \
+               && [ -n "${PUSH_BEFORE:-}" ] \
+               && ! printf '%s' "${PUSH_BEFORE}" | grep -qE '^0{40}$' \
+               && git cat-file -e "${PUSH_BEFORE}^{commit}" 2>/dev/null; then
+            # PUSH_BEFORE 有两种失效形态，上面两个条件分别兜住：
+            #   · 新分支首推 → 全 0
+            #   · force push → 是合法 40 位 SHA，但对象已被重写、不存在，
+            #                  直接用会 `fatal: bad revision` 红成假警报
+            set -- "${PUSH_BEFORE}..${HEAD_SHA}"
+          else
+            # 新分支 / force push / 手动触发：退化为扫「HEAD 可达的全部历史」。
+            #
+            # 刻意不用 `--not --remotes=origin`：checkout 之后 origin/dev 已经指向 HEAD，
+            # 那个写法会把范围算成**空集**而静默放行——正好在 force push 这个最该拦的场景失效。
+            # 全历史扫描是安全的：ai_sig_check_range 的快速通道是单趟 grep，
+            # 736 条实测 0.23s；且本仓库历史基线为 0 命中，不会产生误报。
+            set -- "${HEAD_SHA}"
+          fi
+
+          echo "校验范围: $*"
+
+          if ! ai_sig_check_range "$@"; then
+            echo "::error::范围内存在含 AI 署名的提交，详见上方日志"
+            ai_sig_print_help
+            exit 1
+          fi
+
+          echo "✅ 范围内提交均无 AI 署名"

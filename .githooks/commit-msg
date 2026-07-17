@@ -1,0 +1,45 @@
+#!/bin/sh
+# 禁止 AI 署名进入提交历史 —— 本地第一道防线（提交那一刻即时拦截）。
+#
+# $1 = **提交信息文件的路径**（不是内容）。
+#
+# 局限（已知且刻意接受，由 CI 兜底）：
+#   · `git commit --no-verify` / `-n` 完全跳过本 hook；
+#   · `git merge`（快进）、`git rebase` 重放旧提交不稳定触发本 hook；
+#   · `--author=` 传入的身份在本阶段不体现在 `git var GIT_AUTHOR_IDENT`
+#     —— 身份校验的可靠位置是 pre-push 与 CI，本文件的身份检查只是顺手兜底。
+# 上述缺口全部由 .github/workflows/commit-guard.yml 覆盖。
+set -eu
+
+# 必须忽略 SIGPIPE，否则本 hook 会 fail-open（实测 5/5 漏过）。
+# 机制：本 hook 拒绝时向 stderr 写多行诊断。若 git 的 stderr 接在提前关闭的管道上
+# （如 `git commit 2>&1 | head -3`，或某些 GUI/IDE、脚本只读前几行就关闭），
+# 写入会触发 SIGPIPE 杀死本 hook。而 **git 把「死于 SIGPIPE 的 hook」当作成功**
+# （实测：hook 显式 exit 141 → git 拒绝；hook 死于 SIGPIPE → git 退出 0 并照常落盘）。
+# 忽略该信号后，写入只会返回 EPIPE 错误，不再杀进程，下面的 exit 1 得以正常抵达 git。
+trap '' PIPE
+
+. "$(dirname "$0")/lib/ai-signature-rules.sh"
+
+rc=0
+
+ai_sig_check_message_file "$1" || rc=1
+
+# `git var` 会反映 GIT_AUTHOR_NAME / GIT_AUTHOR_EMAIL 环境变量与 user.name / user.email 配置。
+author_ident="$(git var GIT_AUTHOR_IDENT 2>/dev/null || true)"
+if [ -n "$author_ident" ]; then
+    ai_sig_check_identity "$author_ident" 'author 身份' || rc=1
+fi
+
+committer_ident="$(git var GIT_COMMITTER_IDENT 2>/dev/null || true)"
+if [ -n "$committer_ident" ]; then
+    ai_sig_check_identity "$committer_ident" 'committer 身份' || rc=1
+fi
+
+if [ "$rc" -ne 0 ]; then
+    printf '%s\n' '✗ 提交被拒：检测到 AI 署名。' >&2
+    ai_sig_print_help
+    exit 1
+fi
+
+exit 0
