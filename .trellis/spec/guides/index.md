@@ -30,20 +30,21 @@ These guides help you **ask the right questions before coding**.
 
 ### When to Think About Cross-Layer Issues
 
-- [ ] Feature touches 3+ layers (API, Service, Component, Database)
-- [ ] Data format changes between layers
-- [ ] Multiple consumers need the same data
-- [ ] You're not sure where to put some logic
+- [ ] Feature touches 3+ layers (UI / ViewModel / Repository / Network / Room DB)
+- [ ] An API DTO (`ApiResponse<T>`) shape changes → who else parses it into a `model`?
+- [ ] A `ViewModel` exposes new `LiveData` → is it observed with the right lifecycle owner (`this` in an Activity vs `viewLifecycleOwner` in a Fragment)?
+- [ ] Data lives in Room **and** is fetched from the network → who is the source of truth?
+- [ ] You're not sure whether logic belongs in the ViewModel or the Repository
 
 → Read [Cross-Layer Thinking Guide](./cross-layer-thinking-guide.md)
 
 ### When to Think About Code Reuse
 
-- [ ] You're writing similar code to something that exists
-- [ ] You see the same pattern repeated 3+ times
-- [ ] You're adding a new field to multiple places
-- [ ] **You're modifying any constant or config**
-- [ ] **You're creating a new utility/helper function** ← Search first!
+- [ ] You're writing something similar to an existing `ktx/` extension or `:library:base` helper
+- [ ] You're about to add an `*Api`/`*Network`/`Repository` method → does one already exist?
+- [ ] You see the same adapter/Activity/Fragment pattern 3+ times → extend `AppAdapter`/`AppActivity`/`AppFragment`
+- [ ] **You're modifying any constant, route, header, or response code**
+- [ ] **You're creating a new utility/helper function** ← Search `ktx/` and `:library:base` first!
 
 → Read [Code Reuse Thinking Guide](./code-reuse-thinking-guide.md)
 
@@ -54,8 +55,8 @@ These guides help you **ask the right questions before coding**.
 > **Before changing ANY value, ALWAYS search first!**
 
 ```bash
-# Search for the value you're about to change
-grep -r "value_to_change" .
+# Search for the value you're about to change (route, header, constant, response code)
+grep -rn "value_to_change" app/src/main/java/cn/cqautotest/sunnybeach/
 ```
 
 This single habit prevents most "forgot to update X" bugs.

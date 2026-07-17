@@ -8,11 +8,27 @@
 
 **Most bugs happen at layer boundaries**, not within layers.
 
-Common cross-layer bugs:
+In this app the layers are:
 
-- API returns format A, frontend expects format B
-- Database stores X, service transforms to Y, but loses data
-- Multiple layers implement the same logic differently
+```
+UI (ui/activity, ui/fragment, ui/dialog, ui/popup, ui/adapter — AppActivity / AppFragment over :library:base)
+        │  by viewModels() + observe(LiveData)
+        ▼
+ViewModel (viewmodel/**  —  ViewModel / AndroidViewModel + LiveData)
+        │
+        ▼
+Repository (repository/Repository.kt  —  exposes LiveData<Result<T>>)
+        │
+        ├──► Network (http/  —  *Network wrappers → *Api: Retrofit via ServiceCreator)
+        └──► Room DB (db/  —  AppRoomDatabase, DAOs, entities, Converters)
+```
+
+Common cross-layer bugs here:
+
+- Network returns an `ApiResponse<T>` DTO, UI expects the domain `model` — mapping lost in between
+- A `LiveData` is observed with the wrong lifecycle owner, so a Fragment leaks or never updates
+- The same data is cached in Room **and** re-fetched from the network — nobody owns the source of truth
+- A DTO field is renamed but another parser / `model` mapper still reads the old name
 
 ---
 
@@ -20,34 +36,38 @@ Common cross-layer bugs:
 
 ### Step 1: Map the Data Flow
 
-Draw out how data moves:
+Trace how data actually moves and **what type crosses each hop**:
 
 ```
-Source → Transform → Store → Retrieve → Transform → Display
+UI  ──observe(LiveData<Result<T>>)──►  ViewModel  ──►  Repository  ──►  Network (*Api)
+ ▲                                                          │              └─► API DTO: ApiResponse<T>
+ │                                                          └─► Room DAO (db/)
+ └────────────  model (model/**)  ◄──  map DTO → model  ◄────────────────────────┘
 ```
 
 For each arrow, ask:
 
-- What format is the data in?
-- What could go wrong?
-- Who is responsible for validation?
+- What type is crossing here — a raw DTO, a domain `model`, or a `Result<T>`?
+- Who owns the transform (usually the `Repository`, e.g. `refreshWeather` builds a `Weather` from two responses)?
+- What happens on failure / null (does the UI call `result.getOrNull()` and handle the failure branch)?
 
 ### Step 2: Identify Boundaries
 
-| Boundary              | Common Issues                     |
-|-----------------------|-----------------------------------|
-| API ↔ Service         | Type mismatches, missing fields   |
-| Service ↔ Database    | Format conversions, null handling |
-| Backend ↔ Frontend    | Serialization, date formats       |
-| Component ↔ Component | Props shape changes               |
+| Boundary                 | Common Issues                                                                                     |
+|--------------------------|--------------------------------------------------------------------------------------------------|
+| UI ↔ ViewModel           | LiveData observed with wrong owner (`this` in an Activity vs `viewLifecycleOwner` in a Fragment); observing a freshly-created LiveData each call; UI not unwrapping `Result` |
+| ViewModel ↔ Repository   | ViewModel re-implements threading/mapping the Repository already owns; a `switchMap` trigger LiveData never fired, so nothing loads |
+| Repository ↔ Network     | DTO (`ApiResponse<T>`) vs domain `model`; `getCode()` not `200` treated as success; token failure (`11126`) not routed to re-login |
+| Repository ↔ Room        | Same data cached in Room and fetched from network (source-of-truth ambiguity); a derived table (`block_summary`) drifting from its base rows (`user_blocks`) |
+| DTO ↔ model ↔ UI         | A DTO field renamed in one `*Api`, but other parsers / `model` mappers still read the old shape   |
 
 ### Step 3: Define Contracts
 
 For each boundary:
 
-- What is the exact input format?
-- What is the exact output format?
-- What errors can occur?
+- What is the exact input type (DTO vs `model`)?
+- What is the exact output type the next layer expects?
+- What errors can occur (business code, IO exception, null data), and who converts them into a `Result.failure`?
 
 ---
 
@@ -55,21 +75,21 @@ For each boundary:
 
 ### Mistake 1: Implicit Format Assumptions
 
-**Bad**: Assuming date format without checking
+**Bad**: Reading `ApiResponse.getData()` without checking `isSuccess()` / `getCode()`
 
-**Good**: Explicit format conversion at boundaries
+**Good**: Map DTO → `model` in the Repository only after the code check (see `launchAndGet`)
 
-### Mistake 2: Scattered Validation
+### Mistake 2: Wrong LiveData Lifecycle Owner
 
-**Bad**: Validating the same thing in multiple layers
+**Bad**: `viewModel.xxxLiveData.observe(this)` inside a Fragment
 
-**Good**: Validate once at the entry point
+**Good**: Observe with `viewLifecycleOwner` in Fragments; `this` is correct only in an Activity (e.g. `WeatherActivity`)
 
 ### Mistake 3: Leaky Abstractions
 
-**Bad**: Component knows about database schema
+**Bad**: An Activity/Fragment reaching into a Room DAO or `*Api` directly
 
-**Good**: Each layer only knows its neighbors
+**Good**: UI talks only to its ViewModel; the ViewModel talks only to the Repository; the Repository owns Network + Room
 
 ---
 
@@ -77,104 +97,80 @@ For each boundary:
 
 Before implementation:
 
-- [ ] Mapped the complete data flow
-- [ ] Identified all layer boundaries
-- [ ] Defined format at each boundary
-- [ ] Decided where validation happens
+- [ ] Mapped the complete data flow (UI → ViewModel → Repository → Network/Room)
+- [ ] Identified every boundary the change crosses
+- [ ] Decided the exact type at each boundary (DTO vs `model` vs `Result<T>`)
+- [ ] Decided who maps DTO → `model` and who converts errors to `Result.failure`
 
 After implementation:
 
-- [ ] Tested with edge cases (null, empty, invalid)
-- [ ] Verified error handling at each boundary
-- [ ] Checked data survives round-trip
+- [ ] Tested edge cases (null `data`, empty list, non-200 code, IO exception)
+- [ ] Verified LiveData is observed with the correct lifecycle owner
+- [ ] Checked data survives the round-trip DTO → `model` → UI without losing fields
 
 ---
 
-## Cross-Platform Template Consistency
+## Parallel Layer Consistency: Api ↔ Network ↔ Repository
 
-In Trellis, command templates (e.g., `record-session.md`) exist in **multiple platforms** with
-identical or near-identical content. This is a cross-layer boundary.
+Every SOB feature is wired through **three parallel layers that must move in lock-step**. Touch only
+one and the others silently drift:
 
-### Checklist: After Modifying Any Command Template
+- `http/api/sob/UserApi.kt` — the Retrofit interface (endpoint + DTO return type)
+- `http/network/UserNetwork.kt` — thin wrapper that forwards to the `*Api`
+- `repository/Repository.kt` — exposes `LiveData<Result<T>>` to ViewModels
 
-- [ ] Find all platforms with the same command:
-  `find src/templates/*/commands/trellis/ -name "<command>.*"`
-- [ ] Update all platform copies (Markdown `.md` and TOML `.toml`)
-- [ ] For Gemini TOML: adapt line continuations (`\\` vs `\`) and triple-quoted strings
-- [ ] Run `/trellis:check-cross-layer` to verify nothing was missed
+### Checklist: After Adding / Renaming / Retyping an Endpoint
 
-**Real-world example**: Updated `record-session.md` in Claude to use `--mode record`, but forgot
-iFlow, Kilo, OpenCode, and Gemini — caught by cross-layer check.
+- [ ] Declared the `@GET/@POST/@PUT/@DELETE` method in the `*Api` interface
+- [ ] Forwarded it from the matching `*Network` object
+- [ ] Exposed/updated the `Repository` method (and picked the right helper: `launchAndGetData` for
+  `data`, `launchAndGetMsg` for `message`)
+- [ ] The DTO type on the `*Api` matches the `model` the Repository hands to the ViewModel
 
----
-
-## Generated Runtime Template Upgrade Consistency
-
-Some generated files are both documentation and runtime input. In Trellis,
-`.trellis/workflow.md` is parsed by `get_context.py`, `workflow_phase.py`,
-SessionStart filters, and per-turn hooks. Template changes must be validated
-against both fresh init and upgrade paths.
-
-### Checklist: After Modifying A Runtime-Parsed Template
-
-- [ ] Identify every runtime parser that reads the template, not just the file
-  writer that installs it
-- [ ] Check whether relevant syntax lives outside obvious managed regions
-  such as tag blocks
-- [ ] Verify fresh `init` output and a versioned `update` scenario that writes
-  the older `.trellis/.version`
-- [ ] Add an upgrade regression using an older pristine template fixture, then
-  assert the installed file reaches the current packaged shape
-- [ ] Update the backend spec that owns the runtime contract
-
-**Real-world example**: Codex inline mode changed workflow platform markers from
-`[Codex]` / `[Kilo, Antigravity, Windsurf]` to `[codex-sub-agent]` /
-`[codex-inline, Kilo, Antigravity, Windsurf]`. Fresh init was correct, but
-`trellis update` only merged `[workflow-state:*]` blocks and preserved stale
-markers outside those blocks. Result: upgraded projects got new hook scripts
-but old workflow routing, so `get_context.py --mode phase --platform codex`
-could return empty Phase 2.1 detail.
+**Real-world example**: `Repository.getVipUserList()` → `UserNetwork.getVipUserList()` →
+`UserApi.getVipUserList(): ApiResponse<List<VipUserInfoSummary>>`. Changing that DTO shape means
+editing the `*Api` return type **and** every place the `model` is consumed — not just one file.
 
 ---
 
-## Mode-Detection Probe Checklist
+## Room Schema Upgrade Consistency (fresh install vs migration)
 
-When a CLI auto-detects a mode by probing a remote resource (e.g., checking if `index.json` exists
-to decide marketplace vs direct download):
+`db/AppRoomDatabase.kt` is both the schema (`@Database(entities = [...], version = N)`) and the
+upgrade path (`addMigrations(...)`). A **fresh install** builds the newest schema directly; an
+**existing user** only reaches it through a `Migration`. Change an entity and forget the migration →
+fresh installs work, upgrades crash.
 
-### Before implementing:
+### Checklist: After Changing Any `@Entity` or DAO Schema
 
-- [ ] Probe runs in **ALL** code paths that use the result (interactive, `-y`, `--flag` combos)
-- [ ] 404 vs transient error are distinguished — don't treat both as "not found"
-- [ ] Transient errors **abort or retry**, never silently switch modes
-- [ ] Shared state (caches, prefetched data) is **reset** when context changes (e.g., user switches
-  source)
-- [ ] **Shortcut paths** (e.g., `--template` skipping picker) must have the same error-handling
-  quality as the probed path — check that downstream functions don't call catch-all wrappers
+- [ ] Bumped `version` in `@Database`
+- [ ] Added a `Migration(old, new)` and registered it in `addMigrations(...)`
+- [ ] Updated `@TypeConverters` / `Converters` if a new column type was introduced
+- [ ] Verified **both** a fresh install and an upgrade from the previous version
 
-### After implementing:
+**Real-world example**: `MIGRATION_2_3` creates the `user_blocks` and `block_summary` tables for
+users upgrading from version 2. Without it, only fresh installs would have those tables and every
+upgraded user would crash on first DAO access.
 
-- [ ] Trace every path from probe result to the mode-decision branch — no fallthrough
-- [ ] External format contracts (giget URI, raw URLs) are tested or at least documented as comments
-- [ ] Metadata reads consume a complete response or use a streaming parser — never parse a
-  fixed-size prefix as full JSON
-- [ ] When reconstructing a composite identifier from parsed parts, verify **all** fields are
-  included and in the **correct position** (e.g., `provider:repo/path#ref` not
-  `provider:repo#ref/path`)
-- [ ] Verify that **action functions** called after a shortcut don't internally use the old
-  catch-all fetch — they must use the probe-quality variant when error distinction matters
+---
 
-**Real-world example**: Custom registry flow had 8 bugs across 3 review rounds: (1) probe only ran
-in interactive mode, (2) transient errors fell through to wrong mode, (3) giget URI had `#ref` in
-wrong position, (4) prefetched templates leaked across source switches, (5) `--template` shortcut
-bypassed probe but `downloadTemplateById` internally used catch-all `fetchTemplateIndex`, turning
-timeouts into "Template not found".
+## Response-Code Branch Checklist
 
-**Real-world example**: Agent-session update hints fetched npm `latest` metadata with
-`response.read(4096)` and then parsed it as complete JSON. The `@mindfoldhq/trellis` package
-metadata exceeded 4 KB, so the JSON was truncated, parse failed silently, and the first session
-injection showed no update hint. Fix: read the complete response before parsing, and add a
-regression where `version` is followed by an 8 KB metadata tail.
+`Repository.launchAndGet` branches on the DTO's **numeric code**, not just a success/fail boolean:
+`isSuccess()` (200) → emit data; `NOT_LOGIN_CODE` (11126) → run `checkToken()` then fail with
+`NotLoginException`; otherwise fail with `ServiceException`. Other coded branches exist too
+(`toAllowanceResult` maps `11128` / `11129`).
+
+### Before Adding a New Coded Response
+
+- [ ] Every caller path handles the non-200 branch, not only the happy path
+- [ ] Token-failure codes route to re-login / `checkToken()`, not a generic error toast
+- [ ] A network/IO exception is distinguished from a business error code (both end as
+  `Result.failure`, but only one should trigger retry/login)
+- [ ] The UI unwraps the `Result` (`getOrNull()` + failure branch) and never assumes success
+
+**Real-world example**: `login()` combines a login call and a `checkToken()` call, then folds four
+code combinations into one `ApiResponse`. Any new "special" code must be decided here, in the
+Repository, before it reaches a ViewModel.
 
 ---
 
@@ -182,7 +178,7 @@ regression where `version` is followed by an 8 KB metadata tail.
 
 Create detailed flow docs when:
 
-- Feature spans 3+ layers
-- Multiple teams are involved
-- Data format is complex
-- Feature has caused bugs before
+- A feature spans 3+ layers (UI → ViewModel → Repository → Network **and** Room)
+- The DTO → `model` mapping is non-trivial (e.g. merging two responses like `refreshWeather`)
+- Data is cached in Room and also fetched from the network (document who is the source of truth)
+- The feature has caused a boundary bug before
