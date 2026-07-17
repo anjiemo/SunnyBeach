@@ -13,8 +13,12 @@ SunnyBeach 是基于 [阳光沙滩社区开放 API](https://www.sunofbeach.net/)
 
 ### Project Structure
 - `:app` - 应用主入口与宿主业务层。
-- `:library` - 沉淀的通用 UI 组件与基础核心功能封装。
-- `:build-logic` - (基于 Gradle KTS) 统一的构建逻辑与插件管理。
+- `:library` - 通用能力的模块聚合（并非单一模块），旗下包含多个子模块：
+  - `:library:base` - 基类封装（BaseActivity / Fragment / Adapter 等）。
+  - `:library:widget` - 自定义 UI 控件与组件。
+  - `:library:network` - 网络层。
+  - `:library:umeng` - 友盟（Umeng）集成。
+- `build-logic` - (included build) 统一的构建逻辑与插件管理，其 `convention` 子工程存放 Gradle 约定插件与 `ProjectConfig.kt`。
 
 ### Tech Stack
 - **语言**：[Kotlin](https://kotlinlang.org/) (100% Kotlin First)
@@ -28,6 +32,7 @@ SunnyBeach 是基于 [阳光沙滩社区开放 API](https://www.sunofbeach.net/)
 ## Building & Development
 
 ### 1. Requirements
+- **JDK 21+**（项目在 `settings.gradle.kts` 中强制校验，低于 21 将直接构建失败）。
 - 推荐使用最新稳定版 **Android Studio**。
 - Git clone 本仓库后，请将 IDE 视图切换为 **Project** 模式。
 
