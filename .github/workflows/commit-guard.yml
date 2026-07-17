@@ -13,9 +13,9 @@ name: 提交署名校验
 
 on:
   push:
-    branches: [ "main", "dev" ]
+    branches: [ "main", "master", "dev" ]
   pull_request:
-    branches: [ "main", "dev" ]
+    branches: [ "main", "master", "dev" ]
   workflow_dispatch:
 
 concurrency:

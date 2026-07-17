@@ -8,12 +8,12 @@ env:
 
 on:
   push:
-    branches: [ "main", "dev" ]
+    branches: [ "main", "master", "dev" ]
     paths-ignore:
       - '**.md'
       - '.trellis/**'
   pull_request:
-    branches: [ "main", "dev" ]
+    branches: [ "main", "master", "dev" ]
   workflow_dispatch:
 
 concurrency:
