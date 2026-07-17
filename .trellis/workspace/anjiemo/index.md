@@ -7,11 +7,9 @@
 ## Current Status
 
 <!-- @@@auto:current-status -->
-
 - **Active File**: `journal-1.md`
-- **Total Sessions**: 0
-- **Last Active**: -
-
+- **Total Sessions**: 1
+- **Last Active**: 2026-07-17
 <!-- @@@/auto:current-status -->
 
 ---
@@ -19,11 +17,9 @@
 ## Active Documents
 
 <!-- @@@auto:active-documents -->
-
-| File           | Lines | Status |
-|----------------|-------|--------|
-| `journal-1.md` | ~0    | Active |
-
+| File | Lines | Status |
+|------|-------|--------|
+| `journal-1.md` | ~43 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -34,6 +30,7 @@
 
 | # | Date | Title | Commits | Branch |
 |---|------|-------|---------|--------|
+| 1 | 2026-07-17 | MD 文档分析与整改：图片死链、backend 规范、README、思考指南 | `0059dbf2`, `616b49d3`, `797da93c`, `f3fcb3bf` | `dev` |
 
 <!-- @@@/auto:session-history -->
 
