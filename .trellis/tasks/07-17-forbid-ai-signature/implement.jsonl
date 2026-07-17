@@ -1,0 +1,5 @@
+{"file": ".trellis/tasks/07-17-forbid-ai-signature/research/ai-signature-identities.md", "reason": "AI 署名标识的唯一权威清单：A/B/C 三类邮箱分层、18 个经 GitHub Users API 复核的 bot 数值 ID、以及哪些裸词绝不能进正则。写正则必须严格按此文件，不得自行增补未确认的标识（Windsurf/Zed/v0/Roo 均标注未确认）。"}
+{"file": ".trellis/tasks/07-17-forbid-ai-signature/research/enforcement-mechanisms.md", "reason": "可直接使用的代码骨架（commit-msg / pre-push / commit-guard.yml / settings.gradle.kts 片段）、CI 范围取法的四种边界（普通 push / 新分支全 0 / force-push 对象不存在 / PR）、以及 Windows CRLF 与 100644 两个会让 hook 静默失效的坑。"}
+{"file": ".trellis/spec/backend/github-actions-feishu-notify.md", "reason": "现有 .github/workflows 的既定约定（纯 bash + openssl + curl、不引入 Python 辅助脚本、通知失败不得让 job 失败等）。新增的 commit-guard.yml 需与既有 workflow 风格一致。"}
+{"file": ".trellis/spec/backend/quality-guidelines.md", "reason": "仓库工具链与质量基线（JDK 21、仅 Android Lint 无 detekt/ktlint、测试现状近乎为零）。本任务据此确定「零新依赖」——不得引入 Node/Python 工具链。"}
+{"file": ".trellis/spec/backend/directory-structure.md", "reason": "确认多模块结构与 settings.gradle.kts / build-logic convention 插件的位置，hook 自动安装（core.hooksPath）需挂载在正确位置。"}

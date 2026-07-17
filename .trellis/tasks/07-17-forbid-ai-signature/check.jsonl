@@ -1,0 +1,4 @@
+{"file": ".trellis/tasks/07-17-forbid-ai-signature/research/ai-signature-identities.md", "reason": "核验正则是否严格对应已确认标识：是否误用裸显示名（Claude/Devin/Jules/Cody 均为真人名）、是否错误地只匹配 @users.noreply.github.com（会误伤全部真人隐私邮箱）、是否混入 gemini-cli@google.com 这条噪音规则（仅用于影子仓库，永不进真实提交）。"}
+{"file": ".trellis/tasks/07-17-forbid-ai-signature/research/enforcement-mechanisms.md", "reason": "核验 CI 范围边界处理（新分支全 0、force-push 需先 git cat-file -e 探测）、fetch-depth: 0 是否设置、是否误加 paths-ignore、以及 .gitattributes 锁 LF 与 --chmod=+x 是否落实。另核验全历史扫描未使用逐提交循环（736 条会超时 >2min）。"}
+{"file": ".trellis/spec/backend/quality-guidelines.md", "reason": "质量基线核对：零新依赖、与现有 CI 风格一致、不引入未使用的测试脚手架。"}
+{"file": ".trellis/spec/backend/github-actions-feishu-notify.md", "reason": "workflow 写法约定核对（bash 实现、失败处理方式、与现有 build.yml/check.yml 的一致性）。"}

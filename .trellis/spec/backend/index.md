@@ -22,6 +22,7 @@ cover the HTTP, Room/MMKV, error, logging, and quality practices the app's code 
 | [Quality Guidelines](./quality-guidelines.md)   | Toolchain, lint, architecture, testing reality, debt | Filled |
 | [Logging Guidelines](./logging-guidelines.md)   | Timber + AOP `@Log`, what NOT to log                | Filled |
 | [Feishu Notify](./github-actions-feishu-notify.md) | GitHub Actions Feishu webhook cards               | Filled |
+| [Git Hooks / Commit Guard](./git-hooks-commit-guard.md) | Versioned hooks + CI guard; **SIGPIPE / fail-open contracts — read before writing any hook** | Filled |
 
 ---
 
