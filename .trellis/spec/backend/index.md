@@ -6,21 +6,22 @@
 
 ## Overview
 
-This directory contains guidelines for backend development. Fill in each file with your project's
-specific conventions.
+This directory documents the **data/network/persistence ("backend") conventions of the SunnyBeach
+Android app** — a multi-module Kotlin project. There is no server-side code in this repo; these guides
+cover the HTTP, Room/MMKV, error, logging, and quality practices the app's code actually follows.
 
 ---
 
 ## Guidelines Index
 
-| Guide                                           | Description                         | Status  |
-|-------------------------------------------------|-------------------------------------|---------|
-| [Directory Structure](./directory-structure.md) | Module organization and file layout | To fill |
-| [Database Guidelines](./database-guidelines.md) | ORM patterns, queries, migrations   | To fill |
-| [Error Handling](./error-handling.md)           | Error types, handling strategies    | To fill |
-| [Quality Guidelines](./quality-guidelines.md)   | Code standards, forbidden patterns  | To fill |
-| [Logging Guidelines](./logging-guidelines.md)   | Structured logging, log levels      | To fill |
-| [Feishu Notify](./github-actions-feishu-notify.md) | GitHub Actions Feishu webhook cards | Filled |
+| Guide                                           | Description                                          | Status |
+|-------------------------------------------------|------------------------------------------------------|--------|
+| [Directory Structure](./directory-structure.md) | Multi-module layout + app package map, naming rules | Filled |
+| [Database Guidelines](./database-guidelines.md) | Room (entities/DAO/migrations) + MMKV               | Filled |
+| [Error Handling](./error-handling.md)           | HTTP error handling, `execption` package, token expiry | Filled |
+| [Quality Guidelines](./quality-guidelines.md)   | Toolchain, lint, architecture, testing reality, debt | Filled |
+| [Logging Guidelines](./logging-guidelines.md)   | Timber + AOP `@Log`, what NOT to log                | Filled |
+| [Feishu Notify](./github-actions-feishu-notify.md) | GitHub Actions Feishu webhook cards               | Filled |
 
 ---
 
@@ -37,4 +38,6 @@ The goal is to help AI assistants and new team members understand how YOUR proje
 
 ---
 
-**Language**: All documentation should be written in **English**.
+**Language**: Spec / guideline documents (this `.trellis/spec/` tree) are written in **English**.
+User-facing documentation and task PRDs are written in **Chinese**. Match the convention of the
+document type you are editing rather than assuming everything is English.
