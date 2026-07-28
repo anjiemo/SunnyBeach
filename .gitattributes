@@ -1,4 +1,7 @@
-# 本仓库 core.autocrlf=true。git hooks 必须以 LF 检出，
+# 本仓库 core.autocrlf=true。文本文件统一以 CRLF 检出。
+* text=auto eol=crlf
+
+# git hooks 必须以 LF 检出，
 # 否则 CRLF 的 shebang 会让 Linux/macOS 报 `bad interpreter: /bin/sh^M`
 # （Git for Windows 的 sh 能容忍 CRLF，所以这个坑在 Windows 上不会暴露）。
 .githooks/** text eol=lf
