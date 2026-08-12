@@ -147,7 +147,7 @@ class PersonalDataActivity : AppActivity() {
 
             override fun onSucceed(fileUri: Uri, fileName: String) {
                 val outputFile: File = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    FileContentResolver(getActivity(), fileUri, fileName)
+                    FileContentResolver(getActivity() ?: return, fileUri, fileName)
                 } else {
                     try {
                         File(URI(fileUri.toString()))

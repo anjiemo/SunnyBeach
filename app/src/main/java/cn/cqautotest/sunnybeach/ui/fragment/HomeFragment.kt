@@ -60,7 +60,9 @@ class HomeFragment : TitleBarFragment<HomeActivity>(), OnTabListener,
         tabView?.adapter = tabAdapter
 
         // 给这个 ToolBar 设置顶部内边距，才能和 TitleBar 进行对齐
-        ImmersionBar.setTitleBar(getAttachActivity(), toolbar)
+        getAttachActivity()?.let { activity ->
+            toolbar?.let { ImmersionBar.setTitleBar(activity, it) }
+        }
 
         // 设置渐变监听
         collapsingToolbarLayout?.setOnScrimsListener(this)

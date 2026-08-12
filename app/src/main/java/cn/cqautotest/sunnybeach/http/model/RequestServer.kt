@@ -1,7 +1,7 @@
 package cn.cqautotest.sunnybeach.http.model
 
 import cn.cqautotest.sunnybeach.other.AppConfig
-import com.hjq.http.config.IHttpPostBodyStrategy
+import com.hjq.http.config.IHttpBodyStrategy
 import com.hjq.http.config.IRequestServer
 import com.hjq.http.model.RequestBodyType
 
@@ -17,7 +17,7 @@ class RequestServer : IRequestServer {
         return AppConfig.getHostUrl()
     }
 
-    override fun getBodyType(): IHttpPostBodyStrategy {
+    override fun getBodyType(): IHttpBodyStrategy {
         return RequestBodyType.FORM
     }
 }

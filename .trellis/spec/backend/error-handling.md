@@ -51,7 +51,7 @@ Known business codes handled in `Repository`: `11126` not-logged-in, `11128`/`11
 
 ## JSON parse failures
 
-Configured once in `AppApplication` via `GsonFactory.setParseExceptionCallback { ... }`:
+Configured once in `AppApplication` via `GsonFactory.setOnParseExceptionCallback { ... }`:
 
 - **Debug** → `throw IllegalArgumentException(message)` (fail loud).
 - **Release** → `CrashReport.postCatchedException(...)` (report to Bugly, keep running).
