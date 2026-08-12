@@ -1,0 +1,4 @@
+{"file":".trellis/spec/backend/index.md","reason":"检查构建配置变更是否符合项目规范"}
+{"file":".trellis/spec/backend/quality-guidelines.md","reason":"检查工具链和质量验证要求"}
+{"file":".trellis/spec/guides/index.md","reason":"检查通用工程约束"}
+{"file":".trellis/tasks/08-12-upgrade-dependencies/research/agp-roadmap-and-version-audit.md","reason":"检查版本选择、稳定性和兼容性结论"}
