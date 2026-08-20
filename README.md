@@ -19,7 +19,7 @@ SunnyBeach 是基于 [阳光沙滩社区开放 API](https://www.sunofbeach.net/)
   - `:library:network` - 网络层。
   - `:library:umeng` - 友盟（Umeng）集成。
 - `build-logic` - (included build) 统一的构建逻辑与插件管理，其 `convention` 子工程存放 Gradle 约定插件与 `ProjectConfig.kt`。
-- `other/script` - 项目开发辅助与数据提取脚本（如表情包处理脚本及课程视频播放链接获取脚本 `getSobCourseVideoUrl.main.kts` 等）。
+- `tools` - 按用途隔离的项目辅助工具（如表情资源处理与课程视频播放链接提取工具）。
 
 ### Tech Stack
 - **语言**：[Kotlin](https://kotlinlang.org/) (100% Kotlin First)
