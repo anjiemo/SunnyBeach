@@ -1,3 +1,7 @@
+[English](README.md) | [简体中文](README.zh-CN.md)
+
+---
+
 # SunnyBeach Android
 
 ![Kotlin](https://img.shields.io/badge/Language-Kotlin-brightgreen.svg)
@@ -5,66 +9,66 @@
 ![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)
 ![Stars](https://img.shields.io/github/stars/anjiemo/SunnyBeach.svg?style=social)
 
-SunnyBeach 是基于 [阳光沙滩社区开放 API](https://www.sunofbeach.net/) 开发的非官方/社区开源 Android 客户端。项目贯彻 **Kotlin First** 原则，遵循现代 Android 应用架构（Modern Android Architecture）最佳实践。
+SunnyBeach is an unofficial/community open-source Android client developed based on the [SunnyBeach Community Open API](https://www.sunofbeach.net/). The project adheres to the **Kotlin First** principle and follows Modern Android Architecture best practices.
 
 ## Architecture & Tech Stack
 
-本项目采用模块化工程设计与经典的 **MVVM** 架构体系。
+This project adopts a modular engineering design with the classic **MVVM** architecture.
 
 ### Project Structure
-- `:app` - 应用主入口与宿主业务层。
-- `:library` - 通用能力的模块聚合（并非单一模块），旗下包含多个子模块：
-  - `:library:base` - 基类封装（BaseActivity / Fragment / Adapter 等）。
-  - `:library:widget` - 自定义 UI 控件与组件。
-  - `:library:network` - 网络层。
-  - `:library:umeng` - 友盟（Umeng）集成。
-- `build-logic` - (included build) 统一的构建逻辑与插件管理，其 `convention` 子工程存放 Gradle 约定插件与 `ProjectConfig.kt`。
-- `tools` - 按用途隔离的项目辅助工具（如表情资源处理与课程视频播放链接提取工具）。
+- `:app` - Main application entry point and host business layer.
+- `:library` - Collection of common capability modules (not a single module), including several submodules:
+  - `:library:base` - Base class encapsulation (BaseActivity / Fragment / Adapter, etc.).
+  - `:library:widget` - Custom UI controls and components.
+  - `:library:network` - Network layer.
+  - `:library:umeng` - Umeng integration.
+- `build-logic` - (included build) Unified build logic and plugin management, with the `convention` subproject storing Gradle convention plugins and `ProjectConfig.kt`.
+- `tools` - Project auxiliary tools isolated by purpose (such as emoji resource processing and course video playback link extraction tools).
 
 ### Tech Stack
-- **语言**：[Kotlin](https://kotlinlang.org/) (100% Kotlin First)
-- **架构组件**：[Google Jetpack](https://developer.android.google.cn/jetpack) (ViewModel, LiveData 等)
-- **UI / 基础组件**：[BRVAH](https://github.com/CymChad/BaseRecyclerViewAdapterHelper) (列表适配器)、[XXPermissions](https://github.com/getActivity/XXPermissions) (权限管理)、AndroidUtilCode
-- **网络与通信**：[Retrofit](https://square.github.io/retrofit/)、OkHttp、EasyHttp
-- **持久化**：[Room](https://developer.android.google.cn/training/data-storage/room)
-- **图像加载**：[Glide](https://github.com/bumptech/glide)
-- **集成服务**：UmengSDK (友盟统计)
+- **Language**: [Kotlin](https://kotlinlang.org/) (100% Kotlin First)
+- **Architecture Components**: [Google Jetpack](https://developer.android.com/jetpack) (ViewModel, LiveData, etc.)
+- **UI / Base Components**: [BRVAH](https://github.com/CymChad/BaseRecyclerViewAdapterHelper) (list adapter), [XXPermissions](https://github.com/getActivity/XXPermissions) (permission management), AndroidUtilCode
+- **Networking**: [Retrofit](https://square.github.io/retrofit/), OkHttp, EasyHttp
+- **Persistence**: [Room](https://developer.android.com/training/data-storage/room)
+- **Image Loading**: [Glide](https://github.com/bumptech/glide)
+- **Integrated Services**: UmengSDK (Umeng Analytics)
 
 ## Building & Development
 
 ### 1. Requirements
-- **JDK 21+**（项目在 `settings.gradle.kts` 中强制校验，低于 21 将直接构建失败）。
-- 推荐使用最新稳定版 **Android Studio**。
-- Git clone 本仓库后，请将 IDE 视图切换为 **Project** 模式。
+- **JDK 21+** (The project enforces version validation in `settings.gradle.kts`; builds will fail with versions below 21).
+- Latest stable version of **Android Studio** is recommended.
+- After cloning the repository, switch the IDE view to **Project** mode.
 
-### 2. Configuration (必备签名与密钥)
-为保障编译通过及核心服务运行，您需要配置签名文件与第三方开放凭证。
+### 2. Configuration (Required Signing and Keys)
+To ensure successful compilation and core service operation, you need to configure the signing file and third-party credentials.
 
-创建/修改项目根目录的配置文件：
-- **`app/gradle.properties`**：配置 App 签名信息。（项目中已内置测试用的 `AppSignature.jks`，可直接填入如下默认配置，且不会被提交到 Git）：
+Create/modify the configuration files in the project root directory:
+- **`app/gradle.properties`**: Configure app signing information. (The project includes a test `AppSignature.jks`, you can directly use the following default configuration, which won't be committed to Git):
   ```properties
   StoreFile=AppSignature.jks
   StorePassword=AndroidProject
   KeyAlias=AndroidProject
   KeyPassword=AndroidProject
   ```
-- **[`ProjectConfig.kt`](./build-logic/convention/src/main/kotlin/cn/cqautotest/sunnybeach/ProjectConfig.kt)**：配置第三方 SDK 的专属参数（如 `UMENG_APP_KEY`, `WX_APP_ID`, `WX_APP_SECRET`, `BUGLY_ID` 等）。
+- **[`ProjectConfig.kt`](./build-logic/convention/src/main/kotlin/cn/cqautotest/sunnybeach/ProjectConfig.kt)**: Configure third-party SDK parameters (such as `UMENG_APP_KEY`, `WX_APP_ID`, `WX_APP_SECRET`, `BUGLY_ID`, etc.).
 
-配置完成后，点击 **Sync Now**，即可编译运行 `:app`。
+After configuration, click **Sync Now** to compile and run `:app`.
 
 ## Screenshots & Download
 
-> 预发布/测试版本的体验下载方式：
+> Pre-release/test version download options:
 
-|                                                      蒲公英下载 (扫码或点击)                                                       | 蓝奏云下载 |
+|                                                      Pgyer Download (Scan or Click)                                                       | Lanzou Download |
 |:------------------------------------------------------------------------------------------------------------------------:| :---: |
-| <img src="https://www.pgyer.com/app/qrcode/sob-app" alt="蒲公英下载" width="120" /> <br> [点击下载](https://www.pgyer.com/sob-app) | 密码：`5qlt` <br><br> [点击下载](https://wwa.lanzoui.com/b02zz8dva) |
+| <img src="https://www.pgyer.com/app/qrcode/sob-app" alt="Pgyer Download" width="120" /> <br> [Click to Download](https://www.pgyer.com/sob-app) | Password: `5qlt` <br><br> [Click to Download](https://wwa.lanzoui.com/b02zz8dva) |
 
-完整的应用界面运行截图，请查阅 [SCREENSHOTS.md](./docs/SCREENSHOTS.md)。
+For complete application interface screenshots, please refer to [SCREENSHOTS.md](./docs/en/guides/SCREENSHOTS.md).
 
 ## Community & Support
 
-关于阳光沙滩的创立故事、使命愿景以及作者赞赏打赏信息，请阅读 👉 [ABOUT.md](./docs/ABOUT.md)。
+For the story behind SunnyBeach's founding, mission and vision, and author appreciation information, please read 👉 [ABOUT.md](./docs/en/community/ABOUT.md).
 
 ## License
 
