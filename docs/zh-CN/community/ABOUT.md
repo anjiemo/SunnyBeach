@@ -1,3 +1,7 @@
+[English](../../en/community/ABOUT.md) | [简体中文](../../zh-CN/community/ABOUT.md)
+
+---
+
 # 关于阳光沙滩 (About Us)
 
 阳光沙滩创立于 2014 年 11 月 22 日，那是一个阳光明媚的下午。

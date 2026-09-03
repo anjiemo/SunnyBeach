@@ -3,10 +3,10 @@ import shutil
 
 def main():
     # 路径配置
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.dirname(os.path.dirname(script_dir))
+    tool_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(os.path.dirname(tool_dir))
 
-    src_img_dir = os.path.join(project_root, "other/downloads/emoji/dy")
+    src_img_dir = os.path.join(tool_dir, "downloads")
     mapping_file = os.path.join(src_img_dir, "mapping/mapping.txt")
     target_res_dir = os.path.join(project_root, "app/src/main/res/mipmap-xxxhdpi")
     new_mapping_file = os.path.join(src_img_dir, "mapping/processed_mapping.txt")

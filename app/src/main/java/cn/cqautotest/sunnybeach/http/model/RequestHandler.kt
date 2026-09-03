@@ -155,6 +155,6 @@ class RequestHandler constructor(private val application: Application) : IReques
             // e = new CancelException(context.getString(R.string.http_request_cancel), e);
             return CancelException("", e)
         }
-        return HttpException(e.message, e)
+        return HttpException(e.message.orEmpty(), e)
     }
 }

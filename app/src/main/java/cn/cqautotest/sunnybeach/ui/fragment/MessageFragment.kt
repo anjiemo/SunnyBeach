@@ -1,5 +1,6 @@
 ﻿package cn.cqautotest.sunnybeach.ui.fragment
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.widget.ImageView
 import cn.cqautotest.sunnybeach.R
@@ -49,6 +50,7 @@ class MessageFragment : TitleBarFragment<HomeActivity>() {
     }
 
     @SingleClick
+    @SuppressLint("UnsafeOptInUsageError")
     override fun onClick(view: View) {
         when (view.id) {
             R.id.btn_message_image1 -> {

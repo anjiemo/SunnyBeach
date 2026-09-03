@@ -26,13 +26,11 @@ def download_image(session, img_url, emoji_name, output_dir, headers):
         return None, False
 
 def main():
-    # 获取脚本所在目录的上一级目录的上一级目录（即项目根目录）
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.dirname(os.path.dirname(script_dir))
+    tool_dir = os.path.dirname(os.path.abspath(__file__))
 
     url = "https://www.emojiall.com/zh-hans/platform-douyin"
     base_url = "https://www.emojiall.com"
-    output_dir = os.path.join(project_root, "other/downloads/emoji/dy")
+    output_dir = os.path.join(tool_dir, "downloads")
     mapping_dir = os.path.join(output_dir, "mapping")
     mapping_file = os.path.join(mapping_dir, "mapping.txt")
 

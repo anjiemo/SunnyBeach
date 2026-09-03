@@ -13,11 +13,12 @@ class ResultException : HttpException {
 
     val data: Any?
 
-    constructor(message: String?, data: Any?) : super(message) {
+    constructor(message: String?, data: Any?) : super(message.orEmpty()) {
         this.data = data
     }
 
-    constructor(message: String?, cause: Throwable?, data: Any?) : super(message, cause) {
+    constructor(message: String?, cause: Throwable?, data: Any?) : super(message.orEmpty()) {
+        cause?.let { initCause(it) }
         this.data = data
     }
 }

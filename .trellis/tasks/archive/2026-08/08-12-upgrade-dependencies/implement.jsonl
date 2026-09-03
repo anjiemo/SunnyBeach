@@ -1,0 +1,4 @@
+{"file":".trellis/spec/backend/index.md","reason":"依赖和构建配置变更前的项目规范入口"}
+{"file":".trellis/spec/backend/quality-guidelines.md","reason":"遵循项目工具链、验证和质量要求"}
+{"file":".trellis/spec/guides/index.md","reason":"遵循通用工程约束"}
+{"file":".trellis/tasks/08-12-upgrade-dependencies/research/agp-roadmap-and-version-audit.md","reason":"AGP、Gradle 与依赖版本选择和兼容性依据"}

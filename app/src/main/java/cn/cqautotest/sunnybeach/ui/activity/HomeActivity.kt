@@ -118,6 +118,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener, OnDo
         })
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     override fun initView() {
         hideSupportActionBar()
         pagerAdapter = FragmentAdapter(this)

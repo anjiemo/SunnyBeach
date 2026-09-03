@@ -10,6 +10,7 @@ import android.view.ViewConfiguration
 import android.webkit.ConsoleMessage
 import android.webkit.WebView
 import android.widget.ProgressBar
+import androidx.activity.OnBackPressedCallback
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.net.toUri
 import cn.cqautotest.sunnybeach.R
@@ -123,6 +124,12 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun initEvent() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                browserView?.takeIf { it.canGoBack() }?.goBack() ?: finish()
+            }
+        })
+
         val clickTap = ViewConfiguration.getDoubleTapTimeout()
         // 最低滑动距离
         val minDist = ViewConfiguration.get(this).scaledTouchSlop
@@ -220,10 +227,6 @@ class BrowserActivity : AppActivity(), StatusAction, OnRefreshListener {
                 }
             })
             .show()
-    }
-
-    override fun onBackPressed() {
-        browserView.takeIf { it != null && it.canGoBack() }?.goBack() ?: super.onBackPressed()
     }
 
     /**
