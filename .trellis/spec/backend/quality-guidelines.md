@@ -18,6 +18,20 @@
 Module config is centralized — do not hand-configure `compileSdk`/`jvmTarget` in a module; apply the
 convention plugin (`sunnybeach.android.application` / `sunnybeach.android.library`).
 
+### Dependency upgrade contracts
+
+- Keep library/plugin versions in `gradle/libs.versions.toml`; align processors with their
+  runtime libraries. `activity-compose` and `lifecycle-viewmodel-compose` must reference the
+  Activity/Lifecycle versions explicitly: the Compose BOM does not manage those groups.
+- For local builds (`CI_BUILD` is not `true`), put the existing Aliyun mirrors before official
+  repositories in both the root `buildscript` and `build-logic/settings.gradle.kts`. CI uses
+  official repositories. Gradle does not switch repositories after selecting module metadata
+  if that repository subsequently fails to serve an artifact (for example HTTP 403).
+- When upgrading the Wrapper, verify the mirror archive against the official distribution
+  SHA-256 and update `distributionSha256Sum` alongside `distributionUrl`.
+- Validate dependency upgrades with `gradlew.bat :app:assembleDebug :app:lintDebug` (or
+  `./gradlew` on Unix). Do not run the production API scripts listed below as regression tests.
+
 ---
 
 ## Linting

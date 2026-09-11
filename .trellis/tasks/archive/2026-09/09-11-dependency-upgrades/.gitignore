@@ -1,0 +1,4 @@
+*.log
+actionlint/
+actionlint.zip
+__pycache__/
