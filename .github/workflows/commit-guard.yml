@@ -32,7 +32,7 @@ jobs:
 
     steps:
       - name: 检出代码
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7.0.1
         with:
           # 必需：默认 fetch-depth=1 只有一个提交，base..head 会直接 bad revision
           fetch-depth: 0
