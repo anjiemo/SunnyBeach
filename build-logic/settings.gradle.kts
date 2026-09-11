@@ -4,6 +4,12 @@
 
 pluginManagement {
     repositories {
+        val isCiBuild = System.getenv("CI_BUILD").orEmpty().toBoolean()
+        if (!isCiBuild) {
+            maven("https://maven.aliyun.com/repository/gradle-plugin")
+            maven("https://maven.aliyun.com/repository/public")
+            maven("https://maven.aliyun.com/repository/google")
+        }
         // Gradle 插件门户：https://plugins.gradle.org
         gradlePluginPortal()
         google()
@@ -14,6 +20,11 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
+        val isCiBuild = System.getenv("CI_BUILD").orEmpty().toBoolean()
+        if (!isCiBuild) {
+            maven("https://maven.aliyun.com/repository/public")
+            maven("https://maven.aliyun.com/repository/google")
+        }
         google()
         // MavenCentral 远程仓库：https://mvnrepository.com
         mavenCentral()
